@@ -57,12 +57,17 @@ def load_blob_json(pathname, default):
         )
         if match is None:
             return default
-        body = client.get(match.url)
-        if isinstance(body, bytes):
-            return json.loads(body.decode("utf-8"))
-        if hasattr(body, "read"):
-            return json.loads(body.read().decode("utf-8"))
-        return json.loads(bytes(body).decode("utf-8"))
+        result = client.get(match.pathname, access="private")
+        if result is None:
+            return default
+        stream = getattr(result, "stream", result)
+        if isinstance(stream, bytes):
+            body = stream
+        elif hasattr(stream, "read"):
+            body = stream.read()
+        else:
+            body = b"".join(stream)
+        return json.loads(body.decode("utf-8"))
 
 
 def save_blob_json(pathname, value):
