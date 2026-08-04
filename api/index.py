@@ -205,6 +205,15 @@ def parse_entry_date(entry):
         return raw
 
 
+def extract_feed_text(entry):
+    content = entry.get("content") or []
+    if content and isinstance(content, list):
+        raw = content[0].get("value", "")
+    else:
+        raw = entry.get("summary") or entry.get("description") or ""
+    return BeautifulSoup(raw, "html.parser").get_text(" ", strip=True)[:12000]
+
+
 def collect_new_articles(subscription, seen_urls, limit=3):
     response = requests.get(
         subscription["feed_url"],
@@ -222,6 +231,7 @@ def collect_new_articles(subscription, seen_urls, limit=3):
             "title": entry.get("title", link),
             "url": link,
             "published": parse_entry_date(entry),
+            "feed_text": extract_feed_text(entry),
         })
         if len(articles) >= limit:
             break
@@ -245,12 +255,14 @@ def send_digest_email(items):
             "</article>"
         )
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    batch_source = "|".join(item["url"] for item in items)
+    batch_key = hashlib.sha256(batch_source.encode("utf-8")).hexdigest()[:16]
     response = requests.post(
         "https://api.resend.com/emails",
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
-            "Idempotency-Key": f"byelingua-{today}",
+            "Idempotency-Key": f"byelingua-{today}-{batch_key}",
         },
         json={
             "from": sender,
@@ -279,7 +291,12 @@ def run_daily_digest():
         language = subscription.get("language") or config["target_language"]
         for article in articles:
             try:
-                text = extract_article_text(article["url"])
+                try:
+                    text = extract_article_text(article["url"])
+                except Exception:
+                    text = article.get("feed_text", "")
+                    if len(text) < 40:
+                        raise ValueError("网页受限，RSS 也没有提供足够正文。")
                 result = translate_article(text, language, subscription["mode"])
                 results.append({
                     **article,
