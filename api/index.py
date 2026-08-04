@@ -240,10 +240,17 @@ def collect_new_articles(subscription, seen_urls, limit=3):
 
 def send_digest_email(items):
     api_key = os.environ.get("RESEND_API_KEY", "")
-    recipient = os.environ.get("DIGEST_TO_EMAIL", "")
+    recipient_value = os.environ.get("DIGEST_TO_EMAIL", "")
+    recipients = [
+        email.strip()
+        for email in recipient_value.replace(";", ",").split(",")
+        if email.strip()
+    ]
     sender = os.environ.get("EMAIL_FROM", "Byelingua <onboarding@resend.dev>")
-    if not api_key or not recipient:
+    if not api_key or not recipients:
         raise RuntimeError("请设置 RESEND_API_KEY 和 DIGEST_TO_EMAIL。")
+    if len(recipients) > 50:
+        raise RuntimeError("DIGEST_TO_EMAIL 最多支持 50 个收件邮箱。")
 
     sections = []
     for item in items:
@@ -257,24 +264,28 @@ def send_digest_email(items):
     today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     batch_source = "|".join(item["url"] for item in items)
     batch_key = hashlib.sha256(batch_source.encode("utf-8")).hexdigest()[:16]
-    response = requests.post(
-        "https://api.resend.com/emails",
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-            "Idempotency-Key": f"byelingua-{today}-{batch_key}",
-        },
-        json={
-            "from": sender,
-            "to": [recipient],
-            "subject": f"Byelingua 每日乐评摘要 · {today}",
-            "html": "<main style='max-width:720px;margin:auto;font-family:Arial,sans-serif'>"
-                    "<h1>每日乐评摘要</h1>" + "".join(sections) + "</main>",
-        },
-        timeout=30,
-    )
-    response.raise_for_status()
-    return response.json()
+    sent = []
+    for recipient in recipients:
+        recipient_key = hashlib.sha256(recipient.encode("utf-8")).hexdigest()[:12]
+        response = requests.post(
+            "https://api.resend.com/emails",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "Idempotency-Key": f"byelingua-{today}-{batch_key}-{recipient_key}",
+            },
+            json={
+                "from": sender,
+                "to": [recipient],
+                "subject": f"Byelingua 每日乐评摘要 · {today}",
+                "html": "<main style='max-width:720px;margin:auto;font-family:Arial,sans-serif'>"
+                        "<h1>每日乐评摘要</h1>" + "".join(sections) + "</main>",
+            },
+            timeout=30,
+        )
+        response.raise_for_status()
+        sent.append(response.json())
+    return sent
 
 
 def run_daily_digest():
