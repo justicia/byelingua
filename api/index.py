@@ -1,3 +1,4 @@
+import asyncio
 import hashlib
 import hmac
 import json
@@ -48,26 +49,24 @@ def blob_client():
     return BlobClient()
 
 
+async def read_private_blob(pathname):
+    from vercel.blob import AsyncBlobClient
+
+    async with AsyncBlobClient() as client:
+        result = await client.get(pathname, access="private")
+        if result is None or result.status_code != 200 or result.stream is None:
+            return None
+        chunks = []
+        async for chunk in result.stream:
+            chunks.append(chunk)
+        return b"".join(chunks)
+
+
 def load_blob_json(pathname, default):
-    with blob_client() as client:
-        listing = client.list_objects(prefix=pathname)
-        match = next(
-            (blob for blob in listing.blobs if blob.pathname == pathname),
-            None,
-        )
-        if match is None:
-            return default
-        result = client.get(match.pathname, access="private")
-        if result is None:
-            return default
-        stream = getattr(result, "stream", result)
-        if isinstance(stream, bytes):
-            body = stream
-        elif hasattr(stream, "read"):
-            body = stream.read()
-        else:
-            body = b"".join(stream)
-        return json.loads(body.decode("utf-8"))
+    body = asyncio.run(read_private_blob(pathname))
+    if body is None:
+        return default
+    return json.loads(body.decode("utf-8"))
 
 
 def save_blob_json(pathname, value):
