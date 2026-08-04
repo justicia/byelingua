@@ -122,6 +122,14 @@ def translate_article(
 
 class handler(BaseHTTPRequestHandler):
 
+        def do_GET(self):
+        message = "Python API is working."
+
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.end_headers()
+        self.wfile.write(message.encode("utf-8"))
+
     def send_json(
         self,
         status_code: int,
