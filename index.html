@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>文章翻译与摘要</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 30px 16px;
+      background: #f5f7fb;
+      color: #1f2937;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+    }
+
+    .box {
+      max-width: 760px;
+      margin: auto;
+      padding: 28px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 18px;
+      margin-bottom: 7px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    button,
+    textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    input,
+    select,
+    textarea {
+      border: 1px solid #cbd5e1;
+    }
+
+    button {
+      margin-top: 22px;
+      border: 0;
+      background: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #94a3b8;
+      cursor: wait;
+    }
+
+    textarea {
+      min-height: 260px;
+      margin-top: 10px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    #status {
+      min-height: 24px;
+      margin-top: 18px;
+      color: #475569;
+    }
+
+    .error {
+      color: #dc2626 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <h1>文章翻译与摘要</h1>
+    <p>输入公开文章的网址，由 AI 翻译或生成摘要。</p>
+
+    <label for="url">文章网址</label>
+    <input
+      id="url"
+      type="url"
+      placeholder="https://example.com/article"
+    >
+
+    <label for="mode">处理方式</label>
+    <select id="mode">
+      <option value="summary">生成摘要</option>
+      <option value="translate">全文翻译</option>
+    </select>
+
+    <label for="language">输出语言</label>
+    <select id="language">
+      <option value="简体中文">简体中文</option>
+      <option value="繁体中文">繁体中文</option>
+      <option value="英文">英文</option>
+      <option value="法文">法文</option>
+      <option value="西班牙文">西班牙文</option>
+    </select>
+
+    <button id="submit">开始处理</button>
+
+    <div id="status"></div>
+
+    <label for="result">处理结果</label>
+    <textarea
+      id="result"
+      readonly
+      placeholder="结果将显示在这里"
+    ></textarea>
+  </div>
+
+  <script>
+    const button = document.getElementById("submit");
+    const statusBox = document.getElementById("status");
+    const resultBox = document.getElementById("result");
+
+    button.addEventListener("click", async () => {
+      const url = document.getElementById("url").value.trim();
+      const mode = document.getElementById("mode").value;
+      const targetLanguage =
+        document.getElementById("language").value;
+
+      if (!url) {
+        statusBox.className = "error";
+        statusBox.textContent = "请先输入文章网址。";
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "处理中，请稍候…";
+      statusBox.className = "";
+      statusBox.textContent = "正在读取并处理文章…";
+      resultBox.value = "";
+
+      try {
+        const response = await fetch("/api", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            url: url,
+            mode: mode,
+            target_language: targetLanguage
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || "请求失败");
+        }
+
+        resultBox.value = data.result;
+        statusBox.textContent =
+          "处理完成，共读取 " + data.characters + " 个字符。";
+      } catch (error) {
+        statusBox.className = "error";
+        statusBox.textContent = "错误：" + error.message;
+      } finally {
+        button.disabled = false;
+        button.textContent = "开始处理";
+      }
+    });
+  </script>
+</body>
+</html>
