@@ -131,7 +131,10 @@
     function setStatus(message,type=""){ $("status").textContent=message; $("status").className="status "+type; }
     async function api(payload,admin=true){
       const response=await fetch("/api",{method:"POST",headers:{"Content-Type":"application/json",...(admin?{"X-Admin-Password":password}:{})},body:JSON.stringify(payload)});
-      const data=await response.json(); if(!response.ok) throw new Error(data.error||"请求失败"); return data;
+      const text=await response.text();
+      let data;
+      try{data=JSON.parse(text);}catch(error){throw new Error(response.ok?"服务器返回了无法识别的结果。":"处理时间过长或服务器暂时出错，请稍后再试。");}
+      if(!response.ok) throw new Error(data.error||"请求失败"); return data;
     }
     function askPassword(){ const value=prompt("请输入 Vercel 中设置的 ADMIN_PASSWORD：",password); if(value!==null){password=value;sessionStorage.setItem("byelinguaAdmin",password);loadConfig();} }
     function render(){
