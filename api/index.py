@@ -122,7 +122,7 @@ def translate_article(
 
 class handler(BaseHTTPRequestHandler):
 
-        def do_GET(self):
+    def do_GET(self):
         message = "Python API is working."
 
         self.send_response(200)
