@@ -214,7 +214,7 @@ def extract_feed_text(entry):
     return BeautifulSoup(raw, "html.parser").get_text(" ", strip=True)[:12000]
 
 
-def collect_new_articles(subscription, seen_urls, limit=3):
+def collect_new_articles(subscription, seen_urls, limit=1):
     response = requests.get(
         subscription["feed_url"],
         headers={"User-Agent": "Mozilla/5.0 Byelingua/1.0"},
