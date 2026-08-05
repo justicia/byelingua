@@ -1,42 +1,25 @@
 # Byelingua 部署设置
 
-这个版本是单人使用，不开放用户注册。管理订阅时使用一个管理员密码。
+Byelingua 会按国家抓取音乐媒体，将新文章翻译或摘要后保存到网站，并可选发送邮件简报。
 
-## 1. Vercel Framework Preset
+## Vercel 设置
 
-在 Vercel 项目 Settings → Build and Deployment 中，将 Framework Preset 保持为 `Other`。
+1. 在 Vercel 导入 GitHub 仓库，Framework Preset 选择 `Other`。
+2. 在 Storage 中创建并连接一个 Private Blob Store。Vercel 会自动添加 `BLOB_READ_WRITE_TOKEN`。
+3. 在 Environment Variables 中设置：
+   - `OPENAI_API_KEY`：OpenAI Platform API 密钥。
+   - `ADMIN_PASSWORD`：网站订阅管理密码。
+   - `CRON_SECRET`：Vercel 定时任务访问密钥。
+   - `OPENAI_MODEL`：可选，默认 `gpt-5-mini`。
+   - `RESEND_API_KEY`、`DIGEST_TO_EMAIL`、`EMAIL_FROM`：可选；仅在需要邮件简报时设置。
+4. 重新部署项目。
 
-## 2. 创建轻量存储
+## 使用方法
 
-进入 Vercel 项目的 Storage 页面：
+1. 打开网站，首页会按国家显示已处理的文章。
+2. 点击“管理订阅”，输入 `ADMIN_PASSWORD`。
+3. 添加普通网站首页或 RSS 地址；国家可以自动识别，也可以手动选择。
+4. 为每个来源选择摘要/全文翻译和输出语言。
+5. 点击“立即更新”，或等待每天的定时任务。
 
-1. 点击 Create Database。
-2. 选择 Blob。
-3. 创建 Private Blob Store，并连接当前项目。
-4. Vercel 会自动加入 `BLOB_READ_WRITE_TOKEN`，不要复制到代码中。
-
-## 3. 配置环境变量
-
-在 Vercel 项目的 Environment Variables 中添加：
-
-- `ADMIN_PASSWORD`：自己设置的管理密码。
-- `CRON_SECRET`：另一条随机且足够长的密码，用于保护每日任务。
-- `RESEND_API_KEY`：从 Resend 获取的 API Key。
-- `DIGEST_TO_EMAIL`：接收每日简报的邮箱。
-- `EMAIL_FROM`：可选。没有验证域名时可使用 `Byelingua <onboarding@resend.dev>`。
-
-保留现有的 `OPENAI_API_KEY`。所有变量至少选择 Production，然后重新部署。
-
-## 4. 每日运行时间
-
-`vercel.json` 当前设置为每天 `06:00 UTC` 运行。Vercel Hobby 套餐可能在 06:00–06:59 UTC 之间执行。
-
-## 5. 首次使用
-
-1. 打开网站根地址。
-2. 点击“输入管理密码”。
-3. 输入 `ADMIN_PASSWORD`。
-4. 添加一个 RSS 地址。
-5. 点击“立即生成并发送”测试完整流程。
-
-管理密码只保存在当前浏览器标签页的 sessionStorage，关闭标签页后会清除。
+默认包含 BackstageClassical、Scherzo 和 Slipped Disc。已有 Blob 配置不会被默认值覆盖；如部署过旧版本，可在管理区手动添加这些来源。
