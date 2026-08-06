@@ -8,6 +8,10 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
 2. 粘贴 `mp.weixin.qq.com` 文章链接并选择一种目标语言。
 3. 如果微信阻止 Vercel 读取页面，再粘贴标题、公众号名称和原文全文作为备用内容。
 4. 同一链接再次选择已有语言时会直接复用结果，不会重复调用 OpenAI；选择另一语言会只新增该语言的译文。
+5. 微信文章会永久保留中文标题和全文；英文及其他译文从中文全文生成，可填写自定义翻译要求。
+6. 作者标签、文章分类和发布时间均可在导入窗口编辑；首页按发布时间显示时间线。
+
+自动读取会先直连微信页面；如配置了 `WECHAT_PROXY_URL`，失败时会通过自己的 Cloudflare 私有代理 Worker 重试；之后再通过 `wechat-article-exporter` 的文章下载接口重试。exporter 默认使用公开服务 `https://down.mptext.top`；如需使用自己的部署，在 Vercel 设置 `WECHAT_EXPORTER_URL`。如果服务要求登录认证，再设置短期的 `WECHAT_EXPORTER_AUTH_KEY`（其有效期与 exporter 登录会话一致）。
 
 公开展示全文译文前，请确认你拥有原文和译文的发布授权。
 
@@ -20,6 +24,10 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
    - `ADMIN_PASSWORD`：网站订阅管理密码。
    - `CRON_SECRET`：Vercel 定时任务访问密钥。
    - `OPENAI_MODEL`：可选，默认 `gpt-5-mini`。
+   - `WECHAT_PROXY_URL`：可选，Cloudflare 私有代理 Worker 的完整地址（不要以 `/` 结尾）。
+   - `WECHAT_EXPORTER_URL`：可选，自建 `wechat-article-exporter` 地址。
+   - `WECHAT_EXPORTER_AUTH_KEY`：可选，exporter API 的短期认证密钥。
+   - `WECHAT_EXPORTER_CF_ACCESS_CLIENT_ID`、`WECHAT_EXPORTER_CF_ACCESS_CLIENT_SECRET`：可选；自建 exporter 受 Cloudflare Access 保护时使用的服务令牌，只能存放在 Vercel。
    - `SUPABASE_URL`：Supabase 项目地址。
    - `SUPABASE_PUBLISHABLE_KEY`：浏览器端 Publishable key。
    - `SUPABASE_SERVICE_ROLE_KEY`：服务端 `sb_secret_...` Secret key，只能存放在 Vercel。
