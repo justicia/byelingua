@@ -344,7 +344,7 @@ def supabase_settings():
 
 def supabase_service(method, path, *, params=None, payload=None, prefer="return=representation"):
     url, _, service = supabase_settings()
-    headers = {"apikey":service,"Content-Type":"application/json","Prefer":prefer}
+    headers = {"apikey":service,"Content-Type":"application/json","Prefer":prefer,"User-Agent":"Byelingua-Server/3.0"}
     if not service.startswith("sb_secret_"):
         headers["Authorization"] = f"Bearer {service}"
     response = SESSION.request(method, f"{url}{path}", params=params, json=payload, headers=headers, timeout=30)
@@ -443,7 +443,7 @@ def invite_user(email):
     if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
         raise ValueError("请输入有效邮箱地址。")
     url, _, service = supabase_settings()
-    headers = {"apikey":service,"Content-Type":"application/json"}
+    headers = {"apikey":service,"Content-Type":"application/json","User-Agent":"Byelingua-Server/3.0"}
     if not service.startswith("sb_secret_"):
         headers["Authorization"] = f"Bearer {service}"
     response = SESSION.post(f"{url}/auth/v1/admin/users", json={"email":email,"email_confirm":True,"user_metadata":{"invited":True}}, headers=headers, timeout=20)
