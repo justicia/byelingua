@@ -1,12 +1,36 @@
 import unittest
+from datetime import datetime, timezone
 from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, import_wechat_article, normalize_wechat_url, public_subscriptions, retranslate_article, run_daily_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
+    def test_paris_schedule_handles_summer_and_winter_time(self):
+        self.assertTrue(paris_schedule_due(datetime(2026, 8, 6, 7, 30, tzinfo=timezone.utc)))
+        self.assertFalse(paris_schedule_due(datetime(2026, 8, 6, 8, 30, tzinfo=timezone.utc)))
+        self.assertTrue(paris_schedule_due(datetime(2026, 1, 6, 8, 30, tzinfo=timezone.utc)))
+
+    @patch("api.index.translate_article")
+    @patch("api.index.extract_article")
+    @patch("api.index.collect_new_articles")
+    @patch("api.index.supabase_service")
+    @patch("api.index.personal_payload")
+    def test_personal_digest_processes_three_articles_in_saved_language(self, payload, service, collect, extract, translate):
+        subscriptions = [{"id":str(i),"name":f"Source {i}","country":"fr","language":"zh","mode":"translate","enabled":True} for i in range(3)]
+        personal = {"profile":{"status":"active","preferred_language":"fr","daily_update_limit":1,"monthly_character_limit":100000,"used_characters":0},"subscriptions":subscriptions,"articles":[]}
+        payload.side_effect = [personal, personal]
+        service.return_value = []
+        collect.side_effect = lambda subscription, _seen, _limit: [{"title":f"Article {subscription['id']}","url":f"https://example.com/{subscription['id']}","published":"","feed_text":""}]
+        extract.return_value = ("A sufficiently long article body for translation. " * 8, "")
+        translate.return_value = {"title":"Titre","content":"Contenu"}
+        result = run_personal_digest("user", article_limit=3)
+        self.assertEqual(result["processed"], 3)
+        self.assertEqual(translate.call_count, 3)
+        self.assertTrue(all(call.args[1] == "fr" for call in translate.call_args_list))
+
     def test_canonical_url_removes_tracking(self):
         self.assertEqual(canonical_url("https://example.com/news/?utm_source=x#top"), "https://example.com/news")
 

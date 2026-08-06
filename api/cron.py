@@ -1,9 +1,7 @@
 import hmac
 import os
 from http.server import BaseHTTPRequestHandler
-from urllib.parse import parse_qs, urlsplit
-
-from api.index import run_daily_digest
+from api.index import paris_schedule_due, run_scheduled_updates
 
 
 class handler(BaseHTTPRequestHandler):
@@ -20,12 +18,15 @@ class handler(BaseHTTPRequestHandler):
             return
 
         try:
-            source_id = parse_qs(urlsplit(self.path).query).get("source", [None])[0]
-            result = run_daily_digest(source_id)
-            body = (
-                f"Source {result['source']}; processed {result['processed']} articles; "
-                f"{result['items']} stored articles."
-            ).encode("utf-8")
+            if not paris_schedule_due():
+                body = b"Skipped: it is not 09:00 in Europe/Paris."
+            else:
+                result = run_scheduled_updates()
+                body = (
+                    f"Paris date {result['paris_date']}; public {result['public_processed']}; "
+                    f"subscriber articles {result['personal_processed']}; users {result['users']}; "
+                    f"already run {result['already_run']}."
+                ).encode("utf-8")
             self.send_response(200)
         except Exception as error:
             body = str(error).encode("utf-8")

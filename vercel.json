@@ -2,24 +2,20 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     {
-      "path": "/api/cron?slot=1",
-      "schedule": "0 6 * * *"
+      "path": "/api/cron?timezone=summer",
+      "schedule": "0 7 * * *"
     },
     {
-      "path": "/api/cron?slot=2",
-      "schedule": "10 6 * * *"
-    },
-    {
-      "path": "/api/cron?slot=3",
-      "schedule": "20 6 * * *"
+      "path": "/api/cron?timezone=winter",
+      "schedule": "0 8 * * *"
     }
   ],
   "functions": {
     "api/index.py": {
-      "maxDuration": 60
+      "maxDuration": 300
     },
     "api/cron.py": {
-      "maxDuration": 60
+      "maxDuration": 300
     }
   }
 }
