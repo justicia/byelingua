@@ -48,7 +48,31 @@ function card(item,personalItem=false){const url=item.url||item.canonical_url||"
 function renderArticles(){const mine=active==="mine",items=mine?personal.articles:publicData.articles.filter(x=>active==="all"||x.country===active);$("personalPanel").hidden=!mine;$("sectionTitle").textContent=mine?"我的订阅":active==="all"?"全部国家":countries[active];$("viewHint").textContent=mine?"你的订阅网站与历史文章":"公共订阅文章";$("articles").innerHTML=items.length?items.map(x=>card(x,mine)).join(""):`<div class="empty">${mine?(session?"尚未生成个人订阅文章。":"请先登录受邀账户。"):"这个分类暂时没有文章。"}</div>`;document.querySelectorAll("[data-article]").forEach(b=>b.onclick=()=>openArticle(b.dataset.article,b.dataset.personal==="1"));document.querySelectorAll("[data-retranslate]").forEach(b=>b.onclick=()=>retranslatePublicArticle(b.dataset.retranslate));document.querySelectorAll("[data-delete-resync]").forEach(b=>b.onclick=()=>deleteAndResyncPublicArticle(b.dataset.deleteResync))}
 function renderPersonal(){const p=personal.profile||{},subs=personal.subscriptions||[];$("quota").textContent=`${subs.length}/${p.max_subscriptions||3} 个网站`;$("preferredLanguage").value=p.preferred_language||"zh";$("subscriptions").innerHTML=subs.length?subs.map(x=>`<div class="subscription"><div><strong>${esc(x.name)}</strong><div class="hint">${esc(countries[x.country]||"其他地区")} · ${esc(x.url)}</div></div><button class="btn danger small" data-remove="${esc(x.id)}">删除</button></div>`).join(""):'<div class="hint">还没有个人订阅，点击“添加网站”开始。</div>';document.querySelectorAll("[data-remove]").forEach(b=>b.onclick=()=>removePersonal(b.dataset.remove))}
 async function switchView(view){active=view;if(view==="mine"&&!session){$("authDialog").showModal()}else if(view==="mine"){await loadPersonal()}renderNav();renderArticles()}
-async function loadPublic(){try{publicData=await api({action:"get_public"});$("updated").textContent=`${publicData.articles.length} 篇 · ${publicData.updated_at?date(publicData.updated_at):"等待更新"}`}catch(e){$("articles").innerHTML=`<div class="empty">${esc(e.message)}</div>`}renderNav();renderArticles()}
+async function loadPublic(){
+    try{
+        const response = await fetch("/api", {cache:"no-store"});
+        if(!response.ok){
+            throw new Error(`API request failed: ${response.status}`);
+        }
+
+        publicData = await response.json();
+
+        $("updated").textContent =
+            `${publicData.articles?.length || 0} 篇 · ${
+                publicData.updated_at
+                    ? date(publicData.updated_at)
+                    : "等待更新"
+            }`;
+
+        renderNav();
+        renderArticles();
+    }catch(error){
+        console.error(error);
+        $("updated").textContent = "文章加载失败";
+        $("articles").innerHTML =
+            `<div class="empty">无法加载公共文章：${esc(error.message)}</div>`;
+    }
+}
 async function initAuth(){try{const cfg=await api({action:"get_auth_config"});client=supabase.createClient(cfg.url,cfg.publishable_key);const result=await client.auth.getSession();session=result.data.session;client.auth.onAuthStateChange((_event,next)=>{session=next;updateAccount();if(session&&active==="mine")loadPersonal()});updateAccount()}catch(e){console.warn(e.message)}}
 function updateAccount(){const email=session?.user?.email;$("accountLabel").textContent=email||"登录后建立自己的订阅";$("accountButton").textContent=email?"退出登录":"邮箱验证码登录";$("mobileAccount").textContent=email?"我的账户":"登录";$("addButton").hidden=!session&&!adminPassword}
 async function loadPersonal(){if(!session)return;try{personal=await api({action:"get_my_data"},{auth:true});renderPersonal();renderArticles()}catch(e){$("articles").innerHTML=`<div class="empty">${esc(e.message)}</div>`}}
