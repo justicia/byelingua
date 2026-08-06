@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import canonical_url, collect_website, country_from_language, country_from_url, extract_wechat_article, import_wechat_article, normalize_wechat_url, validate_subscription
+from api.index import canonical_url, collect_website, country_from_language, country_from_url, extract_wechat_article, import_wechat_article, normalize_wechat_url, run_daily_digest, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -61,6 +61,14 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(result["reused"])
         translate.assert_not_called()
         save.assert_not_called()
+
+    @patch("api.index.load_blob_json")
+    @patch("api.index.load_config")
+    def test_unknown_scheduled_source_is_rejected(self, load_config, load_blob):
+        load_config.return_value = {"target_language":"zh","subscriptions":[{"id":"known","enabled":True}]}
+        load_blob.side_effect = lambda _path, default: default
+        with self.assertRaisesRegex(ValueError, "Unknown or disabled source"):
+            run_daily_digest("missing")
 
 
 if __name__ == "__main__":
