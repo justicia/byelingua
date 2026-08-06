@@ -2,16 +2,16 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     {
-      "path": "/api/cron?source=backstageclassical",
+      "path": "/api/cron?slot=1",
       "schedule": "0 6 * * *"
     },
     {
-      "path": "/api/cron?source=scherzo",
-      "schedule": "0 7 * * *"
+      "path": "/api/cron?slot=2",
+      "schedule": "10 6 * * *"
     },
     {
-      "path": "/api/cron?source=slipped-disc",
-      "schedule": "0 8 * * *"
+      "path": "/api/cron?slot=3",
+      "schedule": "20 6 * * *"
     }
   ],
   "functions": {

@@ -5,3 +5,4 @@ __pycache__/
 !.env.example
 .vercel/
 .venv/
+.test-deps/
