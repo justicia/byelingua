@@ -87,7 +87,7 @@ class ApiTests(unittest.TestCase):
         validate.return_value = {"id":"new","name":"New","country":"fr","url":"https://new.test","feed_url":"https://new.test/feed","source_type":"rss","mode":"summary","enabled":True}
         run.return_value = {"processed":1,"items":1,"errors":[],"source":"new"}
         result = save_public_subscription({"url":"https://new.test"})
-        run.assert_called_once_with("new")
+        run.assert_called_once_with(subscription_override=validate.return_value)
         self.assertEqual(result["update"]["processed"], 1)
         self.assertEqual(save.call_args.args[0], "byelingua/config.json")
 
