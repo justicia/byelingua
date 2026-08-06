@@ -407,13 +407,16 @@ def collect_new_articles(subscription, seen, limit=2):
     return collect_website(subscription, seen, limit) if subscription.get("source_type") == "website" else collect_rss(subscription, seen, limit)
 
 
-def run_daily_digest(source_id=None):
+def run_daily_digest(source_id=None, subscription_override=None):
     config, seen_data = load_config(), load_blob_json("byelingua/seen.json", {"urls":[]})
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     state = load_blob_json("byelingua/update-state.json", {"next_source":0})
     seen, results, errors = {canonical_url(url) for url in seen_data.get("urls", [])}, [], []
     subscriptions = [item for item in config["subscriptions"] if item.get("enabled", True)]
-    if source_id:
+    if subscription_override is not None:
+        subscriptions = [subscription_override]
+        source_id = subscription_override["id"]
+    elif source_id:
         subscriptions = [item for item in subscriptions if item.get("id") == source_id]
         if not subscriptions:
             raise ValueError(f"Unknown or disabled source: {source_id}")
@@ -467,7 +470,9 @@ def save_public_subscription(data, old_id=""):
     ] + [subscription]
     save_blob_json("byelingua/config.json", config)
     try:
-        update = run_daily_digest(subscription["id"])
+        # Use the just-saved source directly. Blob storage may briefly return the
+        # previous config, which used to make a new source look "unknown" here.
+        update = run_daily_digest(subscription_override=subscription)
     except Exception as error:
         update = {"processed": 0, "items": 0, "errors": [str(error)], "source": subscription["id"]}
     return {"subscription": public_subscriptions({"subscriptions": [subscription]})[0], "update": update}
