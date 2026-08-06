@@ -457,12 +457,13 @@ def public_subscriptions(config):
     ]
 
 
-def save_public_subscription(data):
+def save_public_subscription(data, old_id=""):
     """Save a public source and immediately try to publish its first article."""
     config = load_config()
     subscription = validate_subscription(data)
     config["subscriptions"] = [
-        item for item in config["subscriptions"] if item.get("id") != subscription["id"]
+        item for item in config["subscriptions"]
+        if item.get("id") not in {subscription["id"], str(old_id or "")}
     ] + [subscription]
     save_blob_json("byelingua/config.json", config)
     try:
@@ -470,6 +471,16 @@ def save_public_subscription(data):
     except Exception as error:
         update = {"processed": 0, "items": 0, "errors": [str(error)], "source": subscription["id"]}
     return {"subscription": public_subscriptions({"subscriptions": [subscription]})[0], "update": update}
+
+
+def set_public_subscription_enabled(identifier, enabled):
+    config = load_config()
+    subscription = next((item for item in config.get("subscriptions", []) if item.get("id") == identifier), None)
+    if subscription is None:
+        raise ValueError("找不到这个公共订阅。")
+    subscription["enabled"] = bool(enabled)
+    save_blob_json("byelingua/config.json", config)
+    return {"id": identifier, "enabled": subscription["enabled"]}
 
 
 def public_payload():
@@ -636,9 +647,11 @@ class handler(BaseHTTPRequestHandler):
                 if language not in LANGUAGES: raise ValueError("不支持所选输出语言。")
                 config["target_language"] = language; save_blob_json("byelingua/config.json", config); self.send_json(200, config)
             elif action == "save_subscription":
-                self.send_json(200, save_public_subscription(data.get("subscription",{})))
+                self.send_json(200, save_public_subscription(data.get("subscription",{}), data.get("old_id","")))
             elif action == "delete_subscription":
                 config["subscriptions"] = [x for x in config["subscriptions"] if x.get("id") != data.get("id","")]; save_blob_json("byelingua/config.json",config); self.send_json(200,config)
+            elif action == "set_subscription_enabled": self.send_json(200, set_public_subscription_enabled(str(data.get("id","")), bool(data.get("enabled",False))))
+            elif action == "run_subscription": self.send_json(200, run_daily_digest(str(data.get("id",""))))
             elif action == "run_digest": self.send_json(200, run_daily_digest())
             elif action == "import_wechat": self.send_json(200, import_wechat_article(data.get("article",{})))
             elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id","")), bool(data.get("allow_resync",False))))
