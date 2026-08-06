@@ -11,6 +11,7 @@ from email.utils import parsedate_to_datetime
 from html import escape
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urljoin, urlsplit, urlunsplit
+from zoneinfo import ZoneInfo
 
 import feedparser
 import requests
@@ -28,6 +29,7 @@ MODEL = os.environ.get("OPENAI_MODEL", "gpt-5-mini")
 MAX_ARTICLES = int(os.environ.get("MAX_ARTICLES", "200"))
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0; +https://byelingua.vercel.app/)","Accept-Language":"en-US,en;q=0.8"})
+PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
 
 
 def require_admin(headers):
@@ -529,9 +531,13 @@ def authenticated_user(headers):
 
 def personal_payload(user_id):
     profile = supabase_service("GET", "/rest/v1/profiles", params={"id":f"eq.{user_id}","select":"*"})
+    profile = profile[0] if profile else {}
     subscriptions = supabase_service("GET", "/rest/v1/user_subscriptions", params={"user_id":f"eq.{user_id}","select":"*","order":"created_at.desc"})
-    articles = supabase_service("GET", "/rest/v1/user_articles", params={"user_id":f"eq.{user_id}","select":"*","order":"processed_at.desc","limit":"200"})
-    return {"profile":profile[0] if profile else {},"subscriptions":subscriptions or [],"articles":articles or []}
+    article_params = {"user_id":f"eq.{user_id}","select":"*","order":"processed_at.desc","limit":"200"}
+    if profile.get("preferred_language") in LANGUAGES:
+        article_params["language"] = f"eq.{profile['preferred_language']}"
+    articles = supabase_service("GET", "/rest/v1/user_articles", params=article_params)
+    return {"profile":profile,"subscriptions":subscriptions or [],"articles":articles or []}
 
 
 def save_personal_subscription(user_id, data):
@@ -562,10 +568,11 @@ def save_personal_language(user_id, language):
     if language not in LANGUAGES:
         raise ValueError("不支持所选语言。")
     supabase_service("PATCH", "/rest/v1/profiles", params={"id":f"eq.{user_id}"}, payload={"preferred_language":language,"updated_at":datetime.now(timezone.utc).isoformat()})
+    supabase_service("PATCH", "/rest/v1/user_subscriptions", params={"user_id":f"eq.{user_id}"}, payload={"language":language,"updated_at":datetime.now(timezone.utc).isoformat()})
     return personal_payload(user_id)
 
 
-def run_personal_digest(user_id):
+def _run_personal_digest_legacy(user_id):
     personal = personal_payload(user_id)
     profile, subscriptions = personal["profile"], personal["subscriptions"]
     today = datetime.now(timezone.utc).date().isoformat()
@@ -604,6 +611,150 @@ def run_personal_digest(user_id):
     if characters:
         supabase_service("PATCH", "/rest/v1/profiles", params={"id":f"eq.{user_id}"}, payload={"used_characters":int(profile.get("used_characters",0))+characters,"updated_at":now})
     return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
+
+
+def run_personal_digest(user_id, automated=False, article_limit=3):
+    """Process up to three personal sources using the account's saved language."""
+    personal = personal_payload(user_id)
+    profile, subscriptions = personal["profile"], personal["subscriptions"]
+    if profile.get("status") != "active":
+        raise PermissionError("This subscription account is not active.")
+
+    paris_midnight = datetime.now(PARIS_TIMEZONE).replace(
+        hour=0, minute=0, second=0, microsecond=0
+    ).astimezone(timezone.utc).isoformat()
+    if not automated:
+        usage = supabase_service(
+            "GET",
+            "/rest/v1/usage_events",
+            params={
+                "user_id":f"eq.{user_id}",
+                "event_type":"eq.digest",
+                "created_at":f"gte.{paris_midnight}",
+                "select":"id",
+            },
+        )
+        if len(usage or []) >= int(profile.get("daily_update_limit", 1)):
+            raise ValueError(
+                "You have already used today's manual update. "
+                "Automatic daily updates will continue normally."
+            )
+
+    language = profile.get("preferred_language", "zh")
+    if language not in LANGUAGES:
+        language = "zh"
+    seen = {item.get("canonical_url") for item in personal["articles"]}
+    processed, errors, characters = 0, [], 0
+
+    for subscription in subscriptions:
+        if processed >= article_limit:
+            break
+        if not subscription.get("enabled", True):
+            continue
+        try:
+            candidates = collect_new_articles(subscription, seen, 1)
+        except Exception as error:
+            errors.append(f"{subscription['name']}: {error}")
+            continue
+        for article in candidates:
+            if processed >= article_limit:
+                break
+            try:
+                try:
+                    text, page_date = extract_article(article["url"])
+                    article["published"] = article.get("published") or page_date
+                except Exception:
+                    text = article.get("feed_text", "")
+                    if len(text) < 200:
+                        raise
+                characters += len(text)
+                if int(profile.get("used_characters", 0)) + characters > int(profile.get("monthly_character_limit", 100000)):
+                    raise ValueError("The monthly translation character limit has been reached.")
+                translated = translate_article(text, language, subscription["mode"], article["title"])
+                record = {
+                    "user_id":user_id,
+                    "subscription_id":subscription["id"],
+                    "canonical_url":article["url"],
+                    "title":translated["title"],
+                    "source":subscription["name"],
+                    "country":subscription["country"],
+                    "published_at":article.get("published") or None,
+                    "language":language,
+                    "mode":subscription["mode"],
+                    "result":translated["content"],
+                }
+                supabase_service(
+                    "POST",
+                    "/rest/v1/user_articles",
+                    params={"on_conflict":"user_id,canonical_url,language"},
+                    payload=record,
+                    prefer="resolution=merge-duplicates,return=representation",
+                )
+                processed += 1
+                seen.add(article["url"])
+            except Exception as error:
+                errors.append(f"{article.get('title', 'Article')}: {error}")
+
+    now = datetime.now(timezone.utc).isoformat()
+    supabase_service(
+        "POST",
+        "/rest/v1/usage_events",
+        payload={
+            "user_id":user_id,
+            "event_type":"translation" if automated else "digest",
+            "characters":characters,
+        },
+    )
+    if characters:
+        supabase_service(
+            "PATCH",
+            "/rest/v1/profiles",
+            params={"id":f"eq.{user_id}"},
+            payload={
+                "used_characters":int(profile.get("used_characters", 0)) + characters,
+                "updated_at":now,
+            },
+        )
+    return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
+
+
+def paris_schedule_due(now=None):
+    """Return True only during the 09:00 hour in Europe/Paris."""
+    current = now or datetime.now(timezone.utc)
+    return current.astimezone(PARIS_TIMEZONE).hour == 9
+
+
+def run_scheduled_updates():
+    """Update public news and all active subscribers once per Paris day."""
+    paris_date = datetime.now(PARIS_TIMEZONE).date().isoformat()
+    state = load_blob_json("byelingua/scheduled-state.json", {"paris_date":""})
+    if state.get("paris_date") == paris_date:
+        return {"already_run":True,"paris_date":paris_date,"public_processed":0,"users":0,"personal_processed":0,"errors":[]}
+
+    errors, public_processed, personal_processed = [], 0, 0
+    for _ in range(3):
+        result = run_daily_digest()
+        public_processed += int(result.get("processed", 0))
+        errors.extend(result.get("errors", []))
+
+    profiles = supabase_service(
+        "GET", "/rest/v1/profiles", params={"status":"eq.active","select":"id"}
+    ) or []
+    completed_users = 0
+    for profile in profiles:
+        try:
+            result = run_personal_digest(profile["id"], automated=True, article_limit=3)
+            personal_processed += int(result.get("processed", 0))
+            errors.extend(result.get("errors", []))
+            completed_users += 1
+        except Exception as error:
+            errors.append(f"User {profile.get('id', 'unknown')}: {error}")
+
+    save_blob_json(
+        "byelingua/scheduled-state.json",
+        {"paris_date":paris_date,"completed_at":datetime.now(timezone.utc).isoformat()},
+    )
+    return {"already_run":False,"paris_date":paris_date,"public_processed":public_processed,"users":completed_users,"personal_processed":personal_processed,"errors":errors[:20]}
 
 
 def invite_user(email):
