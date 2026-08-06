@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import canonical_url, collect_website, country_from_language, country_from_url, extract_wechat_article, import_wechat_article, normalize_wechat_url, run_daily_digest, supabase_service, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, extract_wechat_article, import_wechat_article, normalize_wechat_url, run_daily_digest, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -78,6 +78,43 @@ class ApiTests(unittest.TestCase):
         headers = request.call_args.kwargs["headers"]
         self.assertEqual(headers["User-Agent"], "Byelingua-Server/3.0")
         self.assertNotIn("Authorization", headers)
+
+    @patch("api.index.OpenAI")
+    def test_title_and_content_use_one_translation_call(self, openai):
+        response = Mock(output_text='{"title":"Translated title","content":"Translated content"}')
+        openai.return_value.responses.create.return_value = response
+        result = translate_article("Original body", "en", "translate", "Original title")
+        self.assertEqual(result, {"title":"Translated title","content":"Translated content"})
+        openai.return_value.responses.create.assert_called_once()
+
+    @patch("api.index.OpenAI")
+    def test_future_public_article_translates_both_languages_once(self, openai):
+        response = Mock(output_text='{"titles":{"zh":"中文标题","en":"English title"},"contents":{"zh":"中文正文","en":"English body"}}')
+        openai.return_value.responses.create.return_value = response
+        result = translate_bilingual_article("Original body", "Original title", "translate")
+        self.assertEqual(result["titles"]["en"], "English title")
+        self.assertEqual(result["contents"]["zh"], "中文正文")
+        openai.return_value.responses.create.assert_called_once()
+
+    @patch("api.index.OpenAI")
+    def test_backfill_translation_returns_titles_and_english_body_once(self, openai):
+        response = Mock(output_text='{"titles":{"zh":"中文标题","en":"English title"},"content_en":"English body"}')
+        openai.return_value.responses.create.return_value = response
+        result = translate_backfill_article("已有中文正文", "Original title")
+        self.assertEqual(result["content_en"], "English body")
+        openai.return_value.responses.create.assert_called_once()
+
+    @patch("api.index.translate_backfill_article")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_backfill_preserves_existing_chinese_body(self, load, save, translate):
+        load.return_value = {"updated_at":"","articles":[{"id":"old","title":"Original","result":"已有中文正文"}]}
+        translate.return_value = {"titles":{"zh":"中文标题","en":"English title"},"content_en":"English body"}
+        result = backfill_bilingual_article()
+        saved = save.call_args.args[1]["articles"][0]
+        self.assertEqual(saved["contents"], {"zh":"已有中文正文","en":"English body"})
+        self.assertEqual(saved["result"], "已有中文正文")
+        self.assertEqual(result["remaining"], 0)
 
 
 if __name__ == "__main__":

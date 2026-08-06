@@ -220,10 +220,87 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
     return {"title":title,"source":author,"url":normalized,"published":published,"cover":cover,"text":text}
 
 
-def translate_article(text, language_code, mode):
+def translate_article(text, language_code, mode, title=""):
     language = LANGUAGES.get(language_code, LANGUAGES["zh"])
-    instruction = (f"用{language}写一段准确自然的新闻摘要，约150至250字。只使用原文事实，保留专有名词，不要套话，只输出摘要。" if mode == "summary" else f"将正文完整翻译成{language}。保持原意与段落，准确保留专有名词，不要解释或删减，只输出译文。")
-    return OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=25.0, max_retries=0).responses.create(model=MODEL, input=f"{instruction}\n\n正文：\n{text}").output_text.strip()
+    instruction = (f"用{language}写一段准确自然的新闻摘要，约150至250字。只使用原文事实，保留专有名词，不要套话。" if mode == "summary" else f"将正文完整翻译成{language}。保持原意与段落，准确保留专有名词，不要解释或删减。")
+    prompt = f"""{instruction}
+同时把标题翻译成{language}。只返回有效 JSON，不要使用 Markdown：
+{{"title":"翻译后的标题","content":"翻译或摘要后的正文"}}
+
+原标题：{title}
+正文：
+{text}"""
+    output = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=25.0, max_retries=0).responses.create(model=MODEL, input=prompt).output_text.strip()
+    try:
+        payload = json.loads(output.removeprefix("```json").removesuffix("```").strip())
+        translated_title = str(payload.get("title", "")).strip()
+        content = str(payload.get("content", "")).strip()
+        if translated_title and content:
+            return {"title":translated_title,"content":content}
+    except (json.JSONDecodeError, AttributeError):
+        pass
+    return {"title":title,"content":output}
+
+
+def translate_bilingual_article(text, title, mode):
+    task = "分别写准确自然的新闻摘要" if mode == "summary" else "完整翻译正文"
+    prompt = f"""请将原标题翻译成简体中文和英文，并将正文{task}为简体中文和英文。保持专有名词准确，只使用原文事实。
+只返回有效 JSON，不要使用 Markdown：
+{{"titles":{{"zh":"中文标题","en":"English title"}},"contents":{{"zh":"中文正文","en":"English content"}}}}
+
+原标题：{title}
+正文：
+{text}"""
+    output = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=35.0, max_retries=0).responses.create(model=MODEL, input=prompt).output_text.strip()
+    try:
+        payload = json.loads(output.removeprefix("```json").removesuffix("```").strip())
+        titles, contents = payload.get("titles", {}), payload.get("contents", {})
+        if all(str(titles.get(code, "")).strip() and str(contents.get(code, "")).strip() for code in ("zh","en")):
+            return {"titles":{code:str(titles[code]).strip() for code in ("zh","en")},"contents":{code:str(contents[code]).strip() for code in ("zh","en")}}
+    except (json.JSONDecodeError, AttributeError):
+        pass
+    raise ValueError("双语翻译返回格式不完整，请稍后重试。")
+
+
+def translate_backfill_article(chinese_content, title):
+    prompt = f"""现有正文已经是简体中文。请把原标题分别翻译成简体中文和英文，并把现有中文正文完整翻译成英文。保留所有事实、专有名词和段落，不要摘要或增删内容。
+只返回有效 JSON，不要使用 Markdown：
+{{"titles":{{"zh":"中文标题","en":"English title"}},"content_en":"English content"}}
+
+原标题：{title}
+现有中文正文：
+{chinese_content}"""
+    output = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=35.0, max_retries=0).responses.create(model=MODEL, input=prompt).output_text.strip()
+    try:
+        payload = json.loads(output.removeprefix("```json").removesuffix("```").strip())
+        titles = payload.get("titles", {})
+        content_en = str(payload.get("content_en", "")).strip()
+        if all(str(titles.get(code, "")).strip() for code in ("zh", "en")) and content_en:
+            return {"titles":{code:str(titles[code]).strip() for code in ("zh", "en")},"content_en":content_en}
+    except (json.JSONDecodeError, AttributeError):
+        pass
+    raise ValueError("旧文章英文补全返回格式不完整，请稍后重试。")
+
+
+def backfill_bilingual_article():
+    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    articles = archive.get("articles", [])
+    item = next((article for article in reversed(articles) if not article.get("contents", {}).get("en")), None)
+    if not item:
+        return {"processed":0,"remaining":0}
+    original_title = item.get("original_title") or item.get("title") or ""
+    current_content = item.get("result", "")
+    if not current_content.strip():
+        raise ValueError("这篇旧文章没有可用于回填的中文正文。")
+    bilingual = translate_backfill_article(current_content, original_title)
+    item["titles"] = bilingual["titles"]
+    item["contents"] = {"zh":current_content,"en":bilingual["content_en"]}
+    item["title"], item["result"] = bilingual["titles"]["zh"], current_content
+    item.setdefault("original_title", original_title)
+    now = datetime.now(timezone.utc).isoformat()
+    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+    remaining = sum(1 for article in articles if not article.get("contents", {}).get("en"))
+    return {"processed":1,"remaining":remaining,"title":bilingual["titles"]["en"]}
 
 
 def import_wechat_article(data):
@@ -237,11 +314,15 @@ def import_wechat_article(data):
     if existing and language in existing.get("translations", {}):
         return {"article":existing,"reused":True}
     wechat = extract_wechat_article(url, str(data.get("text", "")), str(data.get("title", "")), str(data.get("author", "")))
-    translation = translate_article(wechat.pop("text"), language, "translate")
+    original_title, original_text = wechat["title"], wechat.pop("text")
+    translated = translate_article(original_text, language, "translate", original_title)
+    translation = translated["content"]
     translations = dict(existing.get("translations", {})) if existing else {}
     translations[language] = translation
     now = datetime.now(timezone.utc).isoformat()
-    item = {**(existing or {}),**wechat,"id":hashlib.sha256(url.encode()).hexdigest()[:16],"kind":"wechat","country":"cn","language":language,"mode":"translate","translations":translations,"result":translation,"processed_at":now}
+    translated_titles = dict(existing.get("translated_titles", {})) if existing else {}
+    translated_titles[language] = translated["title"]
+    item = {**(existing or {}),**wechat,"title":translated["title"],"original_title":original_title,"id":hashlib.sha256(url.encode()).hexdigest()[:16],"kind":"wechat","country":"cn","language":language,"mode":"translate","translations":translations,"translated_titles":translated_titles,"result":translation,"processed_at":now}
     save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":([item]+[x for x in articles if x.get("url") != url])[:MAX_ARTICLES]})
     return {"article":item,"reused":False}
 
@@ -303,7 +384,6 @@ def run_daily_digest(source_id=None):
     for offset, subscription in enumerate(ordered):
         try: candidates = collect_new_articles(subscription, seen, 1)
         except Exception as error: errors.append(f"{subscription['name']}: {error}"); continue
-        language = subscription.get("language") or config["target_language"]
         for article in candidates:
             try:
                 try:
@@ -311,8 +391,9 @@ def run_daily_digest(source_id=None):
                 except Exception:
                     text = article.get("feed_text", "")
                     if len(text) < 200: raise
-                result = translate_article(text, language, subscription["mode"])
-                item = {**article,"id":hashlib.sha256(article["url"].encode()).hexdigest()[:16],"kind":"subscription","source":subscription["name"],"country":subscription["country"],"language":language,"mode":subscription["mode"],"result":result,"processed_at":datetime.now(timezone.utc).isoformat()}
+                original_title = article["title"]
+                bilingual = translate_bilingual_article(text, original_title, subscription["mode"])
+                item = {**article,"title":bilingual["titles"]["zh"],"result":bilingual["contents"]["zh"],"titles":bilingual["titles"],"contents":bilingual["contents"],"original_title":original_title,"id":hashlib.sha256(article["url"].encode()).hexdigest()[:16],"kind":"subscription","source":subscription["name"],"country":subscription["country"],"language":"bilingual","mode":subscription["mode"],"processed_at":datetime.now(timezone.utc).isoformat()}
                 item.pop("feed_text", None); results.append(item); seen.add(article["url"])
             except Exception as error: errors.append(f"{article['title']}: {error}")
         if results:
@@ -397,6 +478,14 @@ def delete_personal_subscription(user_id, identifier):
     return personal_payload(user_id)
 
 
+def save_personal_language(user_id, language):
+    language = str(language or "").lower()
+    if language not in LANGUAGES:
+        raise ValueError("不支持所选语言。")
+    supabase_service("PATCH", "/rest/v1/profiles", params={"id":f"eq.{user_id}"}, payload={"preferred_language":language,"updated_at":datetime.now(timezone.utc).isoformat()})
+    return personal_payload(user_id)
+
+
 def run_personal_digest(user_id):
     personal = personal_payload(user_id)
     profile, subscriptions = personal["profile"], personal["subscriptions"]
@@ -423,8 +512,8 @@ def run_personal_digest(user_id):
                 characters += len(text)
                 if int(profile.get("used_characters", 0)) + characters > int(profile.get("monthly_character_limit", 100000)):
                     raise ValueError("本月翻译字符额度已经用完。")
-                result = translate_article(text, subscription["language"], subscription["mode"])
-                record = {"user_id":user_id,"subscription_id":subscription["id"],"canonical_url":article["url"],"title":article["title"],"source":subscription["name"],"country":subscription["country"],"published_at":article.get("published") or None,"language":subscription["language"],"mode":subscription["mode"],"result":result}
+                translated = translate_article(text, subscription["language"], subscription["mode"], article["title"])
+                record = {"user_id":user_id,"subscription_id":subscription["id"],"canonical_url":article["url"],"title":translated["title"],"source":subscription["name"],"country":subscription["country"],"published_at":article.get("published") or None,"language":subscription["language"],"mode":subscription["mode"],"result":translated["content"]}
                 supabase_service("POST", "/rest/v1/user_articles", params={"on_conflict":"user_id,canonical_url,language"}, payload=record, prefer="resolution=merge-duplicates,return=representation")
                 processed += 1; seen.add(article["url"])
             except Exception as error:
@@ -469,11 +558,12 @@ class handler(BaseHTTPRequestHandler):
             if action == "get_public": self.send_json(200, public_payload()); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
-            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest"}:
+            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
                 elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
                 elif action == "delete_my_subscription": result = delete_personal_subscription(user["id"], str(data.get("id","")))
+                elif action == "save_my_language": result = save_personal_language(user["id"], data.get("language",""))
                 else: result = run_personal_digest(user["id"])
                 self.send_json(200,result); return
             require_admin(self.headers); config = load_config()
@@ -490,6 +580,7 @@ class handler(BaseHTTPRequestHandler):
             elif action == "import_wechat": self.send_json(200, import_wechat_article(data.get("article",{})))
             elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id",""))))
             elif action == "invite_user": self.send_json(200, invite_user(data.get("email","")))
+            elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
         except PermissionError as error: self.send_json(401, {"error":str(error)})
         except (ValueError, requests.RequestException) as error: self.send_json(400, {"error":str(error)})
