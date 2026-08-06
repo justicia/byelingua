@@ -22,7 +22,7 @@ class handler(BaseHTTPRequestHandler):
             result = run_daily_digest()
             body = (
                 f"Processed {result['processed']} articles; "
-                f"{result['items']} email items."
+                f"{result['items']} stored articles."
             ).encode("utf-8")
             self.send_response(200)
         except Exception as error:

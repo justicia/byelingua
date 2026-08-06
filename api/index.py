@@ -108,7 +108,7 @@ def country_from_language(value):
 
 
 def fetch(url):
-    response = SESSION.get(url, timeout=(10,30))
+    response = SESSION.get(url, timeout=(8,15))
     response.raise_for_status()
     return response
 
@@ -223,7 +223,7 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
 def translate_article(text, language_code, mode):
     language = LANGUAGES.get(language_code, LANGUAGES["zh"])
     instruction = (f"用{language}写一段准确自然的新闻摘要，约150至250字。只使用原文事实，保留专有名词，不要套话，只输出摘要。" if mode == "summary" else f"将正文完整翻译成{language}。保持原意与段落，准确保留专有名词，不要解释或删减，只输出译文。")
-    return OpenAI(api_key=os.environ.get("OPENAI_API_KEY")).responses.create(model=MODEL, input=f"{instruction}\n\n正文：\n{text}").output_text.strip()
+    return OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=25.0, max_retries=0).responses.create(model=MODEL, input=f"{instruction}\n\n正文：\n{text}").output_text.strip()
 
 
 def import_wechat_article(data):
@@ -291,10 +291,13 @@ def collect_new_articles(subscription, seen, limit=2):
 def run_daily_digest():
     config, seen_data = load_config(), load_blob_json("byelingua/seen.json", {"urls":[]})
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    state = load_blob_json("byelingua/update-state.json", {"next_source":0})
     seen, results, errors = {canonical_url(url) for url in seen_data.get("urls", [])}, [], []
-    for subscription in config["subscriptions"]:
-        if not subscription.get("enabled", True): continue
-        try: candidates = collect_new_articles(subscription, seen)
+    subscriptions = [item for item in config["subscriptions"] if item.get("enabled", True)]
+    start = int(state.get("next_source", 0)) % max(len(subscriptions), 1)
+    ordered = subscriptions[start:] + subscriptions[:start]
+    for offset, subscription in enumerate(ordered):
+        try: candidates = collect_new_articles(subscription, seen, 1)
         except Exception as error: errors.append(f"{subscription['name']}: {error}"); continue
         language = subscription.get("language") or config["target_language"]
         for article in candidates:
@@ -308,12 +311,16 @@ def run_daily_digest():
                 item = {**article,"id":hashlib.sha256(article["url"].encode()).hexdigest()[:16],"kind":"subscription","source":subscription["name"],"country":subscription["country"],"language":language,"mode":subscription["mode"],"result":result,"processed_at":datetime.now(timezone.utc).isoformat()}
                 item.pop("feed_text", None); results.append(item); seen.add(article["url"])
             except Exception as error: errors.append(f"{article['title']}: {error}")
+        if results:
+            state["next_source"] = (start + offset + 1) % max(len(subscriptions), 1)
+            break
     urls = {item["url"] for item in results}
     merged = results + [item for item in archive.get("articles", []) if item.get("url") not in urls]
     now = datetime.now(timezone.utc).isoformat()
     save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":merged[:MAX_ARTICLES]})
     save_blob_json("byelingua/seen.json", {"urls":list(seen)[:2000]})
-    return {"processed":len(results),"items":len(merged[:MAX_ARTICLES]),"errors":errors[:10]}
+    save_blob_json("byelingua/update-state.json", state)
+    return {"processed":len(results),"items":len(merged[:MAX_ARTICLES]),"errors":errors[:10],"batch_limit":1}
 
 
 def public_payload():
@@ -417,6 +424,8 @@ def run_personal_digest(user_id):
                 processed += 1; seen.add(article["url"])
             except Exception as error:
                 errors.append(f"{article.get('title','文章')}: {error}")
+        if processed:
+            break
     now = datetime.now(timezone.utc).isoformat()
     supabase_service("POST", "/rest/v1/usage_events", payload={"user_id":user_id,"event_type":"digest","characters":characters})
     if characters:
