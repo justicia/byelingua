@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, import_wechat_article, normalize_wechat_url, public_subscriptions, retranslate_article, run_daily_digest, save_public_subscription, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, import_wechat_article, normalize_wechat_url, public_subscriptions, retranslate_article, run_daily_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -90,6 +90,26 @@ class ApiTests(unittest.TestCase):
         run.assert_called_once_with("new")
         self.assertEqual(result["update"]["processed"], 1)
         self.assertEqual(save.call_args.args[0], "byelingua/config.json")
+
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_config")
+    def test_admin_can_disable_public_subscription(self, load_config, save):
+        load_config.return_value = {"subscriptions":[{"id":"source","enabled":True}]}
+        result = set_public_subscription_enabled("source", False)
+        self.assertFalse(result["enabled"])
+        self.assertFalse(save.call_args.args[1]["subscriptions"][0]["enabled"])
+
+    @patch("api.index.run_daily_digest")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.validate_subscription")
+    @patch("api.index.load_config")
+    def test_editing_public_subscription_replaces_old_id(self, load_config, validate, save, run):
+        load_config.return_value = {"subscriptions":[{"id":"old","name":"Old"},{"id":"keep","name":"Keep"}]}
+        validate.return_value = {"id":"new","name":"New","country":"fr","url":"https://new.test","feed_url":"https://new.test/feed","source_type":"rss","mode":"summary","enabled":True}
+        run.return_value = {"processed":0,"items":0,"errors":[],"source":"new"}
+        save_public_subscription({"url":"https://new.test"}, "old")
+        ids = [item["id"] for item in save.call_args.args[1]["subscriptions"]]
+        self.assertEqual(ids, ["keep", "new"])
 
     @patch("api.index.supabase_settings", return_value=("https://project.supabase.co", "public", "sb_secret_test"))
     @patch("api.index.SESSION.request")
