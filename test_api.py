@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_from_exporter, fetch_wechat_from_proxy, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -74,6 +74,49 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(article["source"], "Test account")
         self.assertGreater(len(article["text"]), 200)
 
+    @patch("api.index.fetch_wechat_from_exporter")
+    @patch("api.index.fetch")
+    def test_wechat_uses_exporter_when_direct_page_has_no_article(self, fetch, exporter):
+        fetch.return_value = Mock(content=b"<html><body>blocked</body></html>")
+        body = "Exporter recovered this sufficiently long WeChat article body. " * 8
+        exporter.return_value = f'''<meta property="og:title" content="Recovered title">
+        <meta name="author" content="Recovered account"><div id="js_content">{body}</div>'''.encode()
+        article = extract_wechat_article("https://mp.weixin.qq.com/s/example")
+        self.assertEqual(article["title"], "Recovered title")
+        self.assertEqual(article["source"], "Recovered account")
+        exporter.assert_called_once()
+
+    @patch.dict("api.index.os.environ", {"WECHAT_EXPORTER_AUTH_KEY":"secret"})
+    @patch("api.index.SESSION.get")
+    def test_exporter_request_encodes_url_and_sends_optional_auth(self, get):
+        get.return_value = Mock(content=b"ok")
+        fetch_wechat_from_exporter("https://mp.weixin.qq.com/s?__biz=a&mid=1")
+        request_url = get.call_args.args[0]
+        self.assertIn("url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3Da%26mid%3D1", request_url)
+        self.assertEqual(get.call_args.kwargs["headers"], {"X-Auth-Key":"secret"})
+
+    @patch.dict("api.index.os.environ", {
+        "WECHAT_EXPORTER_CF_ACCESS_CLIENT_ID":"client-id",
+        "WECHAT_EXPORTER_CF_ACCESS_CLIENT_SECRET":"client-secret",
+    }, clear=False)
+    @patch("api.index.SESSION.get")
+    def test_exporter_request_supports_cloudflare_access_service_token(self, get):
+        get.return_value = Mock(content=b"ok")
+        fetch_wechat_from_exporter("https://mp.weixin.qq.com/s/example")
+        headers = get.call_args.kwargs["headers"]
+        self.assertEqual(headers["CF-Access-Client-Id"], "client-id")
+        self.assertEqual(headers["CF-Access-Client-Secret"], "client-secret")
+
+    @patch.dict("api.index.os.environ", {"WECHAT_PROXY_URL":"https://wx.bye-lingua.site"})
+    @patch("api.index.SESSION.get")
+    def test_private_proxy_request_uses_mp_preset(self, get):
+        get.return_value = Mock(content=b"ok")
+        fetch_wechat_from_proxy("https://mp.weixin.qq.com/s?__biz=a&mid=1")
+        request_url = get.call_args.args[0]
+        self.assertTrue(request_url.startswith("https://wx.bye-lingua.site?url="))
+        self.assertIn("%26mid%3D1", request_url)
+        self.assertTrue(request_url.endswith("&preset=mp"))
+
     @patch("api.index.translate_article")
     @patch("api.index.save_blob_json")
     @patch("api.index.load_blob_json")
@@ -85,6 +128,33 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(result["reused"])
         translate.assert_not_called()
         save.assert_not_called()
+
+    @patch("api.index.extract_wechat_article")
+    @patch("api.index.translate_article")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_wechat_keeps_chinese_source_and_custom_english_translation(self, load, save, translate, extract):
+        load.return_value = {"updated_at":"","articles":[]}
+        extract.return_value = {"title":"中文标题","source":"原公众号","url":"https://mp.weixin.qq.com/s/example","published":"","cover":"","text":"中文全文" * 100}
+        translate.return_value = {"title":"English title","content":"English full text"}
+        result = import_wechat_article({"url":"https://mp.weixin.qq.com/s/example","language":"en","author_label":"作者甲","category":"歌剧","published":"2026-08-01T20:00:00","translation_instruction":"Use British English"})
+        article = result["article"]
+        self.assertEqual(article["contents"]["zh"], "中文全文" * 100)
+        self.assertEqual(article["contents"]["en"], "English full text")
+        self.assertEqual(article["author_label"], "作者甲")
+        self.assertEqual(article["category"], "歌剧")
+        translate.assert_called_once_with("中文全文" * 100, "en", "translate", "中文标题", "Use British English")
+
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_existing_wechat_metadata_can_be_edited_without_retranslation(self, load, save):
+        existing = {"id":"x","url":"https://mp.weixin.qq.com/s/example","translations":{"en":"English"},"source":"Old"}
+        load.return_value = {"updated_at":"","articles":[existing]}
+        result = import_wechat_article({"url":existing["url"],"language":"en","author_label":"New label","category":"评论"})
+        self.assertTrue(result["reused"])
+        self.assertEqual(existing["author_label"], "New label")
+        self.assertEqual(existing["category"], "评论")
+        save.assert_called_once()
 
     @patch("api.index.load_blob_json")
     @patch("api.index.load_config")

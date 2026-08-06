@@ -10,7 +10,7 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from html import escape
 from http.server import BaseHTTPRequestHandler
-from urllib.parse import urljoin, urlsplit, urlunsplit
+from urllib.parse import quote, urljoin, urlsplit, urlunsplit
 from zoneinfo import ZoneInfo
 
 import feedparser
@@ -30,6 +30,7 @@ MAX_ARTICLES = int(os.environ.get("MAX_ARTICLES", "200"))
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0; +https://byelingua.vercel.app/)","Accept-Language":"en-US,en;q=0.8"})
 PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
+WECHAT_EXPORTER_URL = os.environ.get("WECHAT_EXPORTER_URL", "https://down.mptext.top").rstrip("/")
 
 
 def require_admin(headers):
@@ -115,6 +116,34 @@ def fetch(url):
     return response
 
 
+def fetch_wechat_from_exporter(url):
+    """Fetch normalized article HTML through wechat-article-exporter."""
+    endpoint = f"{WECHAT_EXPORTER_URL}/api/public/v1/download?url={quote(url, safe='')}&format=html"
+    headers = {}
+    if os.environ.get("WECHAT_EXPORTER_AUTH_KEY"):
+        headers["X-Auth-Key"] = os.environ["WECHAT_EXPORTER_AUTH_KEY"]
+    access_id = os.environ.get("WECHAT_EXPORTER_CF_ACCESS_CLIENT_ID", "").strip()
+    access_secret = os.environ.get("WECHAT_EXPORTER_CF_ACCESS_CLIENT_SECRET", "").strip()
+    if access_id and access_secret:
+        headers["CF-Access-Client-Id"] = access_id
+        headers["CF-Access-Client-Secret"] = access_secret
+    response = SESSION.get(endpoint, headers=headers, timeout=(8, 25))
+    response.raise_for_status()
+    return response.content
+
+
+def fetch_wechat_from_proxy(url):
+    """Fetch a WeChat page through the user's private Cloudflare Worker."""
+    proxy_url = os.environ.get("WECHAT_PROXY_URL", "").strip().rstrip("/")
+    if not proxy_url:
+        raise ValueError("WECHAT_PROXY_URL is not configured.")
+    separator = "&" if "?" in proxy_url else "?"
+    endpoint = f"{proxy_url}{separator}url={quote(url, safe='')}&preset=mp"
+    response = SESSION.get(endpoint, timeout=(8, 25))
+    response.raise_for_status()
+    return response.content
+
+
 def discover_source(url):
     source_url = canonical_url(url)
     response = fetch(source_url)
@@ -197,8 +226,16 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
     if (urlsplit(normalized).hostname or "").lower() != "mp.weixin.qq.com":
         raise ValueError("请输入 mp.weixin.qq.com 的微信公众号文章链接。")
     title = author = published = cover = extracted = ""
-    try:
-        soup = BeautifulSoup(fetch(normalized).content, "html.parser")
+    sources = [lambda: fetch(normalized).content]
+    if os.environ.get("WECHAT_PROXY_URL", "").strip():
+        sources.append(lambda: fetch_wechat_from_proxy(normalized))
+    sources.append(lambda: fetch_wechat_from_exporter(normalized))
+    for load_html in sources:
+        try:
+            content_bytes = load_html()
+            soup = BeautifulSoup(content_bytes, "html.parser")
+        except requests.RequestException:
+            continue
         title_node, title_meta = soup.select_one("#activity-name"), soup.select_one('meta[property="og:title"]')
         author_node, author_meta = soup.select_one("#js_name,.account_nickname"), soup.select_one('meta[name="author"]')
         cover_meta, content = soup.select_one('meta[property="og:image"]'), soup.select_one("#js_content")
@@ -210,9 +247,8 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
                 node.decompose()
             lines = [" ".join(line.split()) for line in content.get_text("\n", strip=True).splitlines()]
             extracted = "\n\n".join(dict.fromkeys(line for line in lines if line))[:20000]
-    except Exception:
-        if not manual_text.strip():
-            raise ValueError("微信暂时阻止了自动读取，请把文章正文粘贴到备用正文框。")
+        if len(extracted) >= 200 and title:
+            break
     text, title = manual_text.strip() or extracted, manual_title.strip() or title
     author = manual_author.strip() or author or "微信公众号"
     if len(text) < 200:
@@ -222,9 +258,12 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
     return {"title":title,"source":author,"url":normalized,"published":published,"cover":cover,"text":text}
 
 
-def translate_article(text, language_code, mode, title=""):
+def translate_article(text, language_code, mode, title="", custom_instruction=""):
     language = LANGUAGES.get(language_code, LANGUAGES["zh"])
     instruction = (f"用{language}写一段准确自然的新闻摘要，约150至250字。只使用原文事实，保留专有名词，不要套话。" if mode == "summary" else f"将正文完整翻译成{language}。保持原意与段落，准确保留专有名词，不要解释或删减。")
+    custom_instruction = str(custom_instruction or "").strip()[:1000]
+    if custom_instruction:
+        instruction += f"\n用户对译文的额外要求：{custom_instruction}"
     prompt = f"""{instruction}
 同时把标题翻译成{language}。只返回有效 JSON，不要使用 Markdown：
 {{"title":"翻译后的标题","content":"翻译或摘要后的正文"}}
@@ -313,18 +352,34 @@ def import_wechat_article(data):
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     articles, existing = archive.get("articles", []), None
     existing = next((item for item in articles if item.get("url") == url), None)
+    author_label = str(data.get("author_label") or data.get("author") or "").strip()[:120]
+    category = str(data.get("category") or "").strip()[:80]
+    published = parse_date(data.get("published"))
+    custom_instruction = str(data.get("translation_instruction") or "").strip()[:1000]
+    metadata_updates = {}
+    if author_label: metadata_updates.update({"source":author_label,"author_label":author_label})
+    if category: metadata_updates["category"] = category
+    if published: metadata_updates["published"] = published
+    if custom_instruction: metadata_updates["translation_instruction"] = custom_instruction
     if existing and language in existing.get("translations", {}):
+        if metadata_updates:
+            existing.update(metadata_updates)
+            now = datetime.now(timezone.utc).isoformat()
+            existing["processed_at"] = now
+            save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
         return {"article":existing,"reused":True}
     wechat = extract_wechat_article(url, str(data.get("text", "")), str(data.get("title", "")), str(data.get("author", "")))
     original_title, original_text = wechat["title"], wechat.pop("text")
-    translated = translate_article(original_text, language, "translate", original_title)
+    translated = ({"title":original_title,"content":original_text} if language == "zh" else translate_article(original_text, language, "translate", original_title, custom_instruction))
     translation = translated["content"]
     translations = dict(existing.get("translations", {})) if existing else {}
+    translations.setdefault("zh", original_text)
     translations[language] = translation
     now = datetime.now(timezone.utc).isoformat()
     translated_titles = dict(existing.get("translated_titles", {})) if existing else {}
+    translated_titles.setdefault("zh", original_title)
     translated_titles[language] = translated["title"]
-    item = {**(existing or {}),**wechat,"title":translated["title"],"original_title":original_title,"id":hashlib.sha256(url.encode()).hexdigest()[:16],"kind":"wechat","country":"cn","language":language,"mode":"translate","translations":translations,"translated_titles":translated_titles,"result":translation,"processed_at":now}
+    item = {**(existing or {}),**wechat,**metadata_updates,"title":original_title,"original_title":original_title,"id":hashlib.sha256(url.encode()).hexdigest()[:16],"kind":"wechat","country":"cn","category":category or (existing or {}).get("category") or "未分类","author_label":author_label or wechat.get("source") or "微信公众号","language":language,"mode":"translate","translations":translations,"translated_titles":translated_titles,"titles":dict(translated_titles),"contents":dict(translations),"result":original_text,"processed_at":now}
     save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":([item]+[x for x in articles if x.get("url") != url])[:MAX_ARTICLES]})
     return {"article":item,"reused":False}
 
@@ -492,7 +547,8 @@ def set_public_subscription_enabled(identifier, enabled):
 
 def public_payload():
     config, archive = load_config(), load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    return {"target_language":config.get("target_language","zh"),"countries":COUNTRIES,"subscriptions":public_subscriptions(config),"updated_at":archive.get("updated_at",""),"articles":archive.get("articles",[])}
+    articles = sorted(archive.get("articles", []), key=lambda item: item.get("published") or item.get("published_at") or item.get("processed_at") or "", reverse=True)
+    return {"target_language":config.get("target_language","zh"),"countries":COUNTRIES,"subscriptions":public_subscriptions(config),"updated_at":archive.get("updated_at",""),"articles":articles}
 
 
 def supabase_settings():

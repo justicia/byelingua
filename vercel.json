@@ -9,13 +9,5 @@
       "path": "/api/cron?timezone=winter",
       "schedule": "0 8 * * *"
     }
-  ],
-  "functions": {
-    "api/index.py": {
-      "maxDuration": 300
-    },
-    "api/cron.py": {
-      "maxDuration": 300
-    }
-  }
+  ]
 }
