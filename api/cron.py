@@ -1,6 +1,7 @@
 import hmac
 import os
 from http.server import BaseHTTPRequestHandler
+from urllib.parse import parse_qs, urlsplit
 
 from api.index import run_daily_digest
 
@@ -19,9 +20,10 @@ class handler(BaseHTTPRequestHandler):
             return
 
         try:
-            result = run_daily_digest()
+            source_id = parse_qs(urlsplit(self.path).query).get("source", [None])[0]
+            result = run_daily_digest(source_id)
             body = (
-                f"Processed {result['processed']} articles; "
+                f"Source {result['source']}; processed {result['processed']} articles; "
                 f"{result['items']} stored articles."
             ).encode("utf-8")
             self.send_response(200)

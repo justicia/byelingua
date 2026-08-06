@@ -288,13 +288,17 @@ def collect_new_articles(subscription, seen, limit=2):
     return collect_website(subscription, seen, limit) if subscription.get("source_type") == "website" else collect_rss(subscription, seen, limit)
 
 
-def run_daily_digest():
+def run_daily_digest(source_id=None):
     config, seen_data = load_config(), load_blob_json("byelingua/seen.json", {"urls":[]})
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     state = load_blob_json("byelingua/update-state.json", {"next_source":0})
     seen, results, errors = {canonical_url(url) for url in seen_data.get("urls", [])}, [], []
     subscriptions = [item for item in config["subscriptions"] if item.get("enabled", True)]
-    start = int(state.get("next_source", 0)) % max(len(subscriptions), 1)
+    if source_id:
+        subscriptions = [item for item in subscriptions if item.get("id") == source_id]
+        if not subscriptions:
+            raise ValueError(f"Unknown or disabled source: {source_id}")
+    start = 0 if source_id else int(state.get("next_source", 0)) % max(len(subscriptions), 1)
     ordered = subscriptions[start:] + subscriptions[:start]
     for offset, subscription in enumerate(ordered):
         try: candidates = collect_new_articles(subscription, seen, 1)
@@ -312,7 +316,8 @@ def run_daily_digest():
                 item.pop("feed_text", None); results.append(item); seen.add(article["url"])
             except Exception as error: errors.append(f"{article['title']}: {error}")
         if results:
-            state["next_source"] = (start + offset + 1) % max(len(subscriptions), 1)
+            if not source_id:
+                state["next_source"] = (start + offset + 1) % max(len(subscriptions), 1)
             break
     urls = {item["url"] for item in results}
     merged = results + [item for item in archive.get("articles", []) if item.get("url") not in urls]
@@ -320,7 +325,7 @@ def run_daily_digest():
     save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":merged[:MAX_ARTICLES]})
     save_blob_json("byelingua/seen.json", {"urls":list(seen)[:2000]})
     save_blob_json("byelingua/update-state.json", state)
-    return {"processed":len(results),"items":len(merged[:MAX_ARTICLES]),"errors":errors[:10],"batch_limit":1}
+    return {"processed":len(results),"items":len(merged[:MAX_ARTICLES]),"errors":errors[:10],"batch_limit":1,"source":source_id or "round-robin"}
 
 
 def public_payload():
