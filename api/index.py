@@ -327,11 +327,49 @@ def import_wechat_article(data):
     return {"article":item,"reused":False}
 
 
-def delete_article(identifier):
+def delete_article(identifier, allow_resync=False):
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    removed = next((item for item in archive.get("articles", []) if item.get("id") == identifier), None)
+    if not removed:
+        raise ValueError("找不到要删除的文章。")
     articles = [item for item in archive.get("articles", []) if item.get("id") != identifier]
-    save_blob_json("byelingua/articles.json", {"updated_at":datetime.now(timezone.utc).isoformat(),"articles":articles})
-    return {"deleted":identifier,"items":len(articles)}
+    now = datetime.now(timezone.utc).isoformat()
+    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+    if allow_resync and removed.get("url"):
+        seen_data = load_blob_json("byelingua/seen.json", {"urls":[]})
+        removed_url = canonical_url(removed["url"])
+        urls = [url for url in seen_data.get("urls", []) if canonical_url(url) != removed_url]
+        save_blob_json("byelingua/seen.json", {"urls":urls})
+    return {"deleted":identifier,"items":len(articles),"resync_allowed":bool(allow_resync)}
+
+
+def retranslate_article(identifier):
+    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    articles = archive.get("articles", [])
+    item = next((article for article in articles if article.get("id") == identifier), None)
+    if not item:
+        raise ValueError("找不到要重新翻译的文章。")
+    original_title = item.get("original_title") or item.get("title") or ""
+    try:
+        if item.get("kind") == "wechat":
+            extracted = extract_wechat_article(item.get("url", ""))
+            source_text, original_title = extracted["text"], extracted["title"] or original_title
+        else:
+            source_text, _ = extract_article(item.get("url", ""))
+        bilingual = translate_bilingual_article(source_text, original_title, item.get("mode", "translate"))
+        titles, contents = bilingual["titles"], bilingual["contents"]
+    except (ValueError, requests.RequestException):
+        chinese_content = item.get("contents", {}).get("zh") or item.get("result", "")
+        if not chinese_content.strip():
+            raise ValueError("无法重新读取原文，且没有可用的中文正文。")
+        backfill = translate_backfill_article(chinese_content, original_title)
+        titles, contents = backfill["titles"], {"zh":chinese_content,"en":backfill["content_en"]}
+    item.update({"original_title":original_title,"title":titles["zh"],"result":contents["zh"],"titles":titles,"contents":contents,"language":"bilingual","processed_at":datetime.now(timezone.utc).isoformat()})
+    if item.get("kind") == "wechat":
+        item["translated_titles"], item["translations"] = dict(titles), dict(contents)
+    now = datetime.now(timezone.utc).isoformat()
+    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+    return {"article":item,"retranslated":True}
 
 
 def entry_text(entry):
@@ -409,9 +447,34 @@ def run_daily_digest(source_id=None):
     return {"processed":len(results),"items":len(merged[:MAX_ARTICLES]),"errors":errors[:10],"batch_limit":1,"source":source_id or "round-robin"}
 
 
+def public_subscriptions(config):
+    """Return the safe fields needed to show enabled public sources."""
+    fields = ("id", "name", "country", "url", "source_type", "mode")
+    return [
+        {field: item.get(field, "") for field in fields}
+        for item in config.get("subscriptions", [])
+        if item.get("enabled", True)
+    ]
+
+
+def save_public_subscription(data):
+    """Save a public source and immediately try to publish its first article."""
+    config = load_config()
+    subscription = validate_subscription(data)
+    config["subscriptions"] = [
+        item for item in config["subscriptions"] if item.get("id") != subscription["id"]
+    ] + [subscription]
+    save_blob_json("byelingua/config.json", config)
+    try:
+        update = run_daily_digest(subscription["id"])
+    except Exception as error:
+        update = {"processed": 0, "items": 0, "errors": [str(error)], "source": subscription["id"]}
+    return {"subscription": public_subscriptions({"subscriptions": [subscription]})[0], "update": update}
+
+
 def public_payload():
     config, archive = load_config(), load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    return {"target_language":config.get("target_language","zh"),"countries":COUNTRIES,"updated_at":archive.get("updated_at",""),"articles":archive.get("articles",[])}
+    return {"target_language":config.get("target_language","zh"),"countries":COUNTRIES,"subscriptions":public_subscriptions(config),"updated_at":archive.get("updated_at",""),"articles":archive.get("articles",[])}
 
 
 def supabase_settings():
@@ -573,12 +636,13 @@ class handler(BaseHTTPRequestHandler):
                 if language not in LANGUAGES: raise ValueError("不支持所选输出语言。")
                 config["target_language"] = language; save_blob_json("byelingua/config.json", config); self.send_json(200, config)
             elif action == "save_subscription":
-                sub = validate_subscription(data.get("subscription",{})); config["subscriptions"] = [x for x in config["subscriptions"] if x.get("id") != sub["id"]] + [sub]; save_blob_json("byelingua/config.json",config); self.send_json(200,config)
+                self.send_json(200, save_public_subscription(data.get("subscription",{})))
             elif action == "delete_subscription":
                 config["subscriptions"] = [x for x in config["subscriptions"] if x.get("id") != data.get("id","")]; save_blob_json("byelingua/config.json",config); self.send_json(200,config)
             elif action == "run_digest": self.send_json(200, run_daily_digest())
             elif action == "import_wechat": self.send_json(200, import_wechat_article(data.get("article",{})))
-            elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id",""))))
+            elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id","")), bool(data.get("allow_resync",False))))
+            elif action == "retranslate_article": self.send_json(200, retranslate_article(str(data.get("id",""))))
             elif action == "invite_user": self.send_json(200, invite_user(data.get("email","")))
             elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
