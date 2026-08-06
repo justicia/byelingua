@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import canonical_url, collect_website, country_from_language, country_from_url, extract_wechat_article, import_wechat_article, normalize_wechat_url, run_daily_digest, validate_subscription
+from api.index import canonical_url, collect_website, country_from_language, country_from_url, extract_wechat_article, import_wechat_article, normalize_wechat_url, run_daily_digest, supabase_service, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -69,6 +69,15 @@ class ApiTests(unittest.TestCase):
         load_blob.side_effect = lambda _path, default: default
         with self.assertRaisesRegex(ValueError, "Unknown or disabled source"):
             run_daily_digest("missing")
+
+    @patch("api.index.supabase_settings", return_value=("https://project.supabase.co", "public", "sb_secret_test"))
+    @patch("api.index.SESSION.request")
+    def test_supabase_secret_uses_server_user_agent(self, request, _settings):
+        request.return_value = Mock(ok=True, content=b"[]", json=Mock(return_value=[]))
+        supabase_service("GET", "/rest/v1/profiles")
+        headers = request.call_args.kwargs["headers"]
+        self.assertEqual(headers["User-Agent"], "Byelingua-Server/3.0")
+        self.assertNotIn("Authorization", headers)
 
 
 if __name__ == "__main__":
