@@ -321,6 +321,125 @@ def public_payload():
     return {"target_language":config.get("target_language","zh"),"countries":COUNTRIES,"updated_at":archive.get("updated_at",""),"articles":archive.get("articles",[])}
 
 
+def supabase_settings():
+    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    publishable = os.environ.get("SUPABASE_PUBLISHABLE_KEY", "")
+    service = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+    if not url or not publishable or not service:
+        raise RuntimeError("Supabase 环境变量尚未完整设置。")
+    return url, publishable, service
+
+
+def supabase_service(method, path, *, params=None, payload=None, prefer="return=representation"):
+    url, _, service = supabase_settings()
+    headers = {"apikey":service,"Content-Type":"application/json","Prefer":prefer}
+    if not service.startswith("sb_secret_"):
+        headers["Authorization"] = f"Bearer {service}"
+    response = SESSION.request(method, f"{url}{path}", params=params, json=payload, headers=headers, timeout=30)
+    if not response.ok:
+        raise ValueError(response.json().get("message") or response.text or "Supabase 请求失败。")
+    return response.json() if response.content else None
+
+
+def authenticated_user(headers):
+    value = headers.get("Authorization", "")
+    if not value.startswith("Bearer "):
+        raise PermissionError("请先登录账户。")
+    url, publishable, _ = supabase_settings()
+    response = SESSION.get(f"{url}/auth/v1/user", headers={"apikey":publishable,"Authorization":value}, timeout=20)
+    if not response.ok:
+        raise PermissionError("登录已过期，请重新获取验证码。")
+    user = response.json()
+    if not user.get("id"):
+        raise PermissionError("无法识别登录用户。")
+    return user
+
+
+def personal_payload(user_id):
+    profile = supabase_service("GET", "/rest/v1/profiles", params={"id":f"eq.{user_id}","select":"*"})
+    subscriptions = supabase_service("GET", "/rest/v1/user_subscriptions", params={"user_id":f"eq.{user_id}","select":"*","order":"created_at.desc"})
+    articles = supabase_service("GET", "/rest/v1/user_articles", params={"user_id":f"eq.{user_id}","select":"*","order":"processed_at.desc","limit":"200"})
+    return {"profile":profile[0] if profile else {},"subscriptions":subscriptions or [],"articles":articles or []}
+
+
+def save_personal_subscription(user_id, data):
+    personal = personal_payload(user_id)
+    profile = personal["profile"]
+    if profile.get("status") != "active":
+        raise PermissionError("账户当前不可添加订阅。")
+    sub = validate_subscription(data)
+    existing = next((item for item in personal["subscriptions"] if item.get("feed_url") == sub["feed_url"]), None)
+    if not existing and len(personal["subscriptions"]) >= int(profile.get("max_subscriptions", 3)):
+        raise ValueError(f"试运行账户最多添加 {profile.get('max_subscriptions', 3)} 个网站。")
+    record = {key:sub[key] for key in ("name","url","feed_url","country","source_type","language","mode","enabled")}
+    record["user_id"] = user_id
+    if existing:
+        rows = supabase_service("PATCH", "/rest/v1/user_subscriptions", params={"id":f"eq.{existing['id']}"}, payload=record)
+    else:
+        rows = supabase_service("POST", "/rest/v1/user_subscriptions", payload=record)
+    return rows[0] if rows else record
+
+
+def delete_personal_subscription(user_id, identifier):
+    supabase_service("DELETE", "/rest/v1/user_subscriptions", params={"id":f"eq.{identifier}","user_id":f"eq.{user_id}"})
+    return personal_payload(user_id)
+
+
+def run_personal_digest(user_id):
+    personal = personal_payload(user_id)
+    profile, subscriptions = personal["profile"], personal["subscriptions"]
+    today = datetime.now(timezone.utc).date().isoformat()
+    usage = supabase_service("GET", "/rest/v1/usage_events", params={"user_id":f"eq.{user_id}","event_type":"eq.digest","created_at":f"gte.{today}T00:00:00Z","select":"id"})
+    if len(usage or []) >= int(profile.get("daily_update_limit", 1)):
+        raise ValueError("今天的更新次数已经用完，请明天再试。")
+    seen = {item.get("canonical_url") for item in personal["articles"]}
+    processed, errors, characters = 0, [], 0
+    for subscription in subscriptions:
+        if not subscription.get("enabled", True):
+            continue
+        try:
+            candidates = collect_new_articles(subscription, seen, 1)
+        except Exception as error:
+            errors.append(f"{subscription['name']}: {error}"); continue
+        for article in candidates:
+            try:
+                try:
+                    text, page_date = extract_article(article["url"]); article["published"] = article.get("published") or page_date
+                except Exception:
+                    text = article.get("feed_text", "")
+                    if len(text) < 200: raise
+                characters += len(text)
+                if int(profile.get("used_characters", 0)) + characters > int(profile.get("monthly_character_limit", 100000)):
+                    raise ValueError("本月翻译字符额度已经用完。")
+                result = translate_article(text, subscription["language"], subscription["mode"])
+                record = {"user_id":user_id,"subscription_id":subscription["id"],"canonical_url":article["url"],"title":article["title"],"source":subscription["name"],"country":subscription["country"],"published_at":article.get("published") or None,"language":subscription["language"],"mode":subscription["mode"],"result":result}
+                supabase_service("POST", "/rest/v1/user_articles", params={"on_conflict":"user_id,canonical_url,language"}, payload=record, prefer="resolution=merge-duplicates,return=representation")
+                processed += 1; seen.add(article["url"])
+            except Exception as error:
+                errors.append(f"{article.get('title','文章')}: {error}")
+    now = datetime.now(timezone.utc).isoformat()
+    supabase_service("POST", "/rest/v1/usage_events", payload={"user_id":user_id,"event_type":"digest","characters":characters})
+    if characters:
+        supabase_service("PATCH", "/rest/v1/profiles", params={"id":f"eq.{user_id}"}, payload={"used_characters":int(profile.get("used_characters",0))+characters,"updated_at":now})
+    return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
+
+
+def invite_user(email):
+    email = str(email or "").strip().lower()
+    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
+        raise ValueError("请输入有效邮箱地址。")
+    url, _, service = supabase_settings()
+    headers = {"apikey":service,"Content-Type":"application/json"}
+    if not service.startswith("sb_secret_"):
+        headers["Authorization"] = f"Bearer {service}"
+    response = SESSION.post(f"{url}/auth/v1/admin/users", json={"email":email,"email_confirm":True,"user_metadata":{"invited":True}}, headers=headers, timeout=20)
+    if response.status_code == 422 and "already" in response.text.lower():
+        return {"email":email,"existing":True}
+    if not response.ok:
+        raise ValueError(response.json().get("message") or "创建邀请账户失败。")
+    return {"email":email,"existing":False}
+
+
 class handler(BaseHTTPRequestHandler):
     def send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -334,6 +453,15 @@ class handler(BaseHTTPRequestHandler):
         try:
             data = json.loads(self.rfile.read(int(self.headers.get("Content-Length","0"))).decode("utf-8")); action = data.get("action","get_public")
             if action == "get_public": self.send_json(200, public_payload()); return
+            if action == "get_auth_config":
+                url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
+            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest"}:
+                user = authenticated_user(self.headers)
+                if action == "get_my_data": result = personal_payload(user["id"])
+                elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
+                elif action == "delete_my_subscription": result = delete_personal_subscription(user["id"], str(data.get("id","")))
+                else: result = run_personal_digest(user["id"])
+                self.send_json(200,result); return
             require_admin(self.headers); config = load_config()
             if action == "get_config": self.send_json(200, config)
             elif action == "save_settings":
@@ -347,6 +475,7 @@ class handler(BaseHTTPRequestHandler):
             elif action == "run_digest": self.send_json(200, run_daily_digest())
             elif action == "import_wechat": self.send_json(200, import_wechat_article(data.get("article",{})))
             elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id",""))))
+            elif action == "invite_user": self.send_json(200, invite_user(data.get("email","")))
             else: self.send_json(400, {"error":"未知操作。"})
         except PermissionError as error: self.send_json(401, {"error":str(error)})
         except (ValueError, requests.RequestException) as error: self.send_json(400, {"error":str(error)})
