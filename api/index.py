@@ -30,7 +30,6 @@ MAX_ARTICLES = int(os.environ.get("MAX_ARTICLES", "200"))
 SESSION = requests.Session()
 SESSION.headers.update({"User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0; +https://byelingua.vercel.app/)","Accept-Language":"en-US,en;q=0.8"})
 PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
-WECHAT_EXPORTER_URL = os.environ.get("WECHAT_EXPORTER_URL", "https://down.mptext.top").rstrip("/")
 
 
 def require_admin(headers):
@@ -125,32 +124,26 @@ def fetch(url):
     return response
 
 
-def fetch_wechat_from_exporter(url):
-    """Fetch normalized article HTML through wechat-article-exporter."""
-    endpoint = f"{WECHAT_EXPORTER_URL}/api/public/v1/download?url={quote(url, safe='')}&format=html"
-    headers = {}
-    if os.environ.get("WECHAT_EXPORTER_AUTH_KEY"):
-        headers["X-Auth-Key"] = os.environ["WECHAT_EXPORTER_AUTH_KEY"]
-    access_id = os.environ.get("WECHAT_EXPORTER_CF_ACCESS_CLIENT_ID", "").strip()
-    access_secret = os.environ.get("WECHAT_EXPORTER_CF_ACCESS_CLIENT_SECRET", "").strip()
-    if access_id and access_secret:
-        headers["CF-Access-Client-Id"] = access_id
-        headers["CF-Access-Client-Secret"] = access_secret
-    response = SESSION.get(endpoint, headers=headers, timeout=(8, 25))
+def fetch_wechat_direct(url):
+    """Fetch a public WeChat article directly, without an exporter service."""
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_5 like Mac OS X) "
+            "AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 "
+            "MicroMessenger/8.0.49"
+        ),
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.6",
+        "Referer": "https://mp.weixin.qq.com/",
+    }
+    response = SESSION.get(url, headers=headers, timeout=(10, 25), allow_redirects=True)
     response.raise_for_status()
-    return response.content
-
-
-def fetch_wechat_from_proxy(url):
-    """Fetch a WeChat page through the user's private Cloudflare Worker."""
-    proxy_url = os.environ.get("WECHAT_PROXY_URL", "").strip().rstrip("/")
-    if not proxy_url:
-        raise ValueError("WECHAT_PROXY_URL is not configured.")
-    separator = "&" if "?" in proxy_url else "?"
-    endpoint = f"{proxy_url}{separator}url={quote(url, safe='')}&preset=mp"
-    response = SESSION.get(endpoint, timeout=(8, 25))
-    response.raise_for_status()
-    return response.content
+    html = response.content
+    sample = response.text[:10000]
+    blocked_markers = ("环境异常", "访问过于频繁", "请在微信客户端打开", "verify_", "waf-captcha")
+    if any(marker in sample for marker in blocked_markers):
+        raise ValueError("微信拒绝了服务器访问，请稍后重试或在下方粘贴中文全文。")
+    return html
 
 
 def discover_source(url):
@@ -235,16 +228,12 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
     if (urlsplit(normalized).hostname or "").lower() != "mp.weixin.qq.com":
         raise ValueError("请输入 mp.weixin.qq.com 的微信公众号文章链接。")
     title = author = published = cover = extracted = ""
-    sources = [lambda: fetch(normalized).content]
-    if os.environ.get("WECHAT_PROXY_URL", "").strip():
-        sources.append(lambda: fetch_wechat_from_proxy(normalized))
-    sources.append(lambda: fetch_wechat_from_exporter(normalized))
-    for load_html in sources:
+    if not manual_text.strip() or not manual_title.strip():
         try:
-            content_bytes = load_html()
+            content_bytes = fetch_wechat_direct(normalized)
             soup = BeautifulSoup(content_bytes, "html.parser")
-        except requests.RequestException:
-            continue
+        except (requests.RequestException, ValueError):
+            soup = BeautifulSoup("", "html.parser")
         title_node, title_meta = soup.select_one("#activity-name"), soup.select_one('meta[property="og:title"]')
         author_node, author_meta = soup.select_one("#js_name,.account_nickname"), soup.select_one('meta[name="author"]')
         cover_meta, content = soup.select_one('meta[property="og:image"]'), soup.select_one("#js_content")
@@ -256,8 +245,6 @@ def extract_wechat_article(url, manual_text="", manual_title="", manual_author="
                 node.decompose()
             lines = [" ".join(line.split()) for line in content.get_text("\n", strip=True).splitlines()]
             extracted = "\n\n".join(dict.fromkeys(line for line in lines if line))[:20000]
-        if len(extracted) >= 200 and title:
-            break
     text, title = manual_text.strip() or extracted, manual_title.strip() or title
     author = manual_author.strip() or author or "微信公众号"
     if len(text) < 200:
