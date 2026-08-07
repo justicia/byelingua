@@ -360,8 +360,19 @@ def import_wechat_article(data):
     if published: metadata_updates["published"] = published
     if custom_instruction: metadata_updates["translation_instruction"] = custom_instruction
     if existing and language in existing.get("translations", {}):
-        if metadata_updates:
-            existing.update(metadata_updates)
+        compatibility_updates = {
+            "id":existing.get("id") or hashlib.sha256(url.encode()).hexdigest()[:16],
+            "kind":"wechat",
+            "country":"cn",
+            "mode":"translate",
+        }
+        if not existing.get("contents"):
+            compatibility_updates["contents"] = dict(existing.get("translations") or {})
+        if not existing.get("titles") and existing.get("translated_titles"):
+            compatibility_updates["titles"] = dict(existing["translated_titles"])
+        updates = {**compatibility_updates, **metadata_updates}
+        if any(existing.get(key) != value for key, value in updates.items()):
+            existing.update(updates)
             now = datetime.now(timezone.utc).isoformat()
             existing["processed_at"] = now
             save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
@@ -411,6 +422,18 @@ def save_wechat_chinese(data):
 PUBLIC_WECHAT_LANGUAGES = {"en", "es", "de", "fr"}
 
 
+def is_wechat_article(item):
+    """Accept current records and legacy records identified by their WeChat URL."""
+    if not item:
+        return False
+    if item.get("kind") == "wechat" and item.get("country") == "cn":
+        return True
+    try:
+        return (urlsplit(str(item.get("url") or "")).hostname or "").lower() == "mp.weixin.qq.com"
+    except ValueError:
+        return False
+
+
 def translate_wechat_article(identifier, language):
     """Start one background translation from the archived Chinese source."""
     language = str(language or "").lower()
@@ -419,7 +442,7 @@ def translate_wechat_article(identifier, language):
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     articles = archive.get("articles", [])
     item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
-    if not item or item.get("kind") != "wechat" or item.get("country") != "cn":
+    if not is_wechat_article(item):
         raise ValueError("WeChat article not found.")
     translations = dict(item.get("translations") or item.get("contents") or {})
     titles = dict(item.get("translated_titles") or item.get("titles") or {})
@@ -462,7 +485,7 @@ def poll_wechat_translation(identifier, language):
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     articles = archive.get("articles", [])
     item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
-    if not item or item.get("kind") != "wechat" or item.get("country") != "cn":
+    if not is_wechat_article(item):
         raise ValueError("WeChat article not found.")
     translations = dict(item.get("translations") or item.get("contents") or {})
     titles = dict(item.get("translated_titles") or item.get("titles") or {})
