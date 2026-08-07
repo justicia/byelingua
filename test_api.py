@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -131,11 +131,18 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(result["article"]["translations"]["fr"], "French body")
 
     @patch("api.index.import_wechat_article")
-    def test_sync_wechat_saves_chinese_before_english(self, import_article):
-        import_article.side_effect = [{"article":{"translations":{"zh":"body"}}},{"article":{"translations":{"zh":"body","en":"English"}}}]
+    def test_sync_wechat_saves_chinese_without_translating(self, import_article):
+        import_article.return_value = {"article":{"translations":{"zh":"body"}}}
         result = sync_wechat_article({"url":"https://mp.weixin.qq.com/s/example","text":"body"})
-        self.assertEqual([call.args[0]["language"] for call in import_article.call_args_list], ["zh","en"])
-        self.assertEqual(result["article"]["translations"]["en"], "English")
+        import_article.assert_called_once()
+        self.assertEqual(import_article.call_args.args[0]["language"], "zh")
+        self.assertEqual(result["article"]["translations"], {"zh":"body"})
+
+    @patch("api.index.import_wechat_article")
+    def test_admin_wechat_save_forces_chinese_only(self, import_article):
+        import_article.return_value = {"article":{"translations":{"zh":"body"}}}
+        save_wechat_chinese({"url":"https://mp.weixin.qq.com/s/example","language":"en"})
+        self.assertEqual(import_article.call_args.args[0]["language"], "zh")
 
     @patch("api.index.save_blob_json")
     @patch("api.index.load_blob_json")

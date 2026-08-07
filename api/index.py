@@ -136,7 +136,9 @@ def fetch_wechat_direct(url):
         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.6",
         "Referer": "https://mp.weixin.qq.com/",
     }
-    response = SESSION.get(url, headers=headers, timeout=(10, 25), allow_redirects=True)
+    # Keep the synchronous ingestion request short. Translation happens later,
+    # from the Chinese text already persisted in Blob storage.
+    response = SESSION.get(url, headers=headers, timeout=(4, 8), allow_redirects=True)
     response.raise_for_status()
     html = response.content
     sample = response.text[:10000]
@@ -392,14 +394,18 @@ def import_wechat_article(data):
 
 
 def sync_wechat_article(data):
-    """Persist Chinese first, then derive public English from that archive."""
+    """Persist only the canonical Chinese article; translations are separate."""
     chinese = dict(data or {})
     chinese["language"] = "zh"
     saved = import_wechat_article(chinese)
-    english = dict(data or {})
-    english["language"] = "en"
-    translated = import_wechat_article(english)
-    return {"chinese":saved,"english":translated,"article":translated["article"]}
+    return {"chinese":saved,"article":saved["article"]}
+
+
+def save_wechat_chinese(data):
+    """Admin import endpoint: fetch and persist Chinese without OpenAI work."""
+    chinese = dict(data or {})
+    chinese["language"] = "zh"
+    return import_wechat_article(chinese)
 
 
 PUBLIC_WECHAT_LANGUAGES = {"en", "es", "de", "fr"}
@@ -946,7 +952,7 @@ class handler(BaseHTTPRequestHandler):
             elif action == "set_subscription_enabled": self.send_json(200, set_public_subscription_enabled(str(data.get("id","")), bool(data.get("enabled",False))))
             elif action == "run_subscription": self.send_json(200, run_daily_digest(str(data.get("id",""))))
             elif action == "run_digest": self.send_json(200, run_daily_digest())
-            elif action == "import_wechat": self.send_json(200, import_wechat_article(data.get("article",{})))
+            elif action == "import_wechat": self.send_json(200, save_wechat_chinese(data.get("article",{})))
             elif action == "update_article_metadata": self.send_json(200, update_article_metadata(str(data.get("id","")), data.get("metadata",{})))
             elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id","")), bool(data.get("allow_resync",False))))
             elif action == "retranslate_article": self.send_json(200, retranslate_article(str(data.get("id",""))))
