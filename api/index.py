@@ -402,6 +402,61 @@ def sync_wechat_article(data):
     return {"chinese":saved,"english":translated,"article":translated["article"]}
 
 
+PUBLIC_WECHAT_LANGUAGES = {"en", "es", "de", "fr"}
+
+
+def translate_wechat_article(identifier, language):
+    """Generate one public WeChat translation from the archived Chinese source."""
+    language = str(language or "").lower()
+    if language not in PUBLIC_WECHAT_LANGUAGES:
+        raise ValueError("Only English, Spanish, German and French are available here.")
+    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    articles = archive.get("articles", [])
+    item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
+    if not item or item.get("kind") != "wechat" or item.get("country") != "cn":
+        raise ValueError("WeChat article not found.")
+    translations = dict(item.get("translations") or item.get("contents") or {})
+    titles = dict(item.get("translated_titles") or item.get("titles") or {})
+    if translations.get(language) and titles.get(language):
+        return {"article":item,"reused":True}
+    chinese = str(translations.get("zh") or item.get("result") or "").strip()
+    chinese_title = str(titles.get("zh") or item.get("original_title") or item.get("title") or "").strip()
+    if not chinese or not chinese_title:
+        raise ValueError("This article has no archived Chinese source to translate.")
+    translated = translate_article(chinese, language, "translate", chinese_title, item.get("translation_instruction", ""))
+    translations[language] = translated["content"]
+    titles[language] = translated["title"]
+    now = datetime.now(timezone.utc).isoformat()
+    item.update({"translations":translations,"contents":dict(translations),"translated_titles":titles,"titles":dict(titles),"processed_at":now})
+    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+    return {"article":item,"reused":False}
+
+
+def update_article_metadata(identifier, data):
+    """Persist editable article metadata without retranslating content."""
+    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    articles = archive.get("articles", [])
+    item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
+    if not item:
+        raise ValueError("Article not found.")
+    if "author_label" in data or "author" in data:
+        author = str(data.get("author_label", data.get("author", "")) or "").strip()[:120]
+        item["author_label"] = author
+        item["source"] = author
+    if "category" in data:
+        item["category"] = str(data.get("category") or "").strip()[:80]
+    if "published" in data:
+        raw_published = str(data.get("published") or "").strip()
+        parsed = parse_date(raw_published)
+        if raw_published and not parsed:
+            raise ValueError("Invalid publication date.")
+        item["published"] = parsed
+    now = datetime.now(timezone.utc).isoformat()
+    item["metadata_updated_at"] = now
+    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+    return {"article":item,"updated":True}
+
+
 def delete_article(identifier, allow_resync=False):
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     removed = next((item for item in archive.get("articles", []) if item.get("id") == identifier), None)
@@ -863,6 +918,8 @@ class handler(BaseHTTPRequestHandler):
         try:
             data = json.loads(self.rfile.read(int(self.headers.get("Content-Length","0"))).decode("utf-8")); action = data.get("action","get_public")
             if action == "get_public": self.send_json(200, public_payload()); return
+            if action == "translate_wechat":
+                self.send_json(200, translate_wechat_article(str(data.get("id","")), data.get("language",""))); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
             if action == "sync_wechat":
@@ -890,6 +947,7 @@ class handler(BaseHTTPRequestHandler):
             elif action == "run_subscription": self.send_json(200, run_daily_digest(str(data.get("id",""))))
             elif action == "run_digest": self.send_json(200, run_daily_digest())
             elif action == "import_wechat": self.send_json(200, import_wechat_article(data.get("article",{})))
+            elif action == "update_article_metadata": self.send_json(200, update_article_metadata(str(data.get("id","")), data.get("metadata",{})))
             elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id","")), bool(data.get("allow_resync",False))))
             elif action == "retranslate_article": self.send_json(200, retranslate_article(str(data.get("id",""))))
             elif action == "invite_user": self.send_json(200, invite_user(data.get("email","")))
