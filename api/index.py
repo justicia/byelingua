@@ -412,7 +412,7 @@ PUBLIC_WECHAT_LANGUAGES = {"en", "es", "de", "fr"}
 
 
 def translate_wechat_article(identifier, language):
-    """Generate one public WeChat translation from the archived Chinese source."""
+    """Start one background translation from the archived Chinese source."""
     language = str(language or "").lower()
     if language not in PUBLIC_WECHAT_LANGUAGES:
         raise ValueError("Only English, Spanish, German and French are available here.")
@@ -424,18 +424,88 @@ def translate_wechat_article(identifier, language):
     translations = dict(item.get("translations") or item.get("contents") or {})
     titles = dict(item.get("translated_titles") or item.get("titles") or {})
     if translations.get(language) and titles.get(language):
-        return {"article":item,"reused":True}
+        return {"article":item,"reused":True,"status":"completed"}
+    jobs = dict(item.get("translation_jobs") or {})
+    existing_job = jobs.get(language) or {}
+    if existing_job.get("response_id") and existing_job.get("status") in {"queued","in_progress"}:
+        return {"article":item,"reused":True,"status":existing_job["status"]}
     chinese = str(translations.get("zh") or item.get("result") or "").strip()
     chinese_title = str(titles.get("zh") or item.get("original_title") or item.get("title") or "").strip()
     if not chinese or not chinese_title:
         raise ValueError("This article has no archived Chinese source to translate.")
-    translated = translate_article(chinese, language, "translate", chinese_title, item.get("translation_instruction", ""))
-    translations[language] = translated["content"]
-    titles[language] = translated["title"]
+    language_name = LANGUAGES[language]
+    custom_instruction = str(item.get("translation_instruction") or "").strip()[:1000]
+    extra = f"\nAdditional translation requirement: {custom_instruction}" if custom_instruction else ""
+    prompt = f"""Translate the following Chinese article completely into {language_name}. Preserve meaning, paragraphs, names, titles and factual detail. Also write a concise 120-180 word summary in {language_name}.{extra}
+Return valid JSON only, without Markdown:
+{{"title":"translated title","summary":"concise summary","content":"complete translated article"}}
+
+Chinese title: {chinese_title}
+Chinese article:
+{chinese}"""
+    response = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=10.0, max_retries=0).responses.create(model=MODEL, input=prompt, background=True)
     now = datetime.now(timezone.utc).isoformat()
-    item.update({"translations":translations,"contents":dict(translations),"translated_titles":titles,"titles":dict(titles),"processed_at":now})
+    # Even a very fast completed response is finalized through the polling path,
+    # which owns JSON validation and persistence.
+    client_status = "in_progress" if response.status == "completed" else response.status
+    jobs[language] = {"response_id":response.id,"status":client_status,"created_at":now}
+    item.update({"translation_jobs":jobs,"processed_at":now})
     save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
-    return {"article":item,"reused":False}
+    return {"article":item,"reused":False,"status":client_status}
+
+
+def poll_wechat_translation(identifier, language):
+    """Poll a background response and persist its result once completed."""
+    language = str(language or "").lower()
+    if language not in PUBLIC_WECHAT_LANGUAGES:
+        raise ValueError("Only English, Spanish, German and French are available here.")
+    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
+    articles = archive.get("articles", [])
+    item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
+    if not item or item.get("kind") != "wechat" or item.get("country") != "cn":
+        raise ValueError("WeChat article not found.")
+    translations = dict(item.get("translations") or item.get("contents") or {})
+    titles = dict(item.get("translated_titles") or item.get("titles") or {})
+    if translations.get(language) and titles.get(language):
+        return {"article":item,"status":"completed"}
+    jobs = dict(item.get("translation_jobs") or {})
+    job = dict(jobs.get(language) or {})
+    response_id = str(job.get("response_id") or "")
+    if not response_id:
+        raise ValueError("Translation job not found. Start the translation again.")
+    response = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"), timeout=10.0, max_retries=0).responses.retrieve(response_id)
+    status = str(response.status)
+    job["status"] = status
+    jobs[language] = job
+    item["translation_jobs"] = jobs
+    if status in {"queued","in_progress"}:
+        return {"article":item,"status":status}
+    if status != "completed":
+        job["error"] = "The translation did not complete. Please try again."
+        now = datetime.now(timezone.utc).isoformat()
+        save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+        return {"article":item,"status":status,"error":job["error"]}
+    try:
+        payload = json.loads(response.output_text.removeprefix("```json").removesuffix("```").strip())
+        translated_title = str(payload.get("title") or "").strip()
+        summary = str(payload.get("summary") or "").strip()
+        content = str(payload.get("content") or "").strip()
+    except (json.JSONDecodeError, AttributeError):
+        translated_title = summary = content = ""
+    if not translated_title or not summary or not content:
+        job.update({"status":"failed","error":"The completed translation returned an incomplete result. Please try again."})
+        now = datetime.now(timezone.utc).isoformat()
+        save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+        return {"article":item,"status":"failed","error":job["error"]}
+    translations[language] = content
+    titles[language] = translated_title
+    summaries = dict(item.get("summaries") or {})
+    summaries[language] = summary
+    now = datetime.now(timezone.utc).isoformat()
+    job["completed_at"] = now
+    item.update({"translations":translations,"contents":dict(translations),"translated_titles":titles,"titles":dict(titles),"summaries":summaries,"translation_jobs":jobs,"processed_at":now})
+    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
+    return {"article":item,"status":"completed"}
 
 
 def update_article_metadata(identifier, data):
@@ -926,6 +996,8 @@ class handler(BaseHTTPRequestHandler):
             if action == "get_public": self.send_json(200, public_payload()); return
             if action == "translate_wechat":
                 self.send_json(200, translate_wechat_article(str(data.get("id","")), data.get("language",""))); return
+            if action == "poll_wechat_translation":
+                self.send_json(200, poll_wechat_translation(str(data.get("id","")), data.get("language",""))); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
             if action == "sync_wechat":

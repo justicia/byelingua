@@ -1,10 +1,11 @@
+import json
 import unittest
 from datetime import datetime, timezone
 from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -287,18 +288,31 @@ class ApiTests(unittest.TestCase):
         extract.assert_not_called()
         translate.assert_called_once_with("Archived Chinese body", "Chinese title", "translate")
 
-    @patch("api.index.translate_article")
+    @patch("api.index.OpenAI")
     @patch("api.index.save_blob_json")
     @patch("api.index.load_blob_json")
-    def test_public_wechat_translation_uses_archived_chinese_and_persists(self, load, save, translate):
+    def test_public_wechat_translation_starts_background_job(self, load, save, openai):
         article = {"id":"wx","kind":"wechat","country":"cn","result":"中文全文","translations":{"zh":"中文全文"},"translated_titles":{"zh":"中文标题"}}
         load.return_value = {"updated_at":"","articles":[article]}
-        translate.return_value = {"title":"Deutscher Titel","content":"Deutscher Text"}
+        openai.return_value.responses.create.return_value = Mock(id="resp_1", status="queued")
         result = translate_wechat_article("wx", "de")
         self.assertFalse(result["reused"])
-        translate.assert_called_once_with("中文全文", "de", "translate", "中文标题", "")
+        self.assertEqual(result["status"], "queued")
+        self.assertTrue(openai.return_value.responses.create.call_args.kwargs["background"])
         saved = save.call_args.args[1]["articles"][0]
-        self.assertEqual(saved["contents"]["de"], "Deutscher Text")
+        self.assertEqual(saved["translation_jobs"]["de"]["response_id"], "resp_1")
+
+    @patch("api.index.OpenAI")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_poll_completed_wechat_translation_persists_summary_and_full_text(self, load, save, openai):
+        article = {"id":"wx","kind":"wechat","country":"cn","translations":{"zh":"中文全文"},"translated_titles":{"zh":"中文标题"},"translation_jobs":{"de":{"response_id":"resp_1","status":"queued"}}}
+        load.return_value = {"updated_at":"","articles":[article]}
+        openai.return_value.responses.retrieve.return_value = Mock(status="completed", output_text=json.dumps({"title":"Deutscher Titel","summary":"Kurze Zusammenfassung","content":"Deutscher Volltext"}))
+        result = poll_wechat_translation("wx", "de")
+        self.assertEqual(result["status"], "completed")
+        self.assertEqual(article["summaries"]["de"], "Kurze Zusammenfassung")
+        self.assertEqual(article["contents"]["de"], "Deutscher Volltext")
 
     @patch("api.index.save_blob_json")
     @patch("api.index.load_blob_json")
