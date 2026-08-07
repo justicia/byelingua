@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_from_exporter, fetch_wechat_from_proxy, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -63,59 +63,30 @@ class ApiTests(unittest.TestCase):
         items = collect_website(subscription, set(), 5)
         self.assertEqual([item["url"] for item in items], ["https://example.com/one"])
 
-    @patch("api.index.fetch")
+    @patch("api.index.fetch_wechat_direct")
     def test_extracts_wechat_article(self, fetch):
         body = "This is a sufficiently long WeChat article body for extraction testing. " * 8
         html = f'''<html><head><meta property="og:title" content="Test article">
         <meta name="author" content="Test account"></head><body><div id="js_content">{body}</div></body></html>'''
-        fetch.return_value = Mock(content=html.encode("utf-8"))
+        fetch.return_value = html.encode("utf-8")
         article = extract_wechat_article("https://mp.weixin.qq.com/s/example")
         self.assertEqual(article["title"], "Test article")
         self.assertEqual(article["source"], "Test account")
         self.assertGreater(len(article["text"]), 200)
 
-    @patch("api.index.fetch_wechat_from_exporter")
-    @patch("api.index.fetch")
-    def test_wechat_uses_exporter_when_direct_page_has_no_article(self, fetch, exporter):
-        fetch.return_value = Mock(content=b"<html><body>blocked</body></html>")
-        body = "Exporter recovered this sufficiently long WeChat article body. " * 8
-        exporter.return_value = f'''<meta property="og:title" content="Recovered title">
-        <meta name="author" content="Recovered account"><div id="js_content">{body}</div>'''.encode()
-        article = extract_wechat_article("https://mp.weixin.qq.com/s/example")
-        self.assertEqual(article["title"], "Recovered title")
-        self.assertEqual(article["source"], "Recovered account")
-        exporter.assert_called_once()
-
-    @patch.dict("api.index.os.environ", {"WECHAT_EXPORTER_AUTH_KEY":"secret"})
     @patch("api.index.SESSION.get")
-    def test_exporter_request_encodes_url_and_sends_optional_auth(self, get):
-        get.return_value = Mock(content=b"ok")
-        fetch_wechat_from_exporter("https://mp.weixin.qq.com/s?__biz=a&mid=1")
-        request_url = get.call_args.args[0]
-        self.assertIn("url=https%3A%2F%2Fmp.weixin.qq.com%2Fs%3F__biz%3Da%26mid%3D1", request_url)
-        self.assertEqual(get.call_args.kwargs["headers"], {"X-Auth-Key":"secret"})
-
-    @patch.dict("api.index.os.environ", {
-        "WECHAT_EXPORTER_CF_ACCESS_CLIENT_ID":"client-id",
-        "WECHAT_EXPORTER_CF_ACCESS_CLIENT_SECRET":"client-secret",
-    }, clear=False)
-    @patch("api.index.SESSION.get")
-    def test_exporter_request_supports_cloudflare_access_service_token(self, get):
-        get.return_value = Mock(content=b"ok")
-        fetch_wechat_from_exporter("https://mp.weixin.qq.com/s/example")
+    def test_direct_wechat_request_uses_mobile_wechat_headers(self, get):
+        get.return_value = Mock(content=b"<html>ok</html>", text="<html>ok</html>")
+        fetch_wechat_direct("https://mp.weixin.qq.com/s?__biz=a&mid=1")
         headers = get.call_args.kwargs["headers"]
-        self.assertEqual(headers["CF-Access-Client-Id"], "client-id")
-        self.assertEqual(headers["CF-Access-Client-Secret"], "client-secret")
+        self.assertIn("MicroMessenger", headers["User-Agent"])
+        self.assertEqual(headers["Referer"], "https://mp.weixin.qq.com/")
 
-    @patch.dict("api.index.os.environ", {"WECHAT_PROXY_URL":"https://wx.bye-lingua.site"})
     @patch("api.index.SESSION.get")
-    def test_private_proxy_request_uses_mp_preset(self, get):
-        get.return_value = Mock(content=b"ok")
-        fetch_wechat_from_proxy("https://mp.weixin.qq.com/s?__biz=a&mid=1")
-        request_url = get.call_args.args[0]
-        self.assertTrue(request_url.startswith("https://wx.bye-lingua.site?url="))
-        self.assertIn("%26mid%3D1", request_url)
-        self.assertTrue(request_url.endswith("&preset=mp"))
+    def test_direct_wechat_request_detects_block_page(self, get):
+        get.return_value = Mock(content="环境异常".encode(), text="环境异常")
+        with self.assertRaisesRegex(ValueError, "微信拒绝"):
+            fetch_wechat_direct("https://mp.weixin.qq.com/s/example")
 
     @patch("api.index.translate_article")
     @patch("api.index.save_blob_json")
