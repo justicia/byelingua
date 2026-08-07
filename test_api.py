@@ -145,6 +145,20 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(article["category"], "歌剧")
         translate.assert_called_once_with("中文全文" * 100, "en", "translate", "中文标题", "Use British English")
 
+    @patch("api.index.extract_wechat_article")
+    @patch("api.index.translate_article")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_existing_wechat_adds_language_from_archived_chinese(self, load, save, translate, extract):
+        url = "https://mp.weixin.qq.com/s/example"
+        existing = {"id":"x","kind":"wechat","url":url,"original_title":"Chinese title","translations":{"zh":"Archived Chinese body"},"translated_titles":{"zh":"Chinese title"}}
+        load.return_value = {"updated_at":"","articles":[existing]}
+        translate.return_value = {"title":"French title","content":"French body"}
+        result = import_wechat_article({"url":url,"language":"fr"})
+        extract.assert_not_called()
+        translate.assert_called_once_with("Archived Chinese body", "fr", "translate", "Chinese title", "")
+        self.assertEqual(result["article"]["translations"]["fr"], "French body")
+
     @patch("api.index.save_blob_json")
     @patch("api.index.load_blob_json")
     def test_existing_wechat_metadata_can_be_edited_without_retranslation(self, load, save):
@@ -276,6 +290,17 @@ class ApiTests(unittest.TestCase):
         saved = save.call_args.args[1]["articles"][0]
         self.assertEqual(saved["contents"]["en"], "New body")
         translate.assert_called_once_with("Fresh original text", "Old", "summary")
+
+    @patch("api.index.extract_wechat_article")
+    @patch("api.index.translate_bilingual_article")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_retranslate_wechat_uses_archived_chinese_without_refetch(self, load, save, translate, extract):
+        load.return_value = {"articles":[{"id":"wx","kind":"wechat","url":"https://mp.weixin.qq.com/s/example","original_title":"Chinese title","translations":{"zh":"Archived Chinese body"},"result":"Archived Chinese body"}]}
+        translate.return_value = {"titles":{"zh":"Chinese title","en":"English title"},"contents":{"zh":"Archived Chinese body","en":"English body"}}
+        retranslate_article("wx")
+        extract.assert_not_called()
+        translate.assert_called_once_with("Archived Chinese body", "Chinese title", "translate")
 
 
 if __name__ == "__main__":

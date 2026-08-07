@@ -368,8 +368,19 @@ def import_wechat_article(data):
             existing["processed_at"] = now
             save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
         return {"article":existing,"reused":True}
-    wechat = extract_wechat_article(url, str(data.get("text", "")), str(data.get("title", "")), str(data.get("author", "")))
-    original_title, original_text = wechat["title"], wechat.pop("text")
+    stored_chinese = (existing or {}).get("translations", {}).get("zh") or (existing or {}).get("contents", {}).get("zh")
+    if existing and str(stored_chinese or "").strip():
+        # The archived Chinese article is canonical. Adding another language must
+        # never fetch WeChat a second time.
+        original_title = (existing.get("translated_titles", {}).get("zh") or
+                          existing.get("titles", {}).get("zh") or
+                          existing.get("original_title") or existing.get("title") or "")
+        original_text = str(stored_chinese).strip()
+        wechat = {key:value for key,value in existing.items() if key not in ("translations","translated_titles","titles","contents","result")}
+    else:
+        # WeChat is fetched exactly once, when the canonical Chinese version is created.
+        wechat = extract_wechat_article(url, str(data.get("text", "")), str(data.get("title", "")), str(data.get("author", "")))
+        original_title, original_text = wechat["title"], wechat.pop("text")
     translated = ({"title":original_title,"content":original_text} if language == "zh" else translate_article(original_text, language, "translate", original_title, custom_instruction))
     translation = translated["content"]
     translations = dict(existing.get("translations", {})) if existing else {}
@@ -409,11 +420,14 @@ def retranslate_article(identifier):
     original_title = item.get("original_title") or item.get("title") or ""
     try:
         if item.get("kind") == "wechat":
-            extracted = extract_wechat_article(item.get("url", ""))
-            source_text, original_title = extracted["text"], extracted["title"] or original_title
+            # Retranslation uses the archived Chinese source and never re-fetches WeChat.
+            source_text = item.get("translations", {}).get("zh") or item.get("contents", {}).get("zh") or item.get("result", "")
+            if not str(source_text).strip():
+                raise ValueError("这篇微信文章没有已保存的中文原文，无法重新翻译。")
+            bilingual = translate_bilingual_article(source_text, original_title, "translate")
         else:
             source_text, _ = extract_article(item.get("url", ""))
-        bilingual = translate_bilingual_article(source_text, original_title, item.get("mode", "translate"))
+            bilingual = translate_bilingual_article(source_text, original_title, item.get("mode", "translate"))
         titles, contents = bilingual["titles"], bilingual["contents"]
     except (ValueError, requests.RequestException):
         chinese_content = item.get("contents", {}).get("zh") or item.get("result", "")
