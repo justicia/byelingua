@@ -29,7 +29,18 @@ try{
   async function selectLanguage(code,button){
     if(contents[code]){render(code);return}
     button.disabled=true;button.textContent=`${languageNames[code]}…`;
-    try{const response=await fetch("/api",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"translate_wechat",id:article.id,language:code})}),result=await response.json();if(!response.ok)throw new Error(result.error||"Translation failed");Object.assign(contents,result.article.contents||result.article.translations||{});Object.assign(titles,result.article.titles||result.article.translated_titles||{});article.contents=contents;article.titles=titles;localStorage.setItem(key,JSON.stringify(article));render(code)}catch(error){alert(error.message)}finally{button.disabled=false;button.textContent=languageNames[code]}}
+    try{
+      let result=await request({action:"translate_wechat",id:article.id,language:code});
+      for(let attempt=0;attempt<150&&result.status!=="completed";attempt++){
+        if(!["queued","in_progress"].includes(result.status))throw new Error(result.error||"Translation did not complete.");
+        button.textContent=`${languageNames[code]} · ${result.status==="queued"?"Queued":"Translating"}…`;
+        await new Promise(resolve=>setTimeout(resolve,2000));
+        result=await request({action:"poll_wechat_translation",id:article.id,language:code});
+      }
+      if(result.status!=="completed")throw new Error("Translation is still running. Please try again shortly.");
+      Object.assign(contents,result.article.contents||result.article.translations||{});Object.assign(titles,result.article.titles||result.article.translated_titles||{});article.contents=contents;article.titles=titles;localStorage.setItem(key,JSON.stringify(article));render(code)
+    }catch(error){alert(error.message)}finally{button.disabled=false;button.textContent=languageNames[code]}}
+  async function request(payload){const response=await fetch("/api",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}),result=await response.json();if(!response.ok)throw new Error(result.error||"Request failed");return result}
   function render(code){
     selected=contents[code]?code:(available[0]||"zh");
     const translated=selected!=="zh";
