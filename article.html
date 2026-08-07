@@ -17,7 +17,7 @@ const params=new URLSearchParams(location.search),key=params.get("key"),raw=key?
 function valueFor(values,code,fallback=""){return values?.[code]||fallback}
 try{
   if(!raw)throw new Error();
-  const article=JSON.parse(raw),titles=article.titles||{},contents=article.contents||{},originalTitle=valueFor(titles,"zh",article.title),originalContent=valueFor(contents,"zh",article.language==="zh"?article.content:"");
+  const article=JSON.parse(raw),titles=article.titles||{},contents=article.contents||{},originalTitle=valueFor(titles,"zh",article.title),originalContent=valueFor(contents,"zh",article.language==="zh"?article.content:""),selfService=article.kind==="wechat"&&article.country==="cn"&&article.uiLanguage==="en";
   const available=Object.keys(languageNames).filter(code=>contents[code]);
   let selected=available.includes(article.language)?article.language:(available[0]||"zh");
   document.getElementById("source").textContent=article.source||"";
@@ -25,7 +25,11 @@ try{
   document.getElementById("original").href=article.url||"#";
   if(article.category){const tag=document.createElement("span");tag.className="tag";tag.textContent=article.category;document.getElementById("labels").append(tag)}
   const picker=document.getElementById("languagePicker");
-  Object.entries(languageNames).forEach(([code,name])=>{const button=document.createElement("button");button.type="button";button.textContent=name;button.dataset.language=code;button.disabled=!contents[code];button.title=button.disabled?"该语言译文尚未生成 / Translation not available":"";button.onclick=()=>render(code);picker.append(button)});
+  Object.entries(languageNames).forEach(([code,name])=>{const button=document.createElement("button");button.type="button";button.textContent=name;button.dataset.language=code;button.disabled=!selfService&&!contents[code];button.title=button.disabled?"该语言译文尚未生成 / Translation not available":"";button.onclick=()=>selectLanguage(code,button);picker.append(button)});
+  async function selectLanguage(code,button){
+    if(contents[code]){render(code);return}
+    button.disabled=true;button.textContent=`${languageNames[code]}…`;
+    try{const response=await fetch("/api",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"translate_wechat",id:article.id,language:code})}),result=await response.json();if(!response.ok)throw new Error(result.error||"Translation failed");Object.assign(contents,result.article.contents||result.article.translations||{});Object.assign(titles,result.article.titles||result.article.translated_titles||{});article.contents=contents;article.titles=titles;localStorage.setItem(key,JSON.stringify(article));render(code)}catch(error){alert(error.message)}finally{button.disabled=false;button.textContent=languageNames[code]}}
   function render(code){
     selected=contents[code]?code:(available[0]||"zh");
     const translated=selected!=="zh";
@@ -34,7 +38,7 @@ try{
     document.title=`${title} · Byelingua`;
     document.getElementById("title").textContent=title;
     document.getElementById("content").textContent=content;
-    picker.hidden=!available.length;
+    picker.hidden=!selfService&&!Object.keys(languageNames).some(language=>contents[language]);
     picker.querySelectorAll("button").forEach(button=>button.classList.toggle("active",button.dataset.language===selected));
     document.getElementById("originalSection").hidden=!originalContent;
     document.getElementById("originalContent").textContent=originalContent;

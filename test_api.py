@@ -4,7 +4,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -279,6 +279,30 @@ class ApiTests(unittest.TestCase):
         retranslate_article("wx")
         extract.assert_not_called()
         translate.assert_called_once_with("Archived Chinese body", "Chinese title", "translate")
+
+    @patch("api.index.translate_article")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_public_wechat_translation_uses_archived_chinese_and_persists(self, load, save, translate):
+        article = {"id":"wx","kind":"wechat","country":"cn","result":"中文全文","translations":{"zh":"中文全文"},"translated_titles":{"zh":"中文标题"}}
+        load.return_value = {"updated_at":"","articles":[article]}
+        translate.return_value = {"title":"Deutscher Titel","content":"Deutscher Text"}
+        result = translate_wechat_article("wx", "de")
+        self.assertFalse(result["reused"])
+        translate.assert_called_once_with("中文全文", "de", "translate", "中文标题", "")
+        saved = save.call_args.args[1]["articles"][0]
+        self.assertEqual(saved["contents"]["de"], "Deutscher Text")
+
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_admin_metadata_update_can_clear_category_and_date(self, load, save):
+        article = {"id":"wx","author_label":"Old","category":"评论","published":"2026-01-01T00:00:00+00:00"}
+        load.return_value = {"updated_at":"","articles":[article]}
+        result = update_article_metadata("wx", {"author_label":"New author","category":"","published":""})
+        self.assertTrue(result["updated"])
+        self.assertEqual(article["author_label"], "New author")
+        self.assertEqual(article["category"], "")
+        self.assertEqual(article["published"], "")
 
 
 if __name__ == "__main__":
