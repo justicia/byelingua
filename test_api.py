@@ -99,7 +99,9 @@ class ApiTests(unittest.TestCase):
         result = import_wechat_article({"url":url,"language":"fr"})
         self.assertTrue(result["reused"])
         translate.assert_not_called()
-        save.assert_not_called()
+        save.assert_called_once()
+        self.assertEqual(existing["kind"], "wechat")
+        self.assertEqual(existing["country"], "cn")
 
     @patch("api.index.extract_wechat_article")
     @patch("api.index.translate_article")
@@ -301,6 +303,16 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(openai.return_value.responses.create.call_args.kwargs["background"])
         saved = save.call_args.args[1]["articles"][0]
         self.assertEqual(saved["translation_jobs"]["de"]["response_id"], "resp_1")
+
+    @patch("api.index.OpenAI")
+    @patch("api.index.save_blob_json")
+    @patch("api.index.load_blob_json")
+    def test_legacy_wechat_record_is_accepted_by_url(self, load, save, openai):
+        article = {"id":"legacy","url":"https://mp.weixin.qq.com/s/example","result":"中文全文","translations":{"zh":"中文全文"},"translated_titles":{"zh":"中文标题"}}
+        load.return_value = {"updated_at":"","articles":[article]}
+        openai.return_value.responses.create.return_value = Mock(id="resp_1", status="queued")
+        result = translate_wechat_article("legacy", "en")
+        self.assertEqual(result["status"], "queued")
 
     @patch("api.index.OpenAI")
     @patch("api.index.save_blob_json")
