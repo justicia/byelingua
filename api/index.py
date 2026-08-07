@@ -41,6 +41,15 @@ def require_admin(headers):
         raise PermissionError("管理密码不正确。")
 
 
+def require_wechat_sync(headers):
+    expected = os.environ.get("WECHAT_SYNC_SECRET", "")
+    supplied = headers.get("X-WeChat-Sync-Secret", "")
+    if not expected:
+        raise PermissionError("WECHAT_SYNC_SECRET is not configured.")
+    if not hmac.compare_digest(expected, supplied):
+        raise PermissionError("Invalid WeChat sync credentials.")
+
+
 def blob_client():
     if not os.environ.get("BLOB_READ_WRITE_TOKEN"):
         raise RuntimeError("尚未连接 Vercel Blob 存储。")
@@ -393,6 +402,17 @@ def import_wechat_article(data):
     item = {**(existing or {}),**wechat,**metadata_updates,"title":original_title,"original_title":original_title,"id":hashlib.sha256(url.encode()).hexdigest()[:16],"kind":"wechat","country":"cn","category":category or (existing or {}).get("category") or "未分类","author_label":author_label or wechat.get("source") or "微信公众号","language":language,"mode":"translate","translations":translations,"translated_titles":translated_titles,"titles":dict(translated_titles),"contents":dict(translations),"result":original_text,"processed_at":now}
     save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":([item]+[x for x in articles if x.get("url") != url])[:MAX_ARTICLES]})
     return {"article":item,"reused":False}
+
+
+def sync_wechat_article(data):
+    """Persist Chinese first, then derive public English from that archive."""
+    chinese = dict(data or {})
+    chinese["language"] = "zh"
+    saved = import_wechat_article(chinese)
+    english = dict(data or {})
+    english["language"] = "en"
+    translated = import_wechat_article(english)
+    return {"chinese":saved,"english":translated,"article":translated["article"]}
 
 
 def delete_article(identifier, allow_resync=False):
@@ -858,6 +878,9 @@ class handler(BaseHTTPRequestHandler):
             if action == "get_public": self.send_json(200, public_payload()); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
+            if action == "sync_wechat":
+                require_wechat_sync(self.headers)
+                self.send_json(200, sync_wechat_article(data.get("article",{}))); return
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
