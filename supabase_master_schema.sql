@@ -141,6 +141,7 @@ create table if not exists public.public_articles (
   mode text not null default 'summary',
 
   category text,
+  translation_instruction text,
 
   author text,
   author_label text,
