@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_email_digest_preference, save_public_articles, save_public_subscription, save_wechat_chinese, send_resend_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, delete_personal_subscription, deliver_personal_digest, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_email_digest_preference, save_personal_subscription, save_public_articles, save_public_subscription, save_wechat_chinese, send_resend_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -190,6 +190,26 @@ class ApiTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             save_email_digest_preference("user-1", "true")
         service.assert_not_called()
+
+    @patch("api.index.validate_subscription")
+    @patch("api.index.supabase_service")
+    @patch("api.index.personal_payload")
+    def test_personal_subscription_is_saved_for_the_authenticated_user(self, payload, service, validate):
+        payload.return_value = {"profile":{"status":"active","max_subscriptions":3},"subscriptions":[],"articles":[]}
+        validate.return_value = {"name":"Scherzo","url":"https://scherzo.es/","feed_url":"https://scherzo.es/feed","country":"es","source_type":"rss","language":"en","mode":"summary","enabled":True}
+        service.return_value = [{"id":"sub-1"}]
+        result = save_personal_subscription("user-1", {"url":"https://scherzo.es/"})
+        self.assertEqual(result["id"], "sub-1")
+        self.assertEqual(service.call_args.kwargs["payload"]["user_id"], "user-1")
+
+    @patch("api.index.personal_payload")
+    @patch("api.index.supabase_service")
+    def test_personal_subscription_delete_is_scoped_to_the_authenticated_user(self, service, payload):
+        payload.return_value = {"profile":{},"subscriptions":[],"articles":[]}
+        result = delete_personal_subscription("user-1", "sub-1")
+        self.assertEqual(result["subscriptions"], [])
+        self.assertEqual(service.call_args.args[:2], ("DELETE", "/rest/v1/user_subscriptions"))
+        self.assertEqual(service.call_args.kwargs["params"], {"id":"eq.sub-1","user_id":"eq.user-1"})
 
     def test_canonical_url_removes_tracking(self):
         self.assertEqual(canonical_url("https://example.com/news/?utm_source=x#top"), "https://example.com/news")
