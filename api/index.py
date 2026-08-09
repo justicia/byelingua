@@ -28,7 +28,14 @@ DEFAULT_CONFIG = {"version":3,"target_language":"zh","subscriptions":[
 MODEL = os.environ.get("OPENAI_MODEL", "gpt-5-mini")
 MAX_ARTICLES = int(os.environ.get("MAX_ARTICLES", "200"))
 SESSION = requests.Session()
-SESSION.headers.update({"User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0; +https://byelingua.vercel.app/)","Accept-Language":"en-US,en;q=0.8"})
+SESSION.headers.update({
+    "User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0)",
+    "Accept-Language":"en-US,en;q=0.8"
+})
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
+SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
+
 PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
 
 
