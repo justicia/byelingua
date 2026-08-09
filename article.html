@@ -23,7 +23,7 @@ try{
   document.getElementById("source").textContent=article.source||"";
   document.getElementById("date").textContent=article.date||"";
   document.getElementById("original").href=article.url||"#";
-  if(article.category){const categoryNames={"评论":"Review","歌剧":"Opera","音乐会":"Concert","访谈":"Interview","新闻":"News"},tag=document.createElement("span");tag.className="tag";tag.textContent=article.uiLanguage==="en"?(categoryNames[article.category]||article.category):article.category;document.getElementById("labels").append(tag)}
+  if(article.category){const categoryNames={"评论":"Critics","歌剧":"Opera","音乐会":"Concert","访谈":"Interview","新闻":"News"},tag=document.createElement("span");tag.className="tag";tag.textContent=article.uiLanguage==="en"?(categoryNames[article.category]||article.category):article.category;document.getElementById("labels").append(tag)}
   const picker=document.getElementById("languagePicker");
   Object.entries(languageNames).forEach(([code,name])=>{const button=document.createElement("button");button.type="button";button.textContent=name;button.dataset.language=code;button.disabled=!selfService&&!contents[code];button.title=button.disabled?"该语言译文尚未生成 / Translation not available":"";button.onclick=()=>selectLanguage(code,button);picker.append(button)});
   async function selectLanguage(code,button){
