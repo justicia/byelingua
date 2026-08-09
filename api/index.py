@@ -763,7 +763,9 @@ def public_payload():
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "articles": articles
     }
-
+except Exception as error:
+    print(error)
+    raise
 
 def supabase_settings():
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
