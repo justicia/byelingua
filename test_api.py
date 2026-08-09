@@ -282,6 +282,37 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(service.call_args_list[1].args[:2], ("POST", "/rest/v1/public_articles"))
         self.assertEqual(service.call_args_list[2].kwargs["params"], {"id":"eq.old"})
 
+    @patch("api.index.supabase_service")
+    def test_public_article_batch_rows_have_identical_keys_and_keep_json(self, service):
+        service.side_effect = [[], None]
+        first = {
+            "id":"one",
+            "url":"https://example.com/one",
+            "contents":{"zh":"正文"},
+            "titles":{"zh":"标题"},
+            "summaries":{"en":"Summary"},
+        }
+        second = {
+            "id":"two",
+            "url":"https://example.com/two",
+            "translations":{"zh":"中文全文"},
+            "translated_titles":{"zh":"中文标题"},
+            "translation_jobs":{"en":{"status":"queued"}},
+        }
+
+        save_public_articles([first, second])
+
+        payload = service.call_args_list[1].kwargs["payload"]
+        self.assertEqual(set(payload[0]), set(payload[1]))
+        self.assertEqual(payload[0]["contents"], first["contents"])
+        self.assertEqual(payload[0]["titles"], first["titles"])
+        self.assertEqual(payload[0]["summaries"], first["summaries"])
+        self.assertEqual(payload[1]["translations"], second["translations"])
+        self.assertEqual(payload[1]["translated_titles"], second["translated_titles"])
+        self.assertEqual(payload[1]["translation_jobs"], second["translation_jobs"])
+        self.assertEqual(payload[0]["translations"], {})
+        self.assertEqual(payload[1]["contents"], {})
+
     @patch("api.index.translate_bilingual_article")
     @patch("api.index.extract_article")
     @patch("api.index.save_blob_json")

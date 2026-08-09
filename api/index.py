@@ -53,7 +53,7 @@ def require_wechat_sync(headers):
         raise PermissionError("Invalid WeChat sync credentials.")
 
 
-PUBLIC_ARTICLE_COLUMNS = {
+PUBLIC_ARTICLE_COLUMNS = (
     "id", "canonical_url", "url", "kind", "source", "country",
     "original_title", "title", "language", "mode", "category",
     "translation_instruction", "author",
@@ -61,6 +61,10 @@ PUBLIC_ARTICLE_COLUMNS = {
     "translated_titles", "titles", "translation_jobs", "result", "raw_data",
     "published", "published_at", "processed_at", "metadata_updated_at",
     "updated_at",
+)
+PUBLIC_ARTICLE_JSON_COLUMNS = {
+    "contents", "summaries", "translations", "translated_titles", "titles",
+    "translation_jobs",
 }
 
 
@@ -82,7 +86,13 @@ def public_article_to_row(article, now=None):
     if not url:
         raise ValueError("Public article URL is required.")
     identifier = str(article.get("id") or hashlib.sha256(url.encode()).hexdigest()[:16])
-    row = {key: article.get(key) for key in PUBLIC_ARTICLE_COLUMNS if key in article}
+    row = {
+        key: ({} if key in PUBLIC_ARTICLE_JSON_COLUMNS else None)
+        for key in PUBLIC_ARTICLE_COLUMNS
+    }
+    for key in PUBLIC_ARTICLE_COLUMNS:
+        if key in article and article[key] is not None:
+            row[key] = article[key]
     row.update({
         "id": identifier,
         "canonical_url": article.get("canonical_url") or url,
