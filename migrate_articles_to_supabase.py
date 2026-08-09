@@ -8,42 +8,49 @@ from dotenv import load_dotenv
 
 load_dotenv(".env.local")
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL")
-
-SUPABASE_KEY = (
-    os.environ.get("SUPABASE_SECRET_KEY")
-    or os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-)
-
-if not SUPABASE_URL:
-    raise RuntimeError("SUPABASE_URL is missing")
-
-if not SUPABASE_KEY:
-    raise RuntimeError(
-        "SUPABASE_SECRET_KEY or SUPABASE_SERVICE_ROLE_KEY is missing"
+def supabase_request_settings():
+    url = os.environ.get("SUPABASE_URL")
+    key = (
+        os.environ.get("SUPABASE_SECRET_KEY")
+        or os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
     )
-
-
-API_URL = f"{SUPABASE_URL}/rest/v1/public_articles"
-
-HEADERS = {
-    "apikey": SUPABASE_KEY,
-    "Authorization": f"Bearer {SUPABASE_KEY}",
-    "Content-Type": "application/json",
-    "Content-Profile": "public",
-    "Accept-Profile": "public",
-    "Prefer": "resolution=merge-duplicates,return=minimal",
-}
+    if not url:
+        raise RuntimeError("SUPABASE_URL is missing")
+    if not key:
+        raise RuntimeError(
+            "SUPABASE_SECRET_KEY or SUPABASE_SERVICE_ROLE_KEY is missing"
+        )
+    return f"{url.rstrip('/')}/rest/v1/public_articles", {
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "Content-Profile": "public",
+        "Accept-Profile": "public",
+        "Prefer": "resolution=merge-duplicates,return=minimal",
+    }
 
 
 def first_value(article, *keys):
-    for key in keys:
-        value = article.get(key)
+    raw_data = article.get("raw_data")
+    sources = (article, raw_data) if isinstance(raw_data, dict) else (article,)
+    for source in sources:
+        for key in keys:
+            value = source.get(key)
 
-        if value not in (None, ""):
-            return value
+            if value not in (None, "", {}):
+                return value
 
     return None
+
+
+def json_object(article, key):
+    """Prefer populated top-level JSONB data, then fall back to raw_data."""
+    value = article.get(key)
+    if isinstance(value, dict) and value:
+        return value
+    raw_data = article.get("raw_data")
+    value = raw_data.get(key) if isinstance(raw_data, dict) else None
+    return value if isinstance(value, dict) else {}
 
 
 def normalize_article(article):
@@ -84,9 +91,9 @@ def normalize_article(article):
 
         "url": url,
 
-        "kind": article.get("kind"),
-        "source": article.get("source"),
-        "country": article.get("country"),
+        "kind": first_value(article, "kind"),
+        "source": first_value(article, "source"),
+        "country": first_value(article, "country"),
 
         "original_title": first_value(
             article,
@@ -94,7 +101,9 @@ def normalize_article(article):
             "title",
         ),
 
-        "title": article.get("title"),
+        "title": first_value(article, "title"),
+
+        "author": first_value(article, "author"),
 
         "author_label": first_value(
             article,
@@ -102,7 +111,11 @@ def normalize_article(article):
             "author",
         ),
 
-        "category": article.get("category"),
+        "category": first_value(article, "category"),
+        "translation_instruction": first_value(
+            article,
+            "translation_instruction",
+        ),
 
         "published_at": first_value(
             article,
@@ -110,25 +123,23 @@ def normalize_article(article):
             "published",
         ),
 
-        "result": article.get("result"),
+        "result": first_value(article, "result"),
 
-        "translations": article.get("translations") or {},
-        "translated_titles": article.get("translated_titles") or {},
-        "summaries": article.get("summaries") or {},
-        "translation_jobs": article.get("translation_jobs") or {},
+        "translations": json_object(article, "translations"),
+        "translated_titles": json_object(article, "translated_titles"),
+        "summaries": json_object(article, "summaries"),
+        "translation_jobs": json_object(article, "translation_jobs"),
 
-        "contents": article.get("contents") or {},
-        "titles": article.get("titles") or {},
+        "contents": json_object(article, "contents"),
+        "titles": json_object(article, "titles"),
 
-        "cover": article.get("cover"),
-        "language": article.get("language"),
-        "mode": article.get("mode"),
+        "cover": first_value(article, "cover"),
+        "language": first_value(article, "language"),
+        "mode": first_value(article, "mode"),
 
-        "processed_at": article.get("processed_at"),
+        "processed_at": first_value(article, "processed_at"),
 
-        "metadata_updated_at": article.get(
-            "metadata_updated_at"
-        ),
+        "metadata_updated_at": first_value(article, "metadata_updated_at"),
 
         "raw_data": article,
     }
@@ -153,9 +164,10 @@ def load_articles(filename):
 
 
 def upload_batch(rows):
+    api_url, headers = supabase_request_settings()
     response = requests.post(
-        API_URL,
-        headers=HEADERS,
+        api_url,
+        headers=headers,
         json=rows,
         timeout=60,
     )
