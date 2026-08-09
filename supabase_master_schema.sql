@@ -20,6 +20,7 @@ create table if not exists public.profiles (
     check (status in ('active','paused','cancelled')),
 
   preferred_language text not null default 'zh',
+  email_digest_enabled boolean not null default false,
 
   max_subscriptions integer not null default 3,
   daily_update_limit integer not null default 1,
@@ -98,6 +99,32 @@ create table if not exists public.user_articles (
   processed_at timestamptz not null default now(),
 
   unique(user_id, canonical_url, language)
+);
+
+
+-- ==========================================
+-- Daily email digest delivery log
+-- ==========================================
+
+create table if not exists public.email_digest_deliveries (
+  id uuid primary key default gen_random_uuid(),
+
+  user_id uuid not null
+    references public.profiles(id)
+    on delete cascade,
+
+  digest_date date not null,
+  status text not null default 'pending'
+    check (status in ('pending','sent','failed')),
+
+  article_ids uuid[] not null default '{}',
+  provider_message_id text,
+  error text,
+
+  created_at timestamptz not null default now(),
+  sent_at timestamptz,
+
+  unique(user_id, digest_date)
 );
 
 
@@ -267,6 +294,9 @@ enable row level security;
 alter table public.user_articles
 enable row level security;
 
+alter table public.email_digest_deliveries
+enable row level security;
+
 alter table public.usage_events
 enable row level security;
 
@@ -289,6 +319,9 @@ on public.user_articles;
 
 drop policy if exists articles_delete_own
 on public.user_articles;
+
+drop policy if exists email_digest_deliveries_select_own
+on public.email_digest_deliveries;
 
 drop policy if exists usage_select_own
 on public.usage_events;
@@ -337,6 +370,15 @@ using (
 );
 
 
+create policy email_digest_deliveries_select_own
+on public.email_digest_deliveries
+for select
+to authenticated
+using (
+  auth.uid() = user_id
+);
+
+
 create policy usage_select_own
 on public.usage_events
 for select
@@ -376,6 +418,18 @@ to authenticated;
 
 
 grant select, delete on public.user_articles
+to authenticated;
+
+
+revoke all on public.email_digest_deliveries
+from anon;
+
+
+revoke insert, update, delete on public.email_digest_deliveries
+from authenticated;
+
+
+grant select on public.email_digest_deliveries
 to authenticated;
 
 
