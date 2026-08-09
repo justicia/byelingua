@@ -757,15 +757,13 @@ def public_payload():
     articles = load_supabase_articles()
 
     return {
-        "target_language": config.get("target_language","zh"),
+        "target_language": config.get("target_language", "zh"),
         "countries": COUNTRIES,
         "subscriptions": public_subscriptions(config),
         "updated_at": datetime.now(timezone.utc).isoformat(),
-        "articles": articles
+        "articles": articles,
     }
-except Exception as error:
-    print(error)
-    raise
+
 
 def supabase_settings():
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
