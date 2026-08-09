@@ -749,23 +749,11 @@ def public_payload():
     config = load_config()
     articles = load_supabase_articles()
 
-    articles = sorted(
-        articles,
-        key=lambda item: item.get("published_at") or item.get("processed_at") or "",
-        reverse=True
-    )
-
-    updated_at = (
-        articles[0].get("updated_at")
-        if articles
-        else ""
-    )
-
     return {
         "target_language": config.get("target_language","zh"),
         "countries": COUNTRIES,
         "subscriptions": public_subscriptions(config),
-        "updated_at": updated_at,
+        "updated_at": datetime.now(timezone.utc).isoformat(),
         "articles": articles
     }
 
