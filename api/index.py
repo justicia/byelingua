@@ -67,6 +67,31 @@ def load_blob_json(pathname, default):
     response.raise_for_status()
     return response.json()
 
+def load_supabase_articles():
+    url = f"{SUPABASE_URL}/rest/v1/public_articles"
+
+    params = {
+        "select": "*",
+        "published": "eq.true",
+        "order": "published_at.desc"
+    }
+
+    headers = {
+        "apikey": SUPABASE_SERVICE_ROLE_KEY,
+        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}"
+    }
+
+    response = requests.get(
+        url,
+        params=params,
+        headers=headers,
+        timeout=20
+    )
+
+    response.raise_for_status()
+
+    return response.json()
+
 
 def save_blob_json(pathname, value):
     payload = json.dumps(value, ensure_ascii=False, indent=2).encode("utf-8")
@@ -721,9 +746,28 @@ def set_public_subscription_enabled(identifier, enabled):
 
 
 def public_payload():
-    config, archive = load_config(), load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    articles = sorted(archive.get("articles", []), key=lambda item: item.get("published") or item.get("published_at") or item.get("processed_at") or "", reverse=True)
-    return {"target_language":config.get("target_language","zh"),"countries":COUNTRIES,"subscriptions":public_subscriptions(config),"updated_at":archive.get("updated_at",""),"articles":articles}
+    config = load_config()
+    articles = load_supabase_articles()
+
+    articles = sorted(
+        articles,
+        key=lambda item: item.get("published_at") or item.get("processed_at") or "",
+        reverse=True
+    )
+
+    updated_at = (
+        articles[0].get("updated_at")
+        if articles
+        else ""
+    )
+
+    return {
+        "target_language": config.get("target_language","zh"),
+        "countries": COUNTRIES,
+        "subscriptions": public_subscriptions(config),
+        "updated_at": updated_at,
+        "articles": articles
+    }
 
 
 def supabase_settings():
