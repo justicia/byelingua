@@ -1159,6 +1159,169 @@ def save_personal_language(user_id, language):
     return personal_payload(user_id)
 
 
+def save_email_digest_preference(user_id, enabled):
+    """Persist the authenticated user's explicit email digest opt-in."""
+    if not isinstance(enabled, bool):
+        raise ValueError("Email digest preference must be true or false.")
+    supabase_service(
+        "PATCH",
+        "/rest/v1/profiles",
+        params={"id":f"eq.{user_id}"},
+        payload={
+            "email_digest_enabled":enabled,
+            "updated_at":datetime.now(timezone.utc).isoformat(),
+        },
+    )
+    return personal_payload(user_id)
+
+
+EMAIL_DIGEST_COPY = {
+    "zh":{"subject":"Byelingua 每日多语言摘要","intro":"以下是今天为你新生成的文章。","source":"来源","published":"发布时间","unknown":"未知","original":"查看原文","home":"打开 Byelingua"},
+    "en":{"subject":"Your daily Byelingua digest","intro":"Here are the new articles generated for you today.","source":"Source","published":"Published","unknown":"Unknown","original":"View original","home":"Open Byelingua"},
+    "fr":{"subject":"Votre résumé quotidien Byelingua","intro":"Voici les nouveaux articles générés pour vous aujourd’hui.","source":"Source","published":"Publication","unknown":"Inconnue","original":"Voir l’original","home":"Ouvrir Byelingua"},
+    "es":{"subject":"Tu resumen diario de Byelingua","intro":"Estos son los nuevos artículos generados hoy para ti.","source":"Fuente","published":"Publicado","unknown":"Desconocido","original":"Ver original","home":"Abrir Byelingua"},
+    "de":{"subject":"Ihre tägliche Byelingua-Zusammenfassung","intro":"Hier sind die heute neu für Sie erstellten Artikel.","source":"Quelle","published":"Veröffentlicht","unknown":"Unbekannt","original":"Original ansehen","home":"Byelingua öffnen"},
+    "it":{"subject":"Il tuo riepilogo quotidiano Byelingua","intro":"Ecco i nuovi articoli generati oggi per te.","source":"Fonte","published":"Pubblicato","unknown":"Sconosciuto","original":"Vedi originale","home":"Apri Byelingua"},
+    "pt":{"subject":"O seu resumo diário do Byelingua","intro":"Estes são os novos artigos gerados hoje para si.","source":"Fonte","published":"Publicado","unknown":"Desconhecido","original":"Ver original","home":"Abrir Byelingua"},
+    "ja":{"subject":"Byelingua デイリーダイジェスト","intro":"本日新しく生成された記事です。","source":"配信元","published":"公開日","unknown":"不明","original":"原文を見る","home":"Byelingua を開く"},
+}
+
+
+def _email_article_excerpt(value, limit=600):
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    return text if len(text) <= limit else f"{text[:limit].rstrip()}…"
+
+
+def _safe_email_url(value, fallback="#"):
+    value = str(value or "").strip()
+    return value if urlsplit(value).scheme.lower() in {"http", "https"} else fallback
+
+
+def build_email_digest(profile, articles, digest_date=None):
+    """Build localized plain-text and escaped HTML versions of one digest."""
+    language = profile.get("preferred_language", "zh")
+    if language not in EMAIL_DIGEST_COPY:
+        language = "zh"
+    copy = EMAIL_DIGEST_COPY[language]
+    digest_date = digest_date or datetime.now(PARIS_TIMEZONE).date().isoformat()
+    home_url = _safe_email_url(os.environ.get("BYELINGUA_URL", "https://www.bye-lingua.site").rstrip("/"), "https://www.bye-lingua.site")
+    subject = f"{copy['subject']} · {digest_date}"
+    text_parts = [copy["intro"], ""]
+    html_articles = []
+
+    for article in articles[:3]:
+        title = str(article.get("title") or "")
+        source = str(article.get("source") or "")
+        published = str(article.get("published_at") or "")[:10] or copy["unknown"]
+        excerpt_text = _email_article_excerpt(article.get("result"))
+        original_url = _safe_email_url(article.get("canonical_url"))
+        text_parts.extend([
+            title,
+            f"{copy['source']}: {source}",
+            f"{copy['published']}: {published}",
+            excerpt_text,
+            f"{copy['original']}: {original_url}",
+            "",
+        ])
+        meta = f"{copy['source']}: {source}"
+        meta += f" · {copy['published']}: {published}"
+        html_articles.append(
+            '<article style="padding:20px 0;border-top:1px solid #d7d7ce">'
+            f'<h2 style="margin:0 0 8px;font:600 22px/1.35 Georgia,serif;color:#214d3a">{escape(title)}</h2>'
+            f'<p style="margin:0 0 12px;color:#68716b;font-size:13px">{escape(meta)}</p>'
+            f'<p style="margin:0 0 12px;color:#26332c;line-height:1.7">{escape(excerpt_text)}</p>'
+            f'<a href="{escape(original_url, quote=True)}" style="color:#214d3a;font-weight:700">{escape(copy["original"])}</a>'
+            '</article>'
+        )
+
+    text_parts.append(f"{copy['home']}: {home_url}")
+    html = (
+        '<!doctype html><html><body style="margin:0;background:#f5f2e9;color:#17201b">'
+        '<main style="max-width:680px;margin:auto;padding:32px 22px;font-family:Arial,sans-serif">'
+        '<div style="font:500 38px/1 Georgia,serif;color:#214d3a">BYELINGUA</div>'
+        f'<p style="margin:14px 0 24px;color:#39423d">{escape(copy["intro"])}</p>'
+        f'{"".join(html_articles)}'
+        f'<p style="margin:24px 0"><a href="{escape(home_url, quote=True)}" style="display:inline-block;padding:10px 15px;background:#214d3a;color:#fff;text-decoration:none">{escape(copy["home"])}</a></p>'
+        '</main></body></html>'
+    )
+    return {"subject":subject,"text":"\n".join(part for part in text_parts if part is not None),"html":html,"language":language}
+
+
+def send_resend_email(recipient, subject, text, html):
+    """Send one message through Resend using server-only credentials."""
+    api_key = os.environ.get("RESEND_API_KEY", "").strip()
+    sender = os.environ.get("EMAIL_FROM", "").strip()
+    if not api_key or not sender:
+        missing = [name for name, value in (("RESEND_API_KEY", api_key), ("EMAIL_FROM", sender)) if not value]
+        raise RuntimeError(f"Email digest configuration missing: {', '.join(missing)}.")
+    if not recipient:
+        raise ValueError("Email digest recipient is missing from the profile.")
+    response = SESSION.post(
+        "https://api.resend.com/emails",
+        headers={"Authorization":f"Bearer {api_key}","Content-Type":"application/json","User-Agent":"Byelingua-Server/3.0"},
+        json={"from":sender,"to":[recipient],"subject":subject,"text":text,"html":html},
+        timeout=20,
+    )
+    if not response.ok:
+        try:
+            detail = response.json().get("message") or response.text
+        except Exception:
+            detail = response.text
+        raise RuntimeError(f"Resend request failed ({response.status_code}): {str(detail)[:500]}")
+    payload = response.json()
+    if not payload.get("id"):
+        raise RuntimeError("Resend response did not include a message id.")
+    return payload["id"]
+
+
+def _safe_delivery_error(error):
+    message = str(error)
+    secret = os.environ.get("RESEND_API_KEY", "")
+    if secret:
+        message = message.replace(secret, "[redacted]")
+    return message[:1000]
+
+
+def deliver_personal_digest(profile, articles, digest_date=None):
+    """Reserve and deliver at most one digest per user and Paris date."""
+    digest_date = digest_date or datetime.now(PARIS_TIMEZONE).date().isoformat()
+    articles = list(articles or [])[:3]
+    if not profile.get("email_digest_enabled") or not articles:
+        return {"status":"skipped","reason":"disabled" if not profile.get("email_digest_enabled") else "no_new_articles"}
+    article_ids = [article["id"] for article in articles if article.get("id")]
+    if not article_ids:
+        return {"status":"skipped","reason":"no_persisted_articles"}
+    reserved = supabase_service(
+        "POST",
+        "/rest/v1/email_digest_deliveries",
+        params={"on_conflict":"user_id,digest_date"},
+        payload={"user_id":profile["id"],"digest_date":digest_date,"status":"pending","article_ids":article_ids},
+        prefer="resolution=ignore-duplicates,return=representation",
+    ) or []
+    if not reserved:
+        return {"status":"skipped","reason":"already_delivered"}
+    delivery = reserved[0]
+    try:
+        message = build_email_digest(profile, articles, digest_date)
+        provider_id = send_resend_email(profile.get("email"), message["subject"], message["text"], message["html"])
+        supabase_service(
+            "PATCH",
+            "/rest/v1/email_digest_deliveries",
+            params={"id":f"eq.{delivery['id']}"},
+            payload={"status":"sent","provider_message_id":provider_id,"error":None,"sent_at":datetime.now(timezone.utc).isoformat()},
+        )
+        return {"status":"sent","provider_message_id":provider_id,"article_ids":article_ids}
+    except Exception as error:
+        safe_error = _safe_delivery_error(error)
+        supabase_service(
+            "PATCH",
+            "/rest/v1/email_digest_deliveries",
+            params={"id":f"eq.{delivery['id']}"},
+            payload={"status":"failed","error":safe_error},
+        )
+        return {"status":"failed","error":safe_error,"article_ids":article_ids}
+
+
 def _run_personal_digest_legacy(user_id):
     personal = personal_payload(user_id)
     profile, subscriptions = personal["profile"], personal["subscriptions"]
@@ -1231,7 +1394,7 @@ def run_personal_digest(user_id, automated=False, article_limit=3):
     if language not in LANGUAGES:
         language = "zh"
     seen = {item.get("canonical_url") for item in personal["articles"]}
-    processed, errors, characters = 0, [], 0
+    processed, errors, characters, new_articles = 0, [], 0, []
 
     for subscription in subscriptions:
         if processed >= article_limit:
@@ -1270,13 +1433,17 @@ def run_personal_digest(user_id, automated=False, article_limit=3):
                     "mode":subscription["mode"],
                     "result":translated["content"],
                 }
-                supabase_service(
+                inserted = supabase_service(
                     "POST",
                     "/rest/v1/user_articles",
                     params={"on_conflict":"user_id,canonical_url,language"},
                     payload=record,
-                    prefer="resolution=merge-duplicates,return=representation",
-                )
+                    prefer="resolution=ignore-duplicates,return=representation",
+                ) or []
+                if not inserted:
+                    seen.add(article["url"])
+                    continue
+                new_articles.append(inserted[0])
                 processed += 1
                 seen.add(article["url"])
             except Exception as error:
@@ -1302,7 +1469,7 @@ def run_personal_digest(user_id, automated=False, article_limit=3):
                 "updated_at":now,
             },
         )
-    return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
+    return {"processed":processed,"new_articles":new_articles,"errors":errors[:10],"data":personal_payload(user_id)}
 
 
 def paris_schedule_due(now=None):
@@ -1324,6 +1491,8 @@ def run_scheduled_updates():
             "public_processed": 0,
             "users": 0,
             "personal_processed": 0,
+            "emails_sent": 0,
+            "emails_failed": 0,
             "errors": [],
         }
 
@@ -1339,11 +1508,11 @@ def run_scheduled_updates():
         "/rest/v1/profiles",
         params={
             "status": "eq.active",
-            "select": "id",
+            "select": "id,email,preferred_language,email_digest_enabled",
         },
     ) or []
 
-    completed_users = 0
+    completed_users = emails_sent = emails_failed = 0
 
     for profile in profiles:
         try:
@@ -1354,6 +1523,18 @@ def run_scheduled_updates():
             )
             personal_processed += int(result.get("processed", 0))
             errors.extend(result.get("errors", []))
+            delivery = deliver_personal_digest(
+                profile,
+                result.get("new_articles", []),
+                paris_date,
+            )
+            if delivery.get("status") == "failed":
+                emails_failed += 1
+                errors.append(
+                    f"User {profile.get('id', 'unknown')} email: {delivery['error']}"
+                )
+            elif delivery.get("status") == "sent":
+                emails_sent += 1
             completed_users += 1
 
         except Exception as error:
@@ -1372,6 +1553,8 @@ def run_scheduled_updates():
         "public_processed": public_processed,
         "users": completed_users,
         "personal_processed": personal_processed,
+        "emails_sent": emails_sent,
+        "emails_failed": emails_failed,
         "errors": errors[:20],
     }
 
@@ -1413,12 +1596,13 @@ class handler(BaseHTTPRequestHandler):
             if action == "sync_wechat":
                 require_wechat_sync(self.headers)
                 self.send_json(200, sync_wechat_article(data.get("article",{}))); return
-            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language"}:
+            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","save_email_digest_preference"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
                 elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
                 elif action == "delete_my_subscription": result = delete_personal_subscription(user["id"], str(data.get("id","")))
                 elif action == "save_my_language": result = save_personal_language(user["id"], data.get("language",""))
+                elif action == "save_email_digest_preference": result = save_email_digest_preference(user["id"], data.get("enabled"))
                 else: result = run_personal_digest(user["id"])
                 self.send_json(200,result); return
             require_admin(self.headers); config = load_config()

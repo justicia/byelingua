@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_articles, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_email_digest_preference, save_public_articles, save_public_subscription, save_wechat_chinese, send_resend_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -23,14 +23,173 @@ class ApiTests(unittest.TestCase):
         subscriptions = [{"id":str(i),"name":f"Source {i}","country":"fr","language":"zh","mode":"translate","enabled":True} for i in range(3)]
         personal = {"profile":{"status":"active","preferred_language":"fr","daily_update_limit":1,"monthly_character_limit":100000,"used_characters":0},"subscriptions":subscriptions,"articles":[]}
         payload.side_effect = [personal, personal]
-        service.return_value = []
+        def database(method, path, **kwargs):
+            if method == "POST" and path == "/rest/v1/user_articles":
+                return [{"id":f"article-{kwargs['payload']['subscription_id']}", **kwargs["payload"]}]
+            return []
+        service.side_effect = database
         collect.side_effect = lambda subscription, _seen, _limit: [{"title":f"Article {subscription['id']}","url":f"https://example.com/{subscription['id']}","published":"","feed_text":""}]
         extract.return_value = ("A sufficiently long article body for translation. " * 8, "")
         translate.return_value = {"title":"Titre","content":"Contenu"}
         result = run_personal_digest("user", article_limit=3)
         self.assertEqual(result["processed"], 3)
+        self.assertEqual(len(result["new_articles"]), 3)
         self.assertEqual(translate.call_count, 3)
         self.assertTrue(all(call.args[1] == "fr" for call in translate.call_args_list))
+
+    @patch("api.index.translate_article", return_value={"title":"Title","content":"Content"})
+    @patch("api.index.extract_article", return_value=("A sufficiently long article body. " * 10, ""))
+    @patch("api.index.collect_new_articles", return_value=[{"title":"Article","url":"https://example.com/article","published":""}])
+    @patch("api.index.supabase_service", return_value=[])
+    @patch("api.index.personal_payload")
+    def test_personal_digest_returns_only_rows_really_inserted(self, payload, _service, _collect, _extract, _translate):
+        personal = {"profile":{"status":"active","preferred_language":"en","monthly_character_limit":100000,"used_characters":0},"subscriptions":[{"id":"sub-1","name":"Source","country":"gb","mode":"summary","enabled":True}],"articles":[]}
+        payload.side_effect = [personal, personal]
+        result = run_personal_digest("user-1", automated=True)
+        self.assertEqual(result["processed"], 0)
+        self.assertEqual(result["new_articles"], [])
+
+    @patch("api.index.send_resend_email")
+    @patch("api.index.supabase_service")
+    def test_digest_with_no_new_articles_does_not_send(self, service, send):
+        result = deliver_personal_digest(
+            {"id":"user-1","email":"one@example.com","preferred_language":"en","email_digest_enabled":True},
+            [],
+            "2026-08-09",
+        )
+        self.assertEqual(result, {"status":"skipped","reason":"no_new_articles"})
+        service.assert_not_called()
+        send.assert_not_called()
+
+    @patch("api.index.send_resend_email")
+    @patch("api.index.supabase_service")
+    def test_disabled_email_digest_does_not_send(self, service, send):
+        result = deliver_personal_digest(
+            {"id":"user-1","email":"one@example.com","preferred_language":"en","email_digest_enabled":False},
+            [{"id":"article-1"}],
+            "2026-08-09",
+        )
+        self.assertEqual(result, {"status":"skipped","reason":"disabled"})
+        service.assert_not_called()
+        send.assert_not_called()
+
+    @patch("api.index.send_resend_email", return_value="resend-message-1")
+    @patch("api.index.supabase_service")
+    def test_digest_uses_profile_email_and_preferred_language(self, service, send):
+        service.side_effect = [[{"id":"delivery-1"}], []]
+        profile = {"id":"user-1","email":"reader@example.com","preferred_language":"fr","email_digest_enabled":True}
+        article = {"id":"article-1","title":"Titre traduit","source":"Source A","result":"Résumé traduit","canonical_url":"https://example.com/a","published_at":"2026-08-09T08:00:00Z"}
+        result = deliver_personal_digest(profile, [article], "2026-08-09")
+        self.assertEqual(result["status"], "sent")
+        self.assertEqual(send.call_args.args[0], "reader@example.com")
+        self.assertIn("Votre résumé quotidien", send.call_args.args[1])
+        self.assertIn("Voici les nouveaux articles", send.call_args.args[2])
+
+    @patch("api.index.send_resend_email", side_effect=["message-1","message-2"])
+    @patch("api.index.supabase_service")
+    def test_two_users_receive_only_their_own_articles(self, service, send):
+        service.side_effect = [[{"id":"delivery-1"}], [], [{"id":"delivery-2"}], []]
+        first_profile = {"id":"user-1","email":"one@example.com","preferred_language":"en","email_digest_enabled":True}
+        second_profile = {"id":"user-2","email":"two@example.com","preferred_language":"en","email_digest_enabled":True}
+        first_article = {"id":"article-1","title":"Only for user one","source":"One","result":"First private summary","canonical_url":"https://example.com/one"}
+        second_article = {"id":"article-2","title":"Only for user two","source":"Two","result":"Second private summary","canonical_url":"https://example.com/two"}
+        deliver_personal_digest(first_profile, [first_article], "2026-08-09")
+        deliver_personal_digest(second_profile, [second_article], "2026-08-09")
+        self.assertEqual(send.call_args_list[0].args[0], "one@example.com")
+        self.assertIn("Only for user one", send.call_args_list[0].args[2])
+        self.assertNotIn("Only for user two", send.call_args_list[0].args[2])
+        self.assertEqual(send.call_args_list[1].args[0], "two@example.com")
+        self.assertIn("Only for user two", send.call_args_list[1].args[2])
+        self.assertNotIn("Only for user one", send.call_args_list[1].args[2])
+
+    @patch("api.index.send_resend_email")
+    @patch("api.index.supabase_service", return_value=[])
+    def test_same_user_same_day_duplicate_is_not_sent(self, service, send):
+        profile = {"id":"user-1","email":"reader@example.com","preferred_language":"en","email_digest_enabled":True}
+        article = {"id":"article-1","title":"Title","result":"Summary"}
+        result = deliver_personal_digest(profile, [article], "2026-08-09")
+        self.assertEqual(result, {"status":"skipped","reason":"already_delivered"})
+        self.assertEqual(service.call_args.kwargs["params"], {"on_conflict":"user_id,digest_date"})
+        send.assert_not_called()
+
+    def test_email_html_escapes_all_external_article_content(self):
+        message = build_email_digest(
+            {"preferred_language":"en"},
+            [{
+                "id":"article-1",
+                "title":"<script>alert(1)</script>",
+                "source":"A & B",
+                "result":"<img src=x onerror=alert(1)>",
+                "canonical_url":'https://example.com/?q="><script>',
+                "published_at":"2026-08-09T08:00:00Z",
+            }],
+            "2026-08-09",
+        )
+        self.assertNotIn("<script>alert(1)</script>", message["html"])
+        self.assertNotIn("<img src=x", message["html"])
+        self.assertIn("&lt;script&gt;alert(1)&lt;/script&gt;", message["html"])
+        self.assertIn("A &amp; B", message["html"])
+        self.assertIn("&quot;&gt;&lt;script&gt;", message["html"])
+
+    @patch.dict("os.environ", {"RESEND_API_KEY":"secret-test-key","EMAIL_FROM":"Byelingua <digest@example.com>"}, clear=False)
+    @patch("api.index.SESSION.post")
+    def test_resend_request_is_mocked_and_uses_expected_payload(self, post):
+        post.return_value = Mock(ok=True, json=Mock(return_value={"id":"message-1"}))
+        result = send_resend_email("reader@example.com", "Subject", "Plain", "<p>HTML</p>")
+        self.assertEqual(result, "message-1")
+        self.assertEqual(post.call_args.args[0], "https://api.resend.com/emails")
+        self.assertEqual(post.call_args.kwargs["json"]["to"], ["reader@example.com"])
+        self.assertEqual(post.call_args.kwargs["timeout"], 20)
+
+    @patch.dict("os.environ", {"RESEND_API_KEY":"","EMAIL_FROM":""}, clear=False)
+    @patch("api.index.SESSION.post")
+    @patch("api.index.supabase_service")
+    def test_missing_email_configuration_is_recorded_without_network(self, service, post):
+        service.side_effect = [[{"id":"delivery-1"}], []]
+        profile = {"id":"user-1","email":"reader@example.com","preferred_language":"en","email_digest_enabled":True}
+        article = {"id":"article-1","title":"Title","result":"Summary"}
+        result = deliver_personal_digest(profile, [article], "2026-08-09")
+        self.assertEqual(result["status"], "failed")
+        self.assertIn("RESEND_API_KEY", result["error"])
+        self.assertIn("EMAIL_FROM", result["error"])
+        self.assertEqual(service.call_args_list[1].kwargs["payload"]["status"], "failed")
+        post.assert_not_called()
+
+    @patch("api.index.send_resend_email")
+    @patch("api.index.supabase_service")
+    @patch("api.index.run_personal_digest")
+    @patch("api.index.run_daily_digest", return_value={"processed":0,"errors":[]})
+    @patch("api.index.load_scheduled_state", return_value={"paris_date":""})
+    @patch("api.index.save_scheduled_state")
+    def test_scheduled_users_are_isolated_and_one_failure_does_not_block_another(self, _save_state, _load_state, _public, personal_digest, service, _send):
+        profiles = [
+            {"id":"user-1","email":"one@example.com","preferred_language":"en","email_digest_enabled":True},
+            {"id":"user-2","email":"two@example.com","preferred_language":"de","email_digest_enabled":True},
+        ]
+        service.return_value = profiles
+        personal_digest.side_effect = lambda user_id, **_kwargs: {
+            "processed":1,
+            "new_articles":[{"id":f"article-{user_id}","user_id":user_id}],
+            "errors":[],
+        }
+        with patch("api.index.deliver_personal_digest") as deliver:
+            deliver.side_effect = [
+                {"status":"failed","error":"provider unavailable"},
+                {"status":"sent","provider_message_id":"message-2"},
+            ]
+            result = run_scheduled_updates()
+        self.assertEqual(result["users"], 2)
+        self.assertEqual(deliver.call_count, 2)
+        self.assertEqual(deliver.call_args_list[0].args[1][0]["user_id"], "user-1")
+        self.assertEqual(deliver.call_args_list[1].args[1][0]["user_id"], "user-2")
+        self.assertTrue(any("provider unavailable" in error for error in result["errors"]))
+
+    @patch("api.index.personal_payload", return_value={"profile":{"email_digest_enabled":True},"subscriptions":[],"articles":[]})
+    @patch("api.index.supabase_service")
+    def test_email_digest_preference_requires_boolean(self, service, _payload):
+        with self.assertRaises(ValueError):
+            save_email_digest_preference("user-1", "true")
+        service.assert_not_called()
 
     def test_canonical_url_removes_tracking(self):
         self.assertEqual(canonical_url("https://example.com/news/?utm_source=x#top"), "https://example.com/news")
