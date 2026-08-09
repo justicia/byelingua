@@ -59,7 +59,7 @@ Byelingua 是一个按国家整理国际媒体内容的双语阅读与个人订�
 | 前端 | 原生 HTML、CSS、JavaScript |
 | API | Python Serverless Functions |
 | 部署 | Vercel |
-| 公共文章与配置 | Vercel Blob |
+| 公共文章、配置与运行状态 | Supabase |
 | 用户、个人订阅与使用记录 | Supabase |
 | 登录 | Supabase Auth 邮箱 OTP |
 | 翻译与摘要 | OpenAI API |
@@ -121,7 +121,6 @@ vercel dev
 | `OPENAI_MODEL` | 可选，默认 `gpt-5-mini` |
 | `ADMIN_PASSWORD` | Byelingua 管理员后台密码 |
 | `CRON_SECRET` | 定时任务认证密钥 |
-| `BLOB_READ_WRITE_TOKEN` | Vercel Blob 读写令牌 |
 | `SUPABASE_URL` | Supabase 项目 URL |
 | `SUPABASE_PUBLISHABLE_KEY` | 前端可使用的 Publishable Key |
 | `SUPABASE_SERVICE_ROLE_KEY` | 仅服务端使用的高权限密钥 |
@@ -178,7 +177,7 @@ git push
 ## 安全注意事项
 
 - 不要提交 `.env`、API Key、管理员密码或 Service Role Key。
-- `SUPABASE_SERVICE_ROLE_KEY` 和 `BLOB_READ_WRITE_TOKEN` 绝不能发送给浏览器。
+- `SUPABASE_SERVICE_ROLE_KEY` 绝不能发送给浏览器。
 - 微信公众号后台必须始终受 Cloudflare Access 保护。
 - Cloudflare Preview URL 也应设为 Restricted。
 - 公开错误信息不要包含密钥、内部请求头或完整服务端响应。

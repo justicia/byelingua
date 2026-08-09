@@ -33,9 +33,6 @@ SESSION.headers.update({
     "Accept-Language":"en-US,en;q=0.8"
 })
 
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
-SUPABASE_SERVICE_ROLE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "")
-
 PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
 
 
@@ -56,54 +53,97 @@ def require_wechat_sync(headers):
         raise PermissionError("Invalid WeChat sync credentials.")
 
 
-def blob_client():
-    if not os.environ.get("BLOB_READ_WRITE_TOKEN"):
-        raise RuntimeError("尚未连接 Vercel Blob 存储。")
-    from vercel.blob import BlobClient
-    return BlobClient()
+PUBLIC_ARTICLE_COLUMNS = {
+    "id", "canonical_url", "url", "kind", "source", "country",
+    "original_title", "title", "language", "mode", "category",
+    "translation_instruction", "author",
+    "author_label", "cover", "contents", "summaries", "translations",
+    "translated_titles", "titles", "translation_jobs", "result", "raw_data",
+    "published", "published_at", "processed_at", "metadata_updated_at",
+    "updated_at",
+}
+
+
+def public_article_from_row(row):
+    """Restore the legacy API shape while Supabase remains the source of truth."""
+    raw_data = dict(row.get("raw_data") or {})
+    article = dict(raw_data)
+    for key, value in row.items():
+        if key not in {"raw_data", "created_at"} and value is not None:
+            article[key] = value
+    article["published"] = row.get("published_at") or raw_data.get("published") or ""
+    return article
+
+
+def public_article_to_row(article, now=None):
+    """Map the runtime article object onto the public_articles schema."""
+    now = now or datetime.now(timezone.utc).isoformat()
+    url = str(article.get("url") or article.get("canonical_url") or "").strip()
+    if not url:
+        raise ValueError("Public article URL is required.")
+    identifier = str(article.get("id") or hashlib.sha256(url.encode()).hexdigest()[:16])
+    row = {key: article.get(key) for key in PUBLIC_ARTICLE_COLUMNS if key in article}
+    row.update({
+        "id": identifier,
+        "canonical_url": article.get("canonical_url") or url,
+        "url": url,
+        "published": True,
+        "published_at": article.get("published_at") or article.get("published") or None,
+        "updated_at": now,
+        "raw_data": article,
+    })
+    return row
+
+
+def load_public_articles():
+    rows = supabase_service(
+        "GET",
+        "/rest/v1/public_articles",
+        params={"published": "eq.true", "select": "*", "order": "published_at.desc"},
+    ) or []
+    return [public_article_from_row(row) for row in rows]
+
+
+def save_public_articles(articles):
+    """Replace the public archive in Supabase, matching the old archive semantics."""
+    now = datetime.now(timezone.utc).isoformat()
+    rows = [public_article_to_row(article, now) for article in articles]
+    existing = supabase_service(
+        "GET",
+        "/rest/v1/public_articles",
+        params={"published": "eq.true", "select": "id"},
+    ) or []
+    if rows:
+        supabase_service(
+            "POST",
+            "/rest/v1/public_articles",
+            params={"on_conflict": "id"},
+            payload=rows,
+            prefer="resolution=merge-duplicates,return=minimal",
+        )
+    retained = {row["id"] for row in rows}
+    for row in existing:
+        if row.get("id") not in retained:
+            supabase_service(
+                "DELETE",
+                "/rest/v1/public_articles",
+                params={"id": f"eq.{row['id']}"},
+                prefer="return=minimal",
+            )
 
 
 def load_blob_json(pathname, default):
-    token = os.environ.get("BLOB_READ_WRITE_TOKEN", "")
-    with blob_client() as client:
-        listing = client.list_objects(prefix=pathname)
-        match = next((blob for blob in listing.blobs if blob.pathname == pathname), None)
-    if match is None:
-        return default
-    response = SESSION.get(match.url, headers={"Authorization":f"Bearer {token}"}, timeout=20)
-    response.raise_for_status()
-    return response.json()
-
-def load_supabase_articles():
-    url = f"{SUPABASE_URL}/rest/v1/public_articles"
-
-    params = {
-        "select": "*",
-        "published": "eq.true",
-        "order": "published_at.desc"
-    }
-
-    headers = {
-        "apikey": SUPABASE_SERVICE_ROLE_KEY,
-        "Authorization": f"Bearer {SUPABASE_SERVICE_ROLE_KEY}"
-    }
-
-    response = requests.get(
-        url,
-        params=params,
-        headers=headers,
-        timeout=20
-    )
-
-    response.raise_for_status()
-
-    return response.json()
+    """Compatibility shim for article workflows migrated away from Blob."""
+    if pathname != "byelingua/articles.json":
+        raise ValueError(f"Unsupported legacy Blob path: {pathname}")
+    return {"updated_at": "", "articles": load_public_articles()}
 
 
 def save_blob_json(pathname, value):
-    payload = json.dumps(value, ensure_ascii=False, indent=2).encode("utf-8")
-    with blob_client() as client:
-        client.put(pathname, payload, access="private", content_type="application/json; charset=utf-8", overwrite=True, cache_control_max_age=0)
+    """Compatibility shim that persists the legacy archive shape in Supabase."""
+    if pathname != "byelingua/articles.json":
+        raise ValueError(f"Unsupported legacy Blob path: {pathname}")
+    save_public_articles(value.get("articles", []))
 
 def load_app_state(key, default):
     rows = supabase_service(
@@ -289,7 +329,7 @@ def fetch_wechat_direct(url):
         "Referer": "https://mp.weixin.qq.com/",
     }
     # Keep the synchronous ingestion request short. Translation happens later,
-    # from the Chinese text already persisted in Blob storage.
+    # from the Chinese text already persisted in Supabase.
     response = SESSION.get(url, headers=headers, timeout=(4, 8), allow_redirects=True)
     response.raise_for_status()
     html = response.content
@@ -1001,8 +1041,8 @@ def save_public_subscription(data, old_id=""):
     ] + [subscription]
     save_config(config)
     try:
-        # Use the just-saved source directly. Blob storage may briefly return the
-        # previous config, which used to make a new source look "unknown" here.
+        # Use the just-saved source directly so this request is not sensitive to
+        # a concurrent configuration read.
         update = run_daily_digest(subscription_override=subscription)
     except Exception as error:
         update = {"processed": 0, "items": 0, "errors": [str(error)], "source": subscription["id"]}
@@ -1021,7 +1061,7 @@ def set_public_subscription_enabled(identifier, enabled):
 
 def public_payload():
     config = load_config()
-    articles = load_supabase_articles()
+    articles = load_public_articles()
 
     return {
         "target_language": config.get("target_language", "zh"),
