@@ -2,4 +2,3 @@ beautifulsoup4
 feedparser
 openai
 requests
-vercel>=0.5.0

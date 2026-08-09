@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_articles, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -158,11 +158,13 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(existing["category"], "评论")
         save.assert_called_once()
 
-    @patch("api.index.load_blob_json")
+    @patch("api.index.load_public_articles")
+    @patch("api.index.load_seen_urls", return_value=[])
+    @patch("api.index.load_app_state", return_value={"next_source":0})
     @patch("api.index.load_config")
-    def test_unknown_scheduled_source_is_rejected(self, load_config, load_blob):
+    def test_unknown_scheduled_source_is_rejected(self, load_config, _state, _seen, load_articles):
         load_config.return_value = {"target_language":"zh","subscriptions":[{"id":"known","enabled":True}]}
-        load_blob.side_effect = lambda _path, default: default
+        load_articles.return_value = []
         with self.assertRaisesRegex(ValueError, "Unknown or disabled source"):
             run_daily_digest("missing")
 
@@ -175,7 +177,7 @@ class ApiTests(unittest.TestCase):
         self.assertNotIn("feed_url", result[0])
 
     @patch("api.index.run_daily_digest")
-    @patch("api.index.save_blob_json")
+    @patch("api.index.save_app_state")
     @patch("api.index.validate_subscription")
     @patch("api.index.load_config")
     def test_saving_public_subscription_immediately_processes_it(self, load_config, validate, save, run):
@@ -185,9 +187,9 @@ class ApiTests(unittest.TestCase):
         result = save_public_subscription({"url":"https://new.test"})
         run.assert_called_once_with(subscription_override=validate.return_value)
         self.assertEqual(result["update"]["processed"], 1)
-        self.assertEqual(save.call_args.args[0], "byelingua/config.json")
+        self.assertEqual(save.call_args.args[0], "config")
 
-    @patch("api.index.save_blob_json")
+    @patch("api.index.save_app_state")
     @patch("api.index.load_config")
     def test_admin_can_disable_public_subscription(self, load_config, save):
         load_config.return_value = {"subscriptions":[{"id":"source","enabled":True}]}
@@ -196,7 +198,7 @@ class ApiTests(unittest.TestCase):
         self.assertFalse(save.call_args.args[1]["subscriptions"][0]["enabled"])
 
     @patch("api.index.run_daily_digest")
-    @patch("api.index.save_blob_json")
+    @patch("api.index.save_app_state")
     @patch("api.index.validate_subscription")
     @patch("api.index.load_config")
     def test_editing_public_subscription_replaces_old_id(self, load_config, validate, save, run):
@@ -253,17 +255,63 @@ class ApiTests(unittest.TestCase):
         self.assertEqual(saved["result"], "已有中文正文")
         self.assertEqual(result["remaining"], 0)
 
+    @patch("api.index.remove_seen_url")
     @patch("api.index.save_blob_json")
     @patch("api.index.load_blob_json")
-    def test_delete_and_resync_removes_article_and_seen_url(self, load, save):
-        load.side_effect = [
-            {"updated_at":"","articles":[{"id":"old","url":"https://example.com/story"}]},
-            {"urls":["https://example.com/story","https://example.com/other"]},
-        ]
+    def test_delete_and_resync_removes_article_and_seen_url(self, load, save, remove_seen):
+        load.return_value = {"updated_at":"","articles":[{"id":"old","url":"https://example.com/story"}]}
         result = delete_article("old", True)
         self.assertTrue(result["resync_allowed"])
-        self.assertEqual(save.call_args_list[0].args[1]["articles"], [])
-        self.assertEqual(save.call_args_list[1].args[1]["urls"], ["https://example.com/other"])
+        self.assertEqual(save.call_args.args[1]["articles"], [])
+        remove_seen.assert_called_once_with("https://example.com/story")
+
+    def test_supabase_article_mapping_preserves_legacy_runtime_shape(self):
+        article = {"id":"a1","url":"https://example.com/a","published":"2026-08-01T10:00:00+00:00","translation_instruction":"British English","contents":{"zh":"正文"}}
+        row = public_article_to_row(article, "2026-08-09T00:00:00+00:00")
+        self.assertTrue(row["published"])
+        self.assertEqual(row["published_at"], article["published"])
+        restored = public_article_from_row(row)
+        self.assertEqual(restored["published"], article["published"])
+        self.assertEqual(restored["translation_instruction"], "British English")
+        self.assertEqual(public_article_from_row({"id":"a2","published":True})["published"], "")
+
+    @patch("api.index.supabase_service")
+    def test_saving_public_articles_upserts_and_removes_stale_rows(self, service):
+        service.side_effect = [[{"id":"old"}], None, None]
+        save_public_articles([{"id":"new","url":"https://example.com/new"}])
+        self.assertEqual(service.call_args_list[1].args[:2], ("POST", "/rest/v1/public_articles"))
+        self.assertEqual(service.call_args_list[2].kwargs["params"], {"id":"eq.old"})
+
+    @patch("api.index.supabase_service")
+    def test_public_article_batch_rows_have_identical_keys_and_keep_json(self, service):
+        service.side_effect = [[], None]
+        first = {
+            "id":"one",
+            "url":"https://example.com/one",
+            "contents":{"zh":"正文"},
+            "titles":{"zh":"标题"},
+            "summaries":{"en":"Summary"},
+        }
+        second = {
+            "id":"two",
+            "url":"https://example.com/two",
+            "translations":{"zh":"中文全文"},
+            "translated_titles":{"zh":"中文标题"},
+            "translation_jobs":{"en":{"status":"queued"}},
+        }
+
+        save_public_articles([first, second])
+
+        payload = service.call_args_list[1].kwargs["payload"]
+        self.assertEqual(set(payload[0]), set(payload[1]))
+        self.assertEqual(payload[0]["contents"], first["contents"])
+        self.assertEqual(payload[0]["titles"], first["titles"])
+        self.assertEqual(payload[0]["summaries"], first["summaries"])
+        self.assertEqual(payload[1]["translations"], second["translations"])
+        self.assertEqual(payload[1]["translated_titles"], second["translated_titles"])
+        self.assertEqual(payload[1]["translation_jobs"], second["translation_jobs"])
+        self.assertEqual(payload[0]["translations"], {})
+        self.assertEqual(payload[1]["contents"], {})
 
     @patch("api.index.translate_bilingual_article")
     @patch("api.index.extract_article")
