@@ -1,0 +1,83 @@
+{
+  "target_language": "zh",
+  "subscriptions": [
+    {
+      "id": "backstageclassical",
+      "name": "BackstageClassical",
+      "country": "de",
+      "url": "https://backstageclassical.com/",
+      "feed_url": "https://backstageclassical.com/feed",
+      "source_type": "rss",
+      "language": "",
+      "mode": "summary",
+      "enabled": true
+    },
+    {
+      "id": "slipped-disc",
+      "name": "Slipped Disc",
+      "country": "gb",
+      "url": "https://slippedisc.com/",
+      "feed_url": "https://slippedisc.com/feed",
+      "source_type": "rss",
+      "language": "",
+      "mode": "summary",
+      "enabled": true
+    },
+    {
+      "id": "3d78ac0ee9ac0e7e",
+      "name": "Platea Magazine Criticas",
+      "country": "es",
+      "url": "https://www.plateamagazine.com/criticas",
+      "feed_url": "https://www.plateamagazine.com/criticas",
+      "source_type": "website",
+      "language": "zh",
+      "mode": "summary",
+      "enabled": true
+    },
+    {
+      "id": "5766a251584474c4",
+      "name": "レコード芸術ONLINE",
+      "country": "ch",
+      "url": "https://recogei.ontomo-mag.com/disc_review",
+      "feed_url": "https://recogei.ontomo-mag.com/feed",
+      "source_type": "rss",
+      "language": "zh",
+      "mode": "summary",
+      "enabled": true
+    },
+    {
+      "id": "f894fb0d85015ccb",
+      "name": "Diapason Critiques",
+      "country": "fr",
+      "url": "https://www.diapasonmag.fr/critiques",
+      "feed_url": "https://www.diapasonmag.fr/feed",
+      "source_type": "rss",
+      "language": "zh",
+      "mode": "summary",
+      "enabled": true
+    },
+    {
+      "id": "b8fda2587621a8ce",
+      "name": "Forumopera",
+      "country": "fr",
+      "url": "https://www.forumopera.com/spectacles",
+      "feed_url": "https://www.forumopera.com/feed",
+      "source_type": "rss",
+      "language": "zh",
+      "mode": "summary",
+      "enabled": true
+    },
+    {
+      "id": "145bb229bcc27f26",
+      "name": "Scherzo Criticas",
+      "country": "es",
+      "url": "https://scherzo.es/noticias/criticas",
+      "feed_url": "https://scherzo.es/feed",
+      "source_type": "rss",
+      "language": "zh",
+      "mode": "summary",
+      "enabled": true
+    }
+  ],
+  "version": 3
+}
