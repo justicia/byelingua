@@ -105,17 +105,137 @@ def save_blob_json(pathname, value):
     with blob_client() as client:
         client.put(pathname, payload, access="private", content_type="application/json; charset=utf-8", overwrite=True, cache_control_max_age=0)
 
+def load_app_state(key, default):
+    rows = supabase_service(
+        "GET",
+        "/rest/v1/public_app_state",
+        params={
+            "key": f"eq.{key}",
+            "select": "value",
+            "limit": "1",
+        },
+    )
+
+    if not rows:
+        return json.loads(json.dumps(default))
+
+    return rows[0].get("value", json.loads(json.dumps(default)))
+
+
+def save_app_state(key, value):
+    supabase_service(
+        "POST",
+        "/rest/v1/public_app_state",
+        params={"on_conflict": "key"},
+        payload={
+            "key": key,
+            "value": value,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        },
+        prefer="resolution=merge-duplicates,return=minimal",
+    )
+
+
+def load_seen_urls():
+    rows = supabase_service(
+        "GET",
+        "/rest/v1/public_seen_urls",
+        params={
+            "select": "url",
+            "order": "created_at.desc",
+            "limit": "2000",
+        },
+    ) or []
+
+    return [row["url"] for row in rows if row.get("url")]
+
+
+def add_seen_urls(urls):
+    rows = [{"url": url} for url in urls if url]
+
+    if not rows:
+        return
+
+    supabase_service(
+        "POST",
+        "/rest/v1/public_seen_urls",
+        params={"on_conflict": "url"},
+        payload=rows,
+        prefer="resolution=ignore-duplicates,return=minimal",
+    )
+
+
+def remove_seen_url(url):
+    supabase_service(
+        "DELETE",
+        "/rest/v1/public_seen_urls",
+        params={"url": f"eq.{url}"},
+        prefer="return=minimal",
+    )
+
+
+def load_scheduled_state(default=None):
+    default = default or {"paris_date": ""}
+
+    rows = supabase_service(
+        "GET",
+        "/rest/v1/public_scheduled_state",
+        params={
+            "key": "eq.daily_update",
+            "select": "value",
+            "limit": "1",
+        },
+    )
+
+    if not rows:
+        return json.loads(json.dumps(default))
+
+    return rows[0].get("value", json.loads(json.dumps(default)))
+
+
+def save_scheduled_state(value):
+    supabase_service(
+        "POST",
+        "/rest/v1/public_scheduled_state",
+        params={"on_conflict": "key"},
+        payload={
+            "key": "daily_update",
+            "value": value,
+            "updated_at": datetime.now(timezone.utc).isoformat(),
+        },
+        prefer="resolution=merge-duplicates,return=minimal",
+    )
+
 
 def load_config():
-    config = load_blob_json("byelingua/config.json", json.loads(json.dumps(DEFAULT_CONFIG)))
+    config = load_app_state(
+        "config",
+        json.loads(json.dumps(DEFAULT_CONFIG)),
+    )
+
     config.setdefault("target_language", "zh")
     config.setdefault("subscriptions", [])
+
     if int(config.get("version", 1)) < 3:
-        existing = {item.get("feed_url") for item in config["subscriptions"]}
-        config["subscriptions"].extend(json.loads(json.dumps(item)) for item in DEFAULT_CONFIG["subscriptions"] if item["feed_url"] not in existing)
+        existing = {
+            item.get("feed_url")
+            for item in config["subscriptions"]
+        }
+
+        config["subscriptions"].extend(
+            json.loads(json.dumps(item))
+            for item in DEFAULT_CONFIG["subscriptions"]
+            if item["feed_url"] not in existing
+        )
+
         config["version"] = 3
-        save_blob_json("byelingua/config.json", config)
+        save_app_state("config", config)
+
     return config
+
+
+def save_config(config):
+    save_app_state("config", config)
 
 
 def canonical_url(base, href=""):
@@ -589,20 +709,48 @@ def update_article_metadata(identifier, data):
 
 
 def delete_article(identifier, allow_resync=False):
-    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    removed = next((item for item in archive.get("articles", []) if item.get("id") == identifier), None)
+    archive = load_blob_json(
+        "byelingua/articles.json",
+        {"updated_at": "", "articles": []},
+    )
+
+    removed = next(
+        (
+            item
+            for item in archive.get("articles", [])
+            if item.get("id") == identifier
+        ),
+        None,
+    )
+
     if not removed:
         raise ValueError("找不到要删除的文章。")
-    articles = [item for item in archive.get("articles", []) if item.get("id") != identifier]
-    now = datetime.now(timezone.utc).isoformat()
-    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
-    if allow_resync and removed.get("url"):
-        seen_data = load_blob_json("byelingua/seen.json", {"urls":[]})
-        removed_url = canonical_url(removed["url"])
-        urls = [url for url in seen_data.get("urls", []) if canonical_url(url) != removed_url]
-        save_blob_json("byelingua/seen.json", {"urls":urls})
-    return {"deleted":identifier,"items":len(articles),"resync_allowed":bool(allow_resync)}
 
+    articles = [
+        item
+        for item in archive.get("articles", [])
+        if item.get("id") != identifier
+    ]
+
+    now = datetime.now(timezone.utc).isoformat()
+
+    save_blob_json(
+        "byelingua/articles.json",
+        {
+            "updated_at": now,
+            "articles": articles,
+        },
+    )
+
+    if allow_resync and removed.get("url"):
+        removed_url = canonical_url(removed["url"])
+        remove_seen_url(removed_url)
+
+    return {
+        "deleted": identifier,
+        "items": len(articles),
+        "resync_allowed": bool(allow_resync),
+    }
 
 def retranslate_article(identifier):
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
@@ -672,46 +820,165 @@ def collect_new_articles(subscription, seen, limit=2):
 
 
 def run_daily_digest(source_id=None, subscription_override=None):
-    config, seen_data = load_config(), load_blob_json("byelingua/seen.json", {"urls":[]})
-    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    state = load_blob_json("byelingua/update-state.json", {"next_source":0})
-    seen, results, errors = {canonical_url(url) for url in seen_data.get("urls", [])}, [], []
-    subscriptions = [item for item in config["subscriptions"] if item.get("enabled", True)]
+    config = load_config()
+
+    seen = {
+        canonical_url(url)
+        for url in load_seen_urls()
+    }
+
+    archive = load_blob_json(
+        "byelingua/articles.json",
+        {"updated_at": "", "articles": []},
+    )
+
+    state = load_app_state(
+        "update_state",
+        {"next_source": 0},
+    )
+
+    results, errors = [], []
+
+    subscriptions = [
+        item
+        for item in config["subscriptions"]
+        if item.get("enabled", True)
+    ]
+
     if subscription_override is not None:
         subscriptions = [subscription_override]
         source_id = subscription_override["id"]
+
     elif source_id:
-        subscriptions = [item for item in subscriptions if item.get("id") == source_id]
+        subscriptions = [
+            item
+            for item in subscriptions
+            if item.get("id") == source_id
+        ]
+
         if not subscriptions:
-            raise ValueError(f"Unknown or disabled source: {source_id}")
-    start = 0 if source_id else int(state.get("next_source", 0)) % max(len(subscriptions), 1)
+            raise ValueError(
+                f"Unknown or disabled source: {source_id}"
+            )
+
+    start = (
+        0
+        if source_id
+        else int(state.get("next_source", 0))
+        % max(len(subscriptions), 1)
+    )
+
     ordered = subscriptions[start:] + subscriptions[:start]
+
     for offset, subscription in enumerate(ordered):
-        try: candidates = collect_new_articles(subscription, seen, 1)
-        except Exception as error: errors.append(f"{subscription['name']}: {error}"); continue
+        try:
+            candidates = collect_new_articles(
+                subscription,
+                seen,
+                1,
+            )
+
+        except Exception as error:
+            errors.append(
+                f"{subscription['name']}: {error}"
+            )
+            continue
+
         for article in candidates:
             try:
                 try:
-                    text, page_date = extract_article(article["url"]); article["published"] = article["published"] or page_date
+                    text, page_date = extract_article(article["url"])
+                    article["published"] = (
+                        article["published"] or page_date
+                    )
+
                 except Exception:
                     text = article.get("feed_text", "")
-                    if len(text) < 200: raise
+
+                    if len(text) < 200:
+                        raise
+
                 original_title = article["title"]
-                bilingual = translate_bilingual_article(text, original_title, subscription["mode"])
-                item = {**article,"title":bilingual["titles"]["zh"],"result":bilingual["contents"]["zh"],"titles":bilingual["titles"],"contents":bilingual["contents"],"original_title":original_title,"id":hashlib.sha256(article["url"].encode()).hexdigest()[:16],"kind":"subscription","source":subscription["name"],"country":subscription["country"],"language":"bilingual","mode":subscription["mode"],"processed_at":datetime.now(timezone.utc).isoformat()}
-                item.pop("feed_text", None); results.append(item); seen.add(article["url"])
-            except Exception as error: errors.append(f"{article['title']}: {error}")
+
+                bilingual = translate_bilingual_article(
+                    text,
+                    original_title,
+                    subscription["mode"],
+                )
+
+                item = {
+                    **article,
+                    "title": bilingual["titles"]["zh"],
+                    "result": bilingual["contents"]["zh"],
+                    "titles": bilingual["titles"],
+                    "contents": bilingual["contents"],
+                    "original_title": original_title,
+                    "id": hashlib.sha256(
+                        article["url"].encode()
+                    ).hexdigest()[:16],
+                    "kind": "subscription",
+                    "source": subscription["name"],
+                    "country": subscription["country"],
+                    "language": "bilingual",
+                    "mode": subscription["mode"],
+                    "processed_at": datetime.now(
+                        timezone.utc
+                    ).isoformat(),
+                }
+
+                item.pop("feed_text", None)
+
+                results.append(item)
+                seen.add(article["url"])
+
+            except Exception as error:
+                errors.append(
+                    f"{article['title']}: {error}"
+                )
+
         if results:
             if not source_id:
-                state["next_source"] = (start + offset + 1) % max(len(subscriptions), 1)
+                state["next_source"] = (
+                    start + offset + 1
+                ) % max(len(subscriptions), 1)
+
             break
-    urls = {item["url"] for item in results}
-    merged = results + [item for item in archive.get("articles", []) if item.get("url") not in urls]
+
+    urls = {
+        item["url"]
+        for item in results
+    }
+
+    merged = results + [
+        item
+        for item in archive.get("articles", [])
+        if item.get("url") not in urls
+    ]
+
     now = datetime.now(timezone.utc).isoformat()
-    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":merged[:MAX_ARTICLES]})
-    save_blob_json("byelingua/seen.json", {"urls":list(seen)[:2000]})
-    save_blob_json("byelingua/update-state.json", state)
-    return {"processed":len(results),"items":len(merged[:MAX_ARTICLES]),"errors":errors[:10],"batch_limit":1,"source":source_id or "round-robin"}
+
+    save_blob_json(
+        "byelingua/articles.json",
+        {
+            "updated_at": now,
+            "articles": merged[:MAX_ARTICLES],
+        },
+    )
+
+    add_seen_urls(list(seen)[:2000])
+
+    save_app_state(
+        "update_state",
+        state,
+    )
+
+    return {
+        "processed": len(results),
+        "items": len(merged[:MAX_ARTICLES]),
+        "errors": errors[:10],
+        "batch_limit": 1,
+        "source": source_id or "round-robin",
+    }
 
 
 def public_subscriptions(config):
@@ -732,7 +999,7 @@ def save_public_subscription(data, old_id=""):
         item for item in config["subscriptions"]
         if item.get("id") not in {subscription["id"], str(old_id or "")}
     ] + [subscription]
-    save_blob_json("byelingua/config.json", config)
+    save_config(config)
     try:
         # Use the just-saved source directly. Blob storage may briefly return the
         # previous config, which used to make a new source look "unknown" here.
@@ -748,7 +1015,7 @@ def set_public_subscription_enabled(identifier, enabled):
     if subscription is None:
         raise ValueError("找不到这个公共订阅。")
     subscription["enabled"] = bool(enabled)
-    save_blob_json("byelingua/config.json", config)
+    save_config(config)
     return {"id": identifier, "enabled": subscription["enabled"]}
 
 
@@ -997,35 +1264,66 @@ def paris_schedule_due(now=None):
 def run_scheduled_updates():
     """Update public news and all active subscribers once per Paris day."""
     paris_date = datetime.now(PARIS_TIMEZONE).date().isoformat()
-    state = load_blob_json("byelingua/scheduled-state.json", {"paris_date":""})
+
+    state = load_scheduled_state({"paris_date": ""})
+
     if state.get("paris_date") == paris_date:
-        return {"already_run":True,"paris_date":paris_date,"public_processed":0,"users":0,"personal_processed":0,"errors":[]}
+        return {
+            "already_run": True,
+            "paris_date": paris_date,
+            "public_processed": 0,
+            "users": 0,
+            "personal_processed": 0,
+            "errors": [],
+        }
 
     errors, public_processed, personal_processed = [], 0, 0
+
     for _ in range(3):
         result = run_daily_digest()
         public_processed += int(result.get("processed", 0))
         errors.extend(result.get("errors", []))
 
     profiles = supabase_service(
-        "GET", "/rest/v1/profiles", params={"status":"eq.active","select":"id"}
+        "GET",
+        "/rest/v1/profiles",
+        params={
+            "status": "eq.active",
+            "select": "id",
+        },
     ) or []
+
     completed_users = 0
+
     for profile in profiles:
         try:
-            result = run_personal_digest(profile["id"], automated=True, article_limit=3)
+            result = run_personal_digest(
+                profile["id"],
+                automated=True,
+                article_limit=3,
+            )
             personal_processed += int(result.get("processed", 0))
             errors.extend(result.get("errors", []))
             completed_users += 1
+
         except Exception as error:
-            errors.append(f"User {profile.get('id', 'unknown')}: {error}")
+            errors.append(
+                f"User {profile.get('id', 'unknown')}: {error}"
+            )
 
-    save_blob_json(
-        "byelingua/scheduled-state.json",
-        {"paris_date":paris_date,"completed_at":datetime.now(timezone.utc).isoformat()},
-    )
-    return {"already_run":False,"paris_date":paris_date,"public_processed":public_processed,"users":completed_users,"personal_processed":personal_processed,"errors":errors[:20]}
+    save_scheduled_state({
+        "paris_date": paris_date,
+        "completed_at": datetime.now(timezone.utc).isoformat(),
+    })
 
+    return {
+        "already_run": False,
+        "paris_date": paris_date,
+        "public_processed": public_processed,
+        "users": completed_users,
+        "personal_processed": personal_processed,
+        "errors": errors[:20],
+    }
 
 def invite_user(email):
     email = str(email or "").strip().lower()
@@ -1078,11 +1376,11 @@ class handler(BaseHTTPRequestHandler):
             elif action == "save_settings":
                 language = data.get("target_language","zh")
                 if language not in LANGUAGES: raise ValueError("不支持所选输出语言。")
-                config["target_language"] = language; save_blob_json("byelingua/config.json", config); self.send_json(200, config)
+                config["target_language"] = language; save_config(config); self.send_json(200, config)
             elif action == "save_subscription":
                 self.send_json(200, save_public_subscription(data.get("subscription",{}), data.get("old_id","")))
             elif action == "delete_subscription":
-                config["subscriptions"] = [x for x in config["subscriptions"] if x.get("id") != data.get("id","")]; save_blob_json("byelingua/config.json",config); self.send_json(200,config)
+                config["subscriptions"] = [x for x in config["subscriptions"] if x.get("id") != data.get("id","")]; save_config(config); self.send_json(200,config)
             elif action == "set_subscription_enabled": self.send_json(200, set_public_subscription_enabled(str(data.get("id","")), bool(data.get("enabled",False))))
             elif action == "run_subscription": self.send_json(200, run_daily_digest(str(data.get("id",""))))
             elif action == "run_digest": self.send_json(200, run_daily_digest())
