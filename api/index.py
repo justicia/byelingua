@@ -1305,6 +1305,89 @@ def run_personal_digest(user_id, automated=False, article_limit=3):
     return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
 
 
+def send_daily_digest(user_id):
+    resend_key = os.environ.get("RESEND_API_KEY", "").strip()
+    email_from = os.environ.get("EMAIL_FROM", "").strip()
+    if not resend_key or not email_from:
+        raise RuntimeError("RESEND_API_KEY and EMAIL_FROM must be configured.")
+
+    profiles = supabase_service(
+        "GET",
+        "/rest/v1/profiles",
+        params={"id":f"eq.{user_id}","select":"email,preferred_language"},
+    ) or []
+    if not profiles or not str(profiles[0].get("email") or "").strip():
+        raise ValueError(f"User {user_id} does not have a profile email.")
+
+    profile = profiles[0]
+    recipient = str(profile["email"]).strip()
+    paris_now = datetime.now(PARIS_TIMEZONE)
+    paris_midnight = paris_now.replace(
+        hour=0, minute=0, second=0, microsecond=0
+    ).astimezone(timezone.utc).isoformat()
+    articles = supabase_service(
+        "GET",
+        "/rest/v1/user_articles",
+        params={
+            "user_id":f"eq.{user_id}",
+            "processed_at":f"gte.{paris_midnight}",
+            "select":"title,canonical_url,result,language,processed_at",
+            "order":"processed_at.asc",
+        },
+    ) or []
+    if not articles:
+        return {"sent":False,"articles":0}
+
+    article_html = []
+    for article in articles:
+        title = escape(str(article.get("title") or "Untitled"))
+        url = escape(str(article.get("canonical_url") or "#"), quote=True)
+        summary = escape(str(article.get("result") or "")).replace("\n", "<br>")
+        language_code = str(article.get("language") or profile.get("preferred_language") or "")
+        language = escape(LANGUAGES.get(language_code, language_code))
+        article_html.append(
+            f'<article style="margin:0 0 28px">'
+            f'<h2 style="margin:0 0 8px;font-size:20px">'
+            f'<a href="{url}" style="color:#214d3a">{title}</a></h2>'
+            f'<div style="color:#68716b;font-size:13px">{language}</div>'
+            f'<p style="line-height:1.7">{summary}</p>'
+            f'<a href="{url}" style="color:#214d3a">Read original</a>'
+            f'</article>'
+        )
+
+    digest_date = escape(paris_now.strftime("%Y-%m-%d"))
+    html = (
+        '<main style="max-width:680px;margin:auto;font-family:Arial,sans-serif;color:#17201b">'
+        '<h1 style="font-family:Georgia,serif;color:#214d3a">BYELINGUA</h1>'
+        f'<p style="color:#68716b">Daily Digest · {digest_date}</p>'
+        + "".join(article_html)
+        + '</main>'
+    )
+    response = SESSION.post(
+        "https://api.resend.com/emails",
+        headers={
+            "Authorization":f"Bearer {resend_key}",
+            "Content-Type":"application/json",
+            "User-Agent":"Byelingua-Server/3.0",
+        },
+        json={
+            "from":email_from,
+            "to":[recipient],
+            "subject":"Byelingua Daily Digest",
+            "html":html,
+        },
+        timeout=20,
+    )
+    if not response.ok:
+        try:
+            message = response.json().get("message")
+        except ValueError:
+            message = response.text
+        raise ValueError(message or "Resend rejected the daily digest email.")
+    payload = response.json()
+    return {"sent":True,"articles":len(articles),"id":payload.get("id")}
+
+
 def paris_schedule_due(now=None):
     """Return True only during the 09:00 hour in Europe/Paris."""
     current = now or datetime.now(timezone.utc)
@@ -1354,6 +1437,12 @@ def run_scheduled_updates():
             )
             personal_processed += int(result.get("processed", 0))
             errors.extend(result.get("errors", []))
+            try:
+                send_daily_digest(profile["id"])
+            except Exception as error:
+                errors.append(
+                    f"User {profile.get('id', 'unknown')} email: {error}"
+                )
             completed_users += 1
 
         except Exception as error:
