@@ -1383,12 +1383,36 @@ def invite_user(email):
     headers = {"apikey":service,"Content-Type":"application/json","User-Agent":"Byelingua-Server/3.0"}
     if not service.startswith("sb_secret_"):
         headers["Authorization"] = f"Bearer {service}"
-    response = SESSION.post(f"{url}/auth/v1/admin/users", json={"email":email,"email_confirm":True,"user_metadata":{"invited":True}}, headers=headers, timeout=20)
-    if response.status_code == 422 and "already" in response.text.lower():
-        return {"email":email,"existing":True}
+    redirect_to = "https://www.bye-lingua.site/set-password"
+    response = SESSION.post(
+        f"{url}/auth/v1/invite",
+        params={"redirect_to":redirect_to},
+        json={"email":email,"data":{"invited":True}},
+        headers=headers,
+        timeout=20,
+    )
+    try:
+        error_payload = response.json()
+    except ValueError:
+        error_payload = {}
+    error_code = str(error_payload.get("error_code") or error_payload.get("code") or "").lower()
+    already_exists = error_code in {"email_exists","user_already_exists"} or (
+        response.status_code == 422 and "already" in response.text.lower()
+    )
+    if already_exists:
+        recovery = SESSION.post(
+            f"{url}/auth/v1/recover",
+            params={"redirect_to":redirect_to},
+            json={"email":email},
+            headers=headers,
+            timeout=20,
+        )
+        if not recovery.ok:
+            raise ValueError(recovery.json().get("message") or "发送设置密码邮件失败。")
+        return {"status":"recovery_sent"}
     if not response.ok:
-        raise ValueError(response.json().get("message") or "创建邀请账户失败。")
-    return {"email":email,"existing":False}
+        raise ValueError(error_payload.get("message") or response.text or "发送邀请邮件失败。")
+    return {"status":"invited"}
 
 
 class handler(BaseHTTPRequestHandler):

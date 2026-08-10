@@ -1,5 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/set-password",
+      "destination": "/set-password.html"
+    }
+  ],
   "crons": [
     {
       "path": "/api/cron?timezone=summer",
