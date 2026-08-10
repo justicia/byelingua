@@ -31,7 +31,7 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
    - `SUPABASE_URL`：Supabase 项目地址。
    - `SUPABASE_PUBLISHABLE_KEY`：浏览器端 Publishable key。
    - `SUPABASE_SERVICE_ROLE_KEY`：服务端 `sb_secret_...` Secret key，只能存放在 Vercel。
-   - `RESEND_API_KEY`、`DIGEST_TO_EMAIL`、`EMAIL_FROM`：可选；仅在需要邮件简报时设置。
+   - `RESEND_API_KEY`、`EMAIL_FROM`：Daily Digest 邮件发送配置。
 4. 重新部署项目。
 
 ## 使用方法
@@ -48,6 +48,6 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
 
 1. 在 Supabase SQL Editor 运行 `supabase_schema.sql`。
 2. 管理员在网站控制台输入受邀邮箱并创建账户。
-3. 受邀用户点击“邮箱验证码登录”，获取并输入验证码。
+3. 受邀用户点击邀请邮件中的链接，在 `/set-password` 设置密码后使用邮箱和密码登录。
 4. 试运行账户默认最多 3 个网站、每天更新 1 次、每月处理 100,000 字符。
 5. 删除订阅网站不会删除已经生成的个人历史文章。

@@ -19,7 +19,7 @@ Byelingua 是一个按国家整理国际媒体内容的双语阅读与个人订�
 
 ### 受邀用户
 
-- Supabase 邮箱验证码登录。
+- Supabase Email + Password 登录。
 - 邀请制账户，不开放自由注册。
 - 每位用户最多添加 3 个个人订阅网站或 RSS。
 - 永久保存偏好的内容语言。
@@ -104,7 +104,7 @@ vercel dev
 1. 创建 Supabase 项目。
 2. 在 Supabase SQL Editor 中执行 `supabase_schema.sql`。
 3. 再执行 `supabase_bilingual_migration.sql`。
-4. 在 Authentication 中启用 Email OTP。
+4. 在 Authentication 中启用 Email + Password 登录。
 5. 关闭公开注册，只允许管理员创建的受邀账户登录。
 6. 将 Site URL 和允许的 Redirect URL 设置为 `https://www.bye-lingua.site`。
 7. 使用 Resend 或其他服务配置 Supabase Custom SMTP。
@@ -126,7 +126,6 @@ vercel dev
 | `SUPABASE_SERVICE_ROLE_KEY` | 仅服务端使用的高权限密钥 |
 | `RESEND_API_KEY` | Resend API 密钥（如服务端邮件功能需要） |
 | `EMAIL_FROM` | 发件人，例如 `Byelingua <login@auth.example.com>` |
-| `DIGEST_TO_EMAIL` | 可选，摘要通知收件地址 |
 | `MAX_ARTICLES` | 可选，公共文章最大保存数量，默认 200 |
 
 修改环境变量后需要重新部署 Vercel，变更才会生效。
@@ -185,7 +184,7 @@ git push
 
 ## 当前状态与下一步
 
-当前已完成：公共中英双语阅读、邀请制邮箱验证码登录、每用户三个个人订阅、语言偏好持久化、每次最多三篇、每日法国时间 9 点自动更新、公共订阅管理和管理员微信公众号导出后台。
+当前已完成：公共中英双语阅读、邀请制 Email + Password 登录与密码重置、每用户三个个人订阅、语言偏好持久化、每次最多三篇、每日法国时间 9 点自动更新、Daily Digest、公共订阅管理和管理员微信公众号导出后台。
 
 建议下一步：
 

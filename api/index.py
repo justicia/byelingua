@@ -1109,7 +1109,7 @@ def authenticated_user(headers):
     url, publishable, _ = supabase_settings()
     response = SESSION.get(f"{url}/auth/v1/user", headers={"apikey":publishable,"Authorization":value}, timeout=20)
     if not response.ok:
-        raise PermissionError("登录已过期，请重新获取验证码。")
+        raise PermissionError("登录已过期，请重新登录。")
     user = response.json()
     if not user.get("id"):
         raise PermissionError("无法识别登录用户。")
