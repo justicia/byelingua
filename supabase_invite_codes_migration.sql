@@ -17,6 +17,10 @@ create table if not exists public.invite_codes (
   created_at timestamptz not null default now()
 );
 
+alter table public.invite_codes
+  add column if not exists child_prefix text not null default 'BYE'
+  check (child_prefix ~ '^[A-Z0-9]{2,10}$');
+
 alter table public.invite_codes enable row level security;
 
 insert into public.invite_codes (code, max_uses, used_count, status, child_prefix)
