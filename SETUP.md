@@ -44,10 +44,10 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
 
 默认包含 BackstageClassical、Scherzo 和 Slipped Disc。已有 Supabase 配置不会被默认值覆盖；如部署过旧版本，可在管理区手动添加这些来源。
 
-## 邀请制账户
+## 邀请码注册
 
 1. 在 Supabase SQL Editor 运行 `supabase_schema.sql`。
-2. 管理员在网站控制台输入受邀邮箱并创建账户。
-3. 受邀用户点击邀请邮件中的链接，在 `/set-password` 设置密码后使用邮箱和密码登录。
+2. 在 Supabase SQL Editor 运行 `supabase_invite_codes_migration.sql`。
+3. 用户在注册弹窗中输入有效邀请码、邮箱和密码创建账户。
 4. 试运行账户默认最多 3 个网站、每天更新 1 次、每月处理 100,000 字符。
 5. 删除订阅网站不会删除已经生成的个人历史文章。
