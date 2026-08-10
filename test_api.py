@@ -5,10 +5,54 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, send_daily_digest, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, send_daily_digest, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
+    @patch("api.index.supabase_service", return_value=[])
+    def test_registration_rejects_invalid_invite(self, service):
+        with self.assertRaisesRegex(ValueError, "邀请码无效"):
+            register_with_invite("reader@example.com", "password", "invalid")
+        service.assert_called_once()
+
+    @patch("api.index.supabase_settings", return_value=("https://project.supabase.co", "public", "sb_secret_test"))
+    @patch("api.index.SESSION.post")
+    @patch("api.index.supabase_service")
+    def test_registration_creates_user_and_claims_invite(self, service, post, _settings):
+        service.side_effect = [
+            [{"id":"invite-1","max_uses":10,"used_count":9}],
+            True,
+        ]
+        post.return_value = Mock(ok=True, json=Mock(return_value={"id":"user-1"}))
+        result = register_with_invite("Reader@Example.com", "password", "dontaskme")
+        self.assertEqual(result, {"status":"registered","user_id":"user-1"})
+        self.assertEqual(post.call_args.kwargs["json"]["email"], "reader@example.com")
+        self.assertEqual(service.call_args_list[1].args[1], "/rest/v1/rpc/claim_invite_code")
+        self.assertEqual(service.call_args_list[1].kwargs["payload"], {"p_code":"DONTASKME"})
+
+    @patch("api.index.supabase_settings", return_value=("https://project.supabase.co", "public", "sb_secret_test"))
+    @patch("api.index.SESSION.delete")
+    @patch("api.index.SESSION.post")
+    @patch("api.index.supabase_service")
+    def test_exhausted_invite_removes_newly_created_user(self, service, post, delete, _settings):
+        service.side_effect = [
+            [{"id":"invite-1","max_uses":10,"used_count":9}],
+            False,
+        ]
+        post.return_value = Mock(ok=True, json=Mock(return_value={"id":"user-11"}))
+        delete.return_value = Mock(ok=True)
+        with self.assertRaisesRegex(ValueError, "邀请码无效"):
+            register_with_invite("eleven@example.com", "password", "DONTASKME")
+        self.assertIn("user-11", delete.call_args.args[0])
+
+    @patch("api.index.secrets.choice", return_value="A")
+    @patch("api.index.supabase_service")
+    def test_generate_invite_decrements_credit_atomically(self, service, _choice):
+        service.return_value = [{"code":"BYE-AAAAAA","remaining_credits":1}]
+        result = generate_invite_code("user-1")
+        self.assertEqual(result, {"code":"BYE-AAAAAA","remaining_credits":1})
+        self.assertEqual(service.call_args.kwargs["payload"]["p_user_id"], "user-1")
+
     def test_paris_schedule_handles_summer_and_winter_time(self):
         self.assertTrue(paris_schedule_due(datetime(2026, 8, 6, 7, 30, tzinfo=timezone.utc)))
         self.assertFalse(paris_schedule_due(datetime(2026, 8, 6, 8, 30, tzinfo=timezone.utc)))

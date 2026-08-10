@@ -6,6 +6,7 @@ import hmac
 import json
 import os
 import re
+import secrets
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from html import escape
@@ -1464,44 +1465,82 @@ def run_scheduled_updates():
         "errors": errors[:20],
     }
 
-def invite_user(email):
+def register_with_invite(email, password, invite_code):
     email = str(email or "").strip().lower()
+    password = str(password or "")
+    invite_code = str(invite_code or "").strip().upper()
     if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", email):
         raise ValueError("请输入有效邮箱地址。")
+    if not password:
+        raise ValueError("请输入密码。")
+    available = supabase_service(
+        "GET",
+        "/rest/v1/invite_codes",
+        params={
+            "code":f"eq.{invite_code}",
+            "status":"eq.active",
+            "select":"id,max_uses,used_count",
+        },
+    ) or []
+    if not available or int(available[0].get("used_count", 0)) >= int(available[0].get("max_uses", 0)):
+        raise ValueError("邀请码无效或已用完。")
+
     url, _, service = supabase_settings()
-    headers = {"apikey":service,"Content-Type":"application/json","User-Agent":"Byelingua-Server/3.0"}
+    headers = {
+        "apikey":service,
+        "Content-Type":"application/json",
+        "User-Agent":"Byelingua-Server/3.0",
+    }
     if not service.startswith("sb_secret_"):
         headers["Authorization"] = f"Bearer {service}"
-    redirect_to = "https://www.bye-lingua.site/set-password"
     response = SESSION.post(
-        f"{url}/auth/v1/invite",
-        params={"redirect_to":redirect_to},
-        json={"email":email,"data":{"invited":True}},
+        f"{url}/auth/v1/admin/users",
+        json={"email":email,"password":password,"email_confirm":True},
         headers=headers,
         timeout=20,
     )
-    try:
-        error_payload = response.json()
-    except ValueError:
-        error_payload = {}
-    error_code = str(error_payload.get("error_code") or error_payload.get("code") or "").lower()
-    already_exists = error_code in {"email_exists","user_already_exists"} or (
-        response.status_code == 422 and "already" in response.text.lower()
+    if not response.ok:
+        try:
+            message = response.json().get("message")
+        except ValueError:
+            message = response.text
+        raise ValueError(message or "创建账户失败。")
+    user = response.json()
+    user_id = str(user.get("id") or "")
+    if not user_id:
+        raise ValueError("Supabase 未返回新用户 ID。")
+
+    claimed = supabase_service(
+        "POST",
+        "/rest/v1/rpc/claim_invite_code",
+        payload={"p_code":invite_code},
     )
-    if already_exists:
-        recovery = SESSION.post(
-            f"{url}/auth/v1/recover",
-            params={"redirect_to":redirect_to},
-            json={"email":email},
+    if claimed is not True:
+        cleanup = SESSION.delete(
+            f"{url}/auth/v1/admin/users/{user_id}",
             headers=headers,
             timeout=20,
         )
-        if not recovery.ok:
-            raise ValueError(recovery.json().get("message") or "发送设置密码邮件失败。")
-        return {"status":"recovery_sent"}
-    if not response.ok:
-        raise ValueError(error_payload.get("message") or response.text or "发送邀请邮件失败。")
-    return {"status":"invited"}
+        if not cleanup.ok:
+            raise RuntimeError("邀请码已被用完，且新账户清理失败。")
+        raise ValueError("邀请码无效或已用完。")
+    return {"status":"registered","user_id":user_id}
+
+
+def generate_invite_code(user_id):
+    alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+    code = "BYE-" + "".join(secrets.choice(alphabet) for _ in range(6))
+    rows = supabase_service(
+        "POST",
+        "/rest/v1/rpc/create_generated_invite",
+        payload={"p_user_id":user_id,"p_code":code},
+    ) or []
+    if not rows:
+        raise ValueError("生成邀请码失败。")
+    return {
+        "code":str(rows[0].get("code") or code),
+        "remaining_credits":int(rows[0].get("remaining_credits", 0)),
+    }
 
 
 class handler(BaseHTTPRequestHandler):
@@ -1523,15 +1562,18 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, poll_wechat_translation(str(data.get("id","")), data.get("language",""))); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
+            if action == "register_with_invite":
+                self.send_json(200, register_with_invite(data.get("email",""), data.get("password",""), data.get("invite_code",""))); return
             if action == "sync_wechat":
                 require_wechat_sync(self.headers)
                 self.send_json(200, sync_wechat_article(data.get("article",{}))); return
-            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language"}:
+            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
                 elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
                 elif action == "delete_my_subscription": result = delete_personal_subscription(user["id"], str(data.get("id","")))
                 elif action == "save_my_language": result = save_personal_language(user["id"], data.get("language",""))
+                elif action == "generate_invite_code": result = generate_invite_code(user["id"])
                 else: result = run_personal_digest(user["id"])
                 self.send_json(200,result); return
             require_admin(self.headers); config = load_config()
@@ -1551,7 +1593,6 @@ class handler(BaseHTTPRequestHandler):
             elif action == "update_article_metadata": self.send_json(200, update_article_metadata(str(data.get("id","")), data.get("metadata",{})))
             elif action == "delete_article": self.send_json(200, delete_article(str(data.get("id","")), bool(data.get("allow_resync",False))))
             elif action == "retranslate_article": self.send_json(200, retranslate_article(str(data.get("id",""))))
-            elif action == "invite_user": self.send_json(200, invite_user(data.get("email","")))
             elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
         except PermissionError as error: self.send_json(401, {"error":str(error)})
