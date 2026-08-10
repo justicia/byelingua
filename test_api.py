@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, save_public_articles, save_public_subscription, save_wechat_chinese, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, send_daily_digest, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -13,6 +13,47 @@ class ApiTests(unittest.TestCase):
         self.assertTrue(paris_schedule_due(datetime(2026, 8, 6, 7, 30, tzinfo=timezone.utc)))
         self.assertFalse(paris_schedule_due(datetime(2026, 8, 6, 8, 30, tzinfo=timezone.utc)))
         self.assertTrue(paris_schedule_due(datetime(2026, 1, 6, 8, 30, tzinfo=timezone.utc)))
+
+    @patch.dict("os.environ", {"RESEND_API_KEY":"re_test","EMAIL_FROM":"Byelingua <news@example.com>"})
+    @patch("api.index.SESSION.post")
+    @patch("api.index.supabase_service")
+    def test_daily_digest_sends_today_articles_to_profile_email(self, service, post):
+        service.side_effect = [
+            [{"email":"reader@example.com","preferred_language":"fr"}],
+            [{"title":"Titre","canonical_url":"https://example.com/article","result":"Résumé","language":"fr","processed_at":"2026-08-10T08:00:00Z"}],
+        ]
+        post.return_value = Mock(ok=True, json=Mock(return_value={"id":"email_1"}))
+        result = send_daily_digest("user-1")
+        self.assertEqual(result, {"sent":True,"articles":1,"id":"email_1"})
+        payload = post.call_args.kwargs["json"]
+        self.assertEqual(payload["to"], ["reader@example.com"])
+        self.assertIn("Titre", payload["html"])
+        self.assertIn("https://example.com/article", payload["html"])
+
+    @patch.dict("os.environ", {"RESEND_API_KEY":"re_test","EMAIL_FROM":"Byelingua <news@example.com>"})
+    @patch("api.index.SESSION.post")
+    @patch("api.index.supabase_service")
+    def test_daily_digest_skips_user_without_today_articles(self, service, post):
+        service.side_effect = [
+            [{"email":"reader@example.com","preferred_language":"en"}],
+            [],
+        ]
+        self.assertEqual(send_daily_digest("user-1"), {"sent":False,"articles":0})
+        post.assert_not_called()
+
+    @patch("api.index.save_scheduled_state")
+    @patch("api.index.load_scheduled_state", return_value={"paris_date":""})
+    @patch("api.index.send_daily_digest")
+    @patch("api.index.run_personal_digest", return_value={"processed":1,"errors":[]})
+    @patch("api.index.run_daily_digest", return_value={"processed":0,"errors":[]})
+    @patch("api.index.supabase_service")
+    def test_scheduled_email_failure_does_not_stop_other_users(self, service, _public, _personal, send, _state, _save):
+        service.return_value = [{"id":"user-a"},{"id":"user-b"}]
+        send.side_effect = [ValueError("bad address"), {"sent":True,"articles":1,"id":"email_2"}]
+        result = run_scheduled_updates()
+        self.assertEqual(send.call_count, 2)
+        self.assertEqual(result["users"], 2)
+        self.assertTrue(any("user-a email" in error for error in result["errors"]))
 
     @patch("api.index.translate_article")
     @patch("api.index.extract_article")
