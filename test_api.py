@@ -20,13 +20,14 @@ class ApiTests(unittest.TestCase):
     @patch("api.index.supabase_service")
     def test_registration_creates_user_and_claims_invite(self, service, post, _settings):
         service.side_effect = [
-            [{"id":"invite-1","max_uses":10,"used_count":9}],
+            [{"id":"invite-1","max_uses":10,"used_count":9,"child_prefix":"IDC"}],
             True,
         ]
         post.return_value = Mock(ok=True, json=Mock(return_value={"id":"user-1"}))
         result = register_with_invite("Reader@Example.com", "password", "dontaskme")
         self.assertEqual(result, {"status":"registered","user_id":"user-1"})
         self.assertEqual(post.call_args.kwargs["json"]["email"], "reader@example.com")
+        self.assertEqual(post.call_args.kwargs["json"]["user_metadata"], {"invite_prefix":"IDC"})
         self.assertEqual(service.call_args_list[1].args[1], "/rest/v1/rpc/claim_invite_code")
         self.assertEqual(service.call_args_list[1].kwargs["payload"], {"p_code":"DONTASKME"})
 
@@ -36,7 +37,7 @@ class ApiTests(unittest.TestCase):
     @patch("api.index.supabase_service")
     def test_exhausted_invite_removes_newly_created_user(self, service, post, delete, _settings):
         service.side_effect = [
-            [{"id":"invite-1","max_uses":10,"used_count":9}],
+            [{"id":"invite-1","max_uses":10,"used_count":9,"child_prefix":"IDC"}],
             False,
         ]
         post.return_value = Mock(ok=True, json=Mock(return_value={"id":"user-11"}))
@@ -48,10 +49,13 @@ class ApiTests(unittest.TestCase):
     @patch("api.index.secrets.choice", return_value="A")
     @patch("api.index.supabase_service")
     def test_generate_invite_decrements_credit_atomically(self, service, _choice):
-        service.return_value = [{"code":"BYE-AAAAAA","remaining_credits":1}]
+        service.side_effect = [
+            [{"invite_prefix":"IDC"}],
+            [{"code":"IDC-AAAAAA","remaining_credits":1}],
+        ]
         result = generate_invite_code("user-1")
-        self.assertEqual(result, {"code":"BYE-AAAAAA","remaining_credits":1})
-        self.assertEqual(service.call_args.kwargs["payload"]["p_user_id"], "user-1")
+        self.assertEqual(result, {"code":"IDC-AAAAAA","remaining_credits":1})
+        self.assertEqual(service.call_args_list[1].kwargs["payload"]["p_user_id"], "user-1")
 
     def test_paris_schedule_handles_summer_and_winter_time(self):
         self.assertTrue(paris_schedule_due(datetime(2026, 8, 6, 7, 30, tzinfo=timezone.utc)))

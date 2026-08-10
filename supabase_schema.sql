@@ -22,6 +22,9 @@ create table if not exists public.profiles (
   invite_credits integer not null default 2
     check (invite_credits >= 0),
 
+  invite_prefix text not null default 'BYE'
+    check (invite_prefix ~ '^[A-Z0-9]{2,10}$'),
+
   max_subscriptions integer not null default 3,
   daily_update_limit integer not null default 1,
 
@@ -42,12 +45,13 @@ create table if not exists public.invite_codes (
   max_uses integer not null check (max_uses > 0),
   used_count integer not null default 0 check (used_count >= 0 and used_count <= max_uses),
   status text not null default 'active' check (status in ('active','exhausted')),
+  child_prefix text not null default 'BYE' check (child_prefix ~ '^[A-Z0-9]{2,10}$'),
   created_at timestamptz not null default now()
 );
 
-insert into public.invite_codes (code, max_uses, used_count, status)
-values ('DONTASKME', 10, 0, 'active')
-on conflict (code) do nothing;
+insert into public.invite_codes (code, max_uses, used_count, status, child_prefix)
+values ('DONTASKME', 10, 0, 'active', 'IDC')
+on conflict (code) do update set child_prefix = 'IDC';
 
 create or replace function public.claim_invite_code(p_code text)
 returns boolean language plpgsql security definer set search_path = '' as $$
@@ -72,8 +76,9 @@ begin
   where id = p_user_id and invite_credits > 0
   returning invite_credits into remaining;
   if remaining is null then raise exception 'No invitation credits remaining.'; end if;
-  insert into public.invite_codes (code, created_by, max_uses, used_count, status)
-  values (upper(trim(p_code)), p_user_id, 1, 0, 'active');
+  insert into public.invite_codes (code, created_by, max_uses, used_count, status, child_prefix)
+  select upper(trim(p_code)), p_user_id, 1, 0, 'active', invite_prefix
+  from public.profiles where id = p_user_id;
   return query select upper(trim(p_code)), remaining;
 end;
 $$;
@@ -310,11 +315,12 @@ as $$
 
 begin
 
-insert into public.profiles(id,email)
+insert into public.profiles(id,email,invite_prefix)
 
 values(
 new.id,
-coalesce(new.email,new.id::text)
+coalesce(new.email,new.id::text),
+coalesce(nullif(new.raw_user_meta_data->>'invite_prefix',''),'BYE')
 )
 
 on conflict(id) do nothing;

@@ -49,5 +49,6 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
 1. 在 Supabase SQL Editor 运行 `supabase_schema.sql`。
 2. 在 Supabase SQL Editor 运行 `supabase_invite_codes_migration.sql`。
 3. 用户在注册弹窗中输入有效邀请码、邮箱和密码创建账户。
-4. 试运行账户默认最多 3 个网站、每天更新 1 次、每月处理 100,000 字符。
-5. 删除订阅网站不会删除已经生成的个人历史文章。
+4. `DONTASKME` 注册用户生成的邀请码默认以 `IDC-` 开头；其他平台邀请码可通过 `invite_codes.child_prefix` 设置来源前缀。
+5. 试运行账户默认最多 3 个网站、每天更新 1 次、每月处理 100,000 字符。
+6. 删除订阅网站不会删除已经生成的个人历史文章。
