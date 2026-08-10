@@ -1479,11 +1479,14 @@ def register_with_invite(email, password, invite_code):
         params={
             "code":f"eq.{invite_code}",
             "status":"eq.active",
-            "select":"id,max_uses,used_count",
+            "select":"id,max_uses,used_count,child_prefix",
         },
     ) or []
     if not available or int(available[0].get("used_count", 0)) >= int(available[0].get("max_uses", 0)):
         raise ValueError("邀请码无效或已用完。")
+    child_prefix = str(available[0].get("child_prefix") or "BYE").upper()
+    if not re.fullmatch(r"[A-Z0-9]{2,10}", child_prefix):
+        raise ValueError("邀请码来源前缀无效。")
 
     url, _, service = supabase_settings()
     headers = {
@@ -1495,7 +1498,7 @@ def register_with_invite(email, password, invite_code):
         headers["Authorization"] = f"Bearer {service}"
     response = SESSION.post(
         f"{url}/auth/v1/admin/users",
-        json={"email":email,"password":password,"email_confirm":True},
+        json={"email":email,"password":password,"email_confirm":True,"user_metadata":{"invite_prefix":child_prefix}},
         headers=headers,
         timeout=20,
     )
@@ -1529,7 +1532,15 @@ def register_with_invite(email, password, invite_code):
 
 def generate_invite_code(user_id):
     alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-    code = "BYE-" + "".join(secrets.choice(alphabet) for _ in range(6))
+    profiles = supabase_service(
+        "GET",
+        "/rest/v1/profiles",
+        params={"id":f"eq.{user_id}","select":"invite_prefix"},
+    ) or []
+    prefix = str(profiles[0].get("invite_prefix") or "BYE").upper() if profiles else "BYE"
+    if not re.fullmatch(r"[A-Z0-9]{2,10}", prefix):
+        raise ValueError("用户邀请码来源前缀无效。")
+    code = prefix + "-" + "".join(secrets.choice(alphabet) for _ in range(6))
     rows = supabase_service(
         "POST",
         "/rest/v1/rpc/create_generated_invite",
