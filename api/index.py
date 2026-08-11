@@ -1682,14 +1682,14 @@ def schedule_event_detail(event_id):
     ) or []
     credits = supabase_service(
         "GET", "/rest/v1/event_credits",
-        params={"event_id": f"eq.{internal_id}", "select": "role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
+        params={"event_id": f"eq.{internal_id}", "select": "artist_id,role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
     ) or []
     event["programme"] = [
         {"order": row.get("order"), "title": (row.get("works") or {}).get("title"), "composer": (row.get("works") or {}).get("composer")}
         for row in programme
     ]
     event["credits"] = [
-        {"artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
+        {"artist_id": row.get("artist_id"), "artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
         for row in credits
     ]
     return {"event": event}
@@ -1792,6 +1792,53 @@ def artist_events(data):
     return {"events": result}
 
 
+def artist_context(data):
+    artist_id = str(data.get("artist_id") or "").strip()
+    if not artist_id:
+        raise ValueError("请选择一位艺术家。")
+    artist_rows = supabase_service("GET", "/rest/v1/artists", params={"id": f"eq.{artist_id}", "select": "id,artist_name", "limit": "1"}) or []
+    if not artist_rows:
+        raise ValueError("找不到该艺术家。")
+    credit_rows = supabase_service(
+        "GET", "/rest/v1/event_credits",
+        params={"artist_id": f"eq.{artist_id}", "select": "event_id,role,character,raw_character", "limit": "5000"},
+    ) or []
+    event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credit_rows if row.get("event_id")))
+    performances = []
+    if event_ids:
+        catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(event_ids)})", "order": "date.asc,start_time.asc", "limit": "2000"}) or []
+        by_event = {str(row.get("event_id")): row for row in credit_rows}
+        for event in catalog:
+            credit = by_event.get(str(event.get("event_id")), {})
+            performances.append({
+                "event_id": event.get("event_id"),
+                "date": event.get("date"), "start_time": event.get("start_time"),
+                "start_datetime": f"{event.get('date') or ''}T{event.get('start_time') or '00:00:00'}",
+                "work_title": event.get("work_title") or event.get("title"),
+                "composer": event.get("composer"),
+                "title": event.get("title"),
+                "organization_name": event.get("organization"), "venue_name": event.get("venue"),
+                "city": _schedule_city(event.get("venue") or event.get("organization")),
+                "role": credit.get("role"),
+                "character": credit.get("character") or credit.get("raw_character"),
+            })
+    roles = sorted({str(row.get("role")) for row in credit_rows if row.get("role")})
+    articles = supabase_service("GET", "/rest/v1/public_articles", params={"select": "id,title,source,published_at,canonical_url,url,raw_data", "order": "published_at.desc", "limit": "200"}) or []
+    name = str(artist_rows[0].get("artist_name") or "")
+    needle = name.casefold()
+    news = []
+    for article in articles:
+        raw = article.get("raw_data") if isinstance(article.get("raw_data"), dict) else {}
+        title = str(article.get("title") or raw.get("title") or "")
+        summary = str(raw.get("summary") or raw.get("description") or raw.get("content") or "")
+        if needle and needle not in title.casefold() and needle not in summary.casefold():
+            continue
+        news.append({"id": article.get("id"), "title": title, "source": article.get("source") or "", "published_at": article.get("published_at"), "article_url": article.get("url") or article.get("canonical_url"), "canonical_url": article.get("canonical_url") or article.get("url")})
+        if len(news) >= 10:
+            break
+    return {"artist": {"id": artist_rows[0].get("id"), "name": name, "roles": roles}, "performances": performances, "news": news}
+
+
 class handler(BaseHTTPRequestHandler):
     def send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -1830,6 +1877,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, artist_options(data.get("query", ""))); return
             if action == "artist_events":
                 self.send_json(200, artist_events(data)); return
+            if action == "artist_context":
+                self.send_json(200, artist_context(data)); return
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
