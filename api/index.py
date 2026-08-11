@@ -7,6 +7,8 @@ import json
 import os
 import re
 import secrets
+import unicodedata
+from difflib import SequenceMatcher
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from html import escape
@@ -33,6 +35,36 @@ SESSION.headers.update({
     "User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0)",
     "Accept-Language":"en-US,en;q=0.8"
 })
+
+
+def normalize_search_key(value):
+    """Stable accent-insensitive key; display/canonical values are never changed."""
+    text = unicodedata.normalize("NFKD", str(value or "")).casefold()
+    text = "".join(char for char in text if not unicodedata.combining(char))
+    text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
+    text = re.sub(r"[^\w\s'\-]", " ", text, flags=re.UNICODE)
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def search_match_score(query, *values):
+    needle = normalize_search_key(query)
+    haystacks = [normalize_search_key(value) for value in values if value]
+    if not needle:
+        return 0.0
+    if any(value == needle for value in haystacks):
+        return 1.0
+    if any(value.startswith(needle) for value in haystacks):
+        return 0.9
+    if any(needle in value for value in haystacks):
+        return 0.8
+    return max((SequenceMatcher(None, needle, value).ratio() for value in haystacks), default=0.0)
+
+
+def event_keys_for_internal_ids(internal_ids):
+    if not internal_ids:
+        return {}
+    rows = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(internal_ids)})", "select": "id,event_key", "limit": "5000"}) or []
+    return {str(row.get("id")): str(row.get("event_key")) for row in rows if row.get("id") and row.get("event_key")}
 
 PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
 
@@ -1740,6 +1772,7 @@ def character_events(data):
         if venues and str(row.get("venue", "")).casefold() not in venues:
             continue
         result.append(row)
+    print(f"[artist_events] artist_id={artist_id} performances={len(result)}")
     return {"events": result}
 
 
@@ -1748,11 +1781,11 @@ def artist_options(query=""):
         "GET", "/rest/v1/artists",
         params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"},
     ) or []
-    needle = str(query or "").strip().casefold()
+    ranked = sorted(rows, key=lambda row: search_match_score(query, row.get("artist_name")), reverse=True)
     return {"artists": [
         {"id": row.get("id"), "artist_name": row.get("artist_name")}
-        for row in rows
-        if not needle or needle in str(row.get("artist_name") or "").casefold()
+        for row in ranked
+        if not query or search_match_score(query, row.get("artist_name")) >= 0.60
     ][:100]}
 
 
@@ -1770,9 +1803,12 @@ def artist_events(data):
     event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
     if not event_ids:
         return {"events": []}
+    event_key_by_internal_id = event_keys_for_internal_ids(event_ids)
+    event_keys = list(event_key_by_internal_id.values())
+    print(f"[artist_events] artist_id={artist_id} event_credits={len(credits)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
     catalog = supabase_service(
         "GET", "/rest/v1/event_catalog_v1",
-        params={"event_id": f"in.({','.join(event_ids)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"},
+        params={"event_id": f"in.({','.join(event_keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"},
     ) or []
     by_event = {}
     for row in credits:
@@ -1788,7 +1824,8 @@ def artist_events(data):
             continue
         if venues and str(event.get("venue", "")).casefold() not in venues:
             continue
-        credit = next((row for row in by_event.get(str(event.get("event_id")), []) if row.get("artist_id") == artist_id), by_event.get(str(event.get("event_id")), [{}])[0])
+        internal_id = next((key for key, value in event_key_by_internal_id.items() if value == str(event.get("event_id"))), "")
+        credit = next((row for row in by_event.get(internal_id, []) if row.get("artist_id") == artist_id), by_event.get(internal_id, [{}])[0])
         event = dict(event)
         event["role"] = credit.get("role")
         event["character"] = credit.get("character") or credit.get("raw_character")
@@ -1812,10 +1849,14 @@ def artist_context(data):
     event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credit_rows if row.get("event_id")))
     performances = []
     if event_ids:
-        catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(event_ids)})", "order": "date.asc,start_time.asc", "limit": "2000"}) or []
+        event_key_by_internal_id = event_keys_for_internal_ids(event_ids)
+        event_keys = list(event_key_by_internal_id.values())
+        print(f"[artist_context] artist_id={artist_id} event_credits={len(credit_rows)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
+        catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(event_keys)})", "order": "date.asc,start_time.asc", "limit": "2000"}) or []
         by_event = {str(row.get("event_id")): row for row in credit_rows}
         for event in catalog:
-            credit = by_event.get(str(event.get("event_id")), {})
+            internal_id = next((key for key, value in event_key_by_internal_id.items() if value == str(event.get("event_id"))), "")
+            credit = by_event.get(internal_id, {})
             performances.append({
                 "event_id": event.get("event_id"),
                 "date": event.get("date"), "start_time": event.get("start_time"),
@@ -1831,26 +1872,34 @@ def artist_context(data):
     roles = sorted({str(row.get("role")) for row in credit_rows if row.get("role")})
     articles = supabase_service("GET", "/rest/v1/public_articles", params={"select": "id,title,source,published_at,canonical_url,url,raw_data", "order": "published_at.desc", "limit": "200"}) or []
     name = str(artist_rows[0].get("artist_name") or "")
-    needle = name.casefold()
+    needle = normalize_search_key(name)
     news = []
     for article in articles:
         raw = article.get("raw_data") if isinstance(article.get("raw_data"), dict) else {}
         title = str(article.get("title") or raw.get("title") or "")
-        summary = str(raw.get("summary") or raw.get("description") or raw.get("content") or "")
-        if needle and needle not in title.casefold() and needle not in summary.casefold():
+        original_title = str(raw.get("original_title") or raw.get("source_title") or "")
+        summary = str(raw.get("summary") or raw.get("description") or "")
+        content = str(raw.get("result") or raw.get("content") or article.get("result") or "")
+        score = search_match_score(name, title, original_title) * 1.2
+        score = max(score, search_match_score(name, summary, content))
+        if needle and score < 0.60:
             continue
-        news.append({"id": article.get("id"), "title": title, "source": article.get("source") or "", "published_at": article.get("published_at"), "article_url": article.get("url") or article.get("canonical_url"), "canonical_url": article.get("canonical_url") or article.get("url")})
-        if len(news) >= 10:
-            break
+        news.append((score, {"id": article.get("id"), "title": title, "source": article.get("source") or "", "published_at": article.get("published_at"), "article_url": article.get("url") or article.get("canonical_url"), "canonical_url": article.get("canonical_url") or article.get("url")}))
+    news.sort(key=lambda item: str(item[1].get("published_at") or ""), reverse=True)
+    news.sort(key=lambda item: item[0], reverse=True)
+    news = [item[1] for item in news[:10]]
     return {"artist": {"id": artist_rows[0].get("id"), "name": name, "roles": roles}, "performances": performances, "news": news}
 
 
 def entity_options(query=""):
-    needle = str(query or "").strip().casefold()
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
     characters = supabase_service("GET", "/rest/v1/work_characters", params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}) or []
+    aliases = supabase_service("GET", "/rest/v1/character_aliases", params={"select": "character_id,alias", "limit": "10000"}) or []
     artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"}) or []
     work_by_id = {str(row.get("id")): row for row in works}
+    aliases_by_character = {}
+    for row in aliases:
+        aliases_by_character.setdefault(str(row.get("character_id")), []).append(row.get("alias"))
     role_rows = supabase_service("GET", "/rest/v1/event_credits", params={"select": "artist_id,role", "limit": "10000"}) or []
     roles_by_artist = {}
     for row in role_rows:
@@ -1858,11 +1907,14 @@ def entity_options(query=""):
             roles_by_artist.setdefault(str(row["artist_id"]), set()).add(str(row["role"]))
     return {
         "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "composer": row.get("composer")}
-                  for row in works if not needle or needle in str(row.get("title") or "").casefold()][:30],
+                  for row in sorted(works, key=lambda row: search_match_score(query, row.get("title"), row.get("composer")), reverse=True)
+                  if not query or search_match_score(query, row.get("title"), row.get("composer")) >= 0.60][:30],
         "characters": [{"type": "character", "id": row.get("id"), "label": row.get("canonical_name"), "canonical_name": row.get("canonical_name"), "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"), "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"), "work_id": row.get("work_id")}
-                       for row in characters if not needle or needle in str(row.get("canonical_name") or "").casefold()][:30],
+                       for row in sorted(characters, key=lambda row: search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])), reverse=True)
+                       if not query or search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])) >= 0.60][:30],
         "artists": [{"type": "artist", "id": row.get("id"), "label": row.get("artist_name"), "artist_name": row.get("artist_name"), "roles": sorted(roles_by_artist.get(str(row.get("id")), set()))}
-                    for row in artists if not needle or needle in str(row.get("artist_name") or "").casefold()][:30],
+                    for row in sorted(artists, key=lambda row: search_match_score(query, row.get("artist_name")), reverse=True)
+                    if not query or search_match_score(query, row.get("artist_name")) >= 0.60][:30],
     }
 
 
