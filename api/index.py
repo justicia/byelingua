@@ -1566,6 +1566,37 @@ def _schedule_city(value):
     return value or "Other"
 
 
+CANONICAL_EVENT_TYPES = (
+    "opera", "operetta", "ballet", "concert", "chamber_music",
+    "recital", "children_family", "matinee", "other",
+)
+EVENT_TYPE_LABELS = {
+    "opera": "Opera", "operetta": "Operetta", "ballet": "Ballet",
+    "concert": "Concert", "chamber_music": "Chamber Music",
+    "recital": "Recital", "children_family": "Children & Family",
+    "matinee": "Matinee", "other": "Other",
+}
+
+
+def canonical_event_type(raw):
+    value = str(raw or "").strip().lower()
+    if value in {"opera", "opera_en_concert", "children_s_opera"}:
+        return "children_family" if value == "children_s_opera" else "opera"
+    if "operetta" in value:
+        return "operetta"
+    if "ballet" in value:
+        return "ballet"
+    if value.startswith("recital"):
+        return "recital"
+    if value in {"musique_de_chambre", "musique_de_chambre_compositrices_d_hier", "chamber_music"} or "chamber" in value:
+        return "chamber_music"
+    if value == "concert" or value.startswith("concert_"):
+        return "concert"
+    if "matinee" in value or "matin" in value:
+        return "matinee"
+    return value if value in CANONICAL_EVENT_TYPES else "other"
+
+
 def schedule_options():
     organizations = supabase_service(
         "GET", "/rest/v1/organizations",
@@ -1574,9 +1605,6 @@ def schedule_options():
     venues = supabase_service(
         "GET", "/rest/v1/venues",
         params={"select": "id,name,city,organization_id", "order": "name"},
-    ) or []
-    event_rows = supabase_service(
-        "GET", "/rest/v1/events", params={"select": "event_type", "limit": "1000"},
     ) or []
     org_by_id = {row["id"]: row for row in organizations}
     venue_rows = []
@@ -1590,8 +1618,10 @@ def schedule_options():
             "organization_id": venue.get("organization_id"),
             "organization": org.get("name", ""),
         })
-    event_types = sorted({row.get("event_type") for row in event_rows if row.get("event_type")})
-    return {"cities": sorted(cities), "organizations": organizations, "venues": venue_rows, "event_types": event_types}
+    return {
+        "cities": sorted(cities), "organizations": organizations, "venues": venue_rows,
+        "event_types": [{"value": value, "label": EVENT_TYPE_LABELS[value]} for value in CANONICAL_EVENT_TYPES],
+    }
 
 
 def schedule_events(data):
@@ -1607,15 +1637,17 @@ def schedule_events(data):
     }
     # One `and` expression keeps both date bounds in a single query parameter.
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
-    event_type = str(data.get("event_type") or "").strip()
-    if event_type:
-        params["event_type"] = f"eq.{event_type}"
+    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
     cities = {str(x).lower() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).lower() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
     filtered = []
     for row in rows:
+        row["raw_event_type"] = row.get("event_type")
+        row["event_type"] = canonical_event_type(row.get("event_type"))
+        if event_type and row["event_type"] != event_type:
+            continue
         city = _schedule_city(row.get("venue") or row.get("organization"))
         if cities and city.lower() not in cities:
             continue
@@ -1635,6 +1667,8 @@ def schedule_event_detail(event_id):
     if not catalog:
         raise ValueError("找不到这场演出。")
     event = catalog[0]
+    event["raw_event_type"] = event.get("event_type")
+    event["event_type"] = canonical_event_type(event.get("event_type"))
     base = supabase_service(
         "GET", "/rest/v1/events",
         params={"event_key": f"eq.{event_id}", "select": "id", "limit": "1"},
