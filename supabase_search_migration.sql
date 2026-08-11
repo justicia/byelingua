@@ -1,5 +1,5 @@
 -- Accent-insensitive entity search without changing canonical/display names.
-create extension if not exists unaccent;
+create extension if not exists unaccent with schema extensions;
 create extension if not exists pg_trgm;
 
 create or replace function public.search_key(value text)
@@ -8,7 +8,7 @@ language sql
 immutable
 parallel safe
 as $$
-  select trim(regexp_replace(lower(unaccent(coalesce(value, ''))), '\s+', ' ', 'g'));
+  select trim(regexp_replace(lower(extensions.unaccent(coalesce(value, ''))), '\s+', ' ', 'g'));
 $$;
 
 create index if not exists artists_search_key_trgm_idx
