@@ -1728,8 +1728,11 @@ def character_events(data):
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).casefold() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     result = []
     for row in rows:
+        if event_type and row.get("event_type") and canonical_event_type(row.get("event_type")) != event_type:
+            continue
         if cities and _schedule_city(row.get("venue") or row.get("organization")).casefold() not in cities:
             continue
         if organizations and str(row.get("organization", "")).casefold() not in organizations:
@@ -1776,8 +1779,11 @@ def artist_events(data):
         by_event.setdefault(str(row.get("event_id")), []).append(row)
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     result = []
     for event in catalog:
+        if event_type and canonical_event_type(event.get("event_type")) != event_type:
+            continue
         if cities and _schedule_city(event.get("venue") or event.get("organization")).casefold() not in cities:
             continue
         if venues and str(event.get("venue", "")).casefold() not in venues:
@@ -1839,6 +1845,48 @@ def artist_context(data):
     return {"artist": {"id": artist_rows[0].get("id"), "name": name, "roles": roles}, "performances": performances, "news": news}
 
 
+def entity_options(query=""):
+    needle = str(query or "").strip().casefold()
+    works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
+    characters = supabase_service("GET", "/rest/v1/work_characters", params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}) or []
+    artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"}) or []
+    work_by_id = {str(row.get("id")): row for row in works}
+    role_rows = supabase_service("GET", "/rest/v1/event_credits", params={"select": "artist_id,role", "limit": "10000"}) or []
+    roles_by_artist = {}
+    for row in role_rows:
+        if row.get("artist_id") and row.get("role"):
+            roles_by_artist.setdefault(str(row["artist_id"]), set()).add(str(row["role"]))
+    return {
+        "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "composer": row.get("composer")}
+                  for row in works if not needle or needle in str(row.get("title") or "").casefold()][:30],
+        "characters": [{"type": "character", "id": row.get("id"), "label": row.get("canonical_name"), "canonical_name": row.get("canonical_name"), "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"), "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"), "work_id": row.get("work_id")}
+                       for row in characters if not needle or needle in str(row.get("canonical_name") or "").casefold()][:30],
+        "artists": [{"type": "artist", "id": row.get("id"), "label": row.get("artist_name"), "artist_name": row.get("artist_name"), "roles": sorted(roles_by_artist.get(str(row.get("id")), set()))}
+                    for row in artists if not needle or needle in str(row.get("artist_name") or "").casefold()][:30],
+    }
+
+
+def work_events(data):
+    work_id = str(data.get("work_id") or "").strip()
+    if not work_id:
+        raise ValueError("请选择一部作品。")
+    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
+    rows = supabase_service("GET", "/rest/v1/event_programme", params={"work_id": f"eq.{work_id}", "select": "event_id", "limit": "5000"}) or []
+    internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in rows if row.get("event_id")))
+    if not internal_ids:
+        return {"events": []}
+    event_rows = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(internal_ids)})", "select": "id,event_key", "limit": "5000"}) or []
+    keys = [str(row.get("event_key")) for row in event_rows if row.get("event_key")]
+    if not keys:
+        return {"events": []}
+    payload = dict(data); payload["date_from"], payload["date_to"] = date_from, date_to
+    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"}) or []
+    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
+    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
+    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _schedule_city(row.get("venue") or row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues)]}
+
+
 class handler(BaseHTTPRequestHandler):
     def send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -1879,6 +1927,14 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, artist_events(data)); return
             if action == "artist_context":
                 self.send_json(200, artist_context(data)); return
+            if action == "entity_options":
+                self.send_json(200, entity_options(data.get("query", ""))); return
+            if action == "entity_events":
+                entity_type = str(data.get("entity_type") or "")
+                if entity_type == "work": self.send_json(200, work_events(data)); return
+                if entity_type == "character": self.send_json(200, character_events(data)); return
+                if entity_type == "artist": self.send_json(200, artist_events(data)); return
+                raise ValueError("不支持的搜索类型。")
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
