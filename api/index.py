@@ -1891,7 +1891,7 @@ def artist_context(data):
     return {"artist": {"id": artist_rows[0].get("id"), "name": name, "roles": roles}, "performances": performances, "news": news}
 
 
-def entity_options(query=""):
+def entity_options(query="", work_id=""):
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
     characters = supabase_service("GET", "/rest/v1/work_characters", params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}) or []
     aliases = supabase_service("GET", "/rest/v1/character_aliases", params={"select": "character_id,alias", "limit": "10000"}) or []
@@ -1911,7 +1911,7 @@ def entity_options(query=""):
                   if not query or search_match_score(query, row.get("title"), row.get("composer")) >= 0.60][:30],
         "characters": [{"type": "character", "id": row.get("id"), "label": row.get("canonical_name"), "canonical_name": row.get("canonical_name"), "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"), "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"), "work_id": row.get("work_id")}
                        for row in sorted(characters, key=lambda row: search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])), reverse=True)
-                       if not query or search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])) >= 0.60][:30],
+                       if (not work_id or str(row.get("work_id")) == str(work_id)) and (not query or search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])) >= 0.60)][:30],
         "artists": [{"type": "artist", "id": row.get("id"), "label": row.get("artist_name"), "artist_name": row.get("artist_name"), "roles": sorted(roles_by_artist.get(str(row.get("id")), set()))}
                     for row in sorted(artists, key=lambda row: search_match_score(query, row.get("artist_name")), reverse=True)
                     if not query or search_match_score(query, row.get("artist_name")) >= 0.60][:30],
@@ -1937,6 +1937,23 @@ def work_events(data):
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _schedule_city(row.get("venue") or row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues)]}
+
+
+def combined_entity_events(data):
+    selected = []
+    if data.get("work_id"):
+        selected.append(work_events(data).get("events", []))
+    if data.get("character_id"):
+        selected.append(character_events(data).get("events", []))
+    if data.get("artist_id"):
+        selected.append(artist_events(data).get("events", []))
+    if not selected:
+        return schedule_events(data)
+    common_ids = set(str(row.get("event_id")) for row in selected[0])
+    for rows in selected[1:]:
+        common_ids &= {str(row.get("event_id")) for row in rows}
+    by_id = {str(row.get("event_id")): row for row in selected[0]}
+    return {"events": [by_id[event_id] for event_id in sorted(common_ids, key=lambda key: (by_id[key].get("date") or "", by_id[key].get("start_time") or ""))]}
 
 
 class handler(BaseHTTPRequestHandler):
@@ -1980,13 +1997,15 @@ class handler(BaseHTTPRequestHandler):
             if action == "artist_context":
                 self.send_json(200, artist_context(data)); return
             if action == "entity_options":
-                self.send_json(200, entity_options(data.get("query", ""))); return
+                self.send_json(200, entity_options(data.get("query", ""), data.get("work_id", ""))); return
             if action == "entity_events":
                 entity_type = str(data.get("entity_type") or "")
                 if entity_type == "work": self.send_json(200, work_events(data)); return
                 if entity_type == "character": self.send_json(200, character_events(data)); return
                 if entity_type == "artist": self.send_json(200, artist_events(data)); return
                 raise ValueError("不支持的搜索类型。")
+            if action == "combined_entity_events":
+                self.send_json(200, combined_entity_events(data)); return
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
