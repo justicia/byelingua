@@ -1554,6 +1554,113 @@ def generate_invite_code(user_id):
     }
 
 
+def _schedule_city(value):
+    """Return a stable city label for the current venue catalogue."""
+    text = str(value or "").lower()
+    if "paris" in text:
+        return "Paris"
+    if "wien" in text or "vienna" in text:
+        return "Vienna"
+    if "berlin" in text:
+        return "Berlin"
+    return value or "Other"
+
+
+def schedule_options():
+    organizations = supabase_service(
+        "GET", "/rest/v1/organizations",
+        params={"select": "id,name", "order": "name"},
+    ) or []
+    venues = supabase_service(
+        "GET", "/rest/v1/venues",
+        params={"select": "id,name,city,organization_id", "order": "name"},
+    ) or []
+    event_rows = supabase_service(
+        "GET", "/rest/v1/events", params={"select": "event_type", "limit": "1000"},
+    ) or []
+    org_by_id = {row["id"]: row for row in organizations}
+    venue_rows = []
+    cities = set()
+    for venue in venues:
+        org = org_by_id.get(venue.get("organization_id"), {})
+        city = _schedule_city(venue.get("city") or org.get("name"))
+        cities.add(city)
+        venue_rows.append({
+            "id": venue.get("id"), "name": venue.get("name"), "city": city,
+            "organization_id": venue.get("organization_id"),
+            "organization": org.get("name", ""),
+        })
+    event_types = sorted({row.get("event_type") for row in event_rows if row.get("event_type")})
+    return {"cities": sorted(cities), "organizations": organizations, "venues": venue_rows, "event_types": event_types}
+
+
+def schedule_events(data):
+    date_from = str(data.get("date_from") or "")
+    date_to = str(data.get("date_to") or "")
+    if not date_from or not date_to:
+        raise ValueError("请选择开始和结束日期。")
+    if date_from > date_to:
+        raise ValueError("开始日期不能晚于结束日期。")
+    params = {
+        "select": "*",
+        "order": "date.asc,start_time.asc", "limit": "1000",
+    }
+    # One `and` expression keeps both date bounds in a single query parameter.
+    params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
+    event_type = str(data.get("event_type") or "").strip()
+    if event_type:
+        params["event_type"] = f"eq.{event_type}"
+    rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
+    cities = {str(x).lower() for x in data.get("cities", []) if str(x).strip()}
+    organizations = {str(x).lower() for x in data.get("organizations", []) if str(x).strip()}
+    venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
+    filtered = []
+    for row in rows:
+        city = _schedule_city(row.get("venue") or row.get("organization"))
+        if cities and city.lower() not in cities:
+            continue
+        if organizations and str(row.get("organization", "")).lower() not in organizations:
+            continue
+        if venues and str(row.get("venue", "")).lower() not in venues:
+            continue
+        filtered.append(row)
+    return {"events": filtered}
+
+
+def schedule_event_detail(event_id):
+    catalog = supabase_service(
+        "GET", "/rest/v1/event_catalog_v1",
+        params={"event_id": f"eq.{event_id}", "limit": "1"},
+    ) or []
+    if not catalog:
+        raise ValueError("找不到这场演出。")
+    event = catalog[0]
+    base = supabase_service(
+        "GET", "/rest/v1/events",
+        params={"event_key": f"eq.{event_id}", "select": "id", "limit": "1"},
+    ) or []
+    if not base:
+        return {"event": {**event, "programme": [], "credits": []}}
+    internal_id = base[0]["id"]
+    programme = supabase_service(
+        "GET", "/rest/v1/event_programme",
+        params={"event_id": f"eq.{internal_id}", "select": '"order",works(title,composer)', "order": '"order"'},
+    ) or []
+    credits = supabase_service(
+        "GET", "/rest/v1/event_credits",
+        params={"event_id": f"eq.{internal_id}", "select": "role,character,artists(artist_name)"},
+    ) or []
+    event["programme"] = [
+        {"order": row.get("order"), "title": (row.get("works") or {}).get("title"), "composer": (row.get("works") or {}).get("composer")}
+        for row in programme
+    ]
+    event["credits"] = [
+        {"artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "character": row.get("character")}
+        for row in credits
+    ]
+    return {"event": event}
+
+
 class handler(BaseHTTPRequestHandler):
     def send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -1578,6 +1685,12 @@ class handler(BaseHTTPRequestHandler):
             if action == "sync_wechat":
                 require_wechat_sync(self.headers)
                 self.send_json(200, sync_wechat_article(data.get("article",{}))); return
+            if action == "schedule_options":
+                self.send_json(200, schedule_options()); return
+            if action == "schedule_events":
+                self.send_json(200, schedule_events(data)); return
+            if action == "schedule_event_detail":
+                self.send_json(200, schedule_event_detail(str(data.get("event_id", "")))); return
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
