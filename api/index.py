@@ -1740,6 +1740,58 @@ def character_events(data):
     return {"events": result}
 
 
+def artist_options(query=""):
+    rows = supabase_service(
+        "GET", "/rest/v1/artists",
+        params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"},
+    ) or []
+    needle = str(query or "").strip().casefold()
+    return {"artists": [
+        {"id": row.get("id"), "artist_name": row.get("artist_name")}
+        for row in rows
+        if not needle or needle in str(row.get("artist_name") or "").casefold()
+    ][:100]}
+
+
+def artist_events(data):
+    artist_id = str(data.get("artist_id") or "").strip()
+    if not artist_id:
+        raise ValueError("请选择一位艺术家。")
+    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
+    if not date_from or not date_to:
+        raise ValueError("请选择开始和结束日期。")
+    credits = supabase_service(
+        "GET", "/rest/v1/event_credits",
+        params={"artist_id": f"eq.{artist_id}", "select": "event_id,artist_id,role,character,raw_character,artists(artist_name)", "limit": "5000"},
+    ) or []
+    event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
+    if not event_ids:
+        return {"events": []}
+    catalog = supabase_service(
+        "GET", "/rest/v1/event_catalog_v1",
+        params={"event_id": f"in.({','.join(event_ids)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"},
+    ) or []
+    by_event = {}
+    for row in credits:
+        by_event.setdefault(str(row.get("event_id")), []).append(row)
+    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
+    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    result = []
+    for event in catalog:
+        if cities and _schedule_city(event.get("venue") or event.get("organization")).casefold() not in cities:
+            continue
+        if venues and str(event.get("venue", "")).casefold() not in venues:
+            continue
+        credit = next((row for row in by_event.get(str(event.get("event_id")), []) if row.get("artist_id") == artist_id), by_event.get(str(event.get("event_id")), [{}])[0])
+        event = dict(event)
+        event["role"] = credit.get("role")
+        event["character"] = credit.get("character") or credit.get("raw_character")
+        event["artist_name"] = (credit.get("artists") or {}).get("artist_name")
+        event["event_type"] = canonical_event_type(event.get("event_type"))
+        result.append(event)
+    return {"events": result}
+
+
 class handler(BaseHTTPRequestHandler):
     def send_json(self, status, payload):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -1774,6 +1826,10 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, character_options(data.get("query", ""))); return
             if action == "character_events":
                 self.send_json(200, character_events(data)); return
+            if action == "artist_options":
+                self.send_json(200, artist_options(data.get("query", ""))); return
+            if action == "artist_events":
+                self.send_json(200, artist_events(data)); return
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
