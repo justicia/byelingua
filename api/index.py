@@ -1682,17 +1682,62 @@ def schedule_event_detail(event_id):
     ) or []
     credits = supabase_service(
         "GET", "/rest/v1/event_credits",
-        params={"event_id": f"eq.{internal_id}", "select": "role,character,artists(artist_name)"},
+        params={"event_id": f"eq.{internal_id}", "select": "role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
     ) or []
     event["programme"] = [
         {"order": row.get("order"), "title": (row.get("works") or {}).get("title"), "composer": (row.get("works") or {}).get("composer")}
         for row in programme
     ]
     event["credits"] = [
-        {"artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "character": row.get("character")}
+        {"artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
         for row in credits
     ]
     return {"event": event}
+
+
+def character_options(query=""):
+    works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "limit": "2000"}) or []
+    work_by_id = {row["id"]: row for row in works}
+    rows = supabase_service(
+        "GET", "/rest/v1/work_characters",
+        params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "2000"},
+    ) or []
+    needle = str(query or "").strip().casefold()
+    result = []
+    for row in rows:
+        work = work_by_id.get(row.get("work_id"), {})
+        if needle and needle not in str(row.get("canonical_name", "")).casefold():
+            continue
+        result.append({"id": row.get("id"), "canonical_name": row.get("canonical_name"), "work_id": row.get("work_id"), "work_title": work.get("title"), "composer": work.get("composer")})
+    return {"characters": result[:100]}
+
+
+def character_events(data):
+    character_id = str(data.get("character_id") or "").strip()
+    if not character_id:
+        raise ValueError("请选择一个角色。")
+    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
+    if not date_from or not date_to:
+        raise ValueError("请选择开始和结束日期。")
+    params = {
+        "select": "*", "character_id": f"eq.{character_id}",
+        "and": f"(date.gte.{date_from},date.lte.{date_to})",
+        "order": "date.asc,start_time.asc", "limit": "1000",
+    }
+    rows = supabase_service("GET", "/rest/v1/event_character_catalog_v1", params=params) or []
+    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
+    organizations = {str(x).casefold() for x in data.get("organizations", []) if str(x).strip()}
+    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    result = []
+    for row in rows:
+        if cities and _schedule_city(row.get("venue") or row.get("organization")).casefold() not in cities:
+            continue
+        if organizations and str(row.get("organization", "")).casefold() not in organizations:
+            continue
+        if venues and str(row.get("venue", "")).casefold() not in venues:
+            continue
+        result.append(row)
+    return {"events": result}
 
 
 class handler(BaseHTTPRequestHandler):
@@ -1725,6 +1770,10 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, schedule_events(data)); return
             if action == "schedule_event_detail":
                 self.send_json(200, schedule_event_detail(str(data.get("event_id", "")))); return
+            if action == "character_options":
+                self.send_json(200, character_options(data.get("query", ""))); return
+            if action == "character_events":
+                self.send_json(200, character_events(data)); return
             if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
