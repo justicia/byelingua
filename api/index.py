@@ -1734,6 +1734,14 @@ def _schedule_city(value):
     return value or "Other"
 
 
+def _event_city(event, venue_cities=None):
+    """Return explicit city data, optionally enriched from the venue directory."""
+    city = event.get("city") or event.get("location_city")
+    if not city and venue_cities:
+        city = venue_cities.get(str(event.get("venue") or "").strip().casefold())
+    return _schedule_city(city) if city else ""
+
+
 CANONICAL_EVENT_TYPES = (
     "opera", "operetta", "ballet", "concert", "chamber_music",
     "recital", "children_family", "matinee", "other",
@@ -1817,6 +1825,16 @@ def schedule_events(data):
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
+    venue_cities = {}
+    if any(not (row.get("city") or row.get("location_city")) for row in rows):
+        venue_rows = supabase_service(
+            "GET", "/rest/v1/venues",
+            params={"select": "name,city", "limit": "5000"},
+        ) or []
+        venue_cities = {
+            str(venue.get("name") or "").strip().casefold(): venue.get("city")
+            for venue in venue_rows if venue.get("name") and venue.get("city")
+        }
     cities = {str(x).lower() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).lower() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
@@ -1826,8 +1844,10 @@ def schedule_events(data):
         row["event_type"] = canonical_event_type(row.get("event_type"))
         if event_type and row["event_type"] != event_type:
             continue
-        city = _schedule_city(row.get("venue") or row.get("organization"))
-        if cities and city.lower() not in cities:
+        city = _event_city(row, venue_cities)
+        if city:
+            row["city"] = city
+        if cities and city.casefold() not in cities:
             continue
         if organizations and str(row.get("organization", "")).lower() not in organizations:
             continue
