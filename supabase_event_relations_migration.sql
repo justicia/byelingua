@@ -5,6 +5,7 @@ create table if not exists public.user_event_relations (
   event_id uuid not null references public.events(id) on delete cascade,
   intent_status text not null default 'interested'
     check (intent_status in ('interested', 'maybe_go', 'must_go')),
+  is_planned boolean not null default true,
   attendance_status text null
     check (attendance_status is null or attendance_status in ('planned', 'attended', 'missed')),
   ticket_status text null
@@ -16,6 +17,8 @@ create table if not exists public.user_event_relations (
 
 create index if not exists user_event_relations_user_intent_idx
   on public.user_event_relations (user_id, intent_status);
+
+alter table public.user_event_relations add column if not exists is_planned boolean not null default true;
 
 create table if not exists public.event_reviews (
   id uuid primary key default gen_random_uuid(),
