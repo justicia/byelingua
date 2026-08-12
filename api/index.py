@@ -1208,7 +1208,7 @@ def save_personal_subscription(user_id, data):
         rows = supabase_service("PATCH", "/rest/v1/user_subscriptions", params={"id":f"eq.{existing['id']}"}, payload=record)
     else:
         rows = supabase_service("POST", "/rest/v1/user_subscriptions", payload=record)
-    return rows[0] if rows else record
+    return personal_payload(user_id)
 
 
 def delete_personal_subscription(user_id, identifier):
