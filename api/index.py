@@ -1223,11 +1223,12 @@ def set_general_subscription(user_id, source, enabled):
 def effective_subscriptions(personal):
     personal_rows = [row for row in personal.get("subscriptions", []) if row.get("enabled", True)]
     general_rows = [row for row in personal.get("general_subscriptions", []) if row.get("enabled", False)]
-    by_feed = {row.get("feed_url"): row for row in personal_rows}
+    by_feed = {(row.get("feed_url") or row.get("id") or row.get("name")): row for row in personal_rows}
     for row in general_rows:
         source = next((item for item in available_news_sources() if item.get("id") == row.get("source_id") or item.get("feed_url") == row.get("feed_url")), None)
-        if source and source.get("feed_url") not in by_feed:
-            by_feed[source["feed_url"]] = {**source, "enabled":True}
+        source_key = source.get("feed_url") or source.get("id") or source.get("name") if source else None
+        if source and source_key not in by_feed:
+            by_feed[source_key] = {**source, "enabled":True}
     return list(by_feed.values())
 
 
@@ -1962,7 +1963,40 @@ def _schedule_owned(user_id, schedule_id):
     rows = supabase_service("GET", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user_id}", "select": "*", "limit": "1"}) or []
     if not rows:
         raise PermissionError("无权访问该 Schedule。")
-    return rows[0]
+    return _schedule_api_view(rows[0])
+
+
+def _schedule_confirmed(schedule):
+    """Accept the pre-migration planned spelling while the database rolls forward."""
+    return str((schedule or {}).get("status") or "").lower() in {"planned", "confirmed"}
+
+
+def _schedule_api_view(schedule):
+    """Keep the existing browser contract while storage migrates planned -> confirmed."""
+    if schedule and schedule.get("status") == "confirmed":
+        return {**schedule, "status": "planned"}
+    return schedule
+
+
+def _event_snapshot(event):
+    event = event or {}
+    return {key: event.get(key) for key in (
+        "title", "date", "start_time", "end_time", "timezone", "venue",
+        "city", "location_city", "organization", "event_type", "source_url",
+    ) if event.get(key) is not None}
+
+
+def _snapshot_schedule_events(schedule_id):
+    """Freeze the event fields needed for stable historical itinerary exports."""
+    rows = _schedule_events_payload(schedule_id)
+    for row in rows:
+        snapshot = _event_snapshot(row.get("event"))
+        if snapshot:
+            supabase_service(
+                "PATCH", "/rest/v1/schedule_events",
+                params={"id": f"eq.{row['id']}"},
+                payload={"event_snapshot": snapshot},
+            )
 
 
 def _schedule_events_payload(schedule_id):
@@ -1998,7 +2032,8 @@ def create_schedule(headers, title):
 def list_schedules(headers):
     user = authenticated_user(headers)
     rows = supabase_service("GET", "/rest/v1/schedules", params={"user_id": f"eq.{user['id']}", "select": "*", "order": "updated_at.desc", "limit": "5000"}) or []
-    for row in rows:
+    for index, row in enumerate(rows):
+        rows[index] = _schedule_api_view(row)
         members = _schedule_events_payload(row["id"])
         row["event_count"] = len(members)
         row["cities"] = sorted({_event_city(member.get("event") or {}) for member in members if _event_city(member.get("event") or {})})
@@ -2019,15 +2054,23 @@ def update_schedule(headers, schedule_id, title=None, status=None):
         if not title: raise ValueError("Schedule 标题不能为空。")
         payload["title"] = title
     if status is not None:
-        if status not in {"draft", "planned", "completed", "archived"}: raise ValueError("无效的 Schedule 状态。")
+        if status == "planned":
+            status = "confirmed"
+        if status == "completed":
+            status = "confirmed"
+        if status == "archived":
+            payload["archived_at"] = datetime.now(timezone.utc).isoformat()
+            status = "confirmed"
+        if status not in {"draft", "confirmed"}: raise ValueError("无效的 Schedule 状态。")
         payload["status"] = status
     rows = supabase_service("PATCH", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user['id']}"}, payload=payload) or []
     result = rows[0] if rows else {"id": schedule_id, **payload}
-    if status == "planned":
+    if status == "confirmed":
         try:
             confirmed = supabase_service("PATCH", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user['id']}"}, payload={"needs_reconfirmation": False, "confirmed_at": datetime.now(timezone.utc).isoformat()}) or []
             if confirmed:
                 result = confirmed[0]
+            _snapshot_schedule_events(schedule_id)
         except Exception:
             pass
     return {"schedule": result}
@@ -2036,7 +2079,7 @@ def update_schedule(headers, schedule_id, title=None, status=None):
 def mark_schedule_needs_confirmation(headers, schedule_id):
     user = authenticated_user(headers)
     schedule = _schedule_owned(user["id"], schedule_id)
-    if schedule.get("status") != "planned":
+    if not _schedule_confirmed(schedule):
         return {"schedule": schedule, "reconfirmation_supported": False}
     try:
         rows = supabase_service(
@@ -2059,7 +2102,7 @@ def add_schedule_event(headers, schedule_id, event_key, note=None):
     payload = {"schedule_id": schedule_id, "event_id": event_id, "sort_order": sort_order, "note": note}
     rows = supabase_service("POST", "/rest/v1/schedule_events", params={"on_conflict": "schedule_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
     _refresh_schedule_date_range(schedule_id, user["id"])
-    if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
+    if _schedule_confirmed(_schedule_owned(user["id"], schedule_id)):
         mark_schedule_needs_confirmation(headers, schedule_id)
     return get_schedule(headers, schedule_id)
 
@@ -2069,7 +2112,7 @@ def remove_schedule_event(headers, schedule_id, event_key):
     event_id = _event_internal_id(str(event_key).strip())
     supabase_service("DELETE", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"})
     _refresh_schedule_date_range(schedule_id, user["id"])
-    if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
+    if _schedule_confirmed(_schedule_owned(user["id"], schedule_id)):
         mark_schedule_needs_confirmation(headers, schedule_id)
     return get_schedule(headers, schedule_id)
 
@@ -2080,7 +2123,7 @@ def reorder_schedule_events(headers, schedule_id, ordered_event_keys):
         event_id = _event_internal_id(str(key).strip())
         supabase_service("PATCH", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"}, payload={"sort_order": index, "updated_at": datetime.now(timezone.utc).isoformat()})
     _refresh_schedule_date_range(schedule_id, user["id"])
-    if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
+    if _schedule_confirmed(_schedule_owned(user["id"], schedule_id)):
         mark_schedule_needs_confirmation(headers, schedule_id)
     return get_schedule(headers, schedule_id)
 
@@ -2111,8 +2154,8 @@ def _ics_programme(event):
 def export_schedule_ics(headers, schedule_id):
     user = authenticated_user(headers)
     schedule = _schedule_owned(user["id"], schedule_id)
-    if schedule.get("status") != "planned":
-        raise ValueError("Only planned schedules can be exported.")
+    if not _schedule_confirmed(schedule):
+        raise ValueError("Only confirmed schedules can be exported.")
     rows = _schedule_events_payload(schedule_id)
     generated_at = datetime.now(timezone.utc)
     lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Byelingua//Schedule//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-TIMEZONE:Europe/Paris"]
@@ -2186,7 +2229,7 @@ def _schedule_email_content(schedule, rows, language, summary_url):
 def send_schedule_email(headers, schedule_id):
     user = authenticated_user(headers)
     schedule = _schedule_owned(user["id"], schedule_id)
-    if schedule.get("status") != "planned": raise ValueError("Only planned schedules can be emailed.")
+    if not _schedule_confirmed(schedule): raise ValueError("Only confirmed schedules can be emailed.")
     resend_key = os.environ.get("RESEND_API_KEY", "").strip(); email_from = os.environ.get("EMAIL_FROM", "").strip()
     if not resend_key or not email_from: raise RuntimeError("RESEND_API_KEY and EMAIL_FROM must be configured.")
     profiles = supabase_service("GET", "/rest/v1/profiles", params={"id":f"eq.{user['id']}","select":"email,preferred_language"}) or []
@@ -2196,17 +2239,19 @@ def send_schedule_email(headers, schedule_id):
     subject, html, text = _schedule_email_content(schedule, rows, profile.get("preferred_language") or "zh", f"{base_url}/schedule-summary.html?schedule_id={quote(str(schedule_id))}")
     content_hash = hashlib.sha256((html + ics["ics"]).encode("utf-8")).hexdigest()
     delivery = {"user_id":user["id"],"schedule_id":schedule_id,"recipient_email":str(profile["email"]).strip(),"status":"pending","content_hash":content_hash}
-    try: supabase_service("POST", "/rest/v1/schedule_email_deliveries", payload=delivery)
+    delivery_rows = []
+    try: delivery_rows = supabase_service("POST", "/rest/v1/schedule_email_deliveries", payload=delivery, prefer="return=representation") or []
     except Exception: pass
+    delivery_id = delivery_rows[0].get("id") if delivery_rows else None
     try:
         response = SESSION.post("https://api.resend.com/emails", headers={"Authorization":f"Bearer {resend_key}","Content-Type":"application/json","User-Agent":"Byelingua-Server/3.0"}, json={"from":email_from,"to":[delivery["recipient_email"]],"subject":subject,"html":html,"text":text,"attachments":[{"filename":ics["filename"],"content":base64.b64encode(ics["ics"].encode()).decode("ascii")}]}, timeout=20)
         if not response.ok: raise ValueError("邮件服务拒绝了发送请求。")
         provider_id = response.json().get("id")
-        try: supabase_service("PATCH", "/rest/v1/schedule_email_deliveries", params={"schedule_id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}","status":"eq.pending"}, payload={"status":"sent","provider_message_id":provider_id,"sent_at":datetime.now(timezone.utc).isoformat()})
+        try: supabase_service("PATCH", "/rest/v1/schedule_email_deliveries", params={"id":f"eq.{delivery_id}"} if delivery_id else {"schedule_id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}","status":"eq.pending"}, payload={"status":"sent","provider_message_id":provider_id,"sent_at":datetime.now(timezone.utc).isoformat()})
         except Exception: pass
         return {"sent":True,"recipient":delivery["recipient_email"]}
     except Exception as error:
-        try: supabase_service("PATCH", "/rest/v1/schedule_email_deliveries", params={"schedule_id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}","status":"eq.pending"}, payload={"status":"failed","error":str(error)[:500]})
+        try: supabase_service("PATCH", "/rest/v1/schedule_email_deliveries", params={"id":f"eq.{delivery_id}"} if delivery_id else {"schedule_id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}","status":"eq.pending"}, payload={"status":"failed","error":str(error)[:500]})
         except Exception: pass
         raise
 
