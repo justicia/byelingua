@@ -5,10 +5,32 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, send_daily_digest, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import _event_city, backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
+    def test_event_city_never_treats_venue_as_city(self):
+        self.assertEqual(_event_city({"venue":"Philharmonie de Paris"}), "")
+        self.assertEqual(_event_city({"venue":"Philharmonie de Paris"}, {"philharmonie de paris":"Paris"}), "Paris")
+        self.assertEqual(_event_city({"location_city":"Paris", "venue":"Philharmonie de Paris"}), "Paris")
+
+    @patch("api.index.supabase_service")
+    def test_schedule_event_city_filter_uses_only_explicit_city(self, service):
+        service.side_effect = [[
+            {"event_id":"paris", "date":"2026-09-04", "city":"Paris", "venue":"Philharmonie de Paris"},
+            {"event_id":"unknown", "date":"2026-09-04", "venue":"Unknown Hall"},
+        ], []]
+        result = schedule_events({"date_from":"2026-09-04", "date_to":"2026-09-04", "cities":["Paris"]})
+        self.assertEqual([event["event_id"] for event in result["events"]], ["paris"])
+
+    @patch("api.index.supabase_service")
+    def test_schedule_events_enriches_city_from_venue_directory(self, service):
+        service.side_effect = [[
+            {"event_id":"concert", "date":"2026-09-04", "venue":"Philharmonie de Paris"},
+        ], [{"name":"Philharmonie de Paris", "city":"Paris"}]]
+        result = schedule_events({"date_from":"2026-09-04", "date_to":"2026-09-04"})
+        self.assertEqual(result["events"][0]["city"], "Paris")
+
     @patch("api.index.supabase_service", return_value=[])
     def test_registration_rejects_invalid_invite(self, service):
         with self.assertRaisesRegex(ValueError, "邀请码无效"):
