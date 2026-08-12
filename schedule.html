@@ -13,7 +13,7 @@
 <section class="panel"><div class="toolbar"><div><h2 style="margin:0">Events</h2><div id="resultHint" class="hint">请先选择日期和地点。</div></div><span id="selectedHint" class="hint">已选 0 场</span></div><div id="events"></div></section>
 <section id="schedulePanel" class="panel" hidden><h2 style="margin:0">Generated Schedule</h2><div class="hint">按日期和开始时间排序。后续可将 selected_event_ids 接入用户旅行计划。</div><div id="schedule" class="schedule-grid" style="margin-top:12px"></div></section>
 <dialog id="detail"><div style="padding:18px"><div class="toolbar"><h2 id="detailTitle" style="margin:0"></h2><button id="closeDetail" class="secondary">关闭</button></div><div id="detailMeta" class="meta"></div><div id="detailBody"></div></div></dialog>
-</main><script>
+</main><script src="/shared-header.js"></script><script>
 const $=id=>document.getElementById(id);let options={cities:[],organizations:[],venues:[]},events=[],selected_event_ids=new Set(),details=new Map(),characterChoices=[],selectedCharacter=null;
 let eventAccessToken='';
 function storedEventAccessToken(){for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i)||'';if(!key.startsWith('sb-')||!key.endsWith('-auth-token'))continue;try{const value=JSON.parse(localStorage.getItem(key)||'{}');if(value.access_token)return value.access_token}catch(_){}}return ''}
@@ -202,6 +202,7 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   if(!top)return;
   top.classList.add('schedule-site-header');
   top.innerHTML='<div class="schedule-identity"><a class="schedule-brand" href="/" aria-label="Byelingua 首页">BYELINGUA</a><div class="schedule-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</div><h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div></div><div class="schedule-header-actions"><div class="language-switch" aria-label="Language"><button type="button" data-schedule-language="zh">中文</button><button type="button" data-schedule-language="en">English</button></div><div class="schedule-account"><span class="schedule-account-label" id="scheduleAccountLabel"></span><button type="button" class="secondary" id="scheduleAccountButton">登录</button><button type="button" class="secondary" id="scheduleLogoutButton" hidden>退出登录</button></div><button id="generate" disabled>Generate Schedule</button></div>';
+  const title=top.querySelector('.schedule-page-title'),description=top.querySelector('.schedule-page-description'),heading=document.createElement('div');heading.className='schedule-page-heading';heading.append(title,description);top.after(heading);top.classList.add('byelingua-compact-header');
   const languageButtons=[...top.querySelectorAll('[data-schedule-language]')];
   const scheduleGenerate=document.getElementById('generate');
   if(scheduleGenerate&&typeof generate==='function')scheduleGenerate.onclick=generate;
