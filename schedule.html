@@ -200,24 +200,23 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
 // Schedule Builder integration layer: shared homepage controls, compact search workspace,
 // and progressive location disclosure. Existing event/detail/schedule behaviour is preserved.
 (function(){
-  const top=document.querySelector('.schedule-site-header')||document.querySelector('.top');
+  const top=document.querySelector('.top');
   if(!top)return;
-  top.classList.add('schedule-site-header');
-  top.innerHTML='<div class="schedule-identity"><a class="schedule-brand" href="/" aria-label="Byelingua 首页">BYELINGUA</a><div class="schedule-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</div><h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div></div><div class="schedule-header-actions"><div class="language-switch" aria-label="Language"><button type="button" data-schedule-language="zh">中文</button><button type="button" data-schedule-language="en">English</button></div><div class="schedule-account"><span class="schedule-account-label" id="scheduleAccountLabel"></span><button type="button" class="secondary" id="scheduleAccountButton">登录</button><button type="button" class="secondary" id="scheduleLogoutButton" hidden>退出登录</button></div><button id="generate" disabled>Generate Schedule</button></div>';
-  const title=top.querySelector('.schedule-page-title'),description=top.querySelector('.schedule-page-description'),heading=document.createElement('div');heading.className='schedule-page-heading';heading.append(title,description);top.after(heading);top.classList.add('byelingua-compact-header');
-  const languageButtons=[...top.querySelectorAll('[data-schedule-language]')];
   const scheduleGenerate=document.getElementById('generate');
+  if(scheduleGenerate){document.body.appendChild(scheduleGenerate);scheduleGenerate.hidden=true;scheduleGenerate.style.display='none'}
+  top.classList.remove('top');
+  ByelinguaHeader.mount(top);
+  const heading=document.createElement('div');heading.className='schedule-page-heading';heading.innerHTML='<h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div>';top.after(heading);
+  const languageButtons=[...top.querySelectorAll('[data-shared-language]')];
   if(scheduleGenerate&&typeof generate==='function')scheduleGenerate.onclick=generate;
   let uiLanguage=localStorage.getItem('byelinguaUiLanguage')||'zh';
-  function applyScheduleLanguage(){document.documentElement.lang=uiLanguage==='en'?'en':'zh-CN';localStorage.setItem('byelinguaUiLanguage',uiLanguage);languageButtons.forEach(b=>b.classList.toggle('active',b.dataset.scheduleLanguage===uiLanguage))}
-  languageButtons.forEach(b=>b.onclick=()=>{uiLanguage=b.dataset.scheduleLanguage;applyScheduleLanguage()});applyScheduleLanguage();
+  function applyScheduleLanguage(){document.documentElement.lang=uiLanguage==='en'?'en':'zh-CN';localStorage.setItem('byelinguaUiLanguage',uiLanguage);languageButtons.forEach(b=>b.classList.toggle('active',b.dataset.sharedLanguage===uiLanguage))}
+  languageButtons.forEach(b=>b.onclick=()=>{uiLanguage=b.dataset.sharedLanguage;applyScheduleLanguage()});applyScheduleLanguage();
   const loginDialog=document.createElement('dialog');loginDialog.id='scheduleAuthDialog';loginDialog.innerHTML='<form method="dialog" class="modal schedule-auth-modal"><div class="modal-head"><div><h2>用户登录</h2><div class="hint">使用与 Byelingua 首页相同的账户。</div></div><button class="close" value="cancel" aria-label="Close">×</button></div><div><label for="scheduleAuthEmail">邮箱</label><input id="scheduleAuthEmail" type="email" required autocomplete="email"></div><div><label for="scheduleAuthPassword">密码</label><input id="scheduleAuthPassword" type="password" required autocomplete="current-password"></div><div id="scheduleAuthStatus" class="status"></div><button id="scheduleAuthSubmit" class="btn" type="submit">登录</button></form>';
   document.body.appendChild(loginDialog);
-  const accountButton=document.getElementById('scheduleAccountButton'),logoutButton=document.getElementById('scheduleLogoutButton'),accountLabel=document.getElementById('scheduleAccountLabel');
+  const accountButton=top.querySelector('[data-shared-account]'),logoutButton=top.querySelector('[data-shared-signout]');
   let authClient=null,authSession=null;
-  function updateScheduleAccount(){const email=authSession?.user?.email;accountLabel.textContent=email||'';accountButton.textContent=email?'我的账户':'登录';accountButton.hidden=!!email;logoutButton.hidden=!email}
-  accountButton.onclick=()=>{if(authSession){window.location.href='/account.html';return}loginDialog.showModal()};
-  logoutButton.onclick=async()=>{if(authClient)await authClient.auth.signOut();authSession=null;eventAccessToken='';updateScheduleAccount();window.location.href='/'};
+  function updateScheduleAccount(){accountButton.textContent='User Center';accountButton.hidden=false;logoutButton.hidden=!authSession}
   document.getElementById('scheduleAuthSubmit').onclick=async(e)=>{e.preventDefault();const status=document.getElementById('scheduleAuthStatus');try{if(!authClient){const cfg=await api({action:'get_auth_config'});authClient=window.supabase.createClient(cfg.url,cfg.publishable_key)}const result=await authClient.auth.signInWithPassword({email:document.getElementById('scheduleAuthEmail').value,password:document.getElementById('scheduleAuthPassword').value});if(result.error)throw result.error;authSession=result.data.session;eventAccessToken=authSession?.access_token||'';updateScheduleAccount();loginDialog.close();}catch(error){status.textContent=error.message;status.className='status error'}};
   function initScheduleAuth(){if(!window.supabase)return;api({action:'get_auth_config'}).then(cfg=>{authClient=window.supabase.createClient(cfg.url,cfg.publishable_key);return authClient.auth.getSession()}).then(result=>{authSession=result.data.session;eventAccessToken=authSession?.access_token||'';updateScheduleAccount();authClient.auth.onAuthStateChange((_event,next)=>{authSession=next;eventAccessToken=next?.access_token||'';updateScheduleAccount()})}).catch(()=>updateScheduleAccount())}
   if(window.supabase)initScheduleAuth();else{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';script.onload=initScheduleAuth;document.head.appendChild(script)}
@@ -288,8 +287,8 @@ runEntitySearch=async function(){if(conditionState.work?.type==='composer'){cons
 $('entitySearchButton').onclick=runEntitySearch;$('search').onclick=runEntitySearch;
 document.addEventListener('click',event=>{const button=event.target.closest('[data-condition-type="work"]');if(!button)return;const item=(conditionChoices.work||[]).find(row=>String(row.id)===button.dataset.conditionId);if(item?.type==='composer'){conditionState.work={type:'composer',id:item.id,label:item.label,composer_query:item.composer};$('characterCondition').value='';conditionState.character=null}});
 </script><script>
-// Internal header refinement: keep account navigation semantic and compact.
-const scheduleEmailLabel=document.getElementById('scheduleAccountLabel');if(scheduleEmailLabel)scheduleEmailLabel.textContent='';const scheduleAccountButton=document.getElementById('scheduleAccountButton');if(scheduleAccountButton){scheduleAccountButton.hidden=false;scheduleAccountButton.textContent='User Center';scheduleAccountButton.onclick=()=>location.href='/account.html'}const scheduleGenerateButton=document.getElementById('generate');if(scheduleGenerateButton){scheduleGenerateButton.hidden=true;scheduleGenerateButton.style.display='none'}
+// Keep generation available to the workflow, but out of the global header.
+const scheduleGenerateButton=document.getElementById('generate');if(scheduleGenerateButton){scheduleGenerateButton.hidden=true;scheduleGenerateButton.style.display='none'}
 </script><script>
 // Search selection state: suggestions are capped; selected entities become chips.
 const conditionChoiceRenderer=renderConditionChoices;renderConditionChoices=function(type){const original=conditionChoices[type]||[];conditionChoices[type]=original.slice(0,5);conditionChoiceRenderer(type);conditionChoices[type]=original};
