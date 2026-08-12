@@ -9,7 +9,7 @@
 </style>
 </head>
 <body>
-<header id="sharedHeader" class="topbar"></header><script src="/shared-header.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>ByelinguaHeader.mount(document.getElementById('sharedHeader'));</script>
+<header id="sharedHeader" class="topbar"></header><script src="/shared-i18n.js"></script><script src="/shared-header.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>ByelinguaHeader.mount(document.getElementById('sharedHeader'));</script>
 <main class="page" id="page"><article class="article"><div class="eyebrow"><span id="source"></span><span>·</span><time id="date"></time></div><div class="labels" id="labels"></div><h1 id="title"></h1><nav class="language-picker" id="languagePicker" aria-label="译文语言"><span id="languageLabel">译文语言</span></nav><div class="content" id="content"></div><footer class="footer"><span class="note" id="note">翻译内容由 Byelingua 生成，请以原文为准。</span><a class="original" id="original" target="_blank" rel="noopener noreferrer">查看微信原文 →</a></footer></article></main>
 <script>
 const languageNames={en:"English",es:"Español",de:"Deutsch",fr:"Français"};
@@ -19,7 +19,8 @@ try{
   if(!raw)throw new Error();
   const article=JSON.parse(raw),titles=article.titles||{},contents=article.contents||{},originalTitle=valueFor(titles,"zh",article.title),originalContent=valueFor(contents,"zh",article.language==="zh"?article.content:""),selfService=article.kind==="wechat"&&article.country==="cn"&&article.uiLanguage==="en";
   const available=Object.keys(languageNames).filter(code=>contents[code]);
-  let selected=available.includes(article.language)?article.language:(available[0]||"zh");
+  const requestedLanguage=window.ByelinguaI18n.getUiLanguage();
+  let selected=available.includes(requestedLanguage)?requestedLanguage:(available.includes(article.language)?article.language:(available[0]||"zh"));
   document.getElementById("source").textContent=article.source||"";
   document.getElementById("date").textContent=article.date||"";
   document.getElementById("original").href=article.url||"#";

@@ -443,3 +443,54 @@ to authenticated;
 
 grant select on public.usage_events
 to authenticated;
+
+-- Persistent user-owned schedules.
+create table if not exists public.schedules (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  title text not null check (length(trim(title)) > 0),
+  status text not null default 'draft' check (status in ('draft','planned','completed','archived')),
+  start_date date null,
+  end_date date null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create table if not exists public.schedule_events (
+  id uuid primary key default gen_random_uuid(),
+  schedule_id uuid not null references public.schedules(id) on delete cascade,
+  event_id uuid not null references public.events(id) on delete cascade,
+  sort_order integer not null default 0,
+  note text null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (schedule_id, event_id)
+);
+create index if not exists schedules_user_status_idx on public.schedules (user_id, status, updated_at desc);
+create index if not exists schedule_events_schedule_order_idx on public.schedule_events (schedule_id, sort_order, created_at);
+alter table public.schedules enable row level security;
+alter table public.schedule_events enable row level security;
+drop policy if exists schedules_owner on public.schedules;
+create policy schedules_owner on public.schedules for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+drop policy if exists schedule_events_owner on public.schedule_events;
+create policy schedule_events_owner on public.schedule_events for all using (exists (select 1 from public.schedules s where s.id = schedule_id and s.user_id = auth.uid())) with check (exists (select 1 from public.schedules s where s.id = schedule_id and s.user_id = auth.uid()));
+
+-- User-owned Schedule email delivery audit trail.
+create table if not exists public.schedule_email_deliveries (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  schedule_id uuid not null references public.schedules(id) on delete cascade,
+  recipient_email text not null,
+  status text not null default 'pending' check (status in ('pending','sent','failed')),
+  provider_message_id text null,
+  error text null,
+  content_hash text null,
+  created_at timestamptz not null default now(),
+  sent_at timestamptz null
+);
+create index if not exists schedule_email_deliveries_owner_idx on public.schedule_email_deliveries (user_id, created_at desc);
+create index if not exists schedule_email_deliveries_schedule_idx on public.schedule_email_deliveries (schedule_id, created_at desc);
+alter table public.schedule_email_deliveries enable row level security;
+drop policy if exists schedule_email_deliveries_owner on public.schedule_email_deliveries;
+create policy schedule_email_deliveries_owner on public.schedule_email_deliveries for select to authenticated using (auth.uid() = user_id);
+revoke all on public.schedule_email_deliveries from anon, authenticated;
+grant select on public.schedule_email_deliveries to authenticated;

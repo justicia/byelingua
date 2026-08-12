@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import _event_city, backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import _event_city, backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
@@ -30,6 +30,46 @@ class ApiTests(unittest.TestCase):
         ], [{"name":"Philharmonie de Paris", "city":"Paris"}]]
         result = schedule_events({"date_from":"2026-09-04", "date_to":"2026-09-04"})
         self.assertEqual(result["events"][0]["city"], "Paris")
+
+    @patch("api.index.supabase_service")
+    def test_schedule_events_keyword_matches_artist_and_deduplicates(self, service):
+        service.side_effect = [
+            [{"event_id":"e1","date":"2026-09-10","title":"Concert","venue":"Hall","city":"Paris"},{"event_id":"e1","date":"2026-09-10","title":"Concert","venue":"Hall","city":"Paris"},{"event_id":"e2","date":"2026-09-11","title":"Other","venue":"Hall","city":"Paris"}],
+            [{"id":"artist-1"}],
+            [{"event_id":"internal-1"}],
+            [{"id":"internal-1","event_key":"e1"}],
+        ]
+        result = schedule_events({"date_from":"2026-09-01","date_to":"2026-09-30","query":"Artist"})
+        self.assertEqual([row["event_id"] for row in result["events"]], ["e1"])
+
+    @patch("api.index._schedule_events_payload")
+    @patch("api.index._schedule_owned", return_value={"id":"schedule-1","title":"Paris; Test","status":"planned","start_date":"2026-09-04","end_date":"2026-09-11"})
+    @patch("api.index.authenticated_user", return_value={"id":"user-1"})
+    def test_export_schedule_ics_has_all_events_escaped_and_local_timezone(self, _user, _owned, rows):
+        rows.return_value = [{"event_key":"event-1","event":{"date":"2026-09-04","start_time":"19:00","title":"A, B; C\\D","venue":"Hall, Main","city":"Paris","source_url":"https://example.com/a"}}, {"event_key":"event-2","event":{"date":"2026-09-05","start_time":"10:30","title":"Second"}}]
+        result = export_schedule_ics({"Authorization":"Bearer test"}, "schedule-1")
+        self.assertEqual(result["ics"].count("BEGIN:VEVENT"), 2)
+        self.assertIn("DTSTART;TZID=Europe/Paris:20260904T190000", result["ics"])
+        self.assertIn("DTEND;TZID=Europe/Paris:20260904T210000", result["ics"])
+        self.assertIn("SUMMARY:A\\, B\\; C\\\\D", result["ics"])
+        self.assertIn("DTSTAMP:", result["ics"])
+
+    @patch("api.index.SESSION.post")
+    @patch("api.index.supabase_service")
+    @patch("api.index._schedule_events_payload", return_value=[])
+    @patch("api.index._schedule_owned", return_value={"id":"schedule-1","title":"My Schedule","status":"planned","start_date":"2026-09-04","end_date":"2026-09-04"})
+    @patch("api.index.authenticated_user", return_value={"id":"user-1"})
+    @patch.dict("os.environ", {"RESEND_API_KEY":"re_test","EMAIL_FROM":"Byelingua <test@example.com>","PUBLIC_APP_URL":"https://www.bye-lingua.site"})
+    def test_send_schedule_email_uses_profile_email_and_language(self, _user, _owned, _rows, service, post):
+        service.side_effect = [[{"email":"reader@example.com","preferred_language":"en"}], [], None, None]
+        post.return_value = Mock(ok=True, json=Mock(return_value={"id":"email-1"}))
+        result = send_schedule_email({"Authorization":"Bearer test"}, "schedule-1")
+        self.assertTrue(result["sent"])
+        payload = post.call_args.kwargs["json"]
+        self.assertEqual(payload["to"], ["reader@example.com"])
+        self.assertIn("Your Byelingua schedule", payload["html"])
+        self.assertIn("text", payload)
+        self.assertEqual(payload["attachments"][0]["filename"], "My_Schedule-2026-09-04-2026-09-04.ics")
 
     @patch("api.index.supabase_service", return_value=[])
     def test_registration_rejects_invalid_invite(self, service):
