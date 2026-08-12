@@ -449,9 +449,12 @@ create table if not exists public.schedules (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
   title text not null check (length(trim(title)) > 0),
-  status text not null default 'draft' check (status in ('draft','planned','completed','archived')),
+  status text not null default 'draft' check (status in ('draft','confirmed')),
   start_date date null,
   end_date date null,
+  confirmed_at timestamptz null,
+  archived_at timestamptz null,
+  needs_reconfirmation boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -461,6 +464,11 @@ create table if not exists public.schedule_events (
   event_id uuid not null references public.events(id) on delete cascade,
   sort_order integer not null default 0,
   note text null,
+  intention text not null default 'interested' check (intention in ('interested','optional','must_go')),
+  attendance_status text not null default 'pending' check (attendance_status in ('pending','attended','missed')),
+  attended_at timestamptz null,
+  attendance_updated_at timestamptz null,
+  event_snapshot jsonb null,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now(),
   unique (schedule_id, event_id)
