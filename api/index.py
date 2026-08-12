@@ -1194,6 +1194,15 @@ def set_personal_subscription_enabled(user_id, identifier, enabled):
     return personal_payload(user_id)
 
 
+def available_news_sources():
+    return [{key: source.get(key) for key in ("id","name","url","feed_url","country","source_type","language","mode")} for source in load_config().get("subscriptions", []) if source.get("feed_url")]
+
+
+def list_my_invite_codes(user_id):
+    rows = supabase_service("GET", "/rest/v1/invite_codes", params={"created_by":f"eq.{user_id}","select":"id,code,max_uses,used_count,status,created_at","order":"created_at.desc"}) or []
+    return {"codes":rows}
+
+
 def save_personal_language(user_id, language):
     language = str(language or "").lower()
     if language not in LANGUAGES:
@@ -1360,7 +1369,7 @@ def run_personal_digest(user_id, automated=False, article_limit=3):
     return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
 
 
-def send_daily_digest(user_id):
+def send_daily_digest(user_id, respect_subscription=True):
     resend_key = os.environ.get("RESEND_API_KEY", "").strip()
     email_from = os.environ.get("EMAIL_FROM", "").strip()
     if not resend_key or not email_from:
@@ -1381,7 +1390,7 @@ def send_daily_digest(user_id):
         raise ValueError(f"User {user_id} does not have a profile email.")
 
     profile = profiles[0]
-    if profile.get("email_subscription_enabled") is False:
+    if respect_subscription and profile.get("email_subscription_enabled") is False:
         return {"sent":False,"articles":0,"skipped":"email_disabled"}
     recipient = str(profile["email"]).strip()
     paris_now = datetime.now(PARIS_TIMEZONE)
@@ -1449,6 +1458,19 @@ def send_daily_digest(user_id):
         raise ValueError(message or "Resend rejected the daily digest email.")
     payload = response.json()
     return {"sent":True,"articles":len(articles),"id":payload.get("id")}
+
+
+def generate_brief_and_send(user_id):
+    personal = personal_payload(user_id)
+    if not any(item.get("enabled", True) for item in personal.get("subscriptions", [])):
+        raise ValueError("请先选择至少一个新闻来源。")
+    if not str(personal.get("profile", {}).get("email") or "").strip():
+        raise ValueError("账户没有可用的登录邮箱。")
+    result = run_personal_digest(user_id, automated=False)
+    if result.get("errors") and not result.get("processed"):
+        raise ValueError("Brief 生成失败：" + "; ".join(result["errors"][:2]))
+    delivery = send_daily_digest(user_id, respect_subscription=False)
+    return {"processed":result.get("processed",0),"errors":result.get("errors",[]),"delivery":delivery,"data":result.get("data")}
 
 
 def paris_schedule_due(now=None):
@@ -2147,6 +2169,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, poll_wechat_translation(str(data.get("id","")), data.get("language",""))); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
+            if action == "get_news_source_options":
+                authenticated_user(self.headers); self.send_json(200,{"sources":available_news_sources()}); return
             if action == "register_with_invite":
                 self.send_json(200, register_with_invite(data.get("email",""), data.get("password",""), data.get("invite_code",""))); return
             if action == "sync_wechat":
@@ -2201,7 +2225,7 @@ class handler(BaseHTTPRequestHandler):
                 raise ValueError("不支持的搜索类型。")
             if action == "combined_entity_events":
                 self.send_json(200, combined_entity_events(data)); return
-            if action in {"get_my_data","save_my_subscription","set_my_subscription_enabled","delete_my_subscription","run_my_digest","save_my_language","save_email_subscription","generate_invite_code"}:
+            if action in {"get_my_data","save_my_subscription","set_my_subscription_enabled","delete_my_subscription","run_my_digest","generate_brief_send","save_my_language","save_email_subscription","generate_invite_code","list_my_invite_codes"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
                 elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
@@ -2210,6 +2234,8 @@ class handler(BaseHTTPRequestHandler):
                 elif action == "save_my_language": result = save_personal_language(user["id"], data.get("language",""))
                 elif action == "save_email_subscription": result = save_email_subscription(user["id"], data.get("enabled", True))
                 elif action == "generate_invite_code": result = generate_invite_code(user["id"])
+                elif action == "list_my_invite_codes": result = list_my_invite_codes(user["id"])
+                elif action == "generate_brief_send": result = generate_brief_and_send(user["id"])
                 else: result = run_personal_digest(user["id"])
                 self.send_json(200,result); return
             require_admin(self.headers); config = load_config()
