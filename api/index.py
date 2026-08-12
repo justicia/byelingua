@@ -1761,6 +1761,100 @@ def set_user_event_relation(headers, event_key, intent_status, is_planned=True):
     return {"relation": rows[0] if rows else payload}
 
 
+def _schedule_owned(user_id, schedule_id):
+    rows = supabase_service("GET", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user_id}", "select": "*", "limit": "1"}) or []
+    if not rows:
+        raise PermissionError("无权访问该 Schedule。")
+    return rows[0]
+
+
+def _schedule_events_payload(schedule_id):
+    rows = supabase_service("GET", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "select": "*", "order": "sort_order.asc,created_at.asc", "limit": "5000"}) or []
+    if not rows:
+        return []
+    ids = [str(row["event_id"]) for row in rows]
+    events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(ids)})", "select": "id,event_key", "limit": "5000"}) or []
+    key_by_id = {str(row["id"]): row.get("event_key") for row in events}
+    keys = [key for key in key_by_id.values() if key]
+    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "limit": "5000"}) if keys else []
+    event_by_key = {str(row.get("event_id")): row for row in (catalog or [])}
+    return [{**row, "event_key": key_by_id.get(str(row["event_id"])), "event": event_by_key.get(key_by_id.get(str(row["event_id"])), {})} for row in rows]
+
+
+def _refresh_schedule_date_range(schedule_id, user_id):
+    rows = _schedule_events_payload(schedule_id)
+    dates = [str(row.get("event", {}).get("date") or "")[:10] for row in rows if row.get("event", {}).get("date")]
+    payload = {"start_date": min(dates) if dates else None, "end_date": max(dates) if dates else None, "updated_at": datetime.now(timezone.utc).isoformat()}
+    supabase_service("PATCH", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user_id}"}, payload=payload)
+    return payload
+
+
+def create_schedule(headers, title):
+    user = authenticated_user(headers)
+    title = str(title or "").strip()
+    if not title:
+        raise ValueError("Schedule 标题不能为空。")
+    rows = supabase_service("POST", "/rest/v1/schedules", payload={"user_id": user["id"], "title": title, "status": "draft"}) or []
+    return {"schedule": rows[0] if rows else None}
+
+
+def list_schedules(headers):
+    user = authenticated_user(headers)
+    rows = supabase_service("GET", "/rest/v1/schedules", params={"user_id": f"eq.{user['id']}", "select": "*", "order": "updated_at.desc", "limit": "5000"}) or []
+    for row in rows:
+        count = supabase_service("GET", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{row['id']}", "select": "id", "limit": "5000"}) or []
+        row["event_count"] = len(count)
+    return {"schedules": rows}
+
+
+def get_schedule(headers, schedule_id):
+    user = authenticated_user(headers)
+    schedule = _schedule_owned(user["id"], schedule_id)
+    return {"schedule": schedule, "events": _schedule_events_payload(schedule_id)}
+
+
+def update_schedule(headers, schedule_id, title=None, status=None):
+    user = authenticated_user(headers); _schedule_owned(user["id"], schedule_id)
+    payload = {"updated_at": datetime.now(timezone.utc).isoformat()}
+    if title is not None:
+        title = str(title).strip()
+        if not title: raise ValueError("Schedule 标题不能为空。")
+        payload["title"] = title
+    if status is not None:
+        if status not in {"draft", "planned", "completed", "archived"}: raise ValueError("无效的 Schedule 状态。")
+        payload["status"] = status
+    rows = supabase_service("PATCH", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user['id']}"}, payload=payload) or []
+    return {"schedule": rows[0] if rows else {"id": schedule_id, **payload}}
+
+
+def add_schedule_event(headers, schedule_id, event_key, note=None):
+    user = authenticated_user(headers); _schedule_owned(user["id"], schedule_id)
+    event_id = _event_internal_id(str(event_key).strip())
+    existing = supabase_service("GET", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "select": "sort_order", "order": "sort_order.desc", "limit": "1"}) or []
+    sort_order = int(existing[0].get("sort_order", -1)) + 1 if existing else 0
+    payload = {"schedule_id": schedule_id, "event_id": event_id, "sort_order": sort_order, "note": note}
+    rows = supabase_service("POST", "/rest/v1/schedule_events", params={"on_conflict": "schedule_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
+    _refresh_schedule_date_range(schedule_id, user["id"])
+    return get_schedule(headers, schedule_id)
+
+
+def remove_schedule_event(headers, schedule_id, event_key):
+    user = authenticated_user(headers); _schedule_owned(user["id"], schedule_id)
+    event_id = _event_internal_id(str(event_key).strip())
+    supabase_service("DELETE", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"})
+    _refresh_schedule_date_range(schedule_id, user["id"])
+    return get_schedule(headers, schedule_id)
+
+
+def reorder_schedule_events(headers, schedule_id, ordered_event_keys):
+    user = authenticated_user(headers); _schedule_owned(user["id"], schedule_id)
+    for index, key in enumerate(ordered_event_keys or []):
+        event_id = _event_internal_id(str(key).strip())
+        supabase_service("PATCH", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"}, payload={"sort_order": index, "updated_at": datetime.now(timezone.utc).isoformat()})
+    _refresh_schedule_date_range(schedule_id, user["id"])
+    return get_schedule(headers, schedule_id)
+
+
 def character_options(query=""):
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "limit": "2000"}) or []
     work_by_id = {row["id"]: row for row in works}
@@ -2024,6 +2118,25 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, user_event_relations(self.headers, data.get("event_keys"))); return
             if action == "set_event_relation":
                 self.send_json(200, set_user_event_relation(self.headers, str(data.get("event_key", "")), data.get("intent_status"), data.get("is_planned", True))); return
+            if action == "create_schedule":
+                self.send_json(200, create_schedule(self.headers, data.get("title"))); return
+            if action == "list_schedules":
+                self.send_json(200, list_schedules(self.headers)); return
+            if action == "get_schedule":
+                self.send_json(200, get_schedule(self.headers, str(data.get("schedule_id", "")))); return
+            if action == "rename_schedule":
+                self.send_json(200, update_schedule(self.headers, str(data.get("schedule_id", "")), title=data.get("title"))); return
+            if action == "update_schedule_status":
+                self.send_json(200, update_schedule(self.headers, str(data.get("schedule_id", "")), status=data.get("status"))); return
+            if action == "delete_schedule":
+                user = authenticated_user(self.headers); schedule_id = str(data.get("schedule_id", "")); _schedule_owned(user["id"], schedule_id)
+                supabase_service("DELETE", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user['id']}"}); self.send_json(200, {"deleted": True}); return
+            if action == "add_event_to_schedule":
+                self.send_json(200, add_schedule_event(self.headers, str(data.get("schedule_id", "")), str(data.get("event_key", "")), data.get("note"))); return
+            if action == "remove_event_from_schedule":
+                self.send_json(200, remove_schedule_event(self.headers, str(data.get("schedule_id", "")), str(data.get("event_key", "")))); return
+            if action == "reorder_schedule_events":
+                self.send_json(200, reorder_schedule_events(self.headers, str(data.get("schedule_id", "")), data.get("ordered_event_keys", []))); return
             if action == "character_options":
                 self.send_json(200, character_options(data.get("query", ""))); return
             if action == "character_events":
