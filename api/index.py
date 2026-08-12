@@ -1166,7 +1166,31 @@ def personal_payload(user_id):
     if profile.get("preferred_language") in LANGUAGES:
         article_params["language"] = f"eq.{profile['preferred_language']}"
     articles = supabase_service("GET", "/rest/v1/user_articles", params=article_params)
-    return {"profile":profile,"subscriptions":subscriptions or [],"articles":articles or []}
+    try:
+        general_subscriptions = supabase_service("GET", "/rest/v1/user_general_subscriptions", params={"user_id":f"eq.{user_id}","select":"*"}) or []
+    except Exception:
+        general_subscriptions = []
+    return {"profile":profile,"subscriptions":subscriptions or [],"general_subscriptions":general_subscriptions,"articles":articles or []}
+
+
+def set_general_subscription(user_id, source, enabled):
+    source_id = str(source.get("id") or source.get("feed_url") or "").strip()
+    if not source_id:
+        raise ValueError("无效的公共新闻来源。")
+    record = {"user_id":user_id,"source_id":source_id,"feed_url":source.get("feed_url"),"name":source.get("name"),"enabled":bool(enabled)}
+    rows = supabase_service("POST", "/rest/v1/user_general_subscriptions", params={"on_conflict":"user_id,source_id"}, payload=record, prefer="resolution=merge-duplicates,return=representation") or []
+    return personal_payload(user_id)
+
+
+def effective_subscriptions(personal):
+    personal_rows = [row for row in personal.get("subscriptions", []) if row.get("enabled", True)]
+    general_rows = [row for row in personal.get("general_subscriptions", []) if row.get("enabled", False)]
+    by_feed = {row.get("feed_url"): row for row in personal_rows}
+    for row in general_rows:
+        source = next((item for item in available_news_sources() if item.get("id") == row.get("source_id") or item.get("feed_url") == row.get("feed_url")), None)
+        if source and source.get("feed_url") not in by_feed:
+            by_feed[source["feed_url"]] = {**source, "enabled":True}
+    return list(by_feed.values())
 
 
 def save_personal_subscription(user_id, data):
@@ -1176,10 +1200,7 @@ def save_personal_subscription(user_id, data):
         raise PermissionError("账户当前不可添加订阅。")
     sub = validate_subscription(data)
     existing = next((item for item in personal["subscriptions"] if item.get("feed_url") == sub["feed_url"]), None)
-    source_meta = next((source for source in available_news_sources() if source.get("feed_url") == sub.get("feed_url")), {})
-    custom_feeds = {source.get("feed_url") for source in available_news_sources() if source.get("custom_eligible")}
-    custom_count = sum(1 for item in personal["subscriptions"] if item.get("feed_url") in custom_feeds and item.get("enabled", True))
-    if not existing and source_meta.get("custom_eligible") and custom_count >= 3:
+    if not existing and len(personal["subscriptions"]) >= int(profile.get("max_subscriptions", 3)):
         raise ValueError(f"试运行账户最多添加 {profile.get('max_subscriptions', 3)} 个网站。")
     record = {key:sub[key] for key in ("name","url","feed_url","country","source_type","language","mode","enabled")}
     record["user_id"] = user_id
@@ -1243,7 +1264,7 @@ def save_email_subscription(user_id, enabled):
 
 def _run_personal_digest_legacy(user_id):
     personal = personal_payload(user_id)
-    profile, subscriptions = personal["profile"], personal["subscriptions"]
+    profile, subscriptions = personal["profile"], effective_subscriptions(personal)
     today = datetime.now(timezone.utc).date().isoformat()
     usage = supabase_service("GET", "/rest/v1/usage_events", params={"user_id":f"eq.{user_id}","event_type":"eq.digest","created_at":f"gte.{today}T00:00:00Z","select":"id"})
     if len(usage or []) >= int(profile.get("daily_update_limit", 1)):
@@ -1285,7 +1306,7 @@ def _run_personal_digest_legacy(user_id):
 def run_personal_digest(user_id, automated=False, article_limit=3):
     """Process up to three personal sources using the account's saved language."""
     personal = personal_payload(user_id)
-    profile, subscriptions = personal["profile"], personal["subscriptions"]
+    profile, subscriptions = personal["profile"], effective_subscriptions(personal)
     if profile.get("status") != "active":
         raise PermissionError("This subscription account is not active.")
 
@@ -1480,7 +1501,7 @@ def send_daily_digest(user_id, respect_subscription=True):
 
 def generate_brief_and_send(user_id):
     personal = personal_payload(user_id)
-    if not any(item.get("enabled", True) for item in personal.get("subscriptions", [])):
+    if not effective_subscriptions(personal):
         raise ValueError("请先选择至少一个新闻来源。")
     if not str(personal.get("profile", {}).get("email") or "").strip():
         raise ValueError("账户没有可用的登录邮箱。")
@@ -2278,11 +2299,12 @@ class handler(BaseHTTPRequestHandler):
                 raise ValueError("不支持的搜索类型。")
             if action == "combined_entity_events":
                 self.send_json(200, combined_entity_events(data)); return
-            if action in {"get_my_data","save_my_subscription","set_my_subscription_enabled","delete_my_subscription","run_my_digest","generate_brief_send","save_my_language","save_email_subscription","generate_invite_code","list_my_invite_codes"}:
+            if action in {"get_my_data","save_my_subscription","set_my_subscription_enabled","set_general_subscription","delete_my_subscription","run_my_digest","generate_brief_send","save_my_language","save_email_subscription","generate_invite_code","list_my_invite_codes"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
                 elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
                 elif action == "set_my_subscription_enabled": result = set_personal_subscription_enabled(user["id"], str(data.get("id", "")), data.get("enabled", True))
+                elif action == "set_general_subscription": result = set_general_subscription(user["id"], data.get("source", {}), data.get("enabled", False))
                 elif action == "delete_my_subscription": result = delete_personal_subscription(user["id"], str(data.get("id","")))
                 elif action == "save_my_language": result = save_personal_language(user["id"], data.get("language",""))
                 elif action == "save_email_subscription": result = save_email_subscription(user["id"], data.get("enabled", True))
