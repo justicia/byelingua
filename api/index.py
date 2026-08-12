@@ -8,6 +8,7 @@ import os
 import re
 import secrets
 import unicodedata
+import uuid
 from difflib import SequenceMatcher
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
@@ -44,6 +45,14 @@ def normalize_search_key(value):
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
     text = re.sub(r"[^\w\s'\-]", " ", text, flags=re.UNICODE)
     return re.sub(r"\s+", " ", text).strip()
+
+
+def valid_uuid(value):
+    try:
+        uuid.UUID(str(value))
+        return True
+    except (ValueError, TypeError, AttributeError):
+        return False
 
 
 def search_match_score(query, *values):
@@ -1761,6 +1770,8 @@ def schedule_events(data):
             continue
         if venues and str(row.get("venue", "")).lower() not in venues:
             continue
+        if data.get("work_query") and search_match_score(data.get("work_query"), row.get("title"), row.get("work_title"), row.get("composer")) < 0.60:
+            continue
         filtered.append(row)
     return {"events": filtered}
 
@@ -1949,6 +1960,8 @@ def character_options(query=""):
 
 def character_events(data):
     character_id = str(data.get("character_id") or "").strip()
+    if character_id and not valid_uuid(character_id):
+        raise ValueError("请选择有效的角色。")
     if not character_id:
         raise ValueError("请选择一个角色。")
     date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
@@ -1994,6 +2007,8 @@ def artist_options(query=""):
 
 def artist_events(data):
     artist_id = str(data.get("artist_id") or "").strip()
+    if artist_id and not valid_uuid(artist_id):
+        raise ValueError("请选择有效的艺术家。")
     if not artist_id:
         raise ValueError("请选择一位艺术家。")
     date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
@@ -2133,6 +2148,8 @@ def entity_options(query="", work_id=""):
 
 def work_events(data):
     work_id = str(data.get("work_id") or "").strip()
+    if work_id and not valid_uuid(work_id):
+        work_id = ""
     work_ids = [str(value) for value in data.get("work_ids", []) if value]
     if not work_id and data.get("composer_query"):
         composer_query = str(data.get("composer_query") or "").strip()
