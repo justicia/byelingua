@@ -1727,6 +1727,40 @@ def schedule_event_detail(event_id):
     return {"event": event}
 
 
+def _event_internal_id(event_key):
+    rows = supabase_service("GET", "/rest/v1/events", params={"event_key": f"eq.{event_key}", "select": "id", "limit": "1"}) or []
+    if not rows:
+        raise ValueError("演出不存在。")
+    return rows[0]["id"]
+
+
+def user_event_relations(headers, event_keys=None):
+    user = authenticated_user(headers)
+    rows = supabase_service("GET", "/rest/v1/user_event_relations", params={"user_id": f"eq.{user['id']}", "select": "id,event_id,intent_status,attendance_status,ticket_status,created_at,updated_at", "limit": "5000"}) or []
+    if event_keys is None:
+        event_ids = [str(row.get("event_id")) for row in rows if row.get("event_id")]
+        events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(event_ids)})", "select": "id,event_key", "limit": "5000"}) if event_ids else []
+        id_to_key = {str(row["id"]): row.get("event_key") for row in (events or [])}
+        return {"relations": [{**row, "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows]}
+    keys = [str(key).strip() for key in event_keys if str(key).strip()]
+    if not keys:
+        return {"relations": []}
+    events = supabase_service("GET", "/rest/v1/events", params={"event_key": f"in.({','.join(keys)})", "select": "id,event_key", "limit": "5000"}) or []
+    id_to_key = {str(row["id"]): row.get("event_key") for row in events}
+    return {"relations": [{**row, "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows if str(row.get("event_id")) in id_to_key]}
+
+
+def set_user_event_relation(headers, event_key, intent_status):
+    user = authenticated_user(headers)
+    intent = str(intent_status or "").strip()
+    if intent not in {"interested", "maybe_go", "must_go"}:
+        raise ValueError("无效的演出意向状态。")
+    internal_id = _event_internal_id(str(event_key).strip())
+    payload = {"user_id": user["id"], "event_id": internal_id, "intent_status": intent, "updated_at": datetime.now(timezone.utc).isoformat()}
+    rows = supabase_service("POST", "/rest/v1/user_event_relations", params={"on_conflict": "user_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
+    return {"relation": rows[0] if rows else payload}
+
+
 def character_options(query=""):
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "limit": "2000"}) or []
     work_by_id = {row["id"]: row for row in works}
@@ -1986,6 +2020,10 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, schedule_events(data)); return
             if action == "schedule_event_detail":
                 self.send_json(200, schedule_event_detail(str(data.get("event_id", "")))); return
+            if action == "get_event_relations":
+                self.send_json(200, user_event_relations(self.headers, data.get("event_keys"))); return
+            if action == "set_event_relation":
+                self.send_json(200, set_user_event_relation(self.headers, str(data.get("event_key", "")), data.get("intent_status"))); return
             if action == "character_options":
                 self.send_json(200, character_options(data.get("query", ""))); return
             if action == "character_events":
