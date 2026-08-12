@@ -1966,7 +1966,7 @@ def character_events(data):
         if venues and str(row.get("venue", "")).casefold() not in venues:
             continue
         result.append(row)
-    print(f"[artist_events] artist_id={artist_id} performances={len(result)}")
+    print(f"[character_events] character_id={character_id} events={len(result)}")
     return {"events": result}
 
 
@@ -2087,6 +2087,13 @@ def artist_context(data):
 
 def entity_options(query="", work_id=""):
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
+    try:
+        work_aliases = supabase_service("GET", "/rest/v1/work_aliases", params={"select": "work_id,alias", "limit": "10000"}) or []
+    except Exception:
+        work_aliases = []
+    aliases_by_work = {}
+    for row in work_aliases:
+        aliases_by_work.setdefault(str(row.get("work_id")), []).append(row.get("alias"))
     characters = supabase_service("GET", "/rest/v1/work_characters", params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}) or []
     aliases = supabase_service("GET", "/rest/v1/character_aliases", params={"select": "character_id,alias", "limit": "10000"}) or []
     artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"}) or []
@@ -2099,10 +2106,13 @@ def entity_options(query="", work_id=""):
     for row in role_rows:
         if row.get("artist_id") and row.get("role"):
             roles_by_artist.setdefault(str(row["artist_id"]), set()).add(str(row["role"]))
+    work_matches = [row for row in works if not query or search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])) >= 0.60]
+    composer_names = sorted({str(row.get("composer") or "").strip() for row in works if row.get("composer") and (not query or search_match_score(query, row.get("composer")) >= 0.60)}, key=lambda value: search_match_score(query, value), reverse=True)
+    composer_results = [{"type": "composer", "id": normalize_search_key(name), "label": name, "composer": name} for name in composer_names[:10]]
     return {
-        "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "composer": row.get("composer")}
-                  for row in sorted(works, key=lambda row: search_match_score(query, row.get("title"), row.get("composer")), reverse=True)
-                  if not query or search_match_score(query, row.get("title"), row.get("composer")) >= 0.60][:30],
+        "composers": composer_results,
+        "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "canonical_title": row.get("title"), "composer": row.get("composer"), "aliases": aliases_by_work.get(str(row.get("id")), [])}
+                  for row in sorted(work_matches, key=lambda row: search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])), reverse=True)][:30],
         "characters": [{"type": "character", "id": row.get("id"), "label": row.get("canonical_name"), "canonical_name": row.get("canonical_name"), "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"), "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"), "work_id": row.get("work_id")}
                        for row in sorted(characters, key=lambda row: search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])), reverse=True)
                        if (not work_id or str(row.get("work_id")) == str(work_id)) and (not query or search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])) >= 0.60)][:30],
@@ -2114,10 +2124,16 @@ def entity_options(query="", work_id=""):
 
 def work_events(data):
     work_id = str(data.get("work_id") or "").strip()
-    if not work_id:
+    work_ids = [str(value) for value in data.get("work_ids", []) if value]
+    if not work_id and data.get("composer_query"):
+        composer_query = str(data.get("composer_query") or "").strip()
+        matches = supabase_service("GET", "/rest/v1/works", params={"composer": f"ilike.*{composer_query}*", "select": "id", "limit": "2000"}) or []
+        work_ids = [str(row.get("id")) for row in matches if row.get("id")]
+    if not work_id and not work_ids:
         raise ValueError("请选择一部作品。")
     date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
-    rows = supabase_service("GET", "/rest/v1/event_programme", params={"work_id": f"eq.{work_id}", "select": "event_id", "limit": "5000"}) or []
+    programme_params = {"work_id": f"eq.{work_id}" if work_id else f"in.({','.join(work_ids)})", "select": "event_id", "limit": "5000"}
+    rows = supabase_service("GET", "/rest/v1/event_programme", params=programme_params) or []
     internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in rows if row.get("event_id")))
     if not internal_ids:
         return {"events": []}
@@ -2135,7 +2151,7 @@ def work_events(data):
 
 def combined_entity_events(data):
     selected = []
-    if data.get("work_id"):
+    if data.get("work_id") or data.get("composer_query"):
         selected.append(work_events(data).get("events", []))
     if data.get("character_id"):
         selected.append(character_events(data).get("events", []))

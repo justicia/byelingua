@@ -277,4 +277,12 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   selectionStore.toggleEvent=id=>mutateMembership(id,!selected_event_ids.has(String(id)));
   setTimeout(()=>loadCurrentSchedule().catch(error=>console.warn(error.message)),900);
 })();
+</script><script>
+// Composer suggestions use the same work identity path as work selections.
+const originalLoadConditionChoices=loadConditionChoices;
+loadConditionChoices=async function(type){await originalLoadConditionChoices(type);if(type==='work'){try{const result=await api({action:'entity_options',query:$('workCondition').value.trim()});conditionChoices.work=[...(result.composers||[]),...(result.works||[])];renderConditionChoices('work')}catch(error){$('entityConditionStatus').textContent=error.message}}};
+const originalRunEntitySearch=runEntitySearch;
+runEntitySearch=async function(){if(conditionState.work?.type==='composer'){const original=conditionState.work;conditionState.work=null;const event={};try{$('filterStatus').textContent='正在查询…';const d=await api({action:'combined_entity_events',composer_query:original.composer_query,date_from:$('dateFrom').value,date_to:$('dateTo').value,cities:selected('city'),venues:selected('venue'),event_type:$('eventType').value});events=d.events||[];$('resultHint').textContent=`找到 ${events.length} 场演出`;renderEvents();$('filterStatus').textContent=''}catch(error){$('filterStatus').textContent=error.message;$('filterStatus').className='status error'}finally{conditionState.work=original}return}return originalRunEntitySearch()};
+$('entitySearchButton').onclick=runEntitySearch;$('search').onclick=runEntitySearch;
+document.addEventListener('click',event=>{const button=event.target.closest('[data-condition-type="work"]');if(!button)return;const item=(conditionChoices.work||[]).find(row=>String(row.id)===button.dataset.conditionId);if(item?.type==='composer'){conditionState.work={type:'composer',id:item.id,label:item.label,composer_query:item.composer};$('characterCondition').value='';conditionState.character=null}});
 </script></body></html>
