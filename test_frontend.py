@@ -41,7 +41,6 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn("schedule-action danger", self.account)
         self.assertIn("schedule-action archive", self.account)
         self.assertIn("data-confirm-id", self.account)
-        self.assertIn("data-draft-id", self.account)
         self.assertIn("data-archive-id", self.account)
         self.assertIn("<h3>Confirmed</h3>", self.account)
 
@@ -61,6 +60,27 @@ class ScheduleFrontendTests(unittest.TestCase):
         api = (ROOT / "api" / "index.py").read_text(encoding="utf-8")
         self.assertIn('"permission_denied"', api)
         self.assertIn('"network_error"', api)
+
+    def test_bilingual_account_copy_and_direct_confirmed_edit(self):
+        self.assertIn("Change password", self.account)
+        self.assertIn("Simplified Chinese", self.account)
+        self.assertIn("Generate Brief and send by email", self.account)
+        self.assertIn("Edit schedule", self.account)
+        self.assertIn("Review and confirm", self.account)
+        self.assertIn("data-confirm-id", self.account)
+
+    def test_intention_uses_stable_codes_and_renders_bilingually(self):
+        self.assertIn("optional", self.editor)
+        self.assertIn("formatIntent", self.i18n)
+        self.assertIn("Must attend", self.i18n)
+        self.assertIn("一定要去", self.i18n)
+
+    def test_confirmed_content_changes_keep_confirmed_and_mark_reconfirmation(self):
+        api = (ROOT / "api" / "index.py").read_text(encoding="utf-8")
+        self.assertIn('payload={"needs_reconfirmation": True', api)
+        self.assertIn("mark_schedule_needs_confirmation(headers, schedule_id)", api)
+        self.assertIn("needs_reconfirmation", self.account)
+        self.assertIn("confirmUpdated", self.editor)
 
 
 if __name__ == "__main__":
