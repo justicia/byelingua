@@ -1933,24 +1933,29 @@ def user_event_relations(headers, event_keys=None):
         event_ids = [str(row.get("event_id")) for row in rows if row.get("event_id")]
         events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(event_ids)})", "select": "id,event_key", "limit": "5000"}) if event_ids else []
         id_to_key = {str(row["id"]): row.get("event_key") for row in (events or [])}
-        return {"relations": [{**row, "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows]}
+        return {"relations": [{**row, "intent_status": "optional" if row.get("intent_status") == "maybe_go" else row.get("intent_status"), "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows]}
     keys = [str(key).strip() for key in event_keys if str(key).strip()]
     if not keys:
         return {"relations": []}
     events = supabase_service("GET", "/rest/v1/events", params={"event_key": f"in.({','.join(keys)})", "select": "id,event_key", "limit": "5000"}) or []
     id_to_key = {str(row["id"]): row.get("event_key") for row in events}
-    return {"relations": [{**row, "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows if str(row.get("event_id")) in id_to_key]}
+    return {"relations": [{**row, "intent_status": "optional" if row.get("intent_status") == "maybe_go" else row.get("intent_status"), "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows if str(row.get("event_id")) in id_to_key]}
 
 
 def set_user_event_relation(headers, event_key, intent_status, is_planned=True):
     user = authenticated_user(headers)
     intent = str(intent_status or "").strip()
-    if intent not in {"interested", "maybe_go", "must_go"}:
+    if intent == "maybe_go":
+        intent = "optional"
+    if intent not in {"interested", "optional", "must_go"}:
         raise ValueError("无效的演出意向状态。")
     internal_id = _event_internal_id(str(event_key).strip())
-    payload = {"user_id": user["id"], "event_id": internal_id, "intent_status": intent, "is_planned": bool(is_planned), "updated_at": datetime.now(timezone.utc).isoformat()}
+    storage_intent = "maybe_go" if intent == "optional" else intent
+    payload = {"user_id": user["id"], "event_id": internal_id, "intent_status": storage_intent, "is_planned": bool(is_planned), "updated_at": datetime.now(timezone.utc).isoformat()}
     rows = supabase_service("POST", "/rest/v1/user_event_relations", params={"on_conflict": "user_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
-    return {"relation": rows[0] if rows else payload}
+    result = rows[0] if rows else payload
+    result = {**result, "intent_status": "optional" if result.get("intent_status") == "maybe_go" else result.get("intent_status")}
+    return {"relation": result}
 
 
 def _schedule_owned(user_id, schedule_id):
@@ -2017,20 +2022,33 @@ def update_schedule(headers, schedule_id, title=None, status=None):
         if status not in {"draft", "planned", "completed", "archived"}: raise ValueError("无效的 Schedule 状态。")
         payload["status"] = status
     rows = supabase_service("PATCH", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user['id']}"}, payload=payload) or []
-    return {"schedule": rows[0] if rows else {"id": schedule_id, **payload}}
+    result = rows[0] if rows else {"id": schedule_id, **payload}
+    if status == "planned":
+        try:
+            confirmed = supabase_service("PATCH", "/rest/v1/schedules", params={"id": f"eq.{schedule_id}", "user_id": f"eq.{user['id']}"}, payload={"needs_reconfirmation": False, "confirmed_at": datetime.now(timezone.utc).isoformat()}) or []
+            if confirmed:
+                result = confirmed[0]
+        except Exception:
+            pass
+    return {"schedule": result}
 
 
 def mark_schedule_needs_confirmation(headers, schedule_id):
     user = authenticated_user(headers)
     schedule = _schedule_owned(user["id"], schedule_id)
-    if schedule.get("status") == "planned":
+    if schedule.get("status") != "planned":
+        return {"schedule": schedule, "reconfirmation_supported": False}
+    try:
         rows = supabase_service(
             "PATCH", "/rest/v1/schedules",
             params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"},
-            payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()},
+            payload={"needs_reconfirmation": True, "updated_at":datetime.now(timezone.utc).isoformat()},
         ) or []
-        return {"schedule": rows[0] if rows else {**schedule, "status":"draft"}}
-    return {"schedule": schedule}
+        return {"schedule": rows[0] if rows else {**schedule, "needs_reconfirmation": True}, "reconfirmation_supported": True}
+    except Exception:
+        # Older deployments do not yet have the compatibility column. Never
+        # demote a confirmed schedule to draft; the migration is reported separately.
+        return {"schedule": {**schedule, "needs_reconfirmation": True}, "reconfirmation_supported": False}
 
 
 def add_schedule_event(headers, schedule_id, event_key, note=None):
@@ -2042,7 +2060,7 @@ def add_schedule_event(headers, schedule_id, event_key, note=None):
     rows = supabase_service("POST", "/rest/v1/schedule_events", params={"on_conflict": "schedule_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
     _refresh_schedule_date_range(schedule_id, user["id"])
     if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
-        supabase_service("PATCH", "/rest/v1/schedules", params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"}, payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()})
+        mark_schedule_needs_confirmation(headers, schedule_id)
     return get_schedule(headers, schedule_id)
 
 
@@ -2052,7 +2070,7 @@ def remove_schedule_event(headers, schedule_id, event_key):
     supabase_service("DELETE", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"})
     _refresh_schedule_date_range(schedule_id, user["id"])
     if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
-        supabase_service("PATCH", "/rest/v1/schedules", params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"}, payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()})
+        mark_schedule_needs_confirmation(headers, schedule_id)
     return get_schedule(headers, schedule_id)
 
 
@@ -2063,7 +2081,7 @@ def reorder_schedule_events(headers, schedule_id, ordered_event_keys):
         supabase_service("PATCH", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"}, payload={"sort_order": index, "updated_at": datetime.now(timezone.utc).isoformat()})
     _refresh_schedule_date_range(schedule_id, user["id"])
     if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
-        supabase_service("PATCH", "/rest/v1/schedules", params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"}, payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()})
+        mark_schedule_needs_confirmation(headers, schedule_id)
     return get_schedule(headers, schedule_id)
 
 
