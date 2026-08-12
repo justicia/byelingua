@@ -88,4 +88,11 @@ if(typeof schedules!=='undefined')renderSchedules();
   const personalRenderer=renderPersonalSubscriptions;renderPersonalSubscriptions=function(){personalRenderer();const english=lang()==='en';const quota=$('personalSubscriptionQuota');if(quota)quota.textContent=`${(personal?.subscriptions||[]).length} / ${personal?.profile?.max_subscriptions||3} ${english?'websites':'个网站'}`};
   applyAccountCopy();if(typeof schedules!=='undefined'&&schedules)renderSchedules();window.addEventListener('byelingua-language-change',()=>{applyAccountCopy();if(typeof renderSchedules==='function'&&schedules)renderSchedules();if(typeof personal!=='undefined'&&personal){if(typeof renderPersonalSubscriptions==='function')renderPersonalSubscriptions();if(typeof renderSources==='function')renderSources()}});
 })();
+</script><script>
+// Canonical daily digest preference overlay; legacy email_subscription_enabled remains a read fallback.
+(function(){
+  const digestEnabled=()=>personal?.profile?.email_digest_enabled!=null?personal.profile.email_digest_enabled:personal?.profile?.email_subscription_enabled!==false;
+  function applyDigestCopy(){const english=window.ByelinguaI18n.getUiLanguage()==='en';const label=document.querySelector('label[for="emailEnabled"]'),hints=document.querySelectorAll('.setting-row .hint'),email=document.getElementById('emailEnabled');if(label)label.textContent=english?'Daily email digest':'每日邮件摘要';if(hints[1])hints[1].textContent=english?'Receive at most one email per day when new articles are generated. No email is sent when there are no new articles.':'仅在生成新文章时发送，每天最多一封。没有新文章时不会发送邮件。';if(email&&typeof personal!=='undefined')email.checked=Boolean(digestEnabled())}
+  applyDigestCopy();window.addEventListener('byelingua-language-change',applyDigestCopy);
+})();
 </script></body></html>

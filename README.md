@@ -169,6 +169,8 @@ vercel dev
 
 ## 部署
 
+数据库说明：`supabase_master_schema.sql` 是新环境的正式初始化入口；`supabase_schema.sql` 仅保留作历史基础 schema，不应作为当前完整生产结构的替代品。增量变更（包括 `supabase_email_digests_migration.sql`）需在确认后单独执行。
+
 生产部署由 GitHub 的 `main` 分支触发：
 
 ```powershell
