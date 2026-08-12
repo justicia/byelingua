@@ -158,4 +158,5 @@ $("searchForm").onsubmit=event=>{event.preventDefault();searchQuery=$("globalSea
 const AUTO_REFRESH_MS=60000;
 setInterval(()=>{if(!document.hidden)loadPublic()},AUTO_REFRESH_MS);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadPublic()});
+const byelinguaUpdateAccount=updateAccount;updateAccount=function(){byelinguaUpdateAccount();const account=document.getElementById('accountButton');if(session&&account){account.textContent=uiLanguage==='en'?'My account':'我的账户';account.onclick=()=>location.href='/account.html'}};document.addEventListener('DOMContentLoaded',()=>{const account=document.getElementById('mobileAccount');if(account)account.onclick=()=>{const signedIn=[...Object.keys(localStorage)].some(key=>key.startsWith('sb-')&&key.endsWith('-auth-token'));signedIn?location.href='/account.html':document.getElementById('authDialog')?.showModal()}});
 </script></body></html>
