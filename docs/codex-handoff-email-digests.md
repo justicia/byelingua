@@ -3,7 +3,7 @@
 - Repository: `https://github.com/justicia/byelingua.git`
 - Baseline commit: `022f2ea` (`main`)
 - Branch: `integrate-email-digests`
-- Checkpoint HEAD: `7d227bf637f7eb2bdea65e3c7896381531ef2ae`.
+- Integration checkpoint commit: `efe96bbf3f72cc101820a30965e55f3f327e479f`.
 - All database migrations remain unapplied online.
 
 ## Completed
