@@ -159,4 +159,9 @@ const AUTO_REFRESH_MS=60000;
 setInterval(()=>{if(!document.hidden)loadPublic()},AUTO_REFRESH_MS);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)loadPublic()});
 const byelinguaUpdateAccount=updateAccount;updateAccount=function(){byelinguaUpdateAccount();const account=document.getElementById('accountButton');if(session&&account){account.textContent=uiLanguage==='en'?'My account':'我的账户';account.onclick=()=>location.href='/account.html'}};const addWebsiteControl=document.getElementById('addButton');if(addWebsiteControl){addWebsiteControl.hidden=true;addWebsiteControl.style.display='none'}document.addEventListener('DOMContentLoaded',()=>{const account=document.getElementById('mobileAccount');if(account)account.onclick=()=>{const signedIn=[...Object.keys(localStorage)].some(key=>key.startsWith('sb-')&&key.endsWith('-auth-token'));signedIn?location.href='/account.html':document.getElementById('authDialog')?.showModal()}});
+</script><script>
+// My subscriptions is an article feed; management remains in User Center.
+const originalRenderArticlesForFeed=renderArticles;
+renderArticles=function(){originalRenderArticlesForFeed();const mine=active==='mine'&&!searchQuery;$('personalPanel').hidden=true;if(!mine||!session)return;const hasSubscriptions=(personal.subscriptions||[]).length>0;if(!hasSubscriptions&&!((personal.articles||[]).length)){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='No personal subscriptions yet. <a href="/account.html">Manage subscriptions</a>';$('articles').replaceChildren(empty)}else if(hasSubscriptions&&!((personal.articles||[]).length)){const empty=document.createElement('div');empty.className='empty';empty.textContent='No articles from your subscriptions yet.';$('articles').replaceChildren(empty)}};
+if(active==='mine')renderArticles();
 </script></body></html>
