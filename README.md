@@ -76,11 +76,14 @@ byelingua/
 │   ├── index.py              # 主 API、抓取、翻译、用户和管理员操作
 │   └── cron.py               # Vercel 定时任务入口
 ├── article.html              # 独立文章阅读页
+├── schedule-summary.html     # 已确认行程成果、PNG/ICS/邮件操作
 ├── index.html                # 主页面和管理界面
 ├── requirements.txt          # Python 依赖
 ├── supabase_schema.sql       # Supabase 基础表和 RLS 策略
 ├── supabase_bilingual_migration.sql
 │                              # 双语与用户订阅相关迁移
+├── supabase_schedule_email_deliveries_migration.sql
+│                              # 行程邮件发送记录与 RLS
 ├── test_api.py               # API 单元测试
 ├── vercel.json               # Vercel Functions 与 Cron 配置
 └── README.md
@@ -105,10 +108,11 @@ vercel dev
 1. 创建 Supabase 项目。
 2. 在 Supabase SQL Editor 中执行 `supabase_schema.sql`。
 3. 再执行 `supabase_bilingual_migration.sql`。
-4. 在 Authentication 中启用 Email + Password 登录。
-5. 浏览器公开注册保持关闭；账户由服务端验证邀请码后通过 Admin API 创建。
-6. 将 Site URL 和允许的 Redirect URL 设置为 `https://www.bye-lingua.site`。
-7. 使用 Resend 或其他服务配置 Supabase Custom SMTP。
+4. 再执行 `supabase_schedules_migration.sql` 和 `supabase_schedule_email_deliveries_migration.sql`。
+5. 在 Authentication 中启用 Email + Password 登录。
+6. 浏览器公开注册保持关闭；账户由服务端验证邀请码后通过 Admin API 创建。
+7. 将 Site URL 和允许的 Redirect URL 设置为 `https://www.bye-lingua.site`。
+8. 使用 Resend 或其他服务配置 Supabase Custom SMTP。
 
 数据库使用 Row Level Security，登录用户只能读取自己的资料、订阅、文章和使用记录。`SUPABASE_SERVICE_ROLE_KEY` 只能放在服务端环境变量中。
 
@@ -127,6 +131,7 @@ vercel dev
 | `SUPABASE_SERVICE_ROLE_KEY` | 仅服务端使用的高权限密钥 |
 | `RESEND_API_KEY` | Resend API 密钥（如服务端邮件功能需要） |
 | `EMAIL_FROM` | 发件人，例如 `Byelingua <login@auth.example.com>` |
+| `PUBLIC_APP_URL` | 可选，邮件中成果页链接的站点地址，默认 `https://www.bye-lingua.site` |
 | `MAX_ARTICLES` | 可选，公共文章最大保存数量，默认 200 |
 
 修改环境变量后需要重新部署 Vercel，变更才会生效。

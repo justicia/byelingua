@@ -9,6 +9,7 @@ import re
 import secrets
 import unicodedata
 import uuid
+import base64
 from difflib import SequenceMatcher
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
@@ -1739,7 +1740,7 @@ def _event_city(event, venue_cities=None):
     city = event.get("city") or event.get("location_city")
     if not city and venue_cities:
         city = venue_cities.get(str(event.get("venue") or "").strip().casefold())
-    return _schedule_city(city) if city else ""
+    return str(city or "").strip()
 
 
 CANONICAL_EVENT_TYPES = (
@@ -1825,6 +1826,18 @@ def schedule_events(data):
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
+    artist_event_keys = None
+    artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
+    if artist_query:
+        artists = supabase_service("GET", "/rest/v1/artists", params={"artist_name":f"ilike.*{artist_query}*", "select":"id", "limit":"5000"}) or []
+        artist_ids = [str(row.get("id")) for row in artists if row.get("id")]
+        if artist_ids:
+            credits = supabase_service("GET", "/rest/v1/event_credits", params={"artist_id":f"in.({','.join(artist_ids)})", "select":"event_id", "limit":"5000"}) or []
+            internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
+            event_rows = supabase_service("GET", "/rest/v1/events", params={"id":f"in.({','.join(internal_ids)})", "select":"id,event_key", "limit":"5000"}) if internal_ids else []
+            artist_event_keys = {str(row.get("event_key")) for row in (event_rows or []) if row.get("event_key")}
+        else:
+            artist_event_keys = set()
     venue_cities = {}
     if any(not (row.get("city") or row.get("location_city")) for row in rows):
         venue_rows = supabase_service(
@@ -1847,16 +1860,27 @@ def schedule_events(data):
         city = _event_city(row, venue_cities)
         if city:
             row["city"] = city
+        artist_match = artist_event_keys is not None and str(row.get("event_id")) in artist_event_keys
         if cities and city.casefold() not in cities:
             continue
         if organizations and str(row.get("organization", "")).lower() not in organizations:
             continue
         if venues and str(row.get("venue", "")).lower() not in venues:
             continue
-        if data.get("work_query") and search_match_score(data.get("work_query"), row.get("title"), row.get("work_title"), row.get("composer")) < 0.60:
+        keyword = data.get("work_query") or data.get("query")
+        if keyword and not artist_match and search_match_score(keyword, row.get("title"), row.get("work_title"), row.get("composer"), row.get("organization"), row.get("venue"), row.get("artist_name")) < 0.60:
             continue
         filtered.append(row)
-    return {"events": filtered}
+    unique = []
+    seen_event_keys = set()
+    for row in filtered:
+        event_key = str(row.get("event_id") or row.get("id") or "")
+        if event_key and event_key in seen_event_keys:
+            continue
+        if event_key:
+            seen_event_keys.add(event_key)
+        unique.append(row)
+    return {"events": unique}
 
 
 def schedule_event_detail(event_id):
@@ -1972,7 +1996,7 @@ def list_schedules(headers):
     for row in rows:
         members = _schedule_events_payload(row["id"])
         row["event_count"] = len(members)
-        row["cities"] = sorted({str(member.get("event", {}).get("city") or _schedule_city(member.get("event", {}).get("venue") or member.get("event", {}).get("organization"))).strip() for member in members if str(member.get("event", {}).get("city") or member.get("event", {}).get("venue") or member.get("event", {}).get("organization") or "").strip()})
+        row["cities"] = sorted({_event_city(member.get("event") or {}) for member in members if _event_city(member.get("event") or {})})
     return {"schedules": rows}
 
 
@@ -1996,6 +2020,19 @@ def update_schedule(headers, schedule_id, title=None, status=None):
     return {"schedule": rows[0] if rows else {"id": schedule_id, **payload}}
 
 
+def mark_schedule_needs_confirmation(headers, schedule_id):
+    user = authenticated_user(headers)
+    schedule = _schedule_owned(user["id"], schedule_id)
+    if schedule.get("status") == "planned":
+        rows = supabase_service(
+            "PATCH", "/rest/v1/schedules",
+            params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"},
+            payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()},
+        ) or []
+        return {"schedule": rows[0] if rows else {**schedule, "status":"draft"}}
+    return {"schedule": schedule}
+
+
 def add_schedule_event(headers, schedule_id, event_key, note=None):
     user = authenticated_user(headers); _schedule_owned(user["id"], schedule_id)
     event_id = _event_internal_id(str(event_key).strip())
@@ -2004,6 +2041,8 @@ def add_schedule_event(headers, schedule_id, event_key, note=None):
     payload = {"schedule_id": schedule_id, "event_id": event_id, "sort_order": sort_order, "note": note}
     rows = supabase_service("POST", "/rest/v1/schedule_events", params={"on_conflict": "schedule_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
     _refresh_schedule_date_range(schedule_id, user["id"])
+    if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
+        supabase_service("PATCH", "/rest/v1/schedules", params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"}, payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()})
     return get_schedule(headers, schedule_id)
 
 
@@ -2012,6 +2051,8 @@ def remove_schedule_event(headers, schedule_id, event_key):
     event_id = _event_internal_id(str(event_key).strip())
     supabase_service("DELETE", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"})
     _refresh_schedule_date_range(schedule_id, user["id"])
+    if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
+        supabase_service("PATCH", "/rest/v1/schedules", params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"}, payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()})
     return get_schedule(headers, schedule_id)
 
 
@@ -2021,6 +2062,8 @@ def reorder_schedule_events(headers, schedule_id, ordered_event_keys):
         event_id = _event_internal_id(str(key).strip())
         supabase_service("PATCH", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{schedule_id}", "event_id": f"eq.{event_id}"}, payload={"sort_order": index, "updated_at": datetime.now(timezone.utc).isoformat()})
     _refresh_schedule_date_range(schedule_id, user["id"])
+    if _schedule_owned(user["id"], schedule_id).get("status") == "planned":
+        supabase_service("PATCH", "/rest/v1/schedules", params={"id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}"}, payload={"status":"draft", "updated_at":datetime.now(timezone.utc).isoformat()})
     return get_schedule(headers, schedule_id)
 
 
@@ -2053,7 +2096,8 @@ def export_schedule_ics(headers, schedule_id):
     if schedule.get("status") != "planned":
         raise ValueError("Only planned schedules can be exported.")
     rows = _schedule_events_payload(schedule_id)
-    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Byelingua//Schedule//EN", "CALSCALE:GREGORIAN"]
+    generated_at = datetime.now(timezone.utc)
+    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Byelingua//Schedule//EN", "CALSCALE:GREGORIAN", "METHOD:PUBLISH", "X-WR-TIMEZONE:Europe/Paris"]
     for row in rows:
         event = row.get("event") or {}
         date = str(event.get("date") or "").replace("-", "")
@@ -2064,22 +2108,89 @@ def export_schedule_ics(headers, schedule_id):
         uid = f"{row.get('event_key') or row.get('event_id')}@byelingua"
         title = event.get("title") or event.get("work_title") or "Event"
         venue = event.get("venue") or ""
-        city = event.get("city") or _schedule_city(venue or event.get("organization"))
+        city = _event_city(event)
         address = event.get("full_address") or event.get("venue_address") or event.get("address")
         location = ", ".join(part for part in (venue, address, city) if part)
         description = _ics_programme(event)
-        lines += ["BEGIN:VEVENT", f"UID:{_ics_escape(uid)}", f"SUMMARY:{_ics_escape(title)}", f"DTSTART:{date}T{start}"]
-        if event.get("end_time"):
-            end = str(event.get("end_time")).replace(":", "")[:6]
-            if len(end) == 4: end += "00"
-            lines.append(f"DTEND:{date}T{end}")
+        lines += ["BEGIN:VEVENT", f"UID:{_ics_escape(uid)}", f"DTSTAMP:{generated_at.strftime('%Y%m%dT%H%M%SZ')}", f"SUMMARY:{_ics_escape(title)}", f"DTSTART;TZID=Europe/Paris:{date}T{start}"]
+        end = str(event.get("end_time") or "").replace(":", "")[:6]
+        if len(end) == 4: end += "00"
+        if len(end) < 4:
+            try:
+                local_start = datetime.strptime(f"{date}{start}", "%Y%m%d%H%M%S")
+                end = (local_start + timedelta(hours=2)).strftime("%H%M%S")
+            except ValueError:
+                end = "020000"
+        lines.append(f"DTEND;TZID=Europe/Paris:{date}T{end}")
         if location: lines.append(f"LOCATION:{_ics_escape(location)}")
         if description: lines.append(f"DESCRIPTION:{_ics_escape(description)}")
-        source_url = event.get("source_url") or event.get("detail_url")
+        source_url = event.get("source_url") or event.get("detail_url") or event.get("original_url")
         if source_url: lines.append(f"URL:{_ics_escape(source_url)}")
         lines += ["END:VEVENT"]
     lines += ["END:VCALENDAR"]
-    return {"filename": f"{re.sub(r'[^A-Za-z0-9._-]+', '_', str(schedule.get('title') or 'schedule')).strip('_') or 'schedule'}.ics", "ics": "\r\n".join(lines) + "\r\n"}
+    safe_title = re.sub(r"[^A-Za-z0-9._-]+", "_", str(schedule.get("title") or "schedule")).strip("_") or "schedule"
+    date_suffix = f"-{schedule.get('start_date')}-{schedule.get('end_date')}" if schedule.get("start_date") and schedule.get("end_date") else ""
+    return {"filename": f"{safe_title}{date_suffix}.ics", "ics": "\r\n".join(lines) + "\r\n"}
+
+
+def _schedule_email_content(schedule, rows, language, summary_url):
+    english = language == "en"
+    title = str(schedule.get("title") or "Schedule")
+    range_text = " – ".join(str(x) for x in (schedule.get("start_date"), schedule.get("end_date")) if x)
+    groups = {}
+    for row in rows:
+        event = row.get("event") or {}
+        groups.setdefault(str(event.get("date") or ""), []).append(event)
+    grouped = []
+    for date in sorted(groups):
+        events = sorted(groups[date], key=lambda e: str(e.get("start_time") or ""))
+        grouped.append((date, events))
+    def value(event, key): return str(event.get(key) or "")
+    html_groups, text_groups = [], []
+    for date, events in grouped:
+        html_items, text_items = [], []
+        for event in events:
+            event_title = escape(value(event, "title") or value(event, "work_title") or "Event")
+            venue = escape(value(event, "venue")); city = escape(_event_city(event)); org = escape(value(event, "organization")); time = escape(value(event, "start_time"))
+            url = value(event, "source_url") or value(event, "detail_url") or value(event, "original_url")
+            link = f'<a href="{escape(url, quote=True)}">{event_title}</a>' if url else event_title
+            html_items.append(f"<li><strong>{escape(time)}</strong> · {link}<br><span>{venue} · {city} · {org}</span></li>")
+            text_items.append(f"- {value(event, 'start_time')} · {value(event, 'title') or value(event, 'work_title') or 'Event'} · {value(event, 'venue')} · {_event_city(event)} · {value(event, 'organization')}" + (f" · {url}" if url else ""))
+        html_groups.append(f"<h2>{escape(date)}</h2><ul>{''.join(html_items)}</ul>")
+        text_groups.append(date + "\n" + "\n".join(text_items))
+    heading = "Your Byelingua schedule" if english else "你的 Byelingua 行程"
+    subject = f"Byelingua · {title}"
+    html = f'<main style="max-width:680px;margin:auto;font-family:Arial,sans-serif;color:#17201b"><h1 style="color:#214d3a">BYELINGUA</h1><h2>{escape(heading)}</h2><p>{escape(title)} · {escape(range_text)}</p>{"".join(html_groups)}<p><a href="{escape(summary_url, quote=True)}">{"Open schedule" if english else "打开行程成果页"}</a></p></main>'
+    text = heading + "\n\n" + title + " · " + range_text + "\n\n" + "\n\n".join(text_groups) + "\n\n" + ("Open schedule: " if english else "打开行程成果页：") + summary_url
+    return subject, html, text
+
+
+def send_schedule_email(headers, schedule_id):
+    user = authenticated_user(headers)
+    schedule = _schedule_owned(user["id"], schedule_id)
+    if schedule.get("status") != "planned": raise ValueError("Only planned schedules can be emailed.")
+    resend_key = os.environ.get("RESEND_API_KEY", "").strip(); email_from = os.environ.get("EMAIL_FROM", "").strip()
+    if not resend_key or not email_from: raise RuntimeError("RESEND_API_KEY and EMAIL_FROM must be configured.")
+    profiles = supabase_service("GET", "/rest/v1/profiles", params={"id":f"eq.{user['id']}","select":"email,preferred_language"}) or []
+    if not profiles or not str(profiles[0].get("email") or "").strip(): raise ValueError("当前账户没有可用邮箱。")
+    profile = profiles[0]; rows = _schedule_events_payload(schedule_id); ics = export_schedule_ics(headers, schedule_id)
+    base_url = os.environ.get("PUBLIC_APP_URL", "https://www.bye-lingua.site").rstrip("/")
+    subject, html, text = _schedule_email_content(schedule, rows, profile.get("preferred_language") or "zh", f"{base_url}/schedule-summary.html?schedule_id={quote(str(schedule_id))}")
+    content_hash = hashlib.sha256((html + ics["ics"]).encode("utf-8")).hexdigest()
+    delivery = {"user_id":user["id"],"schedule_id":schedule_id,"recipient_email":str(profile["email"]).strip(),"status":"pending","content_hash":content_hash}
+    try: supabase_service("POST", "/rest/v1/schedule_email_deliveries", payload=delivery)
+    except Exception: pass
+    try:
+        response = SESSION.post("https://api.resend.com/emails", headers={"Authorization":f"Bearer {resend_key}","Content-Type":"application/json","User-Agent":"Byelingua-Server/3.0"}, json={"from":email_from,"to":[delivery["recipient_email"]],"subject":subject,"html":html,"text":text,"attachments":[{"filename":ics["filename"],"content":base64.b64encode(ics["ics"].encode()).decode("ascii")}]}, timeout=20)
+        if not response.ok: raise ValueError("邮件服务拒绝了发送请求。")
+        provider_id = response.json().get("id")
+        try: supabase_service("PATCH", "/rest/v1/schedule_email_deliveries", params={"schedule_id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}","status":"eq.pending"}, payload={"status":"sent","provider_message_id":provider_id,"sent_at":datetime.now(timezone.utc).isoformat()})
+        except Exception: pass
+        return {"sent":True,"recipient":delivery["recipient_email"]}
+    except Exception as error:
+        try: supabase_service("PATCH", "/rest/v1/schedule_email_deliveries", params={"schedule_id":f"eq.{schedule_id}","user_id":f"eq.{user['id']}","status":"eq.pending"}, payload={"status":"failed","error":str(error)[:500]})
+        except Exception: pass
+        raise
 
 
 def character_options(query=""):
@@ -2388,6 +2499,10 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, get_schedule(self.headers, str(data.get("schedule_id", "")))); return
             if action == "export_schedule_ics":
                 self.send_json(200, export_schedule_ics(self.headers, str(data.get("schedule_id", "")))); return
+            if action == "send_schedule_email":
+                self.send_json(200, send_schedule_email(self.headers, str(data.get("schedule_id", "")))); return
+            if action == "mark_schedule_needs_confirmation":
+                self.send_json(200, mark_schedule_needs_confirmation(self.headers, str(data.get("schedule_id", "")))); return
             if action == "rename_schedule":
                 self.send_json(200, update_schedule(self.headers, str(data.get("schedule_id", "")), title=data.get("title"))); return
             if action == "update_schedule_status":
@@ -2455,6 +2570,7 @@ class handler(BaseHTTPRequestHandler):
             elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
         except ManualBriefRateLimitError as error: self.send_json(429, {"error":str(error), **error.status})
-        except PermissionError as error: self.send_json(401, {"error":str(error)})
-        except (ValueError, requests.RequestException) as error: self.send_json(400, {"error":str(error)})
-        except Exception as error: self.send_json(500, {"error":str(error)})
+        except PermissionError as error: self.send_json(401, {"error_code":"permission_denied", "error":str(error)})
+        except requests.RequestException as error: self.send_json(502, {"error_code":"network_error", "error":"Upstream request failed."})
+        except ValueError as error: self.send_json(400, {"error_code":"invalid_request", "error":str(error)})
+        except Exception as error: self.send_json(500, {"error_code":"unknown_error", "error":str(error)})

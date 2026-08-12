@@ -13,7 +13,7 @@
 <section class="panel"><div class="toolbar"><div><h2 style="margin:0">Events</h2><div id="resultHint" class="hint">请先选择日期和地点。</div></div><span id="selectedHint" class="hint">已选 0 场</span></div><div id="events"></div></section>
 <section id="schedulePanel" class="panel" hidden><h2 style="margin:0">Generated Schedule</h2><div class="hint">按日期和开始时间排序。后续可将 selected_event_ids 接入用户旅行计划。</div><div id="schedule" class="schedule-grid" style="margin-top:12px"></div></section>
 <dialog id="detail"><div style="padding:18px"><div class="toolbar"><h2 id="detailTitle" style="margin:0"></h2><button id="closeDetail" class="secondary">关闭</button></div><div id="detailMeta" class="meta"></div><div id="detailBody"></div></div></dialog>
-</main><script src="/shared-header.js"></script><script>
+</main><script src="/shared-i18n.js"></script><script src="/shared-header.js"></script><script>
 const $=id=>document.getElementById(id);let options={cities:[],organizations:[],venues:[]},events=[],selected_event_ids=new Set(),details=new Map(),characterChoices=[],selectedCharacter=null;
 let eventAccessToken='';
 function storedEventAccessToken(){for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i)||'';if(!key.startsWith('sb-')||!key.endsWith('-auth-token'))continue;try{const value=JSON.parse(localStorage.getItem(key)||'{}');if(value.access_token)return value.access_token}catch(_){}}return ''}
