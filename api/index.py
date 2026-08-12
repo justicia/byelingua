@@ -10,7 +10,7 @@ import secrets
 import unicodedata
 import uuid
 from difflib import SequenceMatcher
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from html import escape
 from http.server import BaseHTTPRequestHandler
@@ -1158,6 +1158,43 @@ def authenticated_user(headers):
     return user
 
 
+MANUAL_BRIEF_EVENT_TYPE = "manual_news_brief"
+
+
+def manual_brief_status(user_id):
+    try:
+        rows = supabase_service(
+            "GET", "/rest/v1/usage_events",
+            params={
+                "user_id": f"eq.{user_id}",
+                "event_type": f"eq.{MANUAL_BRIEF_EVENT_TYPE}",
+                "select": "created_at",
+                "order": "created_at.desc",
+                "limit": "1",
+            },
+        ) or []
+    except Exception:
+        rows = []
+    last = rows[0].get("created_at") if rows else None
+    if not last:
+        return {"last_success_at": None, "next_available_at": None, "rate_limited": False}
+    try:
+        parsed = datetime.fromisoformat(str(last).replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        next_available = parsed + timedelta(hours=24)
+        limited = datetime.now(timezone.utc) < next_available
+        return {"last_success_at": parsed.astimezone(timezone.utc).isoformat(), "next_available_at": next_available.astimezone(timezone.utc).isoformat(), "rate_limited": limited}
+    except ValueError:
+        return {"last_success_at": last, "next_available_at": None, "rate_limited": False}
+
+
+class ManualBriefRateLimitError(ValueError):
+    def __init__(self, status):
+        self.status = status
+        super().__init__("Manual Brief is available once every 24 hours.")
+
+
 def personal_payload(user_id):
     profile = supabase_service("GET", "/rest/v1/profiles", params={"id":f"eq.{user_id}","select":"*"})
     profile = profile[0] if profile else {}
@@ -1170,7 +1207,7 @@ def personal_payload(user_id):
         general_subscriptions = supabase_service("GET", "/rest/v1/user_general_subscriptions", params={"user_id":f"eq.{user_id}","select":"*"}) or []
     except Exception:
         general_subscriptions = []
-    return {"profile":profile,"subscriptions":subscriptions or [],"general_subscriptions":general_subscriptions,"articles":articles or []}
+    return {"profile":profile,"subscriptions":subscriptions or [],"general_subscriptions":general_subscriptions,"articles":articles or [],"manual_brief":manual_brief_status(user_id)}
 
 
 def set_general_subscription(user_id, source, enabled):
@@ -1303,7 +1340,7 @@ def _run_personal_digest_legacy(user_id):
     return {"processed":processed,"errors":errors[:10],"data":personal_payload(user_id)}
 
 
-def run_personal_digest(user_id, automated=False, article_limit=3):
+def run_personal_digest(user_id, automated=False, article_limit=3, enforce_daily_limit=True):
     """Process up to three personal sources using the account's saved language."""
     personal = personal_payload(user_id)
     profile, subscriptions = personal["profile"], effective_subscriptions(personal)
@@ -1313,7 +1350,7 @@ def run_personal_digest(user_id, automated=False, article_limit=3):
     paris_midnight = datetime.now(PARIS_TIMEZONE).replace(
         hour=0, minute=0, second=0, microsecond=0
     ).astimezone(timezone.utc).isoformat()
-    if not automated:
+    if not automated and enforce_daily_limit:
         usage = supabase_service(
             "GET",
             "/rest/v1/usage_events",
@@ -1503,13 +1540,18 @@ def generate_brief_and_send(user_id):
     personal = personal_payload(user_id)
     if not effective_subscriptions(personal):
         raise ValueError("请先选择至少一个新闻来源。")
+    status = manual_brief_status(user_id)
+    if status.get("rate_limited"):
+        raise ManualBriefRateLimitError(status)
     if not str(personal.get("profile", {}).get("email") or "").strip():
         raise ValueError("账户没有可用的登录邮箱。")
-    result = run_personal_digest(user_id, automated=False)
+    result = run_personal_digest(user_id, automated=False, enforce_daily_limit=False)
     if result.get("errors") and not result.get("processed"):
         raise ValueError("Brief 生成失败：" + "; ".join(result["errors"][:2]))
     delivery = send_daily_digest(user_id, respect_subscription=False)
-    return {"processed":result.get("processed",0),"errors":result.get("errors",[]),"delivery":delivery,"data":result.get("data")}
+    if delivery.get("sent"):
+        supabase_service("POST", "/rest/v1/usage_events", payload={"user_id":user_id,"event_type":MANUAL_BRIEF_EVENT_TYPE,"characters":0})
+    return {"processed":result.get("processed",0),"errors":result.get("errors",[]),"delivery":delivery,"data":result.get("data"),"manual_brief":manual_brief_status(user_id)}
 
 
 def paris_schedule_due(now=None):
@@ -2332,6 +2374,7 @@ class handler(BaseHTTPRequestHandler):
             elif action == "retranslate_article": self.send_json(200, retranslate_article(str(data.get("id",""))))
             elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
+        except ManualBriefRateLimitError as error: self.send_json(429, {"error":str(error), **error.status})
         except PermissionError as error: self.send_json(401, {"error":str(error)})
         except (ValueError, requests.RequestException) as error: self.send_json(400, {"error":str(error)})
         except Exception as error: self.send_json(500, {"error":str(error)})
