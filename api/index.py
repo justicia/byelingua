@@ -2176,6 +2176,17 @@ def work_events(data):
 
 
 def combined_entity_events(data):
+    data = dict(data)
+    raw_work_id = str(data.get("work_id") or "").strip()
+    if raw_work_id and not valid_uuid(raw_work_id):
+        # Legacy clients sometimes sent the visible composer label in work_id.
+        # Never pass that value to a UUID comparison; treat it as free text.
+        data.pop("work_id", None)
+        data["composer_query"] = data.get("composer_query") or raw_work_id
+    if data.get("character_id") and not valid_uuid(data.get("character_id")):
+        data.pop("character_id", None)
+    if data.get("artist_id") and not valid_uuid(data.get("artist_id")):
+        data.pop("artist_id", None)
     selected = []
     if data.get("work_id") or data.get("composer_query"):
         selected.append(work_events(data).get("events", []))
