@@ -1167,7 +1167,10 @@ def save_personal_subscription(user_id, data):
         raise PermissionError("账户当前不可添加订阅。")
     sub = validate_subscription(data)
     existing = next((item for item in personal["subscriptions"] if item.get("feed_url") == sub["feed_url"]), None)
-    if not existing and len(personal["subscriptions"]) >= int(profile.get("max_subscriptions", 3)):
+    source_meta = next((source for source in available_news_sources() if source.get("feed_url") == sub.get("feed_url")), {})
+    custom_feeds = {source.get("feed_url") for source in available_news_sources() if source.get("custom_eligible")}
+    custom_count = sum(1 for item in personal["subscriptions"] if item.get("feed_url") in custom_feeds and item.get("enabled", True))
+    if not existing and source_meta.get("custom_eligible") and custom_count >= 3:
         raise ValueError(f"试运行账户最多添加 {profile.get('max_subscriptions', 3)} 个网站。")
     record = {key:sub[key] for key in ("name","url","feed_url","country","source_type","language","mode","enabled")}
     record["user_id"] = user_id
@@ -1195,7 +1198,13 @@ def set_personal_subscription_enabled(user_id, identifier, enabled):
 
 
 def available_news_sources():
-    return [{key: source.get(key) for key in ("id","name","url","feed_url","country","source_type","language","mode")} for source in load_config().get("subscriptions", []) if source.get("feed_url")]
+    result = []
+    for source in load_config().get("subscriptions", []):
+        if not source.get("feed_url"):
+            continue
+        custom = bool(source.get("custom_eligible", str(source.get("source_type") or "").lower() == "website"))
+        result.append({**{key: source.get(key) for key in ("id","name","url","feed_url","country","source_type","language","mode")}, "custom_eligible": custom})
+    return result
 
 
 def list_my_invite_codes(user_id):
