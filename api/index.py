@@ -2004,6 +2004,64 @@ def reorder_schedule_events(headers, schedule_id, ordered_event_keys):
     return get_schedule(headers, schedule_id)
 
 
+def _ics_escape(value):
+    return str(value or "").replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\r", "").replace("\n", "\\n")
+
+
+def _ics_programme(event):
+    programme = event.get("programme") or event.get("program") or []
+    if isinstance(programme, str):
+        return programme.strip()
+    if isinstance(programme, dict):
+        programme = [programme]
+    lines = []
+    for item in programme if isinstance(programme, list) else []:
+        if isinstance(item, str):
+            if item.strip(): lines.append(item.strip())
+            continue
+        if isinstance(item, dict):
+            composer = str(item.get("composer") or "").strip()
+            title = str(item.get("work_title") or item.get("title") or item.get("work") or "").strip()
+            text = " · ".join(part for part in (composer, title) if part)
+            if text: lines.append(text)
+    return "\n".join(lines)
+
+
+def export_schedule_ics(headers, schedule_id):
+    user = authenticated_user(headers)
+    schedule = _schedule_owned(user["id"], schedule_id)
+    if schedule.get("status") != "planned":
+        raise ValueError("Only planned schedules can be exported.")
+    rows = _schedule_events_payload(schedule_id)
+    lines = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Byelingua//Schedule//EN", "CALSCALE:GREGORIAN"]
+    for row in rows:
+        event = row.get("event") or {}
+        date = str(event.get("date") or "").replace("-", "")
+        start = str(event.get("start_time") or "").replace(":", "")[:6]
+        if not date or len(date) != 8: continue
+        if len(start) < 4: start = "000000"
+        elif len(start) == 4: start += "00"
+        uid = f"{row.get('event_key') or row.get('event_id')}@byelingua"
+        title = event.get("title") or event.get("work_title") or "Event"
+        venue = event.get("venue") or ""
+        city = event.get("city") or _schedule_city(venue or event.get("organization"))
+        address = event.get("full_address") or event.get("venue_address") or event.get("address")
+        location = ", ".join(part for part in (venue, address, city) if part)
+        description = _ics_programme(event)
+        lines += ["BEGIN:VEVENT", f"UID:{_ics_escape(uid)}", f"SUMMARY:{_ics_escape(title)}", f"DTSTART:{date}T{start}"]
+        if event.get("end_time"):
+            end = str(event.get("end_time")).replace(":", "")[:6]
+            if len(end) == 4: end += "00"
+            lines.append(f"DTEND:{date}T{end}")
+        if location: lines.append(f"LOCATION:{_ics_escape(location)}")
+        if description: lines.append(f"DESCRIPTION:{_ics_escape(description)}")
+        source_url = event.get("source_url") or event.get("detail_url")
+        if source_url: lines.append(f"URL:{_ics_escape(source_url)}")
+        lines += ["END:VEVENT"]
+    lines += ["END:VCALENDAR"]
+    return {"filename": f"{re.sub(r'[^A-Za-z0-9._-]+', '_', str(schedule.get('title') or 'schedule')).strip('_') or 'schedule'}.ics", "ics": "\r\n".join(lines) + "\r\n"}
+
+
 def character_options(query=""):
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "limit": "2000"}) or []
     work_by_id = {row["id"]: row for row in works}
@@ -2308,6 +2366,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, list_schedules(self.headers)); return
             if action == "get_schedule":
                 self.send_json(200, get_schedule(self.headers, str(data.get("schedule_id", "")))); return
+            if action == "export_schedule_ics":
+                self.send_json(200, export_schedule_ics(self.headers, str(data.get("schedule_id", "")))); return
             if action == "rename_schedule":
                 self.send_json(200, update_schedule(self.headers, str(data.get("schedule_id", "")), title=data.get("title"))); return
             if action == "update_schedule_status":
