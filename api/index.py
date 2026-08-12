@@ -1183,12 +1183,34 @@ def delete_personal_subscription(user_id, identifier):
     return personal_payload(user_id)
 
 
+def set_personal_subscription_enabled(user_id, identifier, enabled):
+    rows = supabase_service(
+        "PATCH", "/rest/v1/user_subscriptions",
+        params={"id": f"eq.{identifier}", "user_id": f"eq.{user_id}"},
+        payload={"enabled": bool(enabled), "updated_at": datetime.now(timezone.utc).isoformat()},
+    ) or []
+    if not rows:
+        raise ValueError("找不到该新闻来源。")
+    return personal_payload(user_id)
+
+
 def save_personal_language(user_id, language):
     language = str(language or "").lower()
     if language not in LANGUAGES:
         raise ValueError("不支持所选语言。")
     supabase_service("PATCH", "/rest/v1/profiles", params={"id":f"eq.{user_id}"}, payload={"preferred_language":language,"updated_at":datetime.now(timezone.utc).isoformat()})
     supabase_service("PATCH", "/rest/v1/user_subscriptions", params={"user_id":f"eq.{user_id}"}, payload={"language":language,"updated_at":datetime.now(timezone.utc).isoformat()})
+    return personal_payload(user_id)
+
+
+def save_email_subscription(user_id, enabled):
+    """Toggle delivery only; keep source subscriptions and language untouched."""
+    value = bool(enabled)
+    rows = supabase_service(
+        "PATCH", "/rest/v1/profiles",
+        params={"id": f"eq.{user_id}"},
+        payload={"email_subscription_enabled": value, "updated_at": datetime.now(timezone.utc).isoformat()},
+    ) or []
     return personal_payload(user_id)
 
 
@@ -1344,15 +1366,23 @@ def send_daily_digest(user_id):
     if not resend_key or not email_from:
         raise RuntimeError("RESEND_API_KEY and EMAIL_FROM must be configured.")
 
-    profiles = supabase_service(
-        "GET",
-        "/rest/v1/profiles",
-        params={"id":f"eq.{user_id}","select":"email,preferred_language"},
-    ) or []
+    try:
+        profiles = supabase_service(
+            "GET", "/rest/v1/profiles",
+            params={"id":f"eq.{user_id}","select":"email,preferred_language,email_subscription_enabled"},
+        ) or []
+    except Exception:
+        # Keep delivery compatible until the User Center migration is applied.
+        profiles = supabase_service(
+            "GET", "/rest/v1/profiles",
+            params={"id":f"eq.{user_id}","select":"email,preferred_language"},
+        ) or []
     if not profiles or not str(profiles[0].get("email") or "").strip():
         raise ValueError(f"User {user_id} does not have a profile email.")
 
     profile = profiles[0]
+    if profile.get("email_subscription_enabled") is False:
+        return {"sent":False,"articles":0,"skipped":"email_disabled"}
     recipient = str(profile["email"]).strip()
     paris_now = datetime.now(PARIS_TIMEZONE)
     paris_midnight = paris_now.replace(
@@ -1450,14 +1480,16 @@ def run_scheduled_updates():
         public_processed += int(result.get("processed", 0))
         errors.extend(result.get("errors", []))
 
-    profiles = supabase_service(
-        "GET",
-        "/rest/v1/profiles",
-        params={
-            "status": "eq.active",
-            "select": "id",
-        },
-    ) or []
+    try:
+        profiles = supabase_service(
+            "GET", "/rest/v1/profiles",
+            params={"status": "eq.active", "select": "id,email_subscription_enabled"},
+        ) or []
+    except Exception:
+        profiles = supabase_service(
+            "GET", "/rest/v1/profiles",
+            params={"status": "eq.active", "select": "id"},
+        ) or []
 
     completed_users = 0
 
@@ -1471,7 +1503,8 @@ def run_scheduled_updates():
             personal_processed += int(result.get("processed", 0))
             errors.extend(result.get("errors", []))
             try:
-                send_daily_digest(profile["id"])
+                if profile.get("email_subscription_enabled", True):
+                    send_daily_digest(profile["id"])
             except Exception as error:
                 errors.append(
                     f"User {profile.get('id', 'unknown')} email: {error}"
@@ -1639,11 +1672,21 @@ def schedule_options():
         params={"select": "id,name,city,organization_id", "order": "name"},
     ) or []
     org_by_id = {row["id"]: row for row in organizations}
+    # Keep location suggestions grounded in venues represented by current events.
+    # If the catalog lookup is unavailable, retain the venue-directory fallback.
+    catalog_rows = supabase_service(
+        "GET", "/rest/v1/event_catalog_v1",
+        params={"select": "organization,venue", "limit": "5000"},
+    ) or []
+    active_pairs = {(str(row.get("organization") or "").strip().casefold(), str(row.get("venue") or "").strip().casefold()) for row in catalog_rows}
     venue_rows = []
     cities = set()
     for venue in venues:
         org = org_by_id.get(venue.get("organization_id"), {})
         city = _schedule_city(venue.get("city") or org.get("name"))
+        pair = (str(org.get("name") or "").strip().casefold(), str(venue.get("name") or "").strip().casefold())
+        if active_pairs and pair not in active_pairs:
+            continue
         cities.add(city)
         venue_rows.append({
             "id": venue.get("id"), "name": venue.get("name"), "city": city,
@@ -1802,8 +1845,9 @@ def list_schedules(headers):
     user = authenticated_user(headers)
     rows = supabase_service("GET", "/rest/v1/schedules", params={"user_id": f"eq.{user['id']}", "select": "*", "order": "updated_at.desc", "limit": "5000"}) or []
     for row in rows:
-        count = supabase_service("GET", "/rest/v1/schedule_events", params={"schedule_id": f"eq.{row['id']}", "select": "id", "limit": "5000"}) or []
-        row["event_count"] = len(count)
+        members = _schedule_events_payload(row["id"])
+        row["event_count"] = len(members)
+        row["cities"] = sorted({str(member.get("event", {}).get("city") or _schedule_city(member.get("event", {}).get("venue") or member.get("event", {}).get("organization"))).strip() for member in members if str(member.get("event", {}).get("city") or member.get("event", {}).get("venue") or member.get("event", {}).get("organization") or "").strip()})
     return {"schedules": rows}
 
 
@@ -2157,12 +2201,14 @@ class handler(BaseHTTPRequestHandler):
                 raise ValueError("不支持的搜索类型。")
             if action == "combined_entity_events":
                 self.send_json(200, combined_entity_events(data)); return
-            if action in {"get_my_data","save_my_subscription","delete_my_subscription","run_my_digest","save_my_language","generate_invite_code"}:
+            if action in {"get_my_data","save_my_subscription","set_my_subscription_enabled","delete_my_subscription","run_my_digest","save_my_language","save_email_subscription","generate_invite_code"}:
                 user = authenticated_user(self.headers)
                 if action == "get_my_data": result = personal_payload(user["id"])
                 elif action == "save_my_subscription": result = save_personal_subscription(user["id"], data.get("subscription",{}))
+                elif action == "set_my_subscription_enabled": result = set_personal_subscription_enabled(user["id"], str(data.get("id", "")), data.get("enabled", True))
                 elif action == "delete_my_subscription": result = delete_personal_subscription(user["id"], str(data.get("id","")))
                 elif action == "save_my_language": result = save_personal_language(user["id"], data.get("language",""))
+                elif action == "save_email_subscription": result = save_email_subscription(user["id"], data.get("enabled", True))
                 elif action == "generate_invite_code": result = generate_invite_code(user["id"])
                 else: result = run_personal_digest(user["id"])
                 self.send_json(200,result); return
