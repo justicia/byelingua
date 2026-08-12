@@ -1736,7 +1736,7 @@ def _event_internal_id(event_key):
 
 def user_event_relations(headers, event_keys=None):
     user = authenticated_user(headers)
-    rows = supabase_service("GET", "/rest/v1/user_event_relations", params={"user_id": f"eq.{user['id']}", "select": "id,event_id,intent_status,attendance_status,ticket_status,created_at,updated_at", "limit": "5000"}) or []
+    rows = supabase_service("GET", "/rest/v1/user_event_relations", params={"user_id": f"eq.{user['id']}", "select": "id,event_id,intent_status,is_planned,attendance_status,ticket_status,created_at,updated_at", "limit": "5000"}) or []
     if event_keys is None:
         event_ids = [str(row.get("event_id")) for row in rows if row.get("event_id")]
         events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(event_ids)})", "select": "id,event_key", "limit": "5000"}) if event_ids else []
@@ -1750,13 +1750,13 @@ def user_event_relations(headers, event_keys=None):
     return {"relations": [{**row, "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows if str(row.get("event_id")) in id_to_key]}
 
 
-def set_user_event_relation(headers, event_key, intent_status):
+def set_user_event_relation(headers, event_key, intent_status, is_planned=True):
     user = authenticated_user(headers)
     intent = str(intent_status or "").strip()
     if intent not in {"interested", "maybe_go", "must_go"}:
         raise ValueError("无效的演出意向状态。")
     internal_id = _event_internal_id(str(event_key).strip())
-    payload = {"user_id": user["id"], "event_id": internal_id, "intent_status": intent, "updated_at": datetime.now(timezone.utc).isoformat()}
+    payload = {"user_id": user["id"], "event_id": internal_id, "intent_status": intent, "is_planned": bool(is_planned), "updated_at": datetime.now(timezone.utc).isoformat()}
     rows = supabase_service("POST", "/rest/v1/user_event_relations", params={"on_conflict": "user_id,event_id"}, payload=payload, prefer="resolution=merge-duplicates,return=representation") or []
     return {"relation": rows[0] if rows else payload}
 
@@ -2023,7 +2023,7 @@ class handler(BaseHTTPRequestHandler):
             if action == "get_event_relations":
                 self.send_json(200, user_event_relations(self.headers, data.get("event_keys"))); return
             if action == "set_event_relation":
-                self.send_json(200, set_user_event_relation(self.headers, str(data.get("event_key", "")), data.get("intent_status"))); return
+                self.send_json(200, set_user_event_relation(self.headers, str(data.get("event_key", "")), data.get("intent_status"), data.get("is_planned", True))); return
             if action == "character_options":
                 self.send_json(200, character_options(data.get("query", ""))); return
             if action == "character_events":
