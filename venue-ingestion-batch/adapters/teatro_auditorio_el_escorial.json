@@ -1,0 +1,9 @@
+{
+  "adapter": "teatro_auditorio_el_escorial_adapter",
+  "source": "https://www.teatroauditorioescorial.es/",
+  "venue": "Teatro Auditorio San Lorenzo de El Escorial",
+  "city": "San Lorenzo de El Escorial",
+  "country": "Spain",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

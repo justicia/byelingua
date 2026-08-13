@@ -1,0 +1,9 @@
+{
+  "adapter": "maison_radio_france_adapter",
+  "source": "https://billetterie.maisondelaradioetdelamusique.fr/list/events?lang=fr",
+  "venue": "Maison de la Radio et de la Musique / Auditorium de Radio France",
+  "city": "Paris",
+  "country": "France",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

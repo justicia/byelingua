@@ -1,0 +1,9 @@
+{
+  "adapter": "salle_cortot_adapter",
+  "source": "https://sallecortot.com/",
+  "venue": "Salle Cortot",
+  "city": "Paris",
+  "country": "France",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

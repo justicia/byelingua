@@ -1,0 +1,9 @@
+{
+  "adapter": "fundacion_juan_march_adapter",
+  "source": "https://www2.march.es/musica/",
+  "venue": "Fundación Juan March",
+  "city": "Madrid",
+  "country": "Spain",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}
