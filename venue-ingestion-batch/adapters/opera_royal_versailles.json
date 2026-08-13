@@ -1,0 +1,9 @@
+{
+  "adapter": "opera_royal_versailles_adapter",
+  "source": "https://www.chateauversailles-spectacles.fr/",
+  "venue": "Château de Versailles Spectacles / Opéra Royal de Versailles",
+  "city": "Versailles",
+  "country": "France",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

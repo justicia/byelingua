@@ -1,0 +1,9 @@
+{
+  "adapter": "wiener_musikverein_adapter",
+  "source": "https://musikverein.at/2026-27",
+  "venue": "Wiener Musikverein",
+  "city": "Vienna",
+  "country": "Austria",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

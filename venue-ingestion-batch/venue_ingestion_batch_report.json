@@ -1,0 +1,550 @@
+{
+  "generated_at": "2026-08-13T20:31:33.431477+00:00",
+  "production_database_modified": false,
+  "venues_attempted": 16,
+  "success": 0,
+  "partial": 14,
+  "failed": 2,
+  "venues": [
+    {
+      "slug": "theatre_champs_elysees",
+      "venue": "Théâtre des Champs-Élysées",
+      "official_url": "https://www.theatrechampselysees.fr/",
+      "attempted_at": "2026-08-13T20:31:11.885396+00:00",
+      "events_extracted": 0,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 0,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 0,
+        "iso_datetime_tokens": 0,
+        "title_samples": [
+          "À l'affiche",
+          "Le Crépuscule des dieux",
+          "Malandain Ballet Biarritz",
+          "Pierre et le loup",
+          "Médias HORS-CHAMPS",
+          "Siegfried",
+          "Eric Lu",
+          "Giacomo Puccini"
+        ],
+        "html_bytes": 67901
+      }
+    },
+    {
+      "slug": "maison_radio_france",
+      "venue": "Maison de la Radio et de la Musique / Auditorium de Radio France",
+      "official_url": "https://billetterie.maisondelaradioetdelamusique.fr/list/events?lang=fr",
+      "attempted_at": "2026-08-13T20:31:13.429268+00:00",
+      "events_extracted": 0,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 0,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 0,
+        "iso_datetime_tokens": 0,
+        "title_samples": [
+          "Événements 355",
+          "5 produits listés CHAINES",
+          "Le Masque et la Plume",
+          "\"Alfred Dreyfus, le combat de la république\"",
+          "Cendrillon, Concert-fiction France Culture",
+          "196 produits listés EVENEMENTS",
+          "Bernstein / Saint-Saëns / Enescu, Cristian Măcelaru",
+          "Bienvenue Jaap van Zweden",
+          "John Coltrane - 100 ans / « Trane’s now »",
+          "Saint-Saëns, Quintette Guillaume Bellom",
+          "Brahms, Concerto pour piano n°1, Daniil Trifonov",
+          "Elias de Mendelssohn, Maxim Emelyanychev"
+        ],
+        "html_bytes": 1865478
+      }
+    },
+    {
+      "slug": "salle_gaveau",
+      "venue": "Salle Gaveau",
+      "official_url": "https://sallegaveau.com/",
+      "attempted_at": "2026-08-13T20:31:14.973545+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 3,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "Menu",
+          "Les Quatre Saisons",
+          "Bagjan Oktyabr &#8211; Soul Therapy",
+          "Bébé Concert &#8211; En Fanfare",
+          "Nemanja Radulovic &#8211; Violon",
+          "Jean-Paul Gasparian &#8211; piano",
+          "Amadeus &#8211; Orchestre Pasdeloup",
+          "Astrig Siranossian &#038; l&rsquo;Orchestre de la Garde républicaine",
+          "Franck Ferrand invite Gershwin",
+          "Bébé Concert &#8211; Percussions autour du monde",
+          "Un soir de candidature",
+          "Le Chat du Rabbin &#8211; Conte musical"
+        ],
+        "html_bytes": 1185259
+      }
+    },
+    {
+      "slug": "opera_royal_versailles",
+      "venue": "Château de Versailles Spectacles / Opéra Royal de Versailles",
+      "official_url": "https://www.chateauversailles-spectacles.fr/",
+      "attempted_at": "2026-08-13T20:31:15.821631+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 2,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "Filtres",
+          "Les Grandes Eaux Nocturnes",
+          "La Sérénade Royale",
+          "Belfort &amp; Lupin",
+          "Les Jardins Musicaux",
+          "Les Grandes Eaux Musicales",
+          "La Formule Opéra Expérience",
+          "Cartes cadeaux",
+          "Programmation",
+          "Opéra Expérience",
+          "Quels spectacles ?",
+          "Découvrez également"
+        ],
+        "html_bytes": 254092
+      }
+    },
+    {
+      "slug": "la_seine_musicale",
+      "venue": "La Seine Musicale",
+      "official_url": "https://www.laseinemusicale.com/programmation/",
+      "attempted_at": "2026-08-13T20:31:16.339417+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 3,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "Newsletter"
+        ],
+        "html_bytes": 161851
+      }
+    },
+    {
+      "slug": "salle_cortot",
+      "venue": "Salle Cortot",
+      "official_url": "https://sallecortot.com/",
+      "attempted_at": "2026-08-13T20:31:16.867476+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 3,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "EN CE MOMENT",
+          "Solesne Loy &#8211; Les Dimanches Croq&rsquo;Musique Ateliers « Mes premiers pas de musiciens »",
+          "Solesne Loy &#8211; Croq&rsquo;Musique Mon premier concert classique",
+          "François-Xavier Poizat, piano &amp; friends Ravel inédit",
+          "L’ÉVÉNEMENTIEL",
+          "PRIVATISEZ LA&nbsp;SALLE&nbsp;CORTOT",
+          "LA SALLE",
+          "L’ÉCOLE"
+        ],
+        "html_bytes": 79199
+      }
+    },
+    {
+      "slug": "wiener_musikverein",
+      "venue": "Wiener Musikverein",
+      "official_url": "https://musikverein.at/2026-27",
+      "attempted_at": "2026-08-13T20:31:19.042434+00:00",
+      "events_extracted": 3,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 3,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 3,
+        "iso_datetime_tokens": 0,
+        "title_samples": [
+          "Themen & Inhalte",
+          "Abonnements",
+          "Abos für Kinder",
+          "Künstler:innen im Fokus",
+          "Komponistinnen im Fokus",
+          "Themen und Festivals in der Saison 2026/27",
+          "Neue Formate",
+          "Mitmachen & Entdecken",
+          "Musikverein für Alle",
+          "Abobroschüre 2026/27",
+          "Newsletter",
+          "Wählen Sie Ihre Cookie-Einstellungen:"
+        ],
+        "html_bytes": 108857
+      }
+    },
+    {
+      "slug": "wiener_konzerthaus",
+      "venue": "Wiener Konzerthaus",
+      "official_url": "https://konzerthaus.at/de",
+      "attempted_at": "2026-08-13T20:31:20.144063+00:00",
+      "events_extracted": 19,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 19,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 14,
+        "iso_datetime_tokens": 19,
+        "title_samples": [
+          "Pittsburgh Symphony Orchestra / Kantorow / Honeck",
+          "Mahler Academy Orchestra / Barron / von Steinaecker",
+          "Klangforum Wien / Kaziboni",
+          "Piotr Beczała",
+          "Programm entdecken",
+          "Ludwig van Beethoven",
+          "Mediathek",
+          "Volle Kraft voraus",
+          "Ein A. H. Moment",
+          "11.000 Saiten",
+          "Jakub Józef Orliński",
+          "Jede Komposition ein Abenteuer"
+        ],
+        "html_bytes": 490086
+      }
+    },
+    {
+      "slug": "theater_an_der_wien",
+      "venue": "Theater an der Wien",
+      "official_url": "https://www.theater-wien.at/de/spielplan",
+      "attempted_at": "2026-08-13T20:31:21.354156+00:00",
+      "events_extracted": 3,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 3,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 3,
+        "iso_datetime_tokens": 0,
+        "title_samples": [
+          "Easy2See",
+          "Saison 26|27",
+          "Backstageführung Spanisch",
+          "Backstageführung Deutsch",
+          "Backstageführung Englisch",
+          "La Calisto",
+          "Corazón Abierto",
+          "Unterwegs mit ...",
+          "Alla Napoletana",
+          "Offene Probe Klangstreich",
+          "Laut &amp; leise – Stimmenreise",
+          "Wälse, Woge, Wagner"
+        ],
+        "html_bytes": 157354
+      }
+    },
+    {
+      "slug": "grafenegg",
+      "venue": "Grafenegg",
+      "official_url": "https://www.grafenegg.com/de/programm-karten",
+      "attempted_at": "2026-08-13T20:31:22.741092+00:00",
+      "events_extracted": 14,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 14,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 5,
+        "iso_datetime_tokens": 14,
+        "title_samples": [
+          "Kalender",
+          "Bustransfer",
+          "14/08/2026 Fr",
+          "Ausverkauft",
+          "Festival-Eröffnung",
+          "15/08/2026 Sa",
+          "Schlossführung",
+          "Bustransfer Nachmittagskonzert",
+          "«Emily – No Prisoner Be»",
+          "Einführung",
+          "European Union Youth Orchestra",
+          "Grafenegg Podcast"
+        ],
+        "html_bytes": 569796
+      }
+    },
+    {
+      "slug": "muth",
+      "venue": "MuTh",
+      "official_url": "https://muth.at/en/calendar/?date=10",
+      "attempted_at": "2026-08-13T20:31:25.461442+00:00",
+      "events_extracted": 7,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 7,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "FAILED",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 7,
+        "iso_datetime_tokens": 0,
+        "title_samples": [],
+        "html_bytes": 81761
+      }
+    },
+    {
+      "slug": "festspielhaus_st_poelten",
+      "venue": "Festspielhaus St. Pölten",
+      "official_url": "https://www.festspielhaus.at/",
+      "attempted_at": "2026-08-13T20:31:26.326942+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 2,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "LEA/BIBIZA/LUKASCHER on sat 12/09/2026 at the big Domplatz Open-Air in St. Pölten.",
+          "Scandinavian freshness in late summer",
+          "10/09/2026: TONKÜNSTLER &amp; FRIENDS: Northern Lights",
+          "The first Highlights of the new season 2026/2027",
+          "From classical and contemporary to urban: pure dance in the 2026/2027 season!",
+          "Jazz, World &amp; Beyond",
+          "FEST / VERBUNDEN",
+          "Contact &amp; Information",
+          "How to get here",
+          "All about the performance &amp; interesting facts",
+          "Culinary delights &amp; accommodation",
+          "Accessibility"
+        ],
+        "html_bytes": 349218
+      }
+    },
+    {
+      "slug": "teatro_de_la_zarzuela",
+      "venue": "Teatro de la Zarzuela",
+      "official_url": "https://teatrodelazarzuela.inaem.gob.es/es/",
+      "attempted_at": "2026-08-13T20:31:28.526738+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 2,
+        "iso_datetime_tokens": 0,
+        "title_samples": [
+          "Navegación",
+          "Destacados en portada",
+          "Header",
+          "Calendario",
+          "Información importante",
+          "Proyecto ZARZA",
+          "Newsletter",
+          "Mujeres de Zarzuela",
+          "Información y ayuda",
+          "Preferencias de cookies"
+        ],
+        "html_bytes": 37175
+      }
+    },
+    {
+      "slug": "fundacion_juan_march",
+      "venue": "Fundación Juan March",
+      "official_url": "https://www2.march.es/musica/",
+      "attempted_at": "2026-08-13T20:31:29.636831+00:00",
+      "events_extracted": 0,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 0,
+      "artist_review": 0,
+      "errors": [
+        "HTTPError: HTTP Error 307: The HTTP server returned a redirect error that would lead to an infinite loop.\nThe last 30x error message was:\nTemporary Redirect"
+      ],
+      "status": "FAILED"
+    },
+    {
+      "slug": "teatro_monumental_rtve",
+      "venue": "Teatro Monumental / RTVE Orquesta y Coro",
+      "official_url": "https://www.teatromonumental.es/",
+      "attempted_at": "2026-08-13T20:31:31.050246+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 2,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "TEMPORADA DE CONCIERTOS 2026/27",
+          "ORQUESTA SINFÓNICA Y CORO RTVE",
+          "ABONOS",
+          "Hasta Octubre del 2026",
+          "Temáticas",
+          "FUEGO Y DUENDE",
+          "GALA DE ÓPERA &#038; ZARZUELA",
+          "CONCIERTO SINFÓNICO A/1",
+          "CONCIERTO SINFÓNICO B/2",
+          "CONCIERTO SINFÓNICO A/3",
+          "CONCIERTO SINFÓNICO B/4",
+          "CONCIERTO SINFÓNICO A/5"
+        ],
+        "html_bytes": 105017
+      }
+    },
+    {
+      "slug": "teatro_auditorio_el_escorial",
+      "venue": "Teatro Auditorio San Lorenzo de El Escorial",
+      "official_url": "https://www.teatroauditorioescorial.es/",
+      "attempted_at": "2026-08-13T20:31:31.855589+00:00",
+      "events_extracted": 2,
+      "events_normalized": 0,
+      "duplicates_removed": 0,
+      "programme_review": 2,
+      "artist_review": 0,
+      "errors": [
+        "detail endpoint / JSON-LD mapping still required before READY FOR IMPORT"
+      ],
+      "status": "PARTIAL",
+      "http_status": 200,
+      "content_type": "text/html",
+      "inspection": {
+        "date_tokens": 15,
+        "iso_datetime_tokens": 2,
+        "title_samples": [
+          "Visitas guiadas para grupos Horario de taquillas Espacios escénicos Cómo llegar y contacto Suscríbete al boletín de ofertas",
+          "ESCENA ESCORIAL. FESTIVAL INTERNACIONAL DE ARTES ESCÉNICAS",
+          "ABONO 3 CONCIERTOS",
+          "ABONO ‘ELIGE CUATRO CONCIERTOS’",
+          "RECITAL DE GRIGORY SOKOLOV",
+          "LOS COLORES DE AMÉRICA",
+          "CHOROS Y MILONGAS",
+          "EL VIOLÍN EN LLAMAS",
+          "NASCENCIA",
+          "MORIR PARA VIVIR",
+          "EN UN INSTANTE",
+          "VOLTAJE RADICAL"
+        ],
+        "html_bytes": 4363149
+      }
+    }
+  ],
+  "ready_for_import": [],
+  "needs_review": [
+    "Théâtre des Champs-Élysées",
+    "Maison de la Radio et de la Musique / Auditorium de Radio France",
+    "Salle Gaveau",
+    "Château de Versailles Spectacles / Opéra Royal de Versailles",
+    "La Seine Musicale",
+    "Salle Cortot",
+    "Wiener Musikverein",
+    "Wiener Konzerthaus",
+    "Theater an der Wien",
+    "Grafenegg",
+    "MuTh",
+    "Festspielhaus St. Pölten",
+    "Teatro de la Zarzuela",
+    "Fundación Juan March",
+    "Teatro Monumental / RTVE Orquesta y Coro",
+    "Teatro Auditorio San Lorenzo de El Escorial"
+  ]
+}
