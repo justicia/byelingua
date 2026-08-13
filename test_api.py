@@ -5,10 +5,27 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import _event_city, backfill_bilingual_article, canonical_url, collect_website, country_from_language, country_from_url, delete_article, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import _event_city, _profile_digest_enabled, backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
+    def test_digest_flag_prefers_canonical_and_falls_back_to_legacy(self):
+        self.assertTrue(_profile_digest_enabled({"email_digest_enabled":True,"email_subscription_enabled":False}))
+        self.assertFalse(_profile_digest_enabled({"email_digest_enabled":False,"email_subscription_enabled":True}))
+        self.assertTrue(_profile_digest_enabled({"email_subscription_enabled":True}))
+
+    def test_digest_html_escapes_external_content(self):
+        message = build_email_digest({"preferred_language":"en"}, [{"title":"<script>","source":"<source>","result":"<body>","canonical_url":"https://example.com/?a=1&b=2"}], "2026-08-13")
+        self.assertNotIn("<script>", message["html"])
+        self.assertIn("&lt;script&gt;", message["html"])
+
+    @patch("api.index.send_resend_email", return_value="resend-1")
+    @patch("api.index.supabase_service")
+    def test_digest_delivery_reserves_and_updates_by_id(self, service, send):
+        service.side_effect = [[{"id":"digest-delivery-1"}], None]
+        result = deliver_personal_digest({"id":"user-1","email":"reader@example.com","preferred_language":"en","email_digest_enabled":True}, [{"id":"article-1","title":"Title","result":"Text","canonical_url":"https://example.com/a"}], "2026-08-13")
+        self.assertEqual(result["status"], "sent")
+        self.assertEqual(service.call_args_list[1].kwargs["params"], {"id":"eq.digest-delivery-1"})
     def test_event_city_never_treats_venue_as_city(self):
         self.assertEqual(_event_city({"venue":"Philharmonie de Paris"}), "")
         self.assertEqual(_event_city({"venue":"Philharmonie de Paris"}, {"philharmonie de paris":"Paris"}), "Paris")
@@ -61,7 +78,7 @@ class ApiTests(unittest.TestCase):
     @patch("api.index.authenticated_user", return_value={"id":"user-1"})
     @patch.dict("os.environ", {"RESEND_API_KEY":"re_test","EMAIL_FROM":"Byelingua <test@example.com>","PUBLIC_APP_URL":"https://www.bye-lingua.site"})
     def test_send_schedule_email_uses_profile_email_and_language(self, _user, _owned, _rows, service, post):
-        service.side_effect = [[{"email":"reader@example.com","preferred_language":"en"}], [], None, None]
+        service.side_effect = [[{"email":"reader@example.com","preferred_language":"en"}], [{"id":"delivery-1"}], None]
         post.return_value = Mock(ok=True, json=Mock(return_value={"id":"email-1"}))
         result = send_schedule_email({"Authorization":"Bearer test"}, "schedule-1")
         self.assertTrue(result["sent"])
@@ -70,6 +87,8 @@ class ApiTests(unittest.TestCase):
         self.assertIn("Your Byelingua schedule", payload["html"])
         self.assertIn("text", payload)
         self.assertEqual(payload["attachments"][0]["filename"], "My_Schedule-2026-09-04-2026-09-04.ics")
+        update_calls = [call for call in service.call_args_list if call.args[:2] == ("PATCH", "/rest/v1/schedule_email_deliveries")]
+        self.assertEqual(update_calls[0].kwargs["params"], {"id":"eq.delivery-1"})
 
     @patch("api.index.supabase_service", return_value=[])
     def test_registration_rejects_invalid_invite(self, service):
@@ -153,15 +172,15 @@ class ApiTests(unittest.TestCase):
 
     @patch("api.index.save_scheduled_state")
     @patch("api.index.load_scheduled_state", return_value={"paris_date":""})
-    @patch("api.index.send_daily_digest")
+    @patch("api.index.deliver_personal_digest")
     @patch("api.index.run_personal_digest", return_value={"processed":1,"errors":[]})
     @patch("api.index.run_daily_digest", return_value={"processed":0,"errors":[]})
     @patch("api.index.supabase_service")
-    def test_scheduled_email_failure_does_not_stop_other_users(self, service, _public, _personal, send, _state, _save):
+    def test_scheduled_email_failure_does_not_stop_other_users(self, service, _public, _personal, deliver, _state, _save):
         service.return_value = [{"id":"user-a"},{"id":"user-b"}]
-        send.side_effect = [ValueError("bad address"), {"sent":True,"articles":1,"id":"email_2"}]
+        deliver.side_effect = [{"status":"failed","error":"bad address"}, {"status":"sent","articles":1,"id":"email_2"}]
         result = run_scheduled_updates()
-        self.assertEqual(send.call_count, 2)
+        self.assertEqual(deliver.call_count, 2)
         self.assertEqual(result["users"], 2)
         self.assertTrue(any("user-a email" in error for error in result["errors"]))
 
@@ -174,7 +193,11 @@ class ApiTests(unittest.TestCase):
         subscriptions = [{"id":str(i),"name":f"Source {i}","country":"fr","language":"zh","mode":"translate","enabled":True} for i in range(3)]
         personal = {"profile":{"status":"active","preferred_language":"fr","daily_update_limit":1,"monthly_character_limit":100000,"used_characters":0},"subscriptions":subscriptions,"articles":[]}
         payload.side_effect = [personal, personal]
-        service.return_value = []
+        def service_call(method, path, **kwargs):
+            if method == "POST" and path == "/rest/v1/user_articles":
+                return [{"id":f"article-{kwargs['payload']['subscription_id']}", **kwargs["payload"]}]
+            return []
+        service.side_effect = service_call
         collect.side_effect = lambda subscription, _seen, _limit: [{"title":f"Article {subscription['id']}","url":f"https://example.com/{subscription['id']}","published":"","feed_text":""}]
         extract.return_value = ("A sufficiently long article body for translation. " * 8, "")
         translate.return_value = {"title":"Titre","content":"Contenu"}
