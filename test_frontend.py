@@ -10,6 +10,7 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.editor = (ROOT / "schedule-editor.html").read_text(encoding="utf-8")
         self.summary = (ROOT / "schedule-summary.html").read_text(encoding="utf-8")
         self.account = (ROOT / "account.html").read_text(encoding="utf-8")
+        self.schedule = (ROOT / "schedule.html").read_text(encoding="utf-8")
         self.i18n = (ROOT / "shared-i18n.js").read_text(encoding="utf-8")
 
     def test_confirm_redirects_only_after_success(self):
@@ -81,6 +82,11 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn("mark_schedule_needs_confirmation(headers, schedule_id)", api)
         self.assertIn("needs_reconfirmation", self.account)
         self.assertIn("confirmUpdated", self.editor)
+
+    def test_opera_cast_uses_readable_role_artist_columns(self):
+        self.assertIn("grid-template-columns:minmax(0,42%) minmax(0,58%)", self.schedule)
+        self.assertIn(".cast-list .artist-link{display:inline;text-align:left", self.schedule)
+        self.assertIn("@media(max-width:420px){.cast-list li{grid-template-columns:1fr", self.schedule)
 
 
 if __name__ == "__main__":

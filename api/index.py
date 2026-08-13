@@ -1963,7 +1963,31 @@ def normalized_programme(event, rows):
     if not matches:
         return []
     best = min(matches, key=lambda item: (len(str(item.get("title") or "")), item.get("order") or 0))
-    return [{**best, "order": 1}]
+    return [{**best, "title": canonical_work_title(best.get("title")), "order": 1}]
+
+
+# Official source sites may localize a work title.  Byelingua's canonical
+# display title follows the work's original language; translated source titles
+# remain searchable aliases and are not used as the display value.
+ORIGINAL_WORK_TITLES = {
+    "le crepuscule des dieux": "Götterdämmerung",
+    "l or du rhin": "Das Rheingold",
+    "la walkyrie": "Die Walküre",
+    "le barbier de seville": "Il barbiere di Siviglia",
+    "les noces de figaro": "Le nozze di Figaro",
+    "la flute enchantee": "Die Zauberflöte",
+    "le vaisseau fantome": "Der fliegende Holländer",
+    "le chevalier a la rose": "Der Rosenkavalier",
+    "la chauve souris": "Die Fledermaus",
+    "le couronnement de poppee": "L'incoronazione di Poppea",
+    "l elixir d amour": "L'elisir d'amore",
+    "la clemence de titus": "La clemenza di Tito",
+}
+
+
+def canonical_work_title(value):
+    title = str(value or "").strip()
+    return ORIGINAL_WORK_TITLES.get(_programme_identity(title), title)
 
 
 def schedule_options():
@@ -2046,6 +2070,10 @@ def schedule_events(data):
     venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
     filtered = []
     for row in rows:
+        row["source_title"] = row.get("title")
+        row["title"] = canonical_work_title(row.get("work_title") or row.get("title"))
+        if row.get("work_title"):
+            row["work_title"] = canonical_work_title(row.get("work_title"))
         row["raw_event_type"] = row.get("event_type")
         row["event_type"] = canonical_event_type(row.get("event_type"))
         if event_type and row["event_type"] != event_type:
@@ -2084,6 +2112,10 @@ def schedule_event_detail(event_id):
     if not catalog:
         raise ValueError("找不到这场演出。")
     event = catalog[0]
+    event["source_title"] = event.get("title")
+    event["title"] = canonical_work_title(event.get("work_title") or event.get("title"))
+    if event.get("work_title"):
+        event["work_title"] = canonical_work_title(event.get("work_title"))
     event["raw_event_type"] = event.get("event_type")
     event["event_type"] = canonical_event_type(event.get("event_type"))
     base = supabase_service(

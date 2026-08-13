@@ -1,4 +1,4 @@
-from api.index import canonical_event_type, normalize_search_key, normalized_programme, search_match_score
+from api.index import canonical_event_type, canonical_work_title, normalize_search_key, normalized_programme, search_match_score
 
 
 def test_accent_insensitive_search():
@@ -27,12 +27,19 @@ def test_paris_opera_programme_rejects_editorial_and_media_rows():
         {"order": 8, "works": {"title": "Le Crépuscule des dieux (Festival RING)", "composer": "Richard Wagner"}},
     ]
     assert normalized_programme(event, rows) == [
-        {"order": 1, "title": "Le Crépuscule des dieux", "composer": "Richard Wagner"}
+        {"order": 1, "title": "Götterdämmerung", "composer": "Richard Wagner"}
     ]
+
+
+def test_work_titles_use_the_original_language():
+    assert canonical_work_title("Le Crépuscule des dieux") == "Götterdämmerung"
+    assert canonical_work_title("Le Barbier de Séville") == "Il barbiere di Siviglia"
+    assert canonical_work_title("Hamlet") == "Hamlet"
 
 
 if __name__ == "__main__":
     test_accent_insensitive_search()
     test_opera_classification()
     test_paris_opera_programme_rejects_editorial_and_media_rows()
+    test_work_titles_use_the_original_language()
     print("normalized event rules: ok")
