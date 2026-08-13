@@ -43,6 +43,7 @@ def normalize_search_key(value):
     """Stable accent-insensitive key; display/canonical values are never changed."""
     text = unicodedata.normalize("NFKD", str(value or "")).casefold()
     text = "".join(char for char in text if not unicodedata.combining(char))
+    text = text.replace("œ", "oe").replace("Œ", "oe").replace("æ", "ae").replace("Æ", "ae")
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
     text = re.sub(r"[^\w\s'\-]", " ", text, flags=re.UNICODE)
     return re.sub(r"\s+", " ", text).strip()
@@ -1757,6 +1758,13 @@ EVENT_TYPE_LABELS = {
 
 def canonical_event_type(raw):
     value = str(raw or "").strip().lower()
+    normalized = normalize_search_key(value)
+    if any(token in normalized for token in ("opera", "operette", "music drama", "drame musical", "festival ring")):
+        return "operetta" if "operette" in normalized else "opera"
+    if any(token in normalized for token in ("concert", "recital", "recit", "symphony", "symphonie", "chamber")):
+        return "recital" if "recital" in normalized or "recit" in normalized else "concert"
+    if "ballet" in normalized or "dance" in normalized:
+        return "ballet"
     if value in {"opera", "opera_en_concert", "children_s_opera"}:
         return "children_family" if value == "children_s_opera" else "opera"
     if "operetta" in value:
@@ -1829,7 +1837,8 @@ def schedule_events(data):
     artist_event_keys = None
     artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
     if artist_query:
-        artists = supabase_service("GET", "/rest/v1/artists", params={"artist_name":f"ilike.*{artist_query}*", "select":"id", "limit":"5000"}) or []
+        all_artists = supabase_service("GET", "/rest/v1/artists", params={"select":"id,artist_name", "limit":"5000"}) or []
+        artists = [row for row in all_artists if search_match_score(artist_query, row.get("artist_name")) >= 0.60]
         artist_ids = [str(row.get("id")) for row in artists if row.get("id")]
         if artist_ids:
             credits = supabase_service("GET", "/rest/v1/event_credits", params={"artist_id":f"in.({','.join(artist_ids)})", "select":"event_id", "limit":"5000"}) or []
@@ -1913,7 +1922,7 @@ def schedule_event_detail(event_id):
         for row in programme
     ]
     event["credits"] = [
-        {"artist_id": row.get("artist_id"), "artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
+        {"artist_id": row.get("artist_id"), "artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "raw_role_label": row.get("role"), "role_type": "cast" if ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")) else "artistic_team", "character_role": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")), "artistic_function": None if ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")) else row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
         for row in credits
     ]
     return {"event": event}
