@@ -36,15 +36,16 @@ class ApiTests(unittest.TestCase):
         service.side_effect = [[
             {"event_id":"paris", "date":"2026-09-04", "city":"Paris", "venue":"Philharmonie de Paris"},
             {"event_id":"unknown", "date":"2026-09-04", "venue":"Unknown Hall"},
-        ], []]
+        ], [], [{"event_key":"paris", "room":"Grande salle Pierre Boulez"}]]
         result = schedule_events({"date_from":"2026-09-04", "date_to":"2026-09-04", "cities":["Paris"]})
         self.assertEqual([event["event_id"] for event in result["events"]], ["paris"])
+        self.assertEqual(result["events"][0]["room"], "Grande salle Pierre Boulez")
 
     @patch("api.index.supabase_service")
     def test_schedule_events_enriches_city_from_venue_directory(self, service):
         service.side_effect = [[
             {"event_id":"concert", "date":"2026-09-04", "venue":"Philharmonie de Paris"},
-        ], [{"name":"Philharmonie de Paris", "city":"Paris"}]]
+        ], [{"name":"Philharmonie de Paris", "city":"Paris"}], []]
         result = schedule_events({"date_from":"2026-09-04", "date_to":"2026-09-04"})
         self.assertEqual(result["events"][0]["city"], "Paris")
 
@@ -52,12 +53,26 @@ class ApiTests(unittest.TestCase):
     def test_schedule_events_keyword_matches_artist_and_deduplicates(self, service):
         service.side_effect = [
             [{"event_id":"e1","date":"2026-09-10","title":"Concert","venue":"Hall","city":"Paris"},{"event_id":"e1","date":"2026-09-10","title":"Concert","venue":"Hall","city":"Paris"},{"event_id":"e2","date":"2026-09-11","title":"Other","venue":"Hall","city":"Paris"}],
-            [{"id":"artist-1"}],
+            [{"id":"artist-1", "artist_name":"Artist"}],
             [{"event_id":"internal-1"}],
             [{"id":"internal-1","event_key":"e1"}],
+            [],
         ]
         result = schedule_events({"date_from":"2026-09-01","date_to":"2026-09-30","query":"Artist"})
         self.assertEqual([row["event_id"] for row in result["events"]], ["e1"])
+
+    @patch("api.index.supabase_service")
+    def test_schedule_events_batches_room_enrichment(self, service):
+        service.side_effect = [
+            [{"event_id":f"event-{index}", "date":"2026-09-10", "title":"Concert", "venue":"Hall", "city":"Madrid"} for index in range(51)],
+            [{"event_key":"event-0", "room":"Room A"}],
+            [{"event_key":"event-50", "room":"Room B"}],
+        ]
+        result = schedule_events({"date_from":"2026-09-01", "date_to":"2026-09-30", "cities":["Madrid"]})
+        room_calls = [call for call in service.call_args_list if call.args[1] == "/rest/v1/events"]
+        self.assertEqual(len(room_calls), 2)
+        self.assertEqual(result["events"][0]["room"], "Room A")
+        self.assertEqual(result["events"][-1]["room"], "Room B")
 
     @patch("api.index._schedule_events_payload")
     @patch("api.index._schedule_owned", return_value={"id":"schedule-1","title":"Paris; Test","status":"planned","start_date":"2026-09-04","end_date":"2026-09-11"})

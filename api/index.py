@@ -2042,17 +2042,6 @@ def schedule_events(data):
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
-    # event_catalog_v1 intentionally exposes the canonical venue name.  The
-    # occurrence room is stored on events and must be joined separately so the
-    # UI can show e.g. "Auditorio ... · Sala Sinfónica".
-    event_keys = [str(row.get("event_id")) for row in rows if row.get("event_id")]
-    event_rooms = supabase_service(
-        "GET", "/rest/v1/events",
-        params={"event_key": f"in.({','.join(event_keys)})", "select": "event_key,room", "limit": "5000"},
-    ) if event_keys else []
-    rooms_by_key = {str(row.get("event_key")): row.get("room") for row in (event_rooms or [])}
-    for row in rows:
-        row["room"] = rooms_by_key.get(str(row.get("event_id")))
     artist_event_keys = None
     artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
     if artist_query:
@@ -2112,6 +2101,21 @@ def schedule_events(data):
         if event_key:
             seen_event_keys.add(event_key)
         unique.append(row)
+    # event_catalog_v1 exposes the canonical venue but not the occurrence room.
+    # Enrich only the final result set and keep each PostgREST URL small.  A
+    # single in.(...) query with hundreds of event keys can exceed proxy URL
+    # limits and surface to the browser as a generic network error.
+    rooms_by_key = {}
+    event_keys = [str(row.get("event_id")) for row in unique if row.get("event_id")]
+    for start in range(0, len(event_keys), 50):
+        key_batch = event_keys[start:start + 50]
+        room_rows = supabase_service(
+            "GET", "/rest/v1/events",
+            params={"event_key": f"in.({','.join(key_batch)})", "select": "event_key,room", "limit": "50"},
+        ) or []
+        rooms_by_key.update({str(row.get("event_key")): row.get("room") for row in room_rows})
+    for row in unique:
+        row["room"] = rooms_by_key.get(str(row.get("event_id")))
     return {"events": unique}
 
 
@@ -2131,16 +2135,12 @@ def schedule_event_detail(event_id):
     event["event_type"] = canonical_event_type(event.get("event_type"))
     base = supabase_service(
         "GET", "/rest/v1/events",
-        params={"event_key": f"eq.{event_id}", "select": "id", "limit": "1"},
+        params={"event_key": f"eq.{event_id}", "select": "id,room", "limit": "1"},
     ) or []
     if not base:
         return {"event": {**event, "programme": [], "credits": []}}
     internal_id = base[0]["id"]
-    room_rows = supabase_service(
-        "GET", "/rest/v1/events",
-        params={"id": f"eq.{internal_id}", "select": "room", "limit": "1"},
-    ) or []
-    event["room"] = room_rows[0].get("room") if room_rows else None
+    event["room"] = base[0].get("room")
     programme = supabase_service(
         "GET", "/rest/v1/event_programme",
         params={"event_id": f"eq.{internal_id}", "select": '"order",works(title,composer)', "order": '"order"'},
