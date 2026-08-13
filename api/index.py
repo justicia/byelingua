@@ -2042,6 +2042,17 @@ def schedule_events(data):
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
+    # event_catalog_v1 intentionally exposes the canonical venue name.  The
+    # occurrence room is stored on events and must be joined separately so the
+    # UI can show e.g. "Auditorio ... · Sala Sinfónica".
+    event_keys = [str(row.get("event_id")) for row in rows if row.get("event_id")]
+    event_rooms = supabase_service(
+        "GET", "/rest/v1/events",
+        params={"event_key": f"in.({','.join(event_keys)})", "select": "event_key,room", "limit": "5000"},
+    ) if event_keys else []
+    rooms_by_key = {str(row.get("event_key")): row.get("room") for row in (event_rooms or [])}
+    for row in rows:
+        row["room"] = rooms_by_key.get(str(row.get("event_id")))
     artist_event_keys = None
     artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
     if artist_query:
@@ -2125,6 +2136,11 @@ def schedule_event_detail(event_id):
     if not base:
         return {"event": {**event, "programme": [], "credits": []}}
     internal_id = base[0]["id"]
+    room_rows = supabase_service(
+        "GET", "/rest/v1/events",
+        params={"id": f"eq.{internal_id}", "select": "room", "limit": "1"},
+    ) or []
+    event["room"] = room_rows[0].get("room") if room_rows else None
     programme = supabase_service(
         "GET", "/rest/v1/event_programme",
         params={"event_id": f"eq.{internal_id}", "select": '"order",works(title,composer)', "order": '"order"'},
