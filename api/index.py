@@ -1939,6 +1939,33 @@ def canonical_event_type(raw):
     return value if value in CANONICAL_EVENT_TYPES else "other"
 
 
+def _programme_identity(value):
+    """Normalize a work title for identity comparison, never for display."""
+    value = re.sub(r"\s*\([^)]*(?:festival|ring)[^)]*\)\s*", " ", str(value or ""), flags=re.IGNORECASE)
+    value = normalize_search_key(value)
+    value = re.sub(r"[^a-z0-9]+", " ", value)
+    return " ".join(value.split())
+
+
+def normalized_programme(event, rows):
+    """Return performed works while rejecting editorial/media extraction noise."""
+    items = [
+        {"order": row.get("order"), "title": (row.get("works") or {}).get("title"),
+         "composer": (row.get("works") or {}).get("composer")}
+        for row in (rows or []) if (row.get("works") or {}).get("title")
+    ]
+    if canonical_event_type(event.get("event_type")) not in {"opera", "operetta"}:
+        return items
+    event_key = _programme_identity(event.get("work_title") or event.get("title"))
+    if not event_key:
+        return []
+    matches = [item for item in items if _programme_identity(item.get("title")) == event_key]
+    if not matches:
+        return []
+    best = min(matches, key=lambda item: (len(str(item.get("title") or "")), item.get("order") or 0))
+    return [{**best, "order": 1}]
+
+
 def schedule_options():
     organizations = supabase_service(
         "GET", "/rest/v1/organizations",
@@ -2074,10 +2101,7 @@ def schedule_event_detail(event_id):
         "GET", "/rest/v1/event_credits",
         params={"event_id": f"eq.{internal_id}", "select": "artist_id,role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
     ) or []
-    event["programme"] = [
-        {"order": row.get("order"), "title": (row.get("works") or {}).get("title"), "composer": (row.get("works") or {}).get("composer")}
-        for row in programme
-    ]
+    event["programme"] = normalized_programme(event, programme)
     event["credits"] = [
         {"artist_id": row.get("artist_id"), "artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "raw_role_label": row.get("role"), "role_type": "cast" if ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")) else "artistic_team", "character_role": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")), "artistic_function": None if ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")) else row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
         for row in credits
