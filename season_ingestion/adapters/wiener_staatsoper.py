@@ -41,7 +41,8 @@ def _production_function(label: str) -> str | None:
 
 
 def _text(node: Tag | None) -> str:
-    return node.get_text(" ", strip=True) if node else ""
+    # get_text(strip=True) does not collapse whitespace embedded in a text node.
+    return re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip() if node else ""
 
 
 def _event_type(label: str) -> str:
@@ -51,6 +52,33 @@ def _event_type(label: str) -> str:
     if "ballett" in key or "ballet" in key: return "ballet"
     if "konzert" in key or "concert" in key: return "concert"
     return "other"
+
+
+def _classification(label: str, title: str, event_type: str) -> str:
+    """Keep non-performance activities from looking like ordinary concerts."""
+    value = f"{label} {title}".casefold()
+    for needle, classification in (
+        ("workshop", "workshop"), ("open class", "open_class"),
+        ("opera ball", "opera_ball"), ("opernball", "opera_ball"),
+        ("guided tour", "guided_tour"), ("führung", "guided_tour"),
+    ):
+        if needle in value:
+            return classification
+    return event_type
+
+
+def _programme(title: str, lead: Tag | None) -> list[dict]:
+    raw_lead = lead.get_text(" ", strip=True) if lead else ""
+    cleaned = re.sub(r"\s+", " ", raw_lead).strip(" ,")
+    # The calendar renders multiple names as comma-separated template blocks.
+    composers = [part.strip() for part in cleaned.split(",") if part.strip()]
+    if not composers:
+        return [{"title": title, "composer": None, "source_title": title,
+                 "status": "review_required", "normalization_status": "review_required",
+                 "source_quality_reason": "calendar_does_not_identify_composer_or_work"}]
+    return [{"title": title, "composer": composer, "source_title": title,
+             "status": "source_verified", "normalization_status": "source_verified"}
+            for composer in composers]
 
 
 def _times(value: str) -> tuple[str | None, str | None]:
@@ -82,8 +110,9 @@ def parse_calendar(html: str, page_url: str, settings: dict) -> list[CanonicalEv
         seen.add(source_id)
         title = _text(title_node)
         genre = _text(card.select_one(".event-genre"))
-        composer = _text(card.select_one(".event-lead"))
+        lead = card.select_one(".event-lead")
         event_type = _event_type(genre)
+        classification = _classification(genre, title, event_type)
         credits = []
         for row in card.select(".production-cast .d-flex.justify-content-between"):
             label = _text(row.find("p"))
@@ -101,9 +130,20 @@ def parse_calendar(html: str, page_url: str, settings: dict) -> list[CanonicalEv
                 else:
                     credit.update(role="production", artistic_function=label)
                 credits.append(credit)
+        # sticky-date is a sibling of the actual event card. data-event is the
+        # explicit association supplied by the site; DOM proximity is unsafe.
         start, end = time_by_id.get(str(card["id"]), (None, None))
-        programme = [{"title": title, "composer": composer or None,
-                      "status": "source_verified", "source_title": title}]
+        data_quality = {}
+        if start is None:
+            data_quality["start_time"] = {
+                "status": "missing_at_source",
+                "reason": "calendar_sticky_time_not_provided",
+            }
+        if not credits and event_type in {"opera", "operetta", "concert"}:
+            data_quality["credits"] = {
+                "status": "incomplete_source_data",
+                "reason": "calendar_cast_or_credits_not_provided",
+            }
         event = CanonicalEvent(
             source=SOURCE, source_event_id=source_id,
             source_url=urljoin(BASE_URL, str(link["href"])),
@@ -111,8 +151,10 @@ def parse_calendar(html: str, page_url: str, settings: dict) -> list[CanonicalEv
             city=settings["city"], country=settings["country"], timezone=settings["timezone"],
             title=title, date=date.fromisoformat(event_date).isoformat(), start_time=start,
             end_time=end, room=_text(card.select_one(".event-room")) or None,
-            event_type=event_type, programme=programme, credits=credits,
-            raw={"calendar_url": page_url, "card_id": card["id"], "genre": genre},
+            event_type=event_type, classification=classification,
+            programme=_programme(title, lead), credits=credits, data_quality=data_quality,
+            raw={"calendar_url": page_url, "card_id": card["id"], "genre": genre,
+                 "source_lead": lead.get_text(" ", strip=True) if lead else None},
         )
         event.validate()
         events.append(event)
