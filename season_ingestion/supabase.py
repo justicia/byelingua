@@ -5,24 +5,44 @@ import os
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from .reconciliation import ExistingRecord
+from .reconciliation import ExistingRecord, reconcile
 
 
-def apply_events(events: list[dict]) -> int:
-    """Upsert without any delete operation; source failures can never erase rows."""
+def build_event_updates(events: list[dict], existing: list[ExistingRecord]) -> list[tuple[str, dict]]:
+    """Build PATCH targets while preserving every database event identity."""
+    report = reconcile(events, existing, existing[0].source if existing else "wiener_staatsoper")
+    if report["collision_guard_blocked"] or report["counts"]["safe_insert"]:
+        raise RuntimeError("apply blocked by reconciliation collision guard")
+    by_identity = {(item.source, item.source_event_id): item for item in existing}
+    mutable_fields = {"organization", "venue", "city", "country", "timezone", "title", "date", "start_time", "end_time", "room", "event_type", "classification", "data_quality"}
+    updates: list[tuple[str, dict]] = []
+    for event in events:
+        identity = (str(event.get("source") or ""), str(event.get("source_event_id") or ""))
+        current = by_identity.get(identity)
+        if current is None or not current.event_id or not current.event_key:
+            raise RuntimeError("apply requires a unique existing event identity and event_key")
+        updates.append((current.event_id, {key: event[key] for key in mutable_fields if key in event}))
+    return updates
+
+
+def apply_events(events: list[dict], existing: list[ExistingRecord], *, sender=urlopen) -> int:
+    """Update matched existing events only; never insert, upsert, or delete."""
+    updates = build_event_updates(events, existing)
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
     key = os.environ.get("SUPABASE_SECRET_KEY", "")
     if not url or not key:
         raise RuntimeError("apply requires SUPABASE_URL and SUPABASE_SECRET_KEY")
-    endpoint = f"{url}/rest/v1/events?{urlencode({'on_conflict': 'event_key'})}"
-    request = Request(endpoint, data=json.dumps(events, ensure_ascii=False).encode(), method="POST", headers={
-        "apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json",
-        "Prefer": "resolution=merge-duplicates,return=minimal",
-    })
-    with urlopen(request, timeout=60) as response:
-        if response.status not in (200, 201, 204):
-            raise RuntimeError(f"Supabase upsert returned HTTP {response.status}")
-    return len(events)
+    updated = 0
+    for event_id, payload in updates:
+        endpoint = f"{url}/rest/v1/events?{urlencode({'id': f'eq.{event_id}'})}"
+        request = Request(endpoint, data=json.dumps(payload, ensure_ascii=False).encode(), method="PATCH", headers={
+            "apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json", "Prefer": "return=minimal",
+        })
+        with sender(request, timeout=60) as response:
+            if response.status not in (200, 204):
+                raise RuntimeError(f"Supabase event update returned HTTP {response.status}")
+        updated += 1
+    return updated
 
 
 def fetch_existing_sources(source: str, *, page_size: int = 500, fetcher=urlopen) -> list[ExistingRecord]:

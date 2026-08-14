@@ -1,5 +1,6 @@
 import json
 import sys
+import pytest
 
 import jobs.sync_season as sync_season
 from season_ingestion.adapters.wiener_staatsoper import parse_calendar
@@ -21,14 +22,10 @@ def test_dry_run_never_calls_supabase_or_deletes(monkeypatch, tmp_path):
     assert (tmp_path / "wiener_staatsoper-2026-27.jsonl").exists()
 
 
-def test_apply_clean_guard_still_refuses_missing_production_writer(monkeypatch):
+def test_apply_guard_blocks_without_existing_identity(monkeypatch):
     events = parse_calendar(HTML, "https://example/calendar", SETTINGS)
     monkeypatch.setattr(sync_season.WienerStaatsoperAdapter, "ingest", lambda self, season: events)
     monkeypatch.setattr(sync_season, "fetch_existing_sources", lambda source: [])
     monkeypatch.setattr(sys, "argv", ["sync_season.py", "--venue", "wiener_staatsoper", "--mode", "apply"])
-    try:
+    with pytest.raises(RuntimeError, match="apply blocked by reconciliation collision guard"):
         sync_season.main()
-    except SystemExit as error:
-        assert str(error) == "production writer not implemented"
-    else:
-        raise AssertionError("apply should refuse without a production writer")
