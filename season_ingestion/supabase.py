@@ -81,7 +81,7 @@ def fetch_existing_sources(source: str, *, page_size: int = 500, fetcher=urlopen
             event = item.get("events") or {}
             if isinstance(event, list):
                 event = event[0] if event else {}
-            rows.append(ExistingRecord(str(item.get("event_id") or ""), str(item.get("source") or ""), item.get("source_event_id"), item.get("source_url"), event.get("event_key"), event.get("title"), event.get("date"), event))
+            rows.append(ExistingRecord(str(item.get("event_id") or ""), str(item.get("source") or ""), item.get("source_event_id"), item.get("source_url"), event.get("event_key"), event.get("title"), event.get("date"), event, frozenset(event)))
         if len(page) < page_size:
             return rows
         offset += page_size
