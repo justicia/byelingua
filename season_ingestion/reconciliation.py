@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 import re
 from typing import Any, Iterable
 
+from .schema import PATCHABLE_EVENT_FIELDS
+
 
 VENUE_SOURCES = {
     "wiener_staatsoper": "wiener_staatsoper",
@@ -28,8 +30,6 @@ class ExistingRecord:
     loaded_fields: frozenset[str] | None = None
 
 
-WRITABLE_EVENT_FIELDS = ("organization", "venue", "city", "country", "timezone", "title", "date", "start_time", "end_time", "room", "event_type", "classification", "data_quality", "normalization_status", "verification_status")
-MUTABLE_EVENT_FIELDS = WRITABLE_EVENT_FIELDS + ("credits", "programme", "artists")
 COLLECTION_FIELDS = {"credits", "programme", "artists"}
 QUALITY_RANK = {"incomplete_source_data": 0, "review_required": 0, "source_verified": 1, "canonical_verified": 2, "human_confirmed": 3, "manually_confirmed": 3}
 
@@ -100,13 +100,13 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
     blocked: list[dict[str, Any]] = []
     observations: dict[str, str] = {}
     if existing.loaded_fields is not None:
-        missing = sorted(set(WRITABLE_EVENT_FIELDS) - set(existing.loaded_fields))
+        missing = sorted(set(PATCHABLE_EVENT_FIELDS) - set(existing.loaded_fields))
         if missing:
             stats["existing_field_not_loaded"] = len(missing)
             stats["blocked_field_conflicts"] += len(missing)
             blocked.extend({"field": name, "reason": "existing_field_not_loaded"} for name in missing)
             return {"payload": {}, "source_url": None, "stats": stats, "changes": [], "blocked": blocked, "non_writable_observations": observations}
-    for name in MUTABLE_EVENT_FIELDS:
+    for name in PATCHABLE_EVENT_FIELDS + tuple(sorted(COLLECTION_FIELDS)):
         if name not in row:
             continue
         old, new = _field_value(existing, name), row.get(name)
@@ -147,6 +147,23 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
 def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingRecord], venue: str) -> dict[str, Any]:
     staged = list(staging)
     current = list(existing)
+    records_with_missing_fields = [
+        item for item in current
+        if item.loaded_fields is not None
+        and set(PATCHABLE_EVENT_FIELDS) - set(item.loaded_fields)
+    ]
+    missing_fields = sorted({
+        name
+        for item in records_with_missing_fields
+        for name in set(PATCHABLE_EVENT_FIELDS) - set(item.loaded_fields or ())
+    })
+    configuration_error = None
+    if missing_fields:
+        configuration_error = {
+            "type": "preflight_configuration_error",
+            "missing_fields": missing_fields,
+            "affected_records": len(records_with_missing_fields),
+        }
     by_identity: dict[tuple[str, str], list[ExistingRecord]] = defaultdict(list)
     by_url: dict[str, list[ExistingRecord]] = defaultdict(list)
     for item in current:
@@ -202,6 +219,10 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
                 counts["manual_review"] += 1
                 reason = "source URL exists with a different identity"
             else:
+                if configuration_error and existing_item in records_with_missing_fields:
+                    counts["manual_review"] += 1
+                    reason = "preflight configuration does not expose all patchable event fields"
+                    continue
                 plan = field_update_plan(row, existing_item)
                 for key, value in plan["stats"].items():
                     field_stats[key] += value
@@ -244,7 +265,7 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
                 monthly[item.date[:7]] += 1
         coverage = {"monthly_dates": dict(sorted(monthly.items())), "records_after_2027_02_19": sum(1 for item in current if item.date and item.date > "2027-02-19")}
 
-    collision_guard_blocked = bool(anomalies or counts["manual_review"] or counts["must_reconcile"] or counts["one_to_many_conflicts"] or counts["many_to_one_conflicts"] or field_stats["blocked_field_conflicts"])
+    collision_guard_blocked = bool(configuration_error or anomalies or counts["manual_review"] or counts["must_reconcile"] or counts["one_to_many_conflicts"] or counts["many_to_one_conflicts"] or field_stats["blocked_field_conflicts"])
     return {
         "venue": venue,
         "source": VENUE_SOURCES[venue],
@@ -254,6 +275,7 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
         "counts": counts,
         "field_stats": field_stats,
         "existing_field_not_loaded": field_stats["existing_field_not_loaded"],
+        "preflight_configuration_error": configuration_error,
         "field_changes": field_changes,
         "blocked_field_conflicts": blocked_field_conflicts,
         "non_writable_observations": dict(sorted(non_writable_observations.items())),

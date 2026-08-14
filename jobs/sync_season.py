@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path:
 
 from season_ingestion.adapters import WienerStaatsoperAdapter
 from season_ingestion.reconciliation import VENUE_SOURCES, reconcile
-from season_ingestion.supabase import apply_events, fetch_existing_sources
+from season_ingestion.supabase import PreflightConfigurationError, apply_events, fetch_existing_sources
 
 
 def load_rows(args: argparse.Namespace) -> tuple[list[dict], WienerStaatsoperAdapter | None]:
@@ -41,7 +41,24 @@ def main() -> None:
         raise SystemExit("refusing to continue: the season returned no valid events")
 
     if args.mode in {"preflight", "apply"}:
-        existing = fetch_existing_sources(VENUE_SOURCES[args.venue])
+        try:
+            existing = fetch_existing_sources(VENUE_SOURCES[args.venue], args.season, apply_mode=args.mode == "apply")
+        except PreflightConfigurationError as exc:
+            report = {
+                "venue": args.venue, "source": VENUE_SOURCES[args.venue], "season": args.season,
+                "mode": args.mode, "staging_records": len(rows), "collision_guard_blocked": True,
+                "preflight_configuration_error": {
+                    "type": "preflight_configuration_error",
+                    "missing_fields": sorted(set(exc.missing_fields)),
+                    "affected_records": len(rows),
+                },
+            }
+            path = args.report_file or Path("reconciliation-report.json")
+            path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            if args.mode == "apply":
+                raise SystemExit("apply blocked by preflight configuration error")
+            print(json.dumps(report, ensure_ascii=False))
+            return
         report = reconcile(rows, existing, args.venue)
         if args.mode == "preflight":
             report.update({"season": args.season, "mode": "preflight"})
