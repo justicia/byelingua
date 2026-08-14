@@ -47,7 +47,8 @@ jobs:
       - name: Ingest season
         env:
           SUPABASE_URL: ${{ (inputs.mode == 'preflight' || inputs.mode == 'apply') && secrets.SUPABASE_URL || '' }}
-          SUPABASE_SECRET_KEY: ${{ (inputs.mode == 'preflight' || inputs.mode == 'apply') && secrets.SUPABASE_SECRET_KEY || '' }}
+          SUPABASE_READONLY_KEY: ${{ inputs.mode == 'preflight' && secrets.SUPABASE_READONLY_KEY || '' }}
+          SUPABASE_SECRET_KEY: ${{ inputs.mode == 'apply' && secrets.SUPABASE_SECRET_KEY || '' }}
         run: |
           args=(--venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}" --report-file reconciliation-report.json)
           if [ -n "${{ inputs.staging_file }}" ]; then args+=(--staging-file "${{ inputs.staging_file }}"); fi
