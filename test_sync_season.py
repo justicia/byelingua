@@ -27,7 +27,7 @@ def test_dry_run_never_calls_supabase_or_deletes(monkeypatch, tmp_path):
 def test_apply_guard_blocks_without_existing_identity(monkeypatch):
     events = parse_calendar(HTML, "https://example/calendar", SETTINGS)
     monkeypatch.setattr(sync_season.WienerStaatsoperAdapter, "ingest", lambda self, season: events)
-    monkeypatch.setattr(sync_season, "fetch_existing_sources", lambda source, season, apply_mode: [])
+    monkeypatch.setattr(sync_season, "fetch_existing_sources", lambda source, season, **kwargs: [])
     monkeypatch.setattr(sys, "argv", ["sync_season.py", "--venue", "wiener_staatsoper", "--mode", "apply"])
     with pytest.raises(SystemExit, match="apply blocked by reconciliation collision guard"):
         sync_season.main()
