@@ -1,0 +1,9 @@
+{
+  "adapter": "grafenegg_adapter",
+  "source": "https://www.grafenegg.com/de/programm-karten",
+  "venue": "Grafenegg",
+  "city": "Grafenegg",
+  "country": "Austria",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

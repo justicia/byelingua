@@ -1,0 +1,9 @@
+{
+  "adapter": "teatro_de_la_zarzuela_adapter",
+  "source": "https://teatrodelazarzuela.inaem.gob.es/es/",
+  "venue": "Teatro de la Zarzuela",
+  "city": "Madrid",
+  "country": "Spain",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

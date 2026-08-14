@@ -1,0 +1,9 @@
+{
+  "adapter": "festspielhaus_st_poelten_adapter",
+  "source": "https://www.festspielhaus.at/",
+  "venue": "Festspielhaus St. Pölten",
+  "city": "St. Pölten",
+  "country": "Austria",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}
