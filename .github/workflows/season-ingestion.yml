@@ -41,6 +41,12 @@ jobs:
           SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
         run: python jobs/sync_season.py --venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}" --report-file reconciliation-report.json
       - uses: actions/upload-artifact@v4
+        if: always() && inputs.mode == 'dry-run'
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-dry-run
+          path: season-ingestion-output/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
         if: always() && inputs.mode == 'preflight'
         with:
           name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-preflight

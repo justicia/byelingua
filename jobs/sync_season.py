@@ -41,7 +41,7 @@ def main() -> None:
     parser.add_argument("--staging-file", type=Path, help="Existing JSONL input; no staging file is generated")
     parser.add_argument("--existing-file", type=Path, help="Read-only JSONL event_sources fixture for offline tests")
     parser.add_argument("--report-file", type=Path, help="Runtime reconciliation report path")
-    parser.add_argument("--output-dir", type=Path, help="Deprecated dry-run report directory")
+    parser.add_argument("--output-dir", type=Path, default=Path("season-ingestion-output"), help="Dry-run acceptance artifact directory")
     args = parser.parse_args()
 
     config = json.loads((ROOT / "config/venues.json").read_text(encoding="utf-8"))
@@ -50,6 +50,9 @@ def main() -> None:
         raise SystemExit("preflight refused: no staging events")
     if args.mode == "dry-run":
         report = {"venue": args.venue, "season": args.season, "mode": args.mode, "valid_events": len(rows), "applied_events": 0, "deleted_events": 0}
+        args.output_dir.mkdir(parents=True, exist_ok=True)
+        staging_path = args.output_dir / f"{args.venue}-{args.season}.jsonl"
+        staging_path.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
     else:
         existing = (
             [ExistingSource(**json.loads(line)) for line in args.existing_file.read_text(encoding="utf-8").splitlines() if line.strip()]
@@ -63,8 +66,7 @@ def main() -> None:
 
     if args.report_file and args.mode in {"preflight", "apply"}:
         args.report_file.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    elif args.output_dir and args.mode == "dry-run":
-        args.output_dir.mkdir(parents=True, exist_ok=True)
+    elif args.mode == "dry-run":
         (args.output_dir / f"{args.venue}-{args.season}-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False))
 
