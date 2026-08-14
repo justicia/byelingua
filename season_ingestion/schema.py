@@ -14,10 +14,6 @@ PATCHABLE_EVENT_FIELDS = (
     "end_time",
     "room",
     "event_type",
-    "classification",
-    "data_quality",
-    "normalization_status",
-    "verification_status",
 )
 
 
