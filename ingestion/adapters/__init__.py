@@ -1,0 +1,2 @@
+"""Official-source adapters."""
+
