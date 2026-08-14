@@ -9,3 +9,4 @@ __pycache__/
 work/
 .reports/
 reports/ingestion/
+season-ingestion-output/
