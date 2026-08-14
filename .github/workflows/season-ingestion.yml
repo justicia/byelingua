@@ -4,22 +4,31 @@ on:
   workflow_dispatch:
     inputs:
       venue:
-        description: Venue adapter
+        description: Venue adapter or runtime staging input
         required: true
         type: choice
         options:
           - wiener_staatsoper
+          - operadeparis
+          - philharmonie_paris
+          - teatro_real
+          - auditorio_nacional
       season:
         description: Season (September through August)
         required: true
         default: 2026-27
         type: string
+      staging_file:
+        description: Optional runtime JSONL path for venues without a committed adapter
+        required: false
+        default: ''
+        type: string
       mode:
-        description: Stage only or upsert to Supabase
+        description: Stage only, read-only reconciliation, or apply (unsupported)
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, apply]
+        options: [dry-run, preflight, apply]
 
 permissions:
   contents: read
@@ -37,12 +46,21 @@ jobs:
       - run: pip install -r requirements-season-ingestion.txt
       - name: Ingest season
         env:
-          SUPABASE_URL: ${{ inputs.mode == 'apply' && secrets.SUPABASE_URL || '' }}
-          SUPABASE_SECRET_KEY: ${{ inputs.mode == 'apply' && secrets.SUPABASE_SECRET_KEY || '' }}
-        run: python jobs/sync_season.py --venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}"
+          SUPABASE_URL: ${{ (inputs.mode == 'preflight' || inputs.mode == 'apply') && secrets.SUPABASE_URL || '' }}
+          SUPABASE_SECRET_KEY: ${{ (inputs.mode == 'preflight' || inputs.mode == 'apply') && secrets.SUPABASE_SECRET_KEY || '' }}
+        run: |
+          args=(--venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}" --report-file reconciliation-report.json)
+          if [ -n "${{ inputs.staging_file }}" ]; then args+=(--staging-file "${{ inputs.staging_file }}"); fi
+          python jobs/sync_season.py "${args[@]}"
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && inputs.mode == 'dry-run'
         with:
           name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
           path: season-ingestion-output/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.mode == 'preflight'
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-preflight
+          path: reconciliation-report.json
           if-no-files-found: error
