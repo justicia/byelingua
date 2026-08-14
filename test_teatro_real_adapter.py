@@ -131,9 +131,11 @@ def test_local_official_sources_regression_if_available():
     assert figaro["title"] == "Le nozze di Figaro"
     assert any(row["character_role"].startswith("El conde de Almaviva") for row in figaro["cast"])
 
-    parallel = next(event for event in events if event["source_url"].endswith("#actividadesCulturales"))
-    assert parallel["event_type"] == "other"
-    assert parallel["programme"] == [] and parallel["cast"] == []
+    parallel = next(event for event in events if event["source_url"].endswith("katia-kabanova#actividadesCulturales"))
+    assert parallel["event_type"] == "opera"
+    assert parallel["programme"]
+    assert parallel["artistic_team"]
+    assert parallel["cast"]
 
     messiah = next(event for event in events if "mesias" in event["source_url"])
     assert messiah["cast"] == []

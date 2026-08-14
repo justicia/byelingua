@@ -485,7 +485,7 @@ def merge_sources(calendar_events: list[dict[str, Any]], supplements: list[dict[
         event = dict(source_event)
         supplement = None
         is_preestreno_joven = False
-        if event["event_type"] in {"opera", "dance"} and "#actividadesCulturales" not in event["source_url"]:
+        if event["event_type"] in {"opera", "dance", "other"}:
             supplement = by_alias.get(normalize_search_key(event["display_title"]))
             if supplement is None:
                 work_title = _preestreno_joven_work_title(event["display_title"])
