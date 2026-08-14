@@ -4,58 +4,71 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
-from collections import Counter
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from season_ingestion.adapters import WienerStaatsoperAdapter
-from season_ingestion.supabase import apply_events
+from season_ingestion.reconciliation import VENUE_SOURCES, reconcile
+from season_ingestion.supabase import apply_events, fetch_existing_sources
+
+
+def load_rows(args: argparse.Namespace) -> tuple[list[dict], WienerStaatsoperAdapter | None]:
+    if args.staging_file:
+        return [json.loads(line) for line in args.staging_file.read_text(encoding="utf-8").splitlines() if line.strip()], None
+    if args.venue != "wiener_staatsoper":
+        raise SystemExit(f"no staging input or adapter is available for {args.venue}")
+    config = json.loads((ROOT / "config/venues.json").read_text(encoding="utf-8"))
+    adapter = WienerStaatsoperAdapter(config["venues"][args.venue])
+    return [event.to_dict() for event in adapter.ingest(args.season)], adapter
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Manually stage or apply a venue season")
-    parser.add_argument("--venue", choices=["wiener_staatsoper"], required=True)
+    parser = argparse.ArgumentParser(description="Stage or read-only preflight a venue season")
+    parser.add_argument("--venue", choices=list(VENUE_SOURCES), required=True)
     parser.add_argument("--season", default="2026-27")
-    parser.add_argument("--mode", choices=["dry-run", "apply"], default="dry-run")
+    parser.add_argument("--mode", choices=["dry-run", "preflight", "apply"], default="dry-run")
     parser.add_argument("--output-dir", type=Path, default=Path("season-ingestion-output"))
+    parser.add_argument("--staging-file", type=Path)
+    parser.add_argument("--report-file", type=Path)
     args = parser.parse_args()
-    config = json.loads((ROOT / "config/venues.json").read_text(encoding="utf-8"))
-    settings = config["venues"][args.venue]
-    adapter = WienerStaatsoperAdapter(settings)
-    events = adapter.ingest(args.season)
-    if not events:
-        raise SystemExit("refusing apply: the season returned no valid events")
+    rows, adapter = load_rows(args)
+    if not rows:
+        raise SystemExit("refusing to continue: the season returned no valid events")
+
+    if args.mode in {"preflight", "apply"}:
+        report = reconcile(rows, fetch_existing_sources(VENUE_SOURCES[args.venue]), args.venue)
+        if args.mode == "preflight":
+            report.update({"season": args.season, "mode": "preflight"})
+            path = args.report_file or Path("reconciliation-report.json")
+            path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            print(json.dumps(report, ensure_ascii=False))
+            return
+        if report["collision_guard_blocked"]:
+            raise SystemExit("apply blocked by reconciliation collision guard")
+        raise SystemExit("production writer not implemented")
+
     args.output_dir.mkdir(parents=True, exist_ok=True)
-    rows = [event.to_dict() for event in events]
     staging = args.output_dir / f"{args.venue}-{args.season}.jsonl"
     staging.write_text("".join(json.dumps(row, ensure_ascii=False) + "\n" for row in rows), encoding="utf-8")
-    applied = apply_events(rows) if args.mode == "apply" else 0
-    missing_time_by_type = Counter(row["event_type"] for row in rows if row["start_time"] is None)
-    review_required = sum(
-        any(item.get("normalization_status") == "review_required" for item in row["programme"])
-        for row in rows
-    )
-    not_found_months = sum("404" in error.get("error", "") for error in adapter.last_errors)
+    missing_time = Counter(row["event_type"] for row in rows if row.get("start_time") is None)
+    review_required = sum(any(item.get("normalization_status") == "review_required" for item in row.get("programme", [])) for row in rows)
+    errors = adapter.last_errors if adapter else []
     report = {
-        "generated_at": datetime.now(timezone.utc).isoformat(), "venue": args.venue,
-        "season": args.season, "mode": args.mode, "valid_events": len(rows),
-        "date_range": {"start": min(row["date"] for row in rows),
-                       "end": max(row["date"] for row in rows)},
-        "applied_events": applied, "deleted_events": 0, "last_errors": adapter.last_errors,
-        "start_time_count": sum(row["start_time"] is not None for row in rows),
-        "start_time_coverage_percent": round(100 * sum(row["start_time"] is not None for row in rows) / len(rows), 2),
-        "missing_start_time_by_event_type": dict(sorted(missing_time_by_type.items())),
-        "review_required_events": review_required,
-        "zero_credits_events": sum(not row["credits"] for row in rows),
-        "not_found_month_errors": not_found_months,
+        "generated_at": datetime.now(timezone.utc).isoformat(), "venue": args.venue, "season": args.season, "mode": "dry-run",
+        "valid_events": len(rows), "date_range": {"start": min(row["date"] for row in rows), "end": max(row["date"] for row in rows)},
+        "applied_events": 0, "deleted_events": 0, "last_errors": errors,
+        "start_time_count": sum(row.get("start_time") is not None for row in rows),
+        "start_time_coverage_percent": round(100 * sum(row.get("start_time") is not None for row in rows) / len(rows), 2),
+        "missing_start_time_by_event_type": dict(sorted(missing_time.items())), "review_required_events": review_required,
+        "zero_credits_events": sum(not row.get("credits") for row in rows), "not_found_month_errors": sum("404" in e.get("error", "") for e in errors),
         "staging_file": str(staging),
     }
-    report_path = args.output_dir / f"{args.venue}-{args.season}-report.json"
-    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (args.output_dir / f"{args.venue}-{args.season}-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False))
 
 
