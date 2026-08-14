@@ -1939,6 +1939,33 @@ def canonical_event_type(raw):
     return value if value in CANONICAL_EVENT_TYPES else "other"
 
 
+_PRODUCTION_CREDIT_ROLE_KEYS = (
+    "conductor", "director", "stage director", "set", "scenography",
+    "costume", "lighting", "illuminator", "choreograph", "chorus",
+    "orchestra", "dramaturg", "video", "assistant director",
+)
+
+
+def _serialize_event_credit(row):
+    role = str(row.get("role") or "").strip().rstrip("/").strip()
+    character = ((row.get("work_characters") or {}).get("canonical_name")
+                 or row.get("raw_character") or row.get("character"))
+    role_key = normalize_search_key(role)
+    is_production_credit = any(marker in role_key for marker in _PRODUCTION_CREDIT_ROLE_KEYS)
+    if is_production_credit:
+        character = None
+    return {
+        "artist_id": row.get("artist_id"),
+        "artist_name": (row.get("artists") or {}).get("artist_name"),
+        "role": role,
+        "raw_role_label": row.get("role"),
+        "role_type": "artistic_team" if not character else "cast",
+        "character_role": character,
+        "artistic_function": role if not character else None,
+        "character": character,
+    }
+
+
 def _programme_identity(value):
     """Normalize a work title for identity comparison, never for display."""
     value = re.sub(r"\s*\([^)]*(?:festival|ring)[^)]*\)\s*", " ", str(value or ""), flags=re.IGNORECASE)
@@ -2160,10 +2187,7 @@ def schedule_event_detail(event_id):
         params={"event_id": f"eq.{internal_id}", "select": "artist_id,role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
     ) or []
     event["programme"] = normalized_programme(event, programme)
-    event["credits"] = [
-        {"artist_id": row.get("artist_id"), "artist_name": (row.get("artists") or {}).get("artist_name"), "role": row.get("role"), "raw_role_label": row.get("role"), "role_type": "cast" if ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")) else "artistic_team", "character_role": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")), "artistic_function": None if ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character")) else row.get("role"), "character": ((row.get("work_characters") or {}).get("canonical_name") or row.get("raw_character") or row.get("character"))}
-        for row in credits
-    ]
+    event["credits"] = [_serialize_event_credit(row) for row in credits]
     return {"event": event}
 
 

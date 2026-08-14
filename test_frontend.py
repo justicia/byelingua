@@ -62,6 +62,13 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn('"permission_denied"', api)
         self.assertIn('"network_error"', api)
 
+    def test_event_detail_serializer_separates_production_credits(self):
+        api = (ROOT / "api" / "index.py").read_text(encoding="utf-8")
+        self.assertIn("_PRODUCTION_CREDIT_ROLE_KEYS", api)
+        self.assertIn("_serialize_event_credit", api)
+        self.assertIn('"role_type": "artistic_team"', api)
+        self.assertIn('rstrip("/")', api)
+
     def test_bilingual_account_copy_and_direct_confirmed_edit(self):
         self.assertIn("Change password", self.account)
         self.assertIn("Simplified Chinese", self.account)
