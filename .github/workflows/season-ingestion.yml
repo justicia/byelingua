@@ -15,11 +15,11 @@ on:
         default: 2026-27
         type: string
       mode:
-        description: Stage only or upsert to Supabase
+        description: Dry run, read-only preflight, or disabled apply guard
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, apply]
+        options: [dry-run, preflight, apply]
 
 permissions:
   contents: read
@@ -27,7 +27,7 @@ permissions:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.mode == 'apply' && 'season-ingestion-production' || '' }}
+    environment: ${{ inputs.mode == 'preflight' && 'season-ingestion-preflight' || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -37,12 +37,18 @@ jobs:
       - run: pip install -r requirements-season-ingestion.txt
       - name: Ingest season
         env:
-          SUPABASE_URL: ${{ inputs.mode == 'apply' && secrets.SUPABASE_URL || '' }}
-          SUPABASE_SECRET_KEY: ${{ inputs.mode == 'apply' && secrets.SUPABASE_SECRET_KEY || '' }}
-        run: python jobs/sync_season.py --venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}"
+          SUPABASE_URL: ${{ contains(fromJSON('["preflight","apply"]'), inputs.mode) && secrets.SUPABASE_URL || '' }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+        run: python jobs/sync_season.py --venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}" --report-file reconciliation-report.json
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && inputs.mode == 'dry-run'
         with:
-          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-dry-run
           path: season-ingestion-output/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.mode == 'preflight'
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-preflight
+          path: reconciliation-report.json
           if-no-files-found: error
