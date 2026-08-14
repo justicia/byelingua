@@ -16,5 +16,7 @@ def test_dry_run_never_calls_supabase_or_deletes(monkeypatch, tmp_path):
                                       "--output-dir", str(tmp_path)])
     sync_season.main()
     report = json.loads((tmp_path / "wiener_staatsoper-2026-27-report.json").read_text())
+    staging = (tmp_path / "wiener_staatsoper-2026-27.jsonl").read_text(encoding="utf-8").splitlines()
+    assert len(staging) == len(events)
     assert report["applied_events"] == 0
     assert report["deleted_events"] == 0

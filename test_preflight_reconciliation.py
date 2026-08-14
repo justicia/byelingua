@@ -83,3 +83,5 @@ def test_supported_venue_ids_match_enabled_config_and_workflow_is_wiener_only():
     assert "- operadeparis" not in workflow
     assert "- philharmonie_paris" not in workflow
     assert "- teatro_real" not in workflow
+    assert "path: season-ingestion-output/" in workflow
+    assert "path: reconciliation-report.json" in workflow
