@@ -5,6 +5,7 @@ import json
 from dataclasses import asdict, dataclass, field
 from datetime import date
 from typing import Any
+from urllib.parse import urlparse
 
 
 @dataclass(frozen=True)
@@ -23,8 +24,10 @@ class CanonicalEvent:
     end_time: str | None
     room: str | None
     event_type: str
+    classification: str | None = None
     programme: list[dict[str, Any]] = field(default_factory=list)
     credits: list[dict[str, Any]] = field(default_factory=list)
+    data_quality: dict[str, Any] = field(default_factory=dict)
     raw: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -38,6 +41,9 @@ class CanonicalEvent:
                     self.venue, self.city, self.country, self.timezone, self.title)):
             raise ValueError("canonical event is missing a required field")
         date.fromisoformat(self.date)
+        source_url = urlparse(self.source_url)
+        if source_url.scheme not in {"http", "https"} or not source_url.netloc:
+            raise ValueError(f"invalid source URL: {self.source_url}")
         if self.start_time is not None and len(self.start_time) != 5:
             raise ValueError(f"invalid start time: {self.start_time}")
 
