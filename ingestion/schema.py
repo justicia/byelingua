@@ -32,10 +32,17 @@ def canonical_event_type(source_label: str | None) -> str:
 
 
 def stable_event_identity(event: dict[str, Any]) -> str:
+    # A production page/detail URL is the stable source identifier.  The
+    # calendar title is deliberately excluded because Teatro Real publishes
+    # language-specific titles (for example, English vs. Spanish) for the
+    # same production.  Date, time, venue and room keep each performance
+    # occurrence separate and make repeated ingestion idempotent.
     parts = (
+        event.get("source"),
+        event.get("source_url"),
         event.get("organization"),
         event.get("venue"),
-        event.get("display_title") or event.get("title"),
+        event.get("room"),
         event.get("date"),
         event.get("start_time"),
     )
@@ -77,4 +84,3 @@ def validate_event(event: dict[str, Any]) -> None:
     for row in event.get("artistic_team", []):
         if row.get("character_role"):
             raise ValueError("artistic-team rows cannot contain character roles")
-

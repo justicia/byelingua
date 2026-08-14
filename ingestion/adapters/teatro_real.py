@@ -18,7 +18,11 @@ ORGANIZATION = "Teatro Real"
 DEFAULT_VENUE = "Teatro Real"
 CITY = "Madrid"
 
-MONTHS = {"sep": 9, "oct": 10, "nov": 11, "dic": 12, "ene": 1, "feb": 2, "mar": 3, "abr": 4, "may": 5, "jun": 6, "jul": 7}
+MONTHS = {
+    "sep": 9, "sept": 9, "oct": 10, "nov": 11, "dic": 12, "dec": 12,
+    "ene": 1, "jan": 1, "feb": 2, "mar": 3, "abr": 4, "apr": 4,
+    "may": 5, "jun": 6, "june": 6, "jul": 7, "july": 7,
+}
 
 ARTISTIC_ROLE_MAP = {
     "direccion musical": "Conductor",
@@ -34,6 +38,17 @@ ARTISTIC_ROLE_MAP = {
     "video": "Video",
     "piano": "Piano",
     "orquesta": "Orchestra",
+    "musical conductor": "Conductor",
+    "conductor": "Conductor",
+    "stage direction": "Stage Director",
+    "stage director": "Stage Director",
+    "set designer": "Sets",
+    "costumes": "Costumes",
+    "costume designer": "Costumes",
+    "iluminator": "Lighting",
+    "lighting": "Lighting",
+    "chorus conductor": "Chorus Master",
+    "orchestra": "Orchestra",
 }
 
 # These choices come from alternate title lines printed by the official PDF.
@@ -41,6 +56,11 @@ ARTISTIC_ROLE_MAP = {
 EXPLICIT_ORIGINAL_TITLES = {
     "las bodas de figaro": "Le nozze di Figaro",
     "el barbero de sevilla": "Il barbiere di Siviglia",
+    "the marriage of figaro": "Le nozze di Figaro",
+    "blood wedding": "Bodas de sangre",
+    "st matthew passion": "La Pasión según San Mateo",
+    "saint john the baptist": "San Giovanni Battista",
+    "bluebeards castle": "El castillo de Barbazul",
 }
 
 _ENGLISH_ROLE_STARTS = (
@@ -83,17 +103,82 @@ def _normalize_artistic_role(raw_label: str) -> str:
 
 def _availability(raw: str, season_year: int = 2026) -> set[str]:
     result: set[str] = set()
+    month_pattern = re.compile(r"\b(" + "|".join(MONTHS) + r")\b", re.IGNORECASE)
     for segment in raw.casefold().split(";"):
-        month_match = re.search(r"\b(" + "|".join(MONTHS) + r")\b", segment)
-        if not month_match:
-            continue
-        month = MONTHS[month_match.group(1)]
-        year = season_year if month >= 9 else season_year + 1
-        for day_text in re.findall(r"\b([0-3]?\d)\b", segment[: month_match.start()]):
-            day = int(day_text)
-            if 1 <= day <= 31:
-                result.add(f"{year:04d}-{month:02d}-{day:02d}")
+        matches = list(month_pattern.finditer(segment))
+        for index, month_match in enumerate(matches):
+            month = MONTHS[month_match.group(1).casefold()]
+            year = season_year if month >= 9 else season_year + 1
+            end = matches[index + 1].start() if index + 1 < len(matches) else len(segment)
+            month_text = segment[month_match.end():end]
+            prefix = segment[: month_match.start()] if index == 0 else ""
+            day_texts = re.findall(r"\b([0-3]?\d)\b", prefix)
+            day_texts.extend(re.findall(r"\b([0-3]?\d)\b", month_text))
+            for day_text in day_texts:
+                day = int(day_text)
+                if 1 <= day <= 31:
+                    result.add(f"{year:04d}-{month:02d}-{day:02d}")
     return result
+
+
+def parse_detail_html(html: str) -> dict[str, Any]:
+    """Parse the structured fields exposed by one official production page.
+
+    Discovery supplies the dated occurrences; this parser only supplies
+    production-level metadata and cast date assignments.  It intentionally
+    does not turn a production page's full cast into cast for every event.
+    """
+    soup = BeautifulSoup(html, "html.parser")
+    hero = soup.select_one(".wrap-content-hero") or soup
+    category = _clean((hero.select_one("h4") or {}).get_text(" ", strip=True)) if hero.select_one("h4") else ""
+    composer = _clean((hero.select_one("h2") or {}).get_text(" ", strip=True)) if hero.select_one("h2") else ""
+    display_title = _clean((hero.select_one("h1") or {}).get_text(" ", strip=True)) if hero.select_one("h1") else ""
+    canonical_title = EXPLICIT_ORIGINAL_TITLES.get(normalize_search_key(display_title), display_title)
+    programme = [{"composer": composer, "title": canonical_title}] if composer and canonical_title and category else []
+
+    artistic_team = []
+    for item in soup.select("ul.lista-artistas > li"):
+        role_node = item.select_one(".lista-artistas-text")
+        person_node = item.select_one(".lista-artistas-title")
+        role = _clean(role_node.get_text(" ", strip=True)) if role_node else ""
+        person = _clean(person_node.get_text(" ", strip=True)) if person_node else ""
+        if not role or not person or person.casefold() == "chorus and orchestra of the teatro real":
+            continue
+        artistic_team.append({
+            "person": person,
+            "raw_role_label": role,
+            "applicable_dates": [],
+            "role_type": "artistic",
+            "character_role": None,
+            "artistic_function": _normalize_artistic_role(role),
+        })
+
+    cast = []
+    for item in soup.select(".page-thumb-artist__block p a"):
+        role_node = item.select_one(".position")
+        person_node = item.select_one(".title")
+        dates_node = item.select_one(".date")
+        role = _clean(role_node.get_text(" ", strip=True)) if role_node else ""
+        person = _clean(person_node.get_text(" ", strip=True)) if person_node else ""
+        dates = _availability(dates_node.get_text(" ", strip=True)) if dates_node else set()
+        if role and person:
+            cast.append({
+                "person": person,
+                "raw_role_label": role,
+                "applicable_dates": sorted(dates),
+                "role_type": "character",
+                "character_role": _original_role(role),
+                "artistic_function": None,
+            })
+    return {
+        "title": canonical_title,
+        "title_aliases": list(dict.fromkeys([display_title, canonical_title])),
+        "composer": composer,
+        "source_event_type": category,
+        "programme": programme,
+        "cast": cast,
+        "artistic_team": artistic_team,
+    }
 
 
 def parse_calendar_html(html: str, *, season_start: date = date(2026, 9, 1), season_end: date = date(2027, 7, 31)) -> list[dict[str, Any]]:

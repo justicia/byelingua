@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from ingestion.adapters.teatro_real import _parse_credit_column, build_preview, parse_calendar_html
+from ingestion.adapters.teatro_real import _parse_credit_column, build_preview, parse_calendar_html, parse_detail_html
 from ingestion.schema import normalize_search_key, searchable_text, stable_event_identity, validate_event
 
 
@@ -64,6 +64,34 @@ def test_search_normalization_preserves_display_values():
     for query in ("figaro", "theatre", "oeuvre", "francois", "helene"):
         assert normalize_search_key(query) in key
     assert event["programme"][0]["composer"] == "François Test"
+
+
+def test_detail_cast_dates_are_performance_specific_and_team_is_separate():
+    detail = parse_detail_html(
+        """
+        <div class="wrap-content-hero"><h4>Opera</h4><h2>Giacomo Puccini</h2><h1>Manon Lescaut</h1></div>
+        <ul class="lista-artistas">
+          <li><span class="lista-artistas-text">Musical conductor</span><span class="lista-artistas-title">Nicola Luisotti</span></li>
+        </ul>
+        <div class="page-thumb-artist__block"><p><a>
+          <span class="position">Manon Lescaut</span><span class="title">Sondra Radvanovsky</span>
+          <span class="date">Sep - 23, 26, 29 Oct - 02, 05</span>
+        </a></p></div>
+        """
+    )
+    assert detail["programme"] == [{"composer": "Giacomo Puccini", "title": "Manon Lescaut"}]
+    assert detail["artistic_team"][0]["artistic_function"] == "Conductor"
+    assert detail["cast"][0]["character_role"] == "Manon Lescaut"
+    assert detail["cast"][0]["applicable_dates"] == [
+        "2026-09-23", "2026-09-26", "2026-09-29", "2026-10-02", "2026-10-05"
+    ]
+
+
+def test_identity_ignores_localized_display_title_but_keeps_occurrence():
+    first = {"source": "teatro_real", "source_url": "https://example/show/marriage-figaro", "organization": "Teatro Real", "venue": "Teatro Real", "room": None, "display_title": "The Marriage of Figaro", "date": "2026-11-10", "start_time": "19:30"}
+    second = {**first, "display_title": "Las bodas de Fígaro"}
+    assert stable_event_identity(first) == stable_event_identity(second)
+    assert stable_event_identity(first) != stable_event_identity({**first, "date": "2026-11-11"})
 
 
 def test_local_official_sources_regression_if_available():
