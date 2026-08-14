@@ -2,10 +2,32 @@ from __future__ import annotations
 
 import json
 import os
+from datetime import date
+from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from .reconciliation import ExistingRecord, field_update_plan, reconcile
+from .schema import PATCHABLE_EVENT_FIELDS
+
+
+class PreflightConfigurationError(RuntimeError):
+    def __init__(self, missing_fields: list[str], message: str):
+        super().__init__(message)
+        self.missing_fields = missing_fields
+
+
+def _season_bounds(season: str) -> tuple[str, str]:
+    try:
+        first, second = season.split("-", 1)
+        start_year = int(first)
+        end_year = 2000 + int(second) if len(second) == 2 else int(second)
+        start, end = date(start_year, 9, 1), date(end_year, 8, 31)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f"invalid season: {season}") from exc
+    if end_year != start_year + 1:
+        raise ValueError(f"invalid season: {season}")
+    return start.isoformat(), end.isoformat()
 
 
 def build_event_updates(events: list[dict], existing: list[ExistingRecord]) -> list[dict]:
@@ -60,23 +82,40 @@ def apply_events(events: list[dict], existing: list[ExistingRecord], *, sender=u
     return updated
 
 
-def fetch_existing_sources(source: str, *, page_size: int = 500, fetcher=urlopen) -> list[ExistingRecord]:
+def fetch_existing_sources(source: str, season: str = "2026-27", *, apply_mode: bool = False, page_size: int = 500, fetcher=urlopen) -> list[ExistingRecord]:
     """Read one source at a time with server-side filtering and pagination."""
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
-    key = os.environ.get("SUPABASE_SECRET_KEY", "")
+    key_name = "SUPABASE_SECRET_KEY" if apply_mode else "SUPABASE_READONLY_KEY"
+    key = os.environ.get(key_name, "")
     if not url or not key:
-        raise RuntimeError("preflight requires SUPABASE_URL and SUPABASE_SECRET_KEY")
+        raise RuntimeError(f"{'apply' if apply_mode else 'preflight'} requires SUPABASE_URL and {key_name}")
     if page_size <= 0:
         raise ValueError("page_size must be positive")
     rows: list[ExistingRecord] = []
+    start_date, end_date = _season_bounds(season)
+    event_columns = ",".join(("id", "event_key", "title", "date", *PATCHABLE_EVENT_FIELDS))
+    selection = f"event_id,source,source_event_id,source_url,events!inner({event_columns})"
     offset = 0
     while True:
-        query = urlencode({"select": "event_id,source,source_event_id,source_url,events!inner(*)", "source": f"eq.{source}", "order": "event_id", "limit": page_size, "offset": offset})
+        query = urlencode([
+            ("select", selection),
+            ("source", f"eq.{source}"),
+            ("events.date", f"gte.{start_date}"),
+            ("events.date", f"lte.{end_date}"),
+            ("order", "event_id"),
+            ("limit", page_size),
+            ("offset", offset),
+        ])
         request = Request(f"{url}/rest/v1/event_sources?{query}", method="GET", headers={"apikey": key, "Authorization": f"Bearer {key}", "Accept": "application/json"})
-        with fetcher(request, timeout=60) as response:
-            if response.status != 200:
-                raise RuntimeError(f"Supabase read returned HTTP {response.status}")
-            page = json.loads(response.read().decode("utf-8"))
+        try:
+            with fetcher(request, timeout=60) as response:
+                if response.status != 200:
+                    raise PreflightConfigurationError(list(PATCHABLE_EVENT_FIELDS), f"Supabase preflight read returned HTTP {response.status}")
+                page = json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            if exc.code in {400, 401, 403}:
+                raise PreflightConfigurationError(list(PATCHABLE_EVENT_FIELDS), f"Supabase preflight cannot read required event columns (HTTP {exc.code})") from exc
+            raise
         for item in page:
             event = item.get("events") or {}
             if isinstance(event, list):
