@@ -2038,7 +2038,12 @@ def schedule_events(data):
         "select": "*",
         "order": "date.asc,start_time.asc", "limit": "1000",
     }
-    requested_organizations = [str(x).strip() for x in data.get("organizations", []) if str(x).strip()]
+    raw_organizations = data.get("organizations", [])
+    if not raw_organizations and data.get("organization"):
+        raw_organizations = [data.get("organization")]
+    if isinstance(raw_organizations, str):
+        raw_organizations = [raw_organizations]
+    requested_organizations = [str(x).strip() for x in raw_organizations if str(x).strip()]
     if len(requested_organizations) == 1:
         params["organization"] = f"eq.{requested_organizations[0]}"
     elif requested_organizations:
