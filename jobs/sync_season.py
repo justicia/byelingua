@@ -41,7 +41,8 @@ def main() -> None:
         raise SystemExit("refusing to continue: the season returned no valid events")
 
     if args.mode in {"preflight", "apply"}:
-        report = reconcile(rows, fetch_existing_sources(VENUE_SOURCES[args.venue]), args.venue)
+        existing = fetch_existing_sources(VENUE_SOURCES[args.venue])
+        report = reconcile(rows, existing, args.venue)
         if args.mode == "preflight":
             report.update({"season": args.season, "mode": "preflight"})
             path = args.report_file or Path("reconciliation-report.json")
@@ -50,7 +51,9 @@ def main() -> None:
             return
         if report["collision_guard_blocked"]:
             raise SystemExit("apply blocked by reconciliation collision guard")
-        raise SystemExit("production writer not implemented")
+        from season_ingestion.supabase import apply_events
+        apply_events(rows, existing)
+        return
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
     staging = args.output_dir / f"{args.venue}-{args.season}.jsonl"
