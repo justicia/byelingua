@@ -45,9 +45,14 @@ def _text(node: Tag | None) -> str:
     return re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip() if node else ""
 
 
-def _event_type(label: str) -> str:
-    key = label.casefold()
-    if "operette" in key: return "operetta"
+def _event_type(label: str, title: str = "") -> str:
+    key = f"{label} {title}".casefold()
+    if "matinee" in key or "matinée" in key:
+        return "matinee"
+    if any(token in key for token in ("geheimmission", "kinder", "children", "familien", "family")):
+        return "children_family"
+    if "fledermaus" in key or "operette" in key:
+        return "operetta"
     if "oper" in key: return "opera"
     if "ballett" in key or "ballet" in key: return "ballet"
     if "konzert" in key or "concert" in key: return "concert"
@@ -111,7 +116,7 @@ def parse_calendar(html: str, page_url: str, settings: dict) -> list[CanonicalEv
         title = _text(title_node)
         genre = _text(card.select_one(".event-genre"))
         lead = card.select_one(".event-lead")
-        event_type = _event_type(genre)
+        event_type = _event_type(genre, title)
         classification = _classification(genre, title, event_type)
         credits = []
         for row in card.select(".production-cast .d-flex.justify-content-between"):

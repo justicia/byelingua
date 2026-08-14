@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from dataclasses import dataclass, field
+import re
 from typing import Any, Iterable
 
 
@@ -24,9 +25,11 @@ class ExistingRecord:
     title: str | None
     date: str | None
     fields: dict[str, Any] = field(default_factory=dict)
+    loaded_fields: frozenset[str] | None = None
 
 
-MUTABLE_EVENT_FIELDS = ("organization", "venue", "city", "country", "timezone", "title", "date", "start_time", "end_time", "room", "event_type", "classification", "data_quality", "normalization_status", "verification_status", "credits", "programme", "artists")
+WRITABLE_EVENT_FIELDS = ("organization", "venue", "city", "country", "timezone", "title", "date", "start_time", "end_time", "room", "event_type", "classification", "data_quality", "normalization_status", "verification_status")
+MUTABLE_EVENT_FIELDS = WRITABLE_EVENT_FIELDS + ("credits", "programme", "artists")
 COLLECTION_FIELDS = {"credits", "programme", "artists"}
 QUALITY_RANK = {"incomplete_source_data": 0, "review_required": 0, "source_verified": 1, "canonical_verified": 2, "human_confirmed": 3, "manually_confirmed": 3}
 
@@ -62,6 +65,27 @@ def _quality_downgrade(old: Any, new: Any) -> bool:
     return bool(old_status and new_status and QUALITY_RANK.get(new_status, 1) < QUALITY_RANK.get(old_status, 1))
 
 
+def _semantic_value(name: str, value: Any) -> Any:
+    if _empty(value):
+        return None
+    if name in {"start_time", "end_time"} and isinstance(value, str):
+        match = re.fullmatch(r"(\d{1,2}):(\d{2})(?::(\d{2}))?", value.strip())
+        if match:
+            hour, minute, second = match.groups()
+            return f"{int(hour):02d}:{minute}" if not second or second == "00" else f"{int(hour):02d}:{minute}:{second}"
+    if name == "title" and isinstance(value, str):
+        return re.sub(r"\s+", " ", value).strip()
+    return value
+
+
+def _event_type_downgrade(old: Any, new: Any) -> bool:
+    if not isinstance(old, str) or not isinstance(new, str) or old == new:
+        return False
+    if new == "other" and old != "other":
+        return True
+    return old in {"matinee", "children_family", "operetta"} and new == "opera"
+
+
 def _field_value(item: ExistingRecord, name: str) -> Any:
     if name in item.fields:
         return item.fields[name]
@@ -70,29 +94,39 @@ def _field_value(item: ExistingRecord, name: str) -> Any:
 
 def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conflict: bool = False) -> dict[str, Any]:
     """Decide safe field changes without changing database identity fields."""
-    stats = {"unchanged": 0, "fill_missing": 0, "change_nonempty": 0, "protected_from_null_overwrite": 0, "protected_from_quality_downgrade": 0, "blocked_field_conflicts": 0}
+    stats = {"unchanged": 0, "fill_missing": 0, "change_nonempty": 0, "protected_from_null_overwrite": 0, "protected_from_quality_downgrade": 0, "blocked_field_conflicts": 0, "existing_field_not_loaded": 0}
     payload: dict[str, Any] = {}
     changes: list[dict[str, Any]] = []
     blocked: list[dict[str, Any]] = []
+    observations: dict[str, str] = {}
+    if existing.loaded_fields is not None:
+        missing = sorted(set(WRITABLE_EVENT_FIELDS) - set(existing.loaded_fields))
+        if missing:
+            stats["existing_field_not_loaded"] = len(missing)
+            stats["blocked_field_conflicts"] += len(missing)
+            blocked.extend({"field": name, "reason": "existing_field_not_loaded"} for name in missing)
+            return {"payload": {}, "source_url": None, "stats": stats, "changes": [], "blocked": blocked, "non_writable_observations": observations}
     for name in MUTABLE_EVENT_FIELDS:
         if name not in row:
             continue
         old, new = _field_value(existing, name), row.get(name)
-        if old == new:
+        old_semantic, new_semantic = _semantic_value(name, old), _semantic_value(name, new)
+        if name in COLLECTION_FIELDS:
+            observations[name] = "unchanged" if old == new else ("empty_staging" if _empty(new) else "changed_or_quality_review")
+            continue
+        if old_semantic == new_semantic:
             stats["unchanged"] += 1
-        elif _empty(new) and not _empty(old):
+        elif _empty(new_semantic) and not _empty(old_semantic):
             stats["protected_from_null_overwrite"] += 1
-        elif not _empty(new) and _empty(old):
-            if name not in COLLECTION_FIELDS:
-                payload[name] = new
+        elif not _empty(new_semantic) and _empty(old_semantic):
+            payload[name] = new_semantic
             stats["fill_missing"] += 1
-        elif _quality_downgrade(old, new) or (name in COLLECTION_FIELDS and _status(row.get("data_quality")) in {"incomplete_source_data", "review_required"}):
+        elif _quality_downgrade(old, new) or _event_type_downgrade(old_semantic, new_semantic) or (name in {"normalization_status", "verification_status"} and _quality_downgrade(old_semantic, new_semantic)):
             stats["protected_from_quality_downgrade"] += 1
             stats["blocked_field_conflicts"] += 1
             blocked.append({"field": name, "reason": "staging quality would downgrade existing data", "old_value_summary": _summary(old), "new_value_summary": _summary(new)})
         else:
-            if name not in COLLECTION_FIELDS:
-                payload[name] = new
+            payload[name] = new_semantic
             stats["change_nonempty"] += 1
             changes.append({"source": row.get("source"), "source_event_id": row.get("source_event_id"), "event_id": existing.event_id, "field": name, "old_value_summary": _summary(old), "new_value_summary": _summary(new)})
 
@@ -107,7 +141,7 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
             source_url = row["source_url"]
             stats["change_nonempty"] += 1
             changes.append({"source": row.get("source"), "source_event_id": row.get("source_event_id"), "event_id": existing.event_id, "field": "source_url", "old_value_summary": _summary(existing.source_url), "new_value_summary": _summary(source_url)})
-    return {"payload": payload, "source_url": source_url, "stats": stats, "changes": changes, "blocked": blocked}
+    return {"payload": payload, "source_url": source_url, "stats": stats, "changes": changes, "blocked": blocked, "non_writable_observations": observations}
 
 
 def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingRecord], venue: str) -> dict[str, Any]:
@@ -140,9 +174,10 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
 
     matched_event_ids: set[str] = set()
     counts = {key: 0 for key in ("source_identity_matches", "source_url_only_matches", "one_to_many_conflicts", "many_to_one_conflicts", "safe_update", "safe_insert", "must_reconcile", "manual_review")}
-    field_stats = {key: 0 for key in ("unchanged", "fill_missing", "change_nonempty", "protected_from_null_overwrite", "protected_from_quality_downgrade", "blocked_field_conflicts")}
+    field_stats = {key: 0 for key in ("unchanged", "fill_missing", "change_nonempty", "protected_from_null_overwrite", "protected_from_quality_downgrade", "blocked_field_conflicts", "existing_field_not_loaded")}
     field_changes: list[dict[str, Any]] = []
     blocked_field_conflicts: list[dict[str, Any]] = []
+    non_writable_observations: dict[str, int] = defaultdict(int)
     details: list[dict[str, Any]] = []
     for row in staged:
         source = str(row.get("source") or "")
@@ -172,6 +207,8 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
                     field_stats[key] += value
                 field_changes.extend(plan["changes"])
                 blocked_field_conflicts.extend(plan["blocked"])
+                for field_name, observation in plan["non_writable_observations"].items():
+                    non_writable_observations[f"{field_name}:{observation}"] += 1
                 if plan["blocked"]:
                     counts["manual_review"] += 1
                     reason = "field update would downgrade existing data"
@@ -216,8 +253,10 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
         "existing_missing_event_key": missing_event_keys,
         "counts": counts,
         "field_stats": field_stats,
+        "existing_field_not_loaded": field_stats["existing_field_not_loaded"],
         "field_changes": field_changes,
         "blocked_field_conflicts": blocked_field_conflicts,
+        "non_writable_observations": dict(sorted(non_writable_observations.items())),
         "anomalies": anomalies,
         "review_events": details,
         "teatro_real_coverage": coverage,
