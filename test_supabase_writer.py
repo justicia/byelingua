@@ -4,11 +4,11 @@ from season_ingestion.supabase import apply_events, build_event_updates
 
 def test_386_identity_matches_plan_only_existing_event_updates():
     existing = [ExistingRecord(f"db-event-{i}", "wiener_staatsoper", f"source-{i}", f"https://example/{i}", f"db-key-{i}", "Old", "2027-01-01") for i in range(386)]
-    staging = [{"source": "wiener_staatsoper", "source_event_id": f"source-{i}", "source_url": f"https://example/{i}", "event_key": f"staging-key-{i}", "title": "New", "date": "2027-01-02"} for i in range(386)]
+    staging = [{"source": "wiener_staatsoper", "source_event_id": f"source-{i}", "source_url": f"https://example/{i}", "event_key": f"staging-key-{i}", "title": "New", "date": "2027-01-02", "room": "Main stage"} for i in range(386)]
     updates = build_event_updates(staging, existing)
     assert len(updates) == 386
     assert {update["event_id"] for update in updates} == {f"db-event-{i}" for i in range(386)}
-    assert all(update["event_patch"]["title"] == "New" for update in updates)
+    assert all(update["event_patch"] == {"room": "Main stage"} for update in updates)
     assert all("event_key" not in update["event_patch"] for update in updates)
     assert all("source_event_id" not in update["event_patch"] for update in updates)
     assert all(not {"credits", "programme", "artists"}.intersection(update["event_patch"]) for update in updates)
@@ -26,7 +26,7 @@ class Response:
 
 def test_apply_writer_sends_only_existing_event_patches(monkeypatch):
     existing = [ExistingRecord(f"db-event-{i}", "wiener_staatsoper", f"source-{i}", f"https://example/{i}", f"db-key-{i}", "Old", "2027-01-01") for i in range(386)]
-    staging = [{"source": "wiener_staatsoper", "source_event_id": f"source-{i}", "source_url": f"https://example/{i}", "event_key": f"staging-key-{i}", "title": "New", "date": "2027-01-02"} for i in range(386)]
+    staging = [{"source": "wiener_staatsoper", "source_event_id": f"source-{i}", "source_url": f"https://example/{i}", "event_key": f"staging-key-{i}", "title": "New", "date": "2027-01-02", "room": "Main stage"} for i in range(386)]
     requests = []
 
     def sender(request, timeout):

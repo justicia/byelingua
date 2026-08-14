@@ -1,4 +1,5 @@
 import json
+from urllib.parse import parse_qs, urlparse
 
 from season_ingestion.supabase import fetch_existing_sources
 
@@ -30,9 +31,36 @@ def test_reads_each_page_with_server_side_source_filter(monkeypatch):
         return Response(pages[len(calls) - 1])
 
     monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
-    monkeypatch.setenv("SUPABASE_SECRET_KEY", "server-secret-not-printed")
+    monkeypatch.setenv("SUPABASE_READONLY_KEY", "readonly-key-not-printed")
     rows = fetch_existing_sources("wiener_staatsoper", page_size=2, fetcher=fake_fetch)
     assert len(rows) == 3
     assert all("source=eq.wiener_staatsoper" in url for url in calls)
+    assert all("events.date=gte.2026-09-01" in url for url in calls)
+    assert all("events.date=lte.2027-08-31" in url for url in calls)
     assert "offset=0" in calls[0] and "offset=2" in calls[1]
     assert all("/event_sources?" in url for url in calls)
+
+
+def test_select_uses_the_authoritative_patchable_fields(monkeypatch):
+    from season_ingestion.schema import PATCHABLE_EVENT_FIELDS
+
+    calls = []
+
+    def fake_fetch(request, timeout):
+        calls.append(request.full_url)
+        return Response([])
+
+    monkeypatch.setenv("SUPABASE_URL", "https://example.supabase.co")
+    monkeypatch.setenv("SUPABASE_READONLY_KEY", "readonly")
+    fetch_existing_sources("wiener_staatsoper", fetcher=fake_fetch)
+    url = calls[0]
+    assert "%2A" not in url and "select=%2A" not in url
+    assert all(field in url for field in PATCHABLE_EVENT_FIELDS)
+    assert parse_qs(urlparse(url).query)["select"] == [
+        "event_id,source,source_event_id,source_url,"
+        "events!inner(id,event_key,title,date,start_time,end_time,room,event_type)"
+    ]
+    assert not {
+        "classification", "data_quality", "normalization_status",
+        "verification_status",
+    }.intersection(parse_qs(urlparse(url).query)["select"][0].split(","))
