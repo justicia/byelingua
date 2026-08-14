@@ -243,13 +243,16 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   function renderProgressiveChoices(){
     clearInvalidLocationChildren();
     const cityBox=document.getElementById('cities'),venueBox=document.getElementById('venues'),orgBox=document.getElementById('organizations');
-    if(orgBox?.parentElement)orgBox.parentElement.hidden=true;
+    if(orgBox?.parentElement)orgBox.parentElement.hidden=!selectedCities.size;
     const cities=activeCountry?countryCities(activeCountry):[...selectedCities];
     cityBox.innerHTML=cities.map((city,i)=>`<label class="choice ${selectedCities.has(city)?'selected':''}" for="progress-city-${i}"><input id="progress-city-${i}" type="checkbox" data-progress-city="${escapeHtml(city)}" ${selectedCities.has(city)?'checked':''}>${escapeHtml(city)}</label>`).join('');
+    const visibleOrganizations=[...new Set((options.venues||[]).filter(v=>(selectedCities.size?selectedCities.has(v.city):false)).map(v=>v.organization))].sort();
+    orgBox.innerHTML=visibleOrganizations.map((organization,i)=>`<label class="choice ${selectedOrganizations.has(organization)?'selected':''}" for="progress-organization-${i}"><input id="progress-organization-${i}" type="checkbox" data-progress-organization="${escapeHtml(organization)}" ${selectedOrganizations.has(organization)?'checked':''}>${escapeHtml(organization)}</label>`).join('');
     const visibleVenues=(options.venues||[]).filter(v=>(selectedCities.size?selectedCities.has(v.city):false)&&(!selectedOrganizations.size||selectedOrganizations.has(v.organization)));
     venueBox.innerHTML=visibleVenues.map((venue,i)=>`<label class="choice ${selectedVenues.has(venue.name)?'selected':''}" for="progress-venue-${i}"><input id="progress-venue-${i}" type="checkbox" data-progress-venue="${escapeHtml(venue.name)}" ${selectedVenues.has(venue.name)?'checked':''}>${escapeHtml(venue.name)}</label>`).join('');
     cityBox.parentElement.hidden=!activeCountry&&!selectedCities.size;venueBox.parentElement.hidden=!selectedCities.size;
     cityBox.querySelectorAll('[data-progress-city]').forEach(input=>input.onchange=()=>{if(input.checked){selectedCities.clear();selectedCities.add(input.dataset.progressCity);activeCountry=countryForCity(input.dataset.progressCity)||activeCountry;locationInput.value=input.dataset.progressCity}else selectedCities.delete(input.dataset.progressCity);for(const venue of [...selectedVenues])if(!(options.venues||[]).some(v=>v.name===venue&&selectedCities.has(v.city)))selectedVenues.delete(venue);renderProgressiveChoices()});
+    orgBox.querySelectorAll('[data-progress-organization]').forEach(input=>input.onchange=()=>{input.checked?selectedOrganizations.add(input.dataset.progressOrganization):selectedOrganizations.delete(input.dataset.progressOrganization);for(const venue of [...selectedVenues])if(!(options.venues||[]).some(v=>v.name===venue&&selectedOrganizations.has(v.organization)))selectedVenues.delete(venue);renderProgressiveChoices()});
     venueBox.querySelectorAll('[data-progress-venue]').forEach(input=>input.onchange=()=>{input.checked?selectedVenues.add(input.dataset.progressVenue):selectedVenues.delete(input.dataset.progressVenue);renderProgressiveChoices()});
   }
   function closeLocationSuggestions(){suggestions.hidden=true;suggestions.innerHTML=''}

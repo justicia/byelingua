@@ -88,6 +88,12 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn(".cast-list .artist-link{display:inline;text-align:left", self.schedule)
         self.assertIn("@media(max-width:420px){.cast-list li{grid-template-columns:1fr", self.schedule)
 
+    def test_location_filters_keep_organization_and_venue_payloads_separate(self):
+        self.assertIn("data-progress-organization", self.schedule)
+        self.assertIn("selectedOrganizations.add(input.dataset.progressOrganization)", self.schedule)
+        self.assertIn("organizations:selected('organization')", self.schedule)
+        self.assertIn("venues:selected('venue')", self.schedule)
+
 
 if __name__ == "__main__":
     unittest.main()
