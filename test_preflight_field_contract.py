@@ -27,5 +27,6 @@ def test_reader_comparison_and_writer_import_the_contract():
     assert "from .schema import PATCHABLE_EVENT_FIELDS" in supabase_source
     assert "from .schema import PATCHABLE_EVENT_FIELDS" in reconciliation_source
     assert 'select("*")' not in supabase_source
+    assert "POST" not in supabase_source
     assert "INSERT" not in supabase_source
     assert "DELETE" not in supabase_source

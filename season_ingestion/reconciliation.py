@@ -86,14 +86,6 @@ def _semantic_value(name: str, value: Any) -> Any:
     return value
 
 
-def _event_type_downgrade(old: Any, new: Any) -> bool:
-    if not isinstance(old, str) or not isinstance(new, str) or old == new:
-        return False
-    if new == "other" and old != "other":
-        return True
-    return old in {"matinee", "children_family", "operetta"} and new == "opera"
-
-
 def _field_value(item: ExistingRecord, name: str) -> Any:
     if name in item.fields:
         return item.fields[name]
@@ -107,13 +99,14 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
     changes: list[dict[str, Any]] = []
     blocked: list[dict[str, Any]] = []
     observations: dict[str, str] = {}
+    preserved_existing_observations: list[dict[str, Any]] = []
     if existing.loaded_fields is not None:
         missing = sorted(set(PATCHABLE_EVENT_FIELDS) - set(existing.loaded_fields))
         if missing:
             stats["existing_field_not_loaded"] = len(missing)
             stats["blocked_field_conflicts"] += len(missing)
             blocked.extend({"field": name, "reason": "existing_field_not_loaded"} for name in missing)
-            return {"payload": {}, "source_url": None, "stats": stats, "changes": [], "blocked": blocked, "non_writable_observations": observations}
+            return {"payload": {}, "source_url": None, "stats": stats, "changes": [], "blocked": blocked, "non_writable_observations": observations, "preserved_existing_observations": preserved_existing_observations}
     for name in PATCHABLE_EVENT_FIELDS + tuple(sorted(NON_WRITABLE_OBSERVATION_FIELDS)):
         if name not in row:
             continue
@@ -122,6 +115,16 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
         if name in NON_WRITABLE_OBSERVATION_FIELDS:
             observations[name] = "unchanged" if old == new else ("empty_staging" if _empty(new) else "changed_or_quality_review")
             continue
+        # Existing event types are curator-approved values.  Ingestion may fill a
+        # missing value, but it must never reinterpret a value already stored.
+        if name == "event_type" and not _empty(old_semantic) and old_semantic != new_semantic:
+            preserved_existing_observations.append({
+                "source_event_id": row.get("source_event_id"),
+                "existing_value": old,
+                "staging_value": new,
+                "reason": "preserved_existing",
+            })
+            continue
         if old_semantic == new_semantic:
             stats["unchanged"] += 1
         elif _empty(new_semantic) and not _empty(old_semantic):
@@ -129,7 +132,7 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
         elif not _empty(new_semantic) and _empty(old_semantic):
             payload[name] = new_semantic
             stats["fill_missing"] += 1
-        elif _quality_downgrade(old, new) or _event_type_downgrade(old_semantic, new_semantic) or (name in {"normalization_status", "verification_status"} and _quality_downgrade(old_semantic, new_semantic)):
+        elif _quality_downgrade(old, new) or (name in {"normalization_status", "verification_status"} and _quality_downgrade(old_semantic, new_semantic)):
             stats["protected_from_quality_downgrade"] += 1
             stats["blocked_field_conflicts"] += 1
             blocked.append({"field": name, "reason": "staging quality would downgrade existing data", "old_value_summary": _summary(old), "new_value_summary": _summary(new)})
@@ -149,7 +152,7 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
             source_url = row["source_url"]
             stats["change_nonempty"] += 1
             changes.append({"source": row.get("source"), "source_event_id": row.get("source_event_id"), "event_id": existing.event_id, "field": "source_url", "old_value_summary": _summary(existing.source_url), "new_value_summary": _summary(source_url)})
-    return {"payload": payload, "source_url": source_url, "stats": stats, "changes": changes, "blocked": blocked, "non_writable_observations": observations}
+    return {"payload": payload, "source_url": source_url, "stats": stats, "changes": changes, "blocked": blocked, "non_writable_observations": observations, "preserved_existing_observations": preserved_existing_observations}
 
 
 def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingRecord], venue: str) -> dict[str, Any]:
@@ -190,6 +193,13 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
             staged_by_url[str(row["source_url"])].append(row)
 
     anomalies: list[dict[str, Any]] = []
+    if staged and not current:
+        anomalies.append({
+            "type": "existing_season_records_missing",
+            "existing_records": 0,
+            "staging_records": len(staged),
+            "reason": "refusing to treat a populated staging season as safe inserts",
+        })
     for identity, count in staged_identity_counts.items():
         if count > 1:
             anomalies.append({"type": "staging_source_identity_duplicate", "source": identity[0], "source_event_id": identity[1], "count": count})
@@ -203,6 +213,7 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
     field_changes: list[dict[str, Any]] = []
     blocked_field_conflicts: list[dict[str, Any]] = []
     non_writable_observations: dict[str, int] = defaultdict(int)
+    preserved_existing_observations: list[dict[str, Any]] = []
     details: list[dict[str, Any]] = []
     for row in staged:
         source = str(row.get("source") or "")
@@ -238,6 +249,7 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
                 blocked_field_conflicts.extend(plan["blocked"])
                 for field_name, observation in plan["non_writable_observations"].items():
                     non_writable_observations[f"{field_name}:{observation}"] += 1
+                preserved_existing_observations.extend(plan["preserved_existing_observations"])
                 if plan["blocked"]:
                     counts["manual_review"] += 1
                     reason = "field update would downgrade existing data"
@@ -273,7 +285,7 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
                 monthly[item.date[:7]] += 1
         coverage = {"monthly_dates": dict(sorted(monthly.items())), "records_after_2027_02_19": sum(1 for item in current if item.date and item.date > "2027-02-19")}
 
-    collision_guard_blocked = bool(configuration_error or anomalies or counts["manual_review"] or counts["must_reconcile"] or counts["one_to_many_conflicts"] or counts["many_to_one_conflicts"] or field_stats["blocked_field_conflicts"])
+    collision_guard_blocked = bool(configuration_error or anomalies or counts["safe_insert"] or counts["manual_review"] or counts["must_reconcile"] or counts["one_to_many_conflicts"] or counts["many_to_one_conflicts"] or field_stats["blocked_field_conflicts"])
     return {
         "venue": venue,
         "source": VENUE_SOURCES[venue],
@@ -287,6 +299,7 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
         "field_changes": field_changes,
         "blocked_field_conflicts": blocked_field_conflicts,
         "non_writable_observations": dict(sorted(non_writable_observations.items())),
+        "preserved_existing_observations": preserved_existing_observations,
         "anomalies": anomalies,
         "review_events": details,
         "teatro_real_coverage": coverage,
