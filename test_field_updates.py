@@ -141,14 +141,32 @@ def test_missing_fields_are_aggregated_once_across_records():
     assert report["blocked_field_conflicts"] == []
 
 
-def test_specific_event_types_are_not_downgraded():
-    cases = [("matinee", "other"), ("children_family", "opera"), ("operetta", "opera")]
+def test_existing_event_types_are_always_preserved_without_blocking():
+    cases = [("concert", "opera"), ("other", "ballet"), ("operetta", "opera")]
     for old_type, new_type in cases:
         existing = record(event_type=old_type)
         row = staging(event_type=new_type)
         report = reconcile([row], [existing], "wiener_staatsoper")
-        assert report["field_stats"]["protected_from_quality_downgrade"] == 1
-        assert report["collision_guard_blocked"] is True
+        assert report["field_changes"] == []
+        assert report["blocked_field_conflicts"] == []
+        assert report["counts"]["manual_review"] == 0
+        assert report["collision_guard_blocked"] is False
+        assert report["preserved_existing_observations"] == [{
+            "source_event_id": "source-1",
+            "existing_value": old_type,
+            "staging_value": new_type,
+            "reason": "preserved_existing",
+        }]
+        assert build_event_updates([row], [existing]) == []
+
+
+def test_missing_event_type_can_be_filled():
+    existing = record(event_type=None)
+    row = staging(event_type="concert")
+    report = reconcile([row], [existing], "wiener_staatsoper")
+    assert report["field_stats"]["fill_missing"] == 1
+    assert report["preserved_existing_observations"] == []
+    assert build_event_updates([row], [existing])[0]["event_patch"] == {"event_type": "concert"}
 
 
 def test_all_staging_only_fields_never_patch_or_block():
