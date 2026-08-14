@@ -123,6 +123,12 @@ BEGIN
         VALUES(target,v_work_id,(SELECT count(*) + 1 FROM event_programme WHERE event_id=target));
     END LOOP;
     FOR credit_item IN SELECT value FROM jsonb_array_elements(COALESCE(item->'cast','[]'::jsonb) || COALESCE(item->'artistic_team','[]'::jsonb) || COALESCE(item->'other_artists','[]'::jsonb)) LOOP
+      IF credit_item->>'role_type'='character' AND EXISTS (
+        SELECT 1 FROM jsonb_array_elements(COALESCE(item->'artistic_team','[]'::jsonb)) team_item
+        WHERE team_item->>'person'=credit_item->>'person'
+      ) THEN
+        CONTINUE;
+      END IF;
       SELECT id INTO artist_id FROM artists WHERE artist_name=credit_item->>'person' LIMIT 1;
       IF artist_id IS NULL THEN INSERT INTO artists(artist_name) VALUES(credit_item->>'person') RETURNING id INTO artist_id; END IF;
       role_name := COALESCE(NULLIF(credit_item->>'artistic_function',''), NULLIF(credit_item->>'raw_role_label',''), 'Artist');
