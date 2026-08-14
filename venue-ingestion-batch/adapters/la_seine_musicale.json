@@ -1,0 +1,9 @@
+{
+  "adapter": "la_seine_musicale_adapter",
+  "source": "https://www.laseinemusicale.com/programmation/",
+  "venue": "La Seine Musicale",
+  "city": "Boulogne-Billancourt",
+  "country": "France",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}

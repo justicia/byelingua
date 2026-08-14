@@ -1,0 +1,9 @@
+{
+  "adapter": "wiener_konzerthaus_adapter",
+  "source": "https://konzerthaus.at/de",
+  "venue": "Wiener Konzerthaus",
+  "city": "Vienna",
+  "country": "Austria",
+  "canonical_event_schema": "baseline-v1",
+  "writes_production": false
+}
