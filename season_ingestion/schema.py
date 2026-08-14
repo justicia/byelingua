@@ -8,6 +8,15 @@ from typing import Any
 from urllib.parse import urlparse
 
 
+# The single contract shared by the preflight reader, reconciliation, and writer.
+PATCHABLE_EVENT_FIELDS = (
+    "start_time",
+    "end_time",
+    "room",
+    "event_type",
+)
+
+
 @dataclass(frozen=True)
 class CanonicalEvent:
     source: str
