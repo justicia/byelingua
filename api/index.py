@@ -2038,6 +2038,11 @@ def schedule_events(data):
         "select": "*",
         "order": "date.asc,start_time.asc", "limit": "1000",
     }
+    requested_organizations = [str(x).strip() for x in data.get("organizations", []) if str(x).strip()]
+    if len(requested_organizations) == 1:
+        params["organization"] = f"eq.{requested_organizations[0]}"
+    elif requested_organizations:
+        params["organization"] = "in.(" + ",".join(requested_organizations) + ")"
     # One `and` expression keeps both date bounds in a single query parameter.
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
