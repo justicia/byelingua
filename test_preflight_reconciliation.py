@@ -1,6 +1,10 @@
 import pytest
+import json
+import sys
+from pathlib import Path
 
-from jobs.sync_season import apply_if_clear
+import jobs.sync_season as sync_season
+from jobs.sync_season import SUPPORTED_APPLY_VENUES, apply_if_clear
 from season_ingestion.preflight import ExistingSource, reconcile
 
 
@@ -55,3 +59,27 @@ def test_apply_is_explicitly_disabled_even_when_preflight_is_clear():
     report = reconcile("operadeparis", [event()], [existing()])
     with pytest.raises(RuntimeError, match="production writer not implemented"):
         apply_if_clear([event()], report)
+
+
+def test_preflight_mode_never_calls_writing_symbol(tmp_path, monkeypatch):
+    staging = tmp_path / "staging.jsonl"
+    existing_file = tmp_path / "existing.jsonl"
+    report_file = tmp_path / "report.json"
+    staging.write_text(json.dumps(event()) + "\n", encoding="utf-8")
+    existing_file.write_text(json.dumps(existing().__dict__) + "\n", encoding="utf-8")
+    monkeypatch.setattr(sync_season, "apply_events", lambda rows: (_ for _ in ()).throw(AssertionError("write attempted")))
+    monkeypatch.setattr(sys, "argv", ["sync_season.py", "--venue", "wiener_staatsoper", "--mode", "preflight", "--staging-file", str(staging), "--existing-file", str(existing_file), "--report-file", str(report_file)])
+    sync_season.main()
+    assert json.loads(report_file.read_text(encoding="utf-8"))["mode"] == "preflight"
+
+
+def test_supported_venue_ids_match_enabled_config_and_workflow_is_wiener_only():
+    root = Path(__file__).resolve().parent
+    config = json.loads((root / "config" / "venues.json").read_text(encoding="utf-8"))
+    enabled = {key for key, value in config["venues"].items() if value.get("enabled")}
+    assert set(SUPPORTED_APPLY_VENUES) == enabled
+    workflow = (root / ".github" / "workflows" / "season-ingestion.yml").read_text(encoding="utf-8")
+    assert "- wiener_staatsoper" in workflow
+    assert "- operadeparis" not in workflow
+    assert "- philharmonie_paris" not in workflow
+    assert "- teatro_real" not in workflow
