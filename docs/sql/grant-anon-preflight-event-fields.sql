@@ -3,9 +3,5 @@ GRANT SELECT (
     start_time,
     end_time,
     room,
-    event_type,
-    classification,
-    data_quality,
-    normalization_status,
-    verification_status
+    event_type
 ) ON TABLE public.events TO anon;

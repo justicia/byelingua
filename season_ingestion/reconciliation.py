@@ -30,7 +30,15 @@ class ExistingRecord:
     loaded_fields: frozenset[str] | None = None
 
 
-COLLECTION_FIELDS = {"credits", "programme", "artists"}
+NON_WRITABLE_OBSERVATION_FIELDS = {
+    "artists",
+    "classification",
+    "credits",
+    "data_quality",
+    "normalization_status",
+    "programme",
+    "verification_status",
+}
 QUALITY_RANK = {"incomplete_source_data": 0, "review_required": 0, "source_verified": 1, "canonical_verified": 2, "human_confirmed": 3, "manually_confirmed": 3}
 
 
@@ -106,12 +114,12 @@ def field_update_plan(row: dict[str, Any], existing: ExistingRecord, *, url_conf
             stats["blocked_field_conflicts"] += len(missing)
             blocked.extend({"field": name, "reason": "existing_field_not_loaded"} for name in missing)
             return {"payload": {}, "source_url": None, "stats": stats, "changes": [], "blocked": blocked, "non_writable_observations": observations}
-    for name in PATCHABLE_EVENT_FIELDS + tuple(sorted(COLLECTION_FIELDS)):
+    for name in PATCHABLE_EVENT_FIELDS + tuple(sorted(NON_WRITABLE_OBSERVATION_FIELDS)):
         if name not in row:
             continue
         old, new = _field_value(existing, name), row.get(name)
         old_semantic, new_semantic = _semantic_value(name, old), _semantic_value(name, new)
-        if name in COLLECTION_FIELDS:
+        if name in NON_WRITABLE_OBSERVATION_FIELDS:
             observations[name] = "unchanged" if old == new else ("empty_staging" if _empty(new) else "changed_or_quality_review")
             continue
         if old_semantic == new_semantic:

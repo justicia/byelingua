@@ -1,4 +1,5 @@
 import json
+from urllib.parse import parse_qs, urlparse
 
 from season_ingestion.supabase import fetch_existing_sources
 
@@ -54,4 +55,12 @@ def test_select_uses_the_authoritative_patchable_fields(monkeypatch):
     fetch_existing_sources("wiener_staatsoper", fetcher=fake_fetch)
     url = calls[0]
     assert "%2A" not in url and "select=%2A" not in url
-    assert all(field in url for field in PATCHABLE_EVENT_FIELDS)
+    selection = parse_qs(urlparse(url).query)["select"][0]
+    assert selection == (
+        "event_id,source,source_event_id,source_url,"
+        "events!inner(id,event_key,title,date,start_time,end_time,room,event_type)"
+    )
+    assert all(field in selection for field in PATCHABLE_EVENT_FIELDS)
+    assert all(field not in selection for field in (
+        "classification", "data_quality", "normalization_status", "verification_status",
+    ))

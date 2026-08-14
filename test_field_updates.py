@@ -15,19 +15,20 @@ def staging(**fields):
     return base
 
 
-def test_null_time_empty_collections_and_low_quality_are_protected():
+def test_null_time_and_staging_only_fields_are_observations():
     existing = record(start_time="19:00", credits=[{"name": "Conductor"}], programme=[{"name": "Aria", "normalization_status": "canonical_verified"}], artists=[{"name": "Singer"}], normalization_status="canonical_verified", data_quality={"verification_status": "canonical_verified"})
     row = staging(start_time=None, credits=[], programme=[], artists=[], normalization_status="source_verified", data_quality={"verification_status": "source_verified"})
-    with pytest.raises(RuntimeError, match="field-level quality guard|collision guard"):
-        build_event_updates([row], [existing])
+    assert build_event_updates([row], [existing]) == []
     report = reconcile([row], [existing], "wiener_staatsoper")
     assert report["field_stats"]["protected_from_null_overwrite"] >= 1
     assert report["non_writable_observations"]["credits:empty_staging"] == 1
     assert report["non_writable_observations"]["programme:empty_staging"] == 1
     assert report["non_writable_observations"]["artists:empty_staging"] == 1
-    assert report["field_stats"]["protected_from_quality_downgrade"] >= 1
-    assert report["field_stats"]["blocked_field_conflicts"] >= 1
-    assert report["collision_guard_blocked"] is True
+    assert report["non_writable_observations"]["normalization_status:changed_or_quality_review"] == 1
+    assert report["non_writable_observations"]["data_quality:changed_or_quality_review"] == 1
+    assert report["field_stats"]["protected_from_quality_downgrade"] == 0
+    assert report["field_stats"]["blocked_field_conflicts"] == 0
+    assert report["collision_guard_blocked"] is False
 
 
 def test_change_nonempty_is_reported_with_value_summaries():
@@ -80,6 +81,7 @@ def test_empty_values_do_not_create_fill_or_patch():
     assert report["field_stats"]["protected_from_null_overwrite"] == 1
     assert report["non_writable_observations"]["credits:empty_staging"] == 1
     assert report["non_writable_observations"]["programme:empty_staging"] == 1
+    assert report["non_writable_observations"]["classification:empty_staging"] == 1
     assert build_event_updates([row], [existing]) == []
 
 
@@ -97,10 +99,7 @@ def test_missing_loaded_database_field_blocks_apply():
 
 
 def test_explicit_null_is_loaded_but_an_absent_field_is_configuration_error():
-    all_fields = frozenset({
-        "start_time", "end_time", "room", "event_type", "classification",
-        "data_quality", "normalization_status", "verification_status",
-    })
+    all_fields = frozenset({"start_time", "end_time", "room", "event_type"})
     explicit_null = ExistingRecord(
         "event-1", "wiener_staatsoper", "source-1", "https://example/1",
         "db-key-1", "Old title", "2027-01-01", {name: None for name in all_fields}, all_fields,
@@ -137,7 +136,7 @@ def test_missing_fields_are_aggregated_once_across_records():
     )
     error = report["preflight_configuration_error"]
     assert error["affected_records"] == 2
-    assert len(error["missing_fields"]) == len(set(error["missing_fields"])) == 8
+    assert len(error["missing_fields"]) == len(set(error["missing_fields"])) == 4
     assert report["existing_field_not_loaded"] == 0
     assert report["blocked_field_conflicts"] == []
 
@@ -150,3 +149,24 @@ def test_specific_event_types_are_not_downgraded():
         report = reconcile([row], [existing], "wiener_staatsoper")
         assert report["field_stats"]["protected_from_quality_downgrade"] == 1
         assert report["collision_guard_blocked"] is True
+
+
+def test_all_staging_only_fields_never_patch_or_block():
+    staging_only = {
+        "classification": {"kind": "opera"},
+        "data_quality": {"verification_status": "review_required"},
+        "normalization_status": "review_required",
+        "verification_status": "review_required",
+        "credits": [{"name": "Conductor"}],
+        "programme": [{"name": "Aria"}],
+        "artists": [{"name": "Singer"}],
+    }
+    existing = record(**{name: None for name in staging_only})
+    report = reconcile([staging(**staging_only)], [existing], "wiener_staatsoper")
+
+    assert report["preflight_configuration_error"] is None
+    assert report["existing_field_not_loaded"] == 0
+    assert report["blocked_field_conflicts"] == []
+    assert report["collision_guard_blocked"] is False
+    assert {key.split(":", 1)[0] for key in report["non_writable_observations"]} == set(staging_only)
+    assert build_event_updates([staging(**staging_only)], [existing]) == []
