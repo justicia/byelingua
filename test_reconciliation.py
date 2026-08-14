@@ -26,6 +26,24 @@ def test_source_url_only_match_is_manual_review_and_blocks():
     assert result["collision_guard_blocked"] is True
 
 
+def test_safe_insert_is_always_blocked():
+    result = reconcile([staging(source_event_id="new", source_url="https://new")], [existing()], "wiener_staatsoper")
+    assert result["counts"]["safe_insert"] == 1
+    assert result["collision_guard_blocked"] is True
+
+
+def test_populated_staging_with_no_existing_season_is_an_explicit_anomaly():
+    result = reconcile([staging()], [], "wiener_staatsoper")
+    assert result["counts"]["safe_insert"] == 1
+    assert result["collision_guard_blocked"] is True
+    assert result["anomalies"] == [{
+        "type": "existing_season_records_missing",
+        "existing_records": 0,
+        "staging_records": 1,
+        "reason": "refusing to treat a populated staging season as safe inserts",
+    }]
+
+
 def test_missing_event_key_blocks():
     result = reconcile([staging()], [existing(event_key=None)], "wiener_staatsoper")
     assert result["existing_missing_event_key"] == 1
