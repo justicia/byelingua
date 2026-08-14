@@ -75,9 +75,6 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
             if not existing_item.event_key:
                 counts["must_reconcile"] += 1
                 reason = "existing record is missing event_key"
-            elif row.get("event_key") and row["event_key"] != existing_item.event_key:
-                counts["manual_review"] += 1
-                reason = "source identity matches but event_key differs"
             elif url_matches and {item.event_id for item in url_matches} != {existing_item.event_id}:
                 counts["manual_review"] += 1
                 reason = "source URL exists with a different identity"
