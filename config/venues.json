@@ -1,8 +1,10 @@
 {
   "pilot_order": [
     "wiener_staatsoper",
-    "paris_opera",
-    "philharmonie_de_paris"
+    "operadeparis",
+    "philharmonie_paris",
+    "teatro_real",
+    "auditorio_nacional"
   ],
   "venues": {
     "wiener_staatsoper": {
@@ -15,7 +17,18 @@
       "timezone": "Europe/Vienna",
       "calendar_url": "https://www.wiener-staatsoper.at/en/calendar/{year}/{month}/"
     },
-    "paris_opera": {"enabled": false, "adapter": null},
-    "philharmonie_de_paris": {"enabled": false, "adapter": null}
+    "operadeparis": {
+      "enabled": false,
+      "adapter": null,
+      "season_bounds": {
+        "2026-27": {
+          "season_start": "2026-08-28",
+          "season_end": "2027-08-31"
+        }
+      }
+    },
+    "philharmonie_paris": {"enabled": false, "adapter": null},
+    "teatro_real": {"enabled": false, "adapter": null},
+    "auditorio_nacional": {"enabled": false, "adapter": null}
   }
 }

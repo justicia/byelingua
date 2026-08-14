@@ -2,32 +2,19 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import date
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from .reconciliation import ExistingRecord, field_update_plan, reconcile
 from .schema import PATCHABLE_EVENT_FIELDS
+from .season import resolve_season_bounds
 
 
 class PreflightConfigurationError(RuntimeError):
     def __init__(self, missing_fields: list[str], message: str):
         super().__init__(message)
         self.missing_fields = missing_fields
-
-
-def _season_bounds(season: str) -> tuple[str, str]:
-    try:
-        first, second = season.split("-", 1)
-        start_year = int(first)
-        end_year = 2000 + int(second) if len(second) == 2 else int(second)
-        start, end = date(start_year, 9, 1), date(end_year, 8, 31)
-    except (TypeError, ValueError) as exc:
-        raise ValueError(f"invalid season: {season}") from exc
-    if end_year != start_year + 1:
-        raise ValueError(f"invalid season: {season}")
-    return start.isoformat(), end.isoformat()
 
 
 def build_event_updates(events: list[dict], existing: list[ExistingRecord]) -> list[dict]:
@@ -82,7 +69,16 @@ def apply_events(events: list[dict], existing: list[ExistingRecord], *, sender=u
     return updated
 
 
-def fetch_existing_sources(source: str, season: str = "2026-27", *, apply_mode: bool = False, page_size: int = 500, fetcher=urlopen) -> list[ExistingRecord]:
+def fetch_existing_sources(
+    source: str,
+    season: str = "2026-27",
+    *,
+    season_start: str | None = None,
+    season_end: str | None = None,
+    apply_mode: bool = False,
+    page_size: int = 500,
+    fetcher=urlopen,
+) -> list[ExistingRecord]:
     """Read one source at a time with server-side filtering and pagination."""
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
     key_name = "SUPABASE_SECRET_KEY" if apply_mode else "SUPABASE_READONLY_KEY"
@@ -92,7 +88,18 @@ def fetch_existing_sources(source: str, season: str = "2026-27", *, apply_mode: 
     if page_size <= 0:
         raise ValueError("page_size must be positive")
     rows: list[ExistingRecord] = []
-    start_date, end_date = _season_bounds(season)
+    if (season_start is None) != (season_end is None):
+        raise ValueError("season_start and season_end must be provided together")
+    if season_start is None:
+        start_date, end_date = resolve_season_bounds(season)
+    else:
+        # Validate caller-provided boundaries with the same generic resolver.
+        start_date, end_date = resolve_season_bounds(season, {
+            "season_bounds": {season: {
+                "season_start": season_start,
+                "season_end": season_end,
+            }}
+        })
     event_columns = ",".join(("id", "event_key", "title", "date", *PATCHABLE_EVENT_FIELDS))
     selection = f"event_id,source,source_event_id,source_url,events!inner({event_columns})"
     offset = 0
