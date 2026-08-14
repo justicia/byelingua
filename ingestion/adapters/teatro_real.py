@@ -142,7 +142,7 @@ def parse_detail_html(html: str) -> dict[str, Any]:
         person_node = item.select_one(".lista-artistas-title")
         role = _clean(role_node.get_text(" ", strip=True)) if role_node else ""
         person = _clean(person_node.get_text(" ", strip=True)) if person_node else ""
-        if not role or not person or person.casefold() == "chorus and orchestra of the teatro real":
+        if not role or not person:
             continue
         artistic_team.append({
             "person": person,
@@ -153,6 +153,7 @@ def parse_detail_html(html: str) -> dict[str, Any]:
             "artistic_function": _normalize_artistic_role(role),
         })
 
+    team_people = {row["person"].casefold() for row in artistic_team}
     cast = []
     for item in soup.select(".page-thumb-artist__block p a"):
         role_node = item.select_one(".position")
@@ -161,7 +162,7 @@ def parse_detail_html(html: str) -> dict[str, Any]:
         role = _clean(role_node.get_text(" ", strip=True)) if role_node else ""
         person = _clean(person_node.get_text(" ", strip=True)) if person_node else ""
         dates = _availability(dates_node.get_text(" ", strip=True)) if dates_node else set()
-        if role and person:
+        if role and person and person.casefold() not in team_people:
             cast.append({
                 "person": person,
                 "raw_role_label": role,
