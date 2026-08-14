@@ -1,0 +1,21 @@
+{
+  "pilot_order": [
+    "wiener_staatsoper",
+    "paris_opera",
+    "philharmonie_de_paris"
+  ],
+  "venues": {
+    "wiener_staatsoper": {
+      "enabled": true,
+      "adapter": "wiener_staatsoper",
+      "organization": "Wiener Staatsoper",
+      "venue": "Wiener Staatsoper",
+      "city": "Vienna",
+      "country": "Austria",
+      "timezone": "Europe/Vienna",
+      "calendar_url": "https://www.wiener-staatsoper.at/en/calendar/{year}/{month}/"
+    },
+    "paris_opera": {"enabled": false, "adapter": null},
+    "philharmonie_de_paris": {"enabled": false, "adapter": null}
+  }
+}

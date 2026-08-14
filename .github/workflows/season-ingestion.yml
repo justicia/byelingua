@@ -1,0 +1,48 @@
+name: Manual season ingestion
+
+on:
+  workflow_dispatch:
+    inputs:
+      venue:
+        description: Venue adapter
+        required: true
+        type: choice
+        options:
+          - wiener_staatsoper
+      season:
+        description: Season (September through August)
+        required: true
+        default: 2026-27
+        type: string
+      mode:
+        description: Stage only or upsert to Supabase
+        required: true
+        default: dry-run
+        type: choice
+        options: [dry-run, apply]
+
+permissions:
+  contents: read
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.mode == 'apply' && 'season-ingestion-production' || '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements-season-ingestion.txt
+      - name: Ingest season
+        env:
+          SUPABASE_URL: ${{ inputs.mode == 'apply' && secrets.SUPABASE_URL || '' }}
+          SUPABASE_SECRET_KEY: ${{ inputs.mode == 'apply' && secrets.SUPABASE_SECRET_KEY || '' }}
+        run: python jobs/sync_season.py --venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
+          path: season-ingestion-output/
+          if-no-files-found: error
