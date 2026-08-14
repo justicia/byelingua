@@ -53,7 +53,12 @@ def test_apply_guard_blocks_url_collision_and_unmatched_old_record():
     assert any(item["type"] == "source_url_identity_collision" for item in result["anomalies"])
 
 
-def test_event_key_difference_blocks_even_when_identity_matches():
-    result = reconcile([staging(event_key="new-key")], [existing()], "wiener_staatsoper")
-    assert result["collision_guard_blocked"] is True
-    assert any("event_key differs" in item["reason"] for item in result["review_events"])
+def test_wiener_386_identity_matches_preserve_database_event_keys():
+    current = [existing(event_id=f"e{i}", source_event_id=f"w{i}", source_url=f"https://x/{i}", event_key=f"db-key-{i}") for i in range(386)]
+    staged = [staging(source_event_id=f"w{i}", source_url=f"https://x/{i}", event_key=f"staging-key-{i}") for i in range(386)]
+    result = reconcile(staged, current, "wiener_staatsoper")
+    assert result["counts"]["source_identity_matches"] == 386
+    assert result["counts"]["safe_update"] == 386
+    assert result["counts"]["safe_insert"] == 0
+    assert result["counts"]["manual_review"] == 0
+    assert result["collision_guard_blocked"] is False
