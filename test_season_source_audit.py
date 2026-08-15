@@ -206,6 +206,7 @@ def test_reused_production_url_is_informational_and_capped():
     [
         ([], "zero_records"),
         ([row(1, source_id="")], "missing_source_event_ids"),
+        ([{**row(1), "event_key": None}], "missing_event_keys"),
         ([row(1, source_id="same"), row(2, source_id="same")], "duplicate_source_identities"),
         ([row(1, date="2026-08-31")], "out_of_season_bounds"),
     ],
@@ -216,7 +217,7 @@ def test_required_data_failures_block_audit(rows, code):
     assert code in {failure["code"] for failure in report["failures"]}
 
 
-def test_multiple_source_identities_per_event_id_is_a_data_quality_failure():
+def test_multiple_source_identities_per_event_id_is_an_informational_observation():
     first = row(1, source_id="production-a")
     second = row(2, source_id="production-b")
     second["event_id"] = first["event_id"]
@@ -236,8 +237,39 @@ def test_multiple_source_identities_per_event_id_is_a_data_quality_failure():
             }
         ],
     }
+    assert report["audit_passed"] is True
+    assert report["failures"] == []
+
+
+def test_multiple_source_identities_per_event_id_does_not_fail_top_level_audit():
+    first = row(1, source_id="production-a")
+    second = row(2, source_id="production-b")
+    second["event_id"] = first["event_id"]
+
+    report = audit_season_sources(
+        "2026-27",
+        CONFIG,
+        sources=["auditorio_nacional"],
+        fetch_rows=lambda *_args: [first, second],
+    )
+
+    assert report["audit_passed"] is True
+    assert report["failures"] == []
+    assert report["sources"][0]["audit_passed"] is True
+    assert report["sources"][0]["multiple_source_identities_per_event_id"]["count"] == 1
+
+
+def test_source_identity_pointing_to_multiple_event_ids_still_fails():
+    report = summarize_source(
+        "test",
+        "2026-09-01",
+        "2027-08-31",
+        [row(1, source_id="production-a"), row(2, source_id="production-a")],
+        bounds_source="default",
+    )
+
     assert report["audit_passed"] is False
-    assert "multiple_source_identities_per_event_id" in {failure["code"] for failure in report["failures"]}
+    assert "source_identity_multiple_event_ids" in {failure["code"] for failure in report["failures"]}
 
 
 def test_permission_error_preserves_complete_report():
