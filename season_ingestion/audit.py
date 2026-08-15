@@ -219,6 +219,8 @@ def summarize_source(
         failures.append({"code": "zero_records", "message": "database returned zero records"})
     if missing_ids:
         failures.append({"code": "missing_source_event_ids", "count": len(missing_ids), "samples": [_sample(row) for row in missing_ids[:20]]})
+    if missing_keys:
+        failures.append({"code": "missing_event_keys", "count": len(missing_keys), "samples": [_sample(row) for row in missing_keys[:20]]})
     if duplicate_groups:
         failures.append({"code": "duplicate_source_identities", "count": len(duplicate_groups), "samples": duplicate_samples})
     multi_event = [
@@ -232,14 +234,6 @@ def summarize_source(
     ]
     if multi_event:
         failures.append({"code": "source_identity_multiple_event_ids", "count": len(multi_event), "samples": multi_event[:20]})
-    if multiple_source_identities:
-        failures.append(
-            {
-                "code": "multiple_source_identities_per_event_id",
-                "count": len(multiple_source_identities),
-                "samples": multiple_source_identities[:20],
-            }
-        )
     if out_of_bounds:
         failures.append({"code": "out_of_season_bounds", "count": len(out_of_bounds), "samples": [_sample(row) for row in out_of_bounds[:20]]})
 
