@@ -103,19 +103,47 @@ def test_fetch_uses_filtered_explicit_select_and_multiple_pages(monkeypatch):
     query = parse_qs(urlparse(requests[0].full_url).query)
     assert query["source"] == ["eq.operadeparis"]
     assert query["events.date"] == ["gte.2026-08-28", "lte.2027-08-31"]
-    assert query["order"] == ["event_id.asc"]
+    assert query["order"] == ["event_id.asc,source_event_id.asc"]
     assert query["select"] == ["event_id,source,source_event_id,source_url,events!inner(id,event_key,date)"]
     assert "*" not in query["select"][0]
     assert all(request.get_method() == "GET" for request in requests)
     assert all(request.data is None for request in requests)
 
 
-def test_pagination_duplicate_event_id_and_nontermination_are_errors(monkeypatch):
+def test_same_event_id_with_different_source_ids_reads_all_pages(monkeypatch):
     monkeypatch.setenv("SUPABASE_URL", "https://database.example")
     monkeypatch.setenv("SUPABASE_READONLY_KEY", "readonly-test-value")
 
-    with pytest.raises(AuditReadError, match="duplicate event_id"):
+    first = api_row(1)
+    second = api_row(2)
+    second["event_id"] = first["event_id"]
+    second["events"]["id"] = first["event_id"]
+    pages = iter(([first], [second], []))
+
+    rows = fetch_source_rows(
+        "operadeparis",
+        "2026-08-28",
+        "2027-08-31",
+        page_size=1,
+        fetcher=lambda *_args, **_kwargs: Response(next(pages)),
+    )
+
+    assert [item["source_event_id"] for item in rows] == ["1", "2"]
+
+
+def test_exact_source_row_repeated_across_pages_reports_pagination_duplicate(monkeypatch):
+    monkeypatch.setenv("SUPABASE_URL", "https://database.example")
+    monkeypatch.setenv("SUPABASE_READONLY_KEY", "readonly-test-value")
+
+    with pytest.raises(AuditReadError, match="duplicate source row") as error:
         fetch_source_rows("operadeparis", "2026-08-28", "2027-08-31", page_size=1, fetcher=lambda *_args, **_kwargs: Response([api_row(1)]))
+
+    assert error.value.code == "pagination_duplicate_row"
+
+
+def test_pagination_nontermination_is_an_error(monkeypatch):
+    monkeypatch.setenv("SUPABASE_URL", "https://database.example")
+    monkeypatch.setenv("SUPABASE_READONLY_KEY", "readonly-test-value")
 
     count = 0
 
@@ -126,6 +154,17 @@ def test_pagination_duplicate_event_id_and_nontermination_are_errors(monkeypatch
 
     with pytest.raises(AuditReadError, match="did not terminate"):
         fetch_source_rows("operadeparis", "2026-08-28", "2027-08-31", page_size=1, maximum_pages=2, fetcher=unique_pages)
+
+
+def test_pagination_duplicate_row_code_is_preserved_in_report():
+    def duplicate(*_args):
+        raise AuditReadError("pagination returned duplicate source row", code="pagination_duplicate_row")
+
+    report = audit_season_sources("2026-27", CONFIG, sources=["operadeparis"], fetch_rows=duplicate)
+
+    assert report["audit_passed"] is False
+    assert report["sources"][0]["audit_passed"] is False
+    assert report["sources"][0]["failures"][0]["code"] == "pagination_duplicate_row"
 
 
 @pytest.mark.parametrize(
@@ -177,6 +216,40 @@ def test_required_data_failures_block_audit(rows, code):
     report = summarize_source("test", "2026-09-01", "2027-08-31", rows, bounds_source="default")
     assert report["audit_passed"] is False
     assert code in {failure["code"] for failure in report["failures"]}
+
+
+def test_multiple_source_identities_per_event_id_is_an_audit_observation():
+    first = row(1, source_id="production-a")
+    second = row(2, source_id="production-b")
+    second["event_id"] = first["event_id"]
+
+    report = summarize_source("test", "2026-09-01", "2027-08-31", [first, second], bounds_source="default")
+
+    issue = report["multiple_source_identities_per_event_id"]
+    assert issue == {
+        "count": 1,
+        "samples": [
+            {
+                "event_id": "event-1",
+                "source_identities": [
+                    {"source": "test", "source_event_id": "production-a"},
+                    {"source": "test", "source_event_id": "production-b"},
+                ],
+            }
+        ],
+    }
+    assert report["audit_passed"] is True
+    assert "multiple_source_identities_per_event_id" not in {failure["code"] for failure in report["failures"]}
+
+
+def test_same_source_identity_for_multiple_event_ids_still_fails():
+    rows = [row(1, source_id="shared-production"), row(2, source_id="shared-production")]
+
+    report = summarize_source("test", "2026-09-01", "2027-08-31", rows, bounds_source="default")
+
+    assert report["audit_passed"] is False
+    assert "duplicate_source_identities" in {failure["code"] for failure in report["failures"]}
+    assert "source_identity_multiple_event_ids" in {failure["code"] for failure in report["failures"]}
 
 
 def test_permission_error_preserves_complete_report():
