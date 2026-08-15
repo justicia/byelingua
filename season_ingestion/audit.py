@@ -39,7 +39,9 @@ _URL = re.compile(r"^(?:https?://|//|www\.)", re.IGNORECASE)
 
 
 class AuditReadError(RuntimeError):
-    pass
+    def __init__(self, message: str, *, code: str = "read_or_configuration_error"):
+        super().__init__(message)
+        self.code = code
 
 
 def classify_identity(value: object, source: str) -> str:
@@ -78,7 +80,7 @@ def fetch_source_rows(
 
     selection = "event_id,source,source_event_id,source_url,events!inner(id,event_key,date)"
     rows: list[dict[str, Any]] = []
-    seen_event_ids: set[str] = set()
+    seen_row_identities: set[tuple[str, str, str]] = set()
     offset = 0
     page_number = 0
     while True:
@@ -90,7 +92,7 @@ def fetch_source_rows(
                 ("source", f"eq.{source}"),
                 ("events.date", f"gte.{season_start}"),
                 ("events.date", f"lte.{season_end}"),
-                ("order", "event_id.asc"),
+                ("order", "event_id.asc,source_event_id.asc"),
                 ("limit", page_size),
                 ("offset", offset),
             ]
@@ -116,6 +118,7 @@ def fetch_source_rows(
         if not isinstance(page, list):
             raise AuditReadError("Supabase audit response must be a JSON array")
 
+        page_row_identities: set[tuple[str, str, str]] = set()
         for raw in page:
             if not isinstance(raw, Mapping):
                 raise AuditReadError("Supabase audit returned a non-object row")
@@ -126,14 +129,24 @@ def fetch_source_rows(
             if not isinstance(event, Mapping):
                 event = {}
             event_id = str(row.get("event_id") or event.get("id") or "")
-            if event_id and event_id in seen_event_ids:
-                raise AuditReadError(f"pagination returned duplicate event_id: {event_id}")
-            if event_id:
-                seen_event_ids.add(event_id)
+            row_identity = (
+                str(row.get("source") or ""),
+                str(row.get("source_event_id") or ""),
+                event_id,
+            )
+            if row_identity in seen_row_identities:
+                raise AuditReadError(
+                    "pagination returned duplicate source row: "
+                    + "/".join(row_identity),
+                    code="pagination_duplicate_row",
+                )
+            page_row_identities.add(row_identity)
             row["event_id"] = event_id
             row["event_key"] = event.get("event_key")
             row["date"] = event.get("date")
             rows.append(row)
+
+        seen_row_identities.update(page_row_identities)
 
         page_number += 1
         if len(page) < page_size:
@@ -183,6 +196,25 @@ def summarize_source(
             }
         )
 
+    event_identities: dict[str, set[tuple[str, str]]] = defaultdict(set)
+    for row in rows:
+        event_id = str(row.get("event_id") or "").strip()
+        if event_id:
+            event_identities[event_id].add(
+                (str(row.get("source") or source).strip(), str(row.get("source_event_id") or "").strip())
+            )
+    multiple_source_identities = [
+        {
+            "event_id": event_id,
+            "source_identities": [
+                {"source": identity_source, "source_event_id": source_event_id}
+                for identity_source, source_event_id in sorted(identities)
+            ],
+        }
+        for event_id, identities in sorted(event_identities.items())
+        if len(identities) > 1
+    ]
+
     if not rows:
         failures.append({"code": "zero_records", "message": "database returned zero records"})
     if missing_ids:
@@ -200,6 +232,14 @@ def summarize_source(
     ]
     if multi_event:
         failures.append({"code": "source_identity_multiple_event_ids", "count": len(multi_event), "samples": multi_event[:20]})
+    if multiple_source_identities:
+        failures.append(
+            {
+                "code": "multiple_source_identities_per_event_id",
+                "count": len(multiple_source_identities),
+                "samples": multiple_source_identities[:20],
+            }
+        )
     if out_of_bounds:
         failures.append({"code": "out_of_season_bounds", "count": len(out_of_bounds), "samples": [_sample(row) for row in out_of_bounds[:20]]})
 
@@ -231,6 +271,10 @@ def summarize_source(
         "missing_event_keys": len(missing_keys),
         "missing_source_urls": len(missing_urls),
         "duplicate_source_identities": {"count": len(duplicate_groups), "samples": duplicate_samples},
+        "multiple_source_identities_per_event_id": {
+            "count": len(multiple_source_identities),
+            "samples": multiple_source_identities[:20],
+        },
         "event_key_pattern_summary": {
             "identity_shape_counts": {shape: key_shape_counts.get(shape, 0) for shape in IDENTITY_SHAPES},
             "equals_source_event_id": exact_key,
@@ -278,13 +322,17 @@ def audit_season_sources(
             except Exception:
                 start, end = None, None
                 bounds_source = None
-            failure = {"code": "read_or_configuration_error", "message": str(exc)}
+            failure = {
+                "code": getattr(exc, "code", "read_or_configuration_error"),
+                "message": str(exc),
+            }
             report = {
                 "source": source, "season_start": start, "season_end": end,
                 "season_bounds_source": bounds_source, "record_count": 0, "first_date": None,
                 "last_date": None, "distinct_source_event_ids": 0, "distinct_event_keys": 0,
                 "missing_source_event_ids": 0, "missing_event_keys": 0, "missing_source_urls": 0,
                 "duplicate_source_identities": {"count": 0, "samples": []},
+                "multiple_source_identities_per_event_id": {"count": 0, "samples": []},
                 "event_key_pattern_summary": {"identity_shape_counts": {shape: 0 for shape in IDENTITY_SHAPES}, "equals_source_event_id": 0, "equals_source_prefixed_id": 0},
                 "reused_url_count": 0, "top_reused_urls": [],
                 "identity_shape": {shape: 0 for shape in IDENTITY_SHAPES},
