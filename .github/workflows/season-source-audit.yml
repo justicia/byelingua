@@ -1,0 +1,34 @@
+name: Season source audit
+
+on:
+  workflow_dispatch:
+    inputs:
+      season:
+        description: Season to audit
+        required: true
+        default: 2026-27
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit season sources
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+        run: python jobs/audit_season_sources.py --season "${{ inputs.season }}" --output season-source-audit.json
+      - name: Upload audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: season-source-audit-${{ inputs.season }}
+          path: season-source-audit.json
+          if-no-files-found: error
