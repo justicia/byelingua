@@ -59,9 +59,11 @@ jobs:
           name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
           path: season-ingestion-output/
           if-no-files-found: error
-      - uses: actions/upload-artifact@v4
-        if: always() && inputs.mode == 'preflight'
+      - name: Upload preflight reconciliation report (including blocked or failed runs)
+        uses: actions/upload-artifact@v4
+        if: ${{ always() && inputs.mode == 'preflight' }}
         with:
           name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-preflight
           path: reconciliation-report.json
           if-no-files-found: error
+          retention-days: 30

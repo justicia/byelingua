@@ -18,6 +18,14 @@ from season_ingestion.season import resolve_season_bounds
 from season_ingestion.supabase import PreflightConfigurationError, apply_events, fetch_existing_sources
 
 
+TEATRO_REAL_PREFLIGHT_SEASON = "2026-27"
+
+
+def write_report(path: Path, report: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
 def load_rows(args: argparse.Namespace, venue_config: dict) -> tuple[list[dict], object | None]:
     if args.staging_file:
         return [json.loads(line) for line in args.staging_file.read_text(encoding="utf-8").splitlines() if line.strip()], None
@@ -40,8 +48,28 @@ def main() -> None:
     parser.add_argument("--staging-file", type=Path)
     parser.add_argument("--report-file", type=Path)
     args = parser.parse_args()
-    if args.venue == "teatro_real" and args.mode != "dry-run":
-        raise SystemExit("Teatro Real phase 2 is staging/dry-run only; preflight and apply are disabled")
+    report_path = args.report_file or Path("reconciliation-report.json")
+    if args.venue == "teatro_real" and args.mode == "apply":
+        raise SystemExit("Teatro Real phase 2 forbids apply and all database writes")
+    if (
+        args.venue == "teatro_real"
+        and args.mode == "preflight"
+        and args.season != TEATRO_REAL_PREFLIGHT_SEASON
+    ):
+        report = {
+            "venue": args.venue,
+            "source": "teatro_real",
+            "season": args.season,
+            "mode": "preflight",
+            "staging_records": 0,
+            "collision_guard_blocked": True,
+            "safety_gate_error": {
+                "type": "safety_gate_error",
+                "message": f"Teatro Real preflight is limited to {TEATRO_REAL_PREFLIGHT_SEASON}",
+            },
+        }
+        write_report(report_path, report)
+        raise SystemExit(report["safety_gate_error"]["message"])
     config = json.loads((ROOT / "config/venues.json").read_text(encoding="utf-8"))
     try:
         venue_config = config["venues"][args.venue]
@@ -95,18 +123,32 @@ def main() -> None:
                 },
             }
             report.update(bounds_report)
-            path = args.report_file or Path("reconciliation-report.json")
-            path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            write_report(report_path, report)
             if args.mode == "apply":
                 raise SystemExit("apply blocked by preflight configuration error")
+            print(json.dumps(report, ensure_ascii=False))
+            return
+        except Exception as exc:
+            if args.venue != "teatro_real":
+                raise
+            report = {
+                "venue": args.venue, "source": VENUE_SOURCES[args.venue], "season": args.season,
+                "mode": "preflight", "staging_records": len(rows), "collision_guard_blocked": True,
+                "preflight_read_error": {
+                    "type": "preflight_read_error",
+                    "error_type": type(exc).__name__,
+                    "message": str(exc),
+                },
+            }
+            report.update(bounds_report)
+            write_report(report_path, report)
             print(json.dumps(report, ensure_ascii=False))
             return
         report = reconcile(rows, existing, args.venue)
         report.update(bounds_report)
         if args.mode == "preflight":
             report.update({"season": args.season, "mode": "preflight"})
-            path = args.report_file or Path("reconciliation-report.json")
-            path.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            write_report(report_path, report)
             print(json.dumps(report, ensure_ascii=False))
             return
         if report["collision_guard_blocked"]:
