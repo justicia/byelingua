@@ -1,5 +1,6 @@
 import json
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -25,6 +26,16 @@ HTML = """
 """
 
 
+def test_teatro_real_remains_disabled_and_preflight_report_is_always_uploaded():
+    root = Path(__file__).parent
+    config = json.loads((root / "config/venues.json").read_text())
+    workflow = (root / ".github/workflows/season-ingestion.yml").read_text()
+    assert config["venues"]["teatro_real"]["enabled"] is False
+    assert "always() && inputs.mode == 'preflight'" in workflow
+    assert "path: reconciliation-report.json" in workflow
+    assert "if-no-files-found: error" in workflow
+
+
 def test_calendar_uses_existing_source_event_id_algorithm():
     event = parse_calendar(
         HTML, SETTINGS["calendar_url"], SETTINGS,
@@ -47,10 +58,61 @@ def test_adapter_fetches_the_audited_calendar_once():
     assert calls == ["https://www.teatroreal.es/en/calendario"]
 
 
-def test_teatro_real_cli_is_dry_run_only(monkeypatch):
+def test_teatro_real_apply_is_always_blocked_before_adapter_or_writer(monkeypatch):
+    monkeypatch.setattr(sync_season.TeatroRealAdapter, "ingest", lambda *args: pytest.fail("adapter attempted"))
+    monkeypatch.setattr(sync_season, "apply_events", lambda *args: pytest.fail("Supabase write attempted"))
     monkeypatch.setattr(sys, "argv", ["sync_season.py", "--venue", "teatro_real", "--mode", "apply"])
-    with pytest.raises(SystemExit, match="staging/dry-run only"):
+    with pytest.raises(SystemExit, match="forbids apply"):
         sync_season.main()
+
+
+def test_teatro_real_preflight_reads_2026_27_with_readonly_path(monkeypatch, tmp_path):
+    events = TeatroRealAdapter(SETTINGS, fetch=lambda _: HTML).ingest("2026-27")
+    calls = []
+    monkeypatch.setattr(sync_season.TeatroRealAdapter, "ingest", lambda self, season: events)
+    monkeypatch.setattr(sync_season, "fetch_existing_sources", lambda *args, **kwargs: calls.append((args, kwargs)) or [])
+    monkeypatch.setattr(sync_season, "apply_events", lambda *args: pytest.fail("Supabase write attempted"))
+    report_path = tmp_path / "reconciliation-report.json"
+    monkeypatch.setattr(sys, "argv", [
+        "sync_season.py", "--venue", "teatro_real", "--season", "2026-27",
+        "--mode", "preflight", "--report-file", str(report_path),
+    ])
+    sync_season.main()
+    assert calls == [(('teatro_real', '2026-27'), {
+        "season_start": "2026-09-01", "season_end": "2027-08-31", "apply_mode": False,
+    })]
+    assert json.loads(report_path.read_text())["mode"] == "preflight"
+
+
+def test_teatro_real_rejected_preflight_still_writes_report(monkeypatch, tmp_path):
+    report_path = tmp_path / "reconciliation-report.json"
+    monkeypatch.setattr(sync_season, "fetch_existing_sources", lambda *args, **kwargs: pytest.fail("read attempted"))
+    monkeypatch.setattr(sys, "argv", [
+        "sync_season.py", "--venue", "teatro_real", "--season", "2027-28",
+        "--mode", "preflight", "--report-file", str(report_path),
+    ])
+    with pytest.raises(SystemExit, match="limited to 2026-27"):
+        sync_season.main()
+    report = json.loads(report_path.read_text())
+    assert report["collision_guard_blocked"] is True
+    assert report["safety_gate_error"]["type"] == "safety_gate_error"
+
+
+def test_teatro_real_read_failure_still_writes_report(monkeypatch, tmp_path):
+    events = TeatroRealAdapter(SETTINGS, fetch=lambda _: HTML).ingest("2026-27")
+    monkeypatch.setattr(sync_season.TeatroRealAdapter, "ingest", lambda self, season: events)
+    monkeypatch.setattr(sync_season, "fetch_existing_sources", lambda *args, **kwargs: (_ for _ in ()).throw(OSError("offline")))
+    report_path = tmp_path / "reconciliation-report.json"
+    monkeypatch.setattr(sys, "argv", [
+        "sync_season.py", "--venue", "teatro_real", "--season", "2026-27",
+        "--mode", "preflight", "--report-file", str(report_path),
+    ])
+    sync_season.main()
+    report = json.loads(report_path.read_text())
+    assert report["collision_guard_blocked"] is True
+    assert report["preflight_read_error"] == {
+        "type": "preflight_read_error", "error_type": "OSError", "message": "offline",
+    }
 
 
 def test_dry_run_writes_staging_without_supabase(monkeypatch, tmp_path):
