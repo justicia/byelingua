@@ -42,6 +42,31 @@ def _select(value: str, configured: list[str]) -> list[str]:
     return requested
 
 
+def summarize_statuses(results: list[dict]) -> dict[str, int]:
+    """Count each readiness milestone from the field that owns it.
+
+    ``overall_status`` describes the furthest completed stage and therefore
+    cannot be used to count independent capabilities (for example, a venue
+    that reached preflight is still discovery-ready).
+    """
+    return {
+        "source_contract_missing": sum(
+            item["overall_status"] == "source_contract_missing" for item in results
+        ),
+        "not_ready": sum(item["overall_status"] == "not_ready" for item in results),
+        "discovery_ready": sum(
+            item["discovery_status"] == "discovery_ready" for item in results
+        ),
+        "detail_enrichment_ready": sum(
+            item["detail_enrichment_status"] == "detail_enrichment_ready"
+            for item in results
+        ),
+        "preflight_ready": sum(
+            item["preflight_status"] == "preflight_ready" for item in results
+        ),
+    }
+
+
 def prepare_venue(venue: str, season: str, settings: dict, output: Path) -> dict:
     venue_dir = output / venue
     base = {
@@ -123,9 +148,7 @@ def main() -> None:
         "write_status": "write_not_approved",
         "database_writes_performed": 0,
         "venues": results,
-        "counts": {status: sum(item["overall_status"] == status for item in results) for status in (
-            "source_contract_missing", "not_ready", "discovery_ready", "detail_enrichment_ready", "preflight_ready"
-        )},
+        "counts": summarize_statuses(results),
     }
     _write(args.output_dir / "batch-summary.json", summary)
     print(json.dumps(summary, ensure_ascii=False))
