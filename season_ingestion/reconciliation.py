@@ -234,9 +234,6 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
             if not existing_item.event_key:
                 counts["must_reconcile"] += 1
                 reason = "existing record is missing event_key"
-            elif url_matches and {item.event_id for item in url_matches} != {existing_item.event_id}:
-                counts["manual_review"] += 1
-                reason = "source URL exists with a different identity"
             else:
                 if configuration_error and existing_item in records_with_missing_fields:
                     counts["manual_review"] += 1
@@ -274,7 +271,14 @@ def reconcile(staging: Iterable[dict[str, Any]], existing: Iterable[ExistingReco
     for url, url_rows in staged_by_url.items():
         identities = {(str(row.get("source") or ""), str(row.get("source_event_id") or "")) for row in url_rows}
         existing_identities = {(item.source, item.source_event_id) for item in by_url.get(url, [])}
-        if existing_identities and identities and identities != existing_identities:
+        identities_resolve_uniquely = all(
+            identity[0]
+            and identity[1]
+            and staged_identity_counts[identity] == 1
+            and len({item.event_id for item in by_identity.get(identity, [])}) == 1
+            for identity in identities
+        )
+        if existing_identities and identities and identities != existing_identities and not identities_resolve_uniquely:
             anomalies.append({"type": "source_url_identity_collision", "source_url": url, "staging_identities": sorted(identities), "existing_identities": sorted(existing_identities)})
 
     coverage: dict[str, Any] = {}
