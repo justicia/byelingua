@@ -28,7 +28,16 @@
       }
     },
     "philharmonie_paris": {"enabled": false, "adapter": null},
-    "teatro_real": {"enabled": false, "adapter": null},
+    "teatro_real": {
+      "enabled": false,
+      "adapter": "teatro_real",
+      "organization": "Teatro Real",
+      "venue": "Teatro Real",
+      "city": "Madrid",
+      "country": "Spain",
+      "timezone": "Europe/Madrid",
+      "calendar_url": "https://www.teatroreal.es/en/calendario"
+    },
     "auditorio_nacional": {"enabled": false, "adapter": null}
   }
 }

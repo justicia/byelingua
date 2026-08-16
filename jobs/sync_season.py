@@ -12,18 +12,22 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from season_ingestion.adapters import WienerStaatsoperAdapter
+from season_ingestion.adapters import TeatroRealAdapter, WienerStaatsoperAdapter
 from season_ingestion.reconciliation import VENUE_SOURCES, reconcile
 from season_ingestion.season import resolve_season_bounds
 from season_ingestion.supabase import PreflightConfigurationError, apply_events, fetch_existing_sources
 
 
-def load_rows(args: argparse.Namespace, venue_config: dict) -> tuple[list[dict], WienerStaatsoperAdapter | None]:
+def load_rows(args: argparse.Namespace, venue_config: dict) -> tuple[list[dict], object | None]:
     if args.staging_file:
         return [json.loads(line) for line in args.staging_file.read_text(encoding="utf-8").splitlines() if line.strip()], None
-    if args.venue != "wiener_staatsoper":
+    adapter_classes = {
+        "wiener_staatsoper": WienerStaatsoperAdapter,
+        "teatro_real": TeatroRealAdapter,
+    }
+    if args.venue not in adapter_classes:
         raise SystemExit(f"no staging input or adapter is available for {args.venue}")
-    adapter = WienerStaatsoperAdapter(venue_config)
+    adapter = adapter_classes[args.venue](venue_config)
     return [event.to_dict() for event in adapter.ingest(args.season)], adapter
 
 
@@ -36,6 +40,8 @@ def main() -> None:
     parser.add_argument("--staging-file", type=Path)
     parser.add_argument("--report-file", type=Path)
     args = parser.parse_args()
+    if args.venue == "teatro_real" and args.mode != "dry-run":
+        raise SystemExit("Teatro Real phase 2 is staging/dry-run only; preflight and apply are disabled")
     config = json.loads((ROOT / "config/venues.json").read_text(encoding="utf-8"))
     try:
         venue_config = config["venues"][args.venue]
