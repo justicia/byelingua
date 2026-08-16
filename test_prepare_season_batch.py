@@ -45,3 +45,34 @@ def test_readonly_preflight_produces_canonical_staging(monkeypatch, tmp_path):
 
 def test_select_all_preserves_configured_order():
     assert batch._select("all", ["a", "b"]) == ["a", "b"]
+
+
+def test_summary_counts_capabilities_from_their_own_status_fields():
+    results = [
+        {
+            "overall_status": "preflight_ready",
+            "discovery_status": "discovery_ready",
+            "detail_enrichment_status": "detail_enrichment_ready",
+            "preflight_status": "preflight_ready",
+        },
+        {
+            "overall_status": "discovery_ready",
+            "discovery_status": "discovery_ready",
+            "detail_enrichment_status": "not_supported",
+            "preflight_status": "readonly_credentials_missing",
+        },
+        {
+            "overall_status": "source_contract_missing",
+            "discovery_status": "source_contract_missing",
+            "detail_enrichment_status": "source_contract_missing",
+            "preflight_status": "source_contract_missing",
+        },
+    ]
+
+    assert batch.summarize_statuses(results) == {
+        "source_contract_missing": 1,
+        "not_ready": 0,
+        "discovery_ready": 2,
+        "detail_enrichment_ready": 1,
+        "preflight_ready": 1,
+    }
