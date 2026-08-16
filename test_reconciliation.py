@@ -20,6 +20,27 @@ def test_identity_match_is_safe_update():
     assert result["collision_guard_blocked"] is False
 
 
+def test_shared_source_url_with_unique_identity_matches_is_safe_update():
+    shared_url = "https://www.teatroreal.es/en/show/shared-production"
+    current = [
+        existing(event_id="e1", source="teatro_real", source_event_id="tr-performance-1", source_url=shared_url, event_key="teatro-real:1"),
+        existing(event_id="e2", source="teatro_real", source_event_id="tr-performance-2", source_url=shared_url, event_key="teatro-real:2"),
+    ]
+    staged = [
+        staging(source="teatro_real", source_event_id="tr-performance-1", source_url=shared_url, event_key="staging:1"),
+        staging(source="teatro_real", source_event_id="tr-performance-2", source_url=shared_url, event_key="staging:2"),
+    ]
+
+    result = reconcile(staged, current, "teatro_real")
+
+    assert result["counts"]["source_identity_matches"] == 2
+    assert result["counts"]["safe_update"] == 2
+    assert result["counts"]["safe_insert"] == 0
+    assert result["counts"]["manual_review"] == 0
+    assert result["anomalies"] == []
+    assert result["collision_guard_blocked"] is False
+
+
 def test_source_url_only_match_is_manual_review_and_blocks():
     result = reconcile([staging(source_event_id="new")], [existing()], "wiener_staatsoper")
     assert result["counts"]["source_url_only_matches"] == 1
