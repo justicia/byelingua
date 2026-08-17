@@ -164,15 +164,51 @@ def main() -> None:
     review_required = sum(any(item.get("normalization_status") == "review_required" for item in row.get("programme", [])) for row in rows)
     errors = adapter.last_errors if adapter else []
     report = {
-        "generated_at": datetime.now(timezone.utc).isoformat(), "venue": args.venue, "season": args.season, "mode": "dry-run",
-        "valid_events": len(rows), "date_range": {"start": min(row["date"] for row in rows), "end": max(row["date"] for row in rows)},
-        "applied_events": 0, "deleted_events": 0, "last_errors": errors,
-        "start_time_count": sum(row.get("start_time") is not None for row in rows),
-        "start_time_coverage_percent": round(100 * sum(row.get("start_time") is not None for row in rows) / len(rows), 2),
-        "missing_start_time_by_event_type": dict(sorted(missing_time.items())), "review_required_events": review_required,
-        "zero_credits_events": sum(not row.get("credits") for row in rows), "not_found_month_errors": sum("404" in e.get("error", "") for e in errors),
-        "staging_file": str(staging),
-    }
+    "generated_at": datetime.now(timezone.utc).isoformat(),
+    "venue": args.venue,
+    "season": args.season,
+    "mode": "dry-run",
+
+    # Unified Action summary
+    "fetched": len(rows),
+    "normalized": len(rows),
+    "valid": len(rows),
+    "invalid": 0,
+    "new": 0,
+    "updated": 0,
+    "unchanged": 0,
+    "failed": len(errors),
+
+    # Dry-run safety state
+    "database_accessed": False,
+    "reconciliation_executed": False,
+    "applied_events": 0,
+    "deleted_events": 0,
+
+    # Existing detailed dry-run metrics
+    "valid_events": len(rows),
+    "date_range": {
+        "start": min(row["date"] for row in rows),
+        "end": max(row["date"] for row in rows),
+    },
+    "last_errors": errors,
+    "start_time_count": sum(
+        row.get("start_time") is not None for row in rows
+    ),
+    "start_time_coverage_percent": round(
+        100
+        * sum(row.get("start_time") is not None for row in rows)
+        / len(rows),
+        2,
+    ),
+    "missing_start_time_by_event_type": dict(sorted(missing_time.items())),
+    "review_required_events": review_required,
+    "zero_credits_events": sum(not row.get("credits") for row in rows),
+    "not_found_month_errors": sum(
+        "404" in e.get("error", "") for e in errors
+    ),
+    "staging_file": str(staging),
+}
     report.update(bounds_report)
     (args.output_dir / f"{args.venue}-{args.season}-report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False))
