@@ -26,15 +26,28 @@ HTML = """
 """
 
 
-def test_teatro_real_remains_disabled_and_preflight_report_is_always_uploaded():
+def test_teatro_real_remains_disabled_and_workflow_uses_safe_modes():
     root = Path(__file__).parent
     config = json.loads((root / "config/venues.json").read_text())
     workflow = (root / ".github/workflows/season-ingestion.yml").read_text()
-    assert config["venues"]["teatro_real"]["enabled"] is False
-    assert "always() && inputs.mode == 'preflight'" in workflow
-    assert "path: reconciliation-report.json" in workflow
-    assert "if-no-files-found: error" in workflow
 
+    assert config["venues"]["teatro_real"]["enabled"] is False
+
+    assert "default: dry-run" in workflow
+    assert "- dry-run" in workflow
+    assert "- write" in workflow
+
+    assert "INGEST_VENUE: ${{ inputs.venue }}" in workflow
+    assert "INGEST_SEASON: ${{ inputs.season }}" in workflow
+    assert '--venue "$INGEST_VENUE"' in workflow
+    assert '--season "$INGEST_SEASON"' in workflow
+
+    assert "Upload dry-run artifact" in workflow
+    assert "path: season-ingestion-output/" in workflow
+
+    assert "inputs.mode == 'write'" in workflow
+    assert "--mode apply" in workflow
+    assert "SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}" in workflow
 
 def test_calendar_uses_existing_source_event_id_algorithm():
     event = parse_calendar(
@@ -127,5 +140,7 @@ def test_dry_run_writes_staging_without_supabase(monkeypatch, tmp_path):
     sync_season.main()
     report = json.loads((tmp_path / "teatro_real-2026-27-report.json").read_text())
     assert report["mode"] == "dry-run"
+    assert report["database_accessed"] is False
+    assert report["reconciliation_executed"] is False
     assert report["applied_events"] == report["deleted_events"] == 0
     assert (tmp_path / "teatro_real-2026-27.jsonl").exists()
