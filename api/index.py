@@ -2497,7 +2497,7 @@ def character_options(query=""):
     work_by_id = {row["id"]: row for row in works}
     rows = supabase_service(
         "GET", "/rest/v1/work_characters",
-        params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "2000"},
+        params={"select": "id,work_id,canonical_name,character_uid", "order": "canonical_name", "limit": "2000"},
     ) or []
     needle = str(query or "").strip().casefold()
     result = []
@@ -3037,7 +3037,7 @@ def entity_options(query="", work_id="", composer_query=""):
                     or any(
                         query_key in normalize_search_key(alias)
                         for alias in aliases_by_character.get(
-                            str(row.get("id")),
+                            str(row.get("character_uid") or row.get("id")),
                             [],
                         )
                     )
