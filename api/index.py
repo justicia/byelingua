@@ -2050,7 +2050,7 @@ def schedule_options():
              "city": city,
              "organization_id": venue.get("organization_id"),
              "organization": org.get("name", ""),
-             
+
 })
         
     return {
@@ -2688,9 +2688,36 @@ def entity_options(query="", work_id=""):
         "composers": composer_results,
         "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "canonical_title": row.get("title"), "composer": row.get("composer"), "aliases": aliases_by_work.get(str(row.get("id")), [])}
                   for row in sorted(work_matches, key=lambda row: search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])), reverse=True)][:30],
-        "characters": [{"type": "character", "id": row.get("id"), "label": row.get("canonical_name"), "canonical_name": row.get("canonical_name"), "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"), "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"), "work_id": row.get("work_id")}
-                       for row in sorted(characters, key=lambda row: search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])), reverse=True)
-                       if (not work_id or str(row.get("work_id")) == str(work_id)) and (not query or search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])) >= 0.60)][:30],
+        "characters": [
+    {
+        "type": "character",
+        "id": row.get("id"),
+        "label": row.get("canonical_name"),
+        "canonical_name": row.get("canonical_name"),
+        "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"),
+        "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"),
+        "work_id": row.get("work_id"),
+    }
+    for row in sorted(
+        characters,
+        key=lambda row: (
+            0 if normalize_search_key(row.get("canonical_name")) == normalize_search_key(query) else
+            1 if normalize_search_key(row.get("canonical_name")).startswith(normalize_search_key(query)) else
+            2
+        )
+    )
+    if (
+        not work_id or str(row.get("work_id")) == str(work_id)
+    )
+    and (
+        not query
+        or normalize_search_key(query) in normalize_search_key(row.get("canonical_name"))
+        or any(
+            normalize_search_key(query) in normalize_search_key(alias)
+            for alias in aliases_by_character.get(str(row.get("id")), [])
+        )
+    )
+][:30],
         "artists": [{"type": "artist", "id": row.get("id"), "label": row.get("artist_name"), "artist_name": row.get("artist_name"), "roles": sorted(roles_by_artist.get(str(row.get("id")), set()))}
                     for row in sorted(artists, key=lambda row: search_match_score(query, row.get("artist_name")), reverse=True)
                     if not query or search_match_score(query, row.get("artist_name")) >= 0.60][:30],
