@@ -673,129 +673,251 @@ renderPresentationCredits=function(event){
 </script>
 
 <script>
-// Final Search condition controller.
-// This override owns Work/Composer, Character and Artist suggestions.
+<script>
+// Final Search controller.
+// Owns Work/Composer, Character and Artist autocomplete + chips.
 (function(){
-  const workInput=$('workCondition');
-  const characterInput=$('characterCondition');
-  const artistInput=$('artistCondition');
+  const workInput = $('workCondition');
+  const characterInput = $('characterCondition');
+  const artistInput = $('artistCondition');
 
-  if(!workInput||!characterInput||!artistInput)return;
+  if(!workInput || !characterInput || !artistInput) return;
 
-  function clearChoices(type){
-    conditionChoices[type]=[];
-    renderConditionChoices(type);
+  const inputs = {
+    work: workInput,
+    character: characterInput,
+    artist: artistInput
+  };
+
+  const boxes = {
+    work: $('workConditionChoices'),
+    character: $('characterConditionChoices'),
+    artist: $('artistConditionChoices')
+  };
+
+  function clearSuggestions(type){
+    conditionChoices[type] = [];
+    boxes[type].innerHTML = '';
   }
 
-  async function finalLoadConditionChoices(type){
-    const input=$(`${type}Condition`);
-    const query=input.value.trim();
+  function removeChip(type){
+    inputs[type].parentElement
+      .querySelector('.selected-chip')
+      ?.remove();
+  }
 
-    if(query.length<2){
-      clearChoices(type);
+  function clearSelection(type){
+    conditionState[type] = null;
+    inputs[type].value = '';
+    inputs[type].hidden = false;
+    removeChip(type);
+    clearSuggestions(type);
+
+    if(type === 'work'){
+      clearSelection('character');
+    }
+  }
+
+  function renderChip(type){
+    removeChip(type);
+
+    const state = conditionState[type];
+
+    if(!state){
+      inputs[type].hidden = false;
+      return;
+    }
+
+    inputs[type].hidden = true;
+
+    const chip = document.createElement('span');
+    chip.className = 'selected-chip';
+
+    chip.innerHTML = `
+      ${escapeHtml(state.label)}
+      ${state.type === 'composer' ? ' · Composer' : ''}
+      <button
+        type="button"
+        aria-label="Remove selected filter"
+      >×</button>
+    `;
+
+    chip.querySelector('button').onclick = event => {
+      event.preventDefault();
+      event.stopPropagation();
+      clearSelection(type);
+    };
+
+    inputs[type].parentElement.insertBefore(
+      chip,
+      inputs[type]
+    );
+  }
+
+  function suggestionDetail(type, item){
+    if(type === 'work'){
+      return item.type === 'composer'
+        ? 'Composer'
+        : (item.composer || '');
+    }
+
+    if(type === 'character'){
+      return [
+        item.work_title,
+        item.composer
+      ].filter(Boolean).join(' · ');
+    }
+
+    if(type === 'artist'){
+      return (item.roles || [])
+        .map(formattedRole)
+        .join(' · ');
+    }
+
+    return '';
+  }
+
+  function renderSuggestions(type){
+    const rows = (conditionChoices[type] || []).slice(0, 5);
+
+    boxes[type].innerHTML = rows.map((item, index) => `
+      <button
+        type="button"
+        class="secondary"
+        data-final-condition-index="${index}"
+      >
+        <strong>${escapeHtml(item.label || '')}</strong>
+        <span class="hint">
+          ${escapeHtml(suggestionDetail(type, item))}
+        </span>
+      </button>
+    `).join('');
+
+    boxes[type]
+      .querySelectorAll('[data-final-condition-index]')
+      .forEach(button => {
+        button.onclick = event => {
+          event.preventDefault();
+          event.stopPropagation();
+
+          const item = rows[
+            Number(button.dataset.finalConditionIndex)
+          ];
+
+          if(!item) return;
+
+          conditionState[type] = {
+            type: item.type || type,
+            id: isUuid(item.id) ? item.id : null,
+            label: item.label,
+            composer_query:
+              item.type === 'composer'
+                ? (item.composer || item.label)
+                : null
+          };
+
+          inputs[type].value = item.label || '';
+          clearSuggestions(type);
+          renderChip(type);
+
+          if(type === 'work'){
+            clearSelection('character');
+          }
+        };
+      });
+  }
+
+  async function loadFinalSuggestions(type){
+    const query = inputs[type].value.trim();
+
+    if(query.length < 2){
+      clearSuggestions(type);
       return;
     }
 
     try{
-      if(type==='work'){
-        const result=await api({
-          action:'entity_options',
-          query
-        });
+      const payload = {
+        action: 'entity_options',
+        query
+      };
 
-        conditionChoices.work=[
-          ...(result.composers||[]),
-          ...(result.works||[])
-        ];
-
-        renderConditionChoices('work');
-        return;
-      }
-
-      if(type==='character'){
-        const payload={
-          action:'entity_options',
-          query
-        };
-
-        if(conditionState.work?.type==='composer'){
-          payload.composer_query=
-            conditionState.work.composer_query||
+      if(type === 'character'){
+        if(conditionState.work?.type === 'composer'){
+          payload.composer_query =
+            conditionState.work.composer_query ||
             conditionState.work.label;
 
         }else if(conditionState.work?.id){
-          payload.work_id=conditionState.work.id;
-
-        }else{
-          const workText=workInput.value.trim();
-
-          if(workText.length>=2){
-            const lookup=await api({
-              action:'entity_options',
-              query:workText
-            });
-
-            const normalized=value=>String(value||'')
-              .normalize('NFKD')
-              .replace(/[\u0300-\u036f]/g,'')
-              .toLowerCase();
-
-            const needle=normalized(workText);
-
-            const composer=(lookup.composers||[]).find(item=>
-              normalized(item.label)===needle||
-              normalized(item.label).includes(needle)
-            );
-
-            if(composer){
-              payload.composer_query=
-                composer.composer||
-                composer.label;
-            }
-          }
+          payload.work_id = conditionState.work.id;
         }
-
-        const result=await api(payload);
-
-        conditionChoices.character=result.characters||[];
-        renderConditionChoices('character');
-        return;
       }
 
-      if(type==='artist'){
-        const result=await api({
-          action:'entity_options',
-          query
-        });
+      const result = await api(payload);
 
-        conditionChoices.artist=result.artists||[];
-        renderConditionChoices('artist');
+      if(type === 'work'){
+        conditionChoices.work = [
+          ...(result.composers || []),
+          ...(result.works || [])
+        ];
+
+      }else if(type === 'character'){
+        conditionChoices.character =
+          result.characters || [];
+
+      }else if(type === 'artist'){
+        conditionChoices.artist =
+          result.artists || [];
       }
+
+      renderSuggestions(type);
+
+      $('entityConditionStatus').textContent = '';
+      $('entityConditionStatus').className = 'status';
 
     }catch(error){
-      $('entityConditionStatus').textContent=error.message;
-      $('entityConditionStatus').className='status error';
+      clearSuggestions(type);
+      $('entityConditionStatus').textContent =
+        error.message;
+      $('entityConditionStatus').className =
+        'status error';
     }
   }
 
-  loadConditionChoices=finalLoadConditionChoices;
+  ['work','character','artist'].forEach(type => {
+    const input = inputs[type];
 
-  workInput.oninput=()=>finalLoadConditionChoices('work');
-  characterInput.oninput=()=>finalLoadConditionChoices('character');
-  artistInput.oninput=()=>finalLoadConditionChoices('artist');
+    input.oninput = () => {
+      if(conditionState[type]){
+        conditionState[type] = null;
+        removeChip(type);
+      }
 
-  workInput.onfocus=()=>finalLoadConditionChoices('work');
-  characterInput.onfocus=()=>finalLoadConditionChoices('character');
-  artistInput.onfocus=()=>finalLoadConditionChoices('artist');
+      loadFinalSuggestions(type);
+    };
 
-  [workInput,characterInput,artistInput].forEach(input=>{
-    input.onkeydown=event=>{
-      if(event.key==='Enter'){
+    input.onfocus = () => {
+      loadFinalSuggestions(type);
+    };
+
+    input.onkeydown = event => {
+      if(event.key === 'Escape'){
+        clearSuggestions(type);
+      }
+
+      if(event.key === 'Enter'){
         event.preventDefault();
         $('entitySearchButton').click();
       }
     };
   });
+
+  document.addEventListener('click', event => {
+    if(!event.target.closest('.entity-condition-grid')){
+      ['work','character','artist']
+        .forEach(clearSuggestions);
+    }
+  });
 })();
+</script>
 </script>
 </body></html>
