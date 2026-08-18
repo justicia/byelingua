@@ -2661,76 +2661,275 @@ def artist_context(data):
 
 
 def entity_options(query="", work_id="", composer_query=""):
-    works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
+    works = supabase_service(
+        "GET",
+        "/rest/v1/works",
+        params={
+            "select": "id,title,composer",
+            "order": "title",
+            "limit": "2000",
+        },
+    ) or []
+
     try:
-        work_aliases = supabase_service("GET", "/rest/v1/work_aliases", params={"select": "work_id,alias", "limit": "10000"}) or []
+        work_aliases = supabase_service(
+            "GET",
+            "/rest/v1/work_aliases",
+            params={
+                "select": "work_id,alias",
+                "limit": "10000",
+            },
+        ) or []
     except Exception:
         work_aliases = []
+
     aliases_by_work = {}
     for row in work_aliases:
-        aliases_by_work.setdefault(str(row.get("work_id")), []).append(row.get("alias"))
-    characters = supabase_service("GET", "/rest/v1/work_characters", params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}) or []
-    aliases = supabase_service("GET", "/rest/v1/character_aliases", params={"select": "character_id,alias", "limit": "10000"}) or []
-    artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"}) or []
-    work_by_id = {str(row.get("id")): row for row in works}
+        aliases_by_work.setdefault(
+            str(row.get("work_id")),
+            [],
+        ).append(row.get("alias"))
+
+    characters = supabase_service(
+        "GET",
+        "/rest/v1/work_characters",
+        params={
+            "select": "id,work_id,canonical_name",
+            "order": "canonical_name",
+            "limit": "3000",
+        },
+    ) or []
+
+    aliases = supabase_service(
+        "GET",
+        "/rest/v1/character_aliases",
+        params={
+            "select": "character_id,alias",
+            "limit": "10000",
+        },
+    ) or []
+
+    artist_query = str(query or "").strip().replace("*", "")
+
+    artist_params = {
+        "select": "id,artist_name",
+        "order": "artist_name",
+        "limit": "100",
+    }
+
+    if artist_query:
+        artist_params["artist_name"] = f"ilike.*{artist_query}*"
+
+    artists = supabase_service(
+        "GET",
+        "/rest/v1/artists",
+        params=artist_params,
+    ) or []
+
+    work_by_id = {
+        str(row.get("id")): row
+        for row in works
+    }
+
     composer_key = normalize_search_key(composer_query)
+
     composer_work_ids = {
         str(row.get("id"))
         for row in works
         if composer_key
         and normalize_search_key(row.get("composer")) == composer_key
     }
+
     aliases_by_character = {}
+
     for row in aliases:
-        aliases_by_character.setdefault(str(row.get("character_id")), []).append(row.get("alias"))
-    role_rows = supabase_service("GET", "/rest/v1/event_credits", params={"select": "artist_id,role", "limit": "10000"}) or []
+        aliases_by_character.setdefault(
+            str(row.get("character_id")),
+            [],
+        ).append(row.get("alias"))
+
+    artist_ids = [
+        str(row.get("id"))
+        for row in artists
+        if row.get("id")
+    ]
+
+    role_rows = []
+
+    if artist_ids:
+        role_rows = supabase_service(
+            "GET",
+            "/rest/v1/event_credits",
+            params={
+                "artist_id": f"in.({','.join(artist_ids)})",
+                "select": "artist_id,role",
+                "limit": "1000",
+            },
+        ) or []
+
     roles_by_artist = {}
+
     for row in role_rows:
         if row.get("artist_id") and row.get("role"):
-            roles_by_artist.setdefault(str(row["artist_id"]), set()).add(str(row["role"]))
-    work_matches = [row for row in works if not query or search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])) >= 0.60]
-    composer_names = sorted({str(row.get("composer") or "").strip() for row in works if row.get("composer") and (not query or search_match_score(query, row.get("composer")) >= 0.60)}, key=lambda value: search_match_score(query, value), reverse=True)
-    composer_results = [{"type": "composer", "id": normalize_search_key(name), "label": name, "composer": name} for name in composer_names[:10]]
+            roles_by_artist.setdefault(
+                str(row["artist_id"]),
+                set(),
+            ).add(str(row["role"]))
+
+    work_matches = [
+        row
+        for row in works
+        if not query
+        or search_match_score(
+            query,
+            row.get("title"),
+            row.get("composer"),
+            *aliases_by_work.get(str(row.get("id")), []),
+        ) >= 0.60
+    ]
+
+    composer_names = sorted(
+        {
+            str(row.get("composer") or "").strip()
+            for row in works
+            if row.get("composer")
+            and (
+                not query
+                or search_match_score(
+                    query,
+                    row.get("composer"),
+                ) >= 0.60
+            )
+        },
+        key=lambda value: search_match_score(query, value),
+        reverse=True,
+    )
+
+    composer_results = [
+        {
+            "type": "composer",
+            "id": normalize_search_key(name),
+            "label": name,
+            "composer": name,
+        }
+        for name in composer_names[:10]
+    ]
+
+    query_key = normalize_search_key(query)
+
     return {
         "composers": composer_results,
-        "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "canonical_title": row.get("title"), "composer": row.get("composer"), "aliases": aliases_by_work.get(str(row.get("id")), [])}
-                  for row in sorted(work_matches, key=lambda row: search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])), reverse=True)][:30],
+
+        "works": [
+            {
+                "type": "work",
+                "id": row.get("id"),
+                "label": row.get("title"),
+                "title": row.get("title"),
+                "canonical_title": row.get("title"),
+                "composer": row.get("composer"),
+            }
+            for row in sorted(
+                work_matches,
+                key=lambda row: search_match_score(
+                    query,
+                    row.get("title"),
+                    row.get("composer"),
+                    *aliases_by_work.get(str(row.get("id")), []),
+                ),
+                reverse=True,
+            )[:30]
+        ],
+
         "characters": [
-    {
-        "type": "character",
-        "id": row.get("id"),
-        "label": row.get("canonical_name"),
-        "canonical_name": row.get("canonical_name"),
-        "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"),
-        "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"),
-        "work_id": row.get("work_id"),
-    }
-    for row in sorted(
-        characters,
-        key=lambda row: (
-            0 if normalize_search_key(row.get("canonical_name")) == normalize_search_key(query) else
-            1 if normalize_search_key(row.get("canonical_name")).startswith(normalize_search_key(query)) else
-            2
-        )
-    )
-    if (
-    (not work_id and not composer_key)
-    or (work_id and str(row.get("work_id")) == str(work_id))
-    or (composer_key and str(row.get("work_id")) in composer_work_ids)
-)
-    
-    and (
-        not query
-        or normalize_search_key(query) in normalize_search_key(row.get("canonical_name"))
-        or any(
-            normalize_search_key(query) in normalize_search_key(alias)
-            for alias in aliases_by_character.get(str(row.get("id")), [])
-        )
-    )
-][:30],
-        "artists": [{"type": "artist", "id": row.get("id"), "label": row.get("artist_name"), "artist_name": row.get("artist_name"), "roles": sorted(roles_by_artist.get(str(row.get("id")), set()))}
-                    for row in sorted(artists, key=lambda row: search_match_score(query, row.get("artist_name")), reverse=True)
-                    if not query or search_match_score(query, row.get("artist_name")) >= 0.60][:30],
+            {
+                "type": "character",
+                "id": row.get("id"),
+                "label": row.get("canonical_name"),
+                "canonical_name": row.get("canonical_name"),
+                "work_title": work_by_id.get(
+                    str(row.get("work_id")),
+                    {},
+                ).get("title"),
+                "composer": work_by_id.get(
+                    str(row.get("work_id")),
+                    {},
+                ).get("composer"),
+                "work_id": row.get("work_id"),
+            }
+            for row in sorted(
+                characters,
+                key=lambda row: (
+                    0
+                    if normalize_search_key(
+                        row.get("canonical_name")
+                    ) == query_key
+                    else 1
+                    if normalize_search_key(
+                        row.get("canonical_name")
+                    ).startswith(query_key)
+                    else 2
+                ),
+            )
+            if (
+                (
+                    (not work_id and not composer_key)
+                    or (
+                        work_id
+                        and str(row.get("work_id")) == str(work_id)
+                    )
+                    or (
+                        composer_key
+                        and str(row.get("work_id"))
+                        in composer_work_ids
+                    )
+                )
+                and (
+                    not query
+                    or query_key
+                    in normalize_search_key(
+                        row.get("canonical_name")
+                    )
+                    or any(
+                        query_key in normalize_search_key(alias)
+                        for alias in aliases_by_character.get(
+                            str(row.get("id")),
+                            [],
+                        )
+                    )
+                )
+            )
+        ][:30],
+
+        "artists": [
+            {
+                "type": "artist",
+                "id": row.get("id"),
+                "label": row.get("artist_name"),
+                "artist_name": row.get("artist_name"),
+                "roles": sorted(
+                    roles_by_artist.get(
+                        str(row.get("id")),
+                        set(),
+                    )
+                ),
+            }
+            for row in sorted(
+                artists,
+                key=lambda row: search_match_score(
+                    query,
+                    row.get("artist_name"),
+                ),
+                reverse=True,
+            )
+            if (
+                not query
+                or search_match_score(
+                    query,
+                    row.get("artist_name"),
+                ) >= 0.60
+            )
+        ][:30],
     }
 
 
