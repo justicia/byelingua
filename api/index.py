@@ -2510,37 +2510,151 @@ def character_options(query=""):
 
 
 def character_events(data):
-    character_id = str(data.get("character_id") or "").strip()
+    character_id = str(
+        data.get("character_id") or ""
+    ).strip()
+
     if character_id and not valid_uuid(character_id):
         raise ValueError("请选择有效的角色。")
+
     if not character_id:
         raise ValueError("请选择一个角色。")
-    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
+
+    date_from = str(
+        data.get("date_from") or ""
+    )
+
+    date_to = str(
+        data.get("date_to") or ""
+    )
+
     if not date_from or not date_to:
         raise ValueError("请选择开始和结束日期。")
+
+    # character_id may now be a global characters.id.
+    # Resolve it to one or more work_characters relation IDs.
+    relation_rows = supabase_service(
+        "GET",
+        "/rest/v1/work_characters",
+        params={
+            "character_uid": f"eq.{character_id}",
+            "select": "id",
+            "limit": "100",
+        },
+    ) or []
+
+    relation_ids = [
+        str(row.get("id"))
+        for row in relation_rows
+        if row.get("id")
+    ]
+
+    # Backward compatibility:
+    # characters that have not yet been migrated to global identity
+    # still use their existing work_characters.id directly.
+    if not relation_ids:
+        relation_ids = [character_id]
+
+    if len(relation_ids) == 1:
+        character_filter = f"eq.{relation_ids[0]}"
+    else:
+        character_filter = (
+            f"in.({','.join(relation_ids)})"
+        )
+
     params = {
-        "select": "*", "character_id": f"eq.{character_id}",
-        "and": f"(date.gte.{date_from},date.lte.{date_to})",
-        "order": "date.asc,start_time.asc", "limit": "1000",
+        "select": "*",
+        "character_id": character_filter,
+        "and": (
+            f"(date.gte.{date_from},"
+            f"date.lte.{date_to})"
+        ),
+        "order": "date.asc,start_time.asc",
+        "limit": "1000",
     }
-    rows = supabase_service("GET", "/rest/v1/event_character_catalog_v1", params=params) or []
-    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
-    organizations = {str(x).casefold() for x in data.get("organizations", []) if str(x).strip()}
-    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
-    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
+
+    rows = supabase_service(
+        "GET",
+        "/rest/v1/event_character_catalog_v1",
+        params=params,
+    ) or []
+
+    cities = {
+        str(value).casefold()
+        for value in data.get("cities", [])
+        if str(value).strip()
+    }
+
+    organizations = {
+        str(value).casefold()
+        for value in data.get("organizations", [])
+        if str(value).strip()
+    }
+
+    venues = {
+        str(value).casefold()
+        for value in data.get("venues", [])
+        if str(value).strip()
+    }
+
+    event_type = (
+        canonical_event_type(data.get("event_type"))
+        if data.get("event_type")
+        else ""
+    )
+
     result = []
+
     for row in rows:
-        if event_type and row.get("event_type") and canonical_event_type(row.get("event_type")) != event_type:
+        if (
+            event_type
+            and row.get("event_type")
+            and canonical_event_type(
+                row.get("event_type")
+            ) != event_type
+        ):
             continue
-        if cities and _schedule_city(row.get("venue") or row.get("organization")).casefold() not in cities:
+
+        if (
+            cities
+            and _schedule_city(
+                row.get("venue")
+                or row.get("organization")
+            ).casefold()
+            not in cities
+        ):
             continue
-        if organizations and str(row.get("organization", "")).casefold() not in organizations:
+
+        if (
+            organizations
+            and str(
+                row.get("organization", "")
+            ).casefold()
+            not in organizations
+        ):
             continue
-        if venues and str(row.get("venue", "")).casefold() not in venues:
+
+        if (
+            venues
+            and str(
+                row.get("venue", "")
+            ).casefold()
+            not in venues
+        ):
             continue
+
         result.append(row)
-    print(f"[character_events] character_id={character_id} events={len(result)}")
-    return {"events": result}
+
+    print(
+        "[character_events] "
+        f"character_id={character_id} "
+        f"relation_ids={relation_ids} "
+        f"events={len(result)}"
+    )
+
+    return {
+        "events": result
+    }
 
 
 def artist_options(query=""):
@@ -2694,7 +2808,7 @@ def entity_options(query="", work_id="", composer_query=""):
         "GET",
         "/rest/v1/work_characters",
         params={
-            "select": "id,work_id,canonical_name",
+            "select": "id,work_id,canonical_name,character_uid",
             "order": "canonical_name",
             "limit": "3000",
         },
@@ -2841,36 +2955,66 @@ def entity_options(query="", work_id="", composer_query=""):
             )[:30]
         ],
 
-        "characters": [
-            {
+        "characters": list({
+            str(row.get("character_uid") or row.get("id")): {
                 "type": "character",
-                "id": row.get("id"),
+                "id": str(row.get("character_uid") or row.get("id")),
                 "label": row.get("canonical_name"),
                 "canonical_name": row.get("canonical_name"),
-                "work_title": work_by_id.get(
-                    str(row.get("work_id")),
-                    {},
-                ).get("title"),
-                "composer": work_by_id.get(
-                    str(row.get("work_id")),
-                    {},
-                ).get("composer"),
-                "work_id": row.get("work_id"),
+                "work_title": " · ".join(dict.fromkeys(
+                    filter(
+                        None,
+                        [
+                            work_by_id.get(
+                                str(item.get("work_id")),
+                                {},
+                            ).get("title")
+                            for item in characters
+                            if str(
+                                item.get("character_uid")
+                                or item.get("id")
+                            )
+                            == str(
+                                row.get("character_uid")
+                                or row.get("id")
+                            )
+                        ],
+                    )
+                )),
+                "composer": " · ".join(dict.fromkeys(
+                    filter(
+                        None,
+                        [
+                            work_by_id.get(
+                                str(item.get("work_id")),
+                                {},
+                            ).get("composer")
+                            for item in characters
+                            if str(
+                                item.get("character_uid")
+                                or item.get("id")
+                            )
+                            == str(
+                                row.get("character_uid")
+                                or row.get("id")
+                            )
+                        ],
+                    )
+                )),
+                "work_ids": [
+                    str(item.get("work_id"))
+                    for item in characters
+                    if str(
+                        item.get("character_uid")
+                        or item.get("id")
+                    )
+                    == str(
+                        row.get("character_uid")
+                        or row.get("id")
+                    )
+                ],
             }
-            for row in sorted(
-                characters,
-                key=lambda row: (
-                    0
-                    if normalize_search_key(
-                        row.get("canonical_name")
-                    ) == query_key
-                    else 1
-                    if normalize_search_key(
-                        row.get("canonical_name")
-                    ).startswith(query_key)
-                    else 2
-                ),
-            )
+            for row in characters
             if (
                 (
                     (not work_id and not composer_key)
@@ -2899,7 +3043,7 @@ def entity_options(query="", work_id="", composer_query=""):
                     )
                 )
             )
-        ][:30],
+        }.values())[:30],
 
         "artists": [
             {
