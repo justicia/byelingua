@@ -672,4 +672,130 @@ renderPresentationCredits=function(event){
 })();
 </script>
 
+<script>
+// Final Search condition controller.
+// This override owns Work/Composer, Character and Artist suggestions.
+(function(){
+  const workInput=$('workCondition');
+  const characterInput=$('characterCondition');
+  const artistInput=$('artistCondition');
+
+  if(!workInput||!characterInput||!artistInput)return;
+
+  function clearChoices(type){
+    conditionChoices[type]=[];
+    renderConditionChoices(type);
+  }
+
+  async function finalLoadConditionChoices(type){
+    const input=$(`${type}Condition`);
+    const query=input.value.trim();
+
+    if(query.length<2){
+      clearChoices(type);
+      return;
+    }
+
+    try{
+      if(type==='work'){
+        const result=await api({
+          action:'entity_options',
+          query
+        });
+
+        conditionChoices.work=[
+          ...(result.composers||[]),
+          ...(result.works||[])
+        ];
+
+        renderConditionChoices('work');
+        return;
+      }
+
+      if(type==='character'){
+        const payload={
+          action:'entity_options',
+          query
+        };
+
+        if(conditionState.work?.type==='composer'){
+          payload.composer_query=
+            conditionState.work.composer_query||
+            conditionState.work.label;
+
+        }else if(conditionState.work?.id){
+          payload.work_id=conditionState.work.id;
+
+        }else{
+          const workText=workInput.value.trim();
+
+          if(workText.length>=2){
+            const lookup=await api({
+              action:'entity_options',
+              query:workText
+            });
+
+            const normalized=value=>String(value||'')
+              .normalize('NFKD')
+              .replace(/[\u0300-\u036f]/g,'')
+              .toLowerCase();
+
+            const needle=normalized(workText);
+
+            const composer=(lookup.composers||[]).find(item=>
+              normalized(item.label)===needle||
+              normalized(item.label).includes(needle)
+            );
+
+            if(composer){
+              payload.composer_query=
+                composer.composer||
+                composer.label;
+            }
+          }
+        }
+
+        const result=await api(payload);
+
+        conditionChoices.character=result.characters||[];
+        renderConditionChoices('character');
+        return;
+      }
+
+      if(type==='artist'){
+        const result=await api({
+          action:'entity_options',
+          query
+        });
+
+        conditionChoices.artist=result.artists||[];
+        renderConditionChoices('artist');
+      }
+
+    }catch(error){
+      $('entityConditionStatus').textContent=error.message;
+      $('entityConditionStatus').className='status error';
+    }
+  }
+
+  loadConditionChoices=finalLoadConditionChoices;
+
+  workInput.oninput=()=>finalLoadConditionChoices('work');
+  characterInput.oninput=()=>finalLoadConditionChoices('character');
+  artistInput.oninput=()=>finalLoadConditionChoices('artist');
+
+  workInput.onfocus=()=>finalLoadConditionChoices('work');
+  characterInput.onfocus=()=>finalLoadConditionChoices('character');
+  artistInput.onfocus=()=>finalLoadConditionChoices('artist');
+
+  [workInput,characterInput,artistInput].forEach(input=>{
+    input.onkeydown=event=>{
+      if(event.key==='Enter'){
+        event.preventDefault();
+        $('entitySearchButton').click();
+      }
+    };
+  });
+})();
+</script>
 </body></html>
