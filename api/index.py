@@ -2861,22 +2861,31 @@ class handler(BaseHTTPRequestHandler):
             if action == "artist_events":
                 self.send_json(200, artist_events(data)); return
             if action == "artist_context":
-                self.send_json(200, artist_context(data)); return
+                self.send_json(200, artist_context(data))
+                return
+
             if action == "entity_options":
-             self.send_json(
-                  200,
-                 entity_options(
-                     data.get("query", ""),
-                     data.get("work_id", ""),
-                     data.get("composer_query", ""),
-        ),
-    )
-    return 
+                self.send_json(
+                    200,
+                    entity_options(
+                        data.get("query", ""),
+                        data.get("work_id", ""),
+                        data.get("composer_query", ""),
+                    ),
+                )
+                return
+
             if action == "entity_events":
                 entity_type = str(data.get("entity_type") or "")
-                if entity_type == "work": self.send_json(200, work_events(data)); return
-                if entity_type == "character": self.send_json(200, character_events(data)); return
-                if entity_type == "artist": self.send_json(200, artist_events(data)); return
+                if entity_type == "work":
+                    self.send_json(200, work_events(data))
+                    return
+                if entity_type == "character":
+                    self.send_json(200, character_events(data))
+                    return
+                if entity_type == "artist":
+                    self.send_json(200, artist_events(data))
+                    return
                 raise ValueError("不支持的搜索类型。")
             if action == "combined_entity_events":
                 self.send_json(200, combined_entity_events(data)); return
