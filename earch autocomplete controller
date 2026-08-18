@@ -1,0 +1,343 @@
+[1mdiff --git a/schedule.html b/schedule.html[m
+[1mindex 2585e2c..7689726 100644[m
+[1m--- a/schedule.html[m
+[1m+++ b/schedule.html[m
+[36m@@ -673,129 +673,251 @@[m [mrenderPresentationCredits=function(event){[m
+ </script>[m
+ [m
+ <script>[m
+[31m-// Final Search condition controller.[m
+[31m-// This override owns Work/Composer, Character and Artist suggestions.[m
+[32m+[m[32m<script>[m
+[32m+[m[32m// Final Search controller.[m
+[32m+[m[32m// Owns Work/Composer, Character and Artist autocomplete + chips.[m
+ (function(){[m
+[31m-  const workInput=$('workCondition');[m
+[31m-  const characterInput=$('characterCondition');[m
+[31m-  const artistInput=$('artistCondition');[m
+[32m+[m[32m  const workInput = $('workCondition');[m
+[32m+[m[32m  const characterInput = $('characterCondition');[m
+[32m+[m[32m  const artistInput = $('artistCondition');[m
+[32m+[m
+[32m+[m[32m  if(!workInput || !characterInput || !artistInput) return;[m
+[32m+[m
+[32m+[m[32m  const inputs = {[m
+[32m+[m[32m    work: workInput,[m
+[32m+[m[32m    character: characterInput,[m
+[32m+[m[32m    artist: artistInput[m
+[32m+[m[32m  };[m
+ [m
+[31m-  if(!workInput||!characterInput||!artistInput)return;[m
+[32m+[m[32m  const boxes = {[m
+[32m+[m[32m    work: $('workConditionChoices'),[m
+[32m+[m[32m    character: $('characterConditionChoices'),[m
+[32m+[m[32m    artist: $('artistConditionChoices')[m
+[32m+[m[32m  };[m
+[32m+[m
+[32m+[m[32m  function clearSuggestions(type){[m
+[32m+[m[32m    conditionChoices[type] = [];[m
+[32m+[m[32m    boxes[type].innerHTML = '';[m
+[32m+[m[32m  }[m
+ [m
+[31m-  function clearChoices(type){[m
+[31m-    conditionChoices[type]=[];[m
+[31m-    renderConditionChoices(type);[m
+[32m+[m[32m  function removeChip(type){[m
+[32m+[m[32m    inputs[type].parentElement[m
+[32m+[m[32m      .querySelector('.selected-chip')[m
+[32m+[m[32m      ?.remove();[m
+   }[m
+ [m
+[31m-  async function finalLoadConditionChoices(type){[m
+[31m-    const input=$(`${type}Condition`);[m
+[31m-    const query=input.value.trim();[m
+[32m+[m[32m  function clearSelection(type){[m
+[32m+[m[32m    conditionState[type] = null;[m
+[32m+[m[32m    inputs[type].value = '';[m
+[32m+[m[32m    inputs[type].hidden = false;[m
+[32m+[m[32m    removeChip(type);[m
+[32m+[m[32m    clearSuggestions(type);[m
+ [m
+[31m-    if(query.length<2){[m
+[31m-      clearChoices(type);[m
+[32m+[m[32m    if(type === 'work'){[m
+[32m+[m[32m      clearSelection('character');[m
+[32m+[m[32m    }[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  function renderChip(type){[m
+[32m+[m[32m    removeChip(type);[m
+[32m+[m
+[32m+[m[32m    const state = conditionState[type];[m
+[32m+[m
+[32m+[m[32m    if(!state){[m
+[32m+[m[32m      inputs[type].hidden = false;[m
+       return;[m
+     }[m
+ [m
+[31m-    try{[m
+[31m-      if(type==='work'){[m
+[31m-        const result=await api({[m
+[31m-          action:'entity_options',[m
+[31m-          query[m
+[31m-        });[m
+[32m+[m[32m    inputs[type].hidden = true;[m
+ [m
+[31m-        conditionChoices.work=[[m
+[31m-          ...(result.composers||[]),[m
+[31m-          ...(result.works||[])[m
+[31m-        ];[m
+[32m+[m[32m    const chip = document.createElement('span');[m
+[32m+[m[32m    chip.className = 'selected-chip';[m
+ [m
+[31m-        renderConditionChoices('work');[m
+[31m-        return;[m
+[31m-      }[m
+[32m+[m[32m    chip.innerHTML = `[m
+[32m+[m[32m      ${escapeHtml(state.label)}[m
+[32m+[m[32m      ${state.type === 'composer' ? ' · Composer' : ''}[m
+[32m+[m[32m      <button[m
+[32m+[m[32m        type="button"[m
+[32m+[m[32m        aria-label="Remove selected filter"[m
+[32m+[m[32m      >×</button>[m
+[32m+[m[32m    `;[m
+ [m
+[31m-      if(type==='character'){[m
+[31m-        const payload={[m
+[31m-          action:'entity_options',[m
+[31m-          query[m
+[32m+[m[32m    chip.querySelector('button').onclick = event => {[m
+[32m+[m[32m      event.preventDefault();[m
+[32m+[m[32m      event.stopPropagation();[m
+[32m+[m[32m      clearSelection(type);[m
+[32m+[m[32m    };[m
+[32m+[m
+[32m+[m[32m    inputs[type].parentElement.insertBefore([m
+[32m+[m[32m      chip,[m
+[32m+[m[32m      inputs[type][m
+[32m+[m[32m    );[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  function suggestionDetail(type, item){[m
+[32m+[m[32m    if(type === 'work'){[m
+[32m+[m[32m      return item.type === 'composer'[m
+[32m+[m[32m        ? 'Composer'[m
+[32m+[m[32m        : (item.composer || '');[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    if(type === 'character'){[m
+[32m+[m[32m      return [[m
+[32m+[m[32m        item.work_title,[m
+[32m+[m[32m        item.composer[m
+[32m+[m[32m      ].filter(Boolean).join(' · ');[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    if(type === 'artist'){[m
+[32m+[m[32m      return (item.roles || [])[m
+[32m+[m[32m        .map(formattedRole)[m
+[32m+[m[32m        .join(' · ');[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    return '';[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  function renderSuggestions(type){[m
+[32m+[m[32m    const rows = (conditionChoices[type] || []).slice(0, 5);[m
+[32m+[m
+[32m+[m[32m    boxes[type].innerHTML = rows.map((item, index) => `[m
+[32m+[m[32m      <button[m
+[32m+[m[32m        type="button"[m
+[32m+[m[32m        class="secondary"[m
+[32m+[m[32m        data-final-condition-index="${index}"[m
+[32m+[m[32m      >[m
+[32m+[m[32m        <strong>${escapeHtml(item.label || '')}</strong>[m
+[32m+[m[32m        <span class="hint">[m
+[32m+[m[32m          ${escapeHtml(suggestionDetail(type, item))}[m
+[32m+[m[32m        </span>[m
+[32m+[m[32m      </button>[m
+[32m+[m[32m    `).join('');[m
+[32m+[m
+[32m+[m[32m    boxes[type][m
+[32m+[m[32m      .querySelectorAll('[data-final-condition-index]')[m
+[32m+[m[32m      .forEach(button => {[m
+[32m+[m[32m        button.onclick = event => {[m
+[32m+[m[32m          event.preventDefault();[m
+[32m+[m[32m          event.stopPropagation();[m
+[32m+[m
+[32m+[m[32m          const item = rows[[m
+[32m+[m[32m            Number(button.dataset.finalConditionIndex)[m
+[32m+[m[32m          ];[m
+[32m+[m
+[32m+[m[32m          if(!item) return;[m
+[32m+[m
+[32m+[m[32m          conditionState[type] = {[m
+[32m+[m[32m            type: item.type || type,[m
+[32m+[m[32m            id: isUuid(item.id) ? item.id : null,[m
+[32m+[m[32m            label: item.label,[m
+[32m+[m[32m            composer_query:[m
+[32m+[m[32m              item.type === 'composer'[m
+[32m+[m[32m                ? (item.composer || item.label)[m
+[32m+[m[32m                : null[m
+[32m+[m[32m          };[m
+[32m+[m
+[32m+[m[32m          inputs[type].value = item.label || '';[m
+[32m+[m[32m          clearSuggestions(type);[m
+[32m+[m[32m          renderChip(type);[m
+[32m+[m
+[32m+[m[32m          if(type === 'work'){[m
+[32m+[m[32m            clearSelection('character');[m
+[32m+[m[32m          }[m
+         };[m
+[32m+[m[32m      });[m
+[32m+[m[32m  }[m
+[32m+[m
+[32m+[m[32m  async function loadFinalSuggestions(type){[m
+[32m+[m[32m    const query = inputs[type].value.trim();[m
+[32m+[m
+[32m+[m[32m    if(query.length < 2){[m
+[32m+[m[32m      clearSuggestions(type);[m
+[32m+[m[32m      return;[m
+[32m+[m[32m    }[m
+ [m
+[31m-        if(conditionState.work?.type==='composer'){[m
+[31m-          payload.composer_query=[m
+[31m-            conditionState.work.composer_query||[m
+[32m+[m[32m    try{[m
+[32m+[m[32m      const payload = {[m
+[32m+[m[32m        action: 'entity_options',[m
+[32m+[m[32m        query[m
+[32m+[m[32m      };[m
+[32m+[m
+[32m+[m[32m      if(type === 'character'){[m
+[32m+[m[32m        if(conditionState.work?.type === 'composer'){[m
+[32m+[m[32m          payload.composer_query =[m
+[32m+[m[32m            conditionState.work.composer_query ||[m
+             conditionState.work.label;[m
+ [m
+         }else if(conditionState.work?.id){[m
+[31m-          payload.work_id=conditionState.work.id;[m
+[31m-[m
+[31m-        }else{[m
+[31m-          const workText=workInput.value.trim();[m
+[31m-[m
+[31m-          if(workText.length>=2){[m
+[31m-            const lookup=await api({[m
+[31m-              action:'entity_options',[m
+[31m-              query:workText[m
+[31m-            });[m
+[31m-[m
+[31m-            const normalized=value=>String(value||'')[m
+[31m-              .normalize('NFKD')[m
+[31m-              .replace(/[\u0300-\u036f]/g,'')[m
+[31m-              .toLowerCase();[m
+[31m-[m
+[31m-            const needle=normalized(workText);[m
+[31m-[m
+[31m-            const composer=(lookup.composers||[]).find(item=>[m
+[31m-              normalized(item.label)===needle||[m
+[31m-              normalized(item.label).includes(needle)[m
+[31m-            );[m
+[31m-[m
+[31m-            if(composer){[m
+[31m-              payload.composer_query=[m
+[31m-                composer.composer||[m
+[31m-                composer.label;[m
+[31m-            }[m
+[31m-          }[m
+[32m+[m[32m          payload.work_id = conditionState.work.id;[m
+         }[m
+[32m+[m[32m      }[m
+ [m
+[31m-        const result=await api(payload);[m
+[32m+[m[32m      const result = await api(payload);[m
+ [m
+[31m-        conditionChoices.character=result.characters||[];[m
+[31m-        renderConditionChoices('character');[m
+[31m-        return;[m
+[31m-      }[m
+[32m+[m[32m      if(type === 'work'){[m
+[32m+[m[32m        conditionChoices.work = [[m
+[32m+[m[32m          ...(result.composers || []),[m
+[32m+[m[32m          ...(result.works || [])[m
+[32m+[m[32m        ];[m
+ [m
+[31m-      if(type==='artist'){[m
+[31m-        const result=await api({[m
+[31m-          action:'entity_options',[m
+[31m-          query[m
+[31m-        });[m
+[32m+[m[32m      }else if(type === 'character'){[m
+[32m+[m[32m        conditionChoices.character =[m
+[32m+[m[32m          result.characters || [];[m
+ [m
+[31m-        conditionChoices.artist=result.artists||[];[m
+[31m-        renderConditionChoices('artist');[m
+[32m+[m[32m      }else if(type === 'artist'){[m
+[32m+[m[32m        conditionChoices.artist =[m
+[32m+[m[32m          result.artists || [];[m
+       }[m
+ [m
+[32m+[m[32m      renderSuggestions(type);[m
+[32m+[m
+[32m+[m[32m      $('entityConditionStatus').textContent = '';[m
+[32m+[m[32m      $('entityConditionStatus').className = 'status';[m
+[32m+[m
+     }catch(error){[m
+[31m-      $('entityConditionStatus').textContent=error.message;[m
+[31m-      $('entityConditionStatus').className='status error';[m
+[32m+[m[32m      clearSuggestions(type);[m
+[32m+[m[32m      $('entityConditionStatus').textContent =[m
+[32m+[m[32m        error.message;[m
+[32m+[m[32m      $('entityConditionStatus').className =[m
+[32m+[m[32m        'status error';[m
+     }[m
+   }[m
+ [m
+[31m-  loadConditionChoices=finalLoadConditionChoices;[m
+[32m+[m[32m  ['work','character','artist'].forEach(type => {[m
+[32m+[m[32m    const input = inputs[type];[m
+[32m+[m
+[32m+[m[32m    input.oninput = () => {[m
+[32m+[m[32m      if(conditionState[type]){[m
+[32m+[m[32m        conditionState[type] = null;[m
+[32m+[m[32m        removeChip(type);[m
+[32m+[m[32m      }[m
+[32m+[m
+[32m+[m[32m      loadFinalSuggestions(type);[m
+[32m+[m[32m    };[m
+ [m
+[31m-  workInput.oninput=()=>finalLoadConditionChoices('work');[m
+[31m-  characterInput.oninput=()=>finalLoadConditionChoices('character');[m
+[31m-  artistInput.oninput=()=>finalLoadConditionChoices('artist');[m
+[32m+[m[32m    input.onfocus = () => {[m
+[32m+[m[32m      loadFinalSuggestions(type);[m
+[32m+[m[32m    };[m
+ [m
+[31m-  workInput.onfocus=()=>finalLoadConditionChoices('work');[m
+[31m-  characterInput.onfocus=()=>finalLoadConditionChoices('character');[m
+[31m-  artistInput.onfocus=()=>finalLoadConditionChoices('artist');[m
+[32m+[m[32m    input.onkeydown = event => {[m
+[32m+[m[32m      if(event.key === 'Escape'){[m
+[32m+[m[32m        clearSuggestions(type);[m
+[32m+[m[32m      }[m
+ [m
+[31m-  [workInput,characterInput,artistInput].forEach(input=>{[m
+[31m-    input.onkeydown=event=>{[m
+[31m-      if(event.key==='Enter'){[m
+[32m+[m[32m      if(event.key === 'Enter'){[m
+         event.preventDefault();[m
+         $('entitySearchButton').click();[m
+       }[m
+     };[m
+   });[m
+[32m+[m
+[32m+[m[32m  document.addEventListener('click', event => {[m
+[32m+[m[32m    if(!event.target.closest('.entity-condition-grid')){[m
+[32m+[m[32m      ['work','character','artist'][m
+[32m+[m[32m        .forEach(clearSuggestions);[m
+[32m+[m[32m    }[m
+[32m+[m[32m  });[m
+ })();[m
+ </script>[m
+[32m+[m[32m</script>[m
+ </body></html>[m
