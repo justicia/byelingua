@@ -360,6 +360,10 @@ renderPresentationCredits=function(event){
 
   const style = document.createElement('style');
   style.textContent = `
+      #venues .choice[hidden]{
+      display:none !important;
+    }
+      
     .venue-collapse-control{
       display:inline-block;
       margin-top:7px;

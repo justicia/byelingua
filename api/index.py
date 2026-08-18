@@ -2016,6 +2016,19 @@ def canonical_work_title(value):
     title = str(value or "").strip()
     return ORIGINAL_WORK_TITLES.get(_programme_identity(title), title)
 
+    PRIMARY_VENUES = {
+    "paris": {
+        "opera bastille",
+        "palais garnier",
+    },
+}
+
+
+def is_primary_venue(city, venue_name):
+    city_key = normalize_search_key(city)
+    venue_key = normalize_search_key(venue_name)
+    return venue_key in PRIMARY_VENUES.get(city_key, set())
+
 
 def schedule_options():
     organizations = supabase_service(
@@ -2044,10 +2057,14 @@ def schedule_options():
             continue
         cities.add(city)
         venue_rows.append({
-            "id": venue.get("id"), "name": venue.get("name"), "city": city,
-            "organization_id": venue.get("organization_id"),
-            "organization": org.get("name", ""),
-        })
+             "id": venue.get("id"),
+             "name": venue.get("name"),
+             "city": city,
+             "organization_id": venue.get("organization_id"),
+             "organization": org.get("name", ""),
+             "primary": is_primary_venue(city, venue.get("name")),
+})
+        
     return {
         "cities": sorted(cities), "organizations": organizations, "venues": venue_rows,
         "event_types": [{"value": value, "label": EVENT_TYPE_LABELS[value]} for value in CANONICAL_EVENT_TYPES],
