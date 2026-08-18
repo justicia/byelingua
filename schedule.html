@@ -248,7 +248,16 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
     cityBox.innerHTML=cities.map((city,i)=>`<label class="choice ${selectedCities.has(city)?'selected':''}" for="progress-city-${i}"><input id="progress-city-${i}" type="checkbox" data-progress-city="${escapeHtml(city)}" ${selectedCities.has(city)?'checked':''}>${escapeHtml(city)}</label>`).join('');
     const visibleOrganizations=[...new Set((options.venues||[]).filter(v=>(selectedCities.size?selectedCities.has(v.city):false)).map(v=>v.organization))].sort();
     orgBox.innerHTML=visibleOrganizations.map((organization,i)=>`<label class="choice ${selectedOrganizations.has(organization)?'selected':''}" for="progress-organization-${i}"><input id="progress-organization-${i}" type="checkbox" data-progress-organization="${escapeHtml(organization)}" ${selectedOrganizations.has(organization)?'checked':''}>${escapeHtml(organization)}</label>`).join('');
-    const visibleVenues=(options.venues||[]).filter(v=>(selectedCities.size?selectedCities.has(v.city):false)&&(!selectedOrganizations.size||selectedOrganizations.has(v.organization)));
+const visibleVenues=[
+  ...new Map(
+    (options.venues||[])
+      .filter(v=>
+        (selectedCities.size?selectedCities.has(v.city):false) &&
+        (!selectedOrganizations.size||selectedOrganizations.has(v.organization))
+      )
+      .map(v=>[v.name,v])
+  ).values()
+];
     venueBox.innerHTML=visibleVenues.map((venue,i)=>`<label class="choice ${selectedVenues.has(venue.name)?'selected':''}" for="progress-venue-${i}"><input id="progress-venue-${i}" type="checkbox" data-progress-venue="${escapeHtml(venue.name)}" ${selectedVenues.has(venue.name)?'checked':''}>${escapeHtml(venue.name)}</label>`).join('');
     cityBox.parentElement.hidden=!activeCountry&&!selectedCities.size;venueBox.parentElement.hidden=!selectedCities.size;
     cityBox.querySelectorAll('[data-progress-city]').forEach(input=>input.onchange=()=>{if(input.checked){selectedCities.clear();selectedCities.add(input.dataset.progressCity);activeCountry=countryForCity(input.dataset.progressCity)||activeCountry;locationInput.value=input.dataset.progressCity}else selectedCities.delete(input.dataset.progressCity);for(const venue of [...selectedVenues])if(!(options.venues||[]).some(v=>v.name===venue&&selectedCities.has(v.city)))selectedVenues.delete(venue);renderProgressiveChoices()});
@@ -363,25 +372,28 @@ renderPresentationCredits=function(event){
       #venues .choice[hidden]{
       display:none !important;
     }
-      
-    .venue-collapse-control{
-      display:inline-block;
-      margin-top:7px;
-      padding:1px 2px;
-      border:0;
-      background:transparent;
-      color:var(--forest);
-      font-size:12px;
-      font-weight:700;
-      line-height:1.4;
-    }
 
-    .venue-collapse-control:hover,
-    .venue-collapse-control:focus-visible{
-      background:transparent;
-      text-decoration:underline;
-      text-underline-offset:3px;
-    }
+    .venue-collapse-control{
+     display:inline-flex;
+     align-items:center;
+     justify-content:center;
+     margin-top:7px;
+     padding:5px 9px;
+     border:1px solid #c8cdc5;
+     border-radius:4px;
+     background:#fff;
+     color:var(--forest);
+     font-size:12px;
+     font-weight:700;
+     line-height:1.4;
+}
+
+   .venue-collapse-control:hover,
+   .venue-collapse-control:focus-visible{
+     background:var(--soft);
+     border-color:var(--forest);
+     text-decoration:none;
+}
 
     .venue-collapse-control[hidden]{
       display:none;
