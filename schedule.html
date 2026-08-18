@@ -308,7 +308,65 @@ const scheduleGenerateButton=document.getElementById('generate');if(scheduleGene
 const conditionChoiceRenderer=renderConditionChoices;renderConditionChoices=function(type){const original=conditionChoices[type]||[];conditionChoices[type]=original.slice(0,5);conditionChoiceRenderer(type);conditionChoices[type]=original};
 const chipStyle=document.createElement('style');chipStyle.textContent='.selected-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--forest);border-radius:999px;background:var(--soft);color:var(--forest);font-size:12px}.selected-chip button{border:0;background:transparent;color:var(--forest);padding:0;font-size:16px;line-height:1}';document.head.append(chipStyle);
 const conditionInputRenderer=renderConditionChoices;function syncConditionChip(type){const input=$(`${type}Condition`),state=conditionState[type],box=input.parentElement,old=box.querySelector('.selected-chip');if(old)old.remove();input.hidden=!!state;if(!state)return;const chip=document.createElement('span');chip.className='selected-chip';chip.innerHTML=`${escapeHtml(state.label)}${state.type==='composer'?' · Composer':''} <button type="button" aria-label="Remove selected filter">×</button>`;chip.querySelector('button').onclick=()=>{conditionState[type]=null;input.value='';input.hidden=false;conditionChoices[type]=[];renderConditionChoices(type);if(type==='work'){conditionState.character=null;$('characterCondition').value='';conditionChoices.character=[];syncConditionChip('character');renderConditionChoices('character')}};box.insertBefore(chip,input)};
-loadConditionChoices=async function(type){const input=$(`${type}Condition`),query=input.value.trim();if(query.length<2){conditionChoices[type]=[];renderConditionChoices(type);return}if(type==='character'){try{const payload={action:'entity_options',query};if(conditionState.work?.type==='composer'){payload.composer_query=conditionState.work.composer_query||conditionState.work.label}else if(conditionState.work?.id){payload.work_id=conditionState.work.id}const result=await api(payload);conditionChoices.character=result.characters||[];renderConditionChoices('character');return}catch(error){$('entityConditionStatus').textContent=error.message;$('entityConditionStatus').className='status error';return}}await oldLoadChoices(type);renderConditionChoices(type)};
+loadConditionChoices=async function(type){const input=$(`${type}Condition`),query=input.value.trim();if(query.length<2){conditionChoices[type]=[];renderConditionChoices(type);return}if(type==='character'){
+  try{
+    const payload={
+      action:'entity_options',
+      query
+    };
+
+    if(conditionState.work?.type==='composer'){
+      payload.composer_query=
+        conditionState.work.composer_query ||
+        conditionState.work.label;
+
+    }else if(conditionState.work?.id){
+      payload.work_id=conditionState.work.id;
+
+    }else{
+      const workText=$('workCondition').value.trim();
+
+      if(workText.length>=2){
+        const workLookup=await api({
+          action:'entity_options',
+          query:workText
+        });
+
+        const composers=workLookup.composers||[];
+
+        const normalized=value=>String(value||'')
+          .normalize('NFKD')
+          .replace(/[\u0300-\u036f]/g,'')
+          .toLowerCase();
+
+        const needle=normalized(workText);
+
+        const composer=
+          composers.find(item=>
+            normalized(item.label)===needle
+          ) ||
+          composers.find(item=>
+            normalized(item.label).includes(needle)
+          );
+
+        if(composer){
+          payload.composer_query=composer.composer||composer.label;
+        }
+      }
+    }
+
+    const result=await api(payload);
+
+    conditionChoices.character=result.characters||[];
+    renderConditionChoices('character');
+    return;
+
+  }catch(error){
+    $('entityConditionStatus').textContent=error.message;
+    $('entityConditionStatus').className='status error';
+    return;
+  }
+}await oldLoadChoices(type);renderConditionChoices(type)};
 document.addEventListener('click',event=>{const button=event.target.closest('[data-condition-id]');if(!button)return;const type=button.dataset.conditionType,item=(conditionChoices[type]||[]).find(row=>String(row.id)===button.dataset.conditionId);if(!item||(!isUuid(item.id)&&item.type!=='composer'))return;conditionState[type]={type:item.type||type,id:isUuid(item.id)?item.id:null,label:item.label,composer_query:item.composer};syncConditionChip(type);conditionChoices[type]=[];renderConditionChoices(type);if(type==='work'){conditionState.character=null;syncConditionChip('character')}});
 runEntitySearch=async function(){document.querySelectorAll('[id$="ConditionChoices"]').forEach(box=>box.innerHTML='');$('filterStatus').textContent='正在查询…';const payload={action:'combined_entity_events',date_from:$('dateFrom').value,date_to:$('dateTo').value,cities:selected('city'),organizations:selected('organization'),venues:selected('venue'),event_type:$('eventType').value};if(conditionState.work?.id)payload.work_id=conditionState.work.id;else if(conditionState.work?.type==='composer')payload.composer_query=conditionState.work.composer_query;else if($('workCondition').value.trim())payload.work_query=$('workCondition').value.trim();if(conditionState.character?.id)payload.character_id=conditionState.character.id;if(conditionState.artist?.id)payload.artist_id=conditionState.artist.id;try{const d=await api(payload);events=d.events||[];$('resultHint').textContent=`找到 ${events.length} 场演出`;renderEvents();$('filterStatus').textContent=''}catch(error){$('filterStatus').textContent=error.message;$('filterStatus').className='status error'}};$('entitySearchButton').onclick=runEntitySearch;$('search').onclick=runEntitySearch;
 document.addEventListener('click',event=>{const button=event.target.closest('[data-condition-id]');if(!button)return;const type=button.dataset.conditionType,item=(conditionChoices[type]||[]).find(row=>String(row.id)===button.dataset.conditionId);if(!item||(!isUuid(item.id)&&item.type!=='composer'))return;event.stopImmediatePropagation();conditionState[type]={type:item.type||type,id:isUuid(item.id)?item.id:null,label:item.label,composer_query:item.composer};syncConditionChip(type);conditionChoices[type]=[];renderConditionChoices(type);if(type==='work'){conditionState.character=null;syncConditionChip('character')}},{capture:true});
