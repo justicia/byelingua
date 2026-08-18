@@ -2660,7 +2660,7 @@ def artist_context(data):
     return {"artist": {"id": artist_rows[0].get("id"), "name": name, "roles": roles}, "performances": performances, "news": news}
 
 
-def entity_options(query="", work_id=""):
+def entity_options(query="", work_id="", composer_query=""):
     works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
     try:
         work_aliases = supabase_service("GET", "/rest/v1/work_aliases", params={"select": "work_id,alias", "limit": "10000"}) or []
@@ -2673,6 +2673,13 @@ def entity_options(query="", work_id=""):
     aliases = supabase_service("GET", "/rest/v1/character_aliases", params={"select": "character_id,alias", "limit": "10000"}) or []
     artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"}) or []
     work_by_id = {str(row.get("id")): row for row in works}
+    composer_key = normalize_search_key(composer_query)
+    composer_work_ids = {
+        str(row.get("id"))
+        for row in works
+        if composer_key
+        and normalize_search_key(row.get("composer")) == composer_key
+    }
     aliases_by_character = {}
     for row in aliases:
         aliases_by_character.setdefault(str(row.get("character_id")), []).append(row.get("alias"))
@@ -2707,8 +2714,11 @@ def entity_options(query="", work_id=""):
         )
     )
     if (
-        not work_id or str(row.get("work_id")) == str(work_id)
-    )
+    (not work_id and not composer_key)
+    or (work_id and str(row.get("work_id")) == str(work_id))
+    or (composer_key and str(row.get("work_id")) in composer_work_ids)
+)
+    
     and (
         not query
         or normalize_search_key(query) in normalize_search_key(row.get("canonical_name"))
@@ -2853,7 +2863,15 @@ class handler(BaseHTTPRequestHandler):
             if action == "artist_context":
                 self.send_json(200, artist_context(data)); return
             if action == "entity_options":
-                self.send_json(200, entity_options(data.get("query", ""), data.get("work_id", ""))); return
+             self.send_json(
+                  200,
+                 entity_options(
+                     data.get("query", ""),
+                     data.get("work_id", ""),
+                     data.get("composer_query", ""),
+        ),
+    )
+    return 
             if action == "entity_events":
                 entity_type = str(data.get("entity_type") or "")
                 if entity_type == "work": self.send_json(200, work_events(data)); return
