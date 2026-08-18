@@ -324,4 +324,221 @@ renderPresentationCredits=function(event){
  const team=[...grouped].map(([label,rows])=>`<div class="team-group"><h5>${escapeHtml(label)}</h5><ul>${rows.map(x=>`<li>${artistLink(x)}</li>`).join('')}</ul></div>`).join('');
  return `<h4>Cast</h4><ul class="cast-list">${cast||'<li class="hint">暂无 cast</li>'}</ul><h4>Artistic Team</h4>${team||'<div class="hint">暂无 artistic team</div>'}`;
 };
-</script></body></html>
+</script>
+
+<script>
+// Venue filter presentation:
+// selected venues > preferred venues > other venues
+// collapsed state shows two visual rows; selected venues are never hidden.
+(function(){
+  const venueBox = document.getElementById('venues');
+  if(!venueBox) return;
+
+  const preferredVenues = {
+    paris: [
+      'opera bastille',
+      'palais garnier'
+    ]
+  };
+
+  let venueExpanded = false;
+  let venueUpdateScheduled = false;
+
+  function normalizeVenueName(value){
+    return String(value || '')
+      .normalize('NFKD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim()
+      .toLowerCase();
+  }
+
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'venue-collapse-control';
+  toggle.hidden = true;
+  venueBox.insertAdjacentElement('afterend', toggle);
+
+  const style = document.createElement('style');
+  style.textContent = `
+    .venue-collapse-control{
+      display:inline-block;
+      margin-top:7px;
+      padding:1px 2px;
+      border:0;
+      background:transparent;
+      color:var(--forest);
+      font-size:12px;
+      font-weight:700;
+      line-height:1.4;
+    }
+
+    .venue-collapse-control:hover,
+    .venue-collapse-control:focus-visible{
+      background:transparent;
+      text-decoration:underline;
+      text-underline-offset:3px;
+    }
+
+    .venue-collapse-control[hidden]{
+      display:none;
+    }
+  `;
+  document.head.appendChild(style);
+
+  function venueData(name){
+    return (options.venues || []).find(
+      venue => venue.name === name
+    ) || {};
+  }
+
+  function priorityFor(label, originalIndex){
+    const input = label.querySelector('[data-progress-venue]');
+    const name = input?.dataset.progressVenue || '';
+
+    if(selectedVenues.has(name)){
+      return [0, 0, originalIndex];
+    }
+
+    const venue = venueData(name);
+    const city = normalizeVenueName(venue.city);
+    const preferred = preferredVenues[city] || [];
+    const preferredIndex = preferred.indexOf(
+      normalizeVenueName(name)
+    );
+
+    if(preferredIndex !== -1){
+      return [1, preferredIndex, originalIndex];
+    }
+
+    return [2, 0, originalIndex];
+  }
+
+  function comparePriority(a, b){
+    for(let i = 0; i < a.rank.length; i++){
+      if(a.rank[i] !== b.rank[i]){
+        return a.rank[i] - b.rank[i];
+      }
+    }
+    return 0;
+  }
+
+  function applyVenueLayout(){
+    const labels = [...venueBox.querySelectorAll('.choice')];
+
+    if(!labels.length){
+      toggle.hidden = true;
+      return;
+    }
+
+    const ranked = labels
+      .map((label, index) => ({
+        label,
+        rank: priorityFor(label, index)
+      }))
+      .sort(comparePriority);
+
+    const currentOrder = [...venueBox.querySelectorAll('.choice')];
+
+    const orderChanged = ranked.some(
+      (item, index) => item.label !== currentOrder[index]
+    );
+
+    if(orderChanged){
+      ranked.forEach(item => venueBox.appendChild(item.label));
+    }
+
+    const ordered = ranked.map(item => item.label);
+
+    ordered.forEach(label => {
+      label.hidden = false;
+    });
+
+    if(venueExpanded){
+      toggle.hidden = false;
+      toggle.textContent = '−';
+      toggle.setAttribute('aria-label', '收起场馆');
+      return;
+    }
+
+    const positions = ordered.map(label => {
+      const input = label.querySelector('[data-progress-venue]');
+      const name = input?.dataset.progressVenue || '';
+
+      return {
+        label,
+        name,
+        top: label.offsetTop,
+        selected: selectedVenues.has(name)
+      };
+    });
+
+    const rowTops = [];
+
+    positions.forEach(item => {
+      if(!rowTops.some(top => Math.abs(top - item.top) <= 2)){
+        rowTops.push(item.top);
+      }
+    });
+
+    rowTops.sort((a, b) => a - b);
+
+    if(rowTops.length <= 2){
+      toggle.hidden = true;
+      return;
+    }
+
+    const secondRowTop = rowTops[1];
+    let hiddenCount = 0;
+
+    positions.forEach(item => {
+      const outsideTwoRows = item.top > secondRowTop + 2;
+
+      if(outsideTwoRows && !item.selected){
+        item.label.hidden = true;
+        hiddenCount++;
+      }
+    });
+
+    if(hiddenCount){
+      toggle.hidden = false;
+      toggle.textContent = `+${hiddenCount}`;
+      toggle.setAttribute(
+        'aria-label',
+        `展开另外 ${hiddenCount} 个场馆`
+      );
+    }else{
+      toggle.hidden = true;
+    }
+  }
+
+  function scheduleVenueLayout(){
+    if(venueUpdateScheduled) return;
+
+    venueUpdateScheduled = true;
+
+    requestAnimationFrame(() => {
+      venueUpdateScheduled = false;
+      applyVenueLayout();
+    });
+  }
+
+  toggle.onclick = () => {
+    venueExpanded = !venueExpanded;
+    applyVenueLayout();
+  };
+
+  const observer = new MutationObserver(() => {
+    scheduleVenueLayout();
+  });
+
+  observer.observe(venueBox, {
+    childList: true
+  });
+
+  window.addEventListener('resize', scheduleVenueLayout);
+
+  scheduleVenueLayout();
+})();
+</script>
+
+</body></html>
