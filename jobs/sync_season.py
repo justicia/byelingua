@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from normalization.characters import normalize_event_character_credits
 from season_ingestion.adapters import TeatroRealAdapter, WienerStaatsoperAdapter
 from season_ingestion.reconciliation import VENUE_SOURCES, reconcile
 from season_ingestion.season import resolve_season_bounds
@@ -84,20 +85,44 @@ def main() -> None:
         else "default"
     )
     rows, adapter = load_rows(args, venue_config)
+
     if not rows:
-        raise SystemExit("refusing to continue: the season returned no valid events")
-    start_date, end_date = date.fromisoformat(season_start), date.fromisoformat(season_end)
+        raise SystemExit(
+            "refusing to continue: "
+            "the season returned no valid events"
+        )
+
+    if args.mode == "dry-run":
+        rows = [
+            normalize_event_character_credits(row)
+            for row in rows
+        ]
+
+    start_date = date.fromisoformat(season_start)
+    end_date = date.fromisoformat(season_end)
+
     for index, row in enumerate(rows, start=1):
         row_date = row.get("date")
+
         try:
-            parsed_date = date.fromisoformat(row_date) if isinstance(row_date, str) else None
+            parsed_date = (
+                date.fromisoformat(row_date)
+                if isinstance(row_date, str)
+                else None
+            )
         except ValueError:
             parsed_date = None
-        if parsed_date is None or not start_date <= parsed_date <= end_date:
+
+        if (
+            parsed_date is None
+            or not start_date <= parsed_date <= end_date
+        ):
             raise SystemExit(
-                f"staging record {index} date {row_date!r} is outside season range "
+                f"staging record {index} date "
+                f"{row_date!r} is outside season range "
                 f"{season_start} to {season_end}"
             )
+
 
     bounds_report = {
         "season_start": season_start,
