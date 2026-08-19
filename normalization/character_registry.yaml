@@ -1,0 +1,224 @@
+characters:
+
+  "richard-wagner:ring:wotan":
+    canonical_name: "Wotan"
+    works:
+      - "Das Rheingold"
+      - "Die Walküre"
+      - "Siegfried"
+    aliases:
+      de:
+        - "Der Wanderer"
+      fr:
+        - "Le Voyageur"
+      en:
+        - "The Wanderer"
+
+  "richard-wagner:ring:alberich":
+    canonical_name: "Alberich"
+    works:
+      - "Das Rheingold"
+      - "Siegfried"
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:brunnhilde":
+    canonical_name: "Brünnhilde"
+    works:
+      - "Die Walküre"
+      - "Siegfried"
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:flosshilde":
+    canonical_name: "Floßhilde"
+    works:
+      - "Das Rheingold"
+      - "Götterdämmerung"
+    aliases:
+      source:
+        - "Flosshilde"
+
+  "richard-wagner:ring:siegfried":
+    canonical_name: "Siegfried"
+    works:
+      - "Siegfried"
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:waltraute":
+    canonical_name: "Waltraute"
+    works:
+      - "Die Walküre"
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:wellgunde":
+    canonical_name: "Wellgunde"
+    works:
+      - "Das Rheingold"
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:woglinde":
+    canonical_name: "Woglinde"
+    works:
+      - "Das Rheingold"
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:erste-norn":
+    canonical_name: "Erste Norn"
+    works:
+      - "Götterdämmerung"
+    aliases:
+      fr:
+        - "Première Norne"
+      en:
+        - "First Norn"
+
+  "richard-wagner:ring:zweite-norn":
+    canonical_name: "Zweite Norn"
+    works:
+      - "Götterdämmerung"
+    aliases:
+      fr:
+        - "Deuxième Norne"
+      en:
+        - "Second Norn"
+
+  "richard-wagner:ring:dritte-norn":
+    canonical_name: "Dritte Norn"
+    works:
+      - "Götterdämmerung"
+    aliases:
+      fr:
+        - "Troisième Norne"
+      en:
+        - "Third Norn"
+
+  "richard-wagner:ring:gunther":
+    canonical_name: "Gunther"
+    works:
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:gutrune":
+    canonical_name: "Gutrune"
+    works:
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:hagen":
+    canonical_name: "Hagen"
+    works:
+      - "Götterdämmerung"
+
+  "richard-wagner:ring:erda":
+    canonical_name: "Erda"
+    works:
+      - "Das Rheingold"
+      - "Siegfried"
+
+  "richard-wagner:ring:fafner":
+    canonical_name: "Fafner"
+    works:
+      - "Das Rheingold"
+      - "Siegfried"
+
+  "richard-wagner:ring:fricka":
+    canonical_name: "Fricka"
+    works:
+      - "Das Rheingold"
+      - "Die Walküre"
+
+  "richard-wagner:ring:mime":
+    canonical_name: "Mime"
+    works:
+      - "Das Rheingold"
+      - "Siegfried"
+
+  "richard-wagner:ring:donner":
+    canonical_name: "Donner"
+    works:
+      - "Das Rheingold"
+
+  "richard-wagner:ring:fasolt":
+    canonical_name: "Fasolt"
+    works:
+      - "Das Rheingold"
+
+  "richard-wagner:ring:freia":
+    canonical_name: "Freia"
+    works:
+      - "Das Rheingold"
+
+  "richard-wagner:ring:froh":
+    canonical_name: "Froh"
+    works:
+      - "Das Rheingold"
+
+  "richard-wagner:ring:loge":
+    canonical_name: "Loge"
+    works:
+      - "Das Rheingold"
+
+  "richard-wagner:ring:gerhilde":
+    canonical_name: "Gerhilde"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:grimgerde":
+    canonical_name: "Grimgerde"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:helmwige":
+    canonical_name: "Helmwige"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:hunding":
+    canonical_name: "Hunding"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:ortlinde":
+    canonical_name: "Ortlinde"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:rossweisse":
+    canonical_name: "Rossweisse"
+    works:
+      - "Die Walküre"
+    aliases:
+      source:
+        - "Rossweise"
+
+  "richard-wagner:ring:schwertleite":
+    canonical_name: "Schwertleite"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:sieglinde":
+    canonical_name: "Sieglinde"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:siegmund":
+    canonical_name: "Siegmund"
+    works:
+      - "Die Walküre"
+
+  "richard-wagner:ring:siegrune":
+    canonical_name: "Siegrune"
+    works:
+      - "Die Walküre"
+    aliases:
+      source:
+        - "Siegrunde"
+
+  "richard-wagner:ring:waldvogel":
+    canonical_name: "Waldvogel"
+    works:
+      - "Siegfried"
+    aliases:
+      de:
+        - "Stimme des Waldvogels"
+      fr:
+        - "Voix de l’Oiseau de la forêt"
+      en:
+        - "Forest Bird"
