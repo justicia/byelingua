@@ -10,3 +10,5 @@ work/
 .reports/
 reports/ingestion/
 season-ingestion-output/
+.vercel
+.env*
