@@ -1,0 +1,1749 @@
+{
+  "generated_at": "2026-08-19T14:46:37.877504+00:00",
+  "parser_version": "paris_opera_programme_v4",
+  "source_pages": 74,
+  "success_pages": 28,
+  "review_pages": 46,
+  "programme_items": 78,
+  "summary_by_type": {
+    "Ballet": {
+      "source_pages": 9,
+      "success_pages": 7,
+      "review_pages": 2,
+      "programme_items": 22
+    },
+    "Concert et Récital": {
+      "source_pages": 41,
+      "success_pages": 21,
+      "review_pages": 20,
+      "programme_items": 56
+    },
+    "Jeune Public": {
+      "source_pages": 22,
+      "success_pages": 0,
+      "review_pages": 22,
+      "programme_items": 0
+    },
+    "Opéra": {
+      "source_pages": 2,
+      "success_pages": 0,
+      "review_pages": 2,
+      "programme_items": 0
+    }
+  },
+  "pages": [
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/correspondances-nocturnes",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Correspondances nocturnes"
+      ],
+      "event_count": 16,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Nocturnes",
+          "raw_composers": [
+            "Frédéric Chopin"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/demonstrations-de-lecole-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Démonstrations de l'École de Danse"
+      ],
+      "event_count": 6,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/eclats-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Éclats de danse"
+      ],
+      "event_count": 8,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "The Vertiginous Thrill of Exactitude",
+          "raw_composers": [
+            "Franz Schubert"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        },
+        {
+          "raw_title": "Eternal Rift",
+          "raw_composers": [
+            "Michael Anklin",
+            "Janiv Oron"
+          ],
+          "source_section": "artistes",
+          "order": 2
+        },
+        {
+          "raw_title": "On Then and Now",
+          "raw_composers": [
+            "Woodkid"
+          ],
+          "source_section": "artistes",
+          "order": 3
+        },
+        {
+          "raw_title": "L’Indicible",
+          "raw_composers": [
+            "Serguei Rachmaninov",
+            "Erik Satie",
+            "George Gershwin",
+            "Frédéric Chopin",
+            "Béla Bartók"
+          ],
+          "source_section": "artistes",
+          "order": 4
+        },
+        {
+          "raw_title": "YU",
+          "raw_composers": [
+            "John Williams",
+            "Juno Reactor"
+          ],
+          "source_section": "artistes",
+          "order": 5
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/gala",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Gala"
+      ],
+      "event_count": 1,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Tutus et diadèmes des Étoiles | CHANEL",
+          "raw_composers": [
+            "Hector Berlioz"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        },
+        {
+          "raw_title": "Rings of Saturn",
+          "raw_composers": [
+            "Samuel Barber"
+          ],
+          "source_section": "artistes",
+          "order": 2
+        },
+        {
+          "raw_title": "Vers un pays sage",
+          "raw_composers": [
+            "John Adams"
+          ],
+          "source_section": "artistes",
+          "order": 3
+        },
+        {
+          "raw_title": "Busk",
+          "raw_composers": [
+            "V. de Moraes, August Söderman, Ljova, Moondog, Daniel Bélanger, Camille Saint-Saëns, David Wikander"
+          ],
+          "source_section": "artistes",
+          "order": 4
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/gala-des-ecoles-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Gala des Écoles de Danse"
+      ],
+      "event_count": 1,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/paysages-interieurs",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Paysages intérieurs"
+      ],
+      "event_count": 15,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Vers un pays sage",
+          "raw_composers": [
+            "John Adams"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        },
+        {
+          "raw_title": "Rearray",
+          "raw_composers": [
+            "David Morrow"
+          ],
+          "source_section": "artistes",
+          "order": 2
+        },
+        {
+          "raw_title": "Busk",
+          "raw_composers": [
+            "V. de Moraes, August Söderman, Ljova, Moondog, Daniel Bélanger, Camille Saint-Saëns, David Wikander"
+          ],
+          "source_section": "artistes",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/pulsations",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Pulsations"
+      ],
+      "event_count": 23,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Path 19",
+          "raw_composers": [
+            "Max Richter"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        },
+        {
+          "raw_title": "Lamentation",
+          "raw_composers": [
+            "Zoltán Kodály"
+          ],
+          "source_section": "artistes",
+          "order": 2
+        },
+        {
+          "raw_title": "Schmetterling",
+          "raw_composers": [
+            "Max Richter",
+            "The Magnetic Fields"
+          ],
+          "source_section": "artistes",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/rituels",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Rituels"
+      ],
+      "event_count": 22,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Suite en blanc",
+          "raw_composers": [
+            "Édouard Lalo"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        },
+        {
+          "raw_title": "Boléro X",
+          "raw_composers": [
+            "Maurice Ravel"
+          ],
+          "source_section": "artistes",
+          "order": 2
+        },
+        {
+          "raw_title": "Le Sacre du printemps",
+          "raw_composers": [
+            "Igor Stravinsky"
+          ],
+          "source_section": "artistes",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/spectacle-de-lecole-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Spectacle de l'École de Danse"
+      ],
+      "event_count": 3,
+      "parser": "ballet_artistic_sections_v2",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Suite de danses",
+          "raw_composers": [
+            "Frédéric Chopin"
+          ],
+          "source_section": "artistes",
+          "order": 1
+        },
+        {
+          "raw_title": "Ma mère l’Oye",
+          "raw_composers": [
+            "Maurice Ravel"
+          ],
+          "source_section": "artistes",
+          "order": 2
+        },
+        {
+          "raw_title": "Piège de lumière",
+          "raw_composers": [
+            "Jean-Michel Damase"
+          ],
+          "source_section": "artistes",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/au-bord-de-l-eau",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Au Bord de l’eau"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Quintette pour Piano et Cordes nº 2 en ut mineur, op. 115",
+          "raw_composers": [
+            "Gabriel Fauré"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Poème de l’amour et de la mer, op. 19",
+          "raw_composers": [
+            "Ernest Chausson"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/au-coeur-du-romantisme-allemand",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Au coeur du romantisme allemand"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/bicentenaire-beethoven",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Bicentenaire Beethoven"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Sextuor pour Piano et vents en ut mineur, op. 40",
+          "raw_composers": [
+            "Louise Farrenc"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Quintette pour Piano et vents en mi b Majeur, op. 16",
+          "raw_composers": [
+            "Ludwig van Beethoven"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/bicentenaire-beethoven-2e-partie",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Bicentenaire Beethoven"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "quatuor avec Clarinette en mi b Majeur, KV 380",
+          "raw_composers": [
+            "Wolfgang Amadeus Mozart"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Septuor en mi b Majeur, op. 20",
+          "raw_composers": [
+            "Ludwig van Beethoven"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-ado",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert ADO"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-de-lacademie",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Un Air d'Italie"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-de-lorchestre-de-lopera-national-de-paris",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert de l'Orchestre de l'Opéra national de Paris"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-de-musique-de-chambre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert de musique de chambre"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-douverture-de-la-saison-academie",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert d’ouverture de la saison Académie"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-1-octobre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 1 octobre"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "1er trio en ré mineur, op. 32 (28’)",
+          "raw_composers": [
+            "Anton Arensky"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "2 pièces en trio, op. 95 (19’)",
+          "raw_composers": [
+            "Josef Jongen"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-10-decembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 10 décembre"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-13-mai",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 13 mai"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-17-decembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 17 décembre"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Quartettsatz en ut mineur, D. 703 (9’)",
+          "raw_composers": [
+            "Franz Schubert"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "quatuor en ré mineur « La Jeune Fille et la Mort », D. 810 (40’)",
+          "raw_composers": [
+            "Franz Schubert"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-17-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 17 juin"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-fevrier",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 février"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "trio en ut mineur, op. 1 nº 3",
+          "raw_composers": [
+            "Ludwig van Beethoven"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "trio en la mineur, op. 114",
+          "raw_composers": [
+            "Johannes Brahms"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 mars"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Diaphane pour Hautbois, Clarinette et Piano (3’)",
+          "raw_composers": [
+            "David Walter"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Fantaisie pour Clarinette et Piano (5’)",
+          "raw_composers": [
+            "Carl Nielsen"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "Mazurka pour Hautbois et Piano (5’)",
+          "raw_composers": [
+            "Léopold Wallner"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        },
+        {
+          "raw_title": "Poème pour Hautbois et Piano (8’)",
+          "raw_composers": [
+            "Marina Dranichnikova"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 4
+        },
+        {
+          "raw_title": "trio pour Hautbois, Clarinette et Piano en si mineur, op. 27 (24’)",
+          "raw_composers": [
+            "Édouard Destenay"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 5
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-24-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 24 juin"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Danse Lente (4’)",
+          "raw_composers": [
+            "Josef Jongen"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Suite en duo (14’)",
+          "raw_composers": [
+            "Jean Cras"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "Sonate BWV 1020 (11’)",
+          "raw_composers": [
+            "Johann Sebastian Bach"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        },
+        {
+          "raw_title": "Naïades (12’)",
+          "raw_composers": [
+            "William Alwyn"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 4
+        },
+        {
+          "raw_title": "Children’s Corner (17’)",
+          "raw_composers": [
+            "Claude Debussy"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 5
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-25-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 25 mars"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "« Liebeslieder-Walzer“ (op. 52) et “Neue Liebeslieder“ (op.65)",
+          "raw_composers": [
+            "Johannes Brahms"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-26-novembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 26 novembre"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-29-avril",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 29 avril"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "quatuor pour quatre Violons (12’)",
+          "raw_composers": [
+            "Grażina Bacewizc"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Sérénade pour 3 Violons et Piano (4’)",
+          "raw_composers": [
+            "Joseph Hellmesberger Jr"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "Romance pour 4 Violons et Piano (6’)",
+          "raw_composers": [
+            "Joseph Hellmesberger Jr"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        },
+        {
+          "raw_title": "Suite en sol mineur, op. 71 pour 2 Violons et Piano (20’)",
+          "raw_composers": [
+            "Moritz Moszkowski"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 4
+        },
+        {
+          "raw_title": "Cappricio pour 3 Violons, op. 2 (7’30)",
+          "raw_composers": [
+            "Friedrich Hermann"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 5
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-4-fevrier",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 4 février "
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "trio en la mineur, op. 50 (50’)",
+          "raw_composers": [
+            "Piotr Ilytch Tchaïkovsky"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-5-novembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 5 novembre"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "quatuor avec Piano en la mineur (11’)",
+          "raw_composers": [
+            "Gustav Mahler"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Phantasy-quartet, H 94 (13’)",
+          "raw_composers": [
+            "Frank Bridge"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "quatuor avec Piano nº 1, op. 15 (31’)",
+          "raw_composers": [
+            "Gabriel Fauré"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/echos-et-battements",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Échos et battements"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Sextet",
+          "raw_composers": [
+            "Steve Reich"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/entrelacs",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Entrelacs"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Sextuor à cordes",
+          "raw_composers": [
+            "Erwin Schulhoff"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Sextuor à Cordes en sol Majeur, op. 36",
+          "raw_composers": [
+            "Johannes Brahms"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/felix-mendelssohn-gustav-mahler",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Felix Mendelssohn / Gustav Mahler"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Symphonie n°4 en la majeur « italienne », op. 90",
+          "raw_composers": [
+            "Felix Mendelssohn-Bartholdy"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Symphonie n°4 en sol majeur",
+          "raw_composers": [
+            "Gustav Mahler"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/lumiere",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Lumière"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Quintette avec Cor en mi b Majeur, KV 407",
+          "raw_composers": [
+            "Wolfgang Amadeus Mozart"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Octuor à Cordes en mi b Majeur, op. 20",
+          "raw_composers": [
+            "Felix Mendelssohn-Bartholdy"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/mediterranee",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Méditerranée "
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Quatuor à Cordes",
+          "raw_composers": [
+            "Giuseppe Verdi"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Quintette avec Piano, op. 1",
+          "raw_composers": [
+            "Joaquín Turina"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/melodies-slaves",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Mélodies slaves"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/o-albion",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Ô Albion"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Quatuor avec hautbois en fa majeur, KV 370",
+          "raw_composers": [
+            "Wolfgang Amadeus Mozart"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "« Phantasy quartet », op. 2",
+          "raw_composers": [
+            "Benjamin Britten"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "Quintette avec piano en ut mineur",
+          "raw_composers": [
+            "Ralph Vaughan-Williams"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Suite de Platée",
+          "raw_composers": [
+            "Jean-Philippe Rameau"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Maria de Buenos Aires",
+          "raw_composers": [
+            "Astor Piazzolla"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "La Flûte enchantée, ouverture",
+          "raw_composers": [
+            "Wolfgang Amadeus Mozart"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        },
+        {
+          "raw_title": "Rinaldo (extraits)",
+          "raw_composers": [
+            "Georg Friedrich Haendel"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 4
+        },
+        {
+          "raw_title": "Habanera (Carmen)",
+          "raw_composers": [
+            "Georges Bizet"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 5
+        },
+        {
+          "raw_title": "Procession d’Elsa (Lohengrin)",
+          "raw_composers": [
+            "Richard Wagner"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 6
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/pas-sur-la-bouche",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Pas sur la bouche"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/philharmonie-de-paris-1412",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Maurice Ravel / Thomas Adès / Edward Elgar"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Valses nobles et sentimentales",
+          "raw_composers": [
+            "Maurice Ravel"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Concentric Paths - Concerto pour violon",
+          "raw_composers": [
+            "Thomas Adès"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "Symphonie n°1 en la bémol majeur, op. 55",
+          "raw_composers": [
+            "Edward Elgar"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/recital-diana-damrau",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Diana Damrau"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/recital-katia-et-marielle-labeque",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Récital Katia et Marielle Labèque"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/recital-lise-davidsen",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Lise Davidsen"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/recital-piotr-beczala",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Piotr Beczała"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/richard-strauss-piotr-ilyitch-tchaikovski",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Richard Strauss / Piotr Ilyitch Tchaïkovski"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [
+        {
+          "raw_title": "Die Liebe der Danae, op. 83, fragment symphonique",
+          "raw_composers": [
+            "Richard Strauss"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 1
+        },
+        {
+          "raw_title": "Drei Hymnen, op. 71",
+          "raw_composers": [
+            "Richard Strauss"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 2
+        },
+        {
+          "raw_title": "Symphonie n°6 en si mineur « Pathétique », op. 74",
+          "raw_composers": [
+            "Piotr Ilyitch Tchaïkovski"
+          ],
+          "source_section": "deroule_du_concert",
+          "order": 3
+        }
+      ],
+      "warnings": [],
+      "ok": true
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/rire-et-pleurer-avec-la-musique-disabelle-aboulker",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "« Rire et pleurer avec la musique d’Isabelle Aboulker »"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/tout-un-monde-lyrico-jazzy",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Tout un monde lyrico-jazzy"
+      ],
+      "event_count": 1,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/une-nuit-chantee-a-lopera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Une Nuit chantée à l'Opéra"
+      ],
+      "event_count": 2,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/une-nuit-dansee-a-lopera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Une Nuit dansée à l'Opéra"
+      ],
+      "event_count": 2,
+      "parser": "concert_programme_v4",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/a-lecole-de-danse",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "À l’École de Danse"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/airs-dopera-et-melodies",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Airs d’opéra et mélodies"
+      ],
+      "event_count": 3,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/amazigh-in-situ-mes-parents-et-moi",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Amazigh in situ, mes parents et moi"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/concert-avec-les-musiciennes-et-musiciens-de-lorchestre-de-lopera-national-de-paris-1",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Concert avec les musiciennes et musiciens de l’Orchestre #1"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/concert-avec-les-musiciennes-et-musiciens-de-lorchestre-de-lopera-national-de-paris-2",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Concert avec les musiciennes et musiciens de l’Orchestre #2"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/crawl-amazigh-in-situ",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Crawl / Amazigh in situ"
+      ],
+      "event_count": 5,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/ensemble-jouons",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Ensemble, jouons !"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/et-op",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Et Op’ !"
+      ],
+      "event_count": 8,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/flocons-de-neige",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Flocons de neige"
+      ],
+      "event_count": 2,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/florence-price",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Florence Price"
+      ],
+      "event_count": 3,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/la-belle-au-bois-dormant",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "La Belle au bois dormant"
+      ],
+      "event_count": 3,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/la-langue-des-oiseaux-mes-parents-et-moi",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "La Langue des oiseaux, mes parents et moi"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/le-soldat-de-plomb-la-langue-des-oiseaux",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Le Soldat de plomb / La Langue des oiseaux"
+      ],
+      "event_count": 6,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/parle-moi-de-carmen",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Parle-moi de Carmen"
+      ],
+      "event_count": 3,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/parle-moi-de-carmen-mes-parents-et-moi",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Parle-moi de Carmen, mes parents et moi"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/piano-et-cordes",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Piano et cordes"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/pop-up",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Pop Up"
+      ],
+      "event_count": 8,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/rosalune",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        " RosaLune"
+      ],
+      "event_count": 8,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/sortileges",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Sortilèges"
+      ],
+      "event_count": 2,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/un-instant-suspendu-avec-bob-chilcott",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "Un instant suspendu avec Bob Chilcott"
+      ],
+      "event_count": 3,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/xxl",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "XXL"
+      ],
+      "event_count": 6,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/xxl-mes-parents-et-moi",
+      "event_type": "Jeune Public",
+      "source_titles": [
+        "XXL, mes parents et moi "
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/opera/ce-qui-brule-en-silence",
+      "event_type": "Opéra",
+      "source_titles": [
+        "Ce qui brûle en silence"
+      ],
+      "event_count": 7,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/opera/gala-regine-crespin",
+      "event_type": "Opéra",
+      "source_titles": [
+        "Gala Régine Crespin"
+      ],
+      "event_count": 1,
+      "parser": "unresolved_structure_v1",
+      "parser_version": "paris_opera_programme_v4",
+      "items": [],
+      "warnings": [
+        "No programme items extracted automatically."
+      ],
+      "ok": false
+    }
+  ]
+}

@@ -1,0 +1,3436 @@
+{
+  "generated_at": "2026-08-19T14:51:46.201210+00:00",
+  "source_parser_version": "paris_opera_programme_v4",
+  "programme_items": 78,
+  "verified_matches": 2,
+  "review_required": 76,
+  "status_counts": {
+    "composer_review_required": 34,
+    "matched_verified": 2,
+    "multi_composer_source_review": 2,
+    "title_match_review": 30,
+    "work_unmatched": 10
+  },
+  "composer_status_counts": {
+    "matched": 48,
+    "unmatched": 37
+  },
+  "verified": [
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/philharmonie-de-paris-1412",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Maurice Ravel / Thomas Adès / Edward Elgar"
+      ],
+      "event_ids": [
+        "1ca24f43-a7f4-4d87-95b9-ae0bf23a1da1"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Valses nobles et sentimentales",
+      "clean_title": "Valses nobles et sentimentales",
+      "raw_composers": [
+        "Maurice Ravel"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Maurice Ravel",
+          "status": "matched",
+          "composer_id": "f372a0dd-f851-4339-a8ca-5dc15e1ab508",
+          "canonical_name": "Maurice Ravel",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "matched_verified",
+      "confidence": "high",
+      "match_method": "composer_and_exact_title",
+      "proposed_work": {
+        "work_id": "d9216a06-8084-4330-aff5-8bbac395e073",
+        "canonical_title": "Valses nobles et sentimentales",
+        "identity_key": null,
+        "normalization_status": "verified",
+        "title_match_method": "canonical_title",
+        "creators": [
+          {
+            "composer_id": "f372a0dd-f851-4339-a8ca-5dc15e1ab508",
+            "canonical_name": "Maurice Ravel"
+          }
+        ]
+      },
+      "candidate_works": [],
+      "notes": null
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/philharmonie-de-paris-1412",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Maurice Ravel / Thomas Adès / Edward Elgar"
+      ],
+      "event_ids": [
+        "1ca24f43-a7f4-4d87-95b9-ae0bf23a1da1"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Concentric Paths - Concerto pour violon",
+      "clean_title": "Concentric Paths - Concerto pour violon",
+      "raw_composers": [
+        "Thomas Adès"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Thomas Adès",
+          "status": "matched",
+          "composer_id": "b11bdd0f-2bd1-4a01-9426-abdedab2235b",
+          "canonical_name": "Thomas Adès",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "matched_verified",
+      "confidence": "high",
+      "match_method": "composer_and_exact_title",
+      "proposed_work": {
+        "work_id": "ec39df96-80e9-49bb-809b-3d8e51aa8c31",
+        "canonical_title": "Concentric paths - Concerto pour violon",
+        "identity_key": null,
+        "normalization_status": "verified",
+        "title_match_method": "canonical_title",
+        "creators": [
+          {
+            "composer_id": "b11bdd0f-2bd1-4a01-9426-abdedab2235b",
+            "canonical_name": "Thomas Adès"
+          }
+        ]
+      },
+      "candidate_works": [],
+      "notes": null
+    }
+  ],
+  "review": [
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/correspondances-nocturnes",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Correspondances nocturnes"
+      ],
+      "event_ids": [
+        "1f6f94f9-1dc7-4b58-bb8b-baa15b204634",
+        "2c054892-24c4-419b-bb06-a1fa8dd79310",
+        "38515cf5-2584-43f3-8f2d-3aa819f6073d",
+        "3bf639c3-b576-4809-ae18-3da37ebc047d",
+        "4687a224-5a2e-4628-ab2d-eb19897aa1e2",
+        "4725a8ab-c4da-48e9-b85d-2e293f86b5a7",
+        "4ab8f1a5-df35-4dc5-9748-c94d697df6bd",
+        "5ce78346-91fe-421e-80e7-74fa1b01f703",
+        "8014a55d-a968-4277-8ae4-cb1367abcd10",
+        "84727b79-ec42-4e3a-8334-ca89617eaaa4",
+        "a16b2b89-aab5-447e-a9ab-ac6ec165ffd3",
+        "cd0b3cb2-a340-4252-9463-93505f70ac69",
+        "d49e2af3-bcac-4e89-958f-c95e0d77fe1d",
+        "e6a96350-4f11-40e3-9e8b-027a8d475a92",
+        "f6b6dd26-8b9c-44e5-8971-4d8da2b667e9",
+        "fdcc75f7-b721-4b09-9031-c37d4bb861a7"
+      ],
+      "event_count": 16,
+      "programme_order": 1,
+      "raw_title": "Nocturnes",
+      "clean_title": "Nocturnes",
+      "raw_composers": [
+        "Frédéric Chopin"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Frédéric Chopin",
+          "status": "matched",
+          "composer_id": "63c53106-3321-4af3-8d17-b04806facc1c",
+          "canonical_name": "Frédéric Chopin",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/eclats-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Éclats de danse"
+      ],
+      "event_ids": [
+        "04ec6ef3-8ab8-41a6-9493-1136cfd5fcc9",
+        "480a8fda-e884-4a2f-97c0-5c93d7e4c061",
+        "707981fa-76fc-4184-b32b-f8a975996f08",
+        "95e1ad4a-98f2-42a5-be9e-b62d7dd6ec51",
+        "9707c282-9c65-4d95-a475-4a6baf895530",
+        "bc763fb4-cce3-44f8-94a6-ffff549b3b19",
+        "d7bb72d9-653c-45d9-b535-3196aa653fc8",
+        "ff10b480-43fd-4b29-a54a-648e399cd0d0"
+      ],
+      "event_count": 8,
+      "programme_order": 1,
+      "raw_title": "The Vertiginous Thrill of Exactitude",
+      "clean_title": "The Vertiginous Thrill of Exactitude",
+      "raw_composers": [
+        "Franz Schubert"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Franz Schubert",
+          "status": "matched",
+          "composer_id": "ad628acd-96a8-404a-821c-6dda86b5fcbf",
+          "canonical_name": "Franz Schubert",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/eclats-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Éclats de danse"
+      ],
+      "event_ids": [
+        "04ec6ef3-8ab8-41a6-9493-1136cfd5fcc9",
+        "480a8fda-e884-4a2f-97c0-5c93d7e4c061",
+        "707981fa-76fc-4184-b32b-f8a975996f08",
+        "95e1ad4a-98f2-42a5-be9e-b62d7dd6ec51",
+        "9707c282-9c65-4d95-a475-4a6baf895530",
+        "bc763fb4-cce3-44f8-94a6-ffff549b3b19",
+        "d7bb72d9-653c-45d9-b535-3196aa653fc8",
+        "ff10b480-43fd-4b29-a54a-648e399cd0d0"
+      ],
+      "event_count": 8,
+      "programme_order": 2,
+      "raw_title": "Eternal Rift",
+      "clean_title": "Eternal Rift",
+      "raw_composers": [
+        "Michael Anklin",
+        "Janiv Oron"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Michael Anklin",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        },
+        {
+          "raw_name": "Janiv Oron",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/eclats-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Éclats de danse"
+      ],
+      "event_ids": [
+        "04ec6ef3-8ab8-41a6-9493-1136cfd5fcc9",
+        "480a8fda-e884-4a2f-97c0-5c93d7e4c061",
+        "707981fa-76fc-4184-b32b-f8a975996f08",
+        "95e1ad4a-98f2-42a5-be9e-b62d7dd6ec51",
+        "9707c282-9c65-4d95-a475-4a6baf895530",
+        "bc763fb4-cce3-44f8-94a6-ffff549b3b19",
+        "d7bb72d9-653c-45d9-b535-3196aa653fc8",
+        "ff10b480-43fd-4b29-a54a-648e399cd0d0"
+      ],
+      "event_count": 8,
+      "programme_order": 3,
+      "raw_title": "On Then and Now",
+      "clean_title": "On Then and Now",
+      "raw_composers": [
+        "Woodkid"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Woodkid",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/eclats-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Éclats de danse"
+      ],
+      "event_ids": [
+        "04ec6ef3-8ab8-41a6-9493-1136cfd5fcc9",
+        "480a8fda-e884-4a2f-97c0-5c93d7e4c061",
+        "707981fa-76fc-4184-b32b-f8a975996f08",
+        "95e1ad4a-98f2-42a5-be9e-b62d7dd6ec51",
+        "9707c282-9c65-4d95-a475-4a6baf895530",
+        "bc763fb4-cce3-44f8-94a6-ffff549b3b19",
+        "d7bb72d9-653c-45d9-b535-3196aa653fc8",
+        "ff10b480-43fd-4b29-a54a-648e399cd0d0"
+      ],
+      "event_count": 8,
+      "programme_order": 4,
+      "raw_title": "L’Indicible",
+      "clean_title": "L’Indicible",
+      "raw_composers": [
+        "Serguei Rachmaninov",
+        "Erik Satie",
+        "George Gershwin",
+        "Frédéric Chopin",
+        "Béla Bartók"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Serguei Rachmaninov",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": [
+            {
+              "composer_id": "b8f76a6d-c74a-422a-86b3-95922120167c",
+              "canonical_name": "Serge Rachmaninoff",
+              "score": 0.8649
+            }
+          ]
+        },
+        {
+          "raw_name": "Erik Satie",
+          "status": "matched",
+          "composer_id": "6e21f89f-4ee1-4968-a24d-54f9a7c81e40",
+          "canonical_name": "Erik Satie",
+          "method": "canonical_name",
+          "suggestions": []
+        },
+        {
+          "raw_name": "George Gershwin",
+          "status": "matched",
+          "composer_id": "1e87f81e-dbd6-4b5c-8eab-2287cf159149",
+          "canonical_name": "George Gershwin",
+          "method": "canonical_name",
+          "suggestions": []
+        },
+        {
+          "raw_name": "Frédéric Chopin",
+          "status": "matched",
+          "composer_id": "63c53106-3321-4af3-8d17-b04806facc1c",
+          "canonical_name": "Frédéric Chopin",
+          "method": "canonical_name",
+          "suggestions": []
+        },
+        {
+          "raw_name": "Béla Bartók",
+          "status": "matched",
+          "composer_id": "6e3fbbe2-efa9-45dc-a75c-786178272ef0",
+          "canonical_name": "Béla Bartók",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/eclats-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Éclats de danse"
+      ],
+      "event_ids": [
+        "04ec6ef3-8ab8-41a6-9493-1136cfd5fcc9",
+        "480a8fda-e884-4a2f-97c0-5c93d7e4c061",
+        "707981fa-76fc-4184-b32b-f8a975996f08",
+        "95e1ad4a-98f2-42a5-be9e-b62d7dd6ec51",
+        "9707c282-9c65-4d95-a475-4a6baf895530",
+        "bc763fb4-cce3-44f8-94a6-ffff549b3b19",
+        "d7bb72d9-653c-45d9-b535-3196aa653fc8",
+        "ff10b480-43fd-4b29-a54a-648e399cd0d0"
+      ],
+      "event_count": 8,
+      "programme_order": 5,
+      "raw_title": "YU",
+      "clean_title": "YU",
+      "raw_composers": [
+        "John Williams",
+        "Juno Reactor"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "John Williams",
+          "status": "matched",
+          "composer_id": "c7b02091-ea67-4311-aad0-8482f4b849d4",
+          "canonical_name": "John Williams",
+          "method": "canonical_name",
+          "suggestions": []
+        },
+        {
+          "raw_name": "Juno Reactor",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/gala",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Gala"
+      ],
+      "event_ids": [
+        "18bada07-b0da-44da-9ba7-5f0e40bb54b2"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Tutus et diadèmes des Étoiles | CHANEL",
+      "clean_title": "Tutus et diadèmes des Étoiles | CHANEL",
+      "raw_composers": [
+        "Hector Berlioz"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Hector Berlioz",
+          "status": "matched",
+          "composer_id": "fd88c59c-2f5a-477a-8b25-86033319d2e4",
+          "canonical_name": "Hector Berlioz",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/gala",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Gala"
+      ],
+      "event_ids": [
+        "18bada07-b0da-44da-9ba7-5f0e40bb54b2"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Rings of Saturn",
+      "clean_title": "Rings of Saturn",
+      "raw_composers": [
+        "Samuel Barber"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Samuel Barber",
+          "status": "matched",
+          "composer_id": "991f1408-8bc5-43c8-9a92-74ac23b8e94d",
+          "canonical_name": "Samuel Barber",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/gala",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Gala"
+      ],
+      "event_ids": [
+        "18bada07-b0da-44da-9ba7-5f0e40bb54b2"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Vers un pays sage",
+      "clean_title": "Vers un pays sage",
+      "raw_composers": [
+        "John Adams"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "John Adams",
+          "status": "matched",
+          "composer_id": "930c72cf-5c66-48eb-a2e1-666f1bcbe526",
+          "canonical_name": "John Adams",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/gala",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Gala"
+      ],
+      "event_ids": [
+        "18bada07-b0da-44da-9ba7-5f0e40bb54b2"
+      ],
+      "event_count": 1,
+      "programme_order": 4,
+      "raw_title": "Busk",
+      "clean_title": "Busk",
+      "raw_composers": [
+        "V. de Moraes, August Söderman, Ljova, Moondog, Daniel Bélanger, Camille Saint-Saëns, David Wikander"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "V. de Moraes, August Söderman, Ljova, Moondog, Daniel Bélanger, Camille Saint-Saëns, David Wikander",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "multi_composer_source_review",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "Source music credit contains a comma-delimited creator string. Manual normalization required."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/paysages-interieurs",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Paysages intérieurs"
+      ],
+      "event_ids": [
+        "31aae818-caa8-4ec4-9af4-b42d1103f5ac",
+        "419d1bec-697c-42e8-a1a2-037be8dfa837",
+        "54bf8efa-6ad0-49c3-9a4e-50dd653d47b5",
+        "61b1332c-1cb4-43de-97d2-34f7560fcda2",
+        "77124da1-40ee-4e1e-92c5-fd475d3663ac",
+        "7ef57da0-ff6a-4993-b681-766eb7179952",
+        "8cb2da14-dc6c-4fd9-9288-44d4517b17a1",
+        "8fc121a0-67e3-4649-a1b2-e4c6274ef8cc",
+        "aa33d7a1-6cb8-499f-96dc-76f807d4f2b7",
+        "b9308282-a670-41a0-b607-a99038a3578c",
+        "c8ac7dbb-8726-4a04-b9fa-20fe41d159fd",
+        "d7b76223-c294-4474-8036-788f79c0fc85",
+        "e125c85b-8614-4fb4-bff9-0492fb19f728",
+        "e8bc58cc-104c-4053-9961-1aec788b613b",
+        "f34d0660-8434-4a53-a7a2-06521bc38a2f"
+      ],
+      "event_count": 15,
+      "programme_order": 1,
+      "raw_title": "Vers un pays sage",
+      "clean_title": "Vers un pays sage",
+      "raw_composers": [
+        "John Adams"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "John Adams",
+          "status": "matched",
+          "composer_id": "930c72cf-5c66-48eb-a2e1-666f1bcbe526",
+          "canonical_name": "John Adams",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/paysages-interieurs",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Paysages intérieurs"
+      ],
+      "event_ids": [
+        "31aae818-caa8-4ec4-9af4-b42d1103f5ac",
+        "419d1bec-697c-42e8-a1a2-037be8dfa837",
+        "54bf8efa-6ad0-49c3-9a4e-50dd653d47b5",
+        "61b1332c-1cb4-43de-97d2-34f7560fcda2",
+        "77124da1-40ee-4e1e-92c5-fd475d3663ac",
+        "7ef57da0-ff6a-4993-b681-766eb7179952",
+        "8cb2da14-dc6c-4fd9-9288-44d4517b17a1",
+        "8fc121a0-67e3-4649-a1b2-e4c6274ef8cc",
+        "aa33d7a1-6cb8-499f-96dc-76f807d4f2b7",
+        "b9308282-a670-41a0-b607-a99038a3578c",
+        "c8ac7dbb-8726-4a04-b9fa-20fe41d159fd",
+        "d7b76223-c294-4474-8036-788f79c0fc85",
+        "e125c85b-8614-4fb4-bff9-0492fb19f728",
+        "e8bc58cc-104c-4053-9961-1aec788b613b",
+        "f34d0660-8434-4a53-a7a2-06521bc38a2f"
+      ],
+      "event_count": 15,
+      "programme_order": 2,
+      "raw_title": "Rearray",
+      "clean_title": "Rearray",
+      "raw_composers": [
+        "David Morrow"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "David Morrow",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/paysages-interieurs",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Paysages intérieurs"
+      ],
+      "event_ids": [
+        "31aae818-caa8-4ec4-9af4-b42d1103f5ac",
+        "419d1bec-697c-42e8-a1a2-037be8dfa837",
+        "54bf8efa-6ad0-49c3-9a4e-50dd653d47b5",
+        "61b1332c-1cb4-43de-97d2-34f7560fcda2",
+        "77124da1-40ee-4e1e-92c5-fd475d3663ac",
+        "7ef57da0-ff6a-4993-b681-766eb7179952",
+        "8cb2da14-dc6c-4fd9-9288-44d4517b17a1",
+        "8fc121a0-67e3-4649-a1b2-e4c6274ef8cc",
+        "aa33d7a1-6cb8-499f-96dc-76f807d4f2b7",
+        "b9308282-a670-41a0-b607-a99038a3578c",
+        "c8ac7dbb-8726-4a04-b9fa-20fe41d159fd",
+        "d7b76223-c294-4474-8036-788f79c0fc85",
+        "e125c85b-8614-4fb4-bff9-0492fb19f728",
+        "e8bc58cc-104c-4053-9961-1aec788b613b",
+        "f34d0660-8434-4a53-a7a2-06521bc38a2f"
+      ],
+      "event_count": 15,
+      "programme_order": 3,
+      "raw_title": "Busk",
+      "clean_title": "Busk",
+      "raw_composers": [
+        "V. de Moraes, August Söderman, Ljova, Moondog, Daniel Bélanger, Camille Saint-Saëns, David Wikander"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "V. de Moraes, August Söderman, Ljova, Moondog, Daniel Bélanger, Camille Saint-Saëns, David Wikander",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "multi_composer_source_review",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "Source music credit contains a comma-delimited creator string. Manual normalization required."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/pulsations",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Pulsations"
+      ],
+      "event_ids": [
+        "024eced0-aa32-4c76-9513-1736628d095d",
+        "0ef17298-8823-4400-bd9a-d88da7d38128",
+        "1d3e3aef-861b-4a4b-bf3a-39ffca27774d",
+        "29570a2c-3758-4d14-86e6-6ee7b88a93ec",
+        "320f16f5-445e-4ac1-a8a3-c1d42e16a6df",
+        "3c268a50-6ac6-4465-95ba-4c68364f8a40",
+        "4da0cd75-10de-40b7-8368-6388096129f0",
+        "4e5b9670-1ddc-4267-8dda-c9d1f7b459f2",
+        "4f35cc12-191c-4be2-a514-cf5d355ff5db",
+        "7a4abd2e-ef63-4a67-96e0-da43bad13168",
+        "83f33022-f926-4511-8b7f-f625b6a90926",
+        "8b5fe2b6-574e-4d17-bf64-ccd22feda3b2",
+        "9373262c-d0ac-478a-a76f-88805aeeacd9",
+        "a04e6df1-104f-4b2d-83c7-8aa87026fa55",
+        "ab61795c-9e8d-4831-a79d-f817e66e09d1",
+        "adf4ca06-ddfa-47bb-b59a-e736c7110a4d",
+        "c467b38b-33b1-4378-aa60-1cba81802b6e",
+        "c5d41489-c3a5-4ca3-a568-266072d8469a",
+        "c6edc110-8814-44e3-9650-f993b0e29e27",
+        "c72a4ed8-4247-437d-9d95-70c15b295534",
+        "e3bf2f7c-f2c0-4511-aa39-a624fea19b33",
+        "e5ff7862-0f2b-4b7a-8845-6bf951cef622",
+        "e92ff49f-638e-4b1c-b890-3ae92b1b6ff8"
+      ],
+      "event_count": 23,
+      "programme_order": 1,
+      "raw_title": "Path 19",
+      "clean_title": "Path 19",
+      "raw_composers": [
+        "Max Richter"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Max Richter",
+          "status": "matched",
+          "composer_id": "88d37e1d-7395-478f-b393-70332dbeca5f",
+          "canonical_name": "Max Richter",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/pulsations",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Pulsations"
+      ],
+      "event_ids": [
+        "024eced0-aa32-4c76-9513-1736628d095d",
+        "0ef17298-8823-4400-bd9a-d88da7d38128",
+        "1d3e3aef-861b-4a4b-bf3a-39ffca27774d",
+        "29570a2c-3758-4d14-86e6-6ee7b88a93ec",
+        "320f16f5-445e-4ac1-a8a3-c1d42e16a6df",
+        "3c268a50-6ac6-4465-95ba-4c68364f8a40",
+        "4da0cd75-10de-40b7-8368-6388096129f0",
+        "4e5b9670-1ddc-4267-8dda-c9d1f7b459f2",
+        "4f35cc12-191c-4be2-a514-cf5d355ff5db",
+        "7a4abd2e-ef63-4a67-96e0-da43bad13168",
+        "83f33022-f926-4511-8b7f-f625b6a90926",
+        "8b5fe2b6-574e-4d17-bf64-ccd22feda3b2",
+        "9373262c-d0ac-478a-a76f-88805aeeacd9",
+        "a04e6df1-104f-4b2d-83c7-8aa87026fa55",
+        "ab61795c-9e8d-4831-a79d-f817e66e09d1",
+        "adf4ca06-ddfa-47bb-b59a-e736c7110a4d",
+        "c467b38b-33b1-4378-aa60-1cba81802b6e",
+        "c5d41489-c3a5-4ca3-a568-266072d8469a",
+        "c6edc110-8814-44e3-9650-f993b0e29e27",
+        "c72a4ed8-4247-437d-9d95-70c15b295534",
+        "e3bf2f7c-f2c0-4511-aa39-a624fea19b33",
+        "e5ff7862-0f2b-4b7a-8845-6bf951cef622",
+        "e92ff49f-638e-4b1c-b890-3ae92b1b6ff8"
+      ],
+      "event_count": 23,
+      "programme_order": 2,
+      "raw_title": "Lamentation",
+      "clean_title": "Lamentation",
+      "raw_composers": [
+        "Zoltán Kodály"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Zoltán Kodály",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/pulsations",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Pulsations"
+      ],
+      "event_ids": [
+        "024eced0-aa32-4c76-9513-1736628d095d",
+        "0ef17298-8823-4400-bd9a-d88da7d38128",
+        "1d3e3aef-861b-4a4b-bf3a-39ffca27774d",
+        "29570a2c-3758-4d14-86e6-6ee7b88a93ec",
+        "320f16f5-445e-4ac1-a8a3-c1d42e16a6df",
+        "3c268a50-6ac6-4465-95ba-4c68364f8a40",
+        "4da0cd75-10de-40b7-8368-6388096129f0",
+        "4e5b9670-1ddc-4267-8dda-c9d1f7b459f2",
+        "4f35cc12-191c-4be2-a514-cf5d355ff5db",
+        "7a4abd2e-ef63-4a67-96e0-da43bad13168",
+        "83f33022-f926-4511-8b7f-f625b6a90926",
+        "8b5fe2b6-574e-4d17-bf64-ccd22feda3b2",
+        "9373262c-d0ac-478a-a76f-88805aeeacd9",
+        "a04e6df1-104f-4b2d-83c7-8aa87026fa55",
+        "ab61795c-9e8d-4831-a79d-f817e66e09d1",
+        "adf4ca06-ddfa-47bb-b59a-e736c7110a4d",
+        "c467b38b-33b1-4378-aa60-1cba81802b6e",
+        "c5d41489-c3a5-4ca3-a568-266072d8469a",
+        "c6edc110-8814-44e3-9650-f993b0e29e27",
+        "c72a4ed8-4247-437d-9d95-70c15b295534",
+        "e3bf2f7c-f2c0-4511-aa39-a624fea19b33",
+        "e5ff7862-0f2b-4b7a-8845-6bf951cef622",
+        "e92ff49f-638e-4b1c-b890-3ae92b1b6ff8"
+      ],
+      "event_count": 23,
+      "programme_order": 3,
+      "raw_title": "Schmetterling",
+      "clean_title": "Schmetterling",
+      "raw_composers": [
+        "Max Richter",
+        "The Magnetic Fields"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Max Richter",
+          "status": "matched",
+          "composer_id": "88d37e1d-7395-478f-b393-70332dbeca5f",
+          "canonical_name": "Max Richter",
+          "method": "canonical_name",
+          "suggestions": []
+        },
+        {
+          "raw_name": "The Magnetic Fields",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/rituels",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Rituels"
+      ],
+      "event_ids": [
+        "0ddecf60-af70-45a1-a40d-69f23577b814",
+        "16b1be8f-244c-46c1-9b17-1f2060b6b7b3",
+        "1b4ec0f5-2b8c-4a54-a9d8-34108efb77b6",
+        "251b68a8-35cf-4f03-998e-f6418e456aa2",
+        "26cbaa84-6da0-4e59-9d75-6f97749fdaa6",
+        "315c3d84-1b2d-4b41-98f9-b56b8dbbec7f",
+        "36a45355-d314-4add-ac3e-f86637e0db73",
+        "3dff08a7-c3cc-43c5-ac0a-897f7e88c1ea",
+        "6782e9d7-5c05-4703-8b8b-911df7410ae3",
+        "6bac510b-ed39-454a-b3d2-c9a646e23dc3",
+        "7591bf2e-4674-485e-80eb-5a042ae60025",
+        "7ad68f33-6f17-49e4-84d2-38caa11aeb5a",
+        "7c61a251-bb30-481f-b12a-66a10e7bb13d",
+        "8a085f39-cbae-4fcb-9bf4-8cd8fa385837",
+        "8a2e817a-96c2-43a8-9071-9db3cb014243",
+        "8cf9d640-639f-4351-8f61-534cca62fa6e",
+        "92612c9e-a5d3-4d69-83b7-79ca1080f3e1",
+        "92ea8801-db7f-4c7a-b4d1-8cd1e720b93e",
+        "9ab78b35-cd17-4d39-b5cb-81ee7835a094",
+        "b3c17251-e0bf-43c5-b9be-3974177f5ac5",
+        "cad0d617-0380-4bfa-8f0f-482839e1d3d9",
+        "eecce278-b616-45d0-91b2-90b8e0fa3342"
+      ],
+      "event_count": 22,
+      "programme_order": 1,
+      "raw_title": "Suite en blanc",
+      "clean_title": "Suite en blanc",
+      "raw_composers": [
+        "Édouard Lalo"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Édouard Lalo",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/rituels",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Rituels"
+      ],
+      "event_ids": [
+        "0ddecf60-af70-45a1-a40d-69f23577b814",
+        "16b1be8f-244c-46c1-9b17-1f2060b6b7b3",
+        "1b4ec0f5-2b8c-4a54-a9d8-34108efb77b6",
+        "251b68a8-35cf-4f03-998e-f6418e456aa2",
+        "26cbaa84-6da0-4e59-9d75-6f97749fdaa6",
+        "315c3d84-1b2d-4b41-98f9-b56b8dbbec7f",
+        "36a45355-d314-4add-ac3e-f86637e0db73",
+        "3dff08a7-c3cc-43c5-ac0a-897f7e88c1ea",
+        "6782e9d7-5c05-4703-8b8b-911df7410ae3",
+        "6bac510b-ed39-454a-b3d2-c9a646e23dc3",
+        "7591bf2e-4674-485e-80eb-5a042ae60025",
+        "7ad68f33-6f17-49e4-84d2-38caa11aeb5a",
+        "7c61a251-bb30-481f-b12a-66a10e7bb13d",
+        "8a085f39-cbae-4fcb-9bf4-8cd8fa385837",
+        "8a2e817a-96c2-43a8-9071-9db3cb014243",
+        "8cf9d640-639f-4351-8f61-534cca62fa6e",
+        "92612c9e-a5d3-4d69-83b7-79ca1080f3e1",
+        "92ea8801-db7f-4c7a-b4d1-8cd1e720b93e",
+        "9ab78b35-cd17-4d39-b5cb-81ee7835a094",
+        "b3c17251-e0bf-43c5-b9be-3974177f5ac5",
+        "cad0d617-0380-4bfa-8f0f-482839e1d3d9",
+        "eecce278-b616-45d0-91b2-90b8e0fa3342"
+      ],
+      "event_count": 22,
+      "programme_order": 2,
+      "raw_title": "Boléro X",
+      "clean_title": "Boléro X",
+      "raw_composers": [
+        "Maurice Ravel"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Maurice Ravel",
+          "status": "matched",
+          "composer_id": "f372a0dd-f851-4339-a8ca-5dc15e1ab508",
+          "canonical_name": "Maurice Ravel",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "a22891b2-a3d3-4564-b0e6-a826c4f3d67b",
+          "canonical_title": "Bolero",
+          "score": 0.8571
+        },
+        {
+          "work_id": "5075172f-9a59-4ff3-9b7f-d97dc8557da3",
+          "canonical_title": "Boléro",
+          "score": 0.8571
+        }
+      ],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/rituels",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Rituels"
+      ],
+      "event_ids": [
+        "0ddecf60-af70-45a1-a40d-69f23577b814",
+        "16b1be8f-244c-46c1-9b17-1f2060b6b7b3",
+        "1b4ec0f5-2b8c-4a54-a9d8-34108efb77b6",
+        "251b68a8-35cf-4f03-998e-f6418e456aa2",
+        "26cbaa84-6da0-4e59-9d75-6f97749fdaa6",
+        "315c3d84-1b2d-4b41-98f9-b56b8dbbec7f",
+        "36a45355-d314-4add-ac3e-f86637e0db73",
+        "3dff08a7-c3cc-43c5-ac0a-897f7e88c1ea",
+        "6782e9d7-5c05-4703-8b8b-911df7410ae3",
+        "6bac510b-ed39-454a-b3d2-c9a646e23dc3",
+        "7591bf2e-4674-485e-80eb-5a042ae60025",
+        "7ad68f33-6f17-49e4-84d2-38caa11aeb5a",
+        "7c61a251-bb30-481f-b12a-66a10e7bb13d",
+        "8a085f39-cbae-4fcb-9bf4-8cd8fa385837",
+        "8a2e817a-96c2-43a8-9071-9db3cb014243",
+        "8cf9d640-639f-4351-8f61-534cca62fa6e",
+        "92612c9e-a5d3-4d69-83b7-79ca1080f3e1",
+        "92ea8801-db7f-4c7a-b4d1-8cd1e720b93e",
+        "9ab78b35-cd17-4d39-b5cb-81ee7835a094",
+        "b3c17251-e0bf-43c5-b9be-3974177f5ac5",
+        "cad0d617-0380-4bfa-8f0f-482839e1d3d9",
+        "eecce278-b616-45d0-91b2-90b8e0fa3342"
+      ],
+      "event_count": 22,
+      "programme_order": 3,
+      "raw_title": "Le Sacre du printemps",
+      "clean_title": "Le Sacre du printemps",
+      "raw_composers": [
+        "Igor Stravinsky"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Igor Stravinsky",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": [
+            {
+              "composer_id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8",
+              "canonical_name": "Igor Stravinski",
+              "score": 0.9333
+            }
+          ]
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "46b515a9-251f-46e8-9699-92ea749c7043",
+          "canonical_title": "Le Sacre du printemps",
+          "identity_key": null,
+          "normalization_status": "verified",
+          "title_match_method": "canonical_title",
+          "creators": [
+            {
+              "composer_id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8",
+              "canonical_name": "Igor Stravinski"
+            }
+          ]
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/spectacle-de-lecole-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Spectacle de l'École de Danse"
+      ],
+      "event_ids": [
+        "2a6a3b82-42f8-4663-9dba-583f6564735b",
+        "639e7105-7fa3-418e-b6e2-32ad183c1042",
+        "c57aa796-c702-4ac9-b0b5-edc67f461d4d"
+      ],
+      "event_count": 3,
+      "programme_order": 1,
+      "raw_title": "Suite de danses",
+      "clean_title": "Suite de danses",
+      "raw_composers": [
+        "Frédéric Chopin"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Frédéric Chopin",
+          "status": "matched",
+          "composer_id": "63c53106-3321-4af3-8d17-b04806facc1c",
+          "canonical_name": "Frédéric Chopin",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/spectacle-de-lecole-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Spectacle de l'École de Danse"
+      ],
+      "event_ids": [
+        "2a6a3b82-42f8-4663-9dba-583f6564735b",
+        "639e7105-7fa3-418e-b6e2-32ad183c1042",
+        "c57aa796-c702-4ac9-b0b5-edc67f461d4d"
+      ],
+      "event_count": 3,
+      "programme_order": 2,
+      "raw_title": "Ma mère l’Oye",
+      "clean_title": "Ma mère l’Oye",
+      "raw_composers": [
+        "Maurice Ravel"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Maurice Ravel",
+          "status": "matched",
+          "composer_id": "f372a0dd-f851-4339-a8ca-5dc15e1ab508",
+          "canonical_name": "Maurice Ravel",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "work_unmatched",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "No exact canonical Work match. No Work is created automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/ballet/spectacle-de-lecole-de-danse",
+      "event_type": "Ballet",
+      "source_titles": [
+        "Spectacle de l'École de Danse"
+      ],
+      "event_ids": [
+        "2a6a3b82-42f8-4663-9dba-583f6564735b",
+        "639e7105-7fa3-418e-b6e2-32ad183c1042",
+        "c57aa796-c702-4ac9-b0b5-edc67f461d4d"
+      ],
+      "event_count": 3,
+      "programme_order": 3,
+      "raw_title": "Piège de lumière",
+      "clean_title": "Piège de lumière",
+      "raw_composers": [
+        "Jean-Michel Damase"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Jean-Michel Damase",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/au-bord-de-l-eau",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Au Bord de l’eau"
+      ],
+      "event_ids": [
+        "6551a4f9-ce8f-4cf7-8578-a26f0b50a349"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Quintette pour Piano et Cordes nº 2 en ut mineur, op. 115",
+      "clean_title": "Quintette pour Piano et Cordes nº 2 en ut mineur, op. 115",
+      "raw_composers": [
+        "Gabriel Fauré"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Gabriel Fauré",
+          "status": "matched",
+          "composer_id": "575e37d7-fce3-4780-9070-4e67a2f64bae",
+          "canonical_name": "Gabriel Fauré",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "84dc618c-b97a-4783-bd52-26776fed6eac",
+          "canonical_title": "Quintette pour Piano et Cordes nº 2 en ut mineur, op. 115",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/au-bord-de-l-eau",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Au Bord de l’eau"
+      ],
+      "event_ids": [
+        "6551a4f9-ce8f-4cf7-8578-a26f0b50a349"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Poème de l’amour et de la mer, op. 19",
+      "clean_title": "Poème de l’amour et de la mer, op. 19",
+      "raw_composers": [
+        "Ernest Chausson"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Ernest Chausson",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "a2013ba9-f81d-469c-b64c-7acabdff0e78",
+          "canonical_title": "Poème de l’amour et de la mer, op. 19",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/bicentenaire-beethoven",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Bicentenaire Beethoven"
+      ],
+      "event_ids": [
+        "536ad980-44c0-4244-b42c-b44e816840a9"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Sextuor pour Piano et vents en ut mineur, op. 40",
+      "clean_title": "Sextuor pour Piano et vents en ut mineur, op. 40",
+      "raw_composers": [
+        "Louise Farrenc"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Louise Farrenc",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "3c1818c5-4449-4f40-84d1-d185ba7cf837",
+          "canonical_title": "Sextuor pour Piano et vents en ut mineur, op. 40",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/bicentenaire-beethoven",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Bicentenaire Beethoven"
+      ],
+      "event_ids": [
+        "536ad980-44c0-4244-b42c-b44e816840a9"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Quintette pour Piano et vents en mi b Majeur, op. 16",
+      "clean_title": "Quintette pour Piano et vents en mi b Majeur, op. 16",
+      "raw_composers": [
+        "Ludwig van Beethoven"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Ludwig van Beethoven",
+          "status": "matched",
+          "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+          "canonical_name": "Ludwig van Beethoven",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "070e9582-338e-434d-ae74-23ef13155253",
+          "canonical_title": "Quintette pour Piano et vents en mi b Majeur, op. 16",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/bicentenaire-beethoven-2e-partie",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Bicentenaire Beethoven"
+      ],
+      "event_ids": [
+        "882061a2-875c-44a1-9089-fae677307155"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "quatuor avec Clarinette en mi b Majeur, KV 380",
+      "clean_title": "quatuor avec Clarinette en mi b Majeur, KV 380",
+      "raw_composers": [
+        "Wolfgang Amadeus Mozart"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Wolfgang Amadeus Mozart",
+          "status": "matched",
+          "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+          "canonical_name": "Wolfgang Amadeus Mozart",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "fd15037c-f9b3-494c-9d12-9877f2dd5103",
+          "canonical_title": "quatuor avec Clarinette en mi b Majeur, KV 380",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/bicentenaire-beethoven-2e-partie",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Bicentenaire Beethoven"
+      ],
+      "event_ids": [
+        "882061a2-875c-44a1-9089-fae677307155"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Septuor en mi b Majeur, op. 20",
+      "clean_title": "Septuor en mi b Majeur, op. 20",
+      "raw_composers": [
+        "Ludwig van Beethoven"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Ludwig van Beethoven",
+          "status": "matched",
+          "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+          "canonical_name": "Ludwig van Beethoven",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "a3bcbfed-af81-47a0-85b2-8c5422387fe3",
+          "canonical_title": "Septuor en mi b Majeur, op. 20",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-1-octobre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 1 octobre"
+      ],
+      "event_ids": [
+        "259a4a95-b64a-4cb7-8859-55e813d701c5"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "1er trio en ré mineur, op. 32 (28’)",
+      "clean_title": "1er trio en ré mineur, op. 32",
+      "raw_composers": [
+        "Anton Arensky"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Anton Arensky",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "abab2c73-bc6f-43fc-a46e-8aee8c5073e2",
+          "canonical_title": "1er trio en ré mineur, op. 32 (28’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-1-octobre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 1 octobre"
+      ],
+      "event_ids": [
+        "259a4a95-b64a-4cb7-8859-55e813d701c5"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "2 pièces en trio, op. 95 (19’)",
+      "clean_title": "2 pièces en trio, op. 95",
+      "raw_composers": [
+        "Josef Jongen"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Josef Jongen",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "72af4664-0eaa-468a-8334-9dc40e16e01c",
+          "canonical_title": "2 pièces en trio, op. 95 (19’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-17-decembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 17 décembre"
+      ],
+      "event_ids": [
+        "e13108b7-864b-4d48-901b-d29f8d7bb43e"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Quartettsatz en ut mineur, D. 703 (9’)",
+      "clean_title": "Quartettsatz en ut mineur, D. 703",
+      "raw_composers": [
+        "Franz Schubert"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Franz Schubert",
+          "status": "matched",
+          "composer_id": "ad628acd-96a8-404a-821c-6dda86b5fcbf",
+          "canonical_name": "Franz Schubert",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "c017f8c5-8af1-405e-8ee3-54f09f95b6a4",
+          "canonical_title": "Quartettsatz en ut mineur, D. 703 (9’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-17-decembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 17 décembre"
+      ],
+      "event_ids": [
+        "e13108b7-864b-4d48-901b-d29f8d7bb43e"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "quatuor en ré mineur « La Jeune Fille et la Mort », D. 810 (40’)",
+      "clean_title": "quatuor en ré mineur « La Jeune Fille et la Mort », D. 810",
+      "raw_composers": [
+        "Franz Schubert"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Franz Schubert",
+          "status": "matched",
+          "composer_id": "ad628acd-96a8-404a-821c-6dda86b5fcbf",
+          "canonical_name": "Franz Schubert",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "23e27231-612c-4880-8c70-d5f9b3d289c7",
+          "canonical_title": "quatuor en ré mineur « La Jeune Fille et la Mort », D. 810 (40’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-fevrier",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 février"
+      ],
+      "event_ids": [
+        "27fa09ac-cd44-4c59-8208-6560f2c7840d"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "trio en ut mineur, op. 1 nº 3",
+      "clean_title": "trio en ut mineur, op. 1 nº 3",
+      "raw_composers": [
+        "Ludwig van Beethoven"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Ludwig van Beethoven",
+          "status": "matched",
+          "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+          "canonical_name": "Ludwig van Beethoven",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "d170417e-8a7c-44b8-893e-c647059084d5",
+          "canonical_title": "trio en ut mineur, op. 1 nº 3",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-fevrier",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 février"
+      ],
+      "event_ids": [
+        "27fa09ac-cd44-4c59-8208-6560f2c7840d"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "trio en la mineur, op. 114",
+      "clean_title": "trio en la mineur, op. 114",
+      "raw_composers": [
+        "Johannes Brahms"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Johannes Brahms",
+          "status": "matched",
+          "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+          "canonical_name": "Johannes Brahms",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "69466d28-bc11-4182-9bdc-1112a51f9628",
+          "canonical_title": "trio en la mineur, op. 114",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 mars"
+      ],
+      "event_ids": [
+        "17a7ab5b-8267-4e2d-8288-dbcab388152c"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Diaphane pour Hautbois, Clarinette et Piano (3’)",
+      "clean_title": "Diaphane pour Hautbois, Clarinette et Piano",
+      "raw_composers": [
+        "David Walter"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "David Walter",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "6fb781bd-06a5-42bd-a12c-6f231ae020b4",
+          "canonical_title": "Diaphane pour Hautbois, Clarinette et Piano (3’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 mars"
+      ],
+      "event_ids": [
+        "17a7ab5b-8267-4e2d-8288-dbcab388152c"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Fantaisie pour Clarinette et Piano (5’)",
+      "clean_title": "Fantaisie pour Clarinette et Piano",
+      "raw_composers": [
+        "Carl Nielsen"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Carl Nielsen",
+          "status": "matched",
+          "composer_id": "ab5a96b8-e16f-4229-8537-e1adc79c0527",
+          "canonical_name": "Carl Nielsen",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "9f372264-3f02-4b59-9e0b-9a4b269b2dd1",
+          "canonical_title": "Fantaisie pour Clarinette et Piano (5’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 mars"
+      ],
+      "event_ids": [
+        "17a7ab5b-8267-4e2d-8288-dbcab388152c"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Mazurka pour Hautbois et Piano (5’)",
+      "clean_title": "Mazurka pour Hautbois et Piano",
+      "raw_composers": [
+        "Léopold Wallner"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Léopold Wallner",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "f9731e8b-5c36-4efa-9978-000e010d9dfa",
+          "canonical_title": "Mazurka pour Hautbois et Piano (5’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 mars"
+      ],
+      "event_ids": [
+        "17a7ab5b-8267-4e2d-8288-dbcab388152c"
+      ],
+      "event_count": 1,
+      "programme_order": 4,
+      "raw_title": "Poème pour Hautbois et Piano (8’)",
+      "clean_title": "Poème pour Hautbois et Piano",
+      "raw_composers": [
+        "Marina Dranichnikova"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Marina Dranichnikova",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "e3fd24a9-1da3-4052-8e05-435b993c0291",
+          "canonical_title": "Poème pour Hautbois et Piano (8’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-18-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 18 mars"
+      ],
+      "event_ids": [
+        "17a7ab5b-8267-4e2d-8288-dbcab388152c"
+      ],
+      "event_count": 1,
+      "programme_order": 5,
+      "raw_title": "trio pour Hautbois, Clarinette et Piano en si mineur, op. 27 (24’)",
+      "clean_title": "trio pour Hautbois, Clarinette et Piano en si mineur, op. 27",
+      "raw_composers": [
+        "Édouard Destenay"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Édouard Destenay",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "349f1e8e-f82c-4308-803f-8b9303d963eb",
+          "canonical_title": "trio pour Hautbois, Clarinette et Piano en si mineur, op. 27 (24’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-24-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 24 juin"
+      ],
+      "event_ids": [
+        "9643031b-e947-4ef4-99e3-750a53af688d"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Danse Lente (4’)",
+      "clean_title": "Danse Lente",
+      "raw_composers": [
+        "Josef Jongen"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Josef Jongen",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "4e96fc76-cea3-403e-84c1-44a113f34d38",
+          "canonical_title": "Danse Lente (4’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-24-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 24 juin"
+      ],
+      "event_ids": [
+        "9643031b-e947-4ef4-99e3-750a53af688d"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Suite en duo (14’)",
+      "clean_title": "Suite en duo",
+      "raw_composers": [
+        "Jean Cras"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Jean Cras",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "dec64a2e-4afe-4fc6-bd7d-bc2149d5f958",
+          "canonical_title": "Suite en duo (14’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-24-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 24 juin"
+      ],
+      "event_ids": [
+        "9643031b-e947-4ef4-99e3-750a53af688d"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Sonate BWV 1020 (11’)",
+      "clean_title": "Sonate BWV 1020",
+      "raw_composers": [
+        "Johann Sebastian Bach"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Johann Sebastian Bach",
+          "status": "matched",
+          "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+          "canonical_name": "Johann Sebastian Bach",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "7589066e-4504-488c-b6bd-6f824a69026c",
+          "canonical_title": "Sonate BWV 1020 (11’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-24-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 24 juin"
+      ],
+      "event_ids": [
+        "9643031b-e947-4ef4-99e3-750a53af688d"
+      ],
+      "event_count": 1,
+      "programme_order": 4,
+      "raw_title": "Naïades (12’)",
+      "clean_title": "Naïades",
+      "raw_composers": [
+        "William Alwyn"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "William Alwyn",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "44dff1a6-4732-4e1d-a58d-bae66df5cc39",
+          "canonical_title": "Naïades (12’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-24-juin",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 24 juin"
+      ],
+      "event_ids": [
+        "9643031b-e947-4ef4-99e3-750a53af688d"
+      ],
+      "event_count": 1,
+      "programme_order": 5,
+      "raw_title": "Children’s Corner (17’)",
+      "clean_title": "Children’s Corner",
+      "raw_composers": [
+        "Claude Debussy"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Claude Debussy",
+          "status": "matched",
+          "composer_id": "36ec6fc4-e55c-4e87-80c8-01402609b286",
+          "canonical_name": "Claude Debussy",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "21800b36-4c5a-4ae9-844d-3002fc5e3410",
+          "canonical_title": "Children’s Corner (17’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-25-mars",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 25 mars"
+      ],
+      "event_ids": [
+        "13073628-824c-4143-835f-f0cb35714e14"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "« Liebeslieder-Walzer“ (op. 52) et “Neue Liebeslieder“ (op.65)",
+      "clean_title": "« Liebeslieder-Walzer“ (op. 52) et “Neue Liebeslieder“ (op.65)",
+      "raw_composers": [
+        "Johannes Brahms"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Johannes Brahms",
+          "status": "matched",
+          "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+          "canonical_name": "Johannes Brahms",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "e62501b2-db60-4156-bc0c-5d89675a5c3d",
+          "canonical_title": "« Liebeslieder-Walzer“ (op. 52) et “Neue Liebeslieder“ (op.65)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-29-avril",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 29 avril"
+      ],
+      "event_ids": [
+        "36489d1b-be62-47e9-bd46-ee01dad0ef0f"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "quatuor pour quatre Violons (12’)",
+      "clean_title": "quatuor pour quatre Violons",
+      "raw_composers": [
+        "Grażina Bacewizc"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Grażina Bacewizc",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "5c167583-edd8-448e-886f-66ed5c045773",
+          "canonical_title": "quatuor pour quatre Violons (12’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-29-avril",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 29 avril"
+      ],
+      "event_ids": [
+        "36489d1b-be62-47e9-bd46-ee01dad0ef0f"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Sérénade pour 3 Violons et Piano (4’)",
+      "clean_title": "Sérénade pour 3 Violons et Piano",
+      "raw_composers": [
+        "Joseph Hellmesberger Jr"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Joseph Hellmesberger Jr",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "15503195-5eea-4052-8489-a44342b04f0b",
+          "canonical_title": "Sérénade pour 3 Violons et Piano (4’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-29-avril",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 29 avril"
+      ],
+      "event_ids": [
+        "36489d1b-be62-47e9-bd46-ee01dad0ef0f"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Romance pour 4 Violons et Piano (6’)",
+      "clean_title": "Romance pour 4 Violons et Piano",
+      "raw_composers": [
+        "Joseph Hellmesberger Jr"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Joseph Hellmesberger Jr",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "b8b15a74-e0a3-45aa-a621-deedf4eee043",
+          "canonical_title": "Romance pour 4 Violons et Piano (6’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-29-avril",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 29 avril"
+      ],
+      "event_ids": [
+        "36489d1b-be62-47e9-bd46-ee01dad0ef0f"
+      ],
+      "event_count": 1,
+      "programme_order": 4,
+      "raw_title": "Suite en sol mineur, op. 71 pour 2 Violons et Piano (20’)",
+      "clean_title": "Suite en sol mineur, op. 71 pour 2 Violons et Piano",
+      "raw_composers": [
+        "Moritz Moszkowski"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Moritz Moszkowski",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "c305e5f9-ea4c-4b3d-b616-aac9aea262f6",
+          "canonical_title": "Suite en sol mineur, op. 71 pour 2 Violons et Piano (20’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-29-avril",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 29 avril"
+      ],
+      "event_ids": [
+        "36489d1b-be62-47e9-bd46-ee01dad0ef0f"
+      ],
+      "event_count": 1,
+      "programme_order": 5,
+      "raw_title": "Cappricio pour 3 Violons, op. 2 (7’30)",
+      "clean_title": "Cappricio pour 3 Violons, op. 2",
+      "raw_composers": [
+        "Friedrich Hermann"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Friedrich Hermann",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "619b6e60-3d86-41fe-9121-6984d8cb267e",
+          "canonical_title": "Cappricio pour 3 Violons, op. 2 (7’30)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-4-fevrier",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 4 février "
+      ],
+      "event_ids": [
+        "b06a91f6-fd26-44f7-97d0-c6e9812e842d"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "trio en la mineur, op. 50 (50’)",
+      "clean_title": "trio en la mineur, op. 50",
+      "raw_composers": [
+        "Piotr Ilytch Tchaïkovsky"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Piotr Ilytch Tchaïkovsky",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": [
+            {
+              "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+              "canonical_name": "Piotr Ilitch Tchaïkovski",
+              "score": 0.9167
+            }
+          ]
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-5-novembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 5 novembre"
+      ],
+      "event_ids": [
+        "ab711a65-2e15-4ce5-9cdc-b8bcd526813b"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "quatuor avec Piano en la mineur (11’)",
+      "clean_title": "quatuor avec Piano en la mineur",
+      "raw_composers": [
+        "Gustav Mahler"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Gustav Mahler",
+          "status": "matched",
+          "composer_id": "25aab104-1c65-42ea-9338-852db4c79592",
+          "canonical_name": "Gustav Mahler",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "fb810205-cab0-4560-ab8c-c9d7f39e7ae8",
+          "canonical_title": "quatuor avec Piano en la mineur (11’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-5-novembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 5 novembre"
+      ],
+      "event_ids": [
+        "ab711a65-2e15-4ce5-9cdc-b8bcd526813b"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Phantasy-quartet, H 94 (13’)",
+      "clean_title": "Phantasy-quartet, H 94",
+      "raw_composers": [
+        "Frank Bridge"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Frank Bridge",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "a6026df9-bc05-4704-b953-cc8d9044b091",
+          "canonical_title": "Phantasy-quartet, H 94 (13’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-rencontre-du-5-novembre",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Concert-rencontre du 5 novembre"
+      ],
+      "event_ids": [
+        "ab711a65-2e15-4ce5-9cdc-b8bcd526813b"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "quatuor avec Piano nº 1, op. 15 (31’)",
+      "clean_title": "quatuor avec Piano nº 1, op. 15",
+      "raw_composers": [
+        "Gabriel Fauré"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Gabriel Fauré",
+          "status": "matched",
+          "composer_id": "575e37d7-fce3-4780-9070-4e67a2f64bae",
+          "canonical_name": "Gabriel Fauré",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "27cc0883-d00e-4a11-b321-90d480afbd25",
+          "canonical_title": "quatuor avec Piano nº 1, op. 15 (31’)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/echos-et-battements",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Échos et battements"
+      ],
+      "event_ids": [
+        "1a7d1685-3d47-4e2c-beeb-34be7ed66926"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Sextet",
+      "clean_title": "Sextet",
+      "raw_composers": [
+        "Steve Reich"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Steve Reich",
+          "status": "matched",
+          "composer_id": "8b795551-8a32-419a-ad1b-f18a2e770f46",
+          "canonical_name": "Steve Reich",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "3b093050-ac14-4f6b-8ec5-d882689ec2f5",
+          "canonical_title": "Sextet",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/entrelacs",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Entrelacs"
+      ],
+      "event_ids": [
+        "441241c3-6743-439d-b76f-7c2ec79bf1cb"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Sextuor à cordes",
+      "clean_title": "Sextuor à cordes",
+      "raw_composers": [
+        "Erwin Schulhoff"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Erwin Schulhoff",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "3f47a836-7fe3-4cd1-99b1-cea79a870bd2",
+          "canonical_title": "Sextuor à cordes",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/entrelacs",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Entrelacs"
+      ],
+      "event_ids": [
+        "441241c3-6743-439d-b76f-7c2ec79bf1cb"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Sextuor à Cordes en sol Majeur, op. 36",
+      "clean_title": "Sextuor à Cordes en sol Majeur, op. 36",
+      "raw_composers": [
+        "Johannes Brahms"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Johannes Brahms",
+          "status": "matched",
+          "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+          "canonical_name": "Johannes Brahms",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "49fc5920-2b68-476f-af23-b33f60ab2b47",
+          "canonical_title": "Sextuor à Cordes en sol Majeur, op. 36",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/felix-mendelssohn-gustav-mahler",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Felix Mendelssohn / Gustav Mahler"
+      ],
+      "event_ids": [
+        "f1c8018c-1389-42d1-8d35-3d710ad8f3ae"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Symphonie n°4 en la majeur « italienne », op. 90",
+      "clean_title": "Symphonie n°4 en la majeur « italienne », op. 90",
+      "raw_composers": [
+        "Felix Mendelssohn-Bartholdy"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Felix Mendelssohn-Bartholdy",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "93ceaf57-b0cf-40ed-b4c7-07a1478cb03d",
+          "canonical_title": "Symphonie n°4 en la majeur « italienne », op. 90",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/felix-mendelssohn-gustav-mahler",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Felix Mendelssohn / Gustav Mahler"
+      ],
+      "event_ids": [
+        "f1c8018c-1389-42d1-8d35-3d710ad8f3ae"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Symphonie n°4 en sol majeur",
+      "clean_title": "Symphonie n°4 en sol majeur",
+      "raw_composers": [
+        "Gustav Mahler"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Gustav Mahler",
+          "status": "matched",
+          "composer_id": "25aab104-1c65-42ea-9338-852db4c79592",
+          "canonical_name": "Gustav Mahler",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "2c5d16a4-384e-4ed7-85ce-faafa305954b",
+          "canonical_title": "Symphonie n°4 en sol majeur",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/lumiere",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Lumière"
+      ],
+      "event_ids": [
+        "da025ade-1e8b-4e77-94f0-c9f24eef1910"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Quintette avec Cor en mi b Majeur, KV 407",
+      "clean_title": "Quintette avec Cor en mi b Majeur, KV 407",
+      "raw_composers": [
+        "Wolfgang Amadeus Mozart"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Wolfgang Amadeus Mozart",
+          "status": "matched",
+          "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+          "canonical_name": "Wolfgang Amadeus Mozart",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "0dc04af5-ef7e-45bb-9278-7c5c73e5f424",
+          "canonical_title": "Quintette avec Cor en mi b Majeur, KV 407",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/lumiere",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Lumière"
+      ],
+      "event_ids": [
+        "da025ade-1e8b-4e77-94f0-c9f24eef1910"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Octuor à Cordes en mi b Majeur, op. 20",
+      "clean_title": "Octuor à Cordes en mi b Majeur, op. 20",
+      "raw_composers": [
+        "Felix Mendelssohn-Bartholdy"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Felix Mendelssohn-Bartholdy",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "3d5158fa-646b-4bf3-a6a4-fd9355155238",
+          "canonical_title": "Octuor à Cordes en mi b Majeur, op. 20",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/mediterranee",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Méditerranée "
+      ],
+      "event_ids": [
+        "918ad862-e879-406f-b825-fcd7223225bf"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Quatuor à Cordes",
+      "clean_title": "Quatuor à Cordes",
+      "raw_composers": [
+        "Giuseppe Verdi"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Giuseppe Verdi",
+          "status": "matched",
+          "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+          "canonical_name": "Giuseppe Verdi",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "c073ea38-0e71-450b-90da-9ea94e188faa",
+          "canonical_title": "Quatuor à Cordes",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/mediterranee",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Méditerranée "
+      ],
+      "event_ids": [
+        "918ad862-e879-406f-b825-fcd7223225bf"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Quintette avec Piano, op. 1",
+      "clean_title": "Quintette avec Piano, op. 1",
+      "raw_composers": [
+        "Joaquín Turina"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Joaquín Turina",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "43fc3ab7-88bc-4042-8a3b-50a5bca98d12",
+          "canonical_title": "Quintette avec Piano, op. 1",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/o-albion",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Ô Albion"
+      ],
+      "event_ids": [
+        "c97087a4-b002-42f3-be41-4eb94bb1ae4c"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Quatuor avec hautbois en fa majeur, KV 370",
+      "clean_title": "Quatuor avec hautbois en fa majeur, KV 370",
+      "raw_composers": [
+        "Wolfgang Amadeus Mozart"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Wolfgang Amadeus Mozart",
+          "status": "matched",
+          "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+          "canonical_name": "Wolfgang Amadeus Mozart",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "8bf0eee2-178a-493e-b259-1485c80e4b3e",
+          "canonical_title": "Quatuor avec hautbois en fa majeur, KV 370",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/o-albion",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Ô Albion"
+      ],
+      "event_ids": [
+        "c97087a4-b002-42f3-be41-4eb94bb1ae4c"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "« Phantasy quartet », op. 2",
+      "clean_title": "« Phantasy quartet », op. 2",
+      "raw_composers": [
+        "Benjamin Britten"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Benjamin Britten",
+          "status": "matched",
+          "composer_id": "2e832405-f0ac-4edf-aec0-8687c5c241b9",
+          "canonical_name": "Benjamin Britten",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "2de3f506-a6e1-47dc-93a3-cc12fc1a1ba2",
+          "canonical_title": "« Phantasy quartet », op. 2",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/o-albion",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Ô Albion"
+      ],
+      "event_ids": [
+        "c97087a4-b002-42f3-be41-4eb94bb1ae4c"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Quintette avec piano en ut mineur",
+      "clean_title": "Quintette avec piano en ut mineur",
+      "raw_composers": [
+        "Ralph Vaughan-Williams"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Ralph Vaughan-Williams",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": []
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "8c9415be-9b80-4833-8f1a-821d464e53e7",
+          "canonical_title": "Quintette avec piano en ut mineur",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_ids": [
+        "75bf100d-c52e-4db9-a334-2871d5a7915e"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Suite de Platée",
+      "clean_title": "Suite de Platée",
+      "raw_composers": [
+        "Jean-Philippe Rameau"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Jean-Philippe Rameau",
+          "status": "matched",
+          "composer_id": "3860f2ba-6650-4e38-b61c-2b55a3b9a447",
+          "canonical_name": "Jean-Philippe Rameau",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "90be419a-e407-4952-bb34-50727592cdaa",
+          "canonical_title": "Suite de Platée",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_ids": [
+        "75bf100d-c52e-4db9-a334-2871d5a7915e"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Maria de Buenos Aires",
+      "clean_title": "Maria de Buenos Aires",
+      "raw_composers": [
+        "Astor Piazzolla"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Astor Piazzolla",
+          "status": "matched",
+          "composer_id": "0a74d8fd-9e71-404e-9360-eca746f9c1f7",
+          "canonical_name": "Astor Piazzolla",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "1bba8188-48a1-4966-9561-a016ab82b1e3",
+          "canonical_title": "Maria de Buenos Aires",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_ids": [
+        "75bf100d-c52e-4db9-a334-2871d5a7915e"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "La Flûte enchantée, ouverture",
+      "clean_title": "La Flûte enchantée, ouverture",
+      "raw_composers": [
+        "Wolfgang Amadeus Mozart"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Wolfgang Amadeus Mozart",
+          "status": "matched",
+          "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+          "canonical_name": "Wolfgang Amadeus Mozart",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "31215b84-6908-48b5-b6a8-18a1d78cdb82",
+          "canonical_title": "La Flûte enchantée, ouverture",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_ids": [
+        "75bf100d-c52e-4db9-a334-2871d5a7915e"
+      ],
+      "event_count": 1,
+      "programme_order": 4,
+      "raw_title": "Rinaldo (extraits)",
+      "clean_title": "Rinaldo (extraits)",
+      "raw_composers": [
+        "Georg Friedrich Haendel"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Georg Friedrich Haendel",
+          "status": "matched",
+          "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
+          "canonical_name": "Georg Friedrich Händel",
+          "method": "composer_alias",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "fd30f9f5-2b78-4410-b7a3-d74d212804b6",
+          "canonical_title": "Rinaldo (extraits)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_ids": [
+        "75bf100d-c52e-4db9-a334-2871d5a7915e"
+      ],
+      "event_count": 1,
+      "programme_order": 5,
+      "raw_title": "Habanera (Carmen)",
+      "clean_title": "Habanera (Carmen)",
+      "raw_composers": [
+        "Georges Bizet"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Georges Bizet",
+          "status": "matched",
+          "composer_id": "c211356c-8f99-4c9e-b7dd-28367f1604c7",
+          "canonical_name": "Georges Bizet",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "685316e9-f495-4e8c-8741-52bce9a7b640",
+          "canonical_title": "Habanera (Carmen)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/opera",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Opéra !"
+      ],
+      "event_ids": [
+        "75bf100d-c52e-4db9-a334-2871d5a7915e"
+      ],
+      "event_count": 1,
+      "programme_order": 6,
+      "raw_title": "Procession d’Elsa (Lohengrin)",
+      "clean_title": "Procession d’Elsa (Lohengrin)",
+      "raw_composers": [
+        "Richard Wagner"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Richard Wagner",
+          "status": "matched",
+          "composer_id": "61f9bd52-8cc4-4752-bfbd-76c7a8d55f85",
+          "canonical_name": "Richard Wagner",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "72bc8bbb-d9f8-4309-8522-c3f8ad8ebaf1",
+          "canonical_title": "Procession d’Elsa (Lohengrin)",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/philharmonie-de-paris-1412",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Maurice Ravel / Thomas Adès / Edward Elgar"
+      ],
+      "event_ids": [
+        "1ca24f43-a7f4-4d87-95b9-ae0bf23a1da1"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Symphonie n°1 en la bémol majeur, op. 55",
+      "clean_title": "Symphonie n°1 en la bémol majeur, op. 55",
+      "raw_composers": [
+        "Edward Elgar"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Edward Elgar",
+          "status": "matched",
+          "composer_id": "21826de0-1e32-4c72-96e1-2c7c3c2665f2",
+          "canonical_name": "Edward Elgar",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "885f412c-4fb3-47c1-967c-e57653fe8e3a",
+          "canonical_title": "Symphonie n°1 en la bémol majeur, op. 55",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/richard-strauss-piotr-ilyitch-tchaikovski",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Richard Strauss / Piotr Ilyitch Tchaïkovski"
+      ],
+      "event_ids": [
+        "fba3fec2-97fa-41ce-b181-272c87015e6a"
+      ],
+      "event_count": 1,
+      "programme_order": 1,
+      "raw_title": "Die Liebe der Danae, op. 83, fragment symphonique",
+      "clean_title": "Die Liebe der Danae, op. 83, fragment symphonique",
+      "raw_composers": [
+        "Richard Strauss"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Richard Strauss",
+          "status": "matched",
+          "composer_id": "0d2f4633-2ce7-43b6-9c1f-d6938a602462",
+          "canonical_name": "Richard Strauss",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "cd8840ef-9989-40fb-abcf-891fa565f0df",
+          "canonical_title": "Die Liebe der Danae, op. 83, fragment symphonique",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/richard-strauss-piotr-ilyitch-tchaikovski",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Richard Strauss / Piotr Ilyitch Tchaïkovski"
+      ],
+      "event_ids": [
+        "fba3fec2-97fa-41ce-b181-272c87015e6a"
+      ],
+      "event_count": 1,
+      "programme_order": 2,
+      "raw_title": "Drei Hymnen, op. 71",
+      "clean_title": "Drei Hymnen, op. 71",
+      "raw_composers": [
+        "Richard Strauss"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Richard Strauss",
+          "status": "matched",
+          "composer_id": "0d2f4633-2ce7-43b6-9c1f-d6938a602462",
+          "canonical_name": "Richard Strauss",
+          "method": "canonical_name",
+          "suggestions": []
+        }
+      ],
+      "status": "title_match_review",
+      "confidence": "review",
+      "match_method": "exact_title_creator_unverified",
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "205c3e12-bd12-4fc5-93c6-5d0e9cde10e3",
+          "canonical_title": "Drei Hymnen, op. 71",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "Exact Work title exists, but Composer/creator relationship could not be verified automatically."
+    },
+    {
+      "source_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/richard-strauss-piotr-ilyitch-tchaikovski",
+      "event_type": "Concert et Récital",
+      "source_titles": [
+        "Richard Strauss / Piotr Ilyitch Tchaïkovski"
+      ],
+      "event_ids": [
+        "fba3fec2-97fa-41ce-b181-272c87015e6a"
+      ],
+      "event_count": 1,
+      "programme_order": 3,
+      "raw_title": "Symphonie n°6 en si mineur « Pathétique », op. 74",
+      "clean_title": "Symphonie n°6 en si mineur « Pathétique », op. 74",
+      "raw_composers": [
+        "Piotr Ilyitch Tchaïkovski"
+      ],
+      "composer_matches": [
+        {
+          "raw_name": "Piotr Ilyitch Tchaïkovski",
+          "status": "unmatched",
+          "composer_id": null,
+          "canonical_name": null,
+          "method": null,
+          "suggestions": [
+            {
+              "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+              "canonical_name": "Piotr Ilitch Tchaïkovski",
+              "score": 0.9796
+            }
+          ]
+        }
+      ],
+      "status": "composer_review_required",
+      "confidence": "review",
+      "match_method": null,
+      "proposed_work": null,
+      "candidate_works": [
+        {
+          "work_id": "3217946b-f98e-4720-8dc0-2f4e442d11c9",
+          "canonical_title": "Symphonie n°6 en si mineur « Pathétique », op. 74",
+          "identity_key": null,
+          "normalization_status": "review_required",
+          "title_match_method": "canonical_title",
+          "creators": []
+        }
+      ],
+      "notes": "At least one source Composer could not be resolved exactly."
+    }
+  ]
+}
