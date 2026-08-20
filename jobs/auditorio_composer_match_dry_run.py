@@ -187,13 +187,31 @@ def sanitize_inline(item: dict, indexes: dict) -> tuple[str, str | None, str | N
         if position >= 0:
             return raw[position + 2:].strip(), raw[:position].strip(), "sanitized_trailing_composer"
     trailing = re.search(r"\.\s+(\d+\.\s+)?(.+?\s*\([^)]*\))$", raw)
-    if trailing and recover_existing_identity(trailing.group(2), indexes):
-        return trailing.group(2).strip(), raw[:trailing.start()].strip(), "sanitized_trailing_composer"
+    if trailing:
+        trailing_text = trailing.group(2).strip()
+        trailing_matches = unique_matches(
+            indexes["exact"].get(exact_normalize(trailing_text), []),
+            trailing_text,
+        )
+        recovered_trailing = recover_existing_identity(trailing_text, indexes)
+        if len(trailing_matches) == 1 or (recovered_trailing and not recovered_trailing.get("ambiguous")):
+            return trailing_text, raw[:trailing.start()].strip(), "sanitized_trailing_composer"
     # A parenthesized attribution is usable only when it resolves and the line
     # is not a performer/cast structure.
     parenthetical = re.search(r"\(([^()]+)\)", raw)
-    if parenthetical and recover_existing_identity(parenthetical.group(1), indexes):
-        return parenthetical.group(1).strip(), raw[:parenthetical.start()].strip(), "sanitized_parenthetical_composer"
+    if parenthetical:
+        parenthetical_text = parenthetical.group(1).strip()
+        # Prefer an exact existing alias before surname/initial recovery;
+        # shared surnames can make recovery ambiguous even when the source
+        # gives a deterministic alias such as A. Márquez.
+        parenthetical_matches = unique_matches(
+            indexes["exact"].get(exact_normalize(parenthetical_text), []),
+            parenthetical_text,
+        )
+        if len(parenthetical_matches) == 1:
+            return parenthetical_text, raw[:parenthetical.start()].strip(), "sanitized_parenthetical_composer"
+        if recover_existing_identity(parenthetical_text, indexes):
+            return parenthetical_text, raw[:parenthetical.start()].strip(), "sanitized_parenthetical_composer"
     recovered_fragment = recover_existing_identity(fragment, indexes)
     if recovered_fragment and not recovered_fragment.get("ambiguous"):
         return fragment, None, None

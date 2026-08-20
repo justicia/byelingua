@@ -15,15 +15,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "mikel urquiza",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "1dc459aa-f9f3-4fa0-b303-b43fe5c8b5c1",
+      "canonical_composer_name": "Mikel Urquiza",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 2,
@@ -87,15 +87,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "nuria gimenez comas",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "015c0893-c701-4903-9757-3320b3140d3e",
+      "canonical_composer_name": "Núria Giménez-Comas",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 5,
@@ -253,15 +253,15 @@
       "raw_work_fragment": null,
       "sanitation_reason": null,
       "lookup_normalized": "carlos pinto grote",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d6d94477-059e-4027-82f5-7c932c594804",
+      "canonical_composer_name": "Carlos Pinto Grote",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 11,
@@ -279,15 +279,15 @@
       "raw_work_fragment": null,
       "sanitation_reason": null,
       "lookup_normalized": "elfidio alonso",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "a516415d-1d7f-41df-bdfe-ef41836f1938",
+      "canonical_composer_name": "Elfidio Alonso",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 12,
@@ -302,18 +302,18 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Pescador de Morenas",
+      "sanitation_reason": "sanitized_parenthetical_composer",
       "lookup_normalized": "elfidio alonso",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "a516415d-1d7f-41df-bdfe-ef41836f1938",
+      "canonical_composer_name": "Elfidio Alonso",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 13,
@@ -354,18 +354,18 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Dos Cruces",
+      "sanitation_reason": "sanitized_parenthetical_composer",
       "lookup_normalized": "carmelo larrea",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "180c6bf0-7370-4a2b-a54c-08103ff3c12f",
+      "canonical_composer_name": "Carmelo Larrea",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 15,
@@ -380,18 +380,18 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Aquella Tarde",
+      "sanitation_reason": "sanitized_parenthetical_composer",
       "lookup_normalized": "ernesto lecuona",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "792ee757-440b-47b8-b741-1e15e3f1aea0",
+      "canonical_composer_name": "Ernesto Lecuona",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 16,
@@ -433,15 +433,15 @@
         "sequence_transition"
       ],
       "lookup_normalized": "luigi boccherini",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2306b0e9-58fb-4cc2-8061-0b6d49e1f310",
+      "canonical_composer_name": "Luigi Boccherini",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 18,
@@ -457,15 +457,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "george onslow",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "1b30c71a-1205-49d2-a8ad-2cfc763d848e",
+      "canonical_composer_name": "George Onslow",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 19,
@@ -481,15 +481,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "darius milhaud",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "9a288c13-c4f2-429d-bdb4-5c23daa7078e",
+      "canonical_composer_name": "Darius Milhaud",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 20,
@@ -530,24 +530,18 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Concierto para violín y orquesta",
+      "sanitation_reason": "sanitized_composer_work_prefix",
       "lookup_normalized": "chaikovsky",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
-          "canonical_name": "Piotr Ilitch Tchaïkovski",
-          "score": 0.9
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "canonical_composer_name": "Piotr Ilitch Tchaïkovski",
+      "match_method": "exact",
+      "matched_alias": "Chaikovsky",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 22,
@@ -617,19 +611,24 @@
       "raw_work_fragment": "Salmo 98",
       "sanitation_reason": "sanitized_parenthetical_composer",
       "lookup_normalized": "f mendelssohn",
-      "match_status": "high_confidence",
-      "canonical_composer_id": "c4945f2d-cb41-41aa-ac71-9ef544ffac7f",
-      "canonical_composer_name": "Felix Mendelssohn",
-      "match_method": "deterministic_initial_surname",
+      "match_status": "unmatched",
+      "canonical_composer_id": null,
+      "canonical_composer_name": null,
+      "match_method": null,
       "matched_alias": null,
-      "candidate_matches": [],
-      "confidence": "high",
-      "evidence": [
+      "candidate_matches": [
         {
-          "type": "deterministic_existing_identity_recovery"
+          "composer_id": "17539a77-caba-4029-b70e-487e8c3b76b0",
+          "canonical_name": "Fanny Hensel-Mendelssohn"
+        },
+        {
+          "composer_id": "c4945f2d-cb41-41aa-ac71-9ef544ffac7f",
+          "canonical_name": "Felix Mendelssohn"
         }
       ],
-      "review_reason": null
+      "confidence": null,
+      "evidence": [],
+      "review_reason": "surname_or_initial_collision"
     },
     {
       "occurrence_id": 25,
@@ -721,20 +720,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "mijail glinka",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "f711734e-7f08-4dbf-9a8a-ec4e3fe20774",
+      "canonical_composer_name": "Mijaíl Glinka",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1804–1857)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1804–1857)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 29,
@@ -972,15 +975,15 @@
         "sequence_transition"
       ],
       "lookup_normalized": "carlos guastavino",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "a18bc744-7deb-47b3-8e52-0678e1832b0c",
+      "canonical_composer_name": "Carlos Guastavino",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 38,
@@ -996,15 +999,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "alicia terzian",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d11ad1c0-1b69-450a-84b8-945b84c9b22b",
+      "canonical_composer_name": "Alicia Terzian",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 39,
@@ -1371,20 +1374,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jean pierre deleuze",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "b6a5ca2f-a920-4289-b001-e578b8e1c2a8",
+      "canonical_composer_name": "Jean-Pierre Deleuze",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1954)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1954)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 52,
@@ -1573,20 +1580,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "marc antoine charpentier",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "canonical_composer_name": "Marc-Antoine Charpentier",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1643-1704)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1643-1704)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 59,
@@ -1635,20 +1646,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "michel lambert",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "6f6aa47a-3abd-4e42-958a-500da7d87afe",
+      "canonical_composer_name": "Michel Lambert",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1610-1696)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1610-1696)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 61,
@@ -1664,20 +1679,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "robert de visee",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "6112de10-b6b5-44ea-ab78-0f7970dfbde2",
+      "canonical_composer_name": "Robert de Visée",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1655-1733)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1655-1733)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 62,
@@ -1693,20 +1712,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "sebastien le camus",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "798d1de1-cd79-4f9e-9e36-135a01a4ab63",
+      "canonical_composer_name": "Sébastien Le Camus",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(ca. 1610-1677)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(ca. 1610-1677)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 63,
@@ -1854,20 +1877,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "john zorn",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "81d0333e-16ef-46da-99b4-adc787cf9941",
+      "canonical_composer_name": "John Zorn",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1953)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1953)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 68,
@@ -1907,21 +1934,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "piotr i tchaikovsky",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
-          "canonical_name": "Piotr Ilitch Tchaïkovski",
-          "score": 0.8837
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "canonical_composer_name": "Piotr Ilitch Tchaïkovski",
+      "match_method": "exact",
+      "matched_alias": "Piotr I. Tchaikovsky",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 70,
@@ -1937,20 +1958,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "sebastian bartmann",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "10c077f0-1446-43ca-9284-fc77d557b98a",
+      "canonical_composer_name": "Sebastian Bartmann",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(*1979)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(*1979)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 71,
@@ -2032,20 +2057,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "ernest krahmer",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "54b606ac-fa7e-4291-85c7-4fb30e5d7699",
+      "canonical_composer_name": "Ernest Krähmer",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1795-1837)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1795-1837)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 74,
@@ -2061,20 +2090,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "pauline viardot garcia",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "e18d8c7c-1046-4a2b-a114-401dae743657",
+      "canonical_composer_name": "Pauline Viardot-García",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1821-1910)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1821-1910)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 75,
@@ -2152,20 +2185,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "elena mendoza",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "f6ba16db-062f-4e07-adff-7ecff61b588e",
+      "canonical_composer_name": "Elena Mendoza",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1973)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1973)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 78,
@@ -2214,20 +2251,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "helena canovas pares",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "0fbea3ac-4fd2-49d8-b031-68b34507a8c8",
+      "canonical_composer_name": "Helena Cánovas Parés",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1994)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1994)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 80,
@@ -2411,15 +2452,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "jose luis turina",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "e958964f-815d-45a3-934e-50d56b9af30c",
+      "canonical_composer_name": "José Luis Turina",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 87,
@@ -2483,15 +2524,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "ernesto halffter",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "712ff3d6-0854-4158-8bd6-3dbc9c8243cf",
+      "canonical_composer_name": "Ernesto Halffter",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 90,
@@ -2813,20 +2854,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "tomaso albinoni",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "a1e098f0-9cd1-4198-8e60-a1f6a81c78be",
+      "canonical_composer_name": "Tomaso Albinoni",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1671–1751)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1671–1751)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 102,
@@ -2986,20 +3031,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "amy beach",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "1fe8dc13-95f9-4e8c-8835-9391369e1678",
+      "canonical_composer_name": "Amy Beach",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1867-1944)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1867-1944)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 108,
@@ -3105,20 +3154,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "lennox berkeley",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "5739875c-8977-4580-8ea9-6121380f79b8",
+      "canonical_composer_name": "Lennox Berkeley",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1903 - 1989)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1903 - 1989)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 112,
@@ -3166,20 +3219,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "joaquin rodrigo",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "26d19875-fa7d-449a-b674-d881723cc6b1",
+      "canonical_composer_name": "Joaquín Rodrigo",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1901 - 1999)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1901 - 1999)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 114,
@@ -3294,20 +3351,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "abel fleury",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "29ef9dc0-b76f-4114-bc42-3839c0175e58",
+      "canonical_composer_name": "Abel Fleury",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1903 - 1958)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1903 - 1958)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 118,
@@ -3356,20 +3417,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "julian arcas",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "1afda398-8484-4c7b-a527-0fa05b38c3f7",
+      "canonical_composer_name": "Julián Arcas",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1832 - 1882)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1832 - 1882)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 120,
@@ -3501,20 +3566,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "karol szymanowski",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "8b7de731-e7fa-4fd4-a84b-2412dcb646b9",
+      "canonical_composer_name": "Karol Szymanowski",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1882-1937)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1882-1937)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 125,
@@ -3620,20 +3689,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "louis couperin",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2e0e0bb3-e9b0-46d8-abd2-6e6059123255",
+      "canonical_composer_name": "Louis Couperin",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1626-1661)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1626-1661)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 129,
@@ -3649,20 +3722,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jan pieterszoon sweelinck",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "canonical_composer_name": "Jan Pieterszoon Sweelinck",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1562-1621)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1562-1621)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 130,
@@ -3678,20 +3755,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "dietrich buxtehude",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
+      "match_status": "alias",
+      "canonical_composer_id": "fa8d070b-db26-42f9-8325-da9b86d095ed",
+      "canonical_composer_name": "Dieterich Buxtehude",
+      "match_method": "exact",
+      "matched_alias": "Dietrich Buxtehude",
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1637-1707)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1637-1707)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 131,
@@ -3750,6 +3831,10 @@
         {
           "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
           "canonical_name": "Johann Sebastian Bach"
+        },
+        {
+          "composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+          "canonical_name": "Wilhelm Friedemann Bach"
         }
       ],
       "confidence": null,
@@ -3789,6 +3874,10 @@
         {
           "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
           "canonical_name": "Johann Sebastian Bach"
+        },
+        {
+          "composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+          "canonical_name": "Wilhelm Friedemann Bach"
         }
       ],
       "confidence": null,
@@ -4145,24 +4234,18 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Sinfonía n.º 3 “con órgano”",
+      "sanitation_reason": "sanitized_composer_work_prefix",
       "lookup_normalized": "saint saens",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
-          "canonical_name": "Camille Saint-Saëns",
-          "score": 0.9167
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
+      "canonical_composer_name": "Camille Saint-Saëns",
+      "match_method": "exact",
+      "matched_alias": "Saint-Saëns",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 148,
@@ -4548,20 +4631,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jose de san juan",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "e40c9bd6-3c74-499e-bee1-f09424950424",
+      "canonical_composer_name": "José de San Juan",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1687-1735)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1687-1735)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 163,
@@ -4603,20 +4690,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "francisco hernandez illana",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d5be254a-3f1e-46b4-acb8-c2a9691c6c64",
+      "canonical_composer_name": "Francisco Hernández Illana",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(ca. 1700-1780)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(ca. 1700-1780)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 165,
@@ -4632,20 +4723,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jose martinez de arce",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "a5f5927b-db3e-47e3-8db6-02d5f7c85966",
+      "canonical_composer_name": "José Martínez de Arce",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(ca. 1662-1721)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(ca. 1662-1721)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 166,
@@ -4661,20 +4756,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jose de torres",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "17ed3132-6f98-476e-8a5c-ddd03fb6ac1a",
+      "canonical_composer_name": "José de Torres",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(ca. 1670-1738)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(ca. 1670-1738)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 167,
@@ -4690,20 +4789,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "juan frances de iribarren",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "f21145dc-457a-49f9-91b6-02c3158f9d52",
+      "canonical_composer_name": "Juan Francés de Iribarren",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1699-1767)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1699-1767)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 168,
@@ -4942,20 +5045,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "raquel garcia tomas",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "c52af4e3-4ed0-4fac-9b3f-0d7f7ea61906",
+      "canonical_composer_name": "Raquel García-Tomás",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1984)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1984)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 177,
@@ -5032,15 +5139,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "caroline shaw",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "72518288-2ea8-4dd5-9493-994a967dc61e",
+      "canonical_composer_name": "Caroline Shaw",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 180,
@@ -5140,20 +5247,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "louis couperin",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2e0e0bb3-e9b0-46d8-abd2-6e6059123255",
+      "canonical_composer_name": "Louis Couperin",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1626-1661)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1626-1661)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 184,
@@ -5235,20 +5346,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "joseph nicolas pancrace royer",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2e41f299-0cf7-4292-8d2b-88e5000a36b1",
+      "canonical_composer_name": "Joseph-Nicolas-Pancrace Royer",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1703-1755)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1703-1755)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 187,
@@ -5555,26 +5670,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "piotr ilich tchaikovsky",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
-          "canonical_name": "Piotr Ilitch Tchaïkovski",
-          "score": 0.9362
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "canonical_composer_name": "Piotr Ilitch Tchaïkovski",
+      "match_method": "exact",
+      "matched_alias": "Piotr Ilich Tchaikovsky",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1840–1893)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1840–1893)"
         }
       ],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 198,
@@ -5994,20 +6107,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "bernard herrmann",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "3fa22be5-d845-4e80-82f7-d7bd832f469a",
+      "canonical_composer_name": "Bernard Herrmann",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1911-1975)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1911-1975)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 214,
@@ -6164,20 +6281,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "hans werner henze",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "448d5675-2eff-4350-93e7-1d493b452b99",
+      "canonical_composer_name": "Hans Werner Henze",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1926-2012)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1926-2012)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 220,
@@ -6219,20 +6340,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "efrain oscher",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d79a3936-32d7-4faa-8403-bc9eac71008e",
+      "canonical_composer_name": "Efraín Oscher",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1974)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1974)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 222,
@@ -6274,20 +6399,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "gonzalo grau",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2c92729f-70f7-4412-ae2d-a824bde8b573",
+      "canonical_composer_name": "Gonzalo Grau",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1972)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1972)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 224,
@@ -6327,15 +6456,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "rodolphe bruneau boulmier",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "0ddb9262-bb58-45bb-bade-3937a3f287e8",
+      "canonical_composer_name": "Rodolphe Bruneau-Boulmier",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 226,
@@ -6820,20 +6949,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "giovanni battista mele",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "13119930-b22b-4401-8bd5-a32dd59ba251",
+      "canonical_composer_name": "Giovanni Battista Mele",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(ca. 1701-1752)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(ca. 1701-1752)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 244,
@@ -6875,20 +7008,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "luis tabuenca",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "47e959cc-c7dc-4281-939b-d6042c16bbd9",
+      "canonical_composer_name": "Luis Tabuenca",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1979)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1979)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 246,
@@ -6969,29 +7106,27 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Suite in E Major",
+      "sanitation_reason": "sanitized_trailing_composer",
       "lookup_normalized": "george frideric handel",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
-          "canonical_name": "Georg Friedrich Händel",
-          "score": 0.9778
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
+      "canonical_composer_name": "Georg Friedrich Händel",
+      "match_method": "exact",
+      "matched_alias": "George Frideric Händel",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1685-1759)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1685-1759)"
         }
       ],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 249,
@@ -7006,8 +7141,8 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Piano Sonata",
+      "sanitation_reason": "sanitized_trailing_composer",
       "lookup_normalized": "igor stravinsky",
       "match_status": "alias",
       "canonical_composer_id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8",
@@ -7146,29 +7281,27 @@
       "classification_signals": [
         "inline_composer_work"
       ],
-      "raw_work_fragment": null,
-      "sanitation_reason": null,
+      "raw_work_fragment": "Estudio en Zamba",
+      "sanitation_reason": "sanitized_trailing_composer",
       "lookup_normalized": "rafael bullumba landestoy",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "57fffd2c-b888-4f0c-b2d3-001687c51d61",
+      "canonical_composer_name": "Rafael Bullumba Landestoy",
+      "match_method": "exact",
       "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "57fffd2c-b888-4f0c-b2d3-001687c51d61",
-          "canonical_name": "Rafael Bullumba Landestroy",
-          "score": 0.9804
-        }
-      ],
-      "confidence": null,
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1924–2018)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1924–2018)"
         }
       ],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 254,
@@ -7410,26 +7543,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "modest mussorgski",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "536dd1a3-b974-4c50-b6d9-30021397fa58",
-          "canonical_name": "Modest Mussorgsky",
-          "score": 0.9444
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "536dd1a3-b974-4c50-b6d9-30021397fa58",
+      "canonical_composer_name": "Modest Mussorgsky",
+      "match_method": "exact",
+      "matched_alias": "Modest Mussorgski",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1839-1881)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1839-1881)"
         }
       ],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 263,
@@ -7687,20 +7818,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "marc antoine charpentier",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "canonical_composer_name": "Marc-Antoine Charpentier",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1643-1704)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1643-1704)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 273,
@@ -8192,15 +8327,15 @@
       "raw_work_fragment": null,
       "sanitation_reason": null,
       "lookup_normalized": "oscar lorenzo fernandez",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "c8448796-17f0-4dd5-b45b-78b684987402",
+      "canonical_composer_name": "Oscar Lorenzo Fernández",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 292,
@@ -8748,21 +8883,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "piotr i tchaikovsky",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
-          "canonical_name": "Piotr Ilitch Tchaïkovski",
-          "score": 0.8837
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "canonical_composer_name": "Piotr Ilitch Tchaïkovski",
+      "match_method": "exact",
+      "matched_alias": "Piotr I. Tchaikovsky",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 311,
@@ -9443,20 +9572,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "johann georg pisendel",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "eeb7a61b-972b-4a6d-8ca7-84e328f0e850",
+      "canonical_composer_name": "Johann Georg Pisendel",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1687-1755)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1687-1755)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 336,
@@ -9576,20 +9709,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "benedetto marcello",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2e38b5ba-d9d7-4b7a-9185-d196d7558d4b",
+      "canonical_composer_name": "Benedetto Marcello",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1686 - 1739)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1686 - 1739)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 341,
@@ -9638,20 +9775,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "francesco corselli",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "6c5c8d8b-9dd1-4ebc-96d4-15a5efec53eb",
+      "canonical_composer_name": "Francesco Corselli",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1705-1778)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1705-1778)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 343,
@@ -10124,20 +10265,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "ignacio indio figueredo",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "de6bdf79-da4e-4a6b-8e89-97380f5347ca",
+      "canonical_composer_name": "Ignacio ‘Indio’ Figueredo",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1899-1995)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1899-1995)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 360,
@@ -10153,20 +10298,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "santiago de murcia",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "73155fe6-9950-492c-8c20-417844140922",
+      "canonical_composer_name": "Santiago de Murcia",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1673-1739)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1673-1739)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 361,
@@ -10299,20 +10448,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "asis marquez",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d41ae5ee-81d6-4637-911c-2a8536035661",
+      "canonical_composer_name": "Asís Márquez",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1987)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1987)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 366,
@@ -10868,15 +11021,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "juan alfonso garcia",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "69084782-ef3f-49f6-aedf-29e43a599385",
+      "canonical_composer_name": "Juan-Alfonso García",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 387,
@@ -10892,15 +11045,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "hector eliel marquez",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "c85c12cb-26ad-4a9b-acc6-2de8bc0083ed",
+      "canonical_composer_name": "Héctor Eliel Márquez",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 388,
@@ -10916,15 +11069,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "einojuhani rautavaara",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "b6f21ed0-a5ab-4c59-a226-a78ed47b236f",
+      "canonical_composer_name": "Einojuhani Rautavaara",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 389,
@@ -10940,15 +11093,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "hector eliel marquez",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "c85c12cb-26ad-4a9b-acc6-2de8bc0083ed",
+      "canonical_composer_name": "Héctor Eliel Márquez",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 390,
@@ -10964,15 +11117,15 @@
         "programme_sequence_composer"
       ],
       "lookup_normalized": "francesc vila",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "d123b394-209b-4116-bbc9-41e21d5d96f7",
+      "canonical_composer_name": "Francesc Vila",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 391,
@@ -11490,20 +11643,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "johann nepomuk hummel",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "59311043-087b-4d8b-b13d-901181f41951",
+      "canonical_composer_name": "Johann Nepomuk Hummel",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1778-1837)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1778-1837)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 410,
@@ -11648,20 +11805,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "maurice durufle",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "3b33368e-5488-4429-8307-2099c44a681a",
+      "canonical_composer_name": "Maurice Duruflé",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1902-1986)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1902-1986)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 415,
@@ -11677,20 +11838,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "francisco madina",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "186e7f1e-53b0-464d-8a5d-17d47fc2598f",
+      "canonical_composer_name": "Francisco Madina",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1907-1972)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1907-1972)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 416,
@@ -11739,20 +11904,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "vicente goicoechea",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "43461e61-4ca1-44e9-bdf2-6f7437d6c3f3",
+      "canonical_composer_name": "Vicente Goicoechea",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1854-1916)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1854-1916)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 418,
@@ -11768,20 +11937,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "rene eespere",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "4cb191ba-384f-4ada-895d-99a30786067a",
+      "canonical_composer_name": "René Eespere",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1953)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1953)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 419,
@@ -11797,20 +11970,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "carl maria von weber",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "3fd6394e-f2e8-441f-ad74-09fc5b468c1b",
+      "canonical_composer_name": "Carl Maria von Weber",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1782-1826)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1782-1826)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 420,
@@ -11826,26 +12003,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "piotr ilich tchaikovsky",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
-      "matched_alias": null,
-      "candidate_matches": [
-        {
-          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
-          "canonical_name": "Piotr Ilitch Tchaïkovski",
-          "score": 0.9362
-        }
-      ],
-      "confidence": null,
+      "match_status": "alias",
+      "canonical_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "canonical_composer_name": "Piotr Ilitch Tchaïkovski",
+      "match_method": "exact",
+      "matched_alias": "Piotr Ilich Tchaikovsky",
+      "candidate_matches": [],
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1840-1893)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1840-1893)"
         }
       ],
-      "review_reason": "fuzzy_candidates_review_only"
+      "review_reason": null
     },
     {
       "occurrence_id": 421,
@@ -11861,20 +12036,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "giovanni bottesini",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "4d739406-e617-4b01-ae66-8a070f57661f",
+      "canonical_composer_name": "Giovanni Bottesini",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1821-1889)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1821-1889)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 422,
@@ -11890,20 +12069,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "carl maria von weber",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "3fd6394e-f2e8-441f-ad74-09fc5b468c1b",
+      "canonical_composer_name": "Carl Maria von Weber",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1782-1826)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1782-1826)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 423,
@@ -12089,20 +12272,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jose de nebra",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "4c6a9335-3c14-454a-be7b-2f405c9946c8",
+      "canonical_composer_name": "José de Nebra",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1702-1768)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1702-1768)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 430,
@@ -12118,20 +12305,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "jose castel",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "44f305a6-f5fb-4dd6-88f0-173da5369e98",
+      "canonical_composer_name": "José Castel",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1737-1807)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1737-1807)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 431,
@@ -12147,20 +12338,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "francesco corradini",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "2537bfcd-a280-4f01-b60c-472a067f7d92",
+      "canonical_composer_name": "Francesco Corradini",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(ca. 1700-1769)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(ca. 1700-1769)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 432,
@@ -12200,15 +12395,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "cristobal halffter",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "406ac7a6-5bd4-42f2-b090-2b6ef7db7fc2",
+      "canonical_composer_name": "Cristóbal Halffter",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 434,
@@ -12515,15 +12710,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "rodolfo halffter",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "8bc0aec2-56b5-4b55-ac5f-720d01fd8c69",
+      "canonical_composer_name": "Rodolfo Halffter",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 446,
@@ -13488,20 +13683,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "cristobal de morales",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "5e3ee275-fc4b-4c64-8219-eac552ea8a41",
+      "canonical_composer_name": "Cristóbal de Morales",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1500-1553)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1500-1553)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 481,
@@ -13735,20 +13934,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "karol szymanowski",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "8b7de731-e7fa-4fd4-a84b-2412dcb646b9",
+      "canonical_composer_name": "Karol Szymanowski",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1882-1937)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1882-1937)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 490,
@@ -13764,20 +13967,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "laura vega santana",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "b8398ecb-d052-4bf6-b2e5-5c5303399106",
+      "canonical_composer_name": "Laura Vega Santana",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1978)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1978)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 491,
@@ -13859,20 +14066,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "alessandro scarlatti",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "06e2891f-5b17-486e-ba9f-2a1963d913cd",
+      "canonical_composer_name": "Alessandro Scarlatti",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1660-1725)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1660-1725)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 494,
@@ -14160,15 +14371,15 @@
         "sequence_transition"
       ],
       "lookup_normalized": "iluminada perez frutos",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "e7aafbb6-1474-46c2-be63-4c200ede57b0",
+      "canonical_composer_name": "Iluminada Pérez Frutos",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 505,
@@ -14544,19 +14755,24 @@
       "raw_work_fragment": null,
       "sanitation_reason": null,
       "lookup_normalized": "j turina",
-      "match_status": "high_confidence",
-      "canonical_composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
-      "canonical_composer_name": "Joaquín Turina",
-      "match_method": "deterministic_initial_surname",
+      "match_status": "unmatched",
+      "canonical_composer_id": null,
+      "canonical_composer_name": null,
+      "match_method": null,
       "matched_alias": null,
-      "candidate_matches": [],
-      "confidence": "high",
-      "evidence": [
+      "candidate_matches": [
         {
-          "type": "deterministic_existing_identity_recovery"
+          "composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
+          "canonical_name": "Joaquín Turina"
+        },
+        {
+          "composer_id": "e958964f-815d-45a3-934e-50d56b9af30c",
+          "canonical_name": "José Luis Turina"
         }
       ],
-      "review_reason": null
+      "confidence": null,
+      "evidence": [],
+      "review_reason": "surname_or_initial_collision"
     },
     {
       "occurrence_id": 519,
@@ -14600,19 +14816,24 @@
       "raw_work_fragment": null,
       "sanitation_reason": null,
       "lookup_normalized": "j turina",
-      "match_status": "high_confidence",
-      "canonical_composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
-      "canonical_composer_name": "Joaquín Turina",
-      "match_method": "deterministic_initial_surname",
+      "match_status": "unmatched",
+      "canonical_composer_id": null,
+      "canonical_composer_name": null,
+      "match_method": null,
       "matched_alias": null,
-      "candidate_matches": [],
-      "confidence": "high",
-      "evidence": [
+      "candidate_matches": [
         {
-          "type": "deterministic_existing_identity_recovery"
+          "composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
+          "canonical_name": "Joaquín Turina"
+        },
+        {
+          "composer_id": "e958964f-815d-45a3-934e-50d56b9af30c",
+          "canonical_name": "José Luis Turina"
         }
       ],
-      "review_reason": null
+      "confidence": null,
+      "evidence": [],
+      "review_reason": "surname_or_initial_collision"
     },
     {
       "occurrence_id": 521,
@@ -14936,20 +15157,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "wilhelm friedemann bach",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+      "canonical_composer_name": "Wilhelm Friedemann Bach",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1710-1784)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1710-1784)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 533,
@@ -14965,20 +15190,24 @@
         "composer_signal"
       ],
       "lookup_normalized": "fanny hensel mendelssohn",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "17539a77-caba-4029-b70e-487e8c3b76b0",
+      "canonical_composer_name": "Fanny Hensel-Mendelssohn",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [
         {
           "type": "lifespan",
           "value": "(1805-1847)"
+        },
+        {
+          "type": "lifespan_assisted_lookup",
+          "value": "(1805-1847)"
         }
       ],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 534,
@@ -15214,15 +15443,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "he zhanhao",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "5f2ff57e-3f35-4542-a75f-f33edd6cdf7e",
+      "canonical_composer_name": "He Zhanhao",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 544,
@@ -15238,15 +15467,15 @@
         "composer_signal"
       ],
       "lookup_normalized": "chen gang",
-      "match_status": "unmatched",
-      "canonical_composer_id": null,
-      "canonical_composer_name": null,
-      "match_method": null,
+      "match_status": "exact",
+      "canonical_composer_id": "b3477b78-3288-45f4-bed6-b4e021ee0e8b",
+      "canonical_composer_name": "Chen Gang",
+      "match_method": "exact",
       "matched_alias": null,
       "candidate_matches": [],
-      "confidence": null,
+      "confidence": "high",
       "evidence": [],
-      "review_reason": "no_exact_or_alias_match"
+      "review_reason": null
     },
     {
       "occurrence_id": 545,

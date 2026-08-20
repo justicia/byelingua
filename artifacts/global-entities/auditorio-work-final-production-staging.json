@@ -1,0 +1,4583 @@
+{
+  "source": "auditorio_nacional",
+  "review_only": true,
+  "database_writes": 0,
+  "actions": [
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "46de5edb-d734-4012-b739-fd0bce6702a9",
+      "identity_key": "work:882bfbc5de5d82b4b577edaab34fe86e",
+      "source_occurrence_id": 38
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "db80e730-46e4-403d-aae8-b2be0ad1813e",
+      "identity_key": "work:fceeea8c34e594fafa4d5f59c0631ce8",
+      "source_occurrence_id": 5
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "95ef9bab-3ddb-4a9f-9c41-2f6df1720d9e",
+      "identity_key": "work:b7d6d0d272fa09be376d7e80480c2748",
+      "source_occurrence_id": 7
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "099a449d-e232-4c20-9de8-d8298294e460",
+      "identity_key": "work:6a198ade49a37778dffa3bd40eab5591",
+      "source_occurrence_id": 8
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "268c5e91-1dc0-4d10-8bff-bd807c091d92",
+      "identity_key": "work:bf0bea57aa254352f777cd28c1b09395",
+      "source_occurrence_id": 1198
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "47cc70d2-a69f-4d5e-8be0-7a206230b2bd",
+      "identity_key": "work:9a6733039952834cb84433d4905128a0",
+      "source_occurrence_id": 11
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5738515c-30e9-4682-b557-8542acd867ad",
+      "identity_key": "work:e2f860097860850c40f8056ca15f8233",
+      "source_occurrence_id": 12
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "85a28026-781a-42aa-ab68-56c86d27b953",
+      "identity_key": "work:aea3edf453054f4366d42f9c541fa67b",
+      "source_occurrence_id": 13
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e532764a-0554-419b-8e6e-72861c90c506",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6",
+      "source_occurrence_id": 14
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e532764a-0554-419b-8e6e-72861c90c506",
+      "identity_key": "work:73b8997b852bab329c27ed5751ca6f24",
+      "source_occurrence_id": 14
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "10f95d90-b377-496a-a951-b99f740c5e6b",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6",
+      "source_occurrence_id": 17
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "10f95d90-b377-496a-a951-b99f740c5e6b",
+      "identity_key": "work:99b4b75aa3d7a8b8f70743d279fb7366",
+      "source_occurrence_id": 17
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "5b3737ff-e9b4-40a5-9e34-3eca0cd09c62",
+      "composer_id": "a516415d-1d7f-41df-bdfe-ef41836f1938",
+      "source_occurrence_id": 18
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5b3737ff-e9b4-40a5-9e34-3eca0cd09c62",
+      "identity_key": "work:8bf78204ff1968dedaf8310fbfe301f2",
+      "source_occurrence_id": 18
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "2c1457f3-bbc6-43ab-a89f-fb99694187e8",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6",
+      "source_occurrence_id": 19
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2c1457f3-bbc6-43ab-a89f-fb99694187e8",
+      "identity_key": "work:d585c440ff4d20bc73aaf1ca604de96f",
+      "source_occurrence_id": 19
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "61ef2ae1-a0ba-46c6-8b38-f6fb07503e2b",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6",
+      "source_occurrence_id": 20
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "61ef2ae1-a0ba-46c6-8b38-f6fb07503e2b",
+      "identity_key": "work:93e38678322690cc2efa8af2a9f0fc33",
+      "source_occurrence_id": 20
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "dfc0fa3b-40ca-4d42-bc48-fc8f3986e143",
+      "composer_id": "180c6bf0-7370-4a2b-a54c-08103ff3c12f",
+      "source_occurrence_id": 21
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dfc0fa3b-40ca-4d42-bc48-fc8f3986e143",
+      "identity_key": "work:d4b87b3544f907c96b0f395d30ef2cc3",
+      "source_occurrence_id": 21
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "d6b6c4e7-729f-45bf-91fd-66149c9085b2",
+      "composer_id": "792ee757-440b-47b8-b741-1e15e3f1aea0",
+      "source_occurrence_id": 22
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d6b6c4e7-729f-45bf-91fd-66149c9085b2",
+      "identity_key": "work:2b833a6acbca9f8d9c7ab2124f3f67ef",
+      "source_occurrence_id": 22
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "452a04cb-4868-48e2-8e3e-8b2bc60c0ff0",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6",
+      "source_occurrence_id": 23
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "452a04cb-4868-48e2-8e3e-8b2bc60c0ff0",
+      "identity_key": "work:b584a0b8d4961ba994b5a2d8cc807b66",
+      "source_occurrence_id": 23
+    },
+    {
+      "action": "create_work",
+      "id": "0a99202e-622b-5a39-b813-58251346eb33",
+      "title": "Quintetto in Re maggiore, Op. 39 n. 3, G. 339",
+      "composer_id": "2306b0e9-58fb-4cc2-8061-0b6d49e1f310",
+      "identity_key": "work:2c78e130a1c005d18dd78fe5c44d10b4",
+      "work_kind": "work",
+      "source_occurrence_id": 24
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "0a99202e-622b-5a39-b813-58251346eb33",
+      "alias": "Quinteto de cuerdas en Re Mayor, G. 339",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 24
+    },
+    {
+      "action": "create_work",
+      "id": "6127809b-2e55-547d-bfdf-2a46e78953e5",
+      "title": "Quintette à cordes en mi mineur, Op. 74",
+      "composer_id": "1b30c71a-1205-49d2-a8ad-2cfc763d848e",
+      "identity_key": "work:98d41c6589a38ca237f304ee2c50f19f",
+      "work_kind": "work",
+      "source_occurrence_id": 25
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "6127809b-2e55-547d-bfdf-2a46e78953e5",
+      "alias": "Quinteto de cuerdas en Mi menor núm. 30, op. 74",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 25
+    },
+    {
+      "action": "create_work",
+      "id": "5afa95cb-1073-596f-9fde-9f3ba3123bcb",
+      "title": "Deuxième quintette à cordes, Op. 316",
+      "composer_id": "9a288c13-c4f2-429d-bdb4-5c23daa7078e",
+      "identity_key": "work:769e78bba1202a6471891cde60c7bae0",
+      "work_kind": "work",
+      "source_occurrence_id": 26
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "5afa95cb-1073-596f-9fde-9f3ba3123bcb",
+      "alias": "Quinteto de cuerdas núm. 2, op. 316",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 26
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d881b6a3-331d-450e-9b34-05efc63c7b9d",
+      "identity_key": "work:595c915b6e80dfe0247977a6fe67b9a9",
+      "source_occurrence_id": 27
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f70d0fe2-02e7-490d-b309-28ff1a761cbb",
+      "identity_key": "work:b3d45b2889e77193706790dac5d19b60",
+      "source_occurrence_id": 29
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2b147dec-1367-4fcc-9e7e-eecc2fef340b",
+      "identity_key": "work:63adf49b7beb4292cc52ad9191f1f410",
+      "source_occurrence_id": 30
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "77048a76-f377-40ce-8d72-938c9a9a5f76",
+      "identity_key": "work:b5aa153fa9c514f1ad03476c8ce7a017",
+      "source_occurrence_id": 32
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "52f24e7f-847e-4c41-8395-b3688cfa83b8",
+      "identity_key": "work:2507cc6c48b4a4faf45b2b9c79db5717",
+      "source_occurrence_id": 36
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1d73388e-8ea4-4512-b16a-6540c95d9c0e",
+      "composer_id": "f711734e-7f08-4dbf-9a8a-ec4e3fe20774",
+      "source_occurrence_id": 37
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1d73388e-8ea4-4512-b16a-6540c95d9c0e",
+      "identity_key": "work:2775ce8a87d11aa4e0b285bd56befdd3",
+      "source_occurrence_id": 37
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "6a550afe-e723-4596-9c14-442b9e5e9a31",
+      "composer_id": "b939d48a-1989-462a-b29b-4a554213875d",
+      "source_occurrence_id": 39
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6a550afe-e723-4596-9c14-442b9e5e9a31",
+      "identity_key": "work:997981de46dd886a52cb274edb3b830b",
+      "source_occurrence_id": 39
+    },
+    {
+      "action": "create_work",
+      "id": "faf03538-2765-5c16-b0fc-6b7fc8435bbb",
+      "title": "In the South (Alassio), Op. 50",
+      "composer_id": "21826de0-1e32-4c72-96e1-2c7c3c2665f2",
+      "identity_key": "work:63860175c735e54325257db11f073430",
+      "work_kind": "work",
+      "source_occurrence_id": 40
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "faf03538-2765-5c16-b0fc-6b7fc8435bbb",
+      "alias": "In the South “Alassio”, op.50",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 40
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "17e16eca-5842-4016-a6d9-81f969798073",
+      "identity_key": "work:22fd994da8696373de9f8ee458a19106",
+      "source_occurrence_id": 42
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "15db53f1-32f4-4463-a4cb-dc9fd7720af1",
+      "identity_key": "work:155a632f54e69612bdf9f0f536e3e122",
+      "source_occurrence_id": 43
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f00469f5-879c-40aa-ba83-bd82aabde7b5",
+      "identity_key": "work:8d0f4dfbd09ced46e8c069bdde344ce8",
+      "source_occurrence_id": 44
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9d59fb74-6c07-4acb-b726-28538b06be57",
+      "identity_key": "work:70fd5db223017d78f74fa5559df3c714",
+      "source_occurrence_id": 45
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1e888b1a-b64e-4c54-89f1-c4f87732a040",
+      "identity_key": "work:2e05df0a43f26a982c7b2e328ef28f85",
+      "source_occurrence_id": 48
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "40afc2a8-31d3-46ab-a8a2-d9f54d7ea601",
+      "identity_key": "work:0ee7197b2ca8de491dde253471a18037",
+      "source_occurrence_id": 49
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "66d2298a-5c5c-48b9-bb0c-50a5237838eb",
+      "identity_key": "work:0ec9827eb960636fcdd89ce6f7c76723",
+      "source_occurrence_id": 50
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "70f6f8f5-0149-47e7-80f9-15a9337a20d8",
+      "identity_key": "work:c609c1488aa1fe13e6f5d4654b515f40",
+      "source_occurrence_id": 52
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2e9b6cb3-24dd-4a40-a037-0013284a51fe",
+      "identity_key": "work:a8fcfa66ae5e38399c69b024808b1229",
+      "source_occurrence_id": 53
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cb3b8e22-818f-4f2a-9464-0dcd44a4a80b",
+      "identity_key": "work:7c9b20a27e334b075d53ea5a7f04cae8",
+      "source_occurrence_id": 54
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4a9ecc06-447b-424e-9ed9-f90d08a297f2",
+      "identity_key": "work:a76c6ad50a82650ceeb0a72d1f325097",
+      "source_occurrence_id": 55
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "8a0dad6d-3ea1-4448-b2ec-b0cc665feea9",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 57
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8a0dad6d-3ea1-4448-b2ec-b0cc665feea9",
+      "identity_key": "work:307d72234fd9f28865d0d0b3efa7a76a",
+      "source_occurrence_id": 57
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "cdd81a47-164f-4d72-9789-bbcb1a015b55",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 58
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cdd81a47-164f-4d72-9789-bbcb1a015b55",
+      "identity_key": "work:5a9fb2413b17c49a7fab2ae22a27195a",
+      "source_occurrence_id": 58
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d777fe30-f7fb-4d2a-8b42-4dd022745115",
+      "identity_key": "work:e4c4a865c6069ea0c1a46a97175fc34d",
+      "source_occurrence_id": 60
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "33edd697-a960-4ce2-9fc2-36a48b730b7d",
+      "identity_key": "work:027b124ca545835e516cfbf4fbbdc6ca",
+      "source_occurrence_id": 61
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "11008d2d-1b46-4dfc-90e4-1792265afa88",
+      "identity_key": "work:c83c2104f7696f36d1097bac551fd886",
+      "source_occurrence_id": 64
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2f8d4800-930f-483b-aa0a-d53eb02e42d8",
+      "identity_key": "work:b17121666902a4107214c059fb6572b6",
+      "source_occurrence_id": 65
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7a73df32-319e-41d4-bb4c-31c7831dbab7",
+      "identity_key": "work:e9e68cff25e260f53a0e877c163ea49c",
+      "source_occurrence_id": 66
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7e62abd8-739d-4dc8-8dda-e57594e5c027",
+      "identity_key": "work:11fec51f945cbb19fd9596915a986ee2",
+      "source_occurrence_id": 67
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9dafd617-6e37-4c59-bae8-ebb7e71d9110",
+      "identity_key": "work:6e424aade3c20ae7fbf3ebdcb1eb158c",
+      "source_occurrence_id": 69
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "66348f0d-5eb3-4a8d-96d0-fec529e08440",
+      "identity_key": "work:c397b999ef8f1494dd34830917cd7d60",
+      "source_occurrence_id": 73
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "931879b7-b9d5-449b-acda-aafc6e47b2a7",
+      "composer_id": "d11ad1c0-1b69-450a-84b8-945b84c9b22b",
+      "source_occurrence_id": 82
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "931879b7-b9d5-449b-acda-aafc6e47b2a7",
+      "identity_key": "work:dd0e8eeda7e720109acd5966d57bd7bb",
+      "source_occurrence_id": 82
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "83373567-1996-4b70-93a9-35cdf1d85765",
+      "identity_key": "work:1bdbeb1f8c102185e44b46520e2ba49a",
+      "source_occurrence_id": 85
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "55c951b0-db2a-4f69-a80f-5fcbcda4869c",
+      "identity_key": "work:12b7dc3fcf0de3cb746c6685c1d7a7ff",
+      "source_occurrence_id": 88
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "9b14f7f4-1772-4f25-bcea-211373d3c293",
+      "composer_id": "8a32bf1a-1d54-4f5c-959d-222768b113d3",
+      "source_occurrence_id": 89
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9b14f7f4-1772-4f25-bcea-211373d3c293",
+      "identity_key": "work:396df76e98cf200351f9d09beca6d4db",
+      "source_occurrence_id": 89
+    },
+    {
+      "action": "create_work",
+      "id": "08285022-d7e9-5423-bb8c-101174942453",
+      "title": "Suite Nr. 4 für Violoncello solo in Es-Dur, BWV 1010",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "identity_key": "work:01eb2c1026fdb7d07621bed1e3b4f019",
+      "work_kind": "work",
+      "source_occurrence_id": 90
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "08285022-d7e9-5423-bb8c-101174942453",
+      "alias": "Suite para violonchelo n.º 4 en mi bemol mayor, BWV 1010",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 90
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "40f4b22b-51be-4647-8dd2-9176b25e2329",
+      "identity_key": "work:158afe68ff8b396b5932b476e14c0edc",
+      "source_occurrence_id": 92
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "eedb6932-6e56-4f26-99e8-2c152f16afd7",
+      "identity_key": "work:a4c81a5ba6b5bc386dde267fc94a420b",
+      "source_occurrence_id": 93
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e38a89aa-f98c-45c9-bfca-b06917994442",
+      "identity_key": "work:bf687bbe6c3d927dbcd628b010851041",
+      "source_occurrence_id": 96
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "12fe2e4f-f72b-49a9-88b1-22f646a3c0a9",
+      "composer_id": "79e444a1-7a70-4aff-832e-c717d90d7a40",
+      "source_occurrence_id": 97
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "12fe2e4f-f72b-49a9-88b1-22f646a3c0a9",
+      "identity_key": "work:d3a2911ad581d3b5046d90cd577e689b",
+      "source_occurrence_id": 97
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a4562bf0-e7d9-4daa-9baa-14b7a28b672d",
+      "identity_key": "work:70de732010a51933339d8da23fa31010",
+      "source_occurrence_id": 99
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bb3def09-ba8b-4582-91e3-a3aab5c68b1c",
+      "identity_key": "work:132fb69ce09d51471e672fe13e2a401e",
+      "source_occurrence_id": 100
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a24b8379-a9df-4b6d-ba90-9a47c2d21780",
+      "identity_key": "work:319d93e1e546ed130855b632224eacaa",
+      "source_occurrence_id": 216
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cf10aac5-a8d0-4efd-8767-e9beb1a85cd1",
+      "identity_key": "work:17b3617377470bc78f3c0e5ec01267bf",
+      "source_occurrence_id": 217
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "2e5dbafa-f4f7-4ff1-b0e3-ef00a9017ac4",
+      "composer_id": "25aab104-1c65-42ea-9338-852db4c79592",
+      "source_occurrence_id": 104
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2e5dbafa-f4f7-4ff1-b0e3-ef00a9017ac4",
+      "identity_key": "work:516c3e1395fba041fca45ec70930b67d",
+      "source_occurrence_id": 104
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "33e59ee9-5430-409e-8e02-fb43539ffdb1",
+      "identity_key": "work:6dc105e5a91a914c7e688b4fed7caa41",
+      "source_occurrence_id": 105
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4fbcc89e-f7c3-4a8b-9af7-1625f559bf46",
+      "identity_key": "work:66d0a0cd925c3180fdbe8c8e6c09ce71",
+      "source_occurrence_id": 106
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5e3928c2-4399-49a4-a6eb-0cc2e02c1829",
+      "identity_key": "work:710b4c2e3357f084ccf3d86a25fc0be4",
+      "source_occurrence_id": 109
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7715288e-aad8-4e35-8fb8-1ea46c8678a5",
+      "identity_key": "work:e4ade5cadac6b19b53bac928d40bfd7f",
+      "source_occurrence_id": 110
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "53fff0e2-ba7a-4fc2-874b-0ae783d3fcf8",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "source_occurrence_id": 111
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "53fff0e2-ba7a-4fc2-874b-0ae783d3fcf8",
+      "identity_key": "work:01fb287e21f6f1ba4b12c8088c9904e7",
+      "source_occurrence_id": 111
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "9f88f7e7-b0ea-4b0e-9e14-95fa68ff0a17",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "source_occurrence_id": 112
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9f88f7e7-b0ea-4b0e-9e14-95fa68ff0a17",
+      "identity_key": "work:8b7d78131ac0144fba5c193252852cee",
+      "source_occurrence_id": 112
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "239f6d7a-b7d4-40d2-bad7-70ff534c037f",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "source_occurrence_id": 113
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "239f6d7a-b7d4-40d2-bad7-70ff534c037f",
+      "identity_key": "work:3f06a0389fd79eaa3a7ed1960d62e39f",
+      "source_occurrence_id": 113
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ff2d90f9-4011-4153-9165-fba63943aed2",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "source_occurrence_id": 114
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ff2d90f9-4011-4153-9165-fba63943aed2",
+      "identity_key": "work:d94aff49011911556b1f48a2f8e03b77",
+      "source_occurrence_id": 114
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c49c10e3-d618-4900-8956-e6460ea9fd28",
+      "identity_key": "work:00bef51c9e5fbcc7ca54ed357a798260",
+      "source_occurrence_id": 115
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ce3c155b-f8c0-4856-8a0c-be6d7549ad90",
+      "composer_id": "6f6aa47a-3abd-4e42-958a-500da7d87afe",
+      "source_occurrence_id": 116
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ce3c155b-f8c0-4856-8a0c-be6d7549ad90",
+      "identity_key": "work:9b4f5edd718e1257e1e43bede24c4bba",
+      "source_occurrence_id": 116
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "86520be5-342e-4f8f-b9c4-d2582f255460",
+      "composer_id": "6112de10-b6b5-44ea-ab78-0f7970dfbde2",
+      "source_occurrence_id": 120
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "86520be5-342e-4f8f-b9c4-d2582f255460",
+      "identity_key": "work:116e8c9f3dc62b46222b786b542d638c",
+      "source_occurrence_id": 120
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "718df02d-6138-4ea8-a6d7-1ca4b889be52",
+      "composer_id": "6112de10-b6b5-44ea-ab78-0f7970dfbde2",
+      "source_occurrence_id": 121
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "718df02d-6138-4ea8-a6d7-1ca4b889be52",
+      "identity_key": "work:5fb18682c4850ec96e35450036b0c599",
+      "source_occurrence_id": 121
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e1c3287c-93c2-4cdf-b52b-c5dc680874ef",
+      "composer_id": "798d1de1-cd79-4f9e-9e36-135a01a4ab63",
+      "source_occurrence_id": 122
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e1c3287c-93c2-4cdf-b52b-c5dc680874ef",
+      "identity_key": "work:6f4df6dc390f8514db05347e12155174",
+      "source_occurrence_id": 122
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "5b4443d5-0b00-4646-9bf4-f8d672aea2cd",
+      "composer_id": "798d1de1-cd79-4f9e-9e36-135a01a4ab63",
+      "source_occurrence_id": 123
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5b4443d5-0b00-4646-9bf4-f8d672aea2cd",
+      "identity_key": "work:7c2e0687478ccbfd1a56b7d357878550",
+      "source_occurrence_id": 123
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "c396e619-ecc3-4ae9-849d-08f340a0474d",
+      "composer_id": "36ec6fc4-e55c-4e87-80c8-01402609b286",
+      "source_occurrence_id": 126
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c396e619-ecc3-4ae9-849d-08f340a0474d",
+      "identity_key": "work:bd144312d9af64c22d755f9baf164b7b",
+      "source_occurrence_id": 126
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "79d6c9dd-a257-4311-ad42-fa91a204b927",
+      "identity_key": "work:df22f3584291227ab2d50a74f84ffa6d",
+      "source_occurrence_id": 127
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dbd92022-c080-445b-9aa2-d7bfa1cd0168",
+      "identity_key": "work:23015314bb79d77b9cf20d67004b7e19",
+      "source_occurrence_id": 128
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1bf7b227-7361-41d6-bdab-15f5d6939a98",
+      "composer_id": "b556fb8c-fcaa-4a20-b2c0-aadc6f756519",
+      "source_occurrence_id": 129
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1bf7b227-7361-41d6-bdab-15f5d6939a98",
+      "identity_key": "work:9cbc1ca70efb2089535add29efc2f5dd",
+      "source_occurrence_id": 129
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b26d9c1e-db70-4752-a983-d7b889b90929",
+      "identity_key": "work:c870eb94079855f2442250d72c0b77c9",
+      "source_occurrence_id": 132
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ba611ead-50bd-4a2d-be08-43473b1e255a",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "source_occurrence_id": 133
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ba611ead-50bd-4a2d-be08-43473b1e255a",
+      "identity_key": "work:4336fae0967b6cb49ad92471be7e9741",
+      "source_occurrence_id": 133
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3cc3b397-39dd-4e1b-bf18-d245e6d529be",
+      "identity_key": "work:ff5348a0924d165a0592f1ac5006eea2",
+      "source_occurrence_id": 137
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5efc291b-f736-4fb8-851c-1c3e82ce0c04",
+      "identity_key": "work:14a980170e7217fe32d5a2e4c40355be",
+      "source_occurrence_id": 138
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "31a6d0a4-dc58-4bb5-8cac-a09a47fbd06a",
+      "identity_key": "work:97b39251e38a85b7e9323f0aa15ad2ab",
+      "source_occurrence_id": 139
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8e4bc6df-08ed-4aef-929b-b324ba8ec81f",
+      "identity_key": "work:66e5a1b877253676197cfa5807b17794",
+      "source_occurrence_id": 140
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8b4a8967-8b5a-4768-9db4-97bd5dc65963",
+      "identity_key": "work:c36094f5ae9bd8f8ac5defa479fd3c30",
+      "source_occurrence_id": 141
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "06bbfa33-de8d-435d-9761-9c682e31caa0",
+      "identity_key": "work:262a459695c034f8d122c4fc33a0be28",
+      "source_occurrence_id": 142
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5168df46-41ed-441e-bd4b-50d9f57e7302",
+      "identity_key": "work:cd4f23e4182700ba3c280fa3a27a3449",
+      "source_occurrence_id": 143
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "13bb200e-6fbe-4ff5-beaf-41a5fd5d826b",
+      "identity_key": "work:c04255b9de87aa2ca37d4fd298aab20c",
+      "source_occurrence_id": 144
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "52428d1a-53a7-4b20-bed2-cb4c654103d0",
+      "identity_key": "work:2b41bf0dccfea2f4aa504dbfa4268c38",
+      "source_occurrence_id": 145
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "70a251cf-eaa0-42a7-891c-eeb17a6a52b5",
+      "composer_id": "54b606ac-fa7e-4291-85c7-4fb30e5d7699",
+      "source_occurrence_id": 146
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "70a251cf-eaa0-42a7-891c-eeb17a6a52b5",
+      "identity_key": "work:9a245128fd482c3007c8896d2f34b097",
+      "source_occurrence_id": 146
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "4865ddbe-e3ae-4e0d-aaf2-ed40451a04ff",
+      "composer_id": "e18d8c7c-1046-4a2b-a114-401dae743657",
+      "source_occurrence_id": 147
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4865ddbe-e3ae-4e0d-aaf2-ed40451a04ff",
+      "identity_key": "work:d2cf6a10ffe754565be2d173d85ddf38",
+      "source_occurrence_id": 147
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "beffd9bd-8630-4565-95b8-e0565286bfd3",
+      "composer_id": "e18d8c7c-1046-4a2b-a114-401dae743657",
+      "source_occurrence_id": 149
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "beffd9bd-8630-4565-95b8-e0565286bfd3",
+      "identity_key": "work:540ebbddf6dbff6cfc4ee3cb8641b5eb",
+      "source_occurrence_id": 149
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "d4d249d6-628e-45a6-9e5f-6936f631d836",
+      "composer_id": "e18d8c7c-1046-4a2b-a114-401dae743657",
+      "source_occurrence_id": 158
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d4d249d6-628e-45a6-9e5f-6936f631d836",
+      "identity_key": "work:b7ca698465375a25033247a96b1b1590",
+      "source_occurrence_id": 158
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5cd8906e-44a6-4e10-a524-214b1d3b5c5f",
+      "identity_key": "work:0cfb63e69f98ece6543cf8c35db81992",
+      "source_occurrence_id": 181
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a5af8df2-b901-4140-abd1-d30f44526878",
+      "composer_id": "0fbea3ac-4fd2-49d8-b031-68b34507a8c8",
+      "source_occurrence_id": 186
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a5af8df2-b901-4140-abd1-d30f44526878",
+      "identity_key": "work:811c32cef8e1af5d0db2f895dde1bdea",
+      "source_occurrence_id": 186
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cce00c14-fc31-4de3-985e-3dbd12c01f0a",
+      "identity_key": "work:ae2708f12724c010aac0852d927dc4e1",
+      "source_occurrence_id": 188
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0012331d-bf27-4bcc-bc94-b8e19a5c6070",
+      "identity_key": "work:f8ce0a7faf5e285b753932f73587b3f8",
+      "source_occurrence_id": 190
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8eac860d-88a3-489b-95c3-9dc4278a5156",
+      "identity_key": "work:2da9804f86310fb2aba56b683f88f1df",
+      "source_occurrence_id": 192
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "eaeda6e2-170d-46f7-a6d4-ebad5018fff5",
+      "identity_key": "work:d4cd05b5acf07c5939290af07a2fdc63",
+      "source_occurrence_id": 799
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "eaeda6e2-170d-46f7-a6d4-ebad5018fff5",
+      "alias": "Missa in Angustiis en Re menor, Hob.XXII:11 – Misa Nelson",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 197
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1f30d87a-809e-48c6-985c-20839fa00d03",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+      "source_occurrence_id": 198
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1f30d87a-809e-48c6-985c-20839fa00d03",
+      "identity_key": "work:84c1deb792f826895676e9a70fb4eab2",
+      "source_occurrence_id": 198
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "1f30d87a-809e-48c6-985c-20839fa00d03",
+      "alias": "Misa de Réquiem en re menor, K. 626",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 198
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b8733ad8-0e0d-4fba-aead-8783cc1e78e3",
+      "identity_key": "work:dbc37f956a9959b795e281b2f0aa7c1a",
+      "source_occurrence_id": 1040
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f9287f1b-e9b4-439f-ae18-db7298384cc6",
+      "identity_key": "work:61a2211780e660a31ef7fc1fa970fedc",
+      "source_occurrence_id": 215
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "dede2b27-3757-4b50-b120-4fae22ce594e",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 218
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dede2b27-3757-4b50-b120-4fae22ce594e",
+      "identity_key": "work:7ec6bf95089cd8cde200c555a9610be6",
+      "source_occurrence_id": 218
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9802907b-8574-4d35-a946-1efda9246073",
+      "identity_key": "work:0bb64ce1fecad4cca70e366a0ff80ab2",
+      "source_occurrence_id": 223
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "59ab0155-ca80-4577-89cf-8ca98d595eee",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 224
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "59ab0155-ca80-4577-89cf-8ca98d595eee",
+      "identity_key": "work:9df4b81159456ee48ccb00c7de5f65aa",
+      "source_occurrence_id": 224
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "7a1a9c9e-f782-4552-84c6-1901f7d247f0",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 225
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7a1a9c9e-f782-4552-84c6-1901f7d247f0",
+      "identity_key": "work:e6bb8f5320e366f9d88e9a726696b223",
+      "source_occurrence_id": 225
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a6805200-b91e-4a07-96f7-90e9556404a8",
+      "composer_id": "a1e098f0-9cd1-4198-8e60-a1f6a81c78be",
+      "source_occurrence_id": 227
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a6805200-b91e-4a07-96f7-90e9556404a8",
+      "identity_key": "work:84cdcdc44f18b40df937f839076073cb",
+      "source_occurrence_id": 227
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "17b9c9ea-7579-4c6e-8faa-44dee4d638ca",
+      "composer_id": "a1e098f0-9cd1-4198-8e60-a1f6a81c78be",
+      "source_occurrence_id": 228
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "17b9c9ea-7579-4c6e-8faa-44dee4d638ca",
+      "identity_key": "work:be4c24819fc1bf5996a70058d6c0db0e",
+      "source_occurrence_id": 228
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "96a698f9-0eb9-4ef7-8c87-f13767802404",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "source_occurrence_id": 229
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "96a698f9-0eb9-4ef7-8c87-f13767802404",
+      "identity_key": "work:4af0ae1a0a364178567022b8031a3549",
+      "source_occurrence_id": 229
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e6da0066-49ed-456e-9682-f36d0be12e41",
+      "identity_key": "work:a62ed1686d5fa0400b24a3e9ee915ec3",
+      "source_occurrence_id": 230
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b96cc5c7-e3f5-41a1-9591-0bb8a8ffc026",
+      "identity_key": "work:543587a8ffa77cade90e5fb3090fd749",
+      "source_occurrence_id": 231
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "73f3d9e4-028a-4ee9-9cf5-336d20a66f35",
+      "identity_key": "work:82e051073a1a0825f06bff9ec5a54b1d",
+      "source_occurrence_id": 232
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e2ab4f09-9520-446e-aa89-53afcb2b4853",
+      "identity_key": "work:2870ae9c8d50d02f2f324dfa1dc101c1",
+      "source_occurrence_id": 242
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7aef77a0-fc53-4545-b99f-fe3561b9bad1",
+      "identity_key": "work:5be60c52ec2a1780d625c2fff01b2e13",
+      "source_occurrence_id": 244
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "fa26bf82-e3fb-42a0-a6d9-f213634bfe6f",
+      "composer_id": "1fe8dc13-95f9-4e8c-8835-9391369e1678",
+      "source_occurrence_id": 245
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "fa26bf82-e3fb-42a0-a6d9-f213634bfe6f",
+      "identity_key": "work:8fc707ce25d1f7b795fa02a31cf57746",
+      "source_occurrence_id": 245
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "c549d895-591b-4601-bf82-a4bd1aab3936",
+      "composer_id": "4014ad56-05b6-4a44-8f39-07650167e9b4",
+      "source_occurrence_id": 246
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c549d895-591b-4601-bf82-a4bd1aab3936",
+      "identity_key": "work:d1a8e52e7bca0927cfbf3e6cc6558d8a",
+      "source_occurrence_id": 246
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a69fa779-b81b-4510-86bf-5ba1cb557d9f",
+      "identity_key": "work:21ebe4b2bf7c589c04dbd36d0f5b55f6",
+      "source_occurrence_id": 249
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6aaac777-eaf5-47fc-ae07-42d4145fb669",
+      "identity_key": "work:b7260543b65b7465fc8c7efa68cde2da",
+      "source_occurrence_id": 250
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "0eb3e086-94ab-4519-9eae-a6a955ffcecd",
+      "composer_id": "5739875c-8977-4580-8ea9-6121380f79b8",
+      "source_occurrence_id": 251
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0eb3e086-94ab-4519-9eae-a6a955ffcecd",
+      "identity_key": "work:e97efe7e7cfb5f4c792af6f8d735956d",
+      "source_occurrence_id": 251
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "6753d531-78e3-4161-a077-a56a47ef7dd8",
+      "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
+      "source_occurrence_id": 252
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6753d531-78e3-4161-a077-a56a47ef7dd8",
+      "identity_key": "work:16eca9a8834b0890accefdc232b6b8fd",
+      "source_occurrence_id": 252
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ac15b8d5-41a0-4255-83de-1a0366ec2eed",
+      "identity_key": "work:5105e5b7baa482a9ae86cb123d9641ec",
+      "source_occurrence_id": 254
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e84080f4-7b26-41b7-907e-7d3e6fd9724c",
+      "composer_id": "0b7adb05-cc92-4eef-be61-d2900d9c3749",
+      "source_occurrence_id": 255
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e84080f4-7b26-41b7-907e-7d3e6fd9724c",
+      "identity_key": "work:77c6cdcf11c8af9fd31ce649b868e45d",
+      "source_occurrence_id": 255
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "4942dc1b-e1b5-4818-b6eb-ee62c29d2f62",
+      "composer_id": "53ed881c-f046-4382-9d4e-cd2c3ea8f5fc",
+      "source_occurrence_id": 256
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4942dc1b-e1b5-4818-b6eb-ee62c29d2f62",
+      "identity_key": "work:b9fa5e20e927ed633c69d2af3c44c93e",
+      "source_occurrence_id": 256
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e5e3846b-60bc-4e0a-aaa7-ec578f2f0b37",
+      "composer_id": "29ef9dc0-b76f-4114-bc42-3839c0175e58",
+      "source_occurrence_id": 257
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e5e3846b-60bc-4e0a-aaa7-ec578f2f0b37",
+      "identity_key": "work:aca4fd6527de01c70fca05ad8faa7d2a",
+      "source_occurrence_id": 257
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c754fa8a-77e2-43ba-807f-da5850de40dd",
+      "identity_key": "work:ee27022f2f7238224c9d67d611e21b89",
+      "source_occurrence_id": 258
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "06982170-498e-4c41-b174-6020e25c2da6",
+      "composer_id": "1afda398-8484-4c7b-a527-0fa05b38c3f7",
+      "source_occurrence_id": 259
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "06982170-498e-4c41-b174-6020e25c2da6",
+      "identity_key": "work:490d671a977fc7468898300fb7afe8d9",
+      "source_occurrence_id": 259
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7557965d-be24-4432-b423-3e9c42990918",
+      "identity_key": "work:6ed3532a2e35bd95002b5b5bdb833319",
+      "source_occurrence_id": 260
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3ea81e79-6e88-4e80-8603-584b555725f0",
+      "identity_key": "work:77879a4e58a19eb7e3ad2d7fdc764361",
+      "source_occurrence_id": 264
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ad8567c5-b680-4ba1-936d-d19533889b31",
+      "composer_id": "8b7de731-e7fa-4fd4-a84b-2412dcb646b9",
+      "source_occurrence_id": 276
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ad8567c5-b680-4ba1-936d-d19533889b31",
+      "identity_key": "work:aab9ed68a4474fd8f7571eafb3a5437f",
+      "source_occurrence_id": 276
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e8f420e5-e4b8-4b82-8362-33347dd0809a",
+      "composer_id": "8b7de731-e7fa-4fd4-a84b-2412dcb646b9",
+      "source_occurrence_id": 279
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e8f420e5-e4b8-4b82-8362-33347dd0809a",
+      "identity_key": "work:3a38466958d4402e2b3605cba666f94c",
+      "source_occurrence_id": 279
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e9ab6a5e-22a4-4b19-8583-05db1af71e9c",
+      "composer_id": "4014ad56-05b6-4a44-8f39-07650167e9b4",
+      "source_occurrence_id": 281
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e9ab6a5e-22a4-4b19-8583-05db1af71e9c",
+      "identity_key": "work:769103e4dce008d45ed487f1deb0118b",
+      "source_occurrence_id": 281
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "identity_key": "work:fbbe417faf6ddb761997411807846d72",
+      "source_occurrence_id": 282
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "identity_key": "work:799e67a3934bbf701140f732f89782b9",
+      "source_occurrence_id": 284
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e18f13fe-dc4f-4d08-92e7-f405187e35b4",
+      "identity_key": "work:9d1107935a7cbfe7be7878bf11a52d16",
+      "source_occurrence_id": 285
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "6f8f2e16-f846-4532-8227-7894a8047bc0",
+      "composer_id": "2e0e0bb3-e9b0-46d8-abd2-6e6059123255",
+      "source_occurrence_id": 286
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6f8f2e16-f846-4532-8227-7894a8047bc0",
+      "identity_key": "work:2712b90ab6cd4281d7d6827622ee3baa",
+      "source_occurrence_id": 286
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "dc8d657c-39c4-4036-868e-a123c2e73459",
+      "composer_id": "2e0e0bb3-e9b0-46d8-abd2-6e6059123255",
+      "source_occurrence_id": 287
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dc8d657c-39c4-4036-868e-a123c2e73459",
+      "identity_key": "work:bfed048ab9719f2ba6a9e6f3f87265a7",
+      "source_occurrence_id": 287
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "203e9bfa-7dc9-4d27-8eaf-c9f73e940054",
+      "composer_id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "source_occurrence_id": 291
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "203e9bfa-7dc9-4d27-8eaf-c9f73e940054",
+      "identity_key": "work:b3b5a262275ce2ae665a0b77f6f02c16",
+      "source_occurrence_id": 291
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "702bb9de-fb08-47a5-b777-2c3f33497d25",
+      "composer_id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "source_occurrence_id": 292
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "702bb9de-fb08-47a5-b777-2c3f33497d25",
+      "identity_key": "work:03339d954033691723e20af437171c10",
+      "source_occurrence_id": 292
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "6849cf68-e378-4e7a-a92d-670783a61cec",
+      "composer_id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "source_occurrence_id": 293
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6849cf68-e378-4e7a-a92d-670783a61cec",
+      "identity_key": "work:3b331864fe5c07742a4a024211f61f93",
+      "source_occurrence_id": 293
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "234fb84f-049d-49ee-ae66-e9fffee829a6",
+      "composer_id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "source_occurrence_id": 294
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "234fb84f-049d-49ee-ae66-e9fffee829a6",
+      "identity_key": "work:f20af0f1cbe055d346a6c12c268ef5a1",
+      "source_occurrence_id": 294
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "794a008b-04b7-41f1-bdab-e06672e90040",
+      "composer_id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "source_occurrence_id": 295
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "794a008b-04b7-41f1-bdab-e06672e90040",
+      "identity_key": "work:1a5ee8bdcd29c8bf54811a0f3533c0b8",
+      "source_occurrence_id": 295
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "06d5acc8-11fd-4a11-bb16-532780588249",
+      "composer_id": "fa8d070b-db26-42f9-8325-da9b86d095ed",
+      "source_occurrence_id": 296
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "06d5acc8-11fd-4a11-bb16-532780588249",
+      "identity_key": "work:f6d709ecd73daea4aa9f2b6155c21867",
+      "source_occurrence_id": 296
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "be23b50f-cb5d-468d-a17d-b752d3abcbdd",
+      "identity_key": "work:79d3fc4830d8b609664ffb76c26e2a4d",
+      "source_occurrence_id": 297
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "01146729-280c-4e77-9090-ad52c73def6b",
+      "identity_key": "work:f40f0b4850908a3141863a1ced2e4de6",
+      "source_occurrence_id": 298
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "12c33ad2-97df-479e-8bb9-c15959a0e770",
+      "identity_key": "work:ec7fcd63df8e3fc9c38f3beb48e613a5",
+      "source_occurrence_id": 299
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "99e76875-0de7-43f8-a08d-3117a9cbff2e",
+      "identity_key": "work:c9e29434bb735ab852413d66acd1a65e",
+      "source_occurrence_id": 302
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e3120dbe-e671-4517-932e-24e39628a8a9",
+      "identity_key": "work:04d4df235e5afaa4db4ac90f05eb3b90",
+      "source_occurrence_id": 304
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "318a2d9b-8b84-4434-8bec-99ae844b3f2f",
+      "identity_key": "work:03088876beec4fb5a4766ba212a98e64",
+      "source_occurrence_id": 305
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b8151f32-aaaf-409e-86c8-f4d08fdeaaf0",
+      "identity_key": "work:57cad3492f4aefa086eba7c44fcbef29",
+      "source_occurrence_id": 314
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bb883ed3-920f-4ac9-9c7c-a1aacdfef9a0",
+      "identity_key": "work:579dd7d408bff23f902227ecf518fe61",
+      "source_occurrence_id": 315
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "949d2ec3-91d0-4059-abb2-54f5001a42a2",
+      "identity_key": "work:217280c58a1fe6d09413df0da13b02e1",
+      "source_occurrence_id": 316
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6e21ce1c-5a7c-4c2c-8fbb-f046f7798567",
+      "identity_key": "work:8b339366dd840b9b4e4c4b1573c0aad3",
+      "source_occurrence_id": 318
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "67a1b3a5-f8a2-436a-96ac-0830d16f916f",
+      "identity_key": "work:87c0e218d0b89c34e1c485d887e8a0d4",
+      "source_occurrence_id": 319
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a13ceb55-bdd1-4736-9d60-608a793085bd",
+      "composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
+      "source_occurrence_id": 322
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a13ceb55-bdd1-4736-9d60-608a793085bd",
+      "identity_key": "work:700e279d48b18f20d9117146b4f09b7b",
+      "source_occurrence_id": 322
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4169afaa-db50-436d-8b99-7031ba2cafd8",
+      "identity_key": "work:2b898b092e77f1505b8354a4bce8e570",
+      "source_occurrence_id": 323
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "09bc9e04-df27-4a91-bbf4-f6d2bc40b364",
+      "identity_key": "work:1407b357f95068ed87a1a3689d741c1c",
+      "source_occurrence_id": 324
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ceb2a5c3-2103-4802-b5df-50224dcce883",
+      "identity_key": "work:a22c2fba7b0e6dbd88d2b04066ada2a1",
+      "source_occurrence_id": 325
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1173617c-dc9a-4e15-92cd-5158e8afb5eb",
+      "identity_key": "work:9be6ca5522d9732db50fd6fe8795046e",
+      "source_occurrence_id": 326
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5c80fc9d-1d0f-45cb-b714-8cc781eb9ed4",
+      "identity_key": "work:756e41bfb9f9273b19e19f6cc719e01c",
+      "source_occurrence_id": 327
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a05f3755-6e2f-4630-8b40-71ef5bc23199",
+      "identity_key": "work:0bb6ccb4d525da9779feddb41a80202b",
+      "source_occurrence_id": 328
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4014df1b-ce9e-48ae-a6b2-f339b9f6ca1e",
+      "identity_key": "work:686070b6531b88afc814867299410213",
+      "source_occurrence_id": 329
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b82091dd-25d4-40e0-bf30-160a8344afe3",
+      "identity_key": "work:7d254613a152e7f96fc4fee52eba25b4",
+      "source_occurrence_id": 1043
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ff6c5345-02c5-4864-b87a-7addcf42cbe9",
+      "identity_key": "work:03ccc7d0cb26764efe88c04e4bfae258",
+      "source_occurrence_id": 335
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3b816bc4-3c82-4e72-ac2f-4b5e599e34cc",
+      "identity_key": "work:c86edab0f022456f32313320a6f0e392",
+      "source_occurrence_id": 337
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a61c33ac-731c-4cf9-97f9-6c1af6e425f7",
+      "identity_key": "work:89a42a56f5668d599c2b8696ec5f98f8",
+      "source_occurrence_id": 345
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "933803e1-59aa-4c07-8238-444e6a7d31f2",
+      "identity_key": "work:ea8286cf7e0601a77ccfd067a6bcbe10",
+      "source_occurrence_id": 347
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "76747d72-0d1f-4ed2-b555-32843bb75488",
+      "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+      "source_occurrence_id": 349
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "76747d72-0d1f-4ed2-b555-32843bb75488",
+      "identity_key": "work:afcd769e252aab544c4b34dd16bee87d",
+      "source_occurrence_id": 349
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "04c9820d-4d04-4cea-a5b3-a85ce0b3cdb3",
+      "composer_id": "e40c9bd6-3c74-499e-bee1-f09424950424",
+      "source_occurrence_id": 350
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "04c9820d-4d04-4cea-a5b3-a85ce0b3cdb3",
+      "identity_key": "work:2ed2064e838b2562e4f860f61908b292",
+      "source_occurrence_id": 350
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "049f9e96-eb5d-406f-a11d-d7dda8ad5a09",
+      "composer_id": "e40c9bd6-3c74-499e-bee1-f09424950424",
+      "source_occurrence_id": 352
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "049f9e96-eb5d-406f-a11d-d7dda8ad5a09",
+      "identity_key": "work:e1f1230cfe3417fea72cac79e60c280c",
+      "source_occurrence_id": 352
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "09ed0133-e3a4-4b11-aa36-d2acedc90269",
+      "composer_id": "d5be254a-3f1e-46b4-acb8-c2a9691c6c64",
+      "source_occurrence_id": 353
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "09ed0133-e3a4-4b11-aa36-d2acedc90269",
+      "identity_key": "work:880036c05ef725f4e5728f652cf28106",
+      "source_occurrence_id": 353
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "78665013-12c5-41e0-91e0-4b2fbf14dfc7",
+      "composer_id": "a5f5927b-db3e-47e3-8db6-02d5f7c85966",
+      "source_occurrence_id": 354
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "78665013-12c5-41e0-91e0-4b2fbf14dfc7",
+      "identity_key": "work:29e643693bc41a2274b22e3abcb30c68",
+      "source_occurrence_id": 354
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ae8c50a1-1ba7-44b5-bc0e-02935232cf04",
+      "composer_id": "17ed3132-6f98-476e-8a5c-ddd03fb6ac1a",
+      "source_occurrence_id": 355
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ae8c50a1-1ba7-44b5-bc0e-02935232cf04",
+      "identity_key": "work:2fc7cb78773a9f03653ffdcb78cbf4a6",
+      "source_occurrence_id": 355
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a7496fff-abb6-415a-b51b-33cc3a3cbd6d",
+      "composer_id": "f21145dc-457a-49f9-91b6-02c3158f9d52",
+      "source_occurrence_id": 356
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a7496fff-abb6-415a-b51b-33cc3a3cbd6d",
+      "identity_key": "work:f184088b50eaa45100e32a683758bc62",
+      "source_occurrence_id": 356
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "74148ff7-e5a0-4a46-b106-ab96e62575e6",
+      "composer_id": "f21145dc-457a-49f9-91b6-02c3158f9d52",
+      "source_occurrence_id": 358
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "74148ff7-e5a0-4a46-b106-ab96e62575e6",
+      "identity_key": "work:715cb5c82039dd187e0e445da42fdd3a",
+      "source_occurrence_id": 358
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "063cc9bb-717c-4e86-9a59-f2f223d50783",
+      "composer_id": "f21145dc-457a-49f9-91b6-02c3158f9d52",
+      "source_occurrence_id": 367
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "063cc9bb-717c-4e86-9a59-f2f223d50783",
+      "identity_key": "work:1cf6bfd5a0009df9b1b3e409079b3a4a",
+      "source_occurrence_id": 367
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "96ca0649-a868-4b2d-981f-f06ce2a5d1b7",
+      "identity_key": "work:731fedf7c87838e485d0ac58dd56ef2b",
+      "source_occurrence_id": 370
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1e8498ee-5dd1-4fba-b7e0-9eaca194ab9f",
+      "identity_key": "work:6b73551129bfa60c2b4285299f31cd62",
+      "source_occurrence_id": 371
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "228a01a2-bd9c-44d7-a798-88c72a823290",
+      "identity_key": "work:590b3f07286879e7c0da90e99756cd53",
+      "source_occurrence_id": 372
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "076eefd9-1ad9-41e4-986e-9d8355cea2eb",
+      "identity_key": "work:5214ab19354870276b8400618ea0d612",
+      "source_occurrence_id": 373
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "decb48ff-c132-484d-9d79-473c8ad851c7",
+      "identity_key": "work:a418ad161cd5ea4cfae9935c89b50146",
+      "source_occurrence_id": 374
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b8f441f6-bea8-46d7-92c2-dcf086df3184",
+      "identity_key": "work:76f002fdefa4159a3fd297d93a79e94c",
+      "source_occurrence_id": 388
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0128f990-3477-4edb-8a92-749c0ad0eab6",
+      "identity_key": "work:8930a8ab5b57ca61c3ecf93cc4c6a506",
+      "source_occurrence_id": 389
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6ab767ff-7710-4a61-82b6-02c01eb080be",
+      "identity_key": "work:303c259882ae5649d5f812cb7a07033c",
+      "source_occurrence_id": 396
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "cc865988-a542-4bee-acf0-ad07f132b8f5",
+      "composer_id": "2e0e0bb3-e9b0-46d8-abd2-6e6059123255",
+      "source_occurrence_id": 398
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cc865988-a542-4bee-acf0-ad07f132b8f5",
+      "identity_key": "work:d53ef26e4f953a11de46e643b9f9d4a6",
+      "source_occurrence_id": 398
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d64a06e0-cce8-4b9c-ad3b-e80351914ff7",
+      "identity_key": "work:e6ac679db322f45f6d055e5908260ba9",
+      "source_occurrence_id": 399
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bd45d08b-f6ce-4632-a723-1d4016f7f69a",
+      "identity_key": "work:50dbe2cfaaaf81848779a63830a65f17",
+      "source_occurrence_id": 400
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "167d90f2-d8c9-4d5a-95cf-3ef1538a430e",
+      "identity_key": "work:b3f144b484e863c991221b07749c30a2",
+      "source_occurrence_id": 401
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "eea1cc07-aaee-4728-acbc-b5ddfc2f0f09",
+      "identity_key": "work:88c804ec72fcdd92c24f2473d58ecf04",
+      "source_occurrence_id": 402
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5070db86-cf01-4c48-9102-7c352971a013",
+      "identity_key": "work:1bf77aa5b17386b25aefbb9f645611eb",
+      "source_occurrence_id": 403
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "34584273-a88e-47ee-9920-f37d3b506fc2",
+      "identity_key": "work:5081d73ed34bf8e3a9eb7e6a880193c9",
+      "source_occurrence_id": 404
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "19ac4012-947a-40fd-98b6-5c75788d8984",
+      "composer_id": "2e41f299-0cf7-4292-8d2b-88e5000a36b1",
+      "source_occurrence_id": 405
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "19ac4012-947a-40fd-98b6-5c75788d8984",
+      "identity_key": "work:ad8e59db573698318e1effee77245e41",
+      "source_occurrence_id": 405
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "53826bb3-5b24-4494-96ce-86b9591fd671",
+      "identity_key": "work:6ff86850b0daaa87a59a07a40dda9f97",
+      "source_occurrence_id": 445
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3b5caf41-c1d7-47b8-abf5-dbe4338199d0",
+      "identity_key": "work:13939dd36eb04251340ab3986b52c529",
+      "source_occurrence_id": 446
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "32d180c1-08c5-4868-8cf3-6f56e1777232",
+      "composer_id": "18abcf6f-7dae-45db-944f-c6d6fdf2278a",
+      "source_occurrence_id": 447
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "32d180c1-08c5-4868-8cf3-6f56e1777232",
+      "identity_key": "work:8015498b323c16fd67722e9924ac7515",
+      "source_occurrence_id": 447
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "af26c76e-2bd4-4d32-b700-b7cf2321a0f6",
+      "identity_key": "work:82c5d33e2f46c0b3321d1c9fab5841fe",
+      "source_occurrence_id": 451
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "cc9e9ee1-9be9-43e7-a8b5-fa3f2e1fe3a3",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "source_occurrence_id": 453
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cc9e9ee1-9be9-43e7-a8b5-fa3f2e1fe3a3",
+      "identity_key": "work:8a6fcc650415ed2048f0705a582688d4",
+      "source_occurrence_id": 453
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8f213964-a1bc-4d15-89f1-c7118bad110b",
+      "identity_key": "work:277cd22cd6b2053616e6a4cd52807f58",
+      "source_occurrence_id": 549
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "239f57b7-2414-4b8f-baa8-099dcc0576e8",
+      "identity_key": "work:ebe858e702c7682f7b244868bdd3c655",
+      "source_occurrence_id": 550
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "6089e33c-27ab-4b83-a21e-733f9c0c924b",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 551
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6089e33c-27ab-4b83-a21e-733f9c0c924b",
+      "identity_key": "work:fc5bc37f1617a19092896304340de6eb",
+      "source_occurrence_id": 551
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "88e1813f-38e6-4d05-8272-9ca5d141f9e7",
+      "identity_key": "work:362d2f1f8d054e2ea8e791c1fec4a4aa",
+      "source_occurrence_id": 552
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c5ddfcfd-76cb-4172-ae85-c6102858e482",
+      "identity_key": "work:2e9f54b0c7b0b8fefe35b82cbf7e3069",
+      "source_occurrence_id": 553
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c701f156-b9ac-4f8a-b72e-d76abf59e10a",
+      "identity_key": "work:a0bb724f15990f1820c1a887d7aa1b65",
+      "source_occurrence_id": 573
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "b04a90cc-f3d2-4faf-bdb1-06cee6e4ac6c",
+      "composer_id": "70d6ff5d-a60c-4f1a-882d-176e87a39c56",
+      "source_occurrence_id": 577
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b04a90cc-f3d2-4faf-bdb1-06cee6e4ac6c",
+      "identity_key": "work:a5c40d776468e157e9f0a4a7991648cc",
+      "source_occurrence_id": 577
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "12295e22-1b35-4ead-b534-d8e674ef252a",
+      "composer_id": "448d5675-2eff-4350-93e7-1d493b452b99",
+      "source_occurrence_id": 582
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "12295e22-1b35-4ead-b534-d8e674ef252a",
+      "identity_key": "work:8771c2d2ba541a32ea52ca1e7322e4ef",
+      "source_occurrence_id": 582
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "86173663-a548-404f-b3eb-a1a5d6cc8344",
+      "identity_key": "work:31de5599922ec2e07c85c5b65ef719bf",
+      "source_occurrence_id": 586
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0b1e217c-faa9-4747-b00d-375ac6f1c762",
+      "identity_key": "work:e38110db21680d9c12209d4c7167ac01",
+      "source_occurrence_id": 588
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "524228ef-9970-4754-8f60-1de06c38eecd",
+      "identity_key": "work:20f7e8203fe825b760d29a80a76fb123",
+      "source_occurrence_id": 589
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4e3b8140-1e8f-4a99-bab3-a746cb578ecc",
+      "identity_key": "work:378cdb69728a291f8ef17083de4ab3f9",
+      "source_occurrence_id": 590
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "5084ab9b-748b-4fcf-885a-3974e53d4a1c",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 591
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5084ab9b-748b-4fcf-885a-3974e53d4a1c",
+      "identity_key": "work:3e2b348266cf0c290c602bd055b30ffc",
+      "source_occurrence_id": 591
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "0ab0358a-e024-4977-93cf-4cd8f8a93109",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 592
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0ab0358a-e024-4977-93cf-4cd8f8a93109",
+      "identity_key": "work:a77d47013c82b626ea27546b73baf78d",
+      "source_occurrence_id": 592
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "8aeca777-6d33-4b33-a09d-2e3411f2bc6d",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 596
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8aeca777-6d33-4b33-a09d-2e3411f2bc6d",
+      "identity_key": "work:01da1374c57a6a54ad31fc3e169cdd5e",
+      "source_occurrence_id": 596
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "02aa6dac-19e4-4c7d-800e-86aed352fe2f",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 597
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "02aa6dac-19e4-4c7d-800e-86aed352fe2f",
+      "identity_key": "work:ea8cf47a69fc3d1e40616c2eccdf4d62",
+      "source_occurrence_id": 597
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "7b5ffb68-83da-460f-b07e-20db780c6d7a",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 601
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7b5ffb68-83da-460f-b07e-20db780c6d7a",
+      "identity_key": "work:6ac5da64a2b4f94edf02cbd2cb45759a",
+      "source_occurrence_id": 601
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "82a6423a-d40d-4870-86ac-0fbe8cc784a9",
+      "composer_id": "13119930-b22b-4401-8bd5-a32dd59ba251",
+      "source_occurrence_id": 619
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "82a6423a-d40d-4870-86ac-0fbe8cc784a9",
+      "identity_key": "work:08f908f22ccf5a8e23659c63f9f05f20",
+      "source_occurrence_id": 619
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "74b4d26b-e8a2-487f-9e5b-57e5c5d28e03",
+      "identity_key": "work:698ca24b6b99d5c52d84de1dcf9e7471",
+      "source_occurrence_id": 627
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d7d35a37-f84c-41a0-a672-fcb2f4017ceb",
+      "identity_key": "work:76c2881cb23b38446feef3f82828d631",
+      "source_occurrence_id": 635
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6120b33b-7dc1-4635-8273-15cf79d5d62b",
+      "identity_key": "work:b9b0930b1774ba078a3a4303ca8d86d6",
+      "source_occurrence_id": 644
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "6120b33b-7dc1-4635-8273-15cf79d5d62b",
+      "alias": "Milonga, Op. 2, No. 1",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 644
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ef0e761d-443e-4407-88dc-45f683e2a460",
+      "identity_key": "work:1c618c67f20e66131a261cc78723cb28",
+      "source_occurrence_id": 647
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8e4c426f-f45d-4d7e-aec3-ffdfe39f1f39",
+      "identity_key": "work:bdf6dfab46cc05af825cd572535348a8",
+      "source_occurrence_id": 650
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "66da63f6-cb4e-4759-aa03-5df03edaaf2a",
+      "identity_key": "work:bbbf7810d5f7100252196fa0e0c76ecb",
+      "source_occurrence_id": 651
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1b7abd92-9fb5-407c-8f73-410bfabaab3b",
+      "identity_key": "work:097afb68051f44e3bb3561871d17101a",
+      "source_occurrence_id": 652
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "267e4f3c-3b99-4391-bac9-fdb98f5267fb",
+      "identity_key": "work:2c3ec65f5ddaff210cb1317381053cef",
+      "source_occurrence_id": 653
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bcf2a4d8-22e8-4d15-a5cb-746bfefbaf04",
+      "identity_key": "work:6e2a3afd1e96da3ebe677209dac9e031",
+      "source_occurrence_id": 654
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "202d05b0-08d4-420c-9237-63269e147b5a",
+      "identity_key": "work:5d83edd9ba91ea12a36aa8c1f1e769d3",
+      "source_occurrence_id": 655
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "25fcb742-fc78-4641-ba61-b9687e94bbad",
+      "composer_id": "6f3e72be-6184-4334-b642-35736ff5ad1c",
+      "source_occurrence_id": 657
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "25fcb742-fc78-4641-ba61-b9687e94bbad",
+      "identity_key": "work:d5c2708775b63a7933a6b84edce53917",
+      "source_occurrence_id": 657
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f28496cc-5335-454c-b817-dcbc51875978",
+      "identity_key": "work:2f83692a666ae590c755edf052809aad",
+      "source_occurrence_id": 658
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f07db7d1-8f0b-4803-a309-cd9850aeacc4",
+      "identity_key": "work:e4695d49820d49a1c7834df2d05ad322",
+      "source_occurrence_id": 662
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "706f681d-537e-4f52-87cb-b56cbed4074c",
+      "identity_key": "work:8b348b78c8e241f7b8e223adf913fe7a",
+      "source_occurrence_id": 663
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a3c459ed-c4bc-4cbd-9879-d1d4751b6c9b",
+      "identity_key": "work:fdb2b258685beb40b81b80ad7d22ba45",
+      "source_occurrence_id": 664
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "77d207a7-6ca0-4b07-993a-fe049588878f",
+      "identity_key": "work:08e0fa8a77dc4e6348c32dbbe7334ad7",
+      "source_occurrence_id": 665
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "51b4bd4b-ca2a-41a9-8633-fe3b61747122",
+      "identity_key": "work:6ecbb3f95fc43ee36bd8873fc692bc3a",
+      "source_occurrence_id": 667
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "080c2e1b-dfab-44db-98ec-83cd2c7755c5",
+      "identity_key": "work:02ad135da2b9578acef3820122cc0fa9",
+      "source_occurrence_id": 668
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8e78c2ed-ff7e-40db-ab37-de9e57cc4efa",
+      "identity_key": "work:ac582e5ab45fb523106353e04012a2ad",
+      "source_occurrence_id": 670
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ea082f7a-80ee-477c-b5fd-cd3ae264b082",
+      "identity_key": "work:5bc34ae810c1bf1a044a14b5b6cd2e45",
+      "source_occurrence_id": 674
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c57533cf-63fd-4be4-8738-2a6e81cefabd",
+      "identity_key": "work:e2b5b4b9e6852b827033e6a68e50065a",
+      "source_occurrence_id": 676
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "327866f9-6ae5-4769-b0b0-048ad68f782c",
+      "identity_key": "work:7fbe26144422d1e0ddbb3a7f26bb190e",
+      "source_occurrence_id": 677
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "be76831f-af3c-4a3a-9406-dabc3a1783e6",
+      "identity_key": "work:4b4a71e56adaf38fee761cc29a1dc026",
+      "source_occurrence_id": 678
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8978db36-7262-431e-b730-a1da19aed0f2",
+      "identity_key": "work:75a03ad1159d6ff20fb763c3f98761ca",
+      "source_occurrence_id": 679
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1115b599-3c87-4e43-8ff4-afb56e41e0b8",
+      "composer_id": "6a12bc7a-ae8b-49a4-bd00-8fced75a3359",
+      "source_occurrence_id": 681
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1115b599-3c87-4e43-8ff4-afb56e41e0b8",
+      "identity_key": "work:bd455fbb6d50a55f842445bd81205c8f",
+      "source_occurrence_id": 681
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0e226945-4c75-4872-8e8a-97d73e4546da",
+      "identity_key": "work:c09619552cb4f3d41c06741672a55e12",
+      "source_occurrence_id": 682
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1d9f7b26-0559-4123-aecf-9d93f66c1585",
+      "identity_key": "work:abc13f8de85e536718343be437c655ca",
+      "source_occurrence_id": 694
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ecbcb562-6b07-41f4-b57d-4072bf553daf",
+      "identity_key": "work:5b7df4428f63b6924df05e97655d6d25",
+      "source_occurrence_id": 695
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "075ca82f-f27f-40fd-9ec4-309fc7ab6796",
+      "identity_key": "work:231b21b6e5e34dc46a33bd263bf14c30",
+      "source_occurrence_id": 685
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "194cd7ff-7c1d-4843-8204-bddcbebb3b02",
+      "identity_key": "work:4b19ad93c92131e96e750c4d96c21450",
+      "source_occurrence_id": 686
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "437b760d-8307-4005-bbde-6176cac45228",
+      "identity_key": "work:309c93c9d04aa5521a0d40122f91fc83",
+      "source_occurrence_id": 698
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6ad82219-c63e-4831-9321-3f1166e200d6",
+      "identity_key": "work:87995c3b00ae5b75c58d03dcc1fe6aae",
+      "source_occurrence_id": 688
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8f352f69-d9ff-4436-98ce-41e2f56509ce",
+      "identity_key": "work:e14297a68ddef3dd14d698dacc7051e5",
+      "source_occurrence_id": 689
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ec229a35-cadb-42fc-9b21-358e19412324",
+      "identity_key": "work:5c0d0a0af9a7af6dcef84c71904f07a8",
+      "source_occurrence_id": 691
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "46954439-0a31-4883-af0a-85350abbf18c",
+      "identity_key": "work:f8f8dd410df7ad3e336373a4ecdf2ca0",
+      "source_occurrence_id": 693
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2b3c89b8-4fc2-4605-8c6c-14384ff3efe4",
+      "identity_key": "work:27c84565871aabec79cfb312e4758c85",
+      "source_occurrence_id": 696
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d0b80dab-ecf3-484b-90a0-005c6826ea6f",
+      "identity_key": "work:b99a884014d9e4df45c651f789d1296d",
+      "source_occurrence_id": 697
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3d9c0a0b-7b94-477a-8195-56d8a7c452b3",
+      "identity_key": "work:18e337f7cf8820bf276fd70120bc2abe",
+      "source_occurrence_id": 699
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1ee6f6e4-58b1-4ca9-84f1-05ba4d128d1e",
+      "identity_key": "work:a5973395e160bc68cf6f55085591ae6b",
+      "source_occurrence_id": 700
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "3e9809cb-fab3-432f-b661-95ec2962645c",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "source_occurrence_id": 704
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3e9809cb-fab3-432f-b661-95ec2962645c",
+      "identity_key": "work:7627087900a721216e73d719e20c3cbd",
+      "source_occurrence_id": 704
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6ed9b292-29b5-4748-86bc-0f7c690bd0d9",
+      "identity_key": "work:0cbcbfa6d408081571309c99243b32ed",
+      "source_occurrence_id": 713
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "65f2f004-d39e-4052-8fba-92f90f6fedf8",
+      "identity_key": "work:8fac13ebceb2603056135d228b580b2c",
+      "source_occurrence_id": 714
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3c965110-ff4a-4c5b-be5d-ea68fd98e0aa",
+      "identity_key": "work:240a544355c1730cfc9af244d56e066f",
+      "source_occurrence_id": 717
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "88c718e3-b822-4d60-bd70-ee08e288c16a",
+      "identity_key": "work:0820882301f436a33f34d70146400c77",
+      "source_occurrence_id": 722
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "981fec97-ac63-4704-93ce-e860d21ac295",
+      "identity_key": "work:101e0d994387de4e8d49d79617f8c626",
+      "source_occurrence_id": 723
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b80c3c94-59ff-42bf-9a04-00a4d8c9255b",
+      "identity_key": "work:cf9747ea86b1b69211cc8f81fba146e9",
+      "source_occurrence_id": 729
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cc09aa28-9839-4239-83b3-98d47ac6479f",
+      "identity_key": "work:73f7d4b2f89b6845a544814aa8023577",
+      "source_occurrence_id": 732
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5557cbc0-596c-4dcb-9465-6d31047e8bfc",
+      "identity_key": "work:b4e4caab0233522c69924236b62dac29",
+      "source_occurrence_id": 733
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "aa05c7d3-96c5-4884-a5bf-8bddaea37b81",
+      "composer_id": "be41f94d-1725-4bb0-85c9-bf5d5537fed8",
+      "source_occurrence_id": 741
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "aa05c7d3-96c5-4884-a5bf-8bddaea37b81",
+      "identity_key": "work:326c8b470f73e4b92c56f703ae5201fc",
+      "source_occurrence_id": 741
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "2646ef76-278b-4531-94e6-0d2fece32614",
+      "composer_id": "4014ad56-05b6-4a44-8f39-07650167e9b4",
+      "source_occurrence_id": 742
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2646ef76-278b-4531-94e6-0d2fece32614",
+      "identity_key": "work:9c9bcb73eaa6c8ebb4606b9fb209af61",
+      "source_occurrence_id": 742
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "483c1456-4a25-4114-b3a7-44dcd1494a0a",
+      "composer_id": "ee5a00b0-cc23-4a3f-9da8-dd26e31b0b7e",
+      "source_occurrence_id": 743
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "483c1456-4a25-4114-b3a7-44dcd1494a0a",
+      "identity_key": "work:bc6e3388cd2bf328a67746155f772fef",
+      "source_occurrence_id": 743
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "4b86c23b-435e-44ea-950b-5f096e08e0fe",
+      "composer_id": "a05b4296-c373-48e3-a271-c41eedcb20ca",
+      "source_occurrence_id": 744
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4b86c23b-435e-44ea-950b-5f096e08e0fe",
+      "identity_key": "work:d295f4190f840c04ac80f37ae4d6dba4",
+      "source_occurrence_id": 744
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "01e931f4-302f-41dd-8ef7-c3fc56dac305",
+      "composer_id": "bd70bc90-0178-4e08-8ce0-6d00538580b0",
+      "source_occurrence_id": 745
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "01e931f4-302f-41dd-8ef7-c3fc56dac305",
+      "identity_key": "work:aa79861cf8b2d5bd45736529f4ebeae6",
+      "source_occurrence_id": 745
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "57b8c67a-c534-449f-b1a4-e1b874127b30",
+      "composer_id": "c8448796-17f0-4dd5-b45b-78b684987402",
+      "source_occurrence_id": 746
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "57b8c67a-c534-449f-b1a4-e1b874127b30",
+      "identity_key": "work:3469f701758eea4d0546b1da451c1125",
+      "source_occurrence_id": 746
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "52c0d58e-cc95-4610-90e4-4fb4edecbfdf",
+      "composer_id": "4dc4b3e2-c6f9-4424-bdc3-8ce9c0699384",
+      "source_occurrence_id": 749
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "52c0d58e-cc95-4610-90e4-4fb4edecbfdf",
+      "identity_key": "work:d701d360c451eb557afc2ab6fbbc3d44",
+      "source_occurrence_id": 749
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b23bfe88-3c60-4f57-b8ab-1d3384c9713c",
+      "identity_key": "work:30f95e41c79046f6ff7feae2ce2e2f8b",
+      "source_occurrence_id": 751
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e5b7b0d0-81ef-4d98-ba06-a323a7a567ed",
+      "composer_id": "36ec6fc4-e55c-4e87-80c8-01402609b286",
+      "source_occurrence_id": 195
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "74d1aed9-dab0-4e23-8e74-721c57e3579d",
+      "identity_key": "work:8f9d716839528f039932fcaf477dd9e3",
+      "source_occurrence_id": 754
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f4cef200-0511-486f-bee0-6ee5e9c666ed",
+      "identity_key": "work:c5f0988d65a6174d2a338ce6f5e89d84",
+      "source_occurrence_id": 755
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2f5aeefa-7e3c-4e49-8f50-75d14a6bc779",
+      "identity_key": "work:2f8abe2d0f634e7be00fc67597ef26c5",
+      "source_occurrence_id": 756
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "861394c6-0062-492d-b01b-44df0576d0b4",
+      "identity_key": "work:0a138aed1c2d6394473b0e670270d520",
+      "source_occurrence_id": 947
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3be49264-3ae1-4369-9be0-6e10eb020f72",
+      "identity_key": "work:15b029216c27294ec768d9290de043bc",
+      "source_occurrence_id": 760
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b0a800ac-5cf1-449c-b1a8-7f771731be64",
+      "identity_key": "work:52f033be3edc024852a9eddded83cbf2",
+      "source_occurrence_id": 762
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c3ce411d-a244-48f8-884a-539487de4f2c",
+      "identity_key": "work:34a09a0fbd048ce9f20130337cba9428",
+      "source_occurrence_id": 763
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "092c1db2-b61c-471f-9076-f1f3ee74b8cc",
+      "identity_key": "work:bb8cbb30a12d63fcbb16c3072ba8e6f1",
+      "source_occurrence_id": 765
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "f8877796-a393-405c-8d94-2da52f7e12d4",
+      "composer_id": "25aab104-1c65-42ea-9338-852db4c79592",
+      "source_occurrence_id": 768
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f8877796-a393-405c-8d94-2da52f7e12d4",
+      "identity_key": "work:c7c5c400edb0b00b2588b5c174170a4e",
+      "source_occurrence_id": 768
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "df310bdc-20b8-4cec-ab73-41cb1755e429",
+      "identity_key": "work:d466d9f7f7c2d9f834ad8bd323f34714",
+      "source_occurrence_id": 770
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "0b3898e5-6a92-4ea1-9c5b-276c737f663c",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "source_occurrence_id": 773
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0b3898e5-6a92-4ea1-9c5b-276c737f663c",
+      "identity_key": "work:44b7017e8285130ade9422f0633c80e3",
+      "source_occurrence_id": 773
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5dec3bda-8b45-45ff-85a4-87ad58cf933b",
+      "identity_key": "work:9131a1ef0abe3375240919229ca26cc5",
+      "source_occurrence_id": 774
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2d8a82cc-51f0-4176-8153-4464126db00d",
+      "identity_key": "work:5cee748d311f76d86eaf35c9ad66e37b",
+      "source_occurrence_id": 776
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e32e28cd-cf2e-44d4-98d4-43eabba828ca",
+      "identity_key": "work:e9f528af252296da0343cdfa9edf21c4",
+      "source_occurrence_id": 777
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "718ca942-cce4-4d2d-aa3f-c6556a47b347",
+      "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+      "source_occurrence_id": 779
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "718ca942-cce4-4d2d-aa3f-c6556a47b347",
+      "identity_key": "work:59991f032289c4f7c6c275fce4b7fc4d",
+      "source_occurrence_id": 779
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f206a794-973a-427b-a1ba-96de757b5dd3",
+      "identity_key": "work:df1682a9e2bf4d0f6c449e0aef35eb91",
+      "source_occurrence_id": 780
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "71441ae7-8452-4a67-aecf-be360ad9c4a5",
+      "identity_key": "work:e488596781dabc68185795e161ebe3fd",
+      "source_occurrence_id": 781
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a8a16e8a-c930-4d61-a941-fe7bb50ccec9",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 785
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a8a16e8a-c930-4d61-a941-fe7bb50ccec9",
+      "identity_key": "work:2833b8e9bed2c15b8497851124f71ab1",
+      "source_occurrence_id": 785
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e267de8d-6de0-4a6e-bfaa-6333a87c66d6",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 786
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e267de8d-6de0-4a6e-bfaa-6333a87c66d6",
+      "identity_key": "work:6b7d8c6d7ec7914ca5a36460c9bd7e81",
+      "source_occurrence_id": 786
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "6f05d411-d5d0-43b9-bfc9-c2b4ce6d0c72",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "source_occurrence_id": 787
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6f05d411-d5d0-43b9-bfc9-c2b4ce6d0c72",
+      "identity_key": "work:2e26aad94076209e95dc2a7a5cb39184",
+      "source_occurrence_id": 787
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4f1feb6a-5285-4ca7-84f3-a4b8e0c4fa1f",
+      "identity_key": "work:5155dc122a275ddfa4241a4da49deb41",
+      "source_occurrence_id": 788
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "de8e2e5c-33b0-4941-b252-580674033733",
+      "identity_key": "work:5a8e219e34d19fea1e961551b0712698",
+      "source_occurrence_id": 789
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2fd1cf97-d372-41b1-a16a-1e6875741859",
+      "identity_key": "work:c40a1cee8192778d6ed05316d6bf38c2",
+      "source_occurrence_id": 790
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8aef19bb-8869-4a9a-9c7b-35330ebe85f6",
+      "identity_key": "work:23bed356d13d4ca2194124cb0f95ace4",
+      "source_occurrence_id": 791
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "5da32a73-c073-4f3f-9355-3c93693a3f1f",
+      "composer_id": "149197b5-b642-4c27-9fd8-182a469a53a3",
+      "source_occurrence_id": 792
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5da32a73-c073-4f3f-9355-3c93693a3f1f",
+      "identity_key": "work:dc06ca80fc75c9635ee6a26b3dae7c17",
+      "source_occurrence_id": 792
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1173858a-79cf-43a4-b79e-f6a1d0c4203e",
+      "identity_key": "work:fd004535cf50de8efb819dd044bf842c",
+      "source_occurrence_id": 793
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d39b2c7e-d84e-46fd-9797-49555299ebcb",
+      "identity_key": "work:8ea3757b84303476dea6e23bcd2fc349",
+      "source_occurrence_id": 794
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5478ded2-6dac-4098-84b9-f58637d7766e",
+      "identity_key": "work:15574624d55bbb6e1f03ecb8270b5012",
+      "source_occurrence_id": 795
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b86a0a6c-a498-47b7-a165-adbbae4547de",
+      "identity_key": "work:16519ff7a44c722e89048535cbede57a",
+      "source_occurrence_id": 796
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3da3122a-1fd2-4fbf-b2eb-d57c7639ef6f",
+      "identity_key": "work:440745e39a762f04c2d3e209b15192f4",
+      "source_occurrence_id": 797
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8e3c85ad-9d17-4489-b6fb-5da68ced2cfa",
+      "identity_key": "work:31be9a5f8ce696ebb9713ccdc9b12c53",
+      "source_occurrence_id": 802
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "fd217e9a-2bff-4e8d-901a-e16b3bfedd32",
+      "identity_key": "work:91a15d248d9be0a474dc4c32dccf041c",
+      "source_occurrence_id": 804
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1b0b3973-7b3d-4bd3-8ccb-8e4a0c49f4a3",
+      "composer_id": "2306b0e9-58fb-4cc2-8061-0b6d49e1f310",
+      "source_occurrence_id": 810
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1b0b3973-7b3d-4bd3-8ccb-8e4a0c49f4a3",
+      "identity_key": "work:7fd513f000290fd93664d7db6ea17e64",
+      "source_occurrence_id": 810
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "1b0b3973-7b3d-4bd3-8ccb-8e4a0c49f4a3",
+      "alias": "Concierto para violonchelo y cuerdas n.º 6 en Re mayor, G 479",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 810
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cec52be1-8060-45ce-86a7-40bbba31bab0",
+      "identity_key": "work:3de7ec7e68b9fb1802cfb22fa97d51be",
+      "source_occurrence_id": 811
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "268a6336-f5cd-4fc8-bf58-62a9f93a4df3",
+      "identity_key": "work:91457cefa689d5baf0881877ffe1a839",
+      "source_occurrence_id": 812
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "268a6336-f5cd-4fc8-bf58-62a9f93a4df3",
+      "alias": "Sinfonía en Re menor, op. 12 n.º 4, G 506 «La Casa del Diavolo»",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 812
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4782dd00-3b2c-4a98-b283-bb953b27f758",
+      "identity_key": "work:462e08fabb2e9259db4092c8f1f67768",
+      "source_occurrence_id": 813
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e056e934-33c9-4339-800b-8584051d35cb",
+      "composer_id": "eeb7a61b-972b-4a6d-8ca7-84e328f0e850",
+      "source_occurrence_id": 814
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e056e934-33c9-4339-800b-8584051d35cb",
+      "identity_key": "work:67a36fe7187b480621ee21272f081a2f",
+      "source_occurrence_id": 814
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e5e67f88-af56-4e8c-b03c-39c603b424ea",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "source_occurrence_id": 816
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e5e67f88-af56-4e8c-b03c-39c603b424ea",
+      "identity_key": "work:e713873cc444065d6a90f4e3e0712f50",
+      "source_occurrence_id": 816
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "b83a36f0-8eaf-4d46-90c3-6b34709f2ec6",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "source_occurrence_id": 818
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b83a36f0-8eaf-4d46-90c3-6b34709f2ec6",
+      "identity_key": "work:eaabc308c45424b2c979e1bab88d6179",
+      "source_occurrence_id": 818
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f57f0327-e44c-4409-93b3-20ecaac56341",
+      "identity_key": "work:33d9cfa6317e6eaac48366171c720580",
+      "source_occurrence_id": 820
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2e8e04d1-ad17-4a6b-8847-8e8cbd4672a1",
+      "identity_key": "work:91567d0fe908ca0d46eb1ae119699141",
+      "source_occurrence_id": 821
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "15b2b46e-de39-45f3-aace-3a83cc2ec121",
+      "composer_id": "2e38b5ba-d9d7-4b7a-9185-d196d7558d4b",
+      "source_occurrence_id": 822
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "15b2b46e-de39-45f3-aace-3a83cc2ec121",
+      "identity_key": "work:212ebbcdfa235a9d7fe192e26893279e",
+      "source_occurrence_id": 822
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f3d0b6c4-d5d0-41ad-b19c-d1502d27806d",
+      "identity_key": "work:a32c3ce50469f4efb1cd62c81ee5d83d",
+      "source_occurrence_id": 823
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "439e70c6-d56c-451a-8847-a67210f28a43",
+      "composer_id": "6c5c8d8b-9dd1-4ebc-96d4-15a5efec53eb",
+      "source_occurrence_id": 824
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "439e70c6-d56c-451a-8847-a67210f28a43",
+      "identity_key": "work:94ead58f7d1330f7d300b4ebf9d72851",
+      "source_occurrence_id": 824
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "ee0c1ff0-357b-48d3-9fb9-ebe72e35c571",
+      "alias": "Sinfonía núm. 2 “Resurrección”",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 826
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1389f265-c6c2-4408-82e2-ab52df10f047",
+      "composer_id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8",
+      "source_occurrence_id": 828
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1389f265-c6c2-4408-82e2-ab52df10f047",
+      "identity_key": "work:7a832e4b9d6af069beca9809f981e6b6",
+      "source_occurrence_id": 828
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "61b27081-ac4c-4187-9eb3-cd34d8f16358",
+      "identity_key": "work:9911c604ed5f7b935f8b066303d6b981",
+      "source_occurrence_id": 831
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ddbf2d21-63bb-4d3b-9905-c02648f139d3",
+      "identity_key": "work:452c092e758b483cac9c7c9af5463a18",
+      "source_occurrence_id": 832
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "84b0910e-21d3-4c97-8368-4a2d1c97e1c5",
+      "identity_key": "work:b0d47e466f3c445cc4ee637b31fc1765",
+      "source_occurrence_id": 847
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "28262775-ee6d-4dd5-870c-e2c19072308e",
+      "identity_key": "work:358c227e22a2535a32e710ea80013ac0",
+      "source_occurrence_id": 850
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e536d82e-6ea0-4f69-9644-ecc8de32a96c",
+      "composer_id": "de6bdf79-da4e-4a6b-8e89-97380f5347ca",
+      "source_occurrence_id": 861
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e536d82e-6ea0-4f69-9644-ecc8de32a96c",
+      "identity_key": "work:d0bdeb9af896b73e7b426ea4a32efac0",
+      "source_occurrence_id": 861
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "14f19e37-a214-49ff-bfb2-e3baaad449bf",
+      "composer_id": "73155fe6-9950-492c-8c20-417844140922",
+      "source_occurrence_id": 862
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "14f19e37-a214-49ff-bfb2-e3baaad449bf",
+      "identity_key": "work:716bc145975fd5af54580f2fb48581c3",
+      "source_occurrence_id": 862
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "aa8cccc9-f1bd-4446-bb96-c4f4256821d1",
+      "composer_id": "73155fe6-9950-492c-8c20-417844140922",
+      "source_occurrence_id": 867
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "aa8cccc9-f1bd-4446-bb96-c4f4256821d1",
+      "identity_key": "work:b816696914e4b8bddc39ece2dea4a468",
+      "source_occurrence_id": 867
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "378131db-a8d4-473e-ba78-a433ebf971d6",
+      "identity_key": "work:2503d7ecea12dcf819f4e9baf0e67292",
+      "source_occurrence_id": 876
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "95c39b38-60a8-43d0-9e18-2831846941f7",
+      "identity_key": "work:75f1b16cd08fed32f6f3a46ac6d45535",
+      "source_occurrence_id": 877
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b65e4aaf-e451-40b1-90b1-de9b58ad9112",
+      "identity_key": "work:00a2313471948835fbe56dae4d827a50",
+      "source_occurrence_id": 878
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "91ce402d-6560-451e-b7eb-20b8393018e3",
+      "identity_key": "work:37f309ff73edfa70ac243b37d1e2a74d",
+      "source_occurrence_id": 880
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0b306f7d-3380-480b-b496-6958fbe5f8f0",
+      "identity_key": "work:fb3fb4195bd7c80c0b839626a4505001",
+      "source_occurrence_id": 881
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "72821ba6-ab53-44ef-8646-476b485f9e0b",
+      "identity_key": "work:583a218bddec286ace520941c7e02101",
+      "source_occurrence_id": 882
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c628c00f-892a-4523-9342-731c34752052",
+      "identity_key": "work:a4492a01d01fb3128b37470a607e2ed2",
+      "source_occurrence_id": 883
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e8913fd0-29b9-46c0-a756-fd76b7d93fb4",
+      "identity_key": "work:8a88306d38c538006e3398443435307a",
+      "source_occurrence_id": 884
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5f395eda-3be3-4f63-9908-9fd38e6bb195",
+      "identity_key": "work:82c29154353e7a34386c95458a338808",
+      "source_occurrence_id": 885
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "c0585b82-cfd9-4218-ac61-d22934cf00f2",
+      "composer_id": "5efcffbe-c47d-474d-9816-d107c43245f2",
+      "source_occurrence_id": 894
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c0585b82-cfd9-4218-ac61-d22934cf00f2",
+      "identity_key": "work:7ea93858e6b9f2d32fe3ea94e338dc49",
+      "source_occurrence_id": 894
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "dff397df-f140-427c-b9f8-40fee1807b33",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 895
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dff397df-f140-427c-b9f8-40fee1807b33",
+      "identity_key": "work:ebb59aa59086e18aa2ce286fd31c2bf8",
+      "source_occurrence_id": 895
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "4579d8d5-c931-4a09-91df-e87d87746002",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 1074
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "34cae834-e695-489e-9c66-12eb100d17eb",
+      "identity_key": "work:3b0e28b6c11093704783e7f8014b9f32",
+      "source_occurrence_id": 897
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "68ccc8e4-e909-47b5-87e5-d1cb1af62ceb",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 898
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "68ccc8e4-e909-47b5-87e5-d1cb1af62ceb",
+      "identity_key": "work:29f2102bb56e6dbbf83af8dd114b251e",
+      "source_occurrence_id": 898
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e0841af0-dd52-452b-8abb-bbbfb8cb8a7e",
+      "identity_key": "work:f55405aca9e09fec9ae298e417572153",
+      "source_occurrence_id": 901
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "66e21855-c3eb-4732-87f3-0e62d3568db1",
+      "identity_key": "work:949fd4cadce71156a1cdc09b2a039c3f",
+      "source_occurrence_id": 903
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d8966ffa-f5a6-4627-abb0-fb18225d7891",
+      "identity_key": "work:e2d55533620f597314222e54aa27e045",
+      "source_occurrence_id": 904
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c04758d7-1871-4b5d-be00-349313d61358",
+      "identity_key": "work:5cabb41f18aee07ea9cdd78c1ebe72df",
+      "source_occurrence_id": 905
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "abe387b1-9079-4fe1-9e2c-e009bc11fb91",
+      "identity_key": "work:29f955edd639124e64e0985f99c5644d",
+      "source_occurrence_id": 906
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4aff21f3-fc2c-4469-b2ea-bf789504d64d",
+      "identity_key": "work:f7f8cf4699fdc2c9478ee520867cbdb4",
+      "source_occurrence_id": 914
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2a464f97-be24-44fe-be23-d2e436198f00",
+      "identity_key": "work:99199d4e612f896597ea12b2ff589256",
+      "source_occurrence_id": 909
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "efecf9d2-0300-4f0c-a1be-6038151012a1",
+      "identity_key": "work:f4d1b65058401da1798a64ebafcb155d",
+      "source_occurrence_id": 911
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "880e85b1-2c8e-4f50-83b3-933c596813c7",
+      "identity_key": "work:7d308722b68d51104e880ed1d29607c4",
+      "source_occurrence_id": 925
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ecc51258-536b-48ba-b185-a592e9401d48",
+      "composer_id": "b6f21ed0-a5ab-4c59-a226-a78ed47b236f",
+      "source_occurrence_id": 928
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ecc51258-536b-48ba-b185-a592e9401d48",
+      "identity_key": "work:337261c6e9dbe1860b3802c361cca7a8",
+      "source_occurrence_id": 928
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "18999bca-ba78-4658-b63d-123701cdcd60",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+      "source_occurrence_id": 932
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "18999bca-ba78-4658-b63d-123701cdcd60",
+      "identity_key": "work:151d7adf1c2dfc70c9485364b7606137",
+      "source_occurrence_id": 932
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b19f67ff-1674-4628-9ffd-9357a16c7f3a",
+      "identity_key": "work:a00e68cd13cca7457c652190af8f9ab2",
+      "source_occurrence_id": 938
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ada9f0f5-346c-422e-8482-33a2af24540f",
+      "identity_key": "work:b298f30e253044e5bb794d90f7bf1cbb",
+      "source_occurrence_id": 940
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c99b4d15-e0c1-481a-a65e-66c30057e4e2",
+      "identity_key": "work:4b54f40cd8e7293bff3060b03af7e81a",
+      "source_occurrence_id": 941
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "69beed2a-a2fc-49b8-b91e-cb6b1efdf1fe",
+      "identity_key": "work:6a4757fd634aca84dbd44bcba8d64bd8",
+      "source_occurrence_id": 942
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5edb9f40-ee20-47cb-adfc-89409c59d1cc",
+      "identity_key": "work:ae2c04adef636b864b785f367c528f12",
+      "source_occurrence_id": 943
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c909aa0c-6f36-4464-bc26-654b8c999f55",
+      "identity_key": "work:3d5c6e3f19cf96f472dbfcda6193b247",
+      "source_occurrence_id": 944
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "80af3e23-4c5e-46eb-a545-46fcf96b7b30",
+      "identity_key": "work:944669c264b26e96a5b64283c1fea1cf",
+      "source_occurrence_id": 945
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "31b00b01-be24-407e-b9da-8e5384c36fff",
+      "identity_key": "work:e1f0572e3a56cd6fd173a634fdcf6787",
+      "source_occurrence_id": 946
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "861394c6-0062-492d-b01b-44df0576d0b4",
+      "alias": "Sonata n.º 23 en fa menor ‘Appassionata’, op. 57",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 947
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a3440abd-15a2-4785-88fe-1d04e6ddfc25",
+      "identity_key": "work:b03f80cf1888b24df088d62ed61b2f38",
+      "source_occurrence_id": 948
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "556ef2e0-a8c5-4b98-af48-772e1dac6ce7",
+      "identity_key": "work:b47b76dc7a23e14b87383725e0231df0",
+      "source_occurrence_id": 950
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4713158a-6fec-4a90-831d-ed5cfb3f01be",
+      "identity_key": "work:e149e73d2ad348fb6e882285175c92a4",
+      "source_occurrence_id": 951
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c709f436-6c0a-43b6-b5a0-138b773454b3",
+      "identity_key": "work:8052f3a2eea5af28b23d0113bcc4efb4",
+      "source_occurrence_id": 952
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "3a0a42ca-35d0-4a2d-b273-58ab01bde2b5",
+      "composer_id": "c64f4739-75ad-4246-b2fb-032eaba87268",
+      "source_occurrence_id": 953
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3a0a42ca-35d0-4a2d-b273-58ab01bde2b5",
+      "identity_key": "work:bdb4b965c5740ab334d0684a48ef9bf8",
+      "source_occurrence_id": 953
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "identity_key": "work:97b0deb7842f0d367101c66dc468c7fb",
+      "source_occurrence_id": 954
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "identity_key": "work:0408b15be6e0fcb4a5680d84dfa53617",
+      "source_occurrence_id": 955
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "identity_key": "work:c86c1c52f110561b42404d2bebf4a78f",
+      "source_occurrence_id": 956
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "identity_key": "work:27f65a3643b637434ce3bab84d6789f6",
+      "source_occurrence_id": 957
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6486c877-7deb-431d-ae3d-8f819a41debb",
+      "identity_key": "work:c65f5626b15cfe6b32505db15e110aba",
+      "source_occurrence_id": 960
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "23efa626-1037-4592-aeb2-40094ed53244",
+      "composer_id": "59311043-087b-4d8b-b13d-901181f41951",
+      "source_occurrence_id": 962
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "23efa626-1037-4592-aeb2-40094ed53244",
+      "identity_key": "work:936a0aecfacfb6c1d9535747676b6823",
+      "source_occurrence_id": 962
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "fba46986-4b7a-4d14-9c3e-65345b252083",
+      "identity_key": "work:d30f4369c3a604986b313290408069b4",
+      "source_occurrence_id": 963
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8a93f76c-23b2-471a-b8c2-fdfc18c0654e",
+      "identity_key": "work:c59f7c5e0c88483169438a77d6045c5e",
+      "source_occurrence_id": 964
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "45f86445-5b96-41f0-8feb-5efaa89d647f",
+      "composer_id": "3b33368e-5488-4429-8307-2099c44a681a",
+      "source_occurrence_id": 970
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "45f86445-5b96-41f0-8feb-5efaa89d647f",
+      "identity_key": "work:954605588e92094fed3c4d977a37aee3",
+      "source_occurrence_id": 970
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "700fa519-3a9e-4459-9974-10478fa9d58b",
+      "composer_id": "3b33368e-5488-4429-8307-2099c44a681a",
+      "source_occurrence_id": 971
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "700fa519-3a9e-4459-9974-10478fa9d58b",
+      "identity_key": "work:2ee947b8af6dc070cf9148970b15c25b",
+      "source_occurrence_id": 971
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "4032ccf0-562c-4c04-aa9c-fafaf07e423a",
+      "composer_id": "186e7f1e-53b0-464d-8a5d-17d47fc2598f",
+      "source_occurrence_id": 972
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4032ccf0-562c-4c04-aa9c-fafaf07e423a",
+      "identity_key": "work:90eaa38935a589ad26bc33ad8b768469",
+      "source_occurrence_id": 972
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "277d240f-457a-4d36-8198-49f5c469631b",
+      "composer_id": "186e7f1e-53b0-464d-8a5d-17d47fc2598f",
+      "source_occurrence_id": 973
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "277d240f-457a-4d36-8198-49f5c469631b",
+      "identity_key": "work:75a43362810abb79f59047644e78964a",
+      "source_occurrence_id": 973
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "48618126-ae86-4d68-991b-0cea5e5bcd52",
+      "identity_key": "work:d9933f05848098b59fbd5df4912d403e",
+      "source_occurrence_id": 974
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "818c4916-7727-455a-bba8-fff977097e85",
+      "composer_id": "3fd6394e-f2e8-441f-ad74-09fc5b468c1b",
+      "source_occurrence_id": 977
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "818c4916-7727-455a-bba8-fff977097e85",
+      "identity_key": "work:aa472172a260bb3de9911938f7500956",
+      "source_occurrence_id": 977
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ac6dc0aa-dae7-4692-863d-6d49bec2ef3c",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "source_occurrence_id": 978
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ac6dc0aa-dae7-4692-863d-6d49bec2ef3c",
+      "identity_key": "work:545944cbaf51d629e847671b5c235235",
+      "source_occurrence_id": 978
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "5648b4d9-df8e-482b-a932-690aa55df750",
+      "composer_id": "4d739406-e617-4b01-ae66-8a070f57661f",
+      "source_occurrence_id": 979
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5648b4d9-df8e-482b-a932-690aa55df750",
+      "identity_key": "work:0e9a34e418bb908bec193bbd60259db0",
+      "source_occurrence_id": 979
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "60131071-b28a-468f-a608-0a1614fa449c",
+      "composer_id": "3fd6394e-f2e8-441f-ad74-09fc5b468c1b",
+      "source_occurrence_id": 980
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "60131071-b28a-468f-a608-0a1614fa449c",
+      "identity_key": "work:2d8f7e1cb58aa11f16619260ac050a17",
+      "source_occurrence_id": 980
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ed278ef8-4af1-4f4f-9b74-49db49b77e53",
+      "identity_key": "work:3cfc0f0282e611998ec2e159617b81f5",
+      "source_occurrence_id": 981
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "17ae8c5e-ae2a-41b9-a9c8-361ebfc19543",
+      "identity_key": "work:898027c85dd8d79ea55238c44491e182",
+      "source_occurrence_id": 986
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "c887bd7e-02f3-4826-b3b3-709f98ecb5dc",
+      "composer_id": "4c6a9335-3c14-454a-be7b-2f405c9946c8",
+      "source_occurrence_id": 987
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c887bd7e-02f3-4826-b3b3-709f98ecb5dc",
+      "identity_key": "work:e290f8b5e60f46b4877c6af14a7b4887",
+      "source_occurrence_id": 987
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a22bdf74-fb1c-4bb1-8416-1b40d074b986",
+      "composer_id": "4c6a9335-3c14-454a-be7b-2f405c9946c8",
+      "source_occurrence_id": 988
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a22bdf74-fb1c-4bb1-8416-1b40d074b986",
+      "identity_key": "work:7316f22930de6fe69a569c25d919baa5",
+      "source_occurrence_id": 988
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "700e1290-c713-4db7-b8f9-aee132ca6dcd",
+      "composer_id": "4c6a9335-3c14-454a-be7b-2f405c9946c8",
+      "source_occurrence_id": 989
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "700e1290-c713-4db7-b8f9-aee132ca6dcd",
+      "identity_key": "work:ce94e490454e8f3f76b716404c0e7a16",
+      "source_occurrence_id": 989
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "c5f1c4c4-a871-46c8-9bf4-e66be5032b01",
+      "composer_id": "4c6a9335-3c14-454a-be7b-2f405c9946c8",
+      "source_occurrence_id": 992
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c5f1c4c4-a871-46c8-9bf4-e66be5032b01",
+      "identity_key": "work:15d6a8cb91b45dde7ee5cc8bb7392fe8",
+      "source_occurrence_id": 992
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "44c36b57-a5cf-4c98-ac44-92c520488bc5",
+      "composer_id": "44f305a6-f5fb-4dd6-88f0-173da5369e98",
+      "source_occurrence_id": 993
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "44c36b57-a5cf-4c98-ac44-92c520488bc5",
+      "identity_key": "work:7c3170b42c491fd669659892e10e4446",
+      "source_occurrence_id": 993
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "0f06df40-31a5-40c4-a0ed-ec1aaf1dea40",
+      "composer_id": "2537bfcd-a280-4f01-b60c-472a067f7d92",
+      "source_occurrence_id": 997
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0f06df40-31a5-40c4-a0ed-ec1aaf1dea40",
+      "identity_key": "work:42005b334ac967cab19c0a1a2f4d13d1",
+      "source_occurrence_id": 997
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5aee1790-2475-4b86-bc85-45358c63977c",
+      "identity_key": "work:fa71e512a83a6f122d14ec1304fcc57c",
+      "source_occurrence_id": 1001
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "894078f7-b611-44fa-ba19-c8ed4634c6f4",
+      "identity_key": "work:624e4c618b3b4aebc2386de494f97f8c",
+      "source_occurrence_id": 1002
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4685602f-a5ec-4abf-8d80-6349aea3a440",
+      "identity_key": "work:e3d9202522f31ebafa55a9e8bd2f6533",
+      "source_occurrence_id": 1003
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "865778ad-2d78-4077-b360-aa56bf518a9f",
+      "identity_key": "work:750b12ff2d805f6312d0007cc8b1736f",
+      "source_occurrence_id": 1022
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c0f6f470-62ed-4bfe-92ec-1021df877a66",
+      "identity_key": "work:a4c7cd70d2b190167ad6c4e8dea9b148",
+      "source_occurrence_id": 1005
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "db9fab19-4171-4434-bada-e0071f7fc77f",
+      "identity_key": "work:5a7406932c32ee456bcc91063609b242",
+      "source_occurrence_id": 1008
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "ccc3b22e-ae79-419e-8c93-ab63bbcc147e",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 1009
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ccc3b22e-ae79-419e-8c93-ab63bbcc147e",
+      "identity_key": "work:1711c2b31d5af0d0f396e078235e3579",
+      "source_occurrence_id": 1009
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7b919a62-3536-4add-9de8-4e62879d5a70",
+      "identity_key": "work:1ecfb73d452891ee19934e8460a9d165",
+      "source_occurrence_id": 1017
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "033b1349-b9e9-4c37-bc10-160136c779fe",
+      "identity_key": "work:9eb7ba969156ba17d9d36149d37094b1",
+      "source_occurrence_id": 1019
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "00e52576-2ab9-4f0d-9fba-e2a140d94750",
+      "identity_key": "work:15e0d37c59efc7ab4c8058e7fce4c02f",
+      "source_occurrence_id": 1020
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "238cd60e-69b9-42c1-a877-8d5bf68ac4e4",
+      "identity_key": "work:90b2b46516e5e204e6688acaa337c64d",
+      "source_occurrence_id": 1021
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d1fba120-bd83-4330-ba60-33c9dbbf8cc9",
+      "identity_key": "work:4555f5980bcdca032a94acf0143391a7",
+      "source_occurrence_id": 1023
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dddd4ba2-6b89-4842-995a-c6b403ac4c31",
+      "identity_key": "work:fef093163a4048ab9c4d82a07a102e1f",
+      "source_occurrence_id": 1024
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9b078200-9b5a-43e4-8695-76672431c33b",
+      "identity_key": "work:5690765c5acfb1bd198ffb069f2e5b31",
+      "source_occurrence_id": 1025
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "1ac2eb66-0b4f-473e-a40e-ad518a63798a",
+      "composer_id": "8bc0aec2-56b5-4b55-ac5f-720d01fd8c69",
+      "source_occurrence_id": 1029
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1ac2eb66-0b4f-473e-a40e-ad518a63798a",
+      "identity_key": "work:af46411f99d29da965e4663a0e89cb63",
+      "source_occurrence_id": 1029
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "af0e7846-5374-4640-be5b-8bd5b3508ac9",
+      "identity_key": "work:3bd6310144514666b6fefcd84a14a83d",
+      "source_occurrence_id": 1031
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ff56ff6b-b8fd-4069-8aae-8fbaf78495e1",
+      "identity_key": "work:8ecc281d183891b8e15f3f4cc60d7072",
+      "source_occurrence_id": 1032
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9b2bc7c6-793f-4cff-aea1-41ba5dc0ddf2",
+      "identity_key": "work:4587cd1d916e07fe28f759ef62a53321",
+      "source_occurrence_id": 1033
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "66759582-8da4-49ca-8d01-61bcdb746288",
+      "identity_key": "work:c1f190e3da21d8d48d94b918abe0ea96",
+      "source_occurrence_id": 1034
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1467590f-ee1e-4754-a905-947dc1ea797d",
+      "identity_key": "work:1df18705c406b7de83bcb9b079495a52",
+      "source_occurrence_id": 1035
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e006397a-42f6-49ec-903a-cb906465e3d5",
+      "identity_key": "work:ad8060bc4f268f92bb179d54a534897a",
+      "source_occurrence_id": 1044
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f5b8e4c5-a2e6-4e78-893b-393c07a24a9c",
+      "identity_key": "work:3ffd65d3d6c1cdbb836127fe3089be15",
+      "source_occurrence_id": 1046
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "94459cec-6dcd-49b7-8a06-5e31722b148e",
+      "identity_key": "work:99b9336b29af72da2399a93ffcf8e0de",
+      "source_occurrence_id": 1048
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "03e3e726-2675-4f8c-a70c-494d67b4bc78",
+      "identity_key": "work:9f059435b8aa26a91265dd4096c881fa",
+      "source_occurrence_id": 1050
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bf76c049-10b1-4227-bff9-4fac1647d25c",
+      "identity_key": "work:42dc7a912ea895c7d15c24cff451168f",
+      "source_occurrence_id": 1056
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c52cd31e-27e4-4327-91c7-fc955efb3104",
+      "identity_key": "work:42a4251ccfc43dca83ca41257bbe1ae6",
+      "source_occurrence_id": 1057
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "766cead8-35d1-4cd4-a41a-ac3c4dcda27b",
+      "identity_key": "work:8fa77ca9d2b9f9101370c741c932083e",
+      "source_occurrence_id": 1058
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3d250bc9-d035-40cd-9452-c59775881013",
+      "identity_key": "work:23404ce7d4031dfec24be65c8a5838e0",
+      "source_occurrence_id": 1059
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "42ed026f-0645-45bf-b0c4-4ca3a83cf391",
+      "identity_key": "work:3c80332419a6dde39fa7346fe390645d",
+      "source_occurrence_id": 1061
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3f4fd237-2cb9-4810-9301-d07998908ab7",
+      "identity_key": "work:c1b6f79cdea97d0a8e04743aa4f132b3",
+      "source_occurrence_id": 1062
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8ac18fe8-d6e6-4845-8abb-40238618ce6d",
+      "identity_key": "work:655f15c8172aa7946fc37756d0405ff0",
+      "source_occurrence_id": 1063
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5ad564f2-7c15-49d7-971b-5d64421fb2e2",
+      "identity_key": "work:7062df32528bc71ec4a199bd5db17a4e",
+      "source_occurrence_id": 1064
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "be7733f2-da7d-4368-9caa-b243647dc65c",
+      "identity_key": "work:ca26f0918ae30f0ef4140084805f0854",
+      "source_occurrence_id": 1065
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9cac4965-3b49-45cb-a00f-8b8ab94ed004",
+      "identity_key": "work:cb3af11614cdfadb2672996a34c6183a",
+      "source_occurrence_id": 1066
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "676c9de1-1bf3-42a0-84dd-7a13480ac1f1",
+      "identity_key": "work:b806fe1fe7c61d4cbb08a87ead3a83e1",
+      "source_occurrence_id": 1067
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "010cc6d8-4652-402f-bd09-70b0c50613ed",
+      "identity_key": "work:859614f0dd72df59e6c3e2772b4f4461",
+      "source_occurrence_id": 1068
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a9c92d31-4be8-45e7-8d90-f6b389995257",
+      "identity_key": "work:1ef5b6dcf0ccf8138ad9b614f73cd83a",
+      "source_occurrence_id": 1069
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "57727232-f2b8-4d56-a7ee-0a924291521e",
+      "identity_key": "work:19467036ea482edcff75f23f1435c82c",
+      "source_occurrence_id": 1070
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d31b4d3d-8348-4653-b422-b1353af53169",
+      "identity_key": "work:1a6a670e98516a513d27deca43d27691",
+      "source_occurrence_id": 1071
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "3c759e0a-a0dc-4aa4-a56d-24f2c3f0e8df",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 1072
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3c759e0a-a0dc-4aa4-a56d-24f2c3f0e8df",
+      "identity_key": "work:9db9dba9b7aaa13c51848de34b315fd1",
+      "source_occurrence_id": 1072
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "3c759e0a-a0dc-4aa4-a56d-24f2c3f0e8df",
+      "canonical_title": "Sinfonie Nr. 1 in C-Dur, op. 21",
+      "source_occurrence_id": 1072,
+      "expected_old_title": "op. 21",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59"
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "e73f3291-919f-40a4-8ec1-5b259f315f3d",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 1073
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e73f3291-919f-40a4-8ec1-5b259f315f3d",
+      "identity_key": "work:73e76af8849b0185735a733e4007f39a",
+      "source_occurrence_id": 1073
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "e73f3291-919f-40a4-8ec1-5b259f315f3d",
+      "canonical_title": "Sinfonie Nr. 4 in B-Dur, op. 60",
+      "source_occurrence_id": 1073,
+      "expected_old_title": "op.60",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59"
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4579d8d5-c931-4a09-91df-e87d87746002",
+      "identity_key": "work:a0e551b3c17a2e71a902cffaab320f4a",
+      "source_occurrence_id": 1074
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "4579d8d5-c931-4a09-91df-e87d87746002",
+      "canonical_title": "Sinfonie Nr. 5 in c-Moll, op. 67",
+      "source_occurrence_id": 1074,
+      "expected_old_title": "Sinfonía nº 5 en Do menor, Op. 67",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59"
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a4684fcf-7027-44a0-85ff-3a292ea83c95",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 1121
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a4684fcf-7027-44a0-85ff-3a292ea83c95",
+      "identity_key": "work:dc8f3a200f0437d8f1e0c7597d1a84f3",
+      "source_occurrence_id": 1121
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "a4684fcf-7027-44a0-85ff-3a292ea83c95",
+      "alias": "Sinfonía núm. 6 en Fa Mayor, op. 68 \"Pastoral\"",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 1121
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8fc9de27-ae35-49d4-a549-408af3e99e27",
+      "identity_key": "work:bf711609ac9acbaabf176dc189be135f",
+      "source_occurrence_id": 1122
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b48d6d67-90f4-4f53-b4c9-1c97c7799b76",
+      "identity_key": "work:3c8aff89c9e04c0578ded000132193b2",
+      "source_occurrence_id": 1088
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "54b31951-0185-4346-ab19-f964317e1042",
+      "identity_key": "work:dd4bad63e75ea7bf7af61724c2058b71",
+      "source_occurrence_id": 1089
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8b02c1c9-9840-4b50-92dd-22927f8820e5",
+      "identity_key": "work:ba1ee6f5585864fab10898e8d9c6a99c",
+      "source_occurrence_id": 1090
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5cb4d848-8353-4255-aa6c-6cd39ff4edfe",
+      "identity_key": "work:930533d705fc4abe46a52e6a0e78b383",
+      "source_occurrence_id": 1091
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "29add88d-959c-47cb-a58b-0a51ea6fe54d",
+      "identity_key": "work:2fb12dd7eb3720b26cc2a5e3fd863558",
+      "source_occurrence_id": 1092
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a76d53e4-7fff-49ae-86e8-8ffad9c390f1",
+      "identity_key": "work:171bc0eb071544492e7c7a398867f16b",
+      "source_occurrence_id": 1093
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "29cde4b9-cf55-4dbb-8fbd-ec182245048e",
+      "identity_key": "work:43346a54d663ccb8a6c0e5cdbf7941e5",
+      "source_occurrence_id": 1094
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "734b1863-6d00-44b0-b31c-8e285d6917f7",
+      "identity_key": "work:da0dbf72ef6ed8e87892d156236bdf29",
+      "source_occurrence_id": 1095
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "c07b4696-0f08-4ab1-86cd-67e003b6523b",
+      "identity_key": "work:01f6a601a6d5158d1c14722a45928d20",
+      "source_occurrence_id": 1096
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2460c721-2161-40b8-9569-bc49b91cddbd",
+      "identity_key": "work:303bdf27d9c87dc2f83a8b08142d2d07",
+      "source_occurrence_id": 1097
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2a4febdf-5071-4d4e-85ff-d24c386dd231",
+      "identity_key": "work:0d37e6538ff680d6c40c3135608afb09",
+      "source_occurrence_id": 1098
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d13558a8-e6ac-48ca-898c-7d33f996ee2c",
+      "identity_key": "work:3e0365fa9345eb3f05ff8f27fc4cbba1",
+      "source_occurrence_id": 1099
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2bb53457-0d70-4085-a216-597a6c2150d3",
+      "identity_key": "work:75a6fb641d00b3e7827454418e0d0431",
+      "source_occurrence_id": 1100
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d05b01c1-c180-42a7-b564-141be1f64241",
+      "identity_key": "work:8130e29be47604359687236cae16372d",
+      "source_occurrence_id": 1101
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4fb49dbd-c755-40e0-b3fc-5329e3e9ddcc",
+      "identity_key": "work:3f5317a911664221458a59f8bdf4b2eb",
+      "source_occurrence_id": 1105
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "96a84ebd-94e5-4e8e-a294-5225ee4a7d36",
+      "identity_key": "work:46bacdf02887550eb7b0f392267d67c5",
+      "source_occurrence_id": 1106
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6255a8aa-378f-4d0a-aa6f-04762ebb8202",
+      "identity_key": "work:16abccab5b22892822bf7047cd1c569c",
+      "source_occurrence_id": 1107
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "f8c1e42c-fd61-4f91-9290-30d06651918e",
+      "composer_id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8",
+      "source_occurrence_id": 1112
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f8c1e42c-fd61-4f91-9290-30d06651918e",
+      "identity_key": "work:927620d274aaf7ef1f1b358acf52c0f6",
+      "source_occurrence_id": 1112
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "2bc190da-da63-4e15-b3a5-97f84a8ce06a",
+      "identity_key": "work:316d2496b07c1777efda1040fe5839b0",
+      "source_occurrence_id": 1113
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "9f7036e4-fae5-47af-975d-822fe4150f50",
+      "identity_key": "work:0d0f5d89acf5a589fed3a1457b76257b",
+      "source_occurrence_id": 1114
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "8ae91ce5-ff7d-4f5f-8cea-0cd07da61289",
+      "composer_id": "5e3ee275-fc4b-4c64-8219-eac552ea8a41",
+      "source_occurrence_id": 1115
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8ae91ce5-ff7d-4f5f-8cea-0cd07da61289",
+      "identity_key": "work:fab4de32c40461e694e3e652f5549e57",
+      "source_occurrence_id": 1115
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "a174ba29-1aa9-4402-8b97-c4d7b69732c8",
+      "composer_id": "5e3ee275-fc4b-4c64-8219-eac552ea8a41",
+      "source_occurrence_id": 1116
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a174ba29-1aa9-4402-8b97-c4d7b69732c8",
+      "identity_key": "work:ea7db6406625bcde30a589b579deb04a",
+      "source_occurrence_id": 1116
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "5de30576-d13e-4474-9424-7f38b3b58d60",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+      "source_occurrence_id": 1118
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5de30576-d13e-4474-9424-7f38b3b58d60",
+      "identity_key": "work:a843c3630929b487b0c3c22dd6259866",
+      "source_occurrence_id": 1118
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "470c41a1-dcdd-4d37-acd3-cac8741b67cd",
+      "identity_key": "work:731e7670f8872489f556205d284639d4",
+      "source_occurrence_id": 1120
+    },
+    {
+      "action": "create_work",
+      "id": "e75b1460-9ea8-5e8e-9678-58a86b6db762",
+      "title": "Smyčcový kvartet č. 12 F dur, op. 96, B. 179 “Americký”",
+      "composer_id": "b939d48a-1989-462a-b29b-4a554213875d",
+      "identity_key": "work:5da429af77353cb931b6b3aeb3c1a500",
+      "work_kind": "work",
+      "source_occurrence_id": 1123
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "e75b1460-9ea8-5e8e-9678-58a86b6db762",
+      "alias": "Cuarteto «Americano», op. 96",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 1123
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "adaa8f13-4dbe-4075-bc42-5e0b25aaee29",
+      "identity_key": "work:00994eb86faf586dbf01f71388720008",
+      "source_occurrence_id": 1130
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "aa1add7a-8320-4bc9-9e45-9dfacf11b7d8",
+      "identity_key": "work:07b6813d658de97a4b3b9ab53537f134",
+      "source_occurrence_id": 1131
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "f78cec4d-cd90-453d-a662-54760524030f",
+      "identity_key": "work:59cb7b90c5b9ea16bf8495a1ea223755",
+      "source_occurrence_id": 1137
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "bb67fc30-99a6-40c1-98bf-c0fccd01d6ca",
+      "composer_id": "8b7de731-e7fa-4fd4-a84b-2412dcb646b9",
+      "source_occurrence_id": 1138
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bb67fc30-99a6-40c1-98bf-c0fccd01d6ca",
+      "identity_key": "work:69082786a2572967f85a5b077ab4bc84",
+      "source_occurrence_id": 1138
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5d4e1885-cd6f-4623-b1d2-2b07812896c6",
+      "identity_key": "work:8a15ffd60b4a3a97c0beaf572787e599",
+      "source_occurrence_id": 1139
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "269c182e-ea09-41ce-8a50-3e6a9c09902b",
+      "identity_key": "work:36c3d140f2a502b5c4c667e142e73991",
+      "source_occurrence_id": 1140
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "fb1af3d3-ed58-423a-8238-6caa4f4de0d6",
+      "identity_key": "work:e188df968eaab0aa55e02a32b9de5662",
+      "source_occurrence_id": 1141
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5ad10c9c-7120-430e-878d-f6fbab8c51c9",
+      "identity_key": "work:203da32d14eea96dccac6fee5db5f4a3",
+      "source_occurrence_id": 1142
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3bf852b8-ed97-4c11-aadc-5233c9a8722d",
+      "identity_key": "work:fdf67f8cfde57f592f15c49be2552f13",
+      "source_occurrence_id": 1143
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "31204e36-0687-4e80-8e25-1fa1b1a72336",
+      "identity_key": "work:9906eda046b8e28017c580108b72c00a",
+      "source_occurrence_id": 1144
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "eb275a4e-b944-4caf-972b-2c6ee2ada953",
+      "composer_id": "06e2891f-5b17-486e-ba9f-2a1963d913cd",
+      "source_occurrence_id": 1145
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "eb275a4e-b944-4caf-972b-2c6ee2ada953",
+      "identity_key": "work:86b3b3e560fbe4c74b52080ae0b01ca3",
+      "source_occurrence_id": 1145
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "476c63ed-2580-4d67-a301-c5ddd1d8d8ee",
+      "identity_key": "work:3816d6a3b3bf22e9182d6bdd96d53be0",
+      "source_occurrence_id": 1160
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e53c29ad-3249-4760-9f35-d411bde69606",
+      "identity_key": "work:252b33cfce5485dbc81295c9e2eaf00a",
+      "source_occurrence_id": 1163
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e52b07f7-802a-4ad4-af56-972707756ab4",
+      "identity_key": "work:ef545fec66b2c028b2b7c287bf2b5084",
+      "source_occurrence_id": 1164
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "dc200d09-5674-42b8-a5e4-970ce5c7753a",
+      "identity_key": "work:a264266b3f1e5c47555e63ed79aa51ba",
+      "source_occurrence_id": 1171
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a4a9e86e-3242-4e4d-8920-5a20a7cec003",
+      "identity_key": "work:5ecdffa3fa4b87ddc6b71faf54917300",
+      "source_occurrence_id": 1174
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3b24db40-d73b-43b3-9d58-d0b356d35a37",
+      "identity_key": "work:aa49f35fc9c7474fc444cd9082b1868c",
+      "source_occurrence_id": 1175
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "59ec3c5a-16ec-48b6-96d4-825ef4cd98a1",
+      "identity_key": "work:18387cc02e5861d9d71547ec5520cc05",
+      "source_occurrence_id": 1176
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "de7765bf-baf5-4a29-af47-9ba492c039f6",
+      "identity_key": "work:a466dc9127b9270dac3d8b223bf4a197",
+      "source_occurrence_id": 1177
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1decaf2f-ccca-45ff-a1b2-e92d3e3c6870",
+      "identity_key": "work:99d9e2f56cc8f85b8ef5ae43a879aab1",
+      "source_occurrence_id": 1179
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d5f416a5-b6f1-4731-9bc4-2e7a35a107e0",
+      "identity_key": "work:9a8c885acb509844e9bb71f02bce2689",
+      "source_occurrence_id": 1180
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "64282fb0-52d8-4e42-af47-ff6d8fa56e4b",
+      "identity_key": "work:9dce9ced61d02e41d84756a039b6bfff",
+      "source_occurrence_id": 1181
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "8826baaf-7e52-4d5b-9079-4a7fdfabd5ab",
+      "identity_key": "work:fd7ef1592be87fd1c721307b656e5ae0",
+      "source_occurrence_id": 1182
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "214ea51a-5caa-4b11-8396-ce6a20aa2cf2",
+      "identity_key": "work:5f9fae265cbd3df0eda14a6ac5214764",
+      "source_occurrence_id": 1183
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "15f9d057-c778-4ffb-8892-14ef5a7f1d4a",
+      "identity_key": "work:d626cbddad42b8f70cc3d5b7563a9aef",
+      "source_occurrence_id": 1184
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bd2a7b35-6ecc-4ba2-9e0b-6a4d99d61a14",
+      "identity_key": "work:a3643716d7501780352e3ab9036a02da",
+      "source_occurrence_id": 1192
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "03fff2ee-1b27-4eac-b77e-a9430e00648b",
+      "identity_key": "work:bcc7fbb5828c561c4a0f6daf13fb3ca8",
+      "source_occurrence_id": 1187
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ebfa8a03-8df7-4386-95ad-e5c9328f868c",
+      "identity_key": "work:f7ce4dab3d618b1c10220592ba056004",
+      "source_occurrence_id": 1191
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0259dc50-4f0f-455d-89df-726eb5192230",
+      "identity_key": "work:9a32a287925f955200ff9212c38adf99",
+      "source_occurrence_id": 1193
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0f09c6b0-ce3b-462d-a4c2-a455d807e390",
+      "identity_key": "work:b4a00b2b8ab35ac8d9852f2cff1aa1f6",
+      "source_occurrence_id": 1202
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "fce11c03-3302-4d81-bd2d-35b92c92fa6d",
+      "identity_key": "work:47784c4b582345e0e7f4fe9aada464ec",
+      "source_occurrence_id": 1215
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "be2256b0-1b7b-47b8-879e-4d98aa7db611",
+      "identity_key": "work:b479ace5e6d6f191119d005154491c83",
+      "source_occurrence_id": 1216
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "7d6b4d37-037b-4b68-9fb1-28c82aa7d245",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "source_occurrence_id": 1217
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "7d6b4d37-037b-4b68-9fb1-28c82aa7d245",
+      "identity_key": "work:0b3a2e17e7ac859ccfc4df7010139152",
+      "source_occurrence_id": 1217
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ecee4e57-3390-430a-956c-4298ebbbf458",
+      "identity_key": "work:49f4ed18816b1f18bcfc1835f498e3ad",
+      "source_occurrence_id": 1219
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "3671e83d-1b02-456a-8d93-99f168b55dce",
+      "identity_key": "work:cdce212b4b429b6cf66415353b53e320",
+      "source_occurrence_id": 1220
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "11b5bd82-7146-4086-96d9-ee246269b826",
+      "identity_key": "work:f6f314f981c9a74660042e06ff1dd987",
+      "source_occurrence_id": 1224
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "27cc0883-d00e-4a11-b321-90d480afbd25",
+      "identity_key": "work:dcc0cdc87bb355fb212c9990c6cfd0d8",
+      "source_occurrence_id": 1225
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "27cc0883-d00e-4a11-b321-90d480afbd25",
+      "alias": "Cuarteto de cuerda núm. 1 en Do menor, op. 15",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 1225
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bd4b82c4-9d62-4fa9-b71b-c5a21567f303",
+      "identity_key": "work:9fd83d6e67ef53254600f2a3dfabbac8",
+      "source_occurrence_id": 1226
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a6fbac74-23e9-4861-aa96-fc890408b4c8",
+      "identity_key": "work:79d6f98d35ea772977393c2ec9740204",
+      "source_occurrence_id": 1227
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4e9c2b50-d9fe-4b4f-b0e7-3aeda544ea50",
+      "identity_key": "work:933538215cb5eb90979ac11d3a6b0db6",
+      "source_occurrence_id": 1228
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "1c68d9a2-88e4-4993-b233-af85ab4dda0e",
+      "identity_key": "work:ef4187a7121ed6d22747c49f6bfd0b05",
+      "source_occurrence_id": 1229
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a631590e-ee61-4319-8974-cf7e342a5ffa",
+      "identity_key": "work:431f04b12e1e5fd154d2866778302a2a",
+      "source_occurrence_id": 1231
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "15aea3fb-53be-4f42-8649-00a2f7b9208d",
+      "identity_key": "work:4e16f27d742e7d7002744a704579acdd",
+      "source_occurrence_id": 1237
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b78744eb-51b9-48e3-9f44-ffd939c7d215",
+      "identity_key": "work:19684ae3a1a388aaef84fe84cc42ceec",
+      "source_occurrence_id": 1233
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "cc015df7-9b78-41a6-8028-11862e4cb11b",
+      "identity_key": "work:a2dd261b7ce662970e88f1899decaa52",
+      "source_occurrence_id": 1234
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "5d503668-1a46-464f-b946-824dce4351b3",
+      "identity_key": "work:4354d1b2d5875ace6eea5b2e0e07db5c",
+      "source_occurrence_id": 1235
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "a214473f-9cce-422e-a1a0-71cd9f7f434f",
+      "identity_key": "work:5d0e0417c79c9f9676befc60870778ae",
+      "source_occurrence_id": 1236
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "64cb688d-5537-4018-b518-59f4a0eb3f8c",
+      "identity_key": "work:d8faceaa91b32a794a454ea6a8440bc3",
+      "source_occurrence_id": 1238
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d85834b8-7912-4265-8745-32bedd096449",
+      "identity_key": "work:2e7890b264ec74772da5a47871a1d3e9",
+      "source_occurrence_id": 1239
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "bd6f0cf6-6ca0-4e40-a471-f071f64878e1",
+      "identity_key": "work:6f14e0717fb26b84c5dad9b582dc50ef",
+      "source_occurrence_id": 1240
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "d09756be-c85f-4e7c-9d31-eecc132fe591",
+      "identity_key": "work:f3c10c7271f785bff55c5043bd9c9a39",
+      "source_occurrence_id": 1241
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "04c87874-af21-4d46-8c96-438839121f37",
+      "identity_key": "work:d1d71bf04b8d659b794d74e79f4a5deb",
+      "source_occurrence_id": 1242
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4b26a627-55d3-4e3b-9830-96cb2f529cd9",
+      "identity_key": "work:e1fe733ebc100060dbe968b86958f36c",
+      "source_occurrence_id": 1243
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ae7c773a-8caf-4854-8a21-49b396647378",
+      "identity_key": "work:2effd07d5bcb48911e5ecf27406ca5ca",
+      "source_occurrence_id": 1244
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "907b95e9-3979-425f-896b-23bebaeaad5d",
+      "composer_id": "5f2ff57e-3f35-4542-a75f-f33edd6cdf7e",
+      "source_occurrence_id": 1247
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "907b95e9-3979-425f-896b-23bebaeaad5d",
+      "identity_key": "work:fc48fce27a4b4540d738e1d7e3ec8cb0",
+      "source_occurrence_id": 1247
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "b06f9f6a-bb0c-443e-9c6f-c223f9a71aac",
+      "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+      "source_occurrence_id": 1248
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "b06f9f6a-bb0c-443e-9c6f-c223f9a71aac",
+      "identity_key": "work:275ee8412c07568c20d73b26c7d27c20",
+      "source_occurrence_id": 1248
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "6926b0db-6df8-4cec-950e-8b280ec50e8f",
+      "identity_key": "work:ac2bde1f62de77aabd69ff2241a94bbd",
+      "source_occurrence_id": 1252
+    },
+    {
+      "action": "create_work",
+      "id": "2dc95177-f6b8-5347-a663-51bed58941d0",
+      "title": "La cathédrale engloutie, L. 117, CD 109 No. 10",
+      "composer_id": "36ec6fc4-e55c-4e87-80c8-01402609b286",
+      "identity_key": "work:65c2e47c096daec41dbb0a94a7a171c8",
+      "work_kind": "work",
+      "source_occurrence_id": 194
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "2dc95177-f6b8-5347-a663-51bed58941d0",
+      "alias": "La catedral sumergida (núm. 10 del Libro I de Preludios)",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 194
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "e5b7b0d0-81ef-4d98-ba06-a323a7a567ed",
+      "identity_key": "work:f3e5c0ef8c370eb6a6fa8d9ca8f93cab",
+      "source_occurrence_id": 195
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "e5b7b0d0-81ef-4d98-ba06-a323a7a567ed",
+      "canonical_title": "La mer, L. 109, CD 111",
+      "source_occurrence_id": 195,
+      "expected_old_title": "La mer, CD 111 (1903-1905, rev. 1908)",
+      "composer_id": "36ec6fc4-e55c-4e87-80c8-01402609b286"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "e5b7b0d0-81ef-4d98-ba06-a323a7a567ed",
+      "alias": "El mar",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 195
+    },
+    {
+      "action": "create_work",
+      "id": "b36be7a9-c07f-5548-9d94-d37326a51b09",
+      "title": "Passacaglia und Fuge in c-Moll, BWV 582",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "identity_key": "work:1d2ac650604caf4f31ecf616bc1a3ac5",
+      "work_kind": "work",
+      "source_occurrence_id": 584
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "4f3de1d5-3257-4c97-ab7a-d6ddbf3055cd",
+      "identity_key": "work:e24bee7cacd93c345bbc1edd7f79050f",
+      "source_occurrence_id": 628
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "4f3de1d5-3257-4c97-ab7a-d6ddbf3055cd",
+      "canonical_title": "Sinfonie Nr. 1 in D-Dur “Titan”",
+      "source_occurrence_id": 628,
+      "expected_old_title": "Symphonie n° 1 « Titan »",
+      "composer_id": "25aab104-1c65-42ea-9338-852db4c79592"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "4f3de1d5-3257-4c97-ab7a-d6ddbf3055cd",
+      "alias": "Sinfonía nº 1 en re mayor, “Titán”",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 628
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "695e6a60-ff3e-42ac-aecb-b931ef589a05",
+      "alias": "Fantasie in C Major, D.760, «Wanderer-Fantasie»",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 640
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "14c4592b-b94c-40cd-b74a-d9ccd7ff6573",
+      "composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
+      "source_occurrence_id": 724
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "14c4592b-b94c-40cd-b74a-d9ccd7ff6573",
+      "identity_key": "work:2bf1956a463372ec5dd130076b7928b7",
+      "source_occurrence_id": 724
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "14c4592b-b94c-40cd-b74a-d9ccd7ff6573",
+      "canonical_title": "Cuarteto con piano en la menor, op. 67",
+      "source_occurrence_id": 724,
+      "expected_old_title": "Joaquín Turina – Cuarteto con piano en la menor, op. 67",
+      "composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "14c4592b-b94c-40cd-b74a-d9ccd7ff6573",
+      "alias": "Cuarteto con piano en la menor, op. 67",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 724
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "69466d28-bc11-4182-9bdc-1112a51f9628",
+      "identity_key": "work:96070028f61bd6787f6f74a614ed9f84",
+      "source_occurrence_id": 767
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "69466d28-bc11-4182-9bdc-1112a51f9628",
+      "canonical_title": "Trio in a-Moll für Klarinette, Violoncello und Klavier, op. 114",
+      "source_occurrence_id": 767,
+      "expected_old_title": "trio en la mineur, op. 114",
+      "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "69466d28-bc11-4182-9bdc-1112a51f9628",
+      "alias": "Trío en la menor, op. 114",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 767
+    },
+    {
+      "action": "create_work",
+      "id": "a91f1205-926a-5afb-b8b6-e77628318b36",
+      "title": "Ich ruf zu dir, Herr Jesu Christ, BWV 639",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "identity_key": "work:108983658e6c2d3c9d11d5a280de4c61",
+      "work_kind": "work",
+      "source_occurrence_id": 782
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "a91f1205-926a-5afb-b8b6-e77628318b36",
+      "alias": "Ich ruf zu dir, Herr Jesu Christ (Orgelbüchlein), BWV 639",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 782
+    },
+    {
+      "action": "create_work",
+      "id": "77feb09d-8300-5e1c-a52a-528c95bca4d0",
+      "title": "Sinfonia in La maggiore, Op. 35 n. 3, G. 511",
+      "composer_id": "2306b0e9-58fb-4cc2-8061-0b6d49e1f310",
+      "identity_key": "work:f5da21e3d5b9c5cd05cbc6343d865364",
+      "work_kind": "work",
+      "source_occurrence_id": 808
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "77feb09d-8300-5e1c-a52a-528c95bca4d0",
+      "alias": "Sinfonía en La mayor, op. 35 n.º 3, G 511",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 808
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "fa076544-1b8d-42cf-b0d6-831d03f03f19",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+      "source_occurrence_id": 809
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "fa076544-1b8d-42cf-b0d6-831d03f03f19",
+      "identity_key": "work:7881e6b7909113f824a52231a8026fac",
+      "source_occurrence_id": 809
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "fa076544-1b8d-42cf-b0d6-831d03f03f19",
+      "canonical_title": "Konzert für Horn Nr. 1 in D-Dur, K. 412/386b",
+      "source_occurrence_id": 809,
+      "expected_old_title": "1791) – Concierto para trompa n.º 1 en Re mayor, KV 412",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "fa076544-1b8d-42cf-b0d6-831d03f03f19",
+      "alias": "Concierto para trompa n.º 1 en Re mayor, KV 412",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 809
+    },
+    {
+      "action": "create_work",
+      "id": "e3f989f4-aef2-5d39-a668-b3247b4d3f6d",
+      "title": "Concerto per violino in si minore, RV 389",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "identity_key": "work:7f9e72d6fd64aa09d93a7a6a393a5c38",
+      "work_kind": "work",
+      "source_occurrence_id": 815
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "e3f989f4-aef2-5d39-a668-b3247b4d3f6d",
+      "alias": "Concierto para violín en si menor, RV 389",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 815
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "86125da7-ccd1-4f02-aa2e-a26e4f7fdee1",
+      "alias": "Concierto L’estro Armonico Op.3 N8",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 835
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "0929efa0-e7d0-4d4f-9d80-d3cfeda607da",
+      "alias": "Concerto grosso Op.3 N11",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 836
+    },
+    {
+      "action": "create_work",
+      "id": "06aee67b-a1e2-5398-ba04-7013e3c72506",
+      "title": "Concerto alla rustica in sol maggiore, RV 151",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "identity_key": "work:42de9b24b10a4dd3ffde56303b971a72",
+      "work_kind": "work",
+      "source_occurrence_id": 841
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "06aee67b-a1e2-5398-ba04-7013e3c72506",
+      "alias": "Concierto “Alla Rústica” RV151",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 841
+    },
+    {
+      "action": "update_existing_work_composer_id",
+      "work_id": "32c1fcb3-c18f-4b6d-9e92-9584bba0bdb1",
+      "composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+      "source_occurrence_id": 1230
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "32c1fcb3-c18f-4b6d-9e92-9584bba0bdb1",
+      "identity_key": "work:e13574620bcddbd0cb9261ecda7f8c16",
+      "source_occurrence_id": 1230
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "32c1fcb3-c18f-4b6d-9e92-9584bba0bdb1",
+      "canonical_title": "Sinfonia in F-Dur, F. 67 “Dissonanzen”",
+      "source_occurrence_id": 1230,
+      "expected_old_title": "Sinfonía para cuerda y bajo continuo en fa mayor ‘Disonancias’,",
+      "composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "32c1fcb3-c18f-4b6d-9e92-9584bba0bdb1",
+      "alias": "Sinfonía para cuerda y bajo continuo en fa mayor ‘Disonancias’, F 67",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 1230
+    },
+    {
+      "action": "create_work",
+      "id": "a2a314b5-a2ed-5b02-a317-2e9bf4c3ac14",
+      "title": "Symphonie de psaumes",
+      "composer_id": "63c53106-3321-4af3-8d17-b04806facc1c",
+      "identity_key": "work:6be6977fca4ae2145f1676a590cddb35",
+      "work_kind": "work",
+      "source_occurrence_id": 1250
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "a2a314b5-a2ed-5b02-a317-2e9bf4c3ac14",
+      "alias": "Sinfonía de los salmos",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 1250
+    },
+    {
+      "action": "create_work",
+      "id": "6e8e4bef-9204-5d3f-a031-7e2f4f1417c5",
+      "title": "Cello Concerto in E minor, Op. 85",
+      "composer_id": "21826de0-1e32-4c72-96e1-2c7c3c2665f2",
+      "identity_key": "work:b6bd0719f87328e3c73f97e9c4e9025b",
+      "work_kind": "work",
+      "source_occurrence_id": 1251
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "6e8e4bef-9204-5d3f-a031-7e2f4f1417c5",
+      "alias": "Concierto para violonchelo y orquesta, en mi menor, op. 85",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 1251
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "22301c44-e4b9-49a7-8258-f9f13442e410",
+      "identity_key": "work:55c1f1a3530e99129688a94a405b52df",
+      "source_occurrence_id": 331
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "22301c44-e4b9-49a7-8258-f9f13442e410",
+      "canonical_title": "Toccata und Fuge in d-Moll, BWV 565",
+      "source_occurrence_id": 331,
+      "expected_old_title": "Toccata y fuga en re menor, BWV 565 (ca. 1708)",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4"
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "22301c44-e4b9-49a7-8258-f9f13442e410",
+      "alias": "Toccata y fuga en re menor",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 331
+    },
+    {
+      "action": "create_work",
+      "id": "80cf4b77-6962-5fb5-b2db-120766f6646b",
+      "title": "Motet pour les trépassés, H. 311",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "identity_key": "work:6a0b862820562ee0a218340254948fb9",
+      "work_kind": "work",
+      "source_occurrence_id": 705
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "80cf4b77-6962-5fb5-b2db-120766f6646b",
+      "alias": "Motet pour les tréspassés (Plaintes des âmes du purgatoire), H 311",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 705
+    },
+    {
+      "action": "create_work",
+      "id": "a04ab322-0b95-557c-84c2-f109320f98d2",
+      "title": "Annunciate superi, H. 333",
+      "composer_id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "identity_key": "work:bd9a0835600244bc4fa684a6b23b4df5",
+      "work_kind": "work",
+      "source_occurrence_id": 706
+    },
+    {
+      "action": "create_work_alias",
+      "work_id": "a04ab322-0b95-557c-84c2-f109320f98d2",
+      "alias": "Annunciate superi. Pour toutes les fêtes de la bienheureuse Vierge Marie, H 333",
+      "language": "es",
+      "source": "auditorio_nacional",
+      "source_occurrence_id": 706
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "ee0c1ff0-357b-48d3-9fb9-ebe72e35c571",
+      "canonical_title": "Sinfonie Nr. 2 in c-Moll “Auferstehung”",
+      "expected_old_title": "Sinfonía núm. 2en Do menor, «Resurrección»",
+      "composer_id": "25aab104-1c65-42ea-9338-852db4c79592",
+      "source_occurrence_id": 826
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "ee0c1ff0-357b-48d3-9fb9-ebe72e35c571",
+      "identity_key": "work:2dcfab7bdb0b696c121aaeb57185f599",
+      "source_occurrence_id": 826
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "695e6a60-ff3e-42ac-aecb-b931ef589a05",
+      "canonical_title": "Fantasie in C-Dur, D 760 “Wanderer-Fantasie”",
+      "expected_old_title": "Fantaisie en do majeur D760",
+      "composer_id": "ad628acd-96a8-404a-821c-6dda86b5fcbf",
+      "source_occurrence_id": 640
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "695e6a60-ff3e-42ac-aecb-b931ef589a05",
+      "identity_key": "work:38bb17b5cf0c09fe5aade758f5147921",
+      "source_occurrence_id": 640
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "86125da7-ccd1-4f02-aa2e-a26e4f7fdee1",
+      "canonical_title": "Concerto in la minore, Op. 3 n. 8, RV 522",
+      "expected_old_title": "Concierto en la menor RV 522 (L’estro armonico, Op. 3 n.º 8)",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "source_occurrence_id": 835
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "86125da7-ccd1-4f02-aa2e-a26e4f7fdee1",
+      "identity_key": "work:91a2388d69512f05ad595989ba158acd",
+      "source_occurrence_id": 835
+    },
+    {
+      "action": "correct_existing_work_canonical_title",
+      "work_id": "0929efa0-e7d0-4d4f-9d80-d3cfeda607da",
+      "canonical_title": "Concerto in re minore, Op. 3 n. 11, RV 565",
+      "expected_old_title": "Concierto en re menor RV 565 (L’estro armonico, Op. 3 n.º 11)",
+      "composer_id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "source_occurrence_id": 836
+    },
+    {
+      "action": "update_existing_work_identity_key",
+      "work_id": "0929efa0-e7d0-4d4f-9d80-d3cfeda607da",
+      "identity_key": "work:1ffbe1a48f76d593af4dbf418b0d5cbd",
+      "source_occurrence_id": 836
+    }
+  ],
+  "summary": {
+    "source": "auditorio_nacional",
+    "review_only": true,
+    "database_writes": 0,
+    "programme_candidates_processed": 1252,
+    "status_counts": {
+      "ambiguous_work": 162,
+      "existing_work_needs_identity_key": 393,
+      "not_a_work": 126,
+      "existing_work_needs_composer_link": 152,
+      "confirmed_new_global_work": 16,
+      "source_attribution_review": 343,
+      "parser_issue": 32,
+      "unresolved_work": 19,
+      "parent_work_excerpt_review": 9
+    },
+    "previous_unresolved_audited": 49,
+    "residual_reclassified": 0,
+    "residual_genuinely_unresolved": 19,
+    "genuinely_unresolved_titles": [
+      "Atlàntida, cantata escénica (selección)",
+      "Canción del atardecer (del opus 5)",
+      "Chant et fugue",
+      "Concierto para violonchelo",
+      "Cuatro canciones opulares argentinas",
+      "Estudio en Zamba",
+      "Gershwin, Summertime, I feel pretty, The man I love, By Strauss",
+      "Las cuatro estaciones porteñas",
+      "Liturgia del Sonido. Homenaje a Beethoven",
+      "Luz de mundos",
+      "Milonga del ángel",
+      "Passacaglia, para violín y contrabajo, sobre la Passacaglia",
+      "Suite in E Major",
+      "Tedeschi Suite op. 46, para arpa, violín y violonchelo",
+      "Temas de la ópera Carmen (1875) de Georges Bizet",
+      "Tres canciones rusas, para arpa, violín y violonchelo",
+      "Trío for violín, violonchelo y arpa",
+      "Vuelvo al sur"
+    ],
+    "existing_works_recovered": 555,
+    "new_works_confirmed": 16,
+    "canonical_work_corrections": 14,
+    "review_only_rows": 565,
+    "planned_actions": 730,
+    "planned_create_work": 16,
+    "planned_create_work_alias": 34,
+    "planned_composer_repairs": 149,
+    "planned_identity_key_repairs": 517,
+    "expected_post_apply_work_count": 3229,
+    "expected_post_apply_work_alias_count": 99,
+    "preflight_existing_work_reuse": 4
+  }
+}

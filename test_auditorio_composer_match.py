@@ -28,6 +28,8 @@ class GlobalComposerMatcherTest(unittest.TestCase):
                 {"id": "stravinski", "canonical_name": "Igor Stravinski"},
                 {"id": "rameau", "canonical_name": "Jean-Philippe Rameau"},
                 {"id": "ginastera", "canonical_name": "Alberto Ginastera"},
+                {"id": "marquez", "canonical_name": "Arturo Márquez"},
+                {"id": "asis_marquez", "canonical_name": "Asís Márquez"},
                 {"id": "villa", "canonical_name": "Heitor Villa-Lobos"},
                 {"id": "albeniz", "canonical_name": "Isaac Albéniz"},
             ],
@@ -43,6 +45,7 @@ class GlobalComposerMatcherTest(unittest.TestCase):
                 {"composer_id": "sibelius", "alias": "Sibelius"},
                 {"composer_id": "falla", "alias": "M. de Falla"},
                 {"composer_id": "stravinski", "alias": "Igor Stravinsky"},
+                {"composer_id": "marquez", "alias": "A. Márquez"},
                 {"composer_id": "rameau", "alias": "J.-P. Rameau"},
             ],
         })
@@ -96,7 +99,8 @@ class GlobalComposerMatcherTest(unittest.TestCase):
         cases = [
             ({"classification_source": "inline_composer_work", "raw_composer_text": "Ballet La Estancia, Op. 8 (A. Ginastera)", "raw_component_text": "8 (A. Ginastera)", "page_artist_names": set()}, "A. Ginastera", "Ballet La Estancia, Op. 8"),
             ({"classification_source": "inline_composer_work", "raw_composer_text": "I. Albéniz: Asturias (Leyenda)", "raw_component_text": "Leyenda", "page_artist_names": set()}, "I. Albéniz", "Asturias (Leyenda)"),
-            ({"classification_source": "inline_composer_work", "raw_composer_text": "para órgano en do menor, BWV 582, de J. S. Bach ** (2018)", "raw_component_text": "S. Bach ** (2018)", "page_artist_names": set()}, "J. S. Bach", "para órgano en do menor, BWV 582,")
+            ({"classification_source": "inline_composer_work", "raw_composer_text": "para órgano en do menor, BWV 582, de J. S. Bach ** (2018)", "raw_component_text": "S. Bach ** (2018)", "page_artist_names": set()}, "J. S. Bach", "para órgano en do menor, BWV 582,"),
+            ({"classification_source": "inline_composer_work", "raw_composer_text": "Danzón No. 2 (A. Márquez)", "raw_component_text": "2 (A. Márquez)", "page_artist_names": set()}, "A. Márquez", "Danzón No. 2"),
         ]
         for item, expected_composer, expected_work in cases:
             composer, work, _ = sanitize_inline(item, self.indexes)
