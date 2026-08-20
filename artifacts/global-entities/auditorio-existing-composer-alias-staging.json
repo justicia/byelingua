@@ -1,0 +1,181 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "3.7A",
+  "review_only": true,
+  "database_writes": 0,
+  "fresh_snapshot_generated_at": "2026-08-20T13:51:58.223Z",
+  "global_master_recheck": {
+    "composer_row_count": 295,
+    "alias_row_count": 75
+  },
+  "input_alias_occurrences": 9,
+  "input_unique_alias_candidates": 7,
+  "aliases": [
+    {
+      "raw_alias": "Chaikovsky",
+      "normalized_alias": "chaikovsky",
+      "source_occurrences": [
+        "Chaikovsky"
+      ],
+      "target_canonical_name": "Piotr Ilitch Tchaïkovski",
+      "target_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "safe_new_alias",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-violin-chaikovsky-y-sinfonia-2-sibelius",
+          "source_title": "Excelentia. Violín Chaikovsky y Sinfonía 2 Sibelius",
+          "raw_source": "Chaikovsky"
+        }
+      ],
+      "review_confidence": 0.9,
+      "review_reason": "fuzzy similarity is review evidence only"
+    },
+    {
+      "raw_alias": "Piotr I. Tchaikovsky",
+      "normalized_alias": "piotr i tchaikovsky",
+      "source_occurrences": [
+        "Piotr I. Tchaikovsky",
+        "Piotr I. Tchaikovsky"
+      ],
+      "target_canonical_name": "Piotr Ilitch Tchaïkovski",
+      "target_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "safe_new_alias",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orquesta-sinfonica-de-madrid-20",
+          "source_title": "Orquesta Sinfónica de Madrid. Alexander Prior",
+          "raw_source": "Piotr I. Tchaikovsky"
+        },
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orquesta-sinfonica-de-madrid-elim-chan",
+          "source_title": "Orquesta Sinfónica de Madrid. Elim Chan",
+          "raw_source": "Piotr I. Tchaikovsky"
+        }
+      ],
+      "review_confidence": 0.8837,
+      "review_reason": "fuzzy similarity is review evidence only"
+    },
+    {
+      "raw_alias": "Saint-Saëns",
+      "normalized_alias": "saint saens",
+      "source_occurrences": [
+        "Saint-Saëns"
+      ],
+      "target_canonical_name": "Camille Saint-Saëns",
+      "target_composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "safe_new_alias",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-novena-beethoven-y-organ-symphony-saint-saens",
+          "source_title": "Excelentia. Novena Beethoven y Organ Symphony Saint Saëns",
+          "raw_source": "Saint-Saëns"
+        }
+      ],
+      "review_confidence": 0.9167,
+      "review_reason": "fuzzy similarity is review evidence only"
+    },
+    {
+      "raw_alias": "Piotr Ilich Tchaikovsky",
+      "normalized_alias": "piotr ilich tchaikovsky",
+      "source_occurrences": [
+        "Piotr Ilich Tchaikovsky (1840–1893)",
+        "Piotr Ilich Tchaikovsky (1840-1893)"
+      ],
+      "target_canonical_name": "Piotr Ilitch Tchaïkovski",
+      "target_composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "safe_new_alias",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-ainhoa-arteta-concierto-de-navidad",
+          "source_title": "Atlántida Chamber Orchestra. Ainhoa Arteta: Concierto de Navidad",
+          "raw_source": "Piotr Ilich Tchaikovsky (1840–1893)"
+        },
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-quinteto-de-la-filarmonica-de-berlin-la-plenitud-romantica",
+          "source_title": "UAM. Quinteto de la Filarmónica de Berlín. La Plenitud Romántica",
+          "raw_source": "Piotr Ilich Tchaikovsky (1840-1893)"
+        }
+      ],
+      "review_confidence": 0.9362,
+      "review_reason": "fuzzy similarity is review evidence only"
+    },
+    {
+      "raw_alias": "George Frideric Händel",
+      "normalized_alias": "george frideric handel",
+      "source_occurrences": [
+        "George Frideric Händel (1685-1759)"
+      ],
+      "target_canonical_name": "Georg Friedrich Händel",
+      "target_composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "safe_new_alias",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/fundacion-scherzo-daniil-trifonov-2",
+          "source_title": "Fundación Scherzo. Daniil Trifonov",
+          "raw_source": "George Frideric Händel (1685-1759)"
+        }
+      ],
+      "review_confidence": 0.9778,
+      "review_reason": "fuzzy similarity is review evidence only"
+    },
+    {
+      "raw_alias": "Rafael Bullumba Landestoy",
+      "normalized_alias": "rafael bullumba landestoy",
+      "source_occurrences": [
+        "Rafael Bullumba Landestoy (1924–2018)"
+      ],
+      "target_canonical_name": "Rafael Bullumba Landestroy",
+      "target_composer_id": "57fffd2c-b888-4f0c-b2d3-001687c51d61",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "unresolved_alias_target",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/fundacion-scherzo-daniil-trifonov-2",
+          "source_title": "Fundación Scherzo. Daniil Trifonov",
+          "raw_source": "Rafael Bullumba Landestoy (1924–2018)"
+        }
+      ],
+      "review_confidence": 0.9804,
+      "review_reason": "Existing canonical spelling is likely incorrect; do not stage alias until canonical correction is approved."
+    },
+    {
+      "raw_alias": "Modest Mussorgski",
+      "normalized_alias": "modest mussorgski",
+      "source_occurrences": [
+        "Modest Mussorgski (1839-1881)"
+      ],
+      "target_canonical_name": "Modest Mussorgsky",
+      "target_composer_id": "536dd1a3-b974-4c50-b6d9-30021397fa58",
+      "current_exact_alias_matches": [],
+      "current_normalized_alias_matches": [],
+      "collision": false,
+      "decision": "safe_new_alias",
+      "review_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-fazil-say-1",
+          "source_title": "CNDM. Fazil Say",
+          "raw_source": "Modest Mussorgski (1839-1881)"
+        }
+      ],
+      "review_confidence": 0.9444,
+      "review_reason": "fuzzy similarity is review evidence only"
+    }
+  ]
+}
