@@ -637,3 +637,223 @@ Report:
 - whether `main` remained untouched
 
 Do not report a task as complete without corresponding evidence.
+
+# GLOBAL CANONICAL ENTITY OWNERSHIP
+
+Byelingua uses one global canonical identity layer shared by all venues, organizations, cities, seasons, and source websites.
+
+The following entities are GLOBAL and must never be owned by an individual venue or source:
+
+- Composer
+- Artist
+- Work
+- Character
+
+Canonical identity tables and their alias systems are global.
+
+Conceptually:
+
+- `composers` → `composer_aliases`
+- `artists` → `artist_aliases`
+- `works` → `work_aliases`
+- `characters` → `character_aliases`
+
+A Composer, Artist, Work, or Character that appears at multiple venues must reuse the same global canonical ID.
+
+## Source-specific data is not canonical identity
+
+Venue/source adapters and parsers may only describe what the source publishes.
+
+They may produce source-specific/raw data such as:
+
+- raw composer names
+- raw artist names
+- raw work titles
+- raw character/role names
+- raw programme order
+- raw cast and artistic credits
+- source URLs
+- source timestamps
+- source provenance
+- production/performance data
+
+They must not define a separate canonical identity universe.
+
+The following patterns are forbidden:
+
+- venue-specific Composer masters
+- venue-specific Artist masters
+- venue-specific Work masters
+- venue-specific Character masters
+- venue-specific alias tables
+- source-specific canonical identity tables
+
+Do not create architecture equivalent to:
+
+- `auditorio_composers`
+- `paris_opera_composers`
+- `teatro_real_artists`
+- `venue_works`
+- `auditorio_composer_aliases`
+- `source_work_aliases`
+
+or any equivalent source-owned canonical identity system.
+
+## Required ingestion boundary
+
+All ingestion must respect this separation:
+
+Official Source
+→ Source Adapter / Parser
+→ Raw Observation
+→ Semantic Classification
+→ GLOBAL Entity Matcher
+→ Canonical Staging
+→ Validation
+→ Production Relations
+
+Parser responsibility:
+
+> What did the source publish?
+
+Matcher responsibility:
+
+> Which existing global canonical entity does this observation represent?
+
+Parsers must never create canonical Composer, Artist, Work, or Character entities.
+
+Parsers must never directly assign canonical identity merely to improve ingestion completeness.
+
+## Global matcher rule
+
+All venues must match against the same global canonical masters.
+
+Examples:
+
+Auditorio raw Composer
+→ Global Composer Master
+
+Paris Opera raw Composer
+→ Global Composer Master
+
+Teatro Real raw Artist
+→ Global Artist Master
+
+Wiener Staatsoper raw Work
+→ Global Work Master
+
+A venue-specific dry-run or historical match artifact must never be used as the canonical identity universe.
+
+Artifacts such as:
+
+- parser dry-runs
+- match JSON
+- source audits
+- season batches
+- repair artifacts
+- historical matching outputs
+
+are evidence only.
+
+They must not replace the current global canonical master.
+
+## Global alias rule
+
+Aliases are global.
+
+A source may discover a new spelling or name variant, but it does not own that alias.
+
+Correct flow:
+
+raw source variant
+→ global matcher
+→ alias-gap proposal
+→ review
+→ global alias table
+
+Once accepted, the alias must be reusable by every venue and source.
+
+Source provenance may record where an alias was observed, but provenance does not change global ownership.
+
+## Unmatched does not mean create
+
+An unmatched observation must never automatically create a canonical entity.
+
+Before proposing a new Composer, Artist, Work, or Character, the system must check the complete global identity universe, including:
+
+- exact canonical identity
+- exact alias
+- normalized canonical identity
+- normalized alias
+- deterministic identity evidence
+- collisions
+- ambiguous candidates
+
+Only after the global master has been exhausted may an observation enter:
+
+`new global entity staging review`
+
+Automatic creation of canonical entities from unmatched parser output is forbidden.
+
+## Identity and relationship must remain separate
+
+Global identity:
+
+- Composer
+- Artist
+- Work
+- Character
+
+Source/event-specific relationships:
+
+- Work ↔ event programme
+- Composer ↔ Work
+- Artist ↔ performance
+- Artist ↔ production credit
+- Character ↔ casting
+- Venue ↔ performance
+- Organization ↔ production
+- programme order
+- performance-specific cast
+- performance-specific artistic credits
+
+Different relationships must never cause duplication of global identity.
+
+## Work title rule
+
+Canonical Work titles use the standard original-language title.
+
+Local-language source titles must remain raw data or aliases.
+
+English/common translated titles may be used for search aliases.
+
+Search convenience must never overwrite canonical Work identity.
+
+## Matcher reuse principle
+
+Canonical identity resolution should be implemented as reusable global infrastructure:
+
+- Global Composer Matcher
+- Global Artist Matcher
+- Global Work Matcher
+- Global Character Matcher
+
+Venue-specific differences belong primarily in:
+
+- source adapters
+- parsers
+- semantic classification
+
+Do not implement a separate canonical identity system for each venue.
+
+## Canonical safety
+
+Never create a canonical entity solely to increase match rate.
+
+Never silently normalize an ambiguous identity.
+
+Never choose the most famous candidate when multiple identities are plausible.
+
+Ambiguity must remain explicit and reviewable.
+
+All canonical identity creation, alias creation, identity merge, or other identity mutation requires explicit staging/review before production mutation.
