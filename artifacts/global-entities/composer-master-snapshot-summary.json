@@ -1,7 +1,7 @@
 {
-  "composer_count": 295,
-  "alias_count": 75,
+  "composer_count": 376,
+  "alias_count": 82,
   "snapshot_source": "public.composers + public.composer_aliases",
-  "snapshot_generated_at": "2026-08-20T13:39:20.671151+00:00",
+  "snapshot_generated_at": "2026-08-20T20:29:46.897283+00:00",
   "database_writes": 0
 }
