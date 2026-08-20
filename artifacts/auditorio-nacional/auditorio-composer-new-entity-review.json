@@ -1,0 +1,1113 @@
+{
+  "source": "auditorio_nacional",
+  "review_only": true,
+  "database_writes": 0,
+  "rows": [
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Mikel Urquiza",
+      "raw_composer_text": "Mikel Urquiza",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-01-1",
+      "raw_title": "OCNE. Sinfónico 01",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Núria Giménez-Comas",
+      "raw_composer_text": "Núria Giménez-Comas",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-02-1",
+      "raw_title": "OCNE. Sinfónico 02",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Carlos Pinto Grote",
+      "raw_composer_text": "Llamarme Guanche (Carlos Pinto Grote/Elfidio Alonso)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Elfidio Alonso",
+      "raw_composer_text": "Llamarme Guanche (Carlos Pinto Grote/Elfidio Alonso)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Elfidio Alonso",
+      "raw_composer_text": "Pescador de Morenas (Elfidio Alonso)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Braulio",
+      "raw_composer_text": "Tenerife (Braulio)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Carmelo Larrea",
+      "raw_composer_text": "Dos Cruces (Carmelo Larrea)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Ernesto Lecuona",
+      "raw_composer_text": "Aquella Tarde (Ernesto Lecuona)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Benito Cabrera",
+      "raw_composer_text": "Voces del Meridiano (Benito Cabrera)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Luigi Boccherini",
+      "raw_composer_text": "Luigi Boccherini",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-01-evoluciones",
+      "raw_title": "OCNE. Satélite 01. Evoluciones",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "George Onslow",
+      "raw_composer_text": "George Onslow",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-01-evoluciones",
+      "raw_title": "OCNE. Satélite 01. Evoluciones",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Darius Milhaud",
+      "raw_composer_text": "Darius Milhaud",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-01-evoluciones",
+      "raw_title": "OCNE. Satélite 01. Evoluciones",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Chaikovsky",
+      "raw_composer_text": "Chaikovsky · Concierto para violín y orquesta",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-violin-chaikovsky-y-sinfonia-2-sibelius",
+      "raw_title": "Excelentia. Violín Chaikovsky y Sinfonía 2 Sibelius",
+      "candidate_matches": [
+        {
+          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+          "canonical_name": "Piotr Ilitch Tchaïkovski",
+          "score": 0.9
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Mijaíl Glinka (1804–1857)",
+      "raw_composer_text": "Mijaíl Glinka (1804–1857)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-maxim-vengerov-concierto-de-sibelius",
+      "raw_title": "Atlántida Chamber Orchestra. Maxim Vengerov: Concierto de Sibelius",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Carlos Guastavino",
+      "raw_composer_text": "Carlos Guastavino",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-02-raices-y-modernidad",
+      "raw_title": "OCNE. Satélite 02. Raíces y Modernidad",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Alicia Terzian",
+      "raw_composer_text": "Alicia Terzian",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-02-raices-y-modernidad",
+      "raw_title": "OCNE. Satélite 02. Raíces y Modernidad",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Jean-Pierre Deleuze (1954)",
+      "raw_composer_text": "Jean-Pierre Deleuze (1954)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cindy-castillo",
+      "raw_title": "CNDM. Cindy Castillo",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Françoise Hardy (1944-2024)",
+      "raw_composer_text": "Françoise Hardy (1944-2024)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-lea-desandre-thomas-dunford",
+      "raw_title": "CNDM. Lea Desandre & Thomas Dunford",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Marc-Antoine Charpentier (1643-1704)",
+      "raw_composer_text": "Marc-Antoine Charpentier (1643-1704)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-lea-desandre-thomas-dunford",
+      "raw_title": "CNDM. Lea Desandre & Thomas Dunford",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Michel Lambert (1610-1696)",
+      "raw_composer_text": "Michel Lambert (1610-1696)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-lea-desandre-thomas-dunford",
+      "raw_title": "CNDM. Lea Desandre & Thomas Dunford",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Robert de Visée (1655-1733)",
+      "raw_composer_text": "Robert de Visée (1655-1733)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-lea-desandre-thomas-dunford",
+      "raw_title": "CNDM. Lea Desandre & Thomas Dunford",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Sébastien Le Camus (ca. 1610-1677)",
+      "raw_composer_text": "Sébastien Le Camus (ca. 1610-1677)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-lea-desandre-thomas-dunford",
+      "raw_title": "CNDM. Lea Desandre & Thomas Dunford",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "John Zorn (1953)",
+      "raw_composer_text": "John Zorn (1953)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-barbara-hannigan-bertrand-chamayou",
+      "raw_title": "CNDM. Barbara Hannigan & Bertrand Chamayou",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Piotr I. Tchaikovsky",
+      "raw_composer_text": "Piotr I. Tchaikovsky",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orquesta-sinfonica-de-madrid-20",
+      "raw_title": "Orquesta Sinfónica de Madrid. Alexander Prior",
+      "candidate_matches": [
+        {
+          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+          "canonical_name": "Piotr Ilitch Tchaïkovski",
+          "score": 0.8837
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Sebastian Bartmann (*1979)",
+      "raw_composer_text": "Sebastian Bartmann (*1979)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam",
+      "raw_title": "UAM. Spark. Neue Kammermusik",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Ernest Krähmer (1795-1837)",
+      "raw_composer_text": "Ernest Krähmer (1795-1837)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam",
+      "raw_title": "UAM. Spark. Neue Kammermusik",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Pauline Viardot-García (1821-1910)",
+      "raw_composer_text": "Pauline Viardot-García (1821-1910)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam",
+      "raw_title": "UAM. Spark. Neue Kammermusik",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Charles Aznavour (1924-2018)",
+      "raw_composer_text": "Charles Aznavour (1924-2018)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam",
+      "raw_title": "UAM. Spark. Neue Kammermusik",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Elena Mendoza (1973)",
+      "raw_composer_text": "Elena Mendoza (1973)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-1",
+      "raw_title": "CNDM. Joven Orquesta Nacional de España. JONDE",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Helena Cánovas Parés (1994)",
+      "raw_composer_text": "Helena Cánovas Parés (1994)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-2",
+      "raw_title": "CNDM. Joven Orquesta Nacional de España. JONDE",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "José Luis Turina",
+      "raw_composer_text": "Claude Debussy / José Luis Turina",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-04-1",
+      "raw_title": "OCNE. Sinfónico 04",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Ernesto Halffter",
+      "raw_composer_text": "Manuel de Falla / Ernesto Halffter",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-04-1",
+      "raw_title": "OCNE. Sinfónico 04",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Tomaso Albinoni (1671–1751)",
+      "raw_composer_text": "Tomaso Albinoni (1671–1751)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-las-4-estaciones-de-vivaldi",
+      "raw_title": "Atlántida Chamber Orchestra. Las 4 Estaciones de Vivaldi",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Amy Beach (1867-1944)",
+      "raw_composer_text": "Amy Beach (1867-1944)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-augustin-hadelich-seong-jin-cho",
+      "raw_title": "CNDM. Augustin Hadelich & Seong-Jin Cho",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Lennox Berkeley (1903 - 1989)",
+      "raw_composer_text": "Lennox Berkeley (1903 - 1989)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+      "raw_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Joaquín Rodrigo (1901 - 1999)",
+      "raw_composer_text": "Joaquín Rodrigo (1901 - 1999)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+      "raw_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Abel Fleury (1903 - 1958)",
+      "raw_composer_text": "Abel Fleury (1903 - 1958)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+      "raw_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Julián Arcas (1832 - 1882)",
+      "raw_composer_text": "Julián Arcas (1832 - 1882)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+      "raw_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "XTM",
+      "raw_composer_text": "XTM – Fly on the wings of love",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-dj-symphonic",
+      "raw_title": "Excelentia. DJ Symphonic",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Karol Szymanowski (1882-1937)",
+      "raw_composer_text": "Karol Szymanowski (1882-1937)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-patricia-kopatchinskaja-fazil-say-1",
+      "raw_title": "CNDM. Patricia Kopatchinskaja & Fazil Say",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Louis Couperin (1626-1661)",
+      "raw_composer_text": "Louis Couperin (1626-1661)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-bernard-winsemius",
+      "raw_title": "CNDM. Bernard Winsemius",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Jan Pieterszoon Sweelinck (1562-1621)",
+      "raw_composer_text": "Jan Pieterszoon Sweelinck (1562-1621)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-bernard-winsemius",
+      "raw_title": "CNDM. Bernard Winsemius",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Dietrich Buxtehude (1637-1707)",
+      "raw_composer_text": "Dietrich Buxtehude (1637-1707)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-bernard-winsemius",
+      "raw_title": "CNDM. Bernard Winsemius",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Bach",
+      "raw_composer_text": "Bach – Suite orquestal núm 2 BWV. 1067",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-bach-conciertos-de-brandeburgo-2",
+      "raw_title": "Excelentia. Bach: Conciertos de Brandeburgo",
+      "candidate_matches": [
+        {
+          "composer_id": "149197b5-b642-4c27-9fd8-182a469a53a3",
+          "canonical_name": "Carl Philipp Emanuel Bach"
+        },
+        {
+          "composer_id": "744a3353-2220-4948-860c-2845bef9e0b1",
+          "canonical_name": "Johann Christian Bach"
+        },
+        {
+          "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+          "canonical_name": "Johann Sebastian Bach"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Bach",
+      "raw_composer_text": "Bach – Conciertos de Brandeburgo núm 1, 3, 6",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-bach-conciertos-de-brandeburgo-2",
+      "raw_title": "Excelentia. Bach: Conciertos de Brandeburgo",
+      "candidate_matches": [
+        {
+          "composer_id": "149197b5-b642-4c27-9fd8-182a469a53a3",
+          "canonical_name": "Carl Philipp Emanuel Bach"
+        },
+        {
+          "composer_id": "744a3353-2220-4948-860c-2845bef9e0b1",
+          "canonical_name": "Johann Christian Bach"
+        },
+        {
+          "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+          "canonical_name": "Johann Sebastian Bach"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "G. Braunstein",
+      "raw_composer_text": "J. Brahms / G. Braunstein",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orcam-sinfonico-3-amanecer-en-el-recuerdo",
+      "raw_title": "ORCAM. Sinfónico 3. Amanecer en el Recuerdo",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Saint-Saëns",
+      "raw_composer_text": "Saint-Saëns · Sinfonía n.º 3 “con órgano”",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-novena-beethoven-y-organ-symphony-saint-saens",
+      "raw_title": "Excelentia. Novena Beethoven y Organ Symphony Saint Saëns",
+      "candidate_matches": [
+        {
+          "composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
+          "canonical_name": "Camille Saint-Saëns",
+          "score": 0.9167
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "José de San Juan (1687-1735)",
+      "raw_composer_text": "José de San Juan (1687-1735)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria",
+      "raw_title": "CNDM. Cantoría",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Francisco Hernández Illana (ca. 1700-1780)",
+      "raw_composer_text": "Francisco Hernández Illana (ca. 1700-1780)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria",
+      "raw_title": "CNDM. Cantoría",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "José Martínez de Arce (ca. 1662-1721)",
+      "raw_composer_text": "José Martínez de Arce (ca. 1662-1721)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria",
+      "raw_title": "CNDM. Cantoría",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "José de Torres (ca. 1670-1738)",
+      "raw_composer_text": "José de Torres (ca. 1670-1738)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria",
+      "raw_title": "CNDM. Cantoría",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Juan Francés de Iribarren (1699-1767)",
+      "raw_composer_text": "Juan Francés de Iribarren (1699-1767)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria",
+      "raw_title": "CNDM. Cantoría",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Raquel García-Tomás (1984)",
+      "raw_composer_text": "Raquel García-Tomás (1984)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cuarteto-casals-4",
+      "raw_title": "CNDM. Cuarteto Casals",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Caroline Shaw",
+      "raw_composer_text": "Caroline Shaw",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-09-1",
+      "raw_title": "OCNE. Sinfónico 09",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Louis Couperin (1626-1661)",
+      "raw_composer_text": "Louis Couperin (1626-1661)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau-1",
+      "raw_title": "CNDM. Jean Rondeau",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Joseph-Nicolas-Pancrace Royer (1703-1755)",
+      "raw_composer_text": "Joseph-Nicolas-Pancrace Royer (1703-1755)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau-1",
+      "raw_title": "CNDM. Jean Rondeau",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Piotr Ilich Tchaikovsky (1840–1893)",
+      "raw_composer_text": "Piotr Ilich Tchaikovsky (1840–1893)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-ainhoa-arteta-concierto-de-navidad",
+      "raw_title": "Atlántida Chamber Orchestra. Ainhoa Arteta: Concierto de Navidad",
+      "candidate_matches": [
+        {
+          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+          "canonical_name": "Piotr Ilitch Tchaïkovski",
+          "score": 0.9362
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Sinatra",
+      "raw_composer_text": "My Way (Sinatra)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Bocelli",
+      "raw_composer_text": "Con te partiró (Bocelli)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "E. Piaf",
+      "raw_composer_text": "La Vie en Rose (E. Piaf)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Sinatra",
+      "raw_composer_text": "New York, New York (Sinatra)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Bernard Herrmann (1911-1975)",
+      "raw_composer_text": "Bernard Herrmann (1911-1975)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-9",
+      "raw_title": "CNDM.",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Hans Werner Henze (1926-2012)",
+      "raw_composer_text": "Hans Werner Henze (1926-2012)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-klangforum-wien-1",
+      "raw_title": "CNDM. Klangforum Wien",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Efraín Oscher (1974)",
+      "raw_composer_text": "Efraín Oscher (1974)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-leticia-moreno-edicson-ruiz-gonzalo-grau",
+      "raw_title": "CNDM. Leticia Moreno, Edicson Ruiz & Gonzalo Grau",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Gonzalo Grau (1972)",
+      "raw_composer_text": "Gonzalo Grau (1972)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-leticia-moreno-edicson-ruiz-gonzalo-grau",
+      "raw_title": "CNDM. Leticia Moreno, Edicson Ruiz & Gonzalo Grau",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Rodolphe Bruneau-Boulmier",
+      "raw_composer_text": "Rodolphe Bruneau-Boulmier",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-10-4",
+      "raw_title": "OCNE. Sinfónico 10",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Giovanni Battista Mele (ca. 1701-1752)",
+      "raw_composer_text": "Giovanni Battista Mele (ca. 1701-1752)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-il-fervore",
+      "raw_title": "CNDM. IL Fervore",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Luis Tabuenca (1979)",
+      "raw_composer_text": "Luis Tabuenca (1979)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/joven-orquesta-nacional-de-espana-jonde-4",
+      "raw_title": "Joven Orquesta Nacional de España (JONDE)",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "George Frideric Händel (1685-1759)",
+      "raw_composer_text": "Suite in E Major. George Frideric Händel (1685-1759)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/fundacion-scherzo-daniil-trifonov-2",
+      "raw_title": "Fundación Scherzo. Daniil Trifonov",
+      "candidate_matches": [
+        {
+          "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
+          "canonical_name": "Georg Friedrich Händel",
+          "score": 0.9778
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Rafael Bullumba Landestoy (1924–2018)",
+      "raw_composer_text": "Estudio en Zamba. Rafael Bullumba Landestoy (1924–2018)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/fundacion-scherzo-daniil-trifonov-2",
+      "raw_title": "Fundación Scherzo. Daniil Trifonov",
+      "candidate_matches": [
+        {
+          "composer_id": "57fffd2c-b888-4f0c-b2d3-001687c51d61",
+          "canonical_name": "Rafael Bullumba Landestroy",
+          "score": 0.9804
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Modest Mussorgski (1839-1881)",
+      "raw_composer_text": "Modest Mussorgski (1839-1881)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-fazil-say-1",
+      "raw_title": "CNDM. Fazil Say",
+      "candidate_matches": [
+        {
+          "composer_id": "536dd1a3-b974-4c50-b6d9-30021397fa58",
+          "canonical_name": "Modest Mussorgsky",
+          "score": 0.9444
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Marc-Antoine Charpentier (1643-1704)",
+      "raw_composer_text": "Marc-Antoine Charpentier (1643-1704)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-delirivm-musica",
+      "raw_title": "CNDM. Delirivm Musica",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Oscar Lorenzo Fernández",
+      "raw_composer_text": "Batuque (Danza de Negros) (Oscar Lorenzo Fernández)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-america-tradicion-identidad-y-nuevo-mundo",
+      "raw_title": "UPM. América: Tradición, Identidad y Nuevo Mundo",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Piotr I. Tchaikovsky",
+      "raw_composer_text": "Piotr I. Tchaikovsky",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orquesta-sinfonica-de-madrid-elim-chan",
+      "raw_title": "Orquesta Sinfónica de Madrid. Elim Chan",
+      "candidate_matches": [
+        {
+          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+          "canonical_name": "Piotr Ilitch Tchaïkovski",
+          "score": 0.8837
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Johann Georg Pisendel (1687-1755)",
+      "raw_composer_text": "Johann Georg Pisendel (1687-1755)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-obni",
+      "raw_title": "CNDM. Obni",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Benedetto Marcello (1686 - 1739)",
+      "raw_composer_text": "Benedetto Marcello (1686 - 1739)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-musica-por-la-paz-barroco-iberico-italiano",
+      "raw_title": "UAM. Música por la Paz. Barroco Ibérico Italiano",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Francesco Corselli (1705-1778)",
+      "raw_composer_text": "Francesco Corselli (1705-1778)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-musica-por-la-paz-barroco-iberico-italiano",
+      "raw_title": "UAM. Música por la Paz. Barroco Ibérico Italiano",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Hilda Herrera (1932)",
+      "raw_composer_text": "Hilda Herrera (1932)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Violeta Parra (1917-1967)",
+      "raw_composer_text": "Violeta Parra (1917-1967)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Ignacio ‘Indio’ Figueredo (1899-1995)",
+      "raw_composer_text": "Ignacio ‘Indio’ Figueredo (1899-1995)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Santiago de Murcia (1673-1739)",
+      "raw_composer_text": "Santiago de Murcia (1673-1739)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Reynaldo Armas (1953)",
+      "raw_composer_text": "Reynaldo Armas (1953)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Simón Díaz (1928-2014)",
+      "raw_composer_text": "Simón Díaz (1928-2014)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Asís Márquez (1987)",
+      "raw_composer_text": "Asís Márquez (1987)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-hippocampus-1",
+      "raw_title": "CNDM. Hippocampus",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Juan-Alfonso García",
+      "raw_composer_text": "Juan-Alfonso García",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-15-a-granada",
+      "raw_title": "OCNE. Satélite 15. A Granada",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Héctor Eliel Márquez",
+      "raw_composer_text": "Héctor Eliel Márquez",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-15-a-granada",
+      "raw_title": "OCNE. Satélite 15. A Granada",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Einojuhani Rautavaara",
+      "raw_composer_text": "Einojuhani Rautavaara",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-15-a-granada",
+      "raw_title": "OCNE. Satélite 15. A Granada",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Héctor Eliel Márquez",
+      "raw_composer_text": "Héctor Eliel Márquez",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-15-a-granada",
+      "raw_title": "OCNE. Satélite 15. A Granada",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Francesc Vila",
+      "raw_composer_text": "Francesc Vila",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-15-a-granada",
+      "raw_title": "OCNE. Satélite 15. A Granada",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Johann Nepomuk Hummel (1778-1837)",
+      "raw_composer_text": "Johann Nepomuk Hummel (1778-1837)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cuarteto-gringolts-clemens-hagen",
+      "raw_title": "CNDM. Cuarteto Gringolts & Clemens Hagen",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Maurice Duruflé (1902-1986)",
+      "raw_composer_text": "Maurice Duruflé (1902-1986)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-daniel-oyarzabal-suhar-korua",
+      "raw_title": "CNDM. Daniel Oyarzabal & Suhar Korua",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Francisco Madina (1907-1972)",
+      "raw_composer_text": "Francisco Madina (1907-1972)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-daniel-oyarzabal-suhar-korua",
+      "raw_title": "CNDM. Daniel Oyarzabal & Suhar Korua",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Vicente Goicoechea (1854-1916)",
+      "raw_composer_text": "Vicente Goicoechea (1854-1916)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-daniel-oyarzabal-suhar-korua",
+      "raw_title": "CNDM. Daniel Oyarzabal & Suhar Korua",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "René Eespere (1953)",
+      "raw_composer_text": "René Eespere (1953)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-daniel-oyarzabal-suhar-korua",
+      "raw_title": "CNDM. Daniel Oyarzabal & Suhar Korua",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Carl Maria von Weber (1782-1826)",
+      "raw_composer_text": "Carl Maria von Weber (1782-1826)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-quinteto-de-la-filarmonica-de-berlin-la-plenitud-romantica",
+      "raw_title": "UAM. Quinteto de la Filarmónica de Berlín. La Plenitud Romántica",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Piotr Ilich Tchaikovsky (1840-1893)",
+      "raw_composer_text": "Piotr Ilich Tchaikovsky (1840-1893)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-quinteto-de-la-filarmonica-de-berlin-la-plenitud-romantica",
+      "raw_title": "UAM. Quinteto de la Filarmónica de Berlín. La Plenitud Romántica",
+      "candidate_matches": [
+        {
+          "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+          "canonical_name": "Piotr Ilitch Tchaïkovski",
+          "score": 0.9362
+        }
+      ],
+      "review_reason": "fuzzy_candidates_review_only"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Giovanni Bottesini (1821-1889)",
+      "raw_composer_text": "Giovanni Bottesini (1821-1889)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-quinteto-de-la-filarmonica-de-berlin-la-plenitud-romantica",
+      "raw_title": "UAM. Quinteto de la Filarmónica de Berlín. La Plenitud Romántica",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Carl Maria von Weber (1782-1826)",
+      "raw_composer_text": "Carl Maria von Weber (1782-1826)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-quinteto-de-la-filarmonica-de-berlin-la-plenitud-romantica",
+      "raw_title": "UAM. Quinteto de la Filarmónica de Berlín. La Plenitud Romántica",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "José de Nebra (1702-1768)",
+      "raw_composer_text": "José de Nebra (1702-1768)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-harmonia-del-parnas",
+      "raw_title": "CNDM. Harmonia Del Parnàs",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "José Castel (1737-1807)",
+      "raw_composer_text": "José Castel (1737-1807)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-harmonia-del-parnas",
+      "raw_title": "CNDM. Harmonia Del Parnàs",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Francesco Corradini (ca. 1700-1769)",
+      "raw_composer_text": "Francesco Corradini (ca. 1700-1769)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-harmonia-del-parnas",
+      "raw_title": "CNDM. Harmonia Del Parnàs",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Cristóbal Halffter",
+      "raw_composer_text": "Cristóbal Halffter",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-focus-01-2",
+      "raw_title": "OCNE. Focus 01",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Rodolfo Halffter",
+      "raw_composer_text": "Rodolfo Halffter",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orcam-tiempo-de-camara-2",
+      "raw_title": "ORCAM. Tiempo de Cámara 4. Alrededor del 27",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "malformed_source",
+      "raw_component_text": "Ludwig van Universo Beethoven (1770-1827)",
+      "raw_composer_text": "Ludwig van Universo Beethoven (1770-1827)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cuarteto-schumann",
+      "raw_title": "CNDM. Cuarteto Schumann",
+      "candidate_matches": [],
+      "review_reason": "malformed_source_identity_not_repaired"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Cristóbal de Morales (1500-1553)",
+      "raw_composer_text": "Cristóbal de Morales (1500-1553)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-vox-luminis-4",
+      "raw_title": "CNDM. Vox Luminis",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Karol Szymanowski (1882-1937)",
+      "raw_composer_text": "Karol Szymanowski (1882-1937)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-ana-maria-valderrama-judith-jauregui",
+      "raw_title": "CNDM. Ana María Valderrama & Judith Jáuregui",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Laura Vega Santana (1978)",
+      "raw_composer_text": "Laura Vega Santana (1978)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-ana-maria-valderrama-judith-jauregui",
+      "raw_title": "CNDM. Ana María Valderrama & Judith Jáuregui",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Alessandro Scarlatti (1660-1725)",
+      "raw_composer_text": "Alessandro Scarlatti (1660-1725)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-diego-ares",
+      "raw_title": "CNDM. Diego Ares",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Iluminada Pérez Frutos",
+      "raw_composer_text": "Iluminada Pérez Frutos",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-21-ven-con-beethoven",
+      "raw_title": "OCNE. Satélite 21. Ven con Beethoven",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Wilhelm Friedemann Bach (1710-1784)",
+      "raw_composer_text": "Wilhelm Friedemann Bach (1710-1784)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-orquesta-barroca-de-la-universidad-de-salamanca-2",
+      "raw_title": "CNDM. Orquesta Barroca de la Universidad de Salamanca",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Fanny Hensel-Mendelssohn (1805-1847)",
+      "raw_composer_text": "Fanny Hensel-Mendelssohn (1805-1847)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-orquesta-barroca-de-la-universidad-de-salamanca-2",
+      "raw_title": "CNDM. Orquesta Barroca de la Universidad de Salamanca",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "A. Petrovic",
+      "raw_composer_text": "A. Petrovic",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-requiem-aleman-de-brahms",
+      "raw_title": "Atlántida Chamber Orchestra. Réquiem Alemán de Brahms",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "He Zhanhao",
+      "raw_composer_text": "He Zhanhao / Chen Gang",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-requiem-aleman-de-brahms",
+      "raw_title": "Atlántida Chamber Orchestra. Réquiem Alemán de Brahms",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Chen Gang",
+      "raw_composer_text": "He Zhanhao / Chen Gang",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-requiem-aleman-de-brahms",
+      "raw_title": "Atlántida Chamber Orchestra. Réquiem Alemán de Brahms",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    }
+  ]
+}
