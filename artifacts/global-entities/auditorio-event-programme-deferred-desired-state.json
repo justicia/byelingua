@@ -1,0 +1,294 @@
+{
+  "source": "auditorio_nacional",
+  "database_writes": 0,
+  "rows": [
+    {
+      "event_id": "045fd06e-3ce8-4595-979f-eca5a0f6a522",
+      "order": 1,
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "source_occurrence_id": "auditorio_nacional:performance:78",
+      "raw_title": "Concierto para dos pianos y orquesta núm. 10 en Mi bemol Mayor, K. 365",
+      "canonical_work_title": "Concierto para dos pianos y orquesta núm. 10 en Mi bemol Mayor, K. 365"
+    },
+    {
+      "event_id": "045fd06e-3ce8-4595-979f-eca5a0f6a522",
+      "order": 2,
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "source_occurrence_id": "auditorio_nacional:performance:78",
+      "raw_title": "Sinfonía núm. 4 en Mi bemol mayor, «Romántica»",
+      "canonical_work_title": "Sinfonía núm. 4 en Mi bemol mayor, «Romántica»"
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "order": 1,
+      "work_id": "17ae8c5e-ae2a-41b9-a9c8-361ebfc19543",
+      "source_occurrence_id": "auditorio_nacional:performance:272",
+      "raw_title": "Il trionfo del Tempo e del Disinganno, HWV 46a (1707)",
+      "canonical_work_title": "Il trionfo del Tempo e del Disinganno, HWV 46a (1707)"
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "order": 1,
+      "work_id": "21e99c87-798c-412d-9f9d-9e95e788dfc5",
+      "source_occurrence_id": "auditorio_nacional:performance:261",
+      "raw_title": "de los tiempos (III)",
+      "canonical_work_title": "de los tiempos"
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "order": 2,
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "source_occurrence_id": "auditorio_nacional:performance:261",
+      "raw_title": "Sinfoníanúm. 83 en Sol menor, «La gallina»",
+      "canonical_work_title": "Sinfoníanúm. 83 en Sol menor, «La gallina»"
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "order": 3,
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "source_occurrence_id": "auditorio_nacional:performance:261",
+      "raw_title": "El carnaval de los animales",
+      "canonical_work_title": "El carnaval de los animales"
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "order": 4,
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "source_occurrence_id": "auditorio_nacional:performance:261",
+      "raw_title": "Syrinx, para flauta solista",
+      "canonical_work_title": "Syrinx, para flauta solista"
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "order": 5,
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "source_occurrence_id": "auditorio_nacional:performance:261",
+      "raw_title": "Sinfonía núm. 41, en Do mayor, K. 551 «Júpiter»",
+      "canonical_work_title": "Sinfonía núm. 41, en Do mayor, K. 551 «Júpiter»"
+    },
+    {
+      "event_id": "4f9d3cb2-7ed3-4edc-8eab-e8bdef8b6814",
+      "order": 1,
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "source_occurrence_id": "auditorio_nacional:performance:81",
+      "raw_title": "Concierto para dos pianos y orquesta núm. 10 en Mi bemol Mayor, K. 365",
+      "canonical_work_title": "Concierto para dos pianos y orquesta núm. 10 en Mi bemol Mayor, K. 365"
+    },
+    {
+      "event_id": "4f9d3cb2-7ed3-4edc-8eab-e8bdef8b6814",
+      "order": 2,
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "source_occurrence_id": "auditorio_nacional:performance:81",
+      "raw_title": "Sinfonía núm. 4 en Mi bemol mayor, «Romántica»",
+      "canonical_work_title": "Sinfonía núm. 4 en Mi bemol mayor, «Romántica»"
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "order": 1,
+      "work_id": "21e99c87-798c-412d-9f9d-9e95e788dfc5",
+      "source_occurrence_id": "auditorio_nacional:performance:257",
+      "raw_title": "de los tiempos (III)",
+      "canonical_work_title": "de los tiempos"
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "order": 2,
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "source_occurrence_id": "auditorio_nacional:performance:257",
+      "raw_title": "Sinfoníanúm. 83 en Sol menor, «La gallina»",
+      "canonical_work_title": "Sinfoníanúm. 83 en Sol menor, «La gallina»"
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "order": 3,
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "source_occurrence_id": "auditorio_nacional:performance:257",
+      "raw_title": "El carnaval de los animales",
+      "canonical_work_title": "El carnaval de los animales"
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "order": 4,
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "source_occurrence_id": "auditorio_nacional:performance:257",
+      "raw_title": "Syrinx, para flauta solista",
+      "canonical_work_title": "Syrinx, para flauta solista"
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "order": 5,
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "source_occurrence_id": "auditorio_nacional:performance:257",
+      "raw_title": "Sinfonía núm. 41, en Do mayor, K. 551 «Júpiter»",
+      "canonical_work_title": "Sinfonía núm. 41, en Do mayor, K. 551 «Júpiter»"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 1,
+      "work_id": "a631590e-ee61-4319-8974-cf7e342a5ffa",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Canto elegíaco, op. 118",
+      "canonical_work_title": "Canto elegíaco, op. 118"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 2,
+      "work_id": "8c31da8d-1038-4117-9ee9-486132c25df0",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Cinco canciones florales, op. 47",
+      "canonical_work_title": "Cinco canciones florales, op. 47"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 3,
+      "work_id": "cc015df7-9b78-41a6-8028-11862e4cb11b",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Cuatro canciones para voces femeninas, op. 17",
+      "canonical_work_title": "Cuatro canciones para voces femeninas, op. 17"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 4,
+      "work_id": "5d503668-1a46-464f-b946-824dce4351b3",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Fidelio, op. 72, acto I: “Oh qué alegría respirar en libertad”",
+      "canonical_work_title": "Fidelio, op. 72, acto I: “Oh qué alegría respirar en libertad”"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 5,
+      "work_id": "a214473f-9cce-422e-a1a0-71cd9f7f434f",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Que el hombre sea noble, WoO 185 +",
+      "canonical_work_title": "Que el hombre sea noble, WoO 185 +"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 6,
+      "work_id": "64cb688d-5537-4018-b518-59f4a0eb3f8c",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Adelante Democracia +",
+      "canonical_work_title": "Adelante Democracia +"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 7,
+      "work_id": "d85834b8-7912-4265-8745-32bedd096449",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Siete canciones, op. 62 +",
+      "canonical_work_title": "Siete canciones, op. 62 +"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 8,
+      "work_id": "bd6f0cf6-6ca0-4e40-a471-f071f64878e1",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Cantata “Lobkowitz”, WoO 106 +",
+      "canonical_work_title": "Cantata “Lobkowitz”, WoO 106 +"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 9,
+      "work_id": "d09756be-c85f-4e7c-9d31-eecc132fe591",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "A Mälzel, WoO 162 +",
+      "canonical_work_title": "A Mälzel, WoO 162 +"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "order": 10,
+      "work_id": "04c87874-af21-4d46-8c96-438839121f37",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "raw_title": "Canto espiritual, op. 30",
+      "canonical_work_title": "Canto espiritual, op. 30"
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "order": 1,
+      "work_id": "b8151f32-aaaf-409e-86c8-f4d08fdeaaf0",
+      "source_occurrence_id": "auditorio_nacional:performance:82",
+      "raw_title": "Agrippina, HWV 6 (1709)",
+      "canonical_work_title": "Agrippina, HWV 6 (1709)"
+    },
+    {
+      "event_id": "990464ec-755d-4ace-be39-576058e802a3",
+      "order": 1,
+      "work_id": "eaeda6e2-170d-46f7-a6d4-ebad5018fff5",
+      "source_occurrence_id": "auditorio_nacional:performance:201",
+      "raw_title": "Misa en re menor, Hob. XXII:11 “Misa Nelson”",
+      "canonical_work_title": "Misa en re menor, Hob. XXII:11 “Misa Nelson”"
+    },
+    {
+      "event_id": "990464ec-755d-4ace-be39-576058e802a3",
+      "order": 2,
+      "work_id": "8e3c85ad-9d17-4489-b6fb-5da68ced2cfa",
+      "source_occurrence_id": "auditorio_nacional:performance:201",
+      "raw_title": "Sinfonía n.º 4 en mi bemol mayor, WAB 104 “Romántica”",
+      "canonical_work_title": "Sinfonía n.º 4 en mi bemol mayor, WAB 104 “Romántica”"
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "order": 1,
+      "work_id": "18999bca-ba78-4658-b63d-123701cdcd60",
+      "source_occurrence_id": "auditorio_nacional:performance:247",
+      "raw_title": "La Flauta Mágica",
+      "canonical_work_title": "La Flauta Mágica"
+    },
+    {
+      "event_id": "e66eacc7-16ad-4183-8859-b0d3260a3424",
+      "order": 1,
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "source_occurrence_id": "auditorio_nacional:performance:76",
+      "raw_title": "Concierto para dos pianos y orquesta núm. 10 en Mi bemol Mayor, K. 365",
+      "canonical_work_title": "Concierto para dos pianos y orquesta núm. 10 en Mi bemol Mayor, K. 365"
+    },
+    {
+      "event_id": "e66eacc7-16ad-4183-8859-b0d3260a3424",
+      "order": 2,
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "source_occurrence_id": "auditorio_nacional:performance:76",
+      "raw_title": "Sinfonía núm. 4 en Mi bemol mayor, «Romántica»",
+      "canonical_work_title": "Sinfonía núm. 4 en Mi bemol mayor, «Romántica»"
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "order": 1,
+      "work_id": "21e99c87-798c-412d-9f9d-9e95e788dfc5",
+      "source_occurrence_id": "auditorio_nacional:performance:259",
+      "raw_title": "de los tiempos (III)",
+      "canonical_work_title": "de los tiempos"
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "order": 2,
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "source_occurrence_id": "auditorio_nacional:performance:259",
+      "raw_title": "Sinfoníanúm. 83 en Sol menor, «La gallina»",
+      "canonical_work_title": "Sinfoníanúm. 83 en Sol menor, «La gallina»"
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "order": 3,
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "source_occurrence_id": "auditorio_nacional:performance:259",
+      "raw_title": "El carnaval de los animales",
+      "canonical_work_title": "El carnaval de los animales"
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "order": 4,
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "source_occurrence_id": "auditorio_nacional:performance:259",
+      "raw_title": "Syrinx, para flauta solista",
+      "canonical_work_title": "Syrinx, para flauta solista"
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "order": 5,
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "source_occurrence_id": "auditorio_nacional:performance:259",
+      "raw_title": "Sinfonía núm. 41, en Do mayor, K. 551 «Júpiter»",
+      "canonical_work_title": "Sinfonía núm. 41, en Do mayor, K. 551 «Júpiter»"
+    }
+  ]
+}

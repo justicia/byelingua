@@ -1,0 +1,838 @@
+{
+  "source": "auditorio_nacional",
+  "database_writes": 0,
+  "rows": [
+    {
+      "event_id": "0bb78b1c-54ad-4db7-948a-8aa7ebc34e83",
+      "order": 1,
+      "work_id": "b8f441f6-bea8-46d7-92c2-dcf086df3184",
+      "source_occurrence_id": "auditorio_nacional:performance:104",
+      "raw_title": "Cuarteto de cuerda en fa menor, op. 20, n.º 5 (1772)",
+      "canonical_work_title": "Cuarteto de cuerda en fa menor, op. 20, n.º 5 (1772)"
+    },
+    {
+      "event_id": "0bb78b1c-54ad-4db7-948a-8aa7ebc34e83",
+      "order": 2,
+      "work_id": "0128f990-3477-4edb-8a92-749c0ad0eab6",
+      "source_occurrence_id": "auditorio_nacional:performance:104",
+      "raw_title": "Cuarteto de cuerda n.º 3 en re mayor, op. 44, n.º 1 (1838)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 3 en re mayor, op. 44, n.º 1 (1838)"
+    },
+    {
+      "event_id": "11251a3f-0906-4ba4-84e3-1a9c53c70c67",
+      "order": 1,
+      "work_id": "3c759e0a-a0dc-4aa4-a56d-24f2c3f0e8df",
+      "source_occurrence_id": "auditorio_nacional:performance:288",
+      "raw_title": "Sinfonía núm. 1 en Do Mayor, op. 21",
+      "canonical_work_title": "Sinfonie Nr. 1 in C-Dur, op. 21"
+    },
+    {
+      "event_id": "11251a3f-0906-4ba4-84e3-1a9c53c70c67",
+      "order": 2,
+      "work_id": "e73f3291-919f-40a4-8ec1-5b259f315f3d",
+      "source_occurrence_id": "auditorio_nacional:performance:288",
+      "raw_title": "Sinfonía núm. 4 en Si bemol Mayor, op.60",
+      "canonical_work_title": "Sinfonie Nr. 4 in B-Dur, op. 60"
+    },
+    {
+      "event_id": "11251a3f-0906-4ba4-84e3-1a9c53c70c67",
+      "order": 3,
+      "work_id": "4579d8d5-c931-4a09-91df-e87d87746002",
+      "source_occurrence_id": "auditorio_nacional:performance:288",
+      "raw_title": "Sinfonía núm. 5 en Do menor, op.67",
+      "canonical_work_title": "Sinfonie Nr. 5 in c-Moll, op. 67"
+    },
+    {
+      "event_id": "1240edcc-8ca6-4ded-b225-c16330fc2347",
+      "order": 1,
+      "work_id": "61b27081-ac4c-4187-9eb3-cd34d8f16358",
+      "source_occurrence_id": "auditorio_nacional:performance:220",
+      "raw_title": "Concierto para piano núm. 1 en Si bemol menor, op. 23",
+      "canonical_work_title": "Concierto para piano núm. 1 en Si bemol menor, op. 23"
+    },
+    {
+      "event_id": "1240edcc-8ca6-4ded-b225-c16330fc2347",
+      "order": 2,
+      "work_id": "ddbf2d21-63bb-4d3b-9905-c02648f139d3",
+      "source_occurrence_id": "auditorio_nacional:performance:220",
+      "raw_title": "La consagración de la primavera",
+      "canonical_work_title": "La consagración de la primavera"
+    },
+    {
+      "event_id": "146bea0b-6e12-435d-8190-2700a815ef6d",
+      "order": 1,
+      "work_id": "a2a314b5-a2ed-5b02-a317-2e9bf4c3ac14",
+      "source_occurrence_id": "auditorio_nacional:performance:349",
+      "raw_title": "Sinfonía de los salmos",
+      "canonical_work_title": "Symphonie de psaumes"
+    },
+    {
+      "event_id": "146bea0b-6e12-435d-8190-2700a815ef6d",
+      "order": 2,
+      "work_id": "6e8e4bef-9204-5d3f-a031-7e2f4f1417c5",
+      "source_occurrence_id": "auditorio_nacional:performance:349",
+      "raw_title": "Concierto para violonchelo y orquesta, en mi menor, op. 85",
+      "canonical_work_title": "Cello Concerto in E minor, Op. 85"
+    },
+    {
+      "event_id": "146bea0b-6e12-435d-8190-2700a815ef6d",
+      "order": 3,
+      "work_id": "6926b0db-6df8-4cec-950e-8b280ec50e8f",
+      "source_occurrence_id": "auditorio_nacional:performance:349",
+      "raw_title": "Sinfonía n.º 1, en fa menor, op. 10",
+      "canonical_work_title": "Sinfonía n.º 1, en fa menor, op. 10"
+    },
+    {
+      "event_id": "2014100d-46a4-459a-9ca6-f96e4e6eb8d2",
+      "order": 1,
+      "work_id": "6a496478-1217-4b9a-a49d-4dae983ab642",
+      "source_occurrence_id": "auditorio_nacional:performance:70",
+      "raw_title": "Concierto para violín en re mayor, op. 77 (1878)",
+      "canonical_work_title": "Concierto para violín en re mayor, op. 77 (1878)"
+    },
+    {
+      "event_id": "2014100d-46a4-459a-9ca6-f96e4e6eb8d2",
+      "order": 2,
+      "work_id": "3ea81e79-6e88-4e80-8603-584b555725f0",
+      "source_occurrence_id": "auditorio_nacional:performance:70",
+      "raw_title": "Sinfonía n.º 2 en do mayor, op. 61 (1845-1846)",
+      "canonical_work_title": "Sinfonía n.º 2 en do mayor, op. 61 (1845-1846)"
+    },
+    {
+      "event_id": "2346b830-0417-4c93-8329-8622ea88ad3d",
+      "order": 1,
+      "work_id": "12295e22-1b35-4ead-b534-d8e674ef252a",
+      "source_occurrence_id": "auditorio_nacional:performance:143",
+      "raw_title": "Voices-Stimmen. Eine Sammlung von Liedern (1973)",
+      "canonical_work_title": "Voices-Stimmen. Eine Sammlung von Liedern (1973)"
+    },
+    {
+      "event_id": "294bbe34-6763-4fde-be74-76bccc496628",
+      "order": 1,
+      "work_id": "61b27081-ac4c-4187-9eb3-cd34d8f16358",
+      "source_occurrence_id": "auditorio_nacional:performance:218",
+      "raw_title": "Concierto para piano núm. 1 en Si bemol menor, op. 23",
+      "canonical_work_title": "Concierto para piano núm. 1 en Si bemol menor, op. 23"
+    },
+    {
+      "event_id": "294bbe34-6763-4fde-be74-76bccc496628",
+      "order": 2,
+      "work_id": "ddbf2d21-63bb-4d3b-9905-c02648f139d3",
+      "source_occurrence_id": "auditorio_nacional:performance:218",
+      "raw_title": "La consagración de la primavera",
+      "canonical_work_title": "La consagración de la primavera"
+    },
+    {
+      "event_id": "3ea55cce-31a6-4af3-9132-2b75a108efc5",
+      "order": 1,
+      "work_id": "61b27081-ac4c-4187-9eb3-cd34d8f16358",
+      "source_occurrence_id": "auditorio_nacional:performance:215",
+      "raw_title": "Concierto para piano núm. 1 en Si bemol menor, op. 23",
+      "canonical_work_title": "Concierto para piano núm. 1 en Si bemol menor, op. 23"
+    },
+    {
+      "event_id": "3ea55cce-31a6-4af3-9132-2b75a108efc5",
+      "order": 2,
+      "work_id": "ddbf2d21-63bb-4d3b-9905-c02648f139d3",
+      "source_occurrence_id": "auditorio_nacional:performance:215",
+      "raw_title": "La consagración de la primavera",
+      "canonical_work_title": "La consagración de la primavera"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 1,
+      "work_id": "cc865988-a542-4bee-acf0-ad07f132b8f5",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "Suite en la menor, de Pièces de clavecin",
+      "canonical_work_title": "Suite en la menor, de Pièces de clavecin"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 2,
+      "work_id": "d64a06e0-cce8-4b9c-ad3b-e80351914ff7",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "Prélude de la Suite en la menor, RCT 1, de Premier livre de pièces de clavecin (1706)",
+      "canonical_work_title": "Prélude de la Suite en la menor, RCT 1, de Premier livre de pièces de clavecin (1706)"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 3,
+      "work_id": "bd45d08b-f6ce-4632-a723-1d4016f7f69a",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "Suite en la menor, RCT 5, de Troisième livre de pièces de clavecin (1727)",
+      "canonical_work_title": "Suite en la menor, RCT 5, de Troisième livre de pièces de clavecin (1727)"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 4,
+      "work_id": "167d90f2-d8c9-4d5a-95cf-3ef1538a430e",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "Premier prélude en do mayor, de L’Art de toucher le clavecin (1716)",
+      "canonical_work_title": "Premier prélude en do mayor, de L’Art de toucher le clavecin (1716)"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 5,
+      "work_id": "eea1cc07-aaee-4728-acbc-b5ddfc2f0f09",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "De Pièces de clavecin, livre I (1713)",
+      "canonical_work_title": "De Pièces de clavecin, livre I (1713)"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 6,
+      "work_id": "5070db86-cf01-4c48-9102-7c352971a013",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "La Ténébreuse. Allemande (troisième ordre, n.º 1)",
+      "canonical_work_title": "La Ténébreuse. Allemande (troisième ordre, n.º 1)"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 7,
+      "work_id": "34584273-a88e-47ee-9920-f37d3b506fc2",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "La Favorite. Chaconne à deux tems (troisième ordre, n.º 12)",
+      "canonical_work_title": "La Favorite. Chaconne à deux tems (troisième ordre, n.º 12)"
+    },
+    {
+      "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "order": 8,
+      "work_id": "19ac4012-947a-40fd-98b6-5c75788d8984",
+      "source_occurrence_id": "auditorio_nacional:performance:113",
+      "raw_title": "La marche des scythes, de Pièces de clavecin (1746)",
+      "canonical_work_title": "La marche des scythes, de Pièces de clavecin (1746)"
+    },
+    {
+      "event_id": "62f4a020-7622-41e6-b0cf-a08d3e4e815a",
+      "order": 1,
+      "work_id": "5c80fc9d-1d0f-45cb-b714-8cc781eb9ed4",
+      "source_occurrence_id": "auditorio_nacional:performance:88",
+      "raw_title": "Central Park en la oscuridad",
+      "canonical_work_title": "Central Park en la oscuridad"
+    },
+    {
+      "event_id": "62f4a020-7622-41e6-b0cf-a08d3e4e815a",
+      "order": 2,
+      "work_id": "a05f3755-6e2f-4630-8b40-71ef5bc23199",
+      "source_occurrence_id": "auditorio_nacional:performance:88",
+      "raw_title": "Nocturnos",
+      "canonical_work_title": "Nocturnos"
+    },
+    {
+      "event_id": "62f4a020-7622-41e6-b0cf-a08d3e4e815a",
+      "order": 3,
+      "work_id": "4014df1b-ce9e-48ae-a6b2-f339b9f6ca1e",
+      "source_occurrence_id": "auditorio_nacional:performance:88",
+      "raw_title": "El martirio de san Sebastián",
+      "canonical_work_title": "El martirio de san Sebastián"
+    },
+    {
+      "event_id": "659c5ad7-c234-4967-ad3c-e700ce886620",
+      "order": 1,
+      "work_id": "fce11c03-3302-4d81-bd2d-35b92c92fa6d",
+      "source_occurrence_id": "auditorio_nacional:performance:331",
+      "raw_title": "Cuarteto de cuerda n.º 5 en la mayor, op. 18, n.º 5 (1799)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 5 en la mayor, op. 18, n.º 5 (1799)"
+    },
+    {
+      "event_id": "659c5ad7-c234-4967-ad3c-e700ce886620",
+      "order": 2,
+      "work_id": "be2256b0-1b7b-47b8-879e-4d98aa7db611",
+      "source_occurrence_id": "auditorio_nacional:performance:331",
+      "raw_title": "Cuarteto de cuerda n.º 10 en mi bemol mayor ‘Harp’, op. 74 (1809)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 10 en mi bemol mayor ‘Harp’, op. 74 (1809)"
+    },
+    {
+      "event_id": "659c5ad7-c234-4967-ad3c-e700ce886620",
+      "order": 3,
+      "work_id": "7d6b4d37-037b-4b68-9fb1-28c82aa7d245",
+      "source_occurrence_id": "auditorio_nacional:performance:331",
+      "raw_title": "Cuarteto de cuerda n.º 12 en mi bemol mayor, op. 127 (1823-1824)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 12 en mi bemol mayor, op. 127 (1823-1824)"
+    },
+    {
+      "event_id": "6a15722f-13b0-468f-bfb8-6426880eec30",
+      "order": 1,
+      "work_id": "5478ded2-6dac-4098-84b9-f58637d7766e",
+      "source_occurrence_id": "auditorio_nacional:performance:199",
+      "raw_title": "Cuarteto de cuerda n.º 2 en sol mayor, op. 18, n.º 2 (1799)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 2 en sol mayor, op. 18, n.º 2 (1799)"
+    },
+    {
+      "event_id": "6a15722f-13b0-468f-bfb8-6426880eec30",
+      "order": 2,
+      "work_id": "b86a0a6c-a498-47b7-a165-adbbae4547de",
+      "source_occurrence_id": "auditorio_nacional:performance:199",
+      "raw_title": "Cuarteto de cuerda n.º 9 en do mayor ‘Razumovski’, op. 59, n.º 3 (1806)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 9 en do mayor ‘Razumovski’, op. 59, n.º 3 (1806)"
+    },
+    {
+      "event_id": "6a15722f-13b0-468f-bfb8-6426880eec30",
+      "order": 3,
+      "work_id": "3da3122a-1fd2-4fbf-b2eb-d57c7639ef6f",
+      "source_occurrence_id": "auditorio_nacional:performance:199",
+      "raw_title": "Cuarteto de cuerda n.º 16 en fa mayor, op. 135 (1826)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 16 en fa mayor, op. 135 (1826)"
+    },
+    {
+      "event_id": "6fad9dc0-4f50-4b8f-93e5-a392faa60432",
+      "order": 1,
+      "work_id": "eaeda6e2-170d-46f7-a6d4-ebad5018fff5",
+      "source_occurrence_id": "auditorio_nacional:performance:48",
+      "raw_title": "J. Haydn – Missa in Angustiis en Re menor, Hob.XXII:11 – Misa Nelson",
+      "canonical_work_title": "Misa en re menor, Hob. XXII:11 “Misa Nelson”"
+    },
+    {
+      "event_id": "6fad9dc0-4f50-4b8f-93e5-a392faa60432",
+      "order": 2,
+      "work_id": "1f30d87a-809e-48c6-985c-20839fa00d03",
+      "source_occurrence_id": "auditorio_nacional:performance:48",
+      "raw_title": "W. A. Mozart – Misa de Réquiem en re menor, K. 626",
+      "canonical_work_title": "Misa de Réquiem en re menor, K. 626"
+    },
+    {
+      "event_id": "8475c265-a1ec-4f98-9b42-9dacc7fcac1e",
+      "order": 1,
+      "work_id": "8ae91ce5-ff7d-4f5f-8cea-0cd07da61289",
+      "source_occurrence_id": "auditorio_nacional:performance:301",
+      "raw_title": "Officium defunctorum",
+      "canonical_work_title": "Officium defunctorum"
+    },
+    {
+      "event_id": "8475c265-a1ec-4f98-9b42-9dacc7fcac1e",
+      "order": 2,
+      "work_id": "a174ba29-1aa9-4402-8b97-c4d7b69732c8",
+      "source_occurrence_id": "auditorio_nacional:performance:301",
+      "raw_title": "Missa pro defunctis, a cinco (1544)",
+      "canonical_work_title": "Missa pro defunctis, a cinco (1544)"
+    },
+    {
+      "event_id": "853b72d6-5670-4b34-bcf5-a87fdb9dedc8",
+      "order": 1,
+      "work_id": "1decaf2f-ccca-45ff-a1b2-e92d3e3c6870",
+      "source_occurrence_id": "auditorio_nacional:performance:321",
+      "raw_title": "Music for eighteen musicians (1974-1976)",
+      "canonical_work_title": "Music for eighteen musicians (1974-1976)"
+    },
+    {
+      "event_id": "a4aa0dc1-624b-4e03-a121-68b333e4ce4a",
+      "order": 1,
+      "work_id": "1d73388e-8ea4-4512-b16a-6540c95d9c0e",
+      "source_occurrence_id": "auditorio_nacional:performance:16",
+      "raw_title": "Ruslán y Ludmila: Obertura",
+      "canonical_work_title": "Ruslán y Ludmila: Obertura"
+    },
+    {
+      "event_id": "a4aa0dc1-624b-4e03-a121-68b333e4ce4a",
+      "order": 2,
+      "work_id": "46de5edb-d734-4012-b739-fd0bce6702a9",
+      "source_occurrence_id": "auditorio_nacional:performance:16",
+      "raw_title": "Concierto para violín en Re menor, Op. 47",
+      "canonical_work_title": "Concierto para violín en Re menor, op. 47"
+    },
+    {
+      "event_id": "a4aa0dc1-624b-4e03-a121-68b333e4ce4a",
+      "order": 3,
+      "work_id": "6a550afe-e723-4596-9c14-442b9e5e9a31",
+      "source_occurrence_id": "auditorio_nacional:performance:16",
+      "raw_title": "Sinfonía nº 8 en Sol mayor, Op. 88",
+      "canonical_work_title": "Sinfonía nº 8 en Sol mayor, Op. 88"
+    },
+    {
+      "event_id": "a99c2ebd-9bd3-48f7-bd93-cacca2a48708",
+      "order": 1,
+      "work_id": "5c80fc9d-1d0f-45cb-b714-8cc781eb9ed4",
+      "source_occurrence_id": "auditorio_nacional:performance:90",
+      "raw_title": "Central Park en la oscuridad",
+      "canonical_work_title": "Central Park en la oscuridad"
+    },
+    {
+      "event_id": "a99c2ebd-9bd3-48f7-bd93-cacca2a48708",
+      "order": 2,
+      "work_id": "a05f3755-6e2f-4630-8b40-71ef5bc23199",
+      "source_occurrence_id": "auditorio_nacional:performance:90",
+      "raw_title": "Nocturnos",
+      "canonical_work_title": "Nocturnos"
+    },
+    {
+      "event_id": "a99c2ebd-9bd3-48f7-bd93-cacca2a48708",
+      "order": 3,
+      "work_id": "4014df1b-ce9e-48ae-a6b2-f339b9f6ca1e",
+      "source_occurrence_id": "auditorio_nacional:performance:90",
+      "raw_title": "El martirio de san Sebastián",
+      "canonical_work_title": "El martirio de san Sebastián"
+    },
+    {
+      "event_id": "aa14fea3-5226-4801-bff2-bafd9e8c35bf",
+      "order": 1,
+      "work_id": "c52cd31e-27e4-4327-91c7-fc955efb3104",
+      "source_occurrence_id": "auditorio_nacional:performance:284",
+      "raw_title": "Cuarteto de cuerda n.º 7 en fa mayor ‘Razumovski’, op. 59, n.º 1 (1806)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 7 en fa mayor ‘Razumovski’, op. 59, n.º 1 (1806)"
+    },
+    {
+      "event_id": "aa14fea3-5226-4801-bff2-bafd9e8c35bf",
+      "order": 2,
+      "work_id": "766cead8-35d1-4cd4-a41a-ac3c4dcda27b",
+      "source_occurrence_id": "auditorio_nacional:performance:284",
+      "raw_title": "Cuarteto de cuerda n.º 13 en si bemol mayor, op. 130 (1825)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 13 en si bemol mayor, op. 130 (1825)"
+    },
+    {
+      "event_id": "aa14fea3-5226-4801-bff2-bafd9e8c35bf",
+      "order": 3,
+      "work_id": "3d250bc9-d035-40cd-9452-c59775881013",
+      "source_occurrence_id": "auditorio_nacional:performance:284",
+      "raw_title": "Gran fuga en si bemol mayor, op. 133 (1825-1826",
+      "canonical_work_title": "Gran fuga en si bemol mayor, op. 133 (1825-1826"
+    },
+    {
+      "event_id": "adc3fd04-a0d1-4238-adfe-06f192e947b7",
+      "order": 1,
+      "work_id": "556ef2e0-a8c5-4b98-af48-772e1dac6ce7",
+      "source_occurrence_id": "auditorio_nacional:performance:256",
+      "raw_title": "Partita en si bemol mayor, BWV 825 (1726)",
+      "canonical_work_title": "Partita en si bemol mayor, BWV 825 (1726)"
+    },
+    {
+      "event_id": "adc3fd04-a0d1-4238-adfe-06f192e947b7",
+      "order": 2,
+      "work_id": "4713158a-6fec-4a90-831d-ed5cfb3f01be",
+      "source_occurrence_id": "auditorio_nacional:performance:256",
+      "raw_title": "Partita en do menor, BWV 826 (1726)",
+      "canonical_work_title": "Partita en do menor, BWV 826 (1726)"
+    },
+    {
+      "event_id": "adc3fd04-a0d1-4238-adfe-06f192e947b7",
+      "order": 3,
+      "work_id": "c709f436-6c0a-43b6-b5a0-138b773454b3",
+      "source_occurrence_id": "auditorio_nacional:performance:256",
+      "raw_title": "Partita en re mayor, BWV 828 (1728)",
+      "canonical_work_title": "Partita en re mayor, BWV 828 (1728)"
+    },
+    {
+      "event_id": "ae094b4c-e5d6-46fd-b557-628a74a87727",
+      "order": 1,
+      "work_id": "d881b6a3-331d-450e-9b34-05efc63c7b9d",
+      "source_occurrence_id": "auditorio_nacional:performance:10",
+      "raw_title": "Carnaval, obertura",
+      "canonical_work_title": "Carnaval, obertura"
+    },
+    {
+      "event_id": "ae094b4c-e5d6-46fd-b557-628a74a87727",
+      "order": 2,
+      "work_id": "86b6fc0c-a0e4-4931-b14a-f69119e01d70",
+      "source_occurrence_id": "auditorio_nacional:performance:10",
+      "raw_title": "Concierto para violín y orquesta",
+      "canonical_work_title": "Concierto para violín y orquesta"
+    },
+    {
+      "event_id": "ae094b4c-e5d6-46fd-b557-628a74a87727",
+      "order": 3,
+      "work_id": "f70d0fe2-02e7-490d-b309-28ff1a761cbb",
+      "source_occurrence_id": "auditorio_nacional:performance:10",
+      "raw_title": "Sinfonía n.º 2 en re mayor, op. 43",
+      "canonical_work_title": "Sinfonía n.º 2 en re mayor, op. 43"
+    },
+    {
+      "event_id": "c0081b19-194d-40d3-9c6b-c4e850beae43",
+      "order": 1,
+      "work_id": "11b5bd82-7146-4086-96d9-ee246269b826",
+      "source_occurrence_id": "auditorio_nacional:performance:336",
+      "raw_title": "Nocturne",
+      "canonical_work_title": "Nocturne — (arrangement quintette cuivres)"
+    },
+    {
+      "event_id": "c0081b19-194d-40d3-9c6b-c4e850beae43",
+      "order": 2,
+      "work_id": "27cc0883-d00e-4a11-b321-90d480afbd25",
+      "source_occurrence_id": "auditorio_nacional:performance:336",
+      "raw_title": "Cuarteto de cuerda núm. 1 en Do menor, op. 15",
+      "canonical_work_title": "quatuor avec Piano nº 1, op. 15 (31’)"
+    },
+    {
+      "event_id": "c0081b19-194d-40d3-9c6b-c4e850beae43",
+      "order": 3,
+      "work_id": "bd4b82c4-9d62-4fa9-b71b-c5a21567f303",
+      "source_occurrence_id": "auditorio_nacional:performance:336",
+      "raw_title": "Cuarteto de cuerda en Sol menor, op. 10",
+      "canonical_work_title": "Cuarteto de cuerda en Sol menor, op. 10"
+    },
+    {
+      "event_id": "cb42c1a4-e7ed-4bdb-a33d-e47922decefd",
+      "order": 1,
+      "work_id": "2c1e67c2-db72-42d8-9e02-df89739bb3c5",
+      "source_occurrence_id": "auditorio_nacional:performance:52",
+      "raw_title": "Concierto de Brandeburgo n.º 2 en fa mayor, BWV 1047 (1721)",
+      "canonical_work_title": "Concierto de Brandeburgo n.º 2 en fa mayor, BWV 1047 (1721)"
+    },
+    {
+      "event_id": "cb42c1a4-e7ed-4bdb-a33d-e47922decefd",
+      "order": 2,
+      "work_id": "f9287f1b-e9b4-439f-ae18-db7298384cc6",
+      "source_occurrence_id": "auditorio_nacional:performance:52",
+      "raw_title": "Concierto de Brandeburgo n.º 3 en sol mayor, BWV 1048 (1718)",
+      "canonical_work_title": "Concierto de Brandeburgo n.º 3 en sol mayor, BWV 1048 (1718)"
+    },
+    {
+      "event_id": "cb42c1a4-e7ed-4bdb-a33d-e47922decefd",
+      "order": 3,
+      "work_id": "3b358a26-528c-4f97-8a2d-3b4a01cf6fa9",
+      "source_occurrence_id": "auditorio_nacional:performance:52",
+      "raw_title": "Concierto de Brandeburgo n.º 4 en sol mayor, BWV 1049 (1719-1720)",
+      "canonical_work_title": "Concierto de Brandeburgo n.º 4 en sol mayor, BWV 1049 (1719-1720)"
+    },
+    {
+      "event_id": "cb42c1a4-e7ed-4bdb-a33d-e47922decefd",
+      "order": 4,
+      "work_id": "8295d16b-9234-4fe0-b9ac-50e6388a0126",
+      "source_occurrence_id": "auditorio_nacional:performance:52",
+      "raw_title": "Concierto de Brandeburgo n.º 5 en re mayor, BWV 1050 (1720-1721)",
+      "canonical_work_title": "Concierto de Brandeburgo n.º 5 en re mayor, BWV 1050 (1720-1721)"
+    },
+    {
+      "event_id": "cb42c1a4-e7ed-4bdb-a33d-e47922decefd",
+      "order": 5,
+      "work_id": "dede2b27-3757-4b50-b120-4fae22ce594e",
+      "source_occurrence_id": "auditorio_nacional:performance:52",
+      "raw_title": "Concierto de Brandeburgo n.º 6 en si bemol mayor, BWV 1051 (1718)",
+      "canonical_work_title": "Concierto de Brandeburgo n.º 6 en si bemol mayor, BWV 1051 (1718)"
+    },
+    {
+      "event_id": "cd481989-d6de-47c8-992e-852a5bb95462",
+      "order": 1,
+      "work_id": "4aff21f3-fc2c-4469-b2ea-bf789504d64d",
+      "source_occurrence_id": "auditorio_nacional:performance:236",
+      "raw_title": "Pasión según San Mateo, BWV 244",
+      "canonical_work_title": "Pasión según San Mateo, BWV 244"
+    },
+    {
+      "event_id": "d079a9c5-9220-44e6-9bdf-2d2d4b505743",
+      "order": 1,
+      "work_id": "f8c1e42c-fd61-4f91-9290-30d06651918e",
+      "source_occurrence_id": "auditorio_nacional:performance:300",
+      "raw_title": "Scherzo à la russe, K 070 (1943-1944)",
+      "canonical_work_title": "Scherzo à la russe, K 070 (1943-1944)"
+    },
+    {
+      "event_id": "d079a9c5-9220-44e6-9bdf-2d2d4b505743",
+      "order": 2,
+      "work_id": "2bc190da-da63-4e15-b3a5-97f84a8ce06a",
+      "source_occurrence_id": "auditorio_nacional:performance:300",
+      "raw_title": "Sinfonía n.º 9 en mi bemol mayor, op. 70 (1945)",
+      "canonical_work_title": "Sinfonía n.º 9 en mi bemol mayor, op. 70 (1945)"
+    },
+    {
+      "event_id": "d079a9c5-9220-44e6-9bdf-2d2d4b505743",
+      "order": 3,
+      "work_id": "9f7036e4-fae5-47af-975d-822fe4150f50",
+      "source_occurrence_id": "auditorio_nacional:performance:300",
+      "raw_title": "La bella durmiente, op. 66, selección (1888-1889)",
+      "canonical_work_title": "La bella durmiente, op. 66, selección (1888-1889)"
+    },
+    {
+      "event_id": "d2a438a6-2c4f-412f-9d73-61ee62d18b24",
+      "order": 1,
+      "work_id": "5edb9f40-ee20-47cb-adfc-89409c59d1cc",
+      "source_occurrence_id": "auditorio_nacional:performance:254",
+      "raw_title": "Bagatelas, op. 119, selección (1822)",
+      "canonical_work_title": "Bagatelas, op. 119, selección (1822)"
+    },
+    {
+      "event_id": "d2a438a6-2c4f-412f-9d73-61ee62d18b24",
+      "order": 2,
+      "work_id": "c909aa0c-6f36-4464-bc26-654b8c999f55",
+      "source_occurrence_id": "auditorio_nacional:performance:254",
+      "raw_title": "Bagatelas, op. 33, selección (1782, rev. 1802)",
+      "canonical_work_title": "Bagatelas, op. 33, selección (1782, rev. 1802)"
+    },
+    {
+      "event_id": "d2a438a6-2c4f-412f-9d73-61ee62d18b24",
+      "order": 3,
+      "work_id": "80af3e23-4c5e-46eb-a545-46fcf96b7b30",
+      "source_occurrence_id": "auditorio_nacional:performance:254",
+      "raw_title": "Musica ricercata (1951-1953)",
+      "canonical_work_title": "Musica ricercata (1951-1953)"
+    },
+    {
+      "event_id": "d2a438a6-2c4f-412f-9d73-61ee62d18b24",
+      "order": 4,
+      "work_id": "31b00b01-be24-407e-b9da-8e5384c36fff",
+      "source_occurrence_id": "auditorio_nacional:performance:254",
+      "raw_title": "Klavierstück IX (1954-1961)",
+      "canonical_work_title": "Klavierstück IX (1954-1961)"
+    },
+    {
+      "event_id": "d2a438a6-2c4f-412f-9d73-61ee62d18b24",
+      "order": 5,
+      "work_id": "861394c6-0062-492d-b01b-44df0576d0b4",
+      "source_occurrence_id": "auditorio_nacional:performance:254",
+      "raw_title": "Sonata n.º 23 en fa menor ‘Appassionata’, op. 57 (1804-1805)",
+      "canonical_work_title": "Sonata para piano n.º 23 «Appassionata», Op. 57"
+    },
+    {
+      "event_id": "e1cfed8c-c24c-4eed-b69c-995baadf9399",
+      "order": 1,
+      "work_id": "a4684fcf-7027-44a0-85ff-3a292ea83c95",
+      "source_occurrence_id": "auditorio_nacional:performance:306",
+      "raw_title": "Sinfonía núm. 6 en Fa Mayor, op. 68 \"Pastoral\"",
+      "canonical_work_title": "op. 68 \"Pastoral\""
+    },
+    {
+      "event_id": "e1cfed8c-c24c-4eed-b69c-995baadf9399",
+      "order": 2,
+      "work_id": "8fc9de27-ae35-49d4-a549-408af3e99e27",
+      "source_occurrence_id": "auditorio_nacional:performance:306",
+      "raw_title": "Sinfonía núm. 7 La Mayor op.92",
+      "canonical_work_title": "Sinfonía núm. 7 La Mayor op.92"
+    },
+    {
+      "event_id": "ec134e6d-091d-4978-b3ea-f94997a87f38",
+      "order": 1,
+      "work_id": "8f213964-a1bc-4d15-89f1-c7118bad110b",
+      "source_occurrence_id": "auditorio_nacional:performance:135",
+      "raw_title": "Cuarteto de cuerda n.º 1 en fa mayor, op. 18, n.º 1 (1799)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 1 en fa mayor, op. 18, n.º 1 (1799)"
+    },
+    {
+      "event_id": "ec134e6d-091d-4978-b3ea-f94997a87f38",
+      "order": 2,
+      "work_id": "239f57b7-2414-4b8f-baa8-099dcc0576e8",
+      "source_occurrence_id": "auditorio_nacional:performance:135",
+      "raw_title": "Cuarteto de cuerda n.º 8 en mi menor ‘Razumovski’, op. 59, n.º 2 (1806)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 8 en mi menor ‘Razumovski’, op. 59, n.º 2 (1806)"
+    },
+    {
+      "event_id": "ec134e6d-091d-4978-b3ea-f94997a87f38",
+      "order": 3,
+      "work_id": "6089e33c-27ab-4b83-a21e-733f9c0c924b",
+      "source_occurrence_id": "auditorio_nacional:performance:135",
+      "raw_title": "Cuarteto de cuerda n.º 15 en la menor, op. 132 (1823-1825)",
+      "canonical_work_title": "Cuarteto de cuerda n.º 15 en la menor, op. 132 (1823-1825)"
+    },
+    {
+      "event_id": "ee4378b5-a297-48c5-8347-d18fa35382c9",
+      "order": 1,
+      "work_id": "aaba8b79-a73f-45e3-bb88-2d1930841f2d",
+      "source_occurrence_id": "auditorio_nacional:performance:186",
+      "raw_title": "Poème de l’amour et de la mer, op. 19 (1882-1890)",
+      "canonical_work_title": "Poème de l’amour et de la mer, op. 19 (1882-1890)"
+    },
+    {
+      "event_id": "ee4378b5-a297-48c5-8347-d18fa35382c9",
+      "order": 2,
+      "work_id": "b23bfe88-3c60-4f57-b8ab-1d3384c9713c",
+      "source_occurrence_id": "auditorio_nacional:performance:186",
+      "raw_title": "Prélude à l’après-midi d’un faune, CD 87 (1891-1894)",
+      "canonical_work_title": "Prélude à l’après-midi d’un faune, CD 87 (1891-1894)"
+    },
+    {
+      "event_id": "ee4378b5-a297-48c5-8347-d18fa35382c9",
+      "order": 3,
+      "work_id": "e5b7b0d0-81ef-4d98-ba06-a323a7a567ed",
+      "source_occurrence_id": "auditorio_nacional:performance:186",
+      "raw_title": "La mer, CD 111 (1903-1905, rev. 1908)",
+      "canonical_work_title": "La mer, L. 109, CD 111"
+    },
+    {
+      "event_id": "f0cd1182-ba8d-40e5-9916-54c9ce1acb04",
+      "order": 1,
+      "work_id": "adaa8f13-4dbe-4075-bc42-5e0b25aaee29",
+      "source_occurrence_id": "auditorio_nacional:performance:308",
+      "raw_title": "Sinfonía núm. 8",
+      "canonical_work_title": "Sinfonía núm. 8"
+    },
+    {
+      "event_id": "f0cd1182-ba8d-40e5-9916-54c9ce1acb04",
+      "order": 2,
+      "work_id": "aa1add7a-8320-4bc9-9e45-9dfacf11b7d8",
+      "source_occurrence_id": "auditorio_nacional:performance:308",
+      "raw_title": "Sinfonía núm. 9 “Coral”",
+      "canonical_work_title": "Sinfonía núm. 9 “Coral”"
+    },
+    {
+      "event_id": "f60c54b7-8a0a-4d0a-8675-df1625aff5be",
+      "order": 1,
+      "work_id": "a4684fcf-7027-44a0-85ff-3a292ea83c95",
+      "source_occurrence_id": "auditorio_nacional:performance:290",
+      "raw_title": "Sinfonía núm. 6 en Fa Mayor, op. 68 \"Pastoral\"",
+      "canonical_work_title": "op. 68 \"Pastoral\""
+    },
+    {
+      "event_id": "f60c54b7-8a0a-4d0a-8675-df1625aff5be",
+      "order": 2,
+      "work_id": "8fc9de27-ae35-49d4-a549-408af3e99e27",
+      "source_occurrence_id": "auditorio_nacional:performance:290",
+      "raw_title": "Sinfonía núm. 7 La Mayor op.92",
+      "canonical_work_title": "Sinfonía núm. 7 La Mayor op.92"
+    },
+    {
+      "event_id": "f7089eba-c1af-4966-81a2-8219f273f191",
+      "order": 1,
+      "work_id": "5c80fc9d-1d0f-45cb-b714-8cc781eb9ed4",
+      "source_occurrence_id": "auditorio_nacional:performance:92",
+      "raw_title": "Central Park en la oscuridad",
+      "canonical_work_title": "Central Park en la oscuridad"
+    },
+    {
+      "event_id": "f7089eba-c1af-4966-81a2-8219f273f191",
+      "order": 2,
+      "work_id": "a05f3755-6e2f-4630-8b40-71ef5bc23199",
+      "source_occurrence_id": "auditorio_nacional:performance:92",
+      "raw_title": "Nocturnos",
+      "canonical_work_title": "Nocturnos"
+    },
+    {
+      "event_id": "f7089eba-c1af-4966-81a2-8219f273f191",
+      "order": 3,
+      "work_id": "4014df1b-ce9e-48ae-a6b2-f339b9f6ca1e",
+      "source_occurrence_id": "auditorio_nacional:performance:92",
+      "raw_title": "El martirio de san Sebastián",
+      "canonical_work_title": "El martirio de san Sebastián"
+    },
+    {
+      "event_id": "fad962fb-30d5-44c3-9cb8-dd79234cbcdf",
+      "order": 1,
+      "work_id": "88e1813f-38e6-4d05-8272-9ca5d141f9e7",
+      "source_occurrence_id": "auditorio_nacional:performance:137",
+      "raw_title": "Quinteto de cuerda n.º 1 en la mayor, op. 18 (1826-1832)",
+      "canonical_work_title": "Quinteto de cuerda n.º 1 en la mayor, op. 18 (1826-1832)"
+    },
+    {
+      "event_id": "fad962fb-30d5-44c3-9cb8-dd79234cbcdf",
+      "order": 2,
+      "work_id": "c5ddfcfd-76cb-4172-ae85-c6102858e482",
+      "source_occurrence_id": "auditorio_nacional:performance:137",
+      "raw_title": "Quinteto de cuerda n.º 3 en mi bemol mayor ‘Americano’, op. 97 (1893)",
+      "canonical_work_title": "Quinteto de cuerda n.º 3 en mi bemol mayor ‘Americano’, op. 97 (1893)"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 1,
+      "work_id": "b48d6d67-90f4-4f53-b4c9-1c97c7799b76",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "De Selva morale e spirituale (1641)",
+      "canonical_work_title": "De Selva morale e spirituale (1641)"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 2,
+      "work_id": "54b31951-0185-4346-ab19-f964317e1042",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Dixit Dominus, SV 264",
+      "canonical_work_title": "Dixit Dominus, SV 264"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 3,
+      "work_id": "8b02c1c9-9840-4b50-92dd-22927f8820e5",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Salve Regina, SV 284",
+      "canonical_work_title": "Salve Regina, SV 284"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 4,
+      "work_id": "5cb4d848-8353-4255-aa6c-6cd39ff4edfe",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Beatus vir, SV 268",
+      "canonical_work_title": "Beatus vir, SV 268"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 5,
+      "work_id": "29add88d-959c-47cb-a58b-0a51ea6fe54d",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Gloria a 7, SV 258",
+      "canonical_work_title": "Gloria a 7, SV 258"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 6,
+      "work_id": "a76d53e4-7fff-49ae-86e8-8ffad9c390f1",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Magnificat, SV 281",
+      "canonical_work_title": "Magnificat, SV 281"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 7,
+      "work_id": "29cde4b9-cf55-4dbb-8fbd-ec182245048e",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Adoramus te, SV 289 (Libro primo de motetti in lode d’iddio nostro Signore, de G. C. Bianchi, 1620)",
+      "canonical_work_title": "Adoramus te, SV 289 (Libro primo de motetti in lode d’iddio nostro Signore, de G. C. Bianchi, 1620)"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 8,
+      "work_id": "734b1863-6d00-44b0-b31c-8e285d6917f7",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "De Psalmen Davids sampt etlichen Moteten und Concerten, op. 2 (1619)",
+      "canonical_work_title": "De Psalmen Davids sampt etlichen Moteten und Concerten, op. 2 (1619)"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 9,
+      "work_id": "c07b4696-0f08-4ab1-86cd-67e003b6523b",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "An den Wassern zu Babel saßen wir, SWV 37",
+      "canonical_work_title": "An den Wassern zu Babel saßen wir, SWV 37"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 10,
+      "work_id": "2460c721-2161-40b8-9569-bc49b91cddbd",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Warum toben die Heiden, SWV 23",
+      "canonical_work_title": "Warum toben die Heiden, SWV 23"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 11,
+      "work_id": "2a4febdf-5071-4d4e-85ff-d24c386dd231",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Alleluja! Lobet den Herren in seinem Heiligtum, SWV 38",
+      "canonical_work_title": "Alleluja! Lobet den Herren in seinem Heiligtum, SWV 38"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 12,
+      "work_id": "d13558a8-e6ac-48ca-898c-7d33f996ee2c",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Singet dem Herrn ein neues Lied, SWV 35",
+      "canonical_work_title": "Singet dem Herrn ein neues Lied, SWV 35"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 13,
+      "work_id": "2bb53457-0d70-4085-a216-597a6c2150d3",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Jauchzet dem Herren, alle Welt, SWV 36",
+      "canonical_work_title": "Jauchzet dem Herren, alle Welt, SWV 36"
+    },
+    {
+      "event_id": "faf112d7-5e5c-4203-b88b-3f6f0a3eab5b",
+      "order": 14,
+      "work_id": "d05b01c1-c180-42a7-b564-141be1f64241",
+      "source_occurrence_id": "auditorio_nacional:performance:296",
+      "raw_title": "Danket dem Herren, denn er ist freundlich, SWV 45",
+      "canonical_work_title": "Danket dem Herren, denn er ist freundlich, SWV 45"
+    },
+    {
+      "event_id": "fec23c0e-6c2e-41be-bec0-88ddce3076fb",
+      "order": 1,
+      "work_id": "b26d9c1e-db70-4752-a983-d7b889b90929",
+      "source_occurrence_id": "auditorio_nacional:performance:35",
+      "raw_title": "Concierto para piano n.° 4 en sol mayor, op. 58",
+      "canonical_work_title": "Concierto para piano n.° 4 en sol mayor, op. 58"
+    },
+    {
+      "event_id": "fec23c0e-6c2e-41be-bec0-88ddce3076fb",
+      "order": 2,
+      "work_id": "ba611ead-50bd-4a2d-be08-43473b1e255a",
+      "source_occurrence_id": "auditorio_nacional:performance:35",
+      "raw_title": "Sinfonía n.° 6 en si menor “Patética”, op. 74",
+      "canonical_work_title": "Sinfonía n.° 6 en si menor “Patética”, op. 74"
+    }
+  ]
+}

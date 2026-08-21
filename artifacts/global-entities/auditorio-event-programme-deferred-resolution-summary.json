@@ -1,0 +1,367 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "DEFERRED_EVENT_RESOLUTION_PASS",
+  "database_writes": 0,
+  "no_sql_executed": true,
+  "baseline": {
+    "auditorio_events": 583,
+    "auditorio_event_programme": 2862
+  },
+  "post_apply_verified_production": {
+    "auditorio_events": 583,
+    "auditorio_event_programme": 2829,
+    "works": 3229,
+    "work_aliases": 99,
+    "composers": 376,
+    "composer_aliases": 82,
+    "production_batch_md5": "6cdeee1295fa375b4c31091cc7401a72"
+  },
+  "candidate_events_reviewed": 28,
+  "input_deferred_events": 78,
+  "input_remaining_review_rows": 219,
+  "second_batch_deterministic_events": 11,
+  "final_residual_backlog_events": 67,
+  "second_batch_event_ids": [
+    "045fd06e-3ce8-4595-979f-eca5a0f6a522",
+    "04cd5682-b173-490b-b822-1d33585c7cc7",
+    "0f78b159-c511-4a60-b976-ebabf9217d1e",
+    "4f9d3cb2-7ed3-4edc-8eab-e8bdef8b6814",
+    "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+    "724a01df-5cdd-4ae3-b04d-639f620e54da",
+    "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+    "990464ec-755d-4ace-be39-576058e802a3",
+    "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+    "e66eacc7-16ad-4183-8859-b0d3260a3424",
+    "e7b0abe1-be1f-442f-a954-925be3dd920f"
+  ],
+  "current_rows": 69,
+  "desired_rows": 36,
+  "rows_deleted": 69,
+  "rows_inserted": 36,
+  "expected_after": 2829,
+  "same_event_same_work_duplicates": 0,
+  "source_completeness_failures": 16,
+  "composer_header_exclusions": 211,
+  "title_continuation_merges": 8,
+  "subtitle_translation_exclusions": 8,
+  "unresolved_artistic_items_causing_deferral": 36,
+  "resolution_counts": {
+    "resolved_parser_structure": 14,
+    "resolved_existing_work": 45,
+    "resolved_source_attribution": 9
+  },
+  "residual_primary_reason_counts": {
+    "parser_structure_unresolved": 60,
+    "relationship_evidence_insufficient": 6,
+    "canonical_master_defect_review": 1
+  },
+  "residual_priority_counts": {
+    "P1": 67
+  },
+  "completeness_report": [
+    {
+      "event_id": "03abbf8d-381c-4132-8747-aa42bfd8f226",
+      "source_occurrence_id": "auditorio_nacional:performance:316",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 1,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "045fd06e-3ce8-4595-979f-eca5a0f6a522",
+      "source_occurrence_id": "auditorio_nacional:performance:78",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "source_occurrence_id": "auditorio_nacional:performance:272",
+      "source_artistic_item_count": 1,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 7,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "0537a5f4-bb60-4005-a04e-4a3c2bff8c10",
+      "source_occurrence_id": "auditorio_nacional:performance:150",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 10,
+      "unresolved_artistic_item_count": 1,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "072264f4-b6b0-44f5-9bd6-4c711f6f8e30",
+      "source_occurrence_id": "auditorio_nacional:performance:119",
+      "source_artistic_item_count": 3,
+      "desired_artistic_item_count": 3,
+      "excluded_nonwork_count": 9,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "source_occurrence_id": "auditorio_nacional:performance:261",
+      "source_artistic_item_count": 5,
+      "desired_artistic_item_count": 5,
+      "excluded_nonwork_count": 10,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "1f6130f6-7824-4795-af56-fc3950aa03f5",
+      "source_occurrence_id": "auditorio_nacional:performance:205",
+      "source_artistic_item_count": 6,
+      "desired_artistic_item_count": 4,
+      "excluded_nonwork_count": 8,
+      "unresolved_artistic_item_count": 2,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "23dd182d-6d7b-472a-baf7-29e55390ed79",
+      "source_occurrence_id": "auditorio_nacional:performance:39",
+      "source_artistic_item_count": 4,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 6,
+      "unresolved_artistic_item_count": 2,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "254f03d3-4b85-4418-9786-ccefdccf6b6d",
+      "source_occurrence_id": "auditorio_nacional:performance:280",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 1,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "4d2f80cb-40f9-4eb6-be8d-387ba6085641",
+      "source_occurrence_id": "auditorio_nacional:performance:314",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 1,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "4f9d3cb2-7ed3-4edc-8eab-e8bdef8b6814",
+      "source_occurrence_id": "auditorio_nacional:performance:81",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "54f8f381-cff9-44f2-87e7-d5474b70fbc1",
+      "source_occurrence_id": "auditorio_nacional:performance:348",
+      "source_artistic_item_count": 3,
+      "desired_artistic_item_count": 0,
+      "excluded_nonwork_count": 11,
+      "unresolved_artistic_item_count": 3,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "source_occurrence_id": "auditorio_nacional:performance:257",
+      "source_artistic_item_count": 5,
+      "desired_artistic_item_count": 5,
+      "excluded_nonwork_count": 10,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "68f1056e-38ff-4b01-9de5-8131ce841dbb",
+      "source_occurrence_id": "auditorio_nacional:performance:317",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 1,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "source_occurrence_id": "auditorio_nacional:performance:338",
+      "source_artistic_item_count": 10,
+      "desired_artistic_item_count": 10,
+      "excluded_nonwork_count": 12,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "75313c84-3a84-4cc8-9bdf-466ba7f681ca",
+      "source_occurrence_id": "auditorio_nacional:performance:277",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 9,
+      "unresolved_artistic_item_count": 1,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "7827b0b5-5192-4550-a94d-0b1d5e2ab5dd",
+      "source_occurrence_id": "auditorio_nacional:performance:299",
+      "source_artistic_item_count": 4,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 8,
+      "unresolved_artistic_item_count": 3,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "7c4d0397-b098-4002-8314-f85ade59257d",
+      "source_occurrence_id": "auditorio_nacional:performance:239",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 0,
+      "excluded_nonwork_count": 8,
+      "unresolved_artistic_item_count": 2,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "source_occurrence_id": "auditorio_nacional:performance:82",
+      "source_artistic_item_count": 1,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 10,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "990464ec-755d-4ace-be39-576058e802a3",
+      "source_occurrence_id": "auditorio_nacional:performance:201",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 9,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "9e69d010-f549-4abb-8b6f-553ebefed690",
+      "source_occurrence_id": "auditorio_nacional:performance:192",
+      "source_artistic_item_count": 7,
+      "desired_artistic_item_count": 5,
+      "excluded_nonwork_count": 7,
+      "unresolved_artistic_item_count": 2,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "source_occurrence_id": "auditorio_nacional:performance:247",
+      "source_artistic_item_count": 6,
+      "desired_artistic_item_count": 6,
+      "excluded_nonwork_count": 3,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "b7ad8748-c064-4176-a281-1e781c70e996",
+      "source_occurrence_id": "auditorio_nacional:performance:122",
+      "source_artistic_item_count": 4,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 11,
+      "unresolved_artistic_item_count": 3,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "b9daae0a-350c-4988-93ec-509671f6c2e7",
+      "source_occurrence_id": "auditorio_nacional:performance:344",
+      "source_artistic_item_count": 7,
+      "desired_artistic_item_count": 0,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 7,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "bf7d7437-5c71-4911-a5d6-a0beb8078af6",
+      "source_occurrence_id": "auditorio_nacional:performance:185",
+      "source_artistic_item_count": 1,
+      "desired_artistic_item_count": 1,
+      "excluded_nonwork_count": 9,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "c226cc57-d877-4b65-bbb6-5f77de752c53",
+      "source_occurrence_id": "auditorio_nacional:performance:286",
+      "source_artistic_item_count": 6,
+      "desired_artistic_item_count": 3,
+      "excluded_nonwork_count": 19,
+      "unresolved_artistic_item_count": 3,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "ce4c0c7b-8b88-4842-b4a1-4b165fc5a281",
+      "source_occurrence_id": "auditorio_nacional:performance:94",
+      "source_artistic_item_count": 5,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 3,
+      "semantic_completeness_pass": false,
+      "final_bucket": "FINAL_RESIDUAL_BACKLOG"
+    },
+    {
+      "event_id": "e66eacc7-16ad-4183-8859-b0d3260a3424",
+      "source_occurrence_id": "auditorio_nacional:performance:76",
+      "source_artistic_item_count": 2,
+      "desired_artistic_item_count": 2,
+      "excluded_nonwork_count": 5,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "source_occurrence_id": "auditorio_nacional:performance:259",
+      "source_artistic_item_count": 5,
+      "desired_artistic_item_count": 5,
+      "excluded_nonwork_count": 10,
+      "unresolved_artistic_item_count": 0,
+      "semantic_completeness_pass": true,
+      "final_bucket": "SECOND_BATCH_DETERMINISTIC"
+    }
+  ],
+  "generated_at": "2026-08-21T09:47:47.623920+00:00",
+  "microfix_applied": {
+    "messiaen_work_replacements": [
+      "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "e7b0abe1-be1f-442f-a954-925be3dd920f"
+    ],
+    "britten_work_replacement": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+    "b6261109_programme_work": "18999bca-ba78-4658-b63d-123701cdcd60",
+    "moved_back_to_residual": {
+      "072264f4-b6b0-44f5-9bd6-4c711f6f8e30": "canonical_master_defect_review",
+      "bf7d7437-5c71-4911-a5d6-a0beb8078af6": "parser_structure_unresolved"
+    }
+  }
+}
