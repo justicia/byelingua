@@ -1,0 +1,475 @@
+{
+  "source": "auditorio_nacional",
+  "database_writes": 0,
+  "events": [
+    {
+      "event_id": "027af1d8-0cf4-446c-9ecd-03b71c98774e",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 3
+    },
+    {
+      "event_id": "03abbf8d-381c-4132-8747-aa42bfd8f226",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "0537a5f4-bb60-4005-a04e-4a3c2bff8c10",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "069a7bb1-f449-4db2-9d9d-d24d8f54c196",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "072264f4-b6b0-44f5-9bd6-4c711f6f8e30",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "canonical_master_defect_review",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "08793bac-e683-477d-9607-b1da42c08c5e",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 8
+    },
+    {
+      "event_id": "0b2c3152-5c2d-4b69-8cf6-3f0de42ab982",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "0f503b29-3bf5-46ea-be98-db424494f6fb",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 5
+    },
+    {
+      "event_id": "0fcdb35f-21d9-498e-9754-2cf2246d73ca",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "1f6130f6-7824-4795-af56-fc3950aa03f5",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "23dd182d-6d7b-472a-baf7-29e55390ed79",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "254f03d3-4b85-4418-9786-ccefdccf6b6d",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "2824537c-0ef5-44d0-bccf-5fd2950db673",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "2a6b2ec8-0caf-460e-a8c9-a4b34fb28130",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "33df4fcb-c1e4-4735-8a1a-048e3c0d3c11",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "37dc987f-868b-4768-8bb3-03527a305a6d",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "relationship_evidence_insufficient",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "3cb07978-5068-44d9-813c-2f79d0cbdd4f",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 7
+    },
+    {
+      "event_id": "3f7c9560-8785-455f-a017-86cb6472d0e3",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "relationship_evidence_insufficient",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "42f20322-b136-4ad8-ae50-b7bc43698add",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 13
+    },
+    {
+      "event_id": "4d2f80cb-40f9-4eb6-be8d-387ba6085641",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "4d74fb26-f301-4944-955d-c7c3428c19d2",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 4
+    },
+    {
+      "event_id": "4d80ead4-2046-4d8e-9515-df44208c7889",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "54f8f381-cff9-44f2-87e7-d5474b70fbc1",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 3
+    },
+    {
+      "event_id": "5ada09ae-3678-4605-9ba9-2aa895436c7a",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "relationship_evidence_insufficient",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "63d80323-ecf9-4874-b718-1114a207ff27",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "64ef400b-159d-4af4-9de3-8e87ac469a22",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 18
+    },
+    {
+      "event_id": "674ededc-61e5-4b49-9602-32716eb6a9ce",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 3
+    },
+    {
+      "event_id": "6859a12a-fc9b-4cc7-8729-4325cd347da2",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "68f1056e-38ff-4b01-9de5-8131ce841dbb",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "727bc0e8-7595-4bc9-aa96-b3cc69170e8c",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "72f02272-3f27-4458-a250-e45376954d2e",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "relationship_evidence_insufficient",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "75313c84-3a84-4cc8-9bdf-466ba7f681ca",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "7827b0b5-5192-4550-a94d-0b1d5e2ab5dd",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "relationship_evidence_insufficient",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "7c4d0397-b098-4002-8314-f85ade59257d",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "81132b5b-ebdc-4580-a2ce-c842347530a5",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "88f4c9f6-678f-4006-ac2a-f0e64c41e5c2",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 3
+    },
+    {
+      "event_id": "8dc8c35e-3f12-4aba-8598-3cbcf4d62d3d",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "9e69d010-f549-4abb-8b6f-553ebefed690",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "9ee63d98-674d-4d98-8caf-667e27d67174",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "a31079ab-2b1c-4c89-913c-2ef0ef61b200",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "abcd3594-2835-4be8-9f13-e509596bd208",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 4
+    },
+    {
+      "event_id": "aec67a29-d23f-4df9-a1ed-d673766292d0",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 3
+    },
+    {
+      "event_id": "b0a73c4a-0d82-4b49-9b57-ff4fc422006c",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 16
+    },
+    {
+      "event_id": "b27d01b5-8b9b-4e9a-9196-d555ff0cc70d",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 5
+    },
+    {
+      "event_id": "b6b5e979-da44-403c-8d3f-9233aada37fa",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "relationship_evidence_insufficient",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "b7ad8748-c064-4176-a281-1e781c70e996",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "b92d8d20-25ba-496f-83fb-f18ad6cc76bb",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 13
+    },
+    {
+      "event_id": "b9daae0a-350c-4988-93ec-509671f6c2e7",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "bf7d7437-5c71-4911-a5d6-a0beb8078af6",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 0
+    },
+    {
+      "event_id": "c226cc57-d877-4b65-bbb6-5f77de752c53",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 8
+    },
+    {
+      "event_id": "cd631697-5687-4544-b79d-c6fd9e0454ed",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "ce4c0c7b-8b88-4842-b4a1-4b165fc5a281",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "d714f435-f08d-4a24-b4cf-65c3bda22063",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "da4380bc-c81b-4f43-b617-4ce82477123e",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "e1c535c2-cb5e-4e70-8309-1992c022fdc7",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "e6028bb0-0da7-409d-8676-7139c3b19647",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "e75effdb-620a-4d55-af46-485e82aebf4e",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 7
+    },
+    {
+      "event_id": "e90026f5-b248-4c4d-b219-156b0fea43cf",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "ec928862-aa29-47ee-a0df-e36a35375b9b",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "ecdf7994-6efb-4ecd-ab9d-71d551668bb7",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 3
+    },
+    {
+      "event_id": "f001b3d8-1379-430c-9616-febaf67b29ac",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 10
+    },
+    {
+      "event_id": "f0a9f90c-17b1-4de2-a50c-a3d4e566c169",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "f11f3007-1c1f-4f0f-93c2-99b502003e44",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "f1c5611f-94d1-48c4-9885-682668bcc0c3",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 2
+    },
+    {
+      "event_id": "f6778b5d-1f92-4089-b5cb-1567f47c3da5",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "fe0cc557-0694-4e49-9385-51243b136b9c",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 1
+    },
+    {
+      "event_id": "fe5dde0d-02d3-4542-b2c0-9415c06025eb",
+      "bucket": "FINAL_RESIDUAL_BACKLOG",
+      "primary_reason": "parser_structure_unresolved",
+      "priority": "P1",
+      "review_row_count": 4
+    }
+  ]
+}

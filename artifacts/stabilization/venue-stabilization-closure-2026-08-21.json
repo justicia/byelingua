@@ -1,0 +1,89 @@
+{
+  "checkpoint_date": "2026-08-21",
+  "venues": ["Paris Opera", "Auditorio Nacional", "Wiener Staatsoper"],
+  "production_post_state": {
+    "paris_opera": {
+      "organization": "opera-national-de-paris",
+      "events": 506,
+      "event_type": {
+        "ballet": 207,
+        "concert_recital": 43,
+        "young_audience": 69,
+        "opera": 177,
+        "encounter": 1,
+        "rehearsal": 9
+      },
+      "null_event_type": 0,
+      "french_event_type_remaining": 0,
+      "unexpected_event_type": 0,
+      "status": "CLOSED"
+    },
+    "auditorio": {
+      "organization": "auditorio-nacional-inaem",
+      "events": 582,
+      "source_less_orphan": {
+        "event_id": "ab000640-fb8e-43ba-850b-c3da076f00b9",
+        "remaining": 0
+      },
+      "survivor": {
+        "event_id": "f6778b5d-1f92-4089-b5cb-1567f47c3da5",
+        "remaining": 1
+      },
+      "room_identity_groups_remaining": 44,
+      "room_identity_classification": "DEPENDENCY_MERGE_REQUIRED",
+      "orphan_cleanup_status": "CLOSED"
+    },
+    "wiener_staatsoper": {
+      "organization": "wiener-staatsoper",
+      "events": 386,
+      "programme_before_cleanup": 427,
+      "approved_non_work_relationships_removed": 80,
+      "programme_after_cleanup": 347,
+      "target_works_preserved": 25,
+      "current_distinct_linked_works": 64,
+      "start_time_null_original": 312,
+      "start_time_explicit_applied": 10,
+      "start_time_null_remaining": 302,
+      "start_time_populated": 84,
+      "zauberfloete_classification": "TWO_REAL_PERFORMANCES",
+      "zauberfloete_retained_event_ids": [
+        "756d2f72-ee4e-4b2d-b32d-bbe1d9471fa7",
+        "9f566186-b587-4278-9a50-a35c805c5c82"
+      ],
+      "programme_cleanup_status": "CLOSED",
+      "start_time_status": "CLOSED"
+    }
+  },
+  "executed_batches": [
+    {"name": "Paris Opera event_type normalization", "rows": 506, "unit": "Events"},
+    {"name": "Auditorio source-less orphan deletion", "rows": 1, "unit": "Event"},
+    {"name": "Wiener non-Work programme relationship cleanup", "rows": 80, "unit": "event_programme relationships", "works_preserved": 25},
+    {"name": "Wiener start_time repair", "rows": 10, "unit": "Events"}
+  ],
+  "deferred_backlog": {
+    "auditorio_room_identity": {"rows": 44, "classification": "DEPENDENCY_MERGE_REQUIRED"},
+    "wiener_unpublished_start_time": {"rows": 302, "classification": "SOURCE_TIME_NOT_PUBLISHED"},
+    "zauberfloete": {"classification": "TWO_REAL_PERFORMANCES", "mutation_required": false},
+    "canonical_masters": {"mutation": "none in stabilization apply phase"}
+  },
+  "safety": {
+    "database_writes": 0,
+    "sql_executed_during_checkpoint": 0,
+    "frontend_changes": 0,
+    "api_changes": 0,
+    "schema_changes": 0,
+    "deployment": 0,
+    "merge": 0
+  },
+  "tests": {
+    "source_audit": "test_stabilization_source_audit.py",
+    "production_sql": "test_stabilization_production_sql.py",
+    "status": "local static checks passed"
+  },
+  "engineering_lessons": [
+    "Production manual-apply SQL must not rely on TEMP TABLE state across multiple Supabase SQL Editor execution scopes.",
+    "Prefer one execution scope, one CTE-controlled statement where practical, or a DO block containing dependent state.",
+    "Validation SQL must be independently executable and must not depend on temporary objects created by apply SQL.",
+    "Never rerun an apply script after an apparent SQL Editor error until production state has been independently checked, because the mutation may already have committed."
+  ]
+}

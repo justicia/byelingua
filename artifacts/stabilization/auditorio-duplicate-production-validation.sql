@@ -1,0 +1,52 @@
+-- Read-only Auditorio validation.
+SELECT 'source_deterministic_room_groups' AS check_name,44::text AS expected;
+SELECT 'safe_room_event_deletions' AS check_name,0::text AS expected;
+SELECT 'dependency_merge_required' AS check_name,44::text AS expected;
+SELECT 'orphan_candidate_present' AS check_name,count(*)::text AS value FROM public.events WHERE id='ab000640-fb8e-43ba-850b-c3da076f00b9'::uuid;
+SELECT 'orphan_survivor_present' AS check_name,count(*)::text AS value FROM public.events WHERE id='f6778b5d-1f92-4089-b5cb-1567f47c3da5'::uuid;
+SELECT c.event_id::text,(SELECT count(*) FROM public.event_sources x WHERE x.event_id=c.event_id) AS event_sources,(SELECT count(*) FROM public.event_programme x WHERE x.event_id=c.event_id) AS event_programme,(SELECT count(*) FROM public.event_credits x WHERE x.event_id=c.event_id) AS event_credits,(SELECT count(*) FROM public.user_event_relations x WHERE x.event_id=c.event_id) AS user_event_relations,(SELECT count(*) FROM public.schedule_events x WHERE x.event_id=c.event_id) AS schedule_events FROM (VALUES
+('af0b8ef4-eaa8-4f8f-bbda-40930e76b786'::uuid),
+('d8454cd4-c3b6-4d91-8d2d-c7e4d32bac82'::uuid),
+('5dff4bc6-1693-4836-a7b4-c137b09e6ad6'::uuid),
+('33b9d8dd-881f-4fb5-89df-844203810f92'::uuid),
+('a5aba717-e121-46ea-a25e-6e5a6fd8258b'::uuid),
+('32069b7a-b6ce-471e-95c0-85b8fce1af8f'::uuid),
+('b7f7fae0-5e26-46a6-a745-6cd5fb6bc8ff'::uuid),
+('f21e05fb-b8e9-4168-b91b-28241b29a8b0'::uuid),
+('651948d4-5a42-4b90-b5c1-c437cc6cfad7'::uuid),
+('c44e2b44-0635-43a0-a761-b319f8b4c7cc'::uuid),
+('15961a58-ae6b-4164-a682-8edb93f24fab'::uuid),
+('066730e4-f5e9-4ccd-9a86-f14af3085f55'::uuid),
+('177b87ae-00f1-48b9-97f6-7421ff241899'::uuid),
+('a70339ae-86ca-4550-b514-392366d7faf3'::uuid),
+('2931c368-655a-4124-9b0e-c673f6e1f2c9'::uuid),
+('0235d306-93a1-4a7c-8e4e-e5792cc290f2'::uuid),
+('4c96d16d-ceb3-4d55-9aa3-839338021b78'::uuid),
+('f78e9d77-36c0-4593-a731-ffc504ff9e5e'::uuid),
+('729ee579-2d39-409b-9007-957be8838ac0'::uuid),
+('eb4e658a-7f5c-4cba-a8d9-9dc74c84732b'::uuid),
+('ec0e09af-ad3d-4d93-82b4-cee36fbaa318'::uuid),
+('d573d37c-7c31-42ab-8780-5077af7128aa'::uuid),
+('0901a28a-3459-4127-a0ea-8712f1213109'::uuid),
+('7b21819b-afb6-4fb7-92ff-97a76f58a52a'::uuid),
+('e47f814a-da1d-4d56-accd-ee869e172955'::uuid),
+('683d093c-4024-4b54-8403-1e40704d68ff'::uuid),
+('94799f42-4e62-4aac-b0f4-6c983f478aed'::uuid),
+('c4770c7b-4a32-45c4-837a-622dc8772c1e'::uuid),
+('0157b395-5a41-4118-9d56-327ae006edd7'::uuid),
+('03d6fb79-b161-48c8-94d5-ef5b49a0e467'::uuid),
+('451b6b1b-c7d6-4121-aeb1-fb4272d1908a'::uuid),
+('c87373e7-e15e-4d88-900c-bf5c561c6a09'::uuid),
+('b370f4f7-f3d4-4c7d-85e6-0823c2eb62a6'::uuid),
+('0929acb6-a946-42f6-ab9a-1e432c291f76'::uuid),
+('80aed465-8b3c-4e65-a3b1-6226d33b568f'::uuid),
+('aef7276e-5b88-47e2-b9d6-67f73f432f91'::uuid),
+('7f1c9160-875a-4217-8930-ec9103267c8e'::uuid),
+('8f2b8e7a-fe38-49a9-a977-d08774e49dff'::uuid),
+('66e67a14-5b37-4e5f-a3ab-fed2e7059d4e'::uuid),
+('d59dab04-208c-41a3-ae91-0086451ab751'::uuid),
+('a4a72b80-4966-4c0d-8ffd-884232de3384'::uuid),
+('544efc84-cb1c-40af-acd1-c027101c9eb6'::uuid),
+('5f4440d4-20ad-43d8-ae51-49ee0b51bb25'::uuid),
+('20866a94-8cab-4164-8792-43c512506c61'::uuid)) AS c(event_id);
+-- Nonzero dependency means DEPENDENCY_MERGE_REQUIRED; it must remain undeleted.

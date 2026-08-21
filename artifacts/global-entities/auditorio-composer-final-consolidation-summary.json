@@ -1,0 +1,30 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "3.7_FINAL",
+  "fresh_snapshot_generated_at": "2026-08-20T14:46:44.469266+00:00",
+  "input_candidate_occurrences": 97,
+  "input_unique_candidate_identities": 91,
+  "confirmed_new_global_composer_count": 81,
+  "existing_global_identity_count": 0,
+  "global_alias_gap_count": 0,
+  "canonical_correction_required_count": 0,
+  "source_attribution_review_count": 8,
+  "not_a_composer_count": 1,
+  "malformed_source_count": 0,
+  "unresolved_identity_count": 1,
+  "deduplicated_identity_merges": 6,
+  "proposed_alias_count": 1,
+  "evidence_complete_count": 82,
+  "evidence_incomplete_count": 9,
+  "global_master_composer_row_count": 295,
+  "global_master_alias_row_count": 81,
+  "global_master_unique_normalized_alias_count": 75,
+  "identity_key_mismatches": 0,
+  "database_writes": 0,
+  "status_counts": {
+    "confirmed_new_global_composer": 81,
+    "not_a_composer": 1,
+    "source_attribution_review": 8,
+    "unresolved_identity": 1
+  }
+}
