@@ -1,0 +1,109 @@
+{
+  "audit": "wiener_staatsoper_start_time_staging",
+  "source_audited": 312,
+  "deterministic_source_time_found": 10,
+  "database_writes": 0,
+  "sql_generated": false,
+  "updates": [
+    {
+      "event_id": "ba6e5348-ed9e-4826-9403-a94566088e84",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "impulse:2026-09-19",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2026-09-19/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2026/september/",
+      "official_raw_time": "19:00—21:45",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "fcc2d372-fa77-4ec8-b039-7afa8760a4f2",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "living-legacies:2027-01-29",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-01-29/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/january/",
+      "official_raw_time": "19:00",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "2d5c3c8c-7e09-4e20-a4aa-bae5792eaf16",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "don-giovanni:2027-01-30",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-giovanni/2027-01-30/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/january/",
+      "official_raw_time": "19:00",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "0ab9adb5-4421-4358-b0cc-135556873f68",
+      "start_time": "20:15",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "vienna-opera-ball:2027-02-04",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/vienna-opera-ball/2027-02-04/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/detail/vienna-opera-ball/2027-02-04/",
+      "official_raw_time": "20:15",
+      "official_time_source_type": "OFFICIAL_REDIRECT"
+    },
+    {
+      "event_id": "aac9ada7-478a-4b90-a726-2b00e95e7b25",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "der-rosenkavalier:2027-02-12",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-rosenkavalier/2027-02-12/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/february/",
+      "official_raw_time": "19:00—20:30",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "cb521037-4e5c-4ab1-a247-52bc61354519",
+      "start_time": "11:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "matinee-zu-ballo-in-maschera:2027-02-14",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-ballo-in-maschera/2027-02-14/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/february/",
+      "official_raw_time": "11:00—12:30",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "75eca7b5-2ce0-49f9-a978-09512ef62d46",
+      "start_time": "14:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "workout-in-der-oper:2027-02-28",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/workout-in-der-oper/2027-02-28/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/february/",
+      "official_raw_time": "14:00",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "84c89d5e-6a0e-494b-b11b-bbf89390a26a",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "woolf-works:2027-04-27",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-04-27/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/april/",
+      "official_raw_time": "19:00—20:10",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "d6d3e143-4733-4fa7-b9c3-28c778d99137",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "woolf-works:2027-05-21",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-05-21/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/may/",
+      "official_raw_time": "19:00—21:00",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    },
+    {
+      "event_id": "b3d9d409-032f-45c8-821b-357b30cd921e",
+      "start_time": "19:00",
+      "timezone": "Europe/Vienna",
+      "source_event_id": "woolf-works:2027-06-16",
+      "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-16/",
+      "official_evidence_url": "https://www.wiener-staatsoper.at/en/calendar/2027/june/",
+      "official_raw_time": "19:00",
+      "official_time_source_type": "MONTHLY_CALENDAR"
+    }
+  ]
+}
