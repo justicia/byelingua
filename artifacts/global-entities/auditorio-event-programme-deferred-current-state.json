@@ -1,0 +1,357 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "DEFERRED_EVENT_RESOLUTION_PASS",
+  "database_writes": 0,
+  "queried_from_live_production": true,
+  "baseline": {
+    "auditorio_events": 583,
+    "auditorio_event_programme": 2862
+  },
+  "rows": [
+    {
+      "event_id": "045fd06e-3ce8-4595-979f-eca5a0f6a522",
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "order": 1
+    },
+    {
+      "event_id": "045fd06e-3ce8-4595-979f-eca5a0f6a522",
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "order": 2
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "work_id": "17ae8c5e-ae2a-41b9-a9c8-361ebfc19543",
+      "order": 1
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "work_id": "8d0a54ab-66da-48fc-87f6-58e47a292ea8",
+      "order": 2
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "work_id": "9e7c129f-325d-4fd0-83d9-4a88d7bde9fe",
+      "order": 3
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "work_id": "0d83c8a4-a591-4c96-a1da-05f884856c9e",
+      "order": 4
+    },
+    {
+      "event_id": "04cd5682-b173-490b-b822-1d33585c7cc7",
+      "work_id": "c373167e-983d-4aff-b4b0-eb21d24e1b5f",
+      "order": 5
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "21e99c87-798c-412d-9f9d-9e95e788dfc5",
+      "order": 1
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "3a0a42ca-35d0-4a2d-b273-58ab01bde2b5",
+      "order": 2
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "order": 3
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "cf00a7a1-1197-4ef3-b837-bbb5efdc2d3c",
+      "order": 4
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "7d70b4b3-69ea-4ac2-b8d4-6810cf399082",
+      "order": 5
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "order": 6
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "order": 7
+    },
+    {
+      "event_id": "0f78b159-c511-4a60-b976-ebabf9217d1e",
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "order": 8
+    },
+    {
+      "event_id": "4f9d3cb2-7ed3-4edc-8eab-e8bdef8b6814",
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "order": 1
+    },
+    {
+      "event_id": "4f9d3cb2-7ed3-4edc-8eab-e8bdef8b6814",
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "order": 2
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "21e99c87-798c-412d-9f9d-9e95e788dfc5",
+      "order": 1
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "3a0a42ca-35d0-4a2d-b273-58ab01bde2b5",
+      "order": 2
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "order": 3
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "cf00a7a1-1197-4ef3-b837-bbb5efdc2d3c",
+      "order": 4
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "7d70b4b3-69ea-4ac2-b8d4-6810cf399082",
+      "order": 5
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "order": 6
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "order": 7
+    },
+    {
+      "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "order": 8
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "a631590e-ee61-4319-8974-cf7e342a5ffa",
+      "order": 1
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "15aea3fb-53be-4f42-8649-00a2f7b9208d",
+      "order": 2
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "b78744eb-51b9-48e3-9f44-ffd939c7d215",
+      "order": 3
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "cc015df7-9b78-41a6-8028-11862e4cb11b",
+      "order": 4
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "5d503668-1a46-464f-b946-824dce4351b3",
+      "order": 5
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "a214473f-9cce-422e-a1a0-71cd9f7f434f",
+      "order": 6
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "64cb688d-5537-4018-b518-59f4a0eb3f8c",
+      "order": 7
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "d85834b8-7912-4265-8745-32bedd096449",
+      "order": 8
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "bd6f0cf6-6ca0-4e40-a471-f071f64878e1",
+      "order": 9
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "d09756be-c85f-4e7c-9d31-eecc132fe591",
+      "order": 10
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "04c87874-af21-4d46-8c96-438839121f37",
+      "order": 11
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "b5af10fc-0b3e-4637-8a06-d51bc218b7e6",
+      "order": 12
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "8c31da8d-1038-4117-9ee9-486132c25df0",
+      "order": 13
+    },
+    {
+      "event_id": "724a01df-5cdd-4ae3-b04d-639f620e54da",
+      "work_id": "e0b62a41-8f19-4e9d-88e9-fb6500fcf130",
+      "order": 14
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "ddae1dee-d531-497d-91cf-e95ca3c248ce",
+      "order": 1
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "5440e47c-82b1-4a9a-b372-354ff0d5a99f",
+      "order": 2
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "6adc853c-ac52-4a73-9c71-b468d6cfad41",
+      "order": 3
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "d317bd1b-7e79-4551-ab31-4ec5299020bb",
+      "order": 4
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "1cfc5af9-4680-4d9f-a03f-367562310b77",
+      "order": 5
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "ad91a843-6715-496b-bbd9-4c29bed3f5cb",
+      "order": 6
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "da47aac2-e7a5-4ce2-ad57-04acca3aa39f",
+      "order": 7
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "266ff4c5-2b83-476e-9414-c5202f80cb55",
+      "order": 8
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "997a62e7-3989-4a8e-a63a-d20381a0371e",
+      "order": 9
+    },
+    {
+      "event_id": "81d2c668-7e8a-4ee3-ade5-03cf5631ed15",
+      "work_id": "b8151f32-aaaf-409e-86c8-f4d08fdeaaf0",
+      "order": 10
+    },
+    {
+      "event_id": "990464ec-755d-4ace-be39-576058e802a3",
+      "work_id": "eaeda6e2-170d-46f7-a6d4-ebad5018fff5",
+      "order": 1
+    },
+    {
+      "event_id": "990464ec-755d-4ace-be39-576058e802a3",
+      "work_id": "212f705a-027b-429f-9044-6b0393c484e9",
+      "order": 2
+    },
+    {
+      "event_id": "990464ec-755d-4ace-be39-576058e802a3",
+      "work_id": "8e3c85ad-9d17-4489-b6fb-5da68ced2cfa",
+      "order": 3
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "e2c66e44-b288-414e-a30e-6acc9fad9a7a",
+      "order": 1
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "04afb4db-c50c-4020-88d3-fce0bc9167f8",
+      "order": 2
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "3cad6f98-1347-4c11-b2ae-e95e90cbd4e9",
+      "order": 3
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "419a4b35-2e3b-4e43-a04a-7471901a1c2e",
+      "order": 4
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "d9f9f38a-125a-4211-85af-373c806c7c88",
+      "order": 5
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "0e199b9a-6729-4ef5-b46a-418b4991fd8a",
+      "order": 6
+    },
+    {
+      "event_id": "b6261109-846e-4d47-b6cb-2cbc3bb4455b",
+      "work_id": "18999bca-ba78-4658-b63d-123701cdcd60",
+      "order": 7
+    },
+    {
+      "event_id": "e66eacc7-16ad-4183-8859-b0d3260a3424",
+      "work_id": "5f8b758a-7700-4367-8a21-263b08ccf4ec",
+      "order": 1
+    },
+    {
+      "event_id": "e66eacc7-16ad-4183-8859-b0d3260a3424",
+      "work_id": "ee9891cf-e91e-4bed-84f7-8abe0dcbc8c1",
+      "order": 2
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "21e99c87-798c-412d-9f9d-9e95e788dfc5",
+      "order": 1
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "3a0a42ca-35d0-4a2d-b273-58ab01bde2b5",
+      "order": 2
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "f50ac611-079e-4c31-a045-8f096241b3ea",
+      "order": 3
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "cf00a7a1-1197-4ef3-b837-bbb5efdc2d3c",
+      "order": 4
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "7d70b4b3-69ea-4ac2-b8d4-6810cf399082",
+      "order": 5
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "cde7ac41-a988-4683-8590-4677ca96fc27",
+      "order": 6
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "222c8068-70f7-4891-931e-ad056f69d08a",
+      "order": 7
+    },
+    {
+      "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "work_id": "c9683ecc-3ee2-4eea-9ded-90b36c0d16fc",
+      "order": 8
+    }
+  ]
+}

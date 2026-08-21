@@ -1,0 +1,38 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "3.7A.1",
+  "review_only": true,
+  "database_writes": 0,
+  "decision": "canonical_correction_proposal",
+  "current_composer_id": "57fffd2c-b888-4f0c-b2d3-001687c51d61",
+  "current_canonical_name": "Rafael Bullumba Landestroy",
+  "proposed_canonical_name": "Rafael Bullumba Landestoy",
+  "current_identity_key": "composer:5cb2460f4dd873d6236c481787dd02ee",
+  "proposed_identity_key": "composer:cb0ff5c4f2aabadfb9745dbc5de6b159",
+  "preserve_composer_uuid": true,
+  "preserve_foreign_keys": true,
+  "existing_corrected_canonical_collision": false,
+  "proposed_identity_key_collision": false,
+  "aliases_created": 0,
+  "evidence": [
+    {
+      "source_type": "official_ministry",
+      "source_title": "Consagrado músico Rafael “Bullumba” Landestoy es homenajeado por Ministerio de Cultura",
+      "source_url": "https://old.cultura.gob.do/index.php/noticias/item/394-consagrado-musico-rafael-bullumba-landestoy-es-homenajeado-por-ministerio-de-cultura",
+      "supports": "Official Dominican Ministry of Culture consistently spells the composer Landestoy."
+    },
+    {
+      "source_type": "national_archive",
+      "source_title": "Álbum musical: Fiesta fabulosa",
+      "source_url": "https://colecciones.agn.gob.do/opac/ficha.php?codopac=OPPUB&informatico=00270205SR",
+      "supports": "Archivo General de la Nación identifies Pedro Rafael Landestoy Duluc, Bullumba, as pianist and composer."
+    },
+    {
+      "source_type": "publisher_catalog",
+      "source_title": "Souvenirs – Navona Records",
+      "source_url": "https://www.navonarecords.com/catalog/nv6615/",
+      "supports": "Publisher composer credits use Rafael Bullumba Landestoy."
+    }
+  ],
+  "identity_key_correction_required": true
+}
