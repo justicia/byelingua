@@ -1,0 +1,2217 @@
+{
+  "snapshot_source": "public.composers + public.composer_aliases",
+  "snapshot_generated_at": "2026-08-20T20:29:46.897283+00:00",
+  "database_writes": 0,
+  "composers": [
+    {
+      "id": "29ef9dc0-b76f-4114-bc42-3839c0175e58",
+      "canonical_name": "Abel Fleury",
+      "identity_key": "composer:68ea30743f6b49d789b3e23b8a4d97fc"
+    },
+    {
+      "id": "53738c33-f04c-426f-bc5a-1f514328b93e",
+      "canonical_name": "Adolphe Adam",
+      "identity_key": "composer:f7c32c5dedf9c42c0f8ba5679039ec2f"
+    },
+    {
+      "id": "0b7adb05-cc92-4eef-be61-d2900d9c3749",
+      "canonical_name": "Agustín Pío Barrios",
+      "identity_key": "composer:df4328c7761cf640961a870f207b98ae"
+    },
+    {
+      "id": "9cbdb4a8-d7d5-4eab-8d5c-ada490e2b678",
+      "canonical_name": "Akira Ifukube",
+      "identity_key": "composer:def36ac3492c482ddd273e81404fd574"
+    },
+    {
+      "id": "53328836-9a64-46ef-8d89-448e6964a81e",
+      "canonical_name": "Alban Berg",
+      "identity_key": "composer:abccfcfed70710e9873ba9da11669393"
+    },
+    {
+      "id": "ee5a00b0-cc23-4a3f-9da8-dd26e31b0b7e",
+      "canonical_name": "Alberto Ginastera",
+      "identity_key": "composer:82b237e9f3c0490822bc89136e3da513"
+    },
+    {
+      "id": "be41f94d-1725-4bb0-85c9-bf5d5537fed8",
+      "canonical_name": "Alejandro Vivas Puig",
+      "identity_key": "composer:1f3523c25653c570751b9fc9183e7990"
+    },
+    {
+      "id": "06e2891f-5b17-486e-ba9f-2a1963d913cd",
+      "canonical_name": "Alessandro Scarlatti",
+      "identity_key": "composer:d4c048e1062c001d8ba25df79f27a8ac"
+    },
+    {
+      "id": "7a661c4b-7edc-4026-b460-791706d266c9",
+      "canonical_name": "Alessandro Stradella",
+      "identity_key": "composer:dea29a36542ef06e595f6bfdc7d1359d"
+    },
+    {
+      "id": "8d5e083f-c7e8-4214-aab2-83f5a5377da8",
+      "canonical_name": "Alexander Glazunov",
+      "identity_key": "composer:c60feb6d3444d69cb20d7eb6a7e307f9"
+    },
+    {
+      "id": "b556fb8c-fcaa-4a20-b2c0-aadc6f756519",
+      "canonical_name": "Alexander Scriabin",
+      "identity_key": "composer:542d68fb24f7dd2b7d6424c58889fe10"
+    },
+    {
+      "id": "79c54152-8623-413e-ab0a-6c24d6c1fcff",
+      "canonical_name": "Alexander von Zemlinsky",
+      "identity_key": "composer:018b0115d1ff53fab9ec64492b7a234f"
+    },
+    {
+      "id": "852ee4a7-d328-4a7a-982d-79f98b4ae853",
+      "canonical_name": "Alice Verne-Bredt",
+      "identity_key": "composer:31eec083384fd369a3da7f6113fa76bd"
+    },
+    {
+      "id": "d11ad1c0-1b69-450a-84b8-945b84c9b22b",
+      "canonical_name": "Alicia Terzian",
+      "identity_key": "composer:8610a151cc1c699375ab85fcad89afcb"
+    },
+    {
+      "id": "f1454e54-dfa2-4789-b058-18e3dc414400",
+      "canonical_name": "Alonso Mudarra",
+      "identity_key": "composer:0d5e7ac9a439baf4147bfbaa33e1d3c3"
+    },
+    {
+      "id": "7431f20b-8451-400c-95e7-304f1d916d79",
+      "canonical_name": "Ambroise Thomas",
+      "identity_key": "composer:83cac915ad33b17c19a03d1265f63ca7"
+    },
+    {
+      "id": "c585523c-2f53-4226-af05-0687deebe4a4",
+      "canonical_name": "Amilcare Ponchielli",
+      "identity_key": "composer:512e0853e3c7596a003d25992d42a82f"
+    },
+    {
+      "id": "1fe8dc13-95f9-4e8c-8835-9391369e1678",
+      "canonical_name": "Amy Beach",
+      "identity_key": "composer:2f4207c8e6e70f62c481a8a8a5b495bd"
+    },
+    {
+      "id": "67523f13-2635-4150-9c43-4abe8810741d",
+      "canonical_name": "Ana Sokolović",
+      "identity_key": "composer:1c14cf63a32f86e2f95feecccfa8d723"
+    },
+    {
+      "id": "2271d369-2bd7-49b5-9ed7-4e74cb640007",
+      "canonical_name": "Anders Hillborg",
+      "identity_key": "composer:e9379242eea11536aa6991c4e87b237e"
+    },
+    {
+      "id": "43ec43d3-053d-459b-8fcd-d718c8980b96",
+      "canonical_name": "André Messager",
+      "identity_key": "composer:7f89c1f81ef0b5d9e74d6a59132ade1e"
+    },
+    {
+      "id": "53ed881c-f046-4382-9d4e-cd2c3ea8f5fc",
+      "canonical_name": "Andrés Villamil",
+      "identity_key": "composer:c2ac784233aba86f02c760ab322d7f10"
+    },
+    {
+      "id": "332ff3af-5a06-4a01-a7cb-abcd3e0b7e53",
+      "canonical_name": "Anna Clyne",
+      "identity_key": "composer:cf84eeeb9458ded9ad507423eb2d5a7c"
+    },
+    {
+      "id": "ed31346f-4c74-42ab-b42c-141934612de1",
+      "canonical_name": "Antoine Boësset",
+      "identity_key": "composer:4746c179b0f88cf4e52a037c407357c4"
+    },
+    {
+      "id": "873fb341-3591-4c61-9228-bf43b19ef413",
+      "canonical_name": "Anton Arensky",
+      "identity_key": "composer:3e5fc57f2afcb074f9f5c24713b6c2c6"
+    },
+    {
+      "id": "301e180c-bd1a-4132-a40c-151895f55b61",
+      "canonical_name": "Anton Bruckner",
+      "identity_key": "composer:b27bff97601b5f1740dbb18d4c94e336"
+    },
+    {
+      "id": "173aefb2-f1c2-482b-8c32-7c64eaaccabc",
+      "canonical_name": "Anton Webern",
+      "identity_key": "composer:24b1bb5df2f8e244410e901d384d2b65"
+    },
+    {
+      "id": "b939d48a-1989-462a-b29b-4a554213875d",
+      "canonical_name": "Antonín Dvořák",
+      "identity_key": "composer:3ea527d0fcdb7dd61f802e050b44ab27"
+    },
+    {
+      "id": "6a12bc7a-ae8b-49a4-bd00-8fced75a3359",
+      "canonical_name": "Antonio de Cabezón",
+      "identity_key": "composer:2b29812a9f1c1f53e07430cb2ea83519"
+    },
+    {
+      "id": "7e522176-a71f-4ce2-92e5-9e22b960323b",
+      "canonical_name": "Antonio Vivaldi",
+      "identity_key": "composer:f67729fe3b6d395926fb0ef395ed63e7"
+    },
+    {
+      "id": "47af8fcc-1a70-4231-afc1-c1d2a5dcdd67",
+      "canonical_name": "Arnold Schönberg",
+      "identity_key": "composer:127e552f04b4960c4d7ea8cf48f11019"
+    },
+    {
+      "id": "9c03bb9d-7ba0-4a12-a200-136a82dc1e7b",
+      "canonical_name": "Arthur Honegger",
+      "identity_key": "composer:cdb0a4a5aa581b027819af7d33179bdb"
+    },
+    {
+      "id": "e597da1e-d7d7-4646-abfc-b87af0446d30",
+      "canonical_name": "Arthur Oldham",
+      "identity_key": "composer:c57d396c9939483c0561bfb0ab93dc12"
+    },
+    {
+      "id": "a05b4296-c373-48e3-a271-c41eedcb20ca",
+      "canonical_name": "Arturo Márquez",
+      "identity_key": "composer:35596264768e193f73a6464f37ca0552"
+    },
+    {
+      "id": "14eae093-14e4-43dd-b15b-05a53ef1eb75",
+      "canonical_name": "Arvo Pärt",
+      "identity_key": "composer:1239665bf8d6d4a5698385a6b578b2a0"
+    },
+    {
+      "id": "d41ae5ee-81d6-4637-911c-2a8536035661",
+      "canonical_name": "Asís Márquez",
+      "identity_key": "composer:92f052f77e026ecc7d723e4a8c2cdbc4"
+    },
+    {
+      "id": "0a74d8fd-9e71-404e-9360-eca746f9c1f7",
+      "canonical_name": "Astor Piazzolla",
+      "identity_key": "composer:c43ff97e204457fe932a8ed9a8da2951"
+    },
+    {
+      "id": "27d4ac46-db81-4ebc-a519-762c845588a7",
+      "canonical_name": "Augusta Read-Thomas",
+      "identity_key": "composer:e0f057bd244dd9a57ff5687974079b17"
+    },
+    {
+      "id": "833f9ca8-fc70-4528-b951-435b5a99140c",
+      "canonical_name": "Auguste Mermet",
+      "identity_key": "composer:64a452be0fd6534ea4add88628fcf319"
+    },
+    {
+      "id": "dd2ad0f6-1c8d-467f-9e94-58ffdf6ad6c5",
+      "canonical_name": "Bastien David",
+      "identity_key": "composer:40f2264a4d803bc20e2de3b0572f1a8f"
+    },
+    {
+      "id": "b340f3b3-ac34-4a81-bc32-c2b52cc49b91",
+      "canonical_name": "Bedřich Smetana",
+      "identity_key": "composer:10fb6b45dc3e698bb80583da4598c5ea"
+    },
+    {
+      "id": "6e3fbbe2-efa9-45dc-a75c-786178272ef0",
+      "canonical_name": "Béla Bartók",
+      "identity_key": "composer:289e31dabca7a08ae258ee9db0945b6c"
+    },
+    {
+      "id": "2e38b5ba-d9d7-4b7a-9185-d196d7558d4b",
+      "canonical_name": "Benedetto Marcello",
+      "identity_key": "composer:133e2acf4e00ad113e1133606733a96f"
+    },
+    {
+      "id": "a085dda7-9889-4fb7-bf6b-c3e03a9b4850",
+      "canonical_name": "Benjamin Attahir",
+      "identity_key": "composer:fe9e8ca6a4e4d8bed7886c67debcbaf3"
+    },
+    {
+      "id": "2e832405-f0ac-4edf-aec0-8687c5c241b9",
+      "canonical_name": "Benjamin Britten",
+      "identity_key": "composer:a6fb210f366478aff6b53cb7124f0650"
+    },
+    {
+      "id": "3fa22be5-d845-4e80-82f7-d7bd832f469a",
+      "canonical_name": "Bernard Herrmann",
+      "identity_key": "composer:28576b9770ac020f1ee05b29d6398ce1"
+    },
+    {
+      "id": "2a5585db-6d3e-4cc1-8f69-42b98005d444",
+      "canonical_name": "Betsy Jolas",
+      "identity_key": "composer:9bf61e92046a94e43278bcc62211ec09"
+    },
+    {
+      "id": "9f2fcfa8-37c4-47f5-ab49-d4e4dfa8d826",
+      "canonical_name": "Bohuslav Martinů",
+      "identity_key": "composer:4f97186fc9d08275c26a6d397b78f846"
+    },
+    {
+      "id": "e8898a51-c25a-42f6-b5f5-30c6c008762c",
+      "canonical_name": "Bushra El-Turk",
+      "identity_key": "composer:450eddd7e2150cb0f32ac5fce76987fe"
+    },
+    {
+      "id": "5516d0cb-39bd-4337-b7fc-91f37d7c53f3",
+      "canonical_name": "Camille Pépin",
+      "identity_key": "composer:82c20239bcfa63316b2e5980c4a8fc63"
+    },
+    {
+      "id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
+      "canonical_name": "Camille Saint-Saëns",
+      "identity_key": "composer:7dbd96165cde8090cc304537a237241d"
+    },
+    {
+      "id": "3fd6394e-f2e8-441f-ad74-09fc5b468c1b",
+      "canonical_name": "Carl Maria von Weber",
+      "identity_key": "composer:dcb2877cb595ab605d7aa519e99dbdcf"
+    },
+    {
+      "id": "ab5a96b8-e16f-4229-8537-e1adc79c0527",
+      "canonical_name": "Carl Nielsen",
+      "identity_key": "composer:bace74d18fb6098880921d39d25e9134"
+    },
+    {
+      "id": "149197b5-b642-4c27-9fd8-182a469a53a3",
+      "canonical_name": "Carl Philipp Emanuel Bach",
+      "identity_key": "composer:3d21865a101e7e8aec5af51a910a801f"
+    },
+    {
+      "id": "cb5fac8c-057f-4ffd-b174-672e7cec96d4",
+      "canonical_name": "Carlo Gesualdo",
+      "identity_key": "composer:3b1c185b92dc37455392f11811b77564"
+    },
+    {
+      "id": "a18bc744-7deb-47b3-8e52-0678e1832b0c",
+      "canonical_name": "Carlos Guastavino",
+      "identity_key": "composer:32b136a48a3f58197170e0a584007eab"
+    },
+    {
+      "id": "d6d94477-059e-4027-82f5-7c932c594804",
+      "canonical_name": "Carlos Pinto Grote",
+      "identity_key": "composer:943273bfb1f7431d886e885e0ca5a14a"
+    },
+    {
+      "id": "180c6bf0-7370-4a2b-a54c-08103ff3c12f",
+      "canonical_name": "Carmelo Larrea",
+      "identity_key": "composer:fc8ec3845228d993ec573061284d8f10"
+    },
+    {
+      "id": "ec383418-18ae-440d-b3ec-c5885be84bee",
+      "canonical_name": "Carol Robinson",
+      "identity_key": "composer:813cc5acf7a2340e4554c3b1962519f9"
+    },
+    {
+      "id": "72518288-2ea8-4dd5-9493-994a967dc61e",
+      "canonical_name": "Caroline Shaw",
+      "identity_key": "composer:f06119038f2b6298cb63476e65ac27c4"
+    },
+    {
+      "id": "8f6a2704-f246-4c72-b051-1a9de1fe3fbb",
+      "canonical_name": "Cécile Chaminade",
+      "identity_key": "composer:ea50f1432d3107b3af51d9f9a4f8a062"
+    },
+    {
+      "id": "23e99a68-ae47-4401-9761-d2837a55df0f",
+      "canonical_name": "César Franck",
+      "identity_key": "composer:aaf10f355fd986256ca3bb35cc7408f8"
+    },
+    {
+      "id": "c0f523a8-6792-41b4-9f9e-01f3af470caa",
+      "canonical_name": "Charles Gounod",
+      "identity_key": "composer:b3d4c35fd914afc50514c1c482bbb410"
+    },
+    {
+      "id": "5b3e2824-0f07-4aec-94ea-a6da531becd5",
+      "canonical_name": "Charles Ives",
+      "identity_key": "composer:b34093047a81b7e060477a2966d36c91"
+    },
+    {
+      "id": "9fa6b9f4-4ce1-46ff-aa47-c7e366f6a795",
+      "canonical_name": "Charlotte Sohy",
+      "identity_key": "composer:187340458896dda96f374ad4008ca708"
+    },
+    {
+      "id": "b3477b78-3288-45f4-bed6-b4e021ee0e8b",
+      "canonical_name": "Chen Gang",
+      "identity_key": "composer:dd249845aa616356507865aae680fca5"
+    },
+    {
+      "id": "70639075-6ddc-416f-9c95-4289f642fdbe",
+      "canonical_name": "Christophe Bertrand",
+      "identity_key": "composer:54a1cb5cd09989f8a8634922d774495c"
+    },
+    {
+      "id": "9b0aa25d-d4cf-4daf-a26d-9cd60eae0612",
+      "canonical_name": "Clara Schumann",
+      "identity_key": "composer:5b1259452f90e0a6a406acc445b8aa51"
+    },
+    {
+      "id": "36ec6fc4-e55c-4e87-80c8-01402609b286",
+      "canonical_name": "Claude Debussy",
+      "identity_key": "composer:1e2e9f67f9f33abdb49abe49e571c6d3"
+    },
+    {
+      "id": "7fa73986-fd80-4c82-a7df-1cf95feb6bca",
+      "canonical_name": "Claudio Monteverdi",
+      "identity_key": "composer:598444a2c409551d5a3b8884dba0c254"
+    },
+    {
+      "id": "4a0c198d-1153-42b9-8d4c-8787e4455557",
+      "canonical_name": "Colette Renard",
+      "identity_key": "composer:6d5280229af26c7142edc973b9d20432"
+    },
+    {
+      "id": "5e3ee275-fc4b-4c64-8219-eac552ea8a41",
+      "canonical_name": "Cristóbal de Morales",
+      "identity_key": "composer:2893783557df6caf1200afe0d84de24c"
+    },
+    {
+      "id": "406ac7a6-5bd4-42f2-b090-2b6ef7db7fc2",
+      "canonical_name": "Cristóbal Halffter",
+      "identity_key": "composer:0fbea5c959bb705e2114c2e80e0bb116"
+    },
+    {
+      "id": "4e90bcbf-2f06-4b07-ac00-514b785355ec",
+      "canonical_name": "Daniil Trifonov",
+      "identity_key": "composer:2d05917025b2aee7bda48223747d68b6"
+    },
+    {
+      "id": "9a288c13-c4f2-429d-bdb4-5c23daa7078e",
+      "canonical_name": "Darius Milhaud",
+      "identity_key": "composer:926e8a1f5c87e7502ae450b2abf1a59c"
+    },
+    {
+      "id": "ce12c1cb-40c9-471f-b5c2-fbe6fa1694f4",
+      "canonical_name": "David Kosviner",
+      "identity_key": "composer:4502836826994c2d8643aaacfa66fa50"
+    },
+    {
+      "id": "ea61a2d0-8706-416d-94ec-fcec538600ed",
+      "canonical_name": "David Morrow",
+      "identity_key": "composer:f759ede9e32e8cee4bace9a097e73c7e"
+    },
+    {
+      "id": "c3e36e51-b9de-4789-a24e-a125949f10a4",
+      "canonical_name": "David Walter",
+      "identity_key": "composer:680e538585c556075bb3e45eba659c72"
+    },
+    {
+      "id": "960008f9-7f04-4c73-ad08-bac5c4e4618e",
+      "canonical_name": "Didier Lockwood",
+      "identity_key": "composer:a7ee302b4a251f7a24800e05d25d6f9f"
+    },
+    {
+      "id": "50510873-83c5-43a0-a272-39fe671d9f69",
+      "canonical_name": "Dieter Ammann",
+      "identity_key": "composer:505bf9e7c0bf2d552c84b5a82ef48758"
+    },
+    {
+      "id": "fa8d070b-db26-42f9-8325-da9b86d095ed",
+      "canonical_name": "Dieterich Buxtehude",
+      "identity_key": "composer:5efb27ddecd09dd9c1873a5a183d8253"
+    },
+    {
+      "id": "6f3e72be-6184-4334-b642-35736ff5ad1c",
+      "canonical_name": "Dmitri Shostakovich",
+      "identity_key": "composer:0ac4963eab41f8c833141ceac7719b8a"
+    },
+    {
+      "id": "5c2d8dee-1703-4f36-b745-4a002eef9465",
+      "canonical_name": "Domenico Scarlatti",
+      "identity_key": "composer:ff1baf15f16c7e430e4ea31f6c54523e"
+    },
+    {
+      "id": "235da421-d0df-4a8c-bee8-ed6b850aa4ab",
+      "canonical_name": "Đuro Živković",
+      "identity_key": "composer:86fa0fc4cd0a9a1fa097b425bd1eaa0c"
+    },
+    {
+      "id": "0ecc3559-72f3-4cbc-a129-2d5552d152bc",
+      "canonical_name": "Édouard Destenay",
+      "identity_key": "composer:340e6c6adb1d4859651e522ddb84a772"
+    },
+    {
+      "id": "df4b4d7f-b340-424b-934f-e5caede33d61",
+      "canonical_name": "Édouard Lalo",
+      "identity_key": "composer:196eca4782447acb8cface23b3708917"
+    },
+    {
+      "id": "e0b76c6f-0785-4bd0-a893-16e954f8a9ea",
+      "canonical_name": "Edvard Grieg",
+      "identity_key": "composer:94f7b6173d08c9e042b26f25c12b160a"
+    },
+    {
+      "id": "21826de0-1e32-4c72-96e1-2c7c3c2665f2",
+      "canonical_name": "Edward Elgar",
+      "identity_key": "composer:dd7eeceb4467da57c00a2d432fec490b"
+    },
+    {
+      "id": "d79a3936-32d7-4faa-8403-bc9eac71008e",
+      "canonical_name": "Efraín Oscher",
+      "identity_key": "composer:9e820af1976c83a8bc09b80be5f3f431"
+    },
+    {
+      "id": "b6f21ed0-a5ab-4c59-a226-a78ed47b236f",
+      "canonical_name": "Einojuhani Rautavaara",
+      "identity_key": "composer:eaef02ca2bd8118039861fbc8c12784f"
+    },
+    {
+      "id": "f6ba16db-062f-4e07-adff-7ecff61b588e",
+      "canonical_name": "Elena Mendoza",
+      "identity_key": "composer:9e2b2a46ca33b73cd7051e8b531cba6f"
+    },
+    {
+      "id": "a516415d-1d7f-41df-bdfe-ef41836f1938",
+      "canonical_name": "Elfidio Alonso",
+      "identity_key": "composer:6cfa7c4c39922aad919820c3ceb1ccf8"
+    },
+    {
+      "id": "84bf80c5-5038-4e19-be52-b06a8c5b61a3",
+      "canonical_name": "Éliane Radigue",
+      "identity_key": "composer:0482ebe3d7f48e019757d9f06789ffa0"
+    },
+    {
+      "id": "fe6191ef-2e01-4faf-bb63-9569fc7e58d0",
+      "canonical_name": "Elżbieta Sikora",
+      "identity_key": "composer:4875229a4b57fc3daeda69f4a76a5a28"
+    },
+    {
+      "id": "949ca3fa-5bd1-4cdb-b1fe-ead64cb11108",
+      "canonical_name": "Emmanuel Chabrier",
+      "identity_key": "composer:cac88575b3d38e6ea95fe1e50e76bdf5"
+    },
+    {
+      "id": "1bfe8d0b-bf22-4885-b821-c15ba8e721d2",
+      "canonical_name": "Ennemond Gaultier dit \"Gautier le Vieux\"",
+      "identity_key": "composer:6745bf16209a12a19bfa92622da787e0"
+    },
+    {
+      "id": "555e1d71-c505-4015-8a1b-ec636fface4a",
+      "canonical_name": "Enrique Granados",
+      "identity_key": "composer:85809596dbb6f005f39f7cb3f1ea28a2"
+    },
+    {
+      "id": "9c435900-3ec7-4316-91dd-dc86575a6002",
+      "canonical_name": "Erich Wolfgang Korngold",
+      "identity_key": "composer:31d38cf00afa1e0d855640c08644e0ab"
+    },
+    {
+      "id": "6e21f89f-4ee1-4968-a24d-54f9a7c81e40",
+      "canonical_name": "Erik Satie",
+      "identity_key": "composer:283b072de70635002b164a4fd5ba3340"
+    },
+    {
+      "id": "e396e208-c3e2-457f-b82b-79579546e976",
+      "canonical_name": "Erkki-Sven Tüür",
+      "identity_key": "composer:45ebd4448dac6eb2f994e817e9f54d17"
+    },
+    {
+      "id": "2c689e45-cb59-455a-847a-46cdc9e956df",
+      "canonical_name": "Ernest Bloch",
+      "identity_key": "composer:f14ff972a980938eb99137083caef631"
+    },
+    {
+      "id": "478b52d1-4297-40dd-ae71-ed1c14c14cf5",
+      "canonical_name": "Ernest Chausson",
+      "identity_key": "composer:e93789a7bf39c3bc415afa01199e68be"
+    },
+    {
+      "id": "54b606ac-fa7e-4291-85c7-4fb30e5d7699",
+      "canonical_name": "Ernest Krähmer",
+      "identity_key": "composer:67755e47c13c1e1c16031faea534b16c"
+    },
+    {
+      "id": "712ff3d6-0854-4158-8bd6-3dbc9c8243cf",
+      "canonical_name": "Ernesto Halffter",
+      "identity_key": "composer:43e501df4ae2e2a322058c086bc5ebd2"
+    },
+    {
+      "id": "792ee757-440b-47b8-b741-1e15e3f1aea0",
+      "canonical_name": "Ernesto Lecuona",
+      "identity_key": "composer:f66fb7df64b1e09c920a8e2d1b3ea650"
+    },
+    {
+      "id": "b6cbf5a8-cc05-45c4-94bf-5af80463bcdc",
+      "canonical_name": "Erwin Schulhoff",
+      "identity_key": "composer:0a7df3d9470a9a4454173b32c9d287d4"
+    },
+    {
+      "id": "f7e47625-0340-4567-8c27-73c65a91b08c",
+      "canonical_name": "Esa-Pekka Salonen",
+      "identity_key": "composer:b5387f956de03b966bbe8da1f2b2bdcd"
+    },
+    {
+      "id": "34985252-8f73-4daf-9fe0-6c0cbd438ed1",
+      "canonical_name": "Ethel Smyth",
+      "identity_key": "composer:1f1c7db21e7203e32b10cd43d5001304"
+    },
+    {
+      "id": "2d41f6e9-81c0-4321-ac74-e35309cfacf7",
+      "canonical_name": "Etienne Moulinié",
+      "identity_key": "composer:eff0ea0f4980dbd75cd61d8607fca21d"
+    },
+    {
+      "id": "877abec0-f034-4525-aded-6d36dc949f8a",
+      "canonical_name": "Eugène Ysaÿe",
+      "identity_key": "composer:98655dda0f5550537da4dcd4595e783e"
+    },
+    {
+      "id": "9c979beb-2677-463c-a497-9a1b14845fc5",
+      "canonical_name": "Ezio Bosso",
+      "identity_key": "composer:28021d289771e7f4154e7da8112ce7d1"
+    },
+    {
+      "id": "9c47a395-8938-4fae-8810-d64190f4e8cb",
+      "canonical_name": "Fanny Hensel",
+      "identity_key": "composer:f026b69d390d45144c9c878f354ccd69"
+    },
+    {
+      "id": "17539a77-caba-4029-b70e-487e8c3b76b0",
+      "canonical_name": "Fanny Hensel-Mendelssohn",
+      "identity_key": "composer:41322303f4f251ebb9b0582a5d7de1b5"
+    },
+    {
+      "id": "0760d62c-3386-4e89-939e-9815fe3154f5",
+      "canonical_name": "Farnaz Modarresifar",
+      "identity_key": "composer:10170c9642d47045b02c956e4254c803"
+    },
+    {
+      "id": "c4945f2d-cb41-41aa-ac71-9ef544ffac7f",
+      "canonical_name": "Felix Mendelssohn",
+      "identity_key": "composer:87c906997c79139d4895a97fd4f305ba"
+    },
+    {
+      "id": "14ce37ad-8bc4-4627-b1b9-7540a7c8d3ce",
+      "canonical_name": "Ferdinand Hérold",
+      "identity_key": "composer:0a36be122bd09c271f5678ac4440a9f5"
+    },
+    {
+      "id": "cdf17dc1-8e37-4f70-ad84-dc27c08e013f",
+      "canonical_name": "Florence Price",
+      "identity_key": "composer:0734219e678f6d742c82f44a8f4060c0"
+    },
+    {
+      "id": "d123b394-209b-4116-bbc9-41e21d5d96f7",
+      "canonical_name": "Francesc Vila",
+      "identity_key": "composer:5ff72f04b665acd9eac1434f395a926f"
+    },
+    {
+      "id": "b3dfe085-db64-40ce-9d95-86af10831b69",
+      "canonical_name": "Francesco Cilea",
+      "identity_key": "composer:0131e26be7e8011e36c79cd8da71cecf"
+    },
+    {
+      "id": "2537bfcd-a280-4f01-b60c-472a067f7d92",
+      "canonical_name": "Francesco Corradini",
+      "identity_key": "composer:fc486135263ffe74a2cb7849a28315c4"
+    },
+    {
+      "id": "6c5c8d8b-9dd1-4ebc-96d4-15a5efec53eb",
+      "canonical_name": "Francesco Corselli",
+      "identity_key": "composer:fbaf4db5de06c70bb7274b4cb437c261"
+    },
+    {
+      "id": "2271ab1a-713d-47a6-b75b-9ee71cecee79",
+      "canonical_name": "Francis Poulenc",
+      "identity_key": "composer:a98159d0287da2c3eaabfc759cf0f0ea"
+    },
+    {
+      "id": "d5be254a-3f1e-46b4-acb8-c2a9691c6c64",
+      "canonical_name": "Francisco Hernández Illana",
+      "identity_key": "composer:2db5c83949f9e8d1c43824b06494d9f7"
+    },
+    {
+      "id": "186e7f1e-53b0-464d-8a5d-17d47fc2598f",
+      "canonical_name": "Francisco Madina",
+      "identity_key": "composer:10ad77f5a6075d05da630eca2aacbba1"
+    },
+    {
+      "id": "38087df2-ca2c-4c5e-bf85-2696ae3fc965",
+      "canonical_name": "François Borne",
+      "identity_key": "composer:a310cf2c221e3bd2ecf736500abc1dda"
+    },
+    {
+      "id": "8c11fa19-3fa7-4da2-bf88-37610b52d4b1",
+      "canonical_name": "François Couperin",
+      "identity_key": "composer:27540e62e5fecb00081c3fcc29830ceb"
+    },
+    {
+      "id": "6f94e7bf-8957-48a8-9bbe-b07b8ac5bf77",
+      "canonical_name": "François Dufaut",
+      "identity_key": "composer:91a3c206bdb15d8975aa3a8dd28347b0"
+    },
+    {
+      "id": "20d6db7c-d9de-4840-b026-2020c3a6891d",
+      "canonical_name": "Frank Bridge",
+      "identity_key": "composer:bbaae4dfd15dd10ef996a116dc2aa302"
+    },
+    {
+      "id": "6f427b09-d54a-428f-895b-6694e75207cd",
+      "canonical_name": "Franz Liszt",
+      "identity_key": "composer:898cd4035367475c636c7c8cd5c8a4b4"
+    },
+    {
+      "id": "ad628acd-96a8-404a-821c-6dda86b5fcbf",
+      "canonical_name": "Franz Schubert",
+      "identity_key": "composer:1f668b01a90c9f1872b724243e21ed5d"
+    },
+    {
+      "id": "63c53106-3321-4af3-8d17-b04806facc1c",
+      "canonical_name": "Frédéric Chopin",
+      "identity_key": "composer:44ab8d1905994aedb6cbe2145e22f75f"
+    },
+    {
+      "id": "6d8c607a-992d-47d4-ad5a-88aa7b286946",
+      "canonical_name": "Frederic Mompou",
+      "identity_key": "composer:64386a02b4b0be4372fe15f34777a5cb"
+    },
+    {
+      "id": "3bed0cc6-307c-4716-ba6a-2f1adf0d8590",
+      "canonical_name": "Friedrich Hermann",
+      "identity_key": "composer:fd668d2b92279dd25252068bc88ed9b9"
+    },
+    {
+      "id": "ab47418d-009a-4c94-856c-ec587bd003e2",
+      "canonical_name": "Gabriel Bataille",
+      "identity_key": "composer:4909a2fa5833af1931ef298ddd9acff7"
+    },
+    {
+      "id": "575e37d7-fce3-4780-9070-4e67a2f64bae",
+      "canonical_name": "Gabriel Fauré",
+      "identity_key": "composer:f4f86750842041af12c718a56380d9ea"
+    },
+    {
+      "id": "c78c841a-cf69-481c-9901-78b5ab856ffe",
+      "canonical_name": "Gabriel Kahane",
+      "identity_key": "composer:3880d38894ede1871baae1b46d15169a"
+    },
+    {
+      "id": "f942233d-334c-49c2-b2cb-09a1a6f84d6d",
+      "canonical_name": "Gabriela Ortiz",
+      "identity_key": "composer:6f2c03916ea5d139e310124e0af61d3d"
+    },
+    {
+      "id": "2ee85615-5f9c-4a9b-96cd-60965e062b83",
+      "canonical_name": "Gabriella Smith",
+      "identity_key": "composer:a52ef454dbee17c5a84c3e752c9751f0"
+    },
+    {
+      "id": "2dac964d-5543-45ca-a5c7-4121c61e9fab",
+      "canonical_name": "Gaetano Donizetti",
+      "identity_key": "composer:597e4387e5303b670cf20c7f052ebf3f"
+    },
+    {
+      "id": "b0a03f67-594e-4752-8fa9-f178aee304a5",
+      "canonical_name": "Galina Ustvolskaya",
+      "identity_key": "composer:e35624e9b21563dddf2454f95e515ca7"
+    },
+    {
+      "id": "933c4cc4-44c8-4525-9700-7edb0d30028d",
+      "canonical_name": "Georg Friedrich Haas",
+      "identity_key": "composer:76380bfc9fc15d05b565369dbd17e11b"
+    },
+    {
+      "id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904",
+      "canonical_name": "Georg Friedrich Händel",
+      "identity_key": "composer:f9a734818a214c6a85b642a6b8168d32"
+    },
+    {
+      "id": "fa9b31b1-39fe-4518-8382-70370a6618b6",
+      "canonical_name": "George Benjamin",
+      "identity_key": "composer:8d9b0bc414ba92560dbcb71b7e0ffb9f"
+    },
+    {
+      "id": "2998a4a8-6f1c-4e78-9cb7-a4e5d6d620e2",
+      "canonical_name": "George Crumb",
+      "identity_key": "composer:ac586095c5615dcf0cacbf0546f42de3"
+    },
+    {
+      "id": "1e87f81e-dbd6-4b5c-8eab-2287cf159149",
+      "canonical_name": "George Gershwin",
+      "identity_key": "composer:38ba6a9b8062327b60afc8cf833f7140"
+    },
+    {
+      "id": "1b30c71a-1205-49d2-a8ad-2cfc763d848e",
+      "canonical_name": "George Onslow",
+      "identity_key": "composer:f5d0d8c81267aeb51b3022961e728628"
+    },
+    {
+      "id": "c211356c-8f99-4c9e-b7dd-28367f1604c7",
+      "canonical_name": "Georges Bizet",
+      "identity_key": "composer:1e8fcd098d07d342a0687d5f2b1f513a"
+    },
+    {
+      "id": "a05d6cae-cf1b-4610-a757-b80cf27af981",
+      "canonical_name": "Gerald Resch",
+      "identity_key": "composer:ddca25cd0bca26ec891819de6959969e"
+    },
+    {
+      "id": "aa18111f-3c2e-4625-be2e-35680ec58012",
+      "canonical_name": "Gérard Grisey",
+      "identity_key": "composer:c1b421bfebd3a5b6917c91fb4feac04a"
+    },
+    {
+      "id": "52a56d69-f251-4afc-be17-3dab89ab9435",
+      "canonical_name": "Germain Pinel",
+      "identity_key": "composer:f511368920fa928916055d3df5b3f5e3"
+    },
+    {
+      "id": "14e7be76-5bc1-439c-a329-deb0adbde3fc",
+      "canonical_name": "Giacomo Antonio Perti",
+      "identity_key": "composer:25e1fb0b58d5818b49b631a90e46d7c1"
+    },
+    {
+      "id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "canonical_name": "Giacomo Puccini",
+      "identity_key": "composer:955f83f1d5b7bbd41b4a5a79a62da573"
+    },
+    {
+      "id": "c694a27d-d9b4-4d26-86fa-414e6b17554f",
+      "canonical_name": "Gioachino Rossini",
+      "identity_key": "composer:3d84a75616ef40f1a924e7c2a454adbc"
+    },
+    {
+      "id": "13119930-b22b-4401-8bd5-a32dd59ba251",
+      "canonical_name": "Giovanni Battista Mele",
+      "identity_key": "composer:78a9510639f3d81ad977665856326e8b"
+    },
+    {
+      "id": "f03a90eb-30f0-49a9-89ef-2c4a20642322",
+      "canonical_name": "Giovanni Battista Pergolesi",
+      "identity_key": "composer:27400cb043762fd468bee980c0c8fd8c"
+    },
+    {
+      "id": "4d739406-e617-4b01-ae66-8a070f57661f",
+      "canonical_name": "Giovanni Bottesini",
+      "identity_key": "composer:3ffa0ee37bc8ef9bf4bb598288bc9f19"
+    },
+    {
+      "id": "1933ea54-59cd-4bf0-ae34-14cea61a6355",
+      "canonical_name": "Giovanni Sollima",
+      "identity_key": "composer:51eb845154032ff5d65903a409c85bce"
+    },
+    {
+      "id": "ff149884-e7ab-4e45-88bf-e3ae05f38f1e",
+      "canonical_name": "Gisèle Barreau",
+      "identity_key": "composer:987d13a41f5a4dfa81d5b090d035cc2e"
+    },
+    {
+      "id": "2bb83581-6166-43e4-bdf5-79234e0644bb",
+      "canonical_name": "Giuseppe Dall’Abaco",
+      "identity_key": "composer:7bd58678d75f4a0d8b74044698492cca"
+    },
+    {
+      "id": "b75ade14-9776-424c-8229-d32d98861611",
+      "canonical_name": "Giuseppe Verdi",
+      "identity_key": "composer:aa365a8037f5aec451fcb4ca803466b3"
+    },
+    {
+      "id": "2c92729f-70f7-4412-ae2d-a824bde8b573",
+      "canonical_name": "Gonzalo Grau",
+      "identity_key": "composer:69d302861fbb53a6bba5b26a8504396b"
+    },
+    {
+      "id": "cbf6738b-5799-4a61-b3cf-c3e2176a9ef0",
+      "canonical_name": "Grażyna Bacewicz",
+      "identity_key": "composer:28ad549de14e96ac0c74450dc00b626d"
+    },
+    {
+      "id": "700f261f-0c72-4721-9468-21fa5af5ea4c",
+      "canonical_name": "Grégoire Hetzel",
+      "identity_key": "composer:6c58fcecc3d27edfe8d2fc0a3a78d0e0"
+    },
+    {
+      "id": "5efcffbe-c47d-474d-9816-d107c43245f2",
+      "canonical_name": "Gustav Holst",
+      "identity_key": "composer:bbc1073a0072b7007aa253af9fb9182f"
+    },
+    {
+      "id": "25aab104-1c65-42ea-9338-852db4c79592",
+      "canonical_name": "Gustav Mahler",
+      "identity_key": "composer:1b11be84e014f1496bfe010f02dfeb0d"
+    },
+    {
+      "id": "9ff13b4c-b7d0-4901-a239-30b30065ad2d",
+      "canonical_name": "György Kurtág",
+      "identity_key": "composer:334f63ae9956dbbe90c3e5eec39f5cd8"
+    },
+    {
+      "id": "abfac634-08b7-4ed7-954b-1f367c827827",
+      "canonical_name": "György Ligeti",
+      "identity_key": "composer:fc1f052f5a14cb7a75bf0236ccfe6478"
+    },
+    {
+      "id": "de74ae35-341a-4ede-987d-b22b892af136",
+      "canonical_name": "Hanns Eisler",
+      "identity_key": "composer:594c143c49b5c2a2a39c4985431b2af5"
+    },
+    {
+      "id": "448d5675-2eff-4350-93e7-1d493b452b99",
+      "canonical_name": "Hans Werner Henze",
+      "identity_key": "composer:68b705707a45117c2dec1d90bb5b4a96"
+    },
+    {
+      "id": "ec508af7-375c-4400-aa29-86ab3f591c75",
+      "canonical_name": "Hans Zimmer",
+      "identity_key": "composer:f746824e660f046fd05c591898f5b2b1"
+    },
+    {
+      "id": "b6464afd-44f8-4060-959b-024e46324a7f",
+      "canonical_name": "Harrison Birtwistle",
+      "identity_key": "composer:a82528b5788525f95ac40736f8c22472"
+    },
+    {
+      "id": "5f2ff57e-3f35-4542-a75f-f33edd6cdf7e",
+      "canonical_name": "He Zhanhao",
+      "identity_key": "composer:fae217b2c36d3e3ca445c6e08045c661"
+    },
+    {
+      "id": "fd88c59c-2f5a-477a-8b25-86033319d2e4",
+      "canonical_name": "Hector Berlioz",
+      "identity_key": "composer:20e4b854ba673c73cd05aef87504dbc5"
+    },
+    {
+      "id": "c85c12cb-26ad-4a9b-acc6-2de8bc0083ed",
+      "canonical_name": "Héctor Eliel Márquez",
+      "identity_key": "composer:c9d74196bd9145e2ce3a544f08f78148"
+    },
+    {
+      "id": "67681085-172a-46f0-a20a-a51e8b8e9030",
+      "canonical_name": "Hèctor Parra",
+      "identity_key": "composer:f1dbc453f4079c7d44c05daf79616413"
+    },
+    {
+      "id": "94cae696-7986-439f-84fa-e4de7b76fd8a",
+      "canonical_name": "Heinrich Schütz",
+      "identity_key": "composer:732643666fc30322b90d06f5736268fd"
+    },
+    {
+      "id": "7d3fade4-5f01-48bb-b25f-dcfdd28c30f4",
+      "canonical_name": "Heinz Holliger",
+      "identity_key": "composer:5dc68e5491b15eb20ca643527802fe04"
+    },
+    {
+      "id": "120ff259-91df-4bc1-a12a-bc1cb1e85118",
+      "canonical_name": "Heitor Villa-Lobos",
+      "identity_key": "composer:df24afb5a6058684b1669f5e56dafcbf"
+    },
+    {
+      "id": "0fbea3ac-4fd2-49d8-b031-68b34507a8c8",
+      "canonical_name": "Helena Cánovas Parés",
+      "identity_key": "composer:cdb84bb4e5dc7f446160570a8054446a"
+    },
+    {
+      "id": "09eaf19c-d37e-498d-a868-5cc1e301952a",
+      "canonical_name": "Henri Betti",
+      "identity_key": "composer:ceaf8e470ab535a6104b9977513d20e1"
+    },
+    {
+      "id": "221844c3-07fa-4449-80a6-0fdc778832ea",
+      "canonical_name": "Henri Duparc",
+      "identity_key": "composer:17cd9e77170f902e877fee27e8fc9d53"
+    },
+    {
+      "id": "03a55e3b-7e1c-4338-9774-9d66c9012090",
+      "canonical_name": "Henri Dutilleux",
+      "identity_key": "composer:03f6b763cbc6feeab4d8a2978750e43c"
+    },
+    {
+      "id": "64982ae0-d98e-428a-a78c-322676f97c67",
+      "canonical_name": "Henri Tomasi",
+      "identity_key": "composer:a83e1a9483c2cbd8d6d694ea0bb2cca3"
+    },
+    {
+      "id": "added2c9-10ff-4825-bb2a-218f9aecd482",
+      "canonical_name": "Henry Purcell",
+      "identity_key": "composer:601b5821f6cb4e3978f379137fccc57a"
+    },
+    {
+      "id": "2eafe71d-0767-49d9-86ca-ce463efae742",
+      "canonical_name": "Hilda Paredes",
+      "identity_key": "composer:1a0ce5780f6c48c40a1d1d225fbc4666"
+    },
+    {
+      "id": "42098339-88b4-4b3b-ad0b-e5f2c2b1f7f5",
+      "canonical_name": "Hristina Šušak",
+      "identity_key": "composer:5bd103fd25d60aba827ac03b0466b019"
+    },
+    {
+      "id": "de6bdf79-da4e-4a6b-8e89-97380f5347ca",
+      "canonical_name": "Ignacio ‘Indio’ Figueredo",
+      "identity_key": "composer:c6c6c0e72e3181c44983ac9ce92fadc7"
+    },
+    {
+      "id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8",
+      "canonical_name": "Igor Stravinski",
+      "identity_key": "composer:346649d18b915ee7d867b60a7cc0347f"
+    },
+    {
+      "id": "e7aafbb6-1474-46c2-be63-4c200ede57b0",
+      "canonical_name": "Iluminada Pérez Frutos",
+      "identity_key": "composer:9cca1325ba3fb1effbf22d35542e6219"
+    },
+    {
+      "id": "bd70bc90-0178-4e08-8ce0-6d00538580b0",
+      "canonical_name": "Inocente Carreño",
+      "identity_key": "composer:184eb5c75a4989343fca61821c780a72"
+    },
+    {
+      "id": "b8161373-1e10-4d74-a9a4-4125fb7d2978",
+      "canonical_name": "Isaac Albéniz",
+      "identity_key": "composer:8a4edcad212b2d27fa81065b6c9c147e"
+    },
+    {
+      "id": "399ebba5-aeeb-4ce1-aa12-03860f839f2b",
+      "canonical_name": "Jacques Champion de Chambonnières",
+      "identity_key": "composer:ccb75d47122407fd8b97df17d463b428"
+    },
+    {
+      "id": "4c0edd0d-434b-4407-869a-7702348f16b6",
+      "canonical_name": "Jacques Offenbach",
+      "identity_key": "composer:b0e01b85bc834222d7eef853f71a34ab"
+    },
+    {
+      "id": "9768bea2-0138-41ce-9e34-86ac1815e9cf",
+      "canonical_name": "James Horner",
+      "identity_key": "composer:1193c7e8e9fb5f02a926213b0cf9f2af"
+    },
+    {
+      "id": "95807cbb-dc9d-47d7-8c8a-baddfc1f1827",
+      "canonical_name": "Jan Pieterszoon Sweelinck",
+      "identity_key": "composer:73bf97551391842d89ffaab45211c110"
+    },
+    {
+      "id": "d403a5b6-feb1-4ed4-9fc7-3d96f39c6aa0",
+      "canonical_name": "Janiv Oron",
+      "identity_key": "composer:bd5eac32d1c5dfce93fc98628b55da5c"
+    },
+    {
+      "id": "f2344238-88b0-4d1b-bdbc-6dba241d5cf0",
+      "canonical_name": "Jasmine Barnes",
+      "identity_key": "composer:946bd61843a48a6d11b8ed438dec34e6"
+    },
+    {
+      "id": "c648c2e2-f238-4599-b16a-cfb87b633b11",
+      "canonical_name": "Javier Martínez Campos",
+      "identity_key": "composer:fe3e8eabdf3ff3b88d1ac4c280b2aa35"
+    },
+    {
+      "id": "bc566f53-6509-4ca8-9f16-959205139b57",
+      "canonical_name": "Jean Cras",
+      "identity_key": "composer:b9741ce9e06d17efc26449fb256d34da"
+    },
+    {
+      "id": "70d6ff5d-a60c-4f1a-882d-176e87a39c56",
+      "canonical_name": "Jean Sibelius",
+      "identity_key": "composer:91d8e62b1b191ed57705e444268863e3"
+    },
+    {
+      "id": "358d54ac-55c3-455f-ad58-e800f883783c",
+      "canonical_name": "Jean-Benoît Dunckel",
+      "identity_key": "composer:40b5f3db0d205273dd376aa794d70878"
+    },
+    {
+      "id": "6112dd53-ad8e-4447-8e7b-4a636671979f",
+      "canonical_name": "Jean-Joseph Cassanéa de Mondonville",
+      "identity_key": "composer:af2ae9ed1d0b42d79935d293068d483c"
+    },
+    {
+      "id": "5356cd1b-d7c8-4dd6-99a9-bdaf23f23677",
+      "canonical_name": "Jean-Michel Damase",
+      "identity_key": "composer:66dbf0b9f275f98a4a1f00c0a3461c20"
+    },
+    {
+      "id": "3860f2ba-6650-4e38-b61c-2b55a3b9a447",
+      "canonical_name": "Jean-Philippe Rameau",
+      "identity_key": "composer:f613a9f16c4c01261b719c96eaeb3994"
+    },
+    {
+      "id": "b6a5ca2f-a920-4289-b001-e578b8e1c2a8",
+      "canonical_name": "Jean-Pierre Deleuze",
+      "identity_key": "composer:6d09812aba3c38a1ac2ad0328f706a6a"
+    },
+    {
+      "id": "df73a3c2-7b84-4017-8c96-ceac951ef1d7",
+      "canonical_name": "Jennifer Higdon",
+      "identity_key": "composer:946329c804e7c60ad6e0054e63e2b953"
+    },
+    {
+      "id": "e0e07e6d-2dbb-4c8d-a071-d659ca781596",
+      "canonical_name": "Jerome Kern",
+      "identity_key": "composer:469561e1a8c6d48fbce7a39b659336c0"
+    },
+    {
+      "id": "422e3803-f0bd-4be0-bddc-f2ca041ff421",
+      "canonical_name": "Jessie Montgomery",
+      "identity_key": "composer:0b3f1c23c100fc07820e71daf6b38374"
+    },
+    {
+      "id": "fc6bba06-be1e-4f78-ba9f-e6992206caa8",
+      "canonical_name": "Joan Magrané Figuera",
+      "identity_key": "composer:2178f82b38a579e0f8d6ed0bf60b8ccc"
+    },
+    {
+      "id": "26d19875-fa7d-449a-b674-d881723cc6b1",
+      "canonical_name": "Joaquín Rodrigo",
+      "identity_key": "composer:58f2d22d885476560f2dc9ae34767bf3"
+    },
+    {
+      "id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
+      "canonical_name": "Joaquín Turina",
+      "identity_key": "composer:676d4572e7362610b11e516d419ea41d"
+    },
+    {
+      "id": "c7d7531b-7cd0-4245-8094-3cf59b12187e",
+      "canonical_name": "Joe Hisaishi",
+      "identity_key": "composer:5506868aaeaa7f59ab9cb07f0c145429"
+    },
+    {
+      "id": "744a3353-2220-4948-860c-2845bef9e0b1",
+      "canonical_name": "Johann Christian Bach",
+      "identity_key": "composer:34fd2fcd2d600c653b02a2822b7e4675"
+    },
+    {
+      "id": "eeb7a61b-972b-4a6d-8ca7-84e328f0e850",
+      "canonical_name": "Johann Georg Pisendel",
+      "identity_key": "composer:15903842ee91d2c72fb07c63d2e7ff4c"
+    },
+    {
+      "id": "e3023bf1-692f-496c-84a0-4f4152fc87bc",
+      "canonical_name": "Johann Hermann Schein",
+      "identity_key": "composer:854dbb65b970d54f314d11801d56b42e"
+    },
+    {
+      "id": "59311043-087b-4d8b-b13d-901181f41951",
+      "canonical_name": "Johann Nepomuk Hummel",
+      "identity_key": "composer:d0ae1aa29dbe45de3ec73b08567bfaa3"
+    },
+    {
+      "id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+      "canonical_name": "Johann Sebastian Bach",
+      "identity_key": "composer:698c1236f839841d4f25d51a40ea975b"
+    },
+    {
+      "id": "f49a8515-7b64-4d8d-8129-9233cd627a25",
+      "canonical_name": "Johann Strauss II",
+      "identity_key": "composer:1e32311f4c93affde912d7de76771f10"
+    },
+    {
+      "id": "2cffa372-2bc9-4321-bf4e-4a17aa772418",
+      "canonical_name": "Johannes Brahms",
+      "identity_key": "composer:2bcc5099cf9913a08c448650a4e480b0"
+    },
+    {
+      "id": "930c72cf-5c66-48eb-a2e1-666f1bcbe526",
+      "canonical_name": "John Adams",
+      "identity_key": "composer:8abd90039746093e0f316aba83b508a4"
+    },
+    {
+      "id": "b38fd8ad-28cb-4612-b598-a561e9c08d1d",
+      "canonical_name": "John Dowland",
+      "identity_key": "composer:ae528a1fa57635ee9b05f92b8baca0b2"
+    },
+    {
+      "id": "c7b02091-ea67-4311-aad0-8482f4b849d4",
+      "canonical_name": "John Williams",
+      "identity_key": "composer:0b32e2f9ca46763ef2c936b8222a2ad5"
+    },
+    {
+      "id": "81d0333e-16ef-46da-99b4-adc787cf9941",
+      "canonical_name": "John Zorn",
+      "identity_key": "composer:155063b6c800b1637951c5398503af43"
+    },
+    {
+      "id": "44f305a6-f5fb-4dd6-88f0-173da5369e98",
+      "canonical_name": "José Castel",
+      "identity_key": "composer:635951fea285b2ade36333d0848649bb"
+    },
+    {
+      "id": "4c6a9335-3c14-454a-be7b-2f405c9946c8",
+      "canonical_name": "José de Nebra",
+      "identity_key": "composer:0baa9262c78c724daedf24bac9864bff"
+    },
+    {
+      "id": "e40c9bd6-3c74-499e-bee1-f09424950424",
+      "canonical_name": "José de San Juan",
+      "identity_key": "composer:bd7a0ff498722945989e90128f20d070"
+    },
+    {
+      "id": "17ed3132-6f98-476e-8a5c-ddd03fb6ac1a",
+      "canonical_name": "José de Torres",
+      "identity_key": "composer:4b52cd999c82e409a96cd47c57f66f27"
+    },
+    {
+      "id": "e958964f-815d-45a3-934e-50d56b9af30c",
+      "canonical_name": "José Luis Turina",
+      "identity_key": "composer:afcf4e112c2fbfe08d744b8271f504e1"
+    },
+    {
+      "id": "a5f5927b-db3e-47e3-8db6-02d5f7c85966",
+      "canonical_name": "José Martínez de Arce",
+      "identity_key": "composer:5a1ea9244683d1ddb2d77ca1a4eb922f"
+    },
+    {
+      "id": "5ab19350-868f-4dae-b48c-a8a8b06bb0ec",
+      "canonical_name": "José Pablo Moncayo",
+      "identity_key": "composer:d5f2c193e6ae4138cde7568e21147657"
+    },
+    {
+      "id": "18abcf6f-7dae-45db-944f-c6d6fdf2278a",
+      "canonical_name": "Joseph Haydn",
+      "identity_key": "composer:298cd66f820521b9ab7b1ad9b828af56"
+    },
+    {
+      "id": "f438aa99-dd48-496f-b02f-f34597e4078e",
+      "canonical_name": "Joseph Hellmesberger Jr.",
+      "identity_key": "composer:f33cffc5ae9b49e5930f86754d90c9bf"
+    },
+    {
+      "id": "f01e6fd9-3ebd-4b1d-a0a3-5687a4bab573",
+      "canonical_name": "Joseph Joachim",
+      "identity_key": "composer:a8722e1fdf2d85b94c1eaf9fef943e96"
+    },
+    {
+      "id": "79e444a1-7a70-4aff-832e-c717d90d7a40",
+      "canonical_name": "Joseph Jongen",
+      "identity_key": "composer:e24ddb7cd0c87c9426bbf5ade759da83"
+    },
+    {
+      "id": "2e41f299-0cf7-4292-8d2b-88e5000a36b1",
+      "canonical_name": "Joseph-Nicolas-Pancrace Royer",
+      "identity_key": "composer:d3f9189aa594895b0202e21e3223b9d2"
+    },
+    {
+      "id": "48347e4f-9217-4c85-9bbd-21d2830d59d8",
+      "canonical_name": "Josquin Desprez",
+      "identity_key": "composer:c091f2e2e44d65e9d44f3ffe37068de8"
+    },
+    {
+      "id": "f21145dc-457a-49f9-91b6-02c3158f9d52",
+      "canonical_name": "Juan Francés de Iribarren",
+      "identity_key": "composer:51d3320e392d3eaabd989a929bf648d9"
+    },
+    {
+      "id": "502a76cd-01a9-4600-a8ee-a9cff1ac2a08",
+      "canonical_name": "Juan Francisco García",
+      "identity_key": "composer:1cfb46ebc35ba50093a131c59a0405e3"
+    },
+    {
+      "id": "69084782-ef3f-49f6-aedf-29e43a599385",
+      "canonical_name": "Juan-Alfonso García",
+      "identity_key": "composer:bcc0bba917953ffcf97155730cc1abdb"
+    },
+    {
+      "id": "d3ca7ba7-7ee6-4907-9c43-58639d60671d",
+      "canonical_name": "Jules Massenet",
+      "identity_key": "composer:b9f42a4addd17256e0e75b29b0ac075e"
+    },
+    {
+      "id": "2c4a5c6d-27e2-430b-a64c-b9eb1a2516fc",
+      "canonical_name": "Julian Anderson",
+      "identity_key": "composer:911a2eecc0bf65d501ab4b6408ec43f3"
+    },
+    {
+      "id": "1afda398-8484-4c7b-a527-0fa05b38c3f7",
+      "canonical_name": "Julián Arcas",
+      "identity_key": "composer:c5457fea7cf37e692d19ad60c2276f6d"
+    },
+    {
+      "id": "87c751d7-e817-42c5-8b97-d0dca9fbeada",
+      "canonical_name": "Kaija Saariaho",
+      "identity_key": "composer:15d845953f2eff62b393503d55a90331"
+    },
+    {
+      "id": "e0cd14fa-15e4-447e-a669-c9cf96233441",
+      "canonical_name": "Karlheinz Stockhausen",
+      "identity_key": "composer:63e9c63d5b8c519d825942a1faf7801e"
+    },
+    {
+      "id": "8b7de731-e7fa-4fd4-a84b-2412dcb646b9",
+      "canonical_name": "Karol Szymanowski",
+      "identity_key": "composer:14ebd7514a6fef50d97de5bd6cca3328"
+    },
+    {
+      "id": "41df51cd-f8c6-42ec-b867-03f45e6bf4e4",
+      "canonical_name": "Kurt Weill",
+      "identity_key": "composer:63a951b4748d7860703324b8f5c73d14"
+    },
+    {
+      "id": "b8398ecb-d052-4bf6-b2e5-5c5303399106",
+      "canonical_name": "Laura Vega Santana",
+      "identity_key": "composer:df528b28a948da5454629146d70f9ead"
+    },
+    {
+      "id": "dbc5767f-2179-446c-a0eb-371efe1be503",
+      "canonical_name": "Lauren Bernofsky",
+      "identity_key": "composer:e79cc2c1dfb92aebbf85326f323b5bcd"
+    },
+    {
+      "id": "5739875c-8977-4580-8ea9-6121380f79b8",
+      "canonical_name": "Lennox Berkeley",
+      "identity_key": "composer:b4cee40002290988e501f3f0eae13fbb"
+    },
+    {
+      "id": "62b7ee8e-1551-463f-9685-c05b2448dea8",
+      "canonical_name": "Léo Delibes",
+      "identity_key": "composer:c04d6119aeaa8cbf8190e6a49a55232c"
+    },
+    {
+      "id": "4dc4b3e2-c6f9-4424-bdc3-8ce9c0699384",
+      "canonical_name": "Leonard Bernstein",
+      "identity_key": "composer:38546aef91770c6db87ab0a3ede7c05b"
+    },
+    {
+      "id": "15529a96-6d11-4c49-8baf-6168c2ecbf6c",
+      "canonical_name": "Léopold Wallner",
+      "identity_key": "composer:86c1056c3480997d13b4408823606ba8"
+    },
+    {
+      "id": "01b5135b-0613-4a5e-9cff-d32fa11364b6",
+      "canonical_name": "Leoš Janáček",
+      "identity_key": "composer:3dea80ce0dd2dc275b7a8a5a3c97dccc"
+    },
+    {
+      "id": "73a32e43-9bad-40f8-8c10-f07ab437c239",
+      "canonical_name": "Leroy Anderson",
+      "identity_key": "composer:6469e8d89dc0e8b01adebac266702169"
+    },
+    {
+      "id": "9d55ade0-6529-484c-a948-9620df281b59",
+      "canonical_name": "Lili Boulanger",
+      "identity_key": "composer:ea46b4a8379825351a8c91aede4aad1f"
+    },
+    {
+      "id": "5f6979e7-8554-4af8-ad48-89089ba42b5e",
+      "canonical_name": "Liza Lim",
+      "identity_key": "composer:f58649e8b3aa56438b730eb7fa9c1e5c"
+    },
+    {
+      "id": "8e5db05c-784f-45de-871e-36a45b5af53a",
+      "canonical_name": "Louiguy",
+      "identity_key": "composer:e61fe35ee92e5f39e47b384e9bbf2f0c"
+    },
+    {
+      "id": "2e0e0bb3-e9b0-46d8-abd2-6e6059123255",
+      "canonical_name": "Louis Couperin",
+      "identity_key": "composer:c135df2398cd05e2655c2dee5e31c97c"
+    },
+    {
+      "id": "130c0efa-c8d4-48b7-85d0-74e232ae58a3",
+      "canonical_name": "Louise Farrenc",
+      "identity_key": "composer:cacff2bdf72981fb4d63d2c10868be6d"
+    },
+    {
+      "id": "9ad3a0e2-cfb4-457a-8254-a0c1e5d30ffe",
+      "canonical_name": "Lucas Debargue",
+      "identity_key": "composer:19105497c05aebee28af4298be7a6bb8"
+    },
+    {
+      "id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59",
+      "canonical_name": "Ludwig van Beethoven",
+      "identity_key": "composer:48dad67fdd51cc55c950481fcbda5e9c"
+    },
+    {
+      "id": "2306b0e9-58fb-4cc2-8061-0b6d49e1f310",
+      "canonical_name": "Luigi Boccherini",
+      "identity_key": "composer:fe54defe4ff6d2f1168c6fa11af7c328"
+    },
+    {
+      "id": "1e06f0c1-1a6c-4b6d-adcf-0cbb3af0f91b",
+      "canonical_name": "Luigi Maurizio Tedeschi",
+      "identity_key": "composer:9430baea77eec44040fb79d15617d62a"
+    },
+    {
+      "id": "10c891c3-f0c4-4a5a-894c-54855af840d2",
+      "canonical_name": "Luigi Nono",
+      "identity_key": "composer:1fb49d3935b15f805b25eafa3ecde48d"
+    },
+    {
+      "id": "c899e6e6-1db5-4a81-b79f-5e04b7f10e2e",
+      "canonical_name": "Luigi Rossi",
+      "identity_key": "composer:2a32856e1554dcb849cffaf9792db7f1"
+    },
+    {
+      "id": "47e959cc-c7dc-4281-939b-d6042c16bbd9",
+      "canonical_name": "Luis Tabuenca",
+      "identity_key": "composer:e32d8a389056240c9943c742b6c8bd66"
+    },
+    {
+      "id": "3aa4718f-12b6-4151-bdd2-8938790955e0",
+      "canonical_name": "Manuel Busto",
+      "identity_key": "composer:b4b78085ae2901d44714e2751d852304"
+    },
+    {
+      "id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6",
+      "canonical_name": "Manuel de Falla",
+      "identity_key": "composer:d52aea21c6892e487ba5c4f7c52c6f72"
+    },
+    {
+      "id": "d52ab28f-7795-4372-9e45-9664e6f38e64",
+      "canonical_name": "Marc-Antoine Charpentier",
+      "identity_key": "composer:e616c3dcc91aa2d0ffe9476395fa18a6"
+    },
+    {
+      "id": "25105bad-14e4-41eb-bbbc-e90491575dc4",
+      "canonical_name": "Marc-Olivier Dupin",
+      "identity_key": "composer:cad032e40254789f200f8cc92625cac0"
+    },
+    {
+      "id": "251e88e1-fcd0-42ad-8f93-6d98ced09b71",
+      "canonical_name": "Marina Dranichnikova",
+      "identity_key": "composer:75e76999c68a56f74647aa9f8dcfdf26"
+    },
+    {
+      "id": "3b33368e-5488-4429-8307-2099c44a681a",
+      "canonical_name": "Maurice Duruflé",
+      "identity_key": "composer:e51aca5588d355a4b9368172ef3455e0"
+    },
+    {
+      "id": "f372a0dd-f851-4339-a8ca-5dc15e1ab508",
+      "canonical_name": "Maurice Ravel",
+      "identity_key": "composer:f6bbefbdc88bbaa5d9be12b6da044d91"
+    },
+    {
+      "id": "0047710c-37c5-4fef-a0fc-7aa0b31942dd",
+      "canonical_name": "Max Bruch",
+      "identity_key": "composer:61df0fda879898fe58672567567accc4"
+    },
+    {
+      "id": "88d37e1d-7395-478f-b393-70332dbeca5f",
+      "canonical_name": "Max Richter",
+      "identity_key": "composer:49f093a0dc87b09c2f48c809469da267"
+    },
+    {
+      "id": "21035a91-1438-492d-b8cf-9e9b6074ec4b",
+      "canonical_name": "Max Steiner",
+      "identity_key": "composer:d736c299752eb654c9ada2d27eba3ec3"
+    },
+    {
+      "id": "419246ef-ce80-4a50-9ed6-92d0a061d683",
+      "canonical_name": "Michael Anklin",
+      "identity_key": "composer:1045b8b923b7f83224d3e879ae8c17fc"
+    },
+    {
+      "id": "a829d7a0-7093-4656-9a4a-ce9467d937e7",
+      "canonical_name": "Michael Haydn",
+      "identity_key": "composer:b1568fff782579c7a9510062b7f225c7"
+    },
+    {
+      "id": "6f6aa47a-3abd-4e42-958a-500da7d87afe",
+      "canonical_name": "Michel Lambert",
+      "identity_key": "composer:698902e97dbc20ff60a124244225cdbe"
+    },
+    {
+      "id": "8810a68a-799f-4797-a8da-af5622ff1e28",
+      "canonical_name": "Michel-Richard de Lalande",
+      "identity_key": "composer:2ea4b6aa9392b9bf14def20dba40e685"
+    },
+    {
+      "id": "dc6eee67-16a0-4f2e-9431-369a3260ae70",
+      "canonical_name": "Michèle Reverdy",
+      "identity_key": "composer:23ec003b473af1cb06446115327e2666"
+    },
+    {
+      "id": "8a32bf1a-1d54-4f5c-959d-222768b113d3",
+      "canonical_name": "Mieczysław Weinberg",
+      "identity_key": "composer:d034fb4b61c314fd7126bc86fef9aad9"
+    },
+    {
+      "id": "f711734e-7f08-4dbf-9a8a-ec4e3fe20774",
+      "canonical_name": "Mijaíl Glinka",
+      "identity_key": "composer:bbbe70b4cce1c6aa98fa04fed5bd4a1f"
+    },
+    {
+      "id": "1dc459aa-f9f3-4fa0-b303-b43fe5c8b5c1",
+      "canonical_name": "Mikel Urquiza",
+      "identity_key": "composer:0d9136ee9cb3d0c788407f741c32ad6c"
+    },
+    {
+      "id": "07a0e223-105a-4c36-91ec-f3a9079a9b5d",
+      "canonical_name": "Miklós Rózsa",
+      "identity_key": "composer:9879dc38f9aeec4d23d3925b6716af50"
+    },
+    {
+      "id": "6f083b83-8c24-4ad9-95c0-d20749732d56",
+      "canonical_name": "Milica Djordjević",
+      "identity_key": "composer:838cdbea36ad8866cd4fc1427f27c425"
+    },
+    {
+      "id": "536dd1a3-b974-4c50-b6d9-30021397fa58",
+      "canonical_name": "Modest Mussorgsky",
+      "identity_key": "composer:5798b099b6f49a3bd9a0018cd01750e2"
+    },
+    {
+      "id": "076abd0f-eee2-40fc-a802-8bb0a389ffd3",
+      "canonical_name": "Moritz Moszkowski",
+      "identity_key": "composer:7b0ba618252327a32c89dff9be0698af"
+    },
+    {
+      "id": "80bb111f-c38d-4ed0-a07e-f602e83ffb4e",
+      "canonical_name": "Morton Feldman",
+      "identity_key": "composer:a535cc44d8c546e664aacbda5244818b"
+    },
+    {
+      "id": "8a363dd4-a39b-4e51-b7d6-28ae42900ab5",
+      "canonical_name": "Morton Gould",
+      "identity_key": "composer:7cd7fb1b0f2cd10ad12564ea1a397d9e"
+    },
+    {
+      "id": "77a84c30-a17e-48b1-9050-425777be7ca7",
+      "canonical_name": "Mozart Camargo Guarnieri",
+      "identity_key": "composer:efee7d29524a30d66f823414cb397f3b"
+    },
+    {
+      "id": "be97220c-d235-4f06-ab98-074109885700",
+      "canonical_name": "Natalia Lafourcade",
+      "identity_key": "composer:3c85d3f4108b59b11ebaf79c5366daf1"
+    },
+    {
+      "id": "dabf77f5-b183-4312-9104-fe2c8279dc03",
+      "canonical_name": "Nicola Antonio Porpora",
+      "identity_key": "composer:1adc955a6744a55ba713570b683d5ff3"
+    },
+    {
+      "id": "da3c5b27-e804-41ad-8165-59cd4cc01223",
+      "canonical_name": "Nikolai Rimsky-Korsakov",
+      "identity_key": "composer:ca619a0d273014026202e48ffd29b8cd"
+    },
+    {
+      "id": "015c0893-c701-4903-9757-3320b3140d3e",
+      "canonical_name": "Núria Giménez-Comas",
+      "identity_key": "composer:abe143273443d8d22621462e56052fe5"
+    },
+    {
+      "id": "eb0aa821-6ef7-4bff-8c71-ace7b447aa5d",
+      "canonical_name": "Nuria Núñez Hierro",
+      "identity_key": "composer:ab6c5f55a441baf1c3b07ac9291ce61b"
+    },
+    {
+      "id": "65f22784-68bb-435b-ad3b-e043bc894d4a",
+      "canonical_name": "Olga Neuwirth",
+      "identity_key": "composer:c89c1661478398249eed1065312b62a3"
+    },
+    {
+      "id": "c64f4739-75ad-4246-b2fb-032eaba87268",
+      "canonical_name": "Olivier Messiaen",
+      "identity_key": "composer:e17c5a93eeae32ad412fa662dbd1dab4"
+    },
+    {
+      "id": "c8448796-17f0-4dd5-b45b-78b684987402",
+      "canonical_name": "Oscar Lorenzo Fernández",
+      "identity_key": "composer:e5a5f3a4c9824dd113f8bb850c0a2af6"
+    },
+    {
+      "id": "1dccf047-a3b8-4982-89d1-e3c2e4403100",
+      "canonical_name": "Oscar Strasnoy",
+      "identity_key": "composer:c06d9fb8d9a675ad4f7bf6c323f02e40"
+    },
+    {
+      "id": "1cf06f21-9da5-4217-a40e-71b2c6b6a03f",
+      "canonical_name": "Ottorino Respighi",
+      "identity_key": "composer:245e242a641d08377d24e984e21ad587"
+    },
+    {
+      "id": "9840675d-747d-4674-af05-12c7fb794227",
+      "canonical_name": "Paul Dukas",
+      "identity_key": "composer:1d3e44ba3c4503aa36f7ea4cba807989"
+    },
+    {
+      "id": "98c0ea94-5108-4486-936f-b4f98707bfd0",
+      "canonical_name": "Pauline Viardot",
+      "identity_key": "composer:60eeacf4422cf5c67d48c5d1097db33e"
+    },
+    {
+      "id": "e18d8c7c-1046-4a2b-a114-401dae743657",
+      "canonical_name": "Pauline Viardot-García",
+      "identity_key": "composer:ab7c5d5b0d67e7f10e728254dbae13b9"
+    },
+    {
+      "id": "be6417c1-ac92-4665-bc1f-19266a181b4f",
+      "canonical_name": "Peter S. Shin",
+      "identity_key": "composer:7277d15713fe25496e574ceb5bfbb823"
+    },
+    {
+      "id": "af91b8cf-61c9-4ab7-93c2-bf8f0f0b9ce4",
+      "canonical_name": "Philip Glass",
+      "identity_key": "composer:0c6a0d835724e75a3440dc11d07f2c19"
+    },
+    {
+      "id": "312fa95d-e85a-4968-98df-452098630179",
+      "canonical_name": "Philipp Wilcher",
+      "identity_key": "composer:1ef04c0b954ed4dabe87ee1c69f163f7"
+    },
+    {
+      "id": "91c01aeb-4282-4ec3-aa0e-ac6b1633a457",
+      "canonical_name": "Philippe Leroux",
+      "identity_key": "composer:dc5f1b7031d38974a554b1ed58f488b2"
+    },
+    {
+      "id": "e9faf0db-8dba-4ade-ad4d-be6602211468",
+      "canonical_name": "Philippe Macé",
+      "identity_key": "composer:ffaa7076f73bf35abb223ab05fb658b0"
+    },
+    {
+      "id": "9856e389-6abe-4e47-8626-cb1d1126e4e8",
+      "canonical_name": "Pierre Boulez",
+      "identity_key": "composer:18bdefa51364f79fd65abee7b5626c58"
+    },
+    {
+      "id": "b81843bc-3c6d-4655-b5d3-9f90044a33ca",
+      "canonical_name": "Pierre Guédron",
+      "identity_key": "composer:c38db529e443d15b39f4dec20dc6dee1"
+    },
+    {
+      "id": "a89931a1-a99c-47af-bc13-751d4167a59f",
+      "canonical_name": "Pierre Henry",
+      "identity_key": "composer:a2b8a4c70b0175b77fadc2e1e9ab6740"
+    },
+    {
+      "id": "87faa5ad-16a2-49a1-984b-6957b5e0e390",
+      "canonical_name": "Pierre Jodlowski",
+      "identity_key": "composer:3720fadeeaeeafee311982d0be750bd6"
+    },
+    {
+      "id": "8b8442d0-dd77-4c59-ab2e-d897abb10408",
+      "canonical_name": "Piotr Ilitch Tchaïkovski",
+      "identity_key": "composer:921bae2e734c2ba0c7830cd1bb17988d"
+    },
+    {
+      "id": "bfc3577d-f059-4fd9-ab8b-5d6a72f6331e",
+      "canonical_name": "Quenton Blache",
+      "identity_key": "composer:883cfa72880b3ecd8b30a07f0f0e2027"
+    },
+    {
+      "id": "f2a1e385-808b-4981-995e-8f313d742cba",
+      "canonical_name": "R. Murray Schafer",
+      "identity_key": "composer:d4828d8cd40900979f29038dab30f70e"
+    },
+    {
+      "id": "c24cafa5-6939-46fb-ab59-b8d8e750020e",
+      "canonical_name": "Radamés Gnattali",
+      "identity_key": "composer:bbf6384e78e1a1e202d954e8fa4cd61c"
+    },
+    {
+      "id": "57fffd2c-b888-4f0c-b2d3-001687c51d61",
+      "canonical_name": "Rafael Bullumba Landestoy",
+      "identity_key": "composer:cb0ff5c4f2aabadfb9745dbc5de6b159"
+    },
+    {
+      "id": "08e4d35a-f9f5-4b56-bf6d-7c5cc82d295d",
+      "canonical_name": "Ralph Vaughan Williams",
+      "identity_key": "composer:c94a432f84211169388283348c5565b2"
+    },
+    {
+      "id": "c52af4e3-4ed0-4fac-9b3f-0d7f7ea61906",
+      "canonical_name": "Raquel García-Tomás",
+      "identity_key": "composer:23ff6d5cd3cdab7574e971c92b099fb6"
+    },
+    {
+      "id": "4cb191ba-384f-4ada-895d-99a30786067a",
+      "canonical_name": "René Eespere",
+      "identity_key": "composer:1a52d176faf95b422bce992bb692e214"
+    },
+    {
+      "id": "c0363e32-c041-4fee-b777-40756e076c55",
+      "canonical_name": "René Mézengeau",
+      "identity_key": "composer:70f18f0c3be324ad1f7a36fefe46e2dc"
+    },
+    {
+      "id": "9041f225-730b-4e8a-8e60-804b08cf6f77",
+      "canonical_name": "Reynaldo Hahn",
+      "identity_key": "composer:107e4427c32e77dee06cfe72cb3a9aa8"
+    },
+    {
+      "id": "34e3cc46-3697-48da-b4c8-eb76b4fccdc2",
+      "canonical_name": "Richard Dubugnon",
+      "identity_key": "composer:e724889af26eca5866a80a31e800fce6"
+    },
+    {
+      "id": "0d2f4633-2ce7-43b6-9c1f-d6938a602462",
+      "canonical_name": "Richard Strauss",
+      "identity_key": "composer:1326737f211fe37f6392702f84c8111d"
+    },
+    {
+      "id": "61f9bd52-8cc4-4752-bfbd-76c7a8d55f85",
+      "canonical_name": "Richard Wagner",
+      "identity_key": "composer:edaa46b45f67e953347bbdb546d67822"
+    },
+    {
+      "id": "ffd00745-0b52-4e32-918d-ce168b2e3513",
+      "canonical_name": "Richard Wilberforce",
+      "identity_key": "composer:99bb0a1812c0af0e6e29a14cd9da6d4f"
+    },
+    {
+      "id": "6112de10-b6b5-44ea-ab78-0f7970dfbde2",
+      "canonical_name": "Robert de Visée",
+      "identity_key": "composer:dc24510e2f1ca8e8efc2f266ed1939de"
+    },
+    {
+      "id": "77b766df-3fd8-44a8-b2df-360a050091a2",
+      "canonical_name": "Robert Schumann",
+      "identity_key": "composer:fefe981cb6b6ef6ef9c15220f915f3cd"
+    },
+    {
+      "id": "8bc0aec2-56b5-4b55-ac5f-720d01fd8c69",
+      "canonical_name": "Rodolfo Halffter",
+      "identity_key": "composer:8d2bd5a8e88d804ae23407b882b9212c"
+    },
+    {
+      "id": "0ddb9262-bb58-45bb-bade-3937a3f287e8",
+      "canonical_name": "Rodolphe Bruneau-Boulmier",
+      "identity_key": "composer:0c6e28c75de22eac52455ab4f2907e2e"
+    },
+    {
+      "id": "7f285d3f-c268-485d-bbf3-34cfb5d2aae4",
+      "canonical_name": "Roger Roger",
+      "identity_key": "composer:6738515b05b36cd8651e964829838452"
+    },
+    {
+      "id": "04bf468f-0f6b-4da4-8d27-84697a164761",
+      "canonical_name": "Ryuichi Sakamoto",
+      "identity_key": "composer:26d7a0fea0eef7d5dc24997f760eff66"
+    },
+    {
+      "id": "991f1408-8bc5-43c8-9a92-74ac23b8e94d",
+      "canonical_name": "Samuel Barber",
+      "identity_key": "composer:452b082f9046b8440b22dfc4a7c07ed2"
+    },
+    {
+      "id": "73155fe6-9950-492c-8c20-417844140922",
+      "canonical_name": "Santiago de Murcia",
+      "identity_key": "composer:e91a31917a59011399c12d12007f5de2"
+    },
+    {
+      "id": "329b874d-af61-422c-9e49-fbe43cfe7bcd",
+      "canonical_name": "Sarah Nemtsov",
+      "identity_key": "composer:b2fdfb7ffa0d5f560f995bc312937177"
+    },
+    {
+      "id": "10c077f0-1446-43ca-9284-fc77d557b98a",
+      "canonical_name": "Sebastian Bartmann",
+      "identity_key": "composer:85c36b3f770524d5d6b7bb70ed988a8a"
+    },
+    {
+      "id": "798d1de1-cd79-4f9e-9e36-135a01a4ab63",
+      "canonical_name": "Sébastien Le Camus",
+      "identity_key": "composer:292d0a8131e1bda21ca05666a2133506"
+    },
+    {
+      "id": "b8f76a6d-c74a-422a-86b3-95922120167c",
+      "canonical_name": "Serge Rachmaninoff",
+      "identity_key": "composer:3e4e2e49407266a396857172d907229a"
+    },
+    {
+      "id": "3da4e0c4-41bf-48c4-bccd-633486ad7857",
+      "canonical_name": "Sergei Bortkiewicz",
+      "identity_key": "composer:7ecbc63604612c35a11bf87bcd32b4cb"
+    },
+    {
+      "id": "4014ad56-05b6-4a44-8f39-07650167e9b4",
+      "canonical_name": "Sergueï Prokofiev",
+      "identity_key": "composer:f40618d029fff4ff286df6571c8669b2"
+    },
+    {
+      "id": "5bb5bb17-2a6a-46aa-9a4b-54a0119086c2",
+      "canonical_name": "Shin Kim",
+      "identity_key": "composer:9628b02c3c51d2c309fad81d18bccd5a"
+    },
+    {
+      "id": "2a45a002-feaf-4f9e-9be3-a7dc34f8efc6",
+      "canonical_name": "Silvestre Revueltas",
+      "identity_key": "composer:afd427e0f3e0d245d0eb362a862a1340"
+    },
+    {
+      "id": "d1983b39-a625-4c7a-bdcc-983de7ac50b9",
+      "canonical_name": "Sina Fallahzadeh",
+      "identity_key": "composer:991b8faa7bb5a4f072b968322b762cfa"
+    },
+    {
+      "id": "c820f8b3-cf80-4230-8088-7071ecbf1df1",
+      "canonical_name": "Sofia Avramidou",
+      "identity_key": "composer:acad0aebdd5a03955c4c9194f6cc5646"
+    },
+    {
+      "id": "c3d79632-6684-4a6a-8696-4c9adbaf4cf6",
+      "canonical_name": "Sofia Gubaidulina",
+      "identity_key": "composer:14b782b648427ec7ed2746a17c518abf"
+    },
+    {
+      "id": "203120b0-8c3e-489a-b27c-ee9bdd0c97eb",
+      "canonical_name": "Sogomon Komitas",
+      "identity_key": "composer:8a7f8db70fa9fdef5b099de1ea75c77e"
+    },
+    {
+      "id": "8b795551-8a32-419a-ad1b-f18a2e770f46",
+      "canonical_name": "Steve Reich",
+      "identity_key": "composer:fcfdb3903e0e618cb0ca0a07c2981b89"
+    },
+    {
+      "id": "eaf13625-fb34-448f-b167-55616e17754e",
+      "canonical_name": "Takashi Yoshimatsu",
+      "identity_key": "composer:cc0726f7cf3d3a99ccf4342a0e9b9378"
+    },
+    {
+      "id": "60266e56-3304-4dc7-91d1-7545b8f9198d",
+      "canonical_name": "Tania León",
+      "identity_key": "composer:b0b512ea638a0fbdeac4de87311ff641"
+    },
+    {
+      "id": "5f43e904-5c15-494d-a2d7-028f6a07b53e",
+      "canonical_name": "Thierry Escaich",
+      "identity_key": "composer:79a09e8f81e8b7eaf3e78a38f8ed85b3"
+    },
+    {
+      "id": "b11bdd0f-2bd1-4a01-9426-abdedab2235b",
+      "canonical_name": "Thomas Adès",
+      "identity_key": "composer:a5732e15616ab8e451bac59325155d61"
+    },
+    {
+      "id": "8d2ca3ff-13a1-41d7-8020-40fb1c58ed8f",
+      "canonical_name": "Thomas Enhco",
+      "identity_key": "composer:5a5ea6e48df9f8ee1378f110759896d9"
+    },
+    {
+      "id": "6a1cb879-0486-43ad-962b-7e1997b11d73",
+      "canonical_name": "Thomas Larcher",
+      "identity_key": "composer:59641c14daf053545c713e97640ee1d5"
+    },
+    {
+      "id": "0bea1887-2a43-4dc5-b0c5-ea5802403dde",
+      "canonical_name": "Tomás Luis de Victoria",
+      "identity_key": "composer:91ae4e65365a7351a9e21bea04f05417"
+    },
+    {
+      "id": "a1e098f0-9cd1-4198-8e60-a1f6a81c78be",
+      "canonical_name": "Tomaso Albinoni",
+      "identity_key": "composer:f7eea557072081ee763402a40b0fd166"
+    },
+    {
+      "id": "f1919726-38f4-4ddc-9d60-f7186eb3f7d4",
+      "canonical_name": "Toru Takemitsu",
+      "identity_key": "composer:7b50dbcb1473465db5f08ec20cf14d64"
+    },
+    {
+      "id": "94cffb84-b26b-40ae-b531-43a0d6ea3f94",
+      "canonical_name": "Tristan Murail",
+      "identity_key": "composer:366d8fec9cdbe47f5eea196f4587c1ac"
+    },
+    {
+      "id": "54103d6a-b38f-4e8f-a9f6-04879ae388ea",
+      "canonical_name": "Tyshawn Sorey",
+      "identity_key": "composer:3e1292002a95d87df179001979eae0f7"
+    },
+    {
+      "id": "602df78d-57e8-4e61-bb72-0d66ffca7dbe",
+      "canonical_name": "Umberto Giordano",
+      "identity_key": "composer:033a739d209fa9750e82a0217a9480e2"
+    },
+    {
+      "id": "e90ba271-44f5-41a4-be81-edd0b1b97dd0",
+      "canonical_name": "Unsuk Chin",
+      "identity_key": "composer:b3c8e8d5c018638b0c81c6daf2bd9ee7"
+    },
+    {
+      "id": "55aa60f8-31e6-4e85-ab14-b29a0c27b905",
+      "canonical_name": "Veljo Tormis",
+      "identity_key": "composer:d1b46d2abcef34dc25965d980a67d284"
+    },
+    {
+      "id": "43461e61-4ca1-44e9-bdf2-6f7437d6c3f3",
+      "canonical_name": "Vicente Goicoechea",
+      "identity_key": "composer:08ea1a8ef8f17880d844c11be2fc6560"
+    },
+    {
+      "id": "47f746ac-a9cc-41f5-80f9-376da9054248",
+      "canonical_name": "Victorin de Joncières",
+      "identity_key": "composer:ef40e367271a329fb58911d3b097af9c"
+    },
+    {
+      "id": "2651b067-7195-4f1e-bff2-f4a98aa30354",
+      "canonical_name": "Vincenzo Bellini",
+      "identity_key": "composer:42c9d5b17d56a97dc99d443e2b9b5a23"
+    },
+    {
+      "id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+      "canonical_name": "Wilhelm Friedemann Bach",
+      "identity_key": "composer:df414aadaf6035c64a8843335521aafe"
+    },
+    {
+      "id": "4e25eed6-ec37-435c-9675-2758ea2e3f3e",
+      "canonical_name": "William Alwyn",
+      "identity_key": "composer:deb6d11c55b22c8825a7a4a57c19ec57"
+    },
+    {
+      "id": "30dd9f4f-1906-412f-950a-497dbfa0474f",
+      "canonical_name": "William Byrd",
+      "identity_key": "composer:facd8f416d9f1e438afb3c1a332cf345"
+    },
+    {
+      "id": "eb9383cd-5ca1-41c3-960e-e6d2a8634256",
+      "canonical_name": "William Walton",
+      "identity_key": "composer:401aba0eb0ebe3972700ca45fddebf15"
+    },
+    {
+      "id": "14a63bb8-9179-44aa-90e4-535d5bd71066",
+      "canonical_name": "Witold Lutoslawski",
+      "identity_key": "composer:d7463f97fdff824699892577d60d6701"
+    },
+    {
+      "id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+      "canonical_name": "Wolfgang Amadeus Mozart",
+      "identity_key": "composer:c14836d13d50b5461c240759ed425af2"
+    },
+    {
+      "id": "4fd061a0-be1e-464c-91a8-f34b9df28140",
+      "canonical_name": "Yana Shliabanska",
+      "identity_key": "composer:1373e6696a60d604f8b09d301d11a323"
+    },
+    {
+      "id": "88232afc-3a1d-48a3-ae12-5421449ab9b4",
+      "canonical_name": "Yoann Lemoine",
+      "identity_key": "composer:66d14fedc37e1c5e60f2d18924250c56"
+    },
+    {
+      "id": "8b19cbeb-517e-4302-8a41-26291c07a263",
+      "canonical_name": "Yvonne Loriod",
+      "identity_key": "composer:5d3d2e9703189f85c7cd48395daa3c18"
+    },
+    {
+      "id": "0f4d5016-a096-4fa9-a06e-6e605653794e",
+      "canonical_name": "Zoltán Kodály",
+      "identity_key": "composer:acd61517df894cea3b5f15c55afa0cff"
+    },
+    {
+      "id": "986cff65-9bca-4831-945c-d74c18829021",
+      "canonical_name": "Zosha Di Castri",
+      "identity_key": "composer:13b4dddc227c7ff8288ec0f712a64040"
+    }
+  ],
+  "aliases": [
+    {
+      "alias": "A. de Cabezón",
+      "composer_id": "6a12bc7a-ae8b-49a4-bd00-8fced75a3359"
+    },
+    {
+      "alias": "A. Márquez",
+      "composer_id": "a05b4296-c373-48e3-a271-c41eedcb20ca"
+    },
+    {
+      "alias": "A. Mudarra",
+      "composer_id": "f1454e54-dfa2-4789-b058-18e3dc414400"
+    },
+    {
+      "alias": "A. Villamil",
+      "composer_id": "53ed881c-f046-4382-9d4e-cd2c3ea8f5fc"
+    },
+    {
+      "alias": "A. Vivas",
+      "composer_id": "be41f94d-1725-4bb0-85c9-bf5d5537fed8"
+    },
+    {
+      "alias": "Agustín Pío Barrios \"Mangoré\"",
+      "composer_id": "0b7adb05-cc92-4eef-be61-d2900d9c3749"
+    },
+    {
+      "alias": "Alexandre Glazounov",
+      "composer_id": "8d5e083f-c7e8-4214-aab2-83f5a5377da8"
+    },
+    {
+      "alias": "Alexandre Scriabine",
+      "composer_id": "b556fb8c-fcaa-4a20-b2c0-aadc6f756519"
+    },
+    {
+      "alias": "Arnold Schoenberg",
+      "composer_id": "47af8fcc-1a70-4231-afc1-c1d2a5dcdd67"
+    },
+    {
+      "alias": "Beethoven",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59"
+    },
+    {
+      "alias": "BEETHOVEN",
+      "composer_id": "cf66deb2-f6b4-4136-a1be-6c8e4b741e59"
+    },
+    {
+      "alias": "BRAHMS",
+      "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418"
+    },
+    {
+      "alias": "C. Debussy",
+      "composer_id": "36ec6fc4-e55c-4e87-80c8-01402609b286"
+    },
+    {
+      "alias": "C. Saint-Saëns",
+      "composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88"
+    },
+    {
+      "alias": "Chaikovski",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "CHAIKOVSKI",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Chaikovsky",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Chopin",
+      "composer_id": "63c53106-3321-4af3-8d17-b04806facc1c"
+    },
+    {
+      "alias": "D. Scarlatti",
+      "composer_id": "5c2d8dee-1703-4f36-b745-4a002eef9465"
+    },
+    {
+      "alias": "Dietrich Buxtehude",
+      "composer_id": "fa8d070b-db26-42f9-8325-da9b86d095ed"
+    },
+    {
+      "alias": "Dimitri Shostakovich",
+      "composer_id": "6f3e72be-6184-4334-b642-35736ff5ad1c"
+    },
+    {
+      "alias": "Dmitri Chostakovitch",
+      "composer_id": "6f3e72be-6184-4334-b642-35736ff5ad1c"
+    },
+    {
+      "alias": "Dmitri Shostakóvich",
+      "composer_id": "6f3e72be-6184-4334-b642-35736ff5ad1c"
+    },
+    {
+      "alias": "Dvořák",
+      "composer_id": "b939d48a-1989-462a-b29b-4a554213875d"
+    },
+    {
+      "alias": "DVOŘÁK",
+      "composer_id": "b939d48a-1989-462a-b29b-4a554213875d"
+    },
+    {
+      "alias": "Eliane Radigue",
+      "composer_id": "84bf80c5-5038-4e19-be52-b06a8c5b61a3"
+    },
+    {
+      "alias": "Falla",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6"
+    },
+    {
+      "alias": "Felix Mendelssohn-Bartholdy",
+      "composer_id": "c4945f2d-cb41-41aa-ac71-9ef544ffac7f"
+    },
+    {
+      "alias": "Florence Beatrice Price",
+      "composer_id": "cdf17dc1-8e37-4f70-ad84-dc27c08e013f"
+    },
+    {
+      "alias": "Francesco Cilèa",
+      "composer_id": "b3dfe085-db64-40ce-9d95-86af10831b69"
+    },
+    {
+      "alias": "Franz Joseph Haydn",
+      "composer_id": "18abcf6f-7dae-45db-944f-c6d6fdf2278a"
+    },
+    {
+      "alias": "G. Holst",
+      "composer_id": "5efcffbe-c47d-474d-9816-d107c43245f2"
+    },
+    {
+      "alias": "Galina Oustvolskaïa",
+      "composer_id": "b0a03f67-594e-4752-8fa9-f178aee304a5"
+    },
+    {
+      "alias": "Georg Friedrich Haendel",
+      "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904"
+    },
+    {
+      "alias": "George Frideric Haendel",
+      "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904"
+    },
+    {
+      "alias": "George Frideric Händel",
+      "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904"
+    },
+    {
+      "alias": "Gershwin",
+      "composer_id": "1e87f81e-dbd6-4b5c-8eab-2287cf159149"
+    },
+    {
+      "alias": "Grażina Bacewizc",
+      "composer_id": "cbf6738b-5799-4a61-b3cf-c3e2176a9ef0"
+    },
+    {
+      "alias": "Händel",
+      "composer_id": "8cfdf8f7-929a-48bc-9400-cd88d41c5904"
+    },
+    {
+      "alias": "I. Carreño",
+      "composer_id": "bd70bc90-0178-4e08-8ce0-6d00538580b0"
+    },
+    {
+      "alias": "Igor Stravinsky",
+      "composer_id": "851a746a-4c9d-4f9e-a401-d85bd9a26dc8"
+    },
+    {
+      "alias": "J. Brahms",
+      "composer_id": "2cffa372-2bc9-4321-bf4e-4a17aa772418"
+    },
+    {
+      "alias": "J. S. Bach",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4"
+    },
+    {
+      "alias": "J.-P. Rameau",
+      "composer_id": "3860f2ba-6650-4e38-b61c-2b55a3b9a447"
+    },
+    {
+      "alias": "J.S. Bach",
+      "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4"
+    },
+    {
+      "alias": "Jean-Baptiste Pergolèse",
+      "composer_id": "f03a90eb-30f0-49a9-89ef-2c4a20642322"
+    },
+    {
+      "alias": "Johann Strauß",
+      "composer_id": "f49a8515-7b64-4d8d-8129-9233cd627a25"
+    },
+    {
+      "alias": "Josef Jongen",
+      "composer_id": "79e444a1-7a70-4aff-832e-c717d90d7a40"
+    },
+    {
+      "alias": "Joseph Hellmesberger Jr",
+      "composer_id": "f438aa99-dd48-496f-b02f-f34597e4078e"
+    },
+    {
+      "alias": "Leos Janácek",
+      "composer_id": "01b5135b-0613-4a5e-9cff-d32fa11364b6"
+    },
+    {
+      "alias": "Leoš Janácek",
+      "composer_id": "01b5135b-0613-4a5e-9cff-d32fa11364b6"
+    },
+    {
+      "alias": "Louis-Joseph-Ferdinand Hérold",
+      "composer_id": "14ce37ad-8bc4-4627-b1b9-7540a7c8d3ce"
+    },
+    {
+      "alias": "Luigi Maurizio",
+      "composer_id": "1e06f0c1-1a6c-4b6d-adcf-0cbb3af0f91b"
+    },
+    {
+      "alias": "M. de Falla",
+      "composer_id": "eb7b90d2-17ff-4c20-9f98-eb6df9f790c6"
+    },
+    {
+      "alias": "M. Ravel",
+      "composer_id": "f372a0dd-f851-4339-a8ca-5dc15e1ab508"
+    },
+    {
+      "alias": "M. Weinberg",
+      "composer_id": "8a32bf1a-1d54-4f5c-959d-222768b113d3"
+    },
+    {
+      "alias": "Modest Mussorgski",
+      "composer_id": "536dd1a3-b974-4c50-b6d9-30021397fa58"
+    },
+    {
+      "alias": "Modeste Moussorgski",
+      "composer_id": "536dd1a3-b974-4c50-b6d9-30021397fa58"
+    },
+    {
+      "alias": "Mozart",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f"
+    },
+    {
+      "alias": "MOZART",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f"
+    },
+    {
+      "alias": "Nikolaï Rimski-Korsakov",
+      "composer_id": "da3c5b27-e804-41ad-8165-59cd4cc01223"
+    },
+    {
+      "alias": "P. Glass",
+      "composer_id": "af91b8cf-61c9-4ab7-93c2-bf8f0f0b9ce4"
+    },
+    {
+      "alias": "Piotr I. Tchaikovsky",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Piotr Ilich Chaikovski",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Piotr Ilich Tchaikovsky",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Piotr Ilyitch Tchaïkovski",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Piotr Ilytch Tchaïkovsky",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Pjotr I. Tschaikowski",
+      "composer_id": "8b8442d0-dd77-4c59-ab2e-d897abb10408"
+    },
+    {
+      "alias": "Ralph Vaughan-Williams",
+      "composer_id": "08e4d35a-f9f5-4b56-bf6d-7c5cc82d295d"
+    },
+    {
+      "alias": "Raymond Murray Schafer",
+      "composer_id": "f2a1e385-808b-4981-995e-8f313d742cba"
+    },
+    {
+      "alias": "Raymond Murray Shafer",
+      "composer_id": "f2a1e385-808b-4981-995e-8f313d742cba"
+    },
+    {
+      "alias": "Respighi",
+      "composer_id": "1cf06f21-9da5-4217-a40e-71b2c6b6a03f"
+    },
+    {
+      "alias": "Saint-Saëns",
+      "composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88"
+    },
+    {
+      "alias": "Sergei Rachmaninow",
+      "composer_id": "b8f76a6d-c74a-422a-86b3-95922120167c"
+    },
+    {
+      "alias": "Sergueï Bortkiewicz",
+      "composer_id": "3da4e0c4-41bf-48c4-bccd-633486ad7857"
+    },
+    {
+      "alias": "Serguei Rachmaninov",
+      "composer_id": "b8f76a6d-c74a-422a-86b3-95922120167c"
+    },
+    {
+      "alias": "Serguéi Rajmáninov",
+      "composer_id": "b8f76a6d-c74a-422a-86b3-95922120167c"
+    },
+    {
+      "alias": "Sibelius",
+      "composer_id": "70d6ff5d-a60c-4f1a-882d-176e87a39c56"
+    },
+    {
+      "alias": "Sofia Goubaïdoulina",
+      "composer_id": "c3d79632-6684-4a6a-8696-4c9adbaf4cf6"
+    },
+    {
+      "alias": "W. Byrd",
+      "composer_id": "30dd9f4f-1906-412f-950a-497dbfa0474f"
+    },
+    {
+      "alias": "Wolfgang A. Mozart",
+      "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f"
+    },
+    {
+      "alias": "Woodkid",
+      "composer_id": "88232afc-3a1d-48a3-ae12-5421449ab9b4"
+    }
+  ]
+}

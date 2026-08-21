@@ -1,0 +1,4 @@
+-- Auditorio room-parser duplicate backlog only; DO NOT EXECUTE.
+-- 44 candidates are DEPENDENCY_MERGE_REQUIRED. Safe room Event deletes = 0.
+-- The executable orphan delete is isolated in auditorio-orphan-production-apply.sql.
+-- database_writes = 0.

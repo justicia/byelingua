@@ -1,0 +1,685 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "3.5R",
+  "review_only": true,
+  "database_writes": 0,
+  "fresh_snapshot_generated_at": "2026-08-20T13:23:32.397Z",
+  "global_master_recheck": {
+    "composer_row_count": 285,
+    "alias_row_count": 66,
+    "identity_key_rows_checked": 285,
+    "identity_key_matches": 285,
+    "identity_key_mismatches": 0
+  },
+  "identities": [
+    {
+      "canonical_name": "Arturo Márquez",
+      "identity_key": "composer:35596264768e193f73a6464f37ca0552",
+      "raw_source_variants": [
+        "A. Márquez"
+      ],
+      "approved_aliases": [
+        "A. Márquez"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 79,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-america-tradicion-identidad-y-nuevo-mundo",
+          "raw_title": "UPM. América: Tradición, Identidad y Nuevo Mundo",
+          "raw_composer_text": "Danzón No. 2 (A. Márquez)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "UPM. América: Tradición, Identidad y Nuevo Mundo",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-america-tradicion-identidad-y-nuevo-mundo",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Danzón No. 2 (A. Márquez)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Mexico City Philharmonic programme note",
+          "source_url": "https://ofcm.cultura.cdmx.gob.mx/sites/default/files/17-09-22_Programa%20de%20Mano_interactivo.pdf",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Arturo Márquez",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The programme identifies Arturo Márquez as the composer of Danzón No. 2.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Arturo Márquez",
+          "verified_role": "composer",
+          "verified_lifespan": "1950-",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Andrés Villamil",
+      "identity_key": "composer:c2ac784233aba86f02c760ab322d7f10",
+      "raw_source_variants": [
+        "A. Villamil (1929 - 2010)"
+      ],
+      "approved_aliases": [
+        "A. Villamil"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 41,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+          "raw_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+          "raw_composer_text": "A. Villamil (1929 - 2010)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "A. Villamil (1929 - 2010)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Instituto Cervantes Andrés Villamil programme",
+          "source_url": "https://cultura.cervantes.es/hamburgo/es/andr%C3%A9s-villamil/127113",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Andrés Villamil",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The Instituto Cervantes programme identifies Andrés Villamil as composer of Piazzollesco and describes his composition activity.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Andrés Villamil",
+          "verified_role": "composer",
+          "verified_lifespan": "1976-",
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "corroborating_institutional_source",
+          "source_title": "Corroborating institutional source",
+          "source_url": "https://facartes.uniandes.edu.co/evento/recital-de-guitarra-carlos-rocca-andres-villamil/",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Andrés Villamil",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "supports the same identity and work context",
+          "evidence_excerpt_or_fact": "The Instituto Cervantes programme identifies Andrés Villamil as composer of Piazzollesco and describes his composition activity.",
+          "verification_status": "verified",
+          "supports": "corroboration",
+          "verified_identity_name": "Andrés Villamil",
+          "verified_role": "composer",
+          "verified_lifespan": "1976-",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Alejandro Vivas Puig",
+      "identity_key": "composer:1f3523c25653c570751b9fc9183e7990",
+      "raw_source_variants": [
+        "A. Vivas"
+      ],
+      "approved_aliases": [
+        "A. Vivas"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 78,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/grupo-concertante-talia-ciclo-batuta-cuentos-en-concierto",
+          "raw_title": "Grupo Concertante Talía. Ciclo Batuta. Cuentos en Concierto",
+          "raw_composer_text": "La Dama de plica (A. Vivas)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "Grupo Concertante Talía. Ciclo Batuta. Cuentos en Concierto",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/grupo-concertante-talia-ciclo-batuta-cuentos-en-concierto",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "La Dama de plica (A. Vivas)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Auditorio Nacional official programme PDF",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/noticias/historico-de-programas/temporada-2013-2014/2014-marzo.pdf",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Alejandro Vivas Puig",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The official programme expands A. Vivas to A. Vivas Puig for La Dama de Plica; the composer’s official site identifies Alejandro Vivas as a composer.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Alejandro Vivas Puig",
+          "verified_role": "composer",
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "corroborating_institutional_source",
+          "source_title": "Corroborating institutional source",
+          "source_url": "https://www.alejandrovivas.com/",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Alejandro Vivas Puig",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "supports the same identity and work context",
+          "evidence_excerpt_or_fact": "The official programme expands A. Vivas to A. Vivas Puig for La Dama de Plica; the composer’s official site identifies Alejandro Vivas as a composer.",
+          "verification_status": "verified",
+          "supports": "corroboration",
+          "verified_identity_name": "Alejandro Vivas Puig",
+          "verified_role": "composer",
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Agustín Pío Barrios",
+      "identity_key": "composer:df4328c7761cf640961a870f207b98ae",
+      "raw_source_variants": [
+        "Agustín Pío Barrios \"Mangoré\" (1885 - 1944)"
+      ],
+      "approved_aliases": [
+        "Agustín Pío Barrios \"Mangoré\""
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 40,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+          "raw_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+          "raw_composer_text": "Agustín Pío Barrios \"Mangoré\" (1885 - 1944)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Agustín Pío Barrios \"Mangoré\" (1885 - 1944)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Da Vinci Publishing composer catalogue",
+          "source_url": "https://davinci-edition.com/product/c00770/",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Agustín Pío Barrios",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The publisher catalogue identifies Agustín Barrios as a Paraguayan guitarist and composer and documents the Mangoré name variant and guitar works.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Agustín Pío Barrios",
+          "verified_role": "composer",
+          "verified_lifespan": "1885-1944",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Gustav Holst",
+      "identity_key": "composer:bbc1073a0072b7007aa253af9fb9182f",
+      "raw_source_variants": [
+        "G. Holst"
+      ],
+      "approved_aliases": [
+        "G. Holst"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 93,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/grupo-concertante-talia-ciclo-sinfonico-coral-te-deum-los-planetas",
+          "raw_title": "Grupo Concertante Talía. Ciclo Sinfónico-Coral. Te Deum & Los Planetas",
+          "raw_composer_text": "Los Planetas (G. Holst)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "Grupo Concertante Talía. Ciclo Sinfónico-Coral. Te Deum & Los Planetas",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/grupo-concertante-talia-ciclo-sinfonico-coral-te-deum-los-planetas",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Los Planetas (G. Holst)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "The Gustav Holst Website: The Planets",
+          "source_url": "https://gustavholst.org/composition/the-planets-op-32-1914-16/",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Gustav Holst",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The composer’s official foundation site identifies Gustav Holst as the composer of The Planets.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Gustav Holst",
+          "verified_role": "composer",
+          "verified_lifespan": "1874-1934",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Inocente Carreño",
+      "identity_key": "composer:184eb5c75a4989343fca61821c780a72",
+      "raw_source_variants": [
+        "I. Carreño"
+      ],
+      "approved_aliases": [
+        "I. Carreño"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 80,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-america-tradicion-identidad-y-nuevo-mundo",
+          "raw_title": "UPM. América: Tradición, Identidad y Nuevo Mundo",
+          "raw_composer_text": "Glosa Sinfónica Margariteña (I. Carreño)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "UPM. América: Tradición, Identidad y Nuevo Mundo",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-america-tradicion-identidad-y-nuevo-mundo",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Glosa Sinfónica Margariteña (I. Carreño)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Operabase work authority page",
+          "source_url": "https://www.operabase.com/glosa-sinfonica-margaritena-carreno-i/fr",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Inocente Carreño",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The work page expands I. Carreño to Inocente Carreño and identifies Glosa Sinfónica Margariteña as his work.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Inocente Carreño",
+          "verified_role": "composer",
+          "verified_lifespan": "1919-2016",
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "corroborating_institutional_source",
+          "source_title": "Corroborating institutional source",
+          "source_url": "https://www.palaumusica.cat/20240204-prog-ma-josb_1262946.pdf",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Inocente Carreño",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "supports the same identity and work context",
+          "evidence_excerpt_or_fact": "The work page expands I. Carreño to Inocente Carreño and identifies Glosa Sinfónica Margariteña as his work.",
+          "verification_status": "verified",
+          "supports": "corroboration",
+          "verified_identity_name": "Inocente Carreño",
+          "verified_role": "composer",
+          "verified_lifespan": "1919-2016",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Luigi Maurizio Tedeschi",
+      "identity_key": "composer:9430baea77eec44040fb79d15617d62a",
+      "raw_source_variants": [
+        "Luigi Maurizio"
+      ],
+      "approved_aliases": [
+        "Luigi Maurizio"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 35,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-04-paisajes-sonoros",
+          "raw_title": "OCNE. Satélite 04 Paisajes Sonoros",
+          "raw_composer_text": "Luigi Maurizio"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "OCNE. Satélite 04 Paisajes Sonoros",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-04-paisajes-sonoros",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Luigi Maurizio",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Tactus Records catalogue",
+          "source_url": "https://www.tactus.it/en/tc862001-tedeschi-luigi-maurizio-chamber-music-with-harp/",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Luigi Maurizio Tedeschi",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The publisher page names Luigi Maurizio Tedeschi, describes him as a harpist and composer, and lists Suite, Op. 46.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Luigi Maurizio Tedeschi",
+          "verified_role": "composer",
+          "verified_lifespan": "1867-1944",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Mieczysław Weinberg",
+      "identity_key": "composer:d034fb4b61c314fd7126bc86fef9aad9",
+      "raw_source_variants": [
+        "M. Weinberg",
+        "Mieczysław Weinberg (1919-1996)"
+      ],
+      "approved_aliases": [
+        "M. Weinberg"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 16,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-mario-brunello-1",
+          "raw_title": "CNDM. Mario Brunello",
+          "raw_composer_text": "Mieczysław Weinberg (1919-1996)"
+        },
+        {
+          "source_observation_index": 17,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-mario-brunello-1",
+          "raw_title": "CNDM. Mario Brunello",
+          "raw_composer_text": "M. Weinberg"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "CNDM. Mario Brunello",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-mario-brunello-1",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Mieczysław Weinberg (1919-1996)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Deutsche Digitale Bibliothek authority-linked record",
+          "source_url": "https://www.deutsche-digitale-bibliothek.de/person/gnd/124416225",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Mieczysław Weinberg",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The authority-linked record identifies Mieczysław Weinberg as a composer and pianist and gives his lifespan.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Mieczysław Weinberg",
+          "verified_role": "composer",
+          "verified_lifespan": "1919-1996",
+          "authority_id_if_available": "GND 124416225"
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Nuria Núñez Hierro",
+      "identity_key": "composer:ab6c5f55a441baf1c3b07ac9291ce61b",
+      "raw_source_variants": [
+        "Nuria Núñez Hierro (1890)"
+      ],
+      "approved_aliases": [],
+      "source_occurrences": [
+        {
+          "source_observation_index": 32,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-2",
+          "raw_title": "CNDM. Joven Orquesta Nacional de España. JONDE",
+          "raw_composer_text": "Nuria Núñez Hierro (1890)"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "CNDM. Joven Orquesta Nacional de España. JONDE",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-2",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Nuria Núñez Hierro (1890)",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Nuria Núñez Hierro official site",
+          "source_url": "https://www.nurianunezhierro.com/",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Nuria Núñez Hierro",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The official biography identifies her as a Spanish composer born in 1980; the raw source year 1890 is therefore anomalous metadata, not a trusted birth year.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Nuria Núñez Hierro",
+          "verified_role": "composer",
+          "verified_lifespan": "1980-",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    },
+    {
+      "canonical_name": "Ottorino Respighi",
+      "identity_key": "composer:245e242a641d08377d24e984e21ad587",
+      "raw_source_variants": [
+        "Respighi"
+      ],
+      "approved_aliases": [
+        "Respighi"
+      ],
+      "source_occurrences": [
+        {
+          "source_observation_index": 119,
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-strauss-don-juan-y-sinfonia-5-beethoven",
+          "raw_title": "Excelentia. Strauss Don Juan y Sinfonía 5 Beethoven",
+          "raw_composer_text": "Respighi.- Pinos de Roma"
+        }
+      ],
+      "evidence": [
+        {
+          "source_type": "official_source_programme",
+          "source_title": "Excelentia. Strauss Don Juan y Sinfonía 5 Beethoven",
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-strauss-don-juan-y-sinfonia-5-beethoven",
+          "access_result": "preserved_from_input_artifact",
+          "identity_name_found": "Respighi.- Pinos de Roma",
+          "composer_role_found": null,
+          "identity_disambiguation": "raw source provenance only",
+          "evidence_excerpt_or_fact": "source observation preserved without treating it as canonical evidence",
+          "verification_status": "partial",
+          "supports": "source attribution and raw spelling",
+          "verified_identity_name": null,
+          "verified_role": null,
+          "verified_lifespan": null,
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "retrieved_external_evidence",
+          "source_title": "Orquesta Nacional de España programme notes",
+          "source_url": "https://ocne.inaem.gob.es/ficheros/sinfonico-10-notas/%40%40images/file",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Ottorino Respighi",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "source context and external identity are compatible",
+          "evidence_excerpt_or_fact": "The official OCNE notes identify Ottorino Respighi and Pinos de Roma, P.141.",
+          "verification_status": "verified",
+          "supports": "canonical identity and Composer role",
+          "verified_identity_name": "Ottorino Respighi",
+          "verified_role": "composer",
+          "verified_lifespan": "1879-1936",
+          "authority_id_if_available": null
+        },
+        {
+          "source_type": "corroborating_institutional_source",
+          "source_title": "Corroborating institutional source",
+          "source_url": "https://radionacional-v3.s3.amazonaws.com/s3fs-public/file/archive_80y/field_file/1986-04%20-%20h_1598_4%20-%20YA.pdf",
+          "access_result": "retrieved_and_inspected",
+          "identity_name_found": "Ottorino Respighi",
+          "composer_role_found": "composer",
+          "identity_disambiguation": "supports the same identity and work context",
+          "evidence_excerpt_or_fact": "The official OCNE notes identify Ottorino Respighi and Pinos de Roma, P.141.",
+          "verification_status": "verified",
+          "supports": "corroboration",
+          "verified_identity_name": "Ottorino Respighi",
+          "verified_role": "composer",
+          "verified_lifespan": "1879-1936",
+          "authority_id_if_available": null
+        }
+      ],
+      "current_global_lookup": {
+        "canonical_matches": [],
+        "canonical_exact_matches": [],
+        "existing_composer_id": null,
+        "collision": false
+      },
+      "planned_action": "create_composer",
+      "reason": "accepted Phase 3.4R.2 identity; fresh global snapshot used for all preflight decisions"
+    }
+  ]
+}

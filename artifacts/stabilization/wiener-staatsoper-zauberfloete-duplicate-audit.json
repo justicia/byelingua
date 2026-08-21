@@ -1,0 +1,16 @@
+{
+  "audit": "wiener_staatsoper_zauberfloete_duplicate_audit",
+  "organization": "wiener-staatsoper",
+  "status": "CLOSED",
+  "database_writes": 0,
+  "classification": "TWO_REAL_PERFORMANCES",
+  "retained_event_ids": [
+    "756d2f72-ee4e-4b2d-b32d-bbe1d9471fa7",
+    "9f566186-b587-4278-9a50-a35c805c5c82"
+  ],
+  "official_evidence": {
+    "source_url": "https://www.wiener-staatsoper.at/en/calendar/2027/february/",
+    "evidence": "The official calendar exposes two separate 5 February 2027 listings for Die Zauberflöte für Kinder on Main Stage, each with its own event link.",
+    "action": "Retain both Events; no merge and no deletion."
+  }
+}
