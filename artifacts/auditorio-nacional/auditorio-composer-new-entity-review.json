@@ -1,0 +1,257 @@
+{
+  "source": "auditorio_nacional",
+  "review_only": true,
+  "database_writes": 0,
+  "rows": [
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Braulio",
+      "raw_composer_text": "Tenerife (Braulio)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Benito Cabrera",
+      "raw_composer_text": "Voces del Meridiano (Benito Cabrera)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-raices-sinfonicas-gran-fiesta-canaria",
+      "raw_title": "UAM. Raíces Sinfónicas. Gran Fiesta Canaria",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "F. Mendelssohn",
+      "raw_composer_text": "Salmo 98 (F. Mendelssohn)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/grupo-concertante-talia-ciclo-sinfonico-coral-ciclo-sinfonico-coral-sinfonia-no2-de-brahms",
+      "raw_title": "Grupo Concertante Talía. Ciclo Sinfónico-Coral. Sinfonía nº2 de Brahms",
+      "candidate_matches": [
+        {
+          "composer_id": "17539a77-caba-4029-b70e-487e8c3b76b0",
+          "canonical_name": "Fanny Hensel-Mendelssohn"
+        },
+        {
+          "composer_id": "c4945f2d-cb41-41aa-ac71-9ef544ffac7f",
+          "canonical_name": "Felix Mendelssohn"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Françoise Hardy (1944-2024)",
+      "raw_composer_text": "Françoise Hardy (1944-2024)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-lea-desandre-thomas-dunford",
+      "raw_title": "CNDM. Lea Desandre & Thomas Dunford",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Charles Aznavour (1924-2018)",
+      "raw_composer_text": "Charles Aznavour (1924-2018)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam",
+      "raw_title": "UAM. Spark. Neue Kammermusik",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "XTM",
+      "raw_composer_text": "XTM – Fly on the wings of love",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-dj-symphonic",
+      "raw_title": "Excelentia. DJ Symphonic",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Bach",
+      "raw_composer_text": "Bach – Suite orquestal núm 2 BWV. 1067",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-bach-conciertos-de-brandeburgo-2",
+      "raw_title": "Excelentia. Bach: Conciertos de Brandeburgo",
+      "candidate_matches": [
+        {
+          "composer_id": "149197b5-b642-4c27-9fd8-182a469a53a3",
+          "canonical_name": "Carl Philipp Emanuel Bach"
+        },
+        {
+          "composer_id": "744a3353-2220-4948-860c-2845bef9e0b1",
+          "canonical_name": "Johann Christian Bach"
+        },
+        {
+          "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+          "canonical_name": "Johann Sebastian Bach"
+        },
+        {
+          "composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+          "canonical_name": "Wilhelm Friedemann Bach"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "Bach",
+      "raw_composer_text": "Bach – Conciertos de Brandeburgo núm 1, 3, 6",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-bach-conciertos-de-brandeburgo-2",
+      "raw_title": "Excelentia. Bach: Conciertos de Brandeburgo",
+      "candidate_matches": [
+        {
+          "composer_id": "149197b5-b642-4c27-9fd8-182a469a53a3",
+          "canonical_name": "Carl Philipp Emanuel Bach"
+        },
+        {
+          "composer_id": "744a3353-2220-4948-860c-2845bef9e0b1",
+          "canonical_name": "Johann Christian Bach"
+        },
+        {
+          "composer_id": "0cb43b06-7258-4cb5-84cd-ab7f79e407e4",
+          "canonical_name": "Johann Sebastian Bach"
+        },
+        {
+          "composer_id": "32f9b04e-99a7-4953-b9c2-73655fbe4bab",
+          "canonical_name": "Wilhelm Friedemann Bach"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "G. Braunstein",
+      "raw_composer_text": "J. Brahms / G. Braunstein",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/orcam-sinfonico-3-amanecer-en-el-recuerdo",
+      "raw_title": "ORCAM. Sinfónico 3. Amanecer en el Recuerdo",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Sinatra",
+      "raw_composer_text": "My Way (Sinatra)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Bocelli",
+      "raw_composer_text": "Con te partiró (Bocelli)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "E. Piaf",
+      "raw_composer_text": "La Vie en Rose (E. Piaf)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "attribution_review",
+      "raw_component_text": "Sinatra",
+      "raw_composer_text": "New York, New York (Sinatra)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-lo-mejor-de-los-tres-tenores-6",
+      "raw_title": "Excelentia. Lo Mejor de los Tres Tenores",
+      "candidate_matches": [],
+      "review_reason": "person_named_without_proven_composer_authorship"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Hilda Herrera (1932)",
+      "raw_composer_text": "Hilda Herrera (1932)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Violeta Parra (1917-1967)",
+      "raw_composer_text": "Violeta Parra (1917-1967)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Reynaldo Armas (1953)",
+      "raw_composer_text": "Reynaldo Armas (1953)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "Simón Díaz (1928-2014)",
+      "raw_composer_text": "Simón Díaz (1928-2014)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-l2019arpeggiata-1",
+      "raw_title": "CNDM. L’Arpeggiata",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    },
+    {
+      "category": "malformed_source",
+      "raw_component_text": "Ludwig van Universo Beethoven (1770-1827)",
+      "raw_composer_text": "Ludwig van Universo Beethoven (1770-1827)",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cuarteto-schumann",
+      "raw_title": "CNDM. Cuarteto Schumann",
+      "candidate_matches": [],
+      "review_reason": "malformed_source_identity_not_repaired"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "J.Turina",
+      "raw_composer_text": "J.Turina · Danzas fantásticas",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-noches-en-los-jardines-de-espana-y-concierto-de-aranjuez",
+      "raw_title": "Excelentia. Noches en los Jardines de España y Concierto de Aranjuez",
+      "candidate_matches": [
+        {
+          "composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
+          "canonical_name": "Joaquín Turina"
+        },
+        {
+          "composer_id": "e958964f-815d-45a3-934e-50d56b9af30c",
+          "canonical_name": "José Luis Turina"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "possible_existing_global_identity",
+      "raw_component_text": "J.Turina",
+      "raw_composer_text": "J.Turina.- La Procesión del Rocío",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-noches-en-los-jardines-de-espana-y-concierto-de-aranjuez",
+      "raw_title": "Excelentia. Noches en los Jardines de España y Concierto de Aranjuez",
+      "candidate_matches": [
+        {
+          "composer_id": "3e89c077-38cd-411a-a8b0-e95ba40c5e6a",
+          "canonical_name": "Joaquín Turina"
+        },
+        {
+          "composer_id": "e958964f-815d-45a3-934e-50d56b9af30c",
+          "canonical_name": "José Luis Turina"
+        }
+      ],
+      "review_reason": "surname_or_initial_collision"
+    },
+    {
+      "category": "new_global_composer_candidate",
+      "raw_component_text": "A. Petrovic",
+      "raw_composer_text": "A. Petrovic",
+      "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-requiem-aleman-de-brahms",
+      "raw_title": "Atlántida Chamber Orchestra. Réquiem Alemán de Brahms",
+      "candidate_matches": [],
+      "review_reason": "no_exact_or_alias_match"
+    }
+  ]
+}

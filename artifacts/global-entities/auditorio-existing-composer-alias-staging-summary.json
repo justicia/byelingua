@@ -1,0 +1,17 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "3.7A",
+  "fresh_snapshot_generated_at": "2026-08-20T13:51:58.223Z",
+  "baseline_composer_row_count": 295,
+  "baseline_alias_row_count": 75,
+  "input_alias_occurrences": 9,
+  "input_unique_alias_candidates": 7,
+  "safe_new_alias_count": 6,
+  "already_existing_alias_count": 0,
+  "alias_collision_review_count": 0,
+  "unresolved_alias_target_count": 1,
+  "planned_alias_insert_count": 6,
+  "expected_post_apply_alias_row_count": 81,
+  "composer_inserts": 0,
+  "database_writes": 0
+}

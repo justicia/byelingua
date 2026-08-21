@@ -1,0 +1,63 @@
+{
+  "source": "auditorio_nacional",
+  "phase": "FINAL_RELATIONSHIP_RECONCILIATION",
+  "review_only": true,
+  "database_writes": 0,
+  "current_production_baseline": {
+    "auditorio_events": 583,
+    "auditorio_event_programme_rows": 2909,
+    "works": 3229,
+    "work_aliases": 99
+  },
+  "event_baseline_delta_explanation": {
+    "previous_source_linked_event_identity_count": 582,
+    "current_event_count": 583,
+    "unlinked_event": "ab000640-fb8e-43ba-850b-c3da076f00b9",
+    "reason": "current production event has no public.event_sources row"
+  },
+  "source_performance_occurrences": 350,
+  "mapped_performance_occurrences": 306,
+  "event_identity_reviews": 44,
+  "programme_candidates": 1374,
+  "resolved_work_candidates_after_post_apply_refresh": 642,
+  "safe_noops": 249,
+  "safe_inserts": 13,
+  "same_event_same_work_reviews": 261,
+  "repeated_work_occurrence_reviews": 1,
+  "legacy_order_contamination_reviews": 0,
+  "genuine_work_conflicts": 26,
+  "relationship_review_taxonomy": {
+    "existing_relationship_order_review": 261,
+    "genuine_work_conflict": 26,
+    "legacy_order_contamination_review": 0,
+    "repeated_work_occurrence_review": 1
+  },
+  "current_stable_slot_conflicts": 288,
+  "legacy_parser_debris_event_programme_row_count": 16,
+  "review_only_work_classification_counts": {
+    "ambiguous_work": 127,
+    "duplicate_source_position_review": 1,
+    "event_identity_review": 221,
+    "event_programme_conflict_review": 26,
+    "existing_relationship_order_review": 261,
+    "not_a_work": 121,
+    "parent_work_excerpt_review": 4,
+    "parser_issue": 33,
+    "repeated_work_occurrence_review": 1,
+    "resolved_executable": 262,
+    "source_attribution_review": 289,
+    "unresolved_work": 28
+  },
+  "reused_detail_url_regression": {
+    "reused_detail_urls": 24,
+    "performance_occurrences_covered": 70,
+    "film_symphony_odisea_event_ids": [
+      "22765591-7dbe-45aa-b2ce-ade100448145",
+      "7e36c8d8-a471-471d-95ed-ea2113d9377a"
+    ],
+    "two_independent_event_uuids": true
+  },
+  "expected_event_programme_before": 2909,
+  "expected_event_programme_after": 2922,
+  "no_sql_executed": true
+}
