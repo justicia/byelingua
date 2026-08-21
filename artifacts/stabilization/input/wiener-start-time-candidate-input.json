@@ -1,0 +1,2815 @@
+{
+    "audit": "wiener_null_start_time_input",
+    "count": 312,
+    "events": [
+        {
+            "date": "2026-09-19",
+            "room": "Eberhard Waechter-Probebühne",
+            "title": "Impulse",
+            "event_id": "ba6e5348-ed9e-4826-9403-a94566088e84",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2026-09-19/",
+            "source_event_id": "impulse:2026-09-19"
+        },
+        {
+            "date": "2026-11-01",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "f5c9de47-e2b4-4ed9-ac07-6a5a860be75b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-01/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-01"
+        },
+        {
+            "date": "2026-11-01",
+            "room": "Main Stage",
+            "title": "La Fille du régiment",
+            "event_id": "9fea9c96-7a3b-465c-b797-fee1b8ce46bb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-fille-du-regiment/2026-11-01/",
+            "source_event_id": "la-fille-du-regiment:2026-11-01"
+        },
+        {
+            "date": "2026-11-02",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "0b4052ca-1de0-4d12-a561-c8df74bb2596",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-02/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-02"
+        },
+        {
+            "date": "2026-11-02",
+            "room": "Main Stage",
+            "title": "Otello",
+            "event_id": "b55c76fd-24f7-4f4e-9319-7fa6c2ca110e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/otello/2026-11-02/",
+            "source_event_id": "otello:2026-11-02"
+        },
+        {
+            "date": "2026-11-03",
+            "room": "Main Stage",
+            "title": "L'Orfeo",
+            "event_id": "fceda548-2249-4ab4-91b0-2c0527cff391",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lorfeo/2026-11-03/",
+            "source_event_id": "lorfeo:2026-11-03"
+        },
+        {
+            "date": "2026-11-04",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "fdc5c1ad-43d4-4731-8fb3-d38fe209e0ed",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-04/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-04"
+        },
+        {
+            "date": "2026-11-04",
+            "room": "Main Stage",
+            "title": "La Fille du régiment",
+            "event_id": "bd561869-d231-4195-bbe5-2e02bb8847f3",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-fille-du-regiment/2026-11-04/",
+            "source_event_id": "la-fille-du-regiment:2026-11-04"
+        },
+        {
+            "date": "2026-11-05",
+            "room": "Main Stage",
+            "title": "Otello",
+            "event_id": "f937f5bd-ca23-4e02-9c38-69f2f3883dea",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/otello/2026-11-05/",
+            "source_event_id": "otello:2026-11-05"
+        },
+        {
+            "date": "2026-11-06",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "ffa15ecd-08ef-4709-86a2-9f86d3aae622",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-06/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-06"
+        },
+        {
+            "date": "2026-11-06",
+            "room": "Main Stage",
+            "title": "Nijinsky",
+            "event_id": "c01983e5-c914-4fca-8a3a-797c2f3c12c8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/nijinsky/2026-11-06/",
+            "source_event_id": "nijinsky:2026-11-06"
+        },
+        {
+            "date": "2026-11-07",
+            "room": "Main Stage",
+            "title": "La Fille du régiment",
+            "event_id": "353fa2d2-2da5-421c-8166-8f73a150924c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-fille-du-regiment/2026-11-07/",
+            "source_event_id": "la-fille-du-regiment:2026-11-07"
+        },
+        {
+            "date": "2026-11-07",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "b20a5f6e-cf64-4419-b3e5-afe7402cb535",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-11-07/",
+            "source_event_id": "open-adult-ballet-class:2026-11-07"
+        },
+        {
+            "date": "2026-11-08",
+            "room": "Main Stage",
+            "title": "Matinee zu Ariadne auf Naxos",
+            "event_id": "e1748913-f10e-4ce5-860f-632bf72c8336",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-ariadne-auf-naxos/2026-11-08/",
+            "source_event_id": "matinee-zu-ariadne-auf-naxos:2026-11-08"
+        },
+        {
+            "date": "2026-11-08",
+            "room": "Main Stage",
+            "title": "Otello",
+            "event_id": "da1b6aa6-b9f0-4bd4-b107-2fed3a760f1e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/otello/2026-11-08/",
+            "source_event_id": "otello:2026-11-08"
+        },
+        {
+            "date": "2026-11-08",
+            "room": "Ballettsaal 1",
+            "title": "Workout in der Oper",
+            "event_id": "9f6f5474-d3df-466d-8469-c72a737468e6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/workout-in-der-oper/2026-11-08/",
+            "source_event_id": "workout-in-der-oper:2026-11-08"
+        },
+        {
+            "date": "2026-11-09",
+            "room": "Main Stage",
+            "title": "Nijinsky",
+            "event_id": "459548d3-82cb-4b01-91f7-5e666742920d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/nijinsky/2026-11-09/",
+            "source_event_id": "nijinsky:2026-11-09"
+        },
+        {
+            "date": "2026-11-10",
+            "room": "Main Stage",
+            "title": "La Fille du régiment",
+            "event_id": "a51a4ec4-861c-44c8-9248-1c3e49c6b4d1",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-fille-du-regiment/2026-11-10/",
+            "source_event_id": "la-fille-du-regiment:2026-11-10"
+        },
+        {
+            "date": "2026-11-11",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "fadc2ccc-536b-4665-bc76-758199c3c6eb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-11/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-11"
+        },
+        {
+            "date": "2026-11-12",
+            "room": "Main Stage",
+            "title": "Recital Simon Keenlyside",
+            "event_id": "48c8b985-c5ed-42be-a20f-bc4371e79922",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/recital/2026-11-12/",
+            "source_event_id": "recital:2026-11-12"
+        },
+        {
+            "date": "2026-11-13",
+            "room": "Main Stage",
+            "title": "La Fille du régiment",
+            "event_id": "32674b87-ebab-471b-a658-55574df9aef0",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-fille-du-regiment/2026-11-13/",
+            "source_event_id": "la-fille-du-regiment:2026-11-13"
+        },
+        {
+            "date": "2026-11-14",
+            "room": "Orgelsaal",
+            "title": "Impulse",
+            "event_id": "f7f160ca-a78b-447b-91ea-65182af4e0a3",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2026-11-14/",
+            "source_event_id": "impulse:2026-11-14"
+        },
+        {
+            "date": "2026-11-14",
+            "room": "Main Stage",
+            "title": "L'Elisir d'amore",
+            "event_id": "aa5c5b8e-4b1c-45a3-9051-217113b6f64b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lelisir-damore/2026-11-14/",
+            "source_event_id": "lelisir-damore:2026-11-14"
+        },
+        {
+            "date": "2026-11-14",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "ce4f3b27-3dfe-443e-bbf2-789cba51ad68",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-11-14/",
+            "source_event_id": "open-adult-ballet-class:2026-11-14"
+        },
+        {
+            "date": "2026-11-14",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Studiokonzert",
+            "event_id": "3b592037-1e4a-418c-8fc6-241cddf79bdc",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/studiokonzert/2026-11-14/",
+            "source_event_id": "studiokonzert:2026-11-14"
+        },
+        {
+            "date": "2026-11-15",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "46cd0b4c-d997-496d-9abd-c539673667c6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-15/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-15"
+        },
+        {
+            "date": "2026-11-15",
+            "room": "Main Stage",
+            "title": "Madama Butterfly",
+            "event_id": "cc187e2d-e826-4ddf-b28a-9d58bcc7b98a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/madama-butterfly/2026-11-15/",
+            "source_event_id": "madama-butterfly:2026-11-15"
+        },
+        {
+            "date": "2026-11-17",
+            "room": "Main Stage",
+            "title": "L'Elisir d'amore",
+            "event_id": "5466a279-9021-4753-b87b-0b89685bead7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lelisir-damore/2026-11-17/",
+            "source_event_id": "lelisir-damore:2026-11-17"
+        },
+        {
+            "date": "2026-11-18",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "63af3e2f-b35c-4368-9e89-dff64c65bee8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-18/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-18"
+        },
+        {
+            "date": "2026-11-18",
+            "room": "Main Stage",
+            "title": "Madama Butterfly",
+            "event_id": "de736932-6cd5-4f96-ac5d-c2105dbd4416",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/madama-butterfly/2026-11-18/",
+            "source_event_id": "madama-butterfly:2026-11-18"
+        },
+        {
+            "date": "2026-11-19",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "6e4d44ec-c0c2-42e1-9118-8cc1a524513a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2026-11-19/",
+            "source_event_id": "ariadne-auf-naxos:2026-11-19"
+        },
+        {
+            "date": "2026-11-19",
+            "room": "Main Stage",
+            "title": "L'Elisir d'amore",
+            "event_id": "cb834a4f-3288-41c9-9e60-2297d0818c96",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lelisir-damore/2026-11-19/",
+            "source_event_id": "lelisir-damore:2026-11-19"
+        },
+        {
+            "date": "2026-11-20",
+            "room": "Main Stage",
+            "title": "Madama Butterfly",
+            "event_id": "4b4fb3fe-054d-4a1b-a359-e082d07601b0",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/madama-butterfly/2026-11-20/",
+            "source_event_id": "madama-butterfly:2026-11-20"
+        },
+        {
+            "date": "2026-11-21",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "ebb1001a-5a66-429c-914a-edb257542858",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-21/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-21"
+        },
+        {
+            "date": "2026-11-21",
+            "room": "Main Stage",
+            "title": "Luisa Miller",
+            "event_id": "8581054e-4eac-4e81-8bfe-2f6beb69f520",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/luisa-miller/2026-11-21/",
+            "source_event_id": "luisa-miller:2026-11-21"
+        },
+        {
+            "date": "2026-11-21",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "3b2f78ef-0ee7-41ae-a171-d3f11079416d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-11-21/",
+            "source_event_id": "open-adult-ballet-class:2026-11-21"
+        },
+        {
+            "date": "2026-11-22",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "c5bf3548-c23c-47dc-9b4f-915aff226259",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2026-11-22/",
+            "source_event_id": "ariadne-auf-naxos:2026-11-22"
+        },
+        {
+            "date": "2026-11-22",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Ensemble­matinee im Mahler-Saal",
+            "event_id": "a14a4995-35bc-4346-948c-e00fe820f49e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ensemblematinee-im-mahler-saal/2026-11-22/",
+            "source_event_id": "ensemblematinee-im-mahler-saal:2026-11-22"
+        },
+        {
+            "date": "2026-11-23",
+            "room": "Main Stage",
+            "title": "Luisa Miller",
+            "event_id": "c7228961-93a2-41b7-bb4a-140bdf375667",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/luisa-miller/2026-11-23/",
+            "source_event_id": "luisa-miller:2026-11-23"
+        },
+        {
+            "date": "2026-11-24",
+            "room": "Main Stage",
+            "title": "Madama Butterfly",
+            "event_id": "c2d34201-73bc-4df3-b1b1-cf0fcadd8278",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/madama-butterfly/2026-11-24/",
+            "source_event_id": "madama-butterfly:2026-11-24"
+        },
+        {
+            "date": "2026-11-25",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "603887f5-af0c-451f-845f-c42e5548224e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2026-11-25/",
+            "source_event_id": "ariadne-auf-naxos:2026-11-25"
+        },
+        {
+            "date": "2026-11-25",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "bced74b0-b248-4f47-8a49-dff1a7c0da9b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-25/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-25"
+        },
+        {
+            "date": "2026-11-27",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "f3eb8965-3714-4695-ad0a-b2beaf73d836",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-27/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-27"
+        },
+        {
+            "date": "2026-11-27",
+            "room": "Main Stage",
+            "title": "Luisa Miller",
+            "event_id": "547c8718-7e51-430f-818f-35fa85ebe72f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/luisa-miller/2026-11-27/",
+            "source_event_id": "luisa-miller:2026-11-27"
+        },
+        {
+            "date": "2026-11-28",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "9e30bf08-a33e-486d-bdc4-87c9a917bb84",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2026-11-28/",
+            "source_event_id": "ariadne-auf-naxos:2026-11-28"
+        },
+        {
+            "date": "2026-11-28",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "aac12dda-41ce-4f7d-ad7f-1bc737bb7e4a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2026-11-28/",
+            "source_event_id": "chamber-music:2026-11-28"
+        },
+        {
+            "date": "2026-11-28",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "54e38df4-0eb3-4216-859b-43b55cb99893",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-11-28/",
+            "source_event_id": "open-adult-ballet-class:2026-11-28"
+        },
+        {
+            "date": "2026-11-29",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "1d34fb03-a2ab-4232-a5bb-f7679beacb31",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-11-29/",
+            "source_event_id": "geheimmission-zauberfloete:2026-11-29"
+        },
+        {
+            "date": "2026-11-29",
+            "room": "Main Stage",
+            "title": "Onegin",
+            "event_id": "05684c16-addd-435e-9f42-5d6e08094605",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/onegin/2026-11-29/",
+            "source_event_id": "onegin:2026-11-29"
+        },
+        {
+            "date": "2026-11-30",
+            "room": "Main Stage",
+            "title": "Luisa Miller",
+            "event_id": "cc671b23-6c99-4e8d-8f5d-4ce136a7f9d6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/luisa-miller/2026-11-30/",
+            "source_event_id": "luisa-miller:2026-11-30"
+        },
+        {
+            "date": "2026-12-01",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "9dcbe097-b1aa-4371-98f2-c854eeb934d5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2026-12-01/",
+            "source_event_id": "ariadne-auf-naxos:2026-12-01"
+        },
+        {
+            "date": "2026-12-03",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "f8a8f5d3-4939-4034-b0fd-eeb15f2d8bc5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-03/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-03"
+        },
+        {
+            "date": "2026-12-03",
+            "room": "Main Stage",
+            "title": "Recital Xabier Anduaga",
+            "event_id": "3cc76d34-e14f-4c40-9956-f78edd90d372",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/recital/2026-12-03/",
+            "source_event_id": "recital:2026-12-03"
+        },
+        {
+            "date": "2026-12-04",
+            "room": "Main Stage",
+            "title": "Onegin",
+            "event_id": "d0df09b1-d8ec-44a3-965c-9db975bd6bfd",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/onegin/2026-12-04/",
+            "source_event_id": "onegin:2026-12-04"
+        },
+        {
+            "date": "2026-12-05",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "d81921ff-c976-4705-ab74-e6833d296319",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2026-12-05/",
+            "source_event_id": "ariadne-auf-naxos:2026-12-05"
+        },
+        {
+            "date": "2026-12-05",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "07ba2946-377c-442f-941f-e4d1b89d4550",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-12-05/",
+            "source_event_id": "open-adult-ballet-class:2026-12-05"
+        },
+        {
+            "date": "2026-12-06",
+            "room": "Main Stage",
+            "title": "La Bohème",
+            "event_id": "1da75dd4-311e-4461-9e62-23cf155f418b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-boheme/2026-12-06/",
+            "source_event_id": "la-boheme:2026-12-06"
+        },
+        {
+            "date": "2026-12-06",
+            "room": "Main Stage",
+            "title": "Matinee zu Damnation de Faust",
+            "event_id": "71d9db45-ff1a-40e2-8d31-28df929446bc",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-damnation-de-faust/2026-12-06/",
+            "source_event_id": "matinee-zu-damnation-de-faust:2026-12-06"
+        },
+        {
+            "date": "2026-12-07",
+            "room": "Main Stage",
+            "title": "Onegin",
+            "event_id": "56028f37-04da-477b-a9ec-60588f9acca2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/onegin/2026-12-07/",
+            "source_event_id": "onegin:2026-12-07"
+        },
+        {
+            "date": "2026-12-08",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "70536a51-9b89-4dcb-87a0-05003ccbdf9a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-08/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-08"
+        },
+        {
+            "date": "2026-12-08",
+            "room": "Main Stage",
+            "title": "La Bohème",
+            "event_id": "722f4887-05d8-412d-a3fb-c0100a5a5f36",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-boheme/2026-12-08/",
+            "source_event_id": "la-boheme:2026-12-08"
+        },
+        {
+            "date": "2026-12-11",
+            "room": "Main Stage",
+            "title": "Onegin",
+            "event_id": "0fb15ac2-976f-4802-ba3c-d8f98bb62b5e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/onegin/2026-12-11/",
+            "source_event_id": "onegin:2026-12-11"
+        },
+        {
+            "date": "2026-12-12",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "a844e2b2-620f-44c4-afc3-fa81221a9d2f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2026-12-12/",
+            "source_event_id": "chamber-music:2026-12-12"
+        },
+        {
+            "date": "2026-12-12",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "ce9c9161-48e5-4455-8e06-284d3b67f29a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2026-12-12/",
+            "source_event_id": "die-zauberfloete:2026-12-12"
+        },
+        {
+            "date": "2026-12-12",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "f2e1268a-41c9-4479-8a4d-80b198b996f9",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-12-12/",
+            "source_event_id": "open-adult-ballet-class:2026-12-12"
+        },
+        {
+            "date": "2026-12-13",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "62700e76-c373-4369-8f7a-41b34d7a0638",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-13/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-13"
+        },
+        {
+            "date": "2026-12-13",
+            "room": "Main Stage",
+            "title": "La Bohème",
+            "event_id": "5949de62-49af-4750-abd3-2090cf7009db",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-boheme/2026-12-13/",
+            "source_event_id": "la-boheme:2026-12-13"
+        },
+        {
+            "date": "2026-12-14",
+            "room": "Main Stage",
+            "title": "La Damnation de Faust",
+            "event_id": "fd69ee27-a36f-4fa5-8f34-93873c30d8ed",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-damnation-de-faust/2026-12-14/",
+            "source_event_id": "la-damnation-de-faust:2026-12-14"
+        },
+        {
+            "date": "2026-12-14",
+            "room": "Main Stage",
+            "title": "Onegin",
+            "event_id": "63e40b88-c58c-4745-96a7-add6571fb7fb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/onegin/2026-12-14/",
+            "source_event_id": "onegin:2026-12-14"
+        },
+        {
+            "date": "2026-12-15",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "646f4976-0c96-4952-9f3d-35c653d9dc99",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2026-12-15/",
+            "source_event_id": "die-zauberfloete:2026-12-15"
+        },
+        {
+            "date": "2026-12-16",
+            "room": "Main Stage",
+            "title": "Onegin",
+            "event_id": "d41ae016-6cc8-48b3-8584-ba2e6a86e813",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/onegin/2026-12-16/",
+            "source_event_id": "onegin:2026-12-16"
+        },
+        {
+            "date": "2026-12-17",
+            "room": "Main Stage",
+            "title": "La Damnation de Faust",
+            "event_id": "541b1ca0-0de8-4abb-9882-bebbd6b83ef7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-damnation-de-faust/2026-12-17/",
+            "source_event_id": "la-damnation-de-faust:2026-12-17"
+        },
+        {
+            "date": "2026-12-18",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "fe8167b5-eed0-458c-b6f0-02a2e08844e2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2026-12-18/",
+            "source_event_id": "die-zauberfloete:2026-12-18"
+        },
+        {
+            "date": "2026-12-19",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "cad8d4bf-a23c-41d7-ab5e-bdd73d92e24a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2026-12-19/",
+            "source_event_id": "chamber-music:2026-12-19"
+        },
+        {
+            "date": "2026-12-19",
+            "room": "Main Stage",
+            "title": "Les Pêcheurs de perles",
+            "event_id": "de2cd87e-6434-49de-9f1d-058dcc7ab337",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/les-pecheurs-de-perles/2026-12-19/",
+            "source_event_id": "les-pecheurs-de-perles:2026-12-19"
+        },
+        {
+            "date": "2026-12-19",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "63948099-1783-47ea-af3a-cd383ae9f509",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2026-12-19/",
+            "source_event_id": "open-adult-ballet-class:2026-12-19"
+        },
+        {
+            "date": "2026-12-20",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "69ae7f8d-8eae-42b4-857c-ea146243719e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-20/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-20"
+        },
+        {
+            "date": "2026-12-20",
+            "room": "Main Stage",
+            "title": "La Damnation de Faust",
+            "event_id": "356640b1-87e5-4c26-a5ab-ca743466a5f4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-damnation-de-faust/2026-12-20/",
+            "source_event_id": "la-damnation-de-faust:2026-12-20"
+        },
+        {
+            "date": "2026-12-21",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "1c0ca0f8-8c38-43b9-b4f5-241e0510d96e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2026-12-21/",
+            "source_event_id": "swan-lake:2026-12-21"
+        },
+        {
+            "date": "2026-12-22",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "bb5057a7-a2b1-45df-918b-2ab1b26a6c1d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-22/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-22"
+        },
+        {
+            "date": "2026-12-22",
+            "room": "Main Stage",
+            "title": "Les Pêcheurs de perles",
+            "event_id": "ebb16c0b-adad-4c72-a2d0-e3593bea81af",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/les-pecheurs-de-perles/2026-12-22/",
+            "source_event_id": "les-pecheurs-de-perles:2026-12-22"
+        },
+        {
+            "date": "2026-12-23",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "27f6cabb-3601-4980-88ed-5c449b3bb21b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-23/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-23"
+        },
+        {
+            "date": "2026-12-23",
+            "room": "Main Stage",
+            "title": "La Damnation de Faust",
+            "event_id": "90c9eb76-74ff-465e-8de4-0bac92dabcf2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-damnation-de-faust/2026-12-23/",
+            "source_event_id": "la-damnation-de-faust:2026-12-23"
+        },
+        {
+            "date": "2026-12-25",
+            "room": "Main Stage",
+            "title": "Les Pêcheurs de perles",
+            "event_id": "c03957c9-ae2b-4e92-a2e4-8eb2c2602a03",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/les-pecheurs-de-perles/2026-12-25/",
+            "source_event_id": "les-pecheurs-de-perles:2026-12-25"
+        },
+        {
+            "date": "2026-12-26",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "f95b8c64-1e70-4c0c-8a08-f0aefa723350",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2026-12-26/",
+            "source_event_id": "geheimmission-zauberfloete:2026-12-26"
+        },
+        {
+            "date": "2026-12-26",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "152a58e7-4521-4cc2-b4ba-552c2e2a3b2c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2026-12-26/",
+            "source_event_id": "swan-lake:2026-12-26"
+        },
+        {
+            "date": "2026-12-27",
+            "room": "Main Stage",
+            "title": "La Damnation de Faust",
+            "event_id": "93ae75a9-8c61-4656-bf27-ab236dde5d4d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-damnation-de-faust/2026-12-27/",
+            "source_event_id": "la-damnation-de-faust:2026-12-27"
+        },
+        {
+            "date": "2026-12-28",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "39b61971-666f-4960-836c-92aae74794e2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2026-12-28/",
+            "source_event_id": "swan-lake:2026-12-28"
+        },
+        {
+            "date": "2026-12-29",
+            "room": "Main Stage",
+            "title": "La Damnation de Faust",
+            "event_id": "ecb75002-98c0-4a41-a4db-153db999c309",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-damnation-de-faust/2026-12-29/",
+            "source_event_id": "la-damnation-de-faust:2026-12-29"
+        },
+        {
+            "date": "2026-12-30",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "6b379b8c-2e4f-4446-a845-e1768a1345ed",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2026-12-30/",
+            "source_event_id": "swan-lake:2026-12-30"
+        },
+        {
+            "date": "2026-12-31",
+            "room": "Main Stage",
+            "title": "Die Fleder­maus",
+            "event_id": "f512b94c-2a6d-4fbf-9603-07640be92d82",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-fledermaus/2026-12-31/",
+            "source_event_id": "die-fledermaus:2026-12-31"
+        },
+        {
+            "date": "2027-01-01",
+            "room": "Main Stage",
+            "title": "Die Fleder­maus",
+            "event_id": "c25833eb-4226-416b-9524-e4cf66fc823f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-fledermaus/2027-01-01/",
+            "source_event_id": "die-fledermaus:2027-01-01"
+        },
+        {
+            "date": "2027-01-02",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "313abad9-55e3-4aec-8238-7bfe85d74446",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2027-01-02/",
+            "source_event_id": "swan-lake:2027-01-02"
+        },
+        {
+            "date": "2027-01-03",
+            "room": "Main Stage",
+            "title": "Die Fleder­maus",
+            "event_id": "590acf84-9f19-4dfd-bc95-ee497969c88e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-fledermaus/2027-01-03/",
+            "source_event_id": "die-fledermaus:2027-01-03"
+        },
+        {
+            "date": "2027-01-03",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "1cb0338c-40ec-42ac-9332-1f977b3412ad",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2027-01-03/",
+            "source_event_id": "geheimmission-zauberfloete:2027-01-03"
+        },
+        {
+            "date": "2027-01-04",
+            "room": "Main Stage",
+            "title": "Werther",
+            "event_id": "bbc9f1fb-1975-4fdc-ae64-e6e52183c902",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/werther/2027-01-04/",
+            "source_event_id": "werther:2027-01-04"
+        },
+        {
+            "date": "2027-01-05",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "29b92313-de10-4296-bed3-c73e9def5843",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2027-01-05/",
+            "source_event_id": "swan-lake:2027-01-05"
+        },
+        {
+            "date": "2027-01-06",
+            "room": "Main Stage",
+            "title": "Die Fleder­maus",
+            "event_id": "7ad1384b-8087-43b6-bc9f-8dbfc917d232",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-fledermaus/2027-01-06/",
+            "source_event_id": "die-fledermaus:2027-01-06"
+        },
+        {
+            "date": "2027-01-06",
+            "room": "Feststiege/Mahlersaal/Galerierundgang",
+            "title": "Geheimmission Zauberflöte",
+            "event_id": "c1b4733a-3c2c-4ec1-97d1-f936c0e84962",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/geheimmission-zauberfloete/2027-01-06/",
+            "source_event_id": "geheimmission-zauberfloete:2027-01-06"
+        },
+        {
+            "date": "2027-01-07",
+            "room": "Main Stage",
+            "title": "Werther",
+            "event_id": "5589814d-d8dc-4a08-b599-94986c60b482",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/werther/2027-01-07/",
+            "source_event_id": "werther:2027-01-07"
+        },
+        {
+            "date": "2027-01-08",
+            "room": "Main Stage",
+            "title": "The Bartered Bride",
+            "event_id": "bb34b186-6e6f-48d0-8aa6-130831e7a0cb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/the-bartered-bride/2027-01-08/",
+            "source_event_id": "the-bartered-bride:2027-01-08"
+        },
+        {
+            "date": "2027-01-09",
+            "room": "Main Stage",
+            "title": "Fidelio",
+            "event_id": "09cf30ba-14cd-403c-adf9-269263359857",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/fidelio/2027-01-09/",
+            "source_event_id": "fidelio:2027-01-09"
+        },
+        {
+            "date": "2027-01-09",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "320990cc-4405-41e0-a7bd-440f698e75ba",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-01-09/",
+            "source_event_id": "open-adult-ballet-class:2027-01-09"
+        },
+        {
+            "date": "2027-01-10",
+            "room": "Main Stage",
+            "title": "Werther",
+            "event_id": "8d4f50c2-b01f-44e0-b625-699096ce23b3",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/werther/2027-01-10/",
+            "source_event_id": "werther:2027-01-10"
+        },
+        {
+            "date": "2027-01-10",
+            "room": "Ballettsaal 1",
+            "title": "Workout in der Oper",
+            "event_id": "7f8c3b9b-7e85-48f5-b18c-9e9c6308ec10",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/workout-in-der-oper/2027-01-10/",
+            "source_event_id": "workout-in-der-oper:2027-01-10"
+        },
+        {
+            "date": "2027-01-11",
+            "room": "Main Stage",
+            "title": "The Bartered Bride",
+            "event_id": "aead9fca-881a-4764-a8ca-b5ce0b07fbee",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/the-bartered-bride/2027-01-11/",
+            "source_event_id": "the-bartered-bride:2027-01-11"
+        },
+        {
+            "date": "2027-01-12",
+            "room": "Main Stage",
+            "title": "Fidelio",
+            "event_id": "249acbef-8956-48fa-ad78-fff2b7531c10",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/fidelio/2027-01-12/",
+            "source_event_id": "fidelio:2027-01-12"
+        },
+        {
+            "date": "2027-01-13",
+            "room": "Main Stage",
+            "title": "Werther",
+            "event_id": "3b4e7309-0391-445c-aa80-5e3e9c17cd76",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/werther/2027-01-13/",
+            "source_event_id": "werther:2027-01-13"
+        },
+        {
+            "date": "2027-01-14",
+            "room": "Main Stage",
+            "title": "The Bartered Bride",
+            "event_id": "74777974-8c74-4ad1-b89c-256f19817194",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/the-bartered-bride/2027-01-14/",
+            "source_event_id": "the-bartered-bride:2027-01-14"
+        },
+        {
+            "date": "2027-01-15",
+            "room": "Main Stage",
+            "title": "Fidelio",
+            "event_id": "3f204bf0-1789-4a61-ac70-d37224b3f763",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/fidelio/2027-01-15/",
+            "source_event_id": "fidelio:2027-01-15"
+        },
+        {
+            "date": "2027-01-16",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "6c181637-64d7-4a18-aab8-7fbc9759efad",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-01-16/",
+            "source_event_id": "chamber-music:2027-01-16"
+        },
+        {
+            "date": "2027-01-16",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "8c127fb9-f0c4-47af-831a-cc7c43343051",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-01-16/",
+            "source_event_id": "open-adult-ballet-class:2027-01-16"
+        },
+        {
+            "date": "2027-01-16",
+            "room": "Main Stage",
+            "title": "The Bartered Bride",
+            "event_id": "4319ddff-b0af-45d6-a710-a8991ce64b07",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/the-bartered-bride/2027-01-16/",
+            "source_event_id": "the-bartered-bride:2027-01-16"
+        },
+        {
+            "date": "2027-01-17",
+            "room": "Main Stage",
+            "title": "Don Carlos",
+            "event_id": "6fc51384-2ca0-4b1d-8bfe-efb5024a2839",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-carlos/2027-01-17/",
+            "source_event_id": "don-carlos:2027-01-17"
+        },
+        {
+            "date": "2027-01-18",
+            "room": "Main Stage",
+            "title": "Fidelio",
+            "event_id": "8741299b-1b69-46e0-989c-e6673283608a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/fidelio/2027-01-18/",
+            "source_event_id": "fidelio:2027-01-18"
+        },
+        {
+            "date": "2027-01-19",
+            "room": "Main Stage",
+            "title": "Don Giovanni",
+            "event_id": "d26cebf1-1634-409c-a6ed-1466e6be1bb0",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-giovanni/2027-01-19/",
+            "source_event_id": "don-giovanni:2027-01-19"
+        },
+        {
+            "date": "2027-01-20",
+            "room": "Main Stage",
+            "title": "Don Carlos",
+            "event_id": "7a893604-c5b1-4066-8dd9-91a7f7ee35ac",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-carlos/2027-01-20/",
+            "source_event_id": "don-carlos:2027-01-20"
+        },
+        {
+            "date": "2027-01-21",
+            "room": "Main Stage",
+            "title": "Don Giovanni",
+            "event_id": "65754c84-a9af-4761-a626-65af2f147f94",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-giovanni/2027-01-21/",
+            "source_event_id": "don-giovanni:2027-01-21"
+        },
+        {
+            "date": "2027-01-22",
+            "room": "Main Stage",
+            "title": "Living Legacies",
+            "event_id": "b7822e00-5105-4928-bbb0-72b2ef9360bc",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-01-22/",
+            "source_event_id": "living-legacies:2027-01-22"
+        },
+        {
+            "date": "2027-01-23",
+            "room": "Main Stage",
+            "title": "Don Giovanni",
+            "event_id": "3b98c2a6-15e0-400a-b638-82e112d3554e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-giovanni/2027-01-23/",
+            "source_event_id": "don-giovanni:2027-01-23"
+        },
+        {
+            "date": "2027-01-23",
+            "room": "Carlos Kleiber-Probebühne",
+            "title": "Impulse",
+            "event_id": "db519981-1036-4068-8ffe-c13ff4393969",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2027-01-23/",
+            "source_event_id": "impulse:2027-01-23"
+        },
+        {
+            "date": "2027-01-23",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "5c77cb70-099c-4ede-89aa-761077a07e8e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-01-23/",
+            "source_event_id": "open-adult-ballet-class:2027-01-23"
+        },
+        {
+            "date": "2027-01-24",
+            "room": "Main Stage",
+            "title": "Don Carlos",
+            "event_id": "8eef943a-0d2c-49d1-a9e9-215624a89848",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-carlos/2027-01-24/",
+            "source_event_id": "don-carlos:2027-01-24"
+        },
+        {
+            "date": "2027-01-26",
+            "room": "Main Stage",
+            "title": "Recital Jonas Kaufmann",
+            "event_id": "5b22cda9-f4f0-490c-9462-e6a1869f22d7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/recital/2027-01-26/",
+            "source_event_id": "recital:2027-01-26"
+        },
+        {
+            "date": "2027-01-27",
+            "room": "Main Stage",
+            "title": "Don Carlos",
+            "event_id": "3ab1d00e-2c87-4356-81c7-ec09fcd0e020",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-carlos/2027-01-27/",
+            "source_event_id": "don-carlos:2027-01-27"
+        },
+        {
+            "date": "2027-01-28",
+            "room": "Main Stage",
+            "title": "Don Giovanni",
+            "event_id": "8027730a-08b7-4fe9-91ab-7cac90c32fcc",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-giovanni/2027-01-28/",
+            "source_event_id": "don-giovanni:2027-01-28"
+        },
+        {
+            "date": "2027-01-29",
+            "room": "Main Stage",
+            "title": "Living Legacies",
+            "event_id": "fcc2d372-fa77-4ec8-b039-7afa8760a4f2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-01-29/",
+            "source_event_id": "living-legacies:2027-01-29"
+        },
+        {
+            "date": "2027-01-30",
+            "room": "Main Stage",
+            "title": "Don Giovanni",
+            "event_id": "2d5c3c8c-7e09-4e20-a4aa-bae5792eaf16",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-giovanni/2027-01-30/",
+            "source_event_id": "don-giovanni:2027-01-30"
+        },
+        {
+            "date": "2027-01-31",
+            "room": "Main Stage",
+            "title": "Don Carlos",
+            "event_id": "938edeed-26d0-499b-b25c-50bee0ec9bf7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/don-carlos/2027-01-31/",
+            "source_event_id": "don-carlos:2027-01-31"
+        },
+        {
+            "date": "2027-02-01",
+            "room": "Main Stage",
+            "title": "Living Legacies",
+            "event_id": "8d78c73f-bfa1-4b1b-ade7-0ef0792d45dd",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-02-01/",
+            "source_event_id": "living-legacies:2027-02-01"
+        },
+        {
+            "date": "2027-02-04",
+            "room": "Main Stage",
+            "title": "Vienna Opera Ball",
+            "event_id": "0ab9adb5-4421-4358-b0cc-135556873f68",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/vienna-opera-ball/2027-02-04/",
+            "source_event_id": "vienna-opera-ball:2027-02-04"
+        },
+        {
+            "date": "2027-02-05",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte für Kinder",
+            "event_id": "756d2f72-ee4e-4b2d-b32d-bbe1d9471fa7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete-fuer-kinder/2027-02-05/",
+            "source_event_id": "die-zauberfloete-fuer-kinder:2027-02-05"
+        },
+        {
+            "date": "2027-02-05",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte für Kinder",
+            "event_id": "9f566186-b587-4278-9a50-a35c805c5c82",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete-fuer-kinder-1/2027-02-05/",
+            "source_event_id": "die-zauberfloete-fuer-kinder-1:2027-02-05"
+        },
+        {
+            "date": "2027-02-06",
+            "room": "Main Stage",
+            "title": "Living Legacies",
+            "event_id": "65f29b87-2686-48dd-a699-72ca67cf82a0",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-02-06/",
+            "source_event_id": "living-legacies:2027-02-06"
+        },
+        {
+            "date": "2027-02-07",
+            "room": "Main Stage",
+            "title": "Living Legacies",
+            "event_id": "5016c6b7-84c4-4bca-97a4-e0a121074b95",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-02-07/",
+            "source_event_id": "living-legacies:2027-02-07"
+        },
+        {
+            "date": "2027-02-08",
+            "room": "Main Stage",
+            "title": "Der Rosen­kavalier",
+            "event_id": "4d1be5e1-6d3e-4a46-a1c2-d5c16335ebab",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-rosenkavalier/2027-02-08/",
+            "source_event_id": "der-rosenkavalier:2027-02-08"
+        },
+        {
+            "date": "2027-02-10",
+            "room": "Main Stage",
+            "title": "Turandot",
+            "event_id": "f5859e39-cbbd-40e3-a93a-ce17275bb1b9",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/turandot/2027-02-10/",
+            "source_event_id": "turandot:2027-02-10"
+        },
+        {
+            "date": "2027-02-11",
+            "room": "Main Stage",
+            "title": "Living Legacies",
+            "event_id": "1ba2f5b6-68de-4a38-8562-b879cbda723a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/living-legacies/2027-02-11/",
+            "source_event_id": "living-legacies:2027-02-11"
+        },
+        {
+            "date": "2027-02-12",
+            "room": "Main Stage",
+            "title": "Der Rosen­kavalier",
+            "event_id": "aac9ada7-478a-4b90-a726-2b00e95e7b25",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-rosenkavalier/2027-02-12/",
+            "source_event_id": "der-rosenkavalier:2027-02-12"
+        },
+        {
+            "date": "2027-02-13",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "07fe15a4-181f-49ed-9aac-4ec573f37d2d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-02-13/",
+            "source_event_id": "open-adult-ballet-class:2027-02-13"
+        },
+        {
+            "date": "2027-02-13",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Studiokonzert",
+            "event_id": "457cabcb-287f-4817-9c1e-378d13212610",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/studiokonzert/2027-02-13/",
+            "source_event_id": "studiokonzert:2027-02-13"
+        },
+        {
+            "date": "2027-02-13",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "7bb9f6cc-1f2e-4e7c-a133-0b397dac66bf",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2027-02-13/",
+            "source_event_id": "swan-lake:2027-02-13"
+        },
+        {
+            "date": "2027-02-14",
+            "room": "Main Stage",
+            "title": "Matinee zu Ballo in maschera",
+            "event_id": "cb521037-4e5c-4ab1-a247-52bc61354519",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-ballo-in-maschera/2027-02-14/",
+            "source_event_id": "matinee-zu-ballo-in-maschera:2027-02-14"
+        },
+        {
+            "date": "2027-02-14",
+            "room": "Main Stage",
+            "title": "Turandot",
+            "event_id": "232986ce-b3aa-4729-b56f-241fdc01983d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/turandot/2027-02-14/",
+            "source_event_id": "turandot:2027-02-14"
+        },
+        {
+            "date": "2027-02-15",
+            "room": "Main Stage",
+            "title": "Der Rosen­kavalier",
+            "event_id": "25b32d0f-ac57-4961-919e-eaf61d30d85b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-rosenkavalier/2027-02-15/",
+            "source_event_id": "der-rosenkavalier:2027-02-15"
+        },
+        {
+            "date": "2027-02-16",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "a65e3ee6-0ef8-48fd-a936-af0317686847",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2027-02-16/",
+            "source_event_id": "swan-lake:2027-02-16"
+        },
+        {
+            "date": "2027-02-17",
+            "room": "Main Stage",
+            "title": "Turandot",
+            "event_id": "f1a65e91-b613-486d-afdb-29f26335c96f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/turandot/2027-02-17/",
+            "source_event_id": "turandot:2027-02-17"
+        },
+        {
+            "date": "2027-02-18",
+            "room": "Main Stage",
+            "title": "Swan Lake",
+            "event_id": "3ba2a07a-eec6-476e-b6a7-d7d87df932cd",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/swan-lake/2027-02-18/",
+            "source_event_id": "swan-lake:2027-02-18"
+        },
+        {
+            "date": "2027-02-18",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "deff15e3-db1e-4a4a-9bc9-9efeef5e5687",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-02-18/",
+            "source_event_id": "un-ballo-in-maschera:2027-02-18"
+        },
+        {
+            "date": "2027-02-19",
+            "room": "Main Stage",
+            "title": "Der Rosen­kavalier",
+            "event_id": "f5eaf90c-ee76-4482-a318-6094ebbd6f89",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-rosenkavalier/2027-02-19/",
+            "source_event_id": "der-rosenkavalier:2027-02-19"
+        },
+        {
+            "date": "2027-02-20",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "d152b8cc-0138-47a2-bd48-b84a42f1335b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-02-20/",
+            "source_event_id": "chamber-music:2027-02-20"
+        },
+        {
+            "date": "2027-02-20",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "9feb33e3-487c-4ab2-b5c9-8f1aba1d5e69",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-02-20/",
+            "source_event_id": "open-adult-ballet-class:2027-02-20"
+        },
+        {
+            "date": "2027-02-20",
+            "room": "Main Stage",
+            "title": "Turandot",
+            "event_id": "60bb6f6c-37f0-4af7-abc8-512ce05a57af",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/turandot/2027-02-20/",
+            "source_event_id": "turandot:2027-02-20"
+        },
+        {
+            "date": "2027-02-21",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "a1ec8bf1-e40e-419f-a575-75c49c945f88",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-02-21/",
+            "source_event_id": "un-ballo-in-maschera:2027-02-21"
+        },
+        {
+            "date": "2027-02-22",
+            "room": "Main Stage",
+            "title": "Norma",
+            "event_id": "f5477281-4d3f-495e-aaff-3302d875cd3d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/norma/2027-02-22/",
+            "source_event_id": "norma:2027-02-22"
+        },
+        {
+            "date": "2027-02-23",
+            "room": "Main Stage",
+            "title": "Turandot",
+            "event_id": "0d2ad3f6-8083-4875-ae2a-3d33af5c15c6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/turandot/2027-02-23/",
+            "source_event_id": "turandot:2027-02-23"
+        },
+        {
+            "date": "2027-02-24",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "b62a7e24-7e8d-475d-b92f-4122e5f4e4e1",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-02-24/",
+            "source_event_id": "un-ballo-in-maschera:2027-02-24"
+        },
+        {
+            "date": "2027-02-26",
+            "room": "Main Stage",
+            "title": "Norma",
+            "event_id": "482397da-8070-442f-9b75-048a5ff32e3e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/norma/2027-02-26/",
+            "source_event_id": "norma:2027-02-26"
+        },
+        {
+            "date": "2027-02-27",
+            "room": "Carlos Kleiber-Probebühne",
+            "title": "Impulse",
+            "event_id": "d5e63dba-6234-4657-a8af-108de0089100",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2027-02-27/",
+            "source_event_id": "impulse:2027-02-27"
+        },
+        {
+            "date": "2027-02-27",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "7f882e6b-d411-4c8d-a833-63eaef51769a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-02-27/",
+            "source_event_id": "open-adult-ballet-class:2027-02-27"
+        },
+        {
+            "date": "2027-02-27",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "11d3ba8f-3688-4cde-9930-85265bfff769",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-02-27/",
+            "source_event_id": "un-ballo-in-maschera:2027-02-27"
+        },
+        {
+            "date": "2027-02-28",
+            "room": "Main Stage",
+            "title": "Matinee zu Pique Dame",
+            "event_id": "d7776dd8-8f06-4bcf-b70b-77fe835f1fcc",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-pique-dame/2027-02-28/",
+            "source_event_id": "matinee-zu-pique-dame:2027-02-28"
+        },
+        {
+            "date": "2027-02-28",
+            "room": "Main Stage",
+            "title": "Norma",
+            "event_id": "69838985-1fab-468f-9d18-343c389721de",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/norma/2027-02-28/",
+            "source_event_id": "norma:2027-02-28"
+        },
+        {
+            "date": "2027-02-28",
+            "room": "Ballettsaal 1",
+            "title": "Workout in der Oper",
+            "event_id": "75eca7b5-2ce0-49f9-a978-09512ef62d46",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/workout-in-der-oper/2027-02-28/",
+            "source_event_id": "workout-in-der-oper:2027-02-28"
+        },
+        {
+            "date": "2027-03-02",
+            "room": "Main Stage",
+            "title": "Solokonzert Piotr Beczała & Luca Salsi",
+            "event_id": "cfd3cab1-d601-4080-a6db-f55483f1cba7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/recital/2027-03-02/",
+            "source_event_id": "recital:2027-03-02"
+        },
+        {
+            "date": "2027-03-03",
+            "room": "Main Stage",
+            "title": "Norma",
+            "event_id": "95dc6fd9-3a42-4e29-b805-e34b79528939",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/norma/2027-03-03/",
+            "source_event_id": "norma:2027-03-03"
+        },
+        {
+            "date": "2027-03-04",
+            "room": "Main Stage",
+            "title": "Tosca",
+            "event_id": "de5fecb7-d39c-45a5-ac56-32fc8597cfe5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tosca/2027-03-04/",
+            "source_event_id": "tosca:2027-03-04"
+        },
+        {
+            "date": "2027-03-05",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "8d5977a8-9ab2-4067-9e88-c9f341864d34",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-03-05/",
+            "source_event_id": "un-ballo-in-maschera:2027-03-05"
+        },
+        {
+            "date": "2027-03-06",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "747e4323-c76a-4f0c-aa39-f564a134c04c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-03-06/",
+            "source_event_id": "open-adult-ballet-class:2027-03-06"
+        },
+        {
+            "date": "2027-03-06",
+            "room": "Main Stage",
+            "title": "Tosca",
+            "event_id": "fea5cf95-fbcd-4d85-80fb-16a377b2e421",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tosca/2027-03-06/",
+            "source_event_id": "tosca:2027-03-06"
+        },
+        {
+            "date": "2027-03-07",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Ensemble­matinee im Mahler-Saal",
+            "event_id": "abe052b5-9b9b-45b3-91c2-8192f509c0ac",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ensemblematinee-im-mahler-saal/2027-03-07/",
+            "source_event_id": "ensemblematinee-im-mahler-saal:2027-03-07"
+        },
+        {
+            "date": "2027-03-07",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "032dbf2f-8b8d-47ac-9cae-fde946dca1e0",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-03-07/",
+            "source_event_id": "un-ballo-in-maschera:2027-03-07"
+        },
+        {
+            "date": "2027-03-09",
+            "room": "Main Stage",
+            "title": "Tosca",
+            "event_id": "ed6daf64-e864-4032-8734-940704ff882e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tosca/2027-03-09/",
+            "source_event_id": "tosca:2027-03-09"
+        },
+        {
+            "date": "2027-03-10",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "8c6c73f5-852d-4d9d-bc12-a2ee26c050d6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-03-10/",
+            "source_event_id": "un-ballo-in-maschera:2027-03-10"
+        },
+        {
+            "date": "2027-03-11",
+            "room": "Main Stage",
+            "title": "La Traviata",
+            "event_id": "e2021097-41b5-4c26-8629-b9781027b37e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-traviata/2027-03-11/",
+            "source_event_id": "la-traviata:2027-03-11"
+        },
+        {
+            "date": "2027-03-12",
+            "room": "Main Stage",
+            "title": "The Queen of Spades",
+            "event_id": "8fdd4eb5-3adc-425a-b27a-0d08bcaaefc5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/pique-dame/2027-03-12/",
+            "source_event_id": "pique-dame:2027-03-12"
+        },
+        {
+            "date": "2027-03-12",
+            "room": "Main Stage",
+            "title": "Tosca",
+            "event_id": "a4756eb7-c708-4d16-9aac-bf932db6fce5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tosca/2027-03-12/",
+            "source_event_id": "tosca:2027-03-12"
+        },
+        {
+            "date": "2027-03-13",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "e7e91ae1-36b6-4f06-ad60-5c60daf3b425",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-03-13/",
+            "source_event_id": "open-adult-ballet-class:2027-03-13"
+        },
+        {
+            "date": "2027-03-13",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Studiokonzert",
+            "event_id": "f2033067-8175-46e1-8f9a-b11108eb0a9b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/studiokonzert/2027-03-13/",
+            "source_event_id": "studiokonzert:2027-03-13"
+        },
+        {
+            "date": "2027-03-13",
+            "room": "Main Stage",
+            "title": "Visionary Dances",
+            "event_id": "3cdfb6ec-441a-4102-a0ed-1fc884087adb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/visionary-dances/2027-03-13/",
+            "source_event_id": "visionary-dances:2027-03-13"
+        },
+        {
+            "date": "2027-03-14",
+            "room": "Main Stage",
+            "title": "La Traviata",
+            "event_id": "7c005594-4296-46fe-b3bf-26cc1a9e6fd6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-traviata/2027-03-14/",
+            "source_event_id": "la-traviata:2027-03-14"
+        },
+        {
+            "date": "2027-03-14",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Vienna Comedian  Harmonists",
+            "event_id": "0c6f0214-71fa-4d4c-a51d-3adc5f1c3ce7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/vienna-comedian-harmonists/2027-03-14/",
+            "source_event_id": "vienna-comedian-harmonists:2027-03-14"
+        },
+        {
+            "date": "2027-03-15",
+            "room": "Main Stage",
+            "title": "The Queen of Spades",
+            "event_id": "7d4673d1-e156-4829-a7e7-80fa8af25c12",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/pique-dame/2027-03-15/",
+            "source_event_id": "pique-dame:2027-03-15"
+        },
+        {
+            "date": "2027-03-16",
+            "room": "Main Stage",
+            "title": "Visionary Dances",
+            "event_id": "becba7cf-83ad-4f84-8cd2-a639051ddb61",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/visionary-dances/2027-03-16/",
+            "source_event_id": "visionary-dances:2027-03-16"
+        },
+        {
+            "date": "2027-03-17",
+            "room": "Main Stage",
+            "title": "La Traviata",
+            "event_id": "b608d2fc-a751-4550-8181-12ed4ac06c4c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-traviata/2027-03-17/",
+            "source_event_id": "la-traviata:2027-03-17"
+        },
+        {
+            "date": "2027-03-18",
+            "room": "Main Stage",
+            "title": "The Queen of Spades",
+            "event_id": "96024db8-3b3b-4fa0-b9ce-0d9d859d928e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/pique-dame/2027-03-18/",
+            "source_event_id": "pique-dame:2027-03-18"
+        },
+        {
+            "date": "2027-03-19",
+            "room": "Main Stage",
+            "title": "Salome",
+            "event_id": "15ac67c4-635f-4d5b-aefb-e7a0f3df6394",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/salome/2027-03-19/",
+            "source_event_id": "salome:2027-03-19"
+        },
+        {
+            "date": "2027-03-20",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "59ab7dba-78e0-4804-a0ea-70c69f0802ee",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-03-20/",
+            "source_event_id": "chamber-music:2027-03-20"
+        },
+        {
+            "date": "2027-03-20",
+            "room": "Main Stage",
+            "title": "La Traviata",
+            "event_id": "88ea7c9a-df50-4df4-aec1-54ec5e5c068e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/la-traviata/2027-03-20/",
+            "source_event_id": "la-traviata:2027-03-20"
+        },
+        {
+            "date": "2027-03-21",
+            "room": "Main Stage",
+            "title": "The Queen of Spades",
+            "event_id": "719f9a96-27e1-4386-8faf-d32ed055ba69",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/pique-dame/2027-03-21/",
+            "source_event_id": "pique-dame:2027-03-21"
+        },
+        {
+            "date": "2027-03-22",
+            "room": "Main Stage",
+            "title": "Visionary Dances",
+            "event_id": "21578390-fdc6-4d3d-b87d-68f7070aedcb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/visionary-dances/2027-03-22/",
+            "source_event_id": "visionary-dances:2027-03-22"
+        },
+        {
+            "date": "2027-03-23",
+            "room": "Main Stage",
+            "title": "Salome",
+            "event_id": "03450cb6-2173-4d2f-a507-0da888f4148a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/salome/2027-03-23/",
+            "source_event_id": "salome:2027-03-23"
+        },
+        {
+            "date": "2027-03-24",
+            "room": "Main Stage",
+            "title": "The Queen of Spades",
+            "event_id": "c2d5d871-8291-49d8-b872-b515691ce9f4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/pique-dame/2027-03-24/",
+            "source_event_id": "pique-dame:2027-03-24"
+        },
+        {
+            "date": "2027-03-25",
+            "room": "Main Stage",
+            "title": "Parsifal",
+            "event_id": "5fe8daf7-23f2-4faa-915d-9d16147037e5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/parsifal/2027-03-25/",
+            "source_event_id": "parsifal:2027-03-25"
+        },
+        {
+            "date": "2027-03-27",
+            "room": "Main Stage",
+            "title": "The Queen of Spades",
+            "event_id": "2c948028-419b-4acd-a098-6c24598f54db",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/pique-dame/2027-03-27/",
+            "source_event_id": "pique-dame:2027-03-27"
+        },
+        {
+            "date": "2027-03-28",
+            "room": "Main Stage",
+            "title": "Salome",
+            "event_id": "0664a69c-17da-45a9-9c3b-d68cb6fec43a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/salome/2027-03-28/",
+            "source_event_id": "salome:2027-03-28"
+        },
+        {
+            "date": "2027-03-29",
+            "room": "Main Stage",
+            "title": "Parsifal",
+            "event_id": "18078d03-ac13-4ea6-811c-a21988dcc3de",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/parsifal/2027-03-29/",
+            "source_event_id": "parsifal:2027-03-29"
+        },
+        {
+            "date": "2027-03-30",
+            "room": "Main Stage",
+            "title": "Visionary Dances",
+            "event_id": "7a3310f6-9d78-4c99-a45d-03a54e5cbca2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/visionary-dances/2027-03-30/",
+            "source_event_id": "visionary-dances:2027-03-30"
+        },
+        {
+            "date": "2027-03-31",
+            "room": "Main Stage",
+            "title": "Salome",
+            "event_id": "e1d3fe7c-bdcf-473f-aac3-6924f46887f2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/salome/2027-03-31/",
+            "source_event_id": "salome:2027-03-31"
+        },
+        {
+            "date": "2027-04-01",
+            "room": "Main Stage",
+            "title": "Parsifal",
+            "event_id": "ef2c81f4-05eb-4b89-a647-b60299ca07a8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/parsifal/2027-04-01/",
+            "source_event_id": "parsifal:2027-04-01"
+        },
+        {
+            "date": "2027-04-02",
+            "room": "Main Stage",
+            "title": "Il Barbiere di Siviglia",
+            "event_id": "5115cfd2-e2bf-4bb8-9454-716c0cef71ff",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/il-barbiere-di-siviglia/2027-04-02/",
+            "source_event_id": "il-barbiere-di-siviglia:2027-04-02"
+        },
+        {
+            "date": "2027-04-03",
+            "room": "Eberhard Waechter-Probebühne",
+            "title": "Impulse",
+            "event_id": "74025a0b-83e0-44a5-8b76-aa6f432c6701",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2027-04-03/",
+            "source_event_id": "impulse:2027-04-03"
+        },
+        {
+            "date": "2027-04-03",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "67c8d537-560b-4bc0-8447-29f420d90e7e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-04-03/",
+            "source_event_id": "open-adult-ballet-class:2027-04-03"
+        },
+        {
+            "date": "2027-04-03",
+            "room": "Main Stage",
+            "title": "Parsifal",
+            "event_id": "91f488a5-757e-40fe-a7cd-c5d826dd672a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/parsifal/2027-04-03/",
+            "source_event_id": "parsifal:2027-04-03"
+        },
+        {
+            "date": "2027-04-04",
+            "room": "Main Stage",
+            "title": "Tristan und Isolde",
+            "event_id": "59e82dc3-b94c-4221-8a36-9f9be0bef32d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tristan-und-isolde/2027-04-04/",
+            "source_event_id": "tristan-und-isolde:2027-04-04"
+        },
+        {
+            "date": "2027-04-05",
+            "room": "Main Stage",
+            "title": "Visionary Dances",
+            "event_id": "6623d20f-fc6f-4c36-89cf-db3b63687767",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/visionary-dances/2027-04-05/",
+            "source_event_id": "visionary-dances:2027-04-05"
+        },
+        {
+            "date": "2027-04-06",
+            "room": "Main Stage",
+            "title": "Il Barbiere di Siviglia",
+            "event_id": "8abeee2c-db68-48d6-b1d1-ca2e5c7f74d0",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/il-barbiere-di-siviglia/2027-04-06/",
+            "source_event_id": "il-barbiere-di-siviglia:2027-04-06"
+        },
+        {
+            "date": "2027-04-07",
+            "room": "Main Stage",
+            "title": "Manon Lescaut",
+            "event_id": "2cc38688-c31b-4f65-950c-334c855f9502",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/manon-lescaut/2027-04-07/",
+            "source_event_id": "manon-lescaut:2027-04-07"
+        },
+        {
+            "date": "2027-04-08",
+            "room": "Main Stage",
+            "title": "Tristan und Isolde",
+            "event_id": "9a6291ad-d172-47e2-a663-ed9cacc55fa1",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tristan-und-isolde/2027-04-08/",
+            "source_event_id": "tristan-und-isolde:2027-04-08"
+        },
+        {
+            "date": "2027-04-09",
+            "room": "Main Stage",
+            "title": "Il Barbiere di Siviglia",
+            "event_id": "12ea6439-c5b1-4a42-8168-da30af745a73",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/il-barbiere-di-siviglia/2027-04-09/",
+            "source_event_id": "il-barbiere-di-siviglia:2027-04-09"
+        },
+        {
+            "date": "2027-04-10",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "f7fc8ef8-1cf1-4892-bd5e-9cd2a5c34f73",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-04-10/",
+            "source_event_id": "chamber-music:2027-04-10"
+        },
+        {
+            "date": "2027-04-10",
+            "room": "Main Stage",
+            "title": "Manon Lescaut",
+            "event_id": "138178e1-657b-4716-a8c4-b0efe2c75063",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/manon-lescaut/2027-04-10/",
+            "source_event_id": "manon-lescaut:2027-04-10"
+        },
+        {
+            "date": "2027-04-10",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "4d9b3569-8283-4136-b30f-0e118810dbd8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-04-10/",
+            "source_event_id": "open-adult-ballet-class:2027-04-10"
+        },
+        {
+            "date": "2027-04-11",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Ensemble­matinee im Mahler-Saal",
+            "event_id": "9ad49faf-5fa7-41e9-adf2-ec9fa3ba83e5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ensemblematinee-im-mahler-saal/2027-04-11/",
+            "source_event_id": "ensemblematinee-im-mahler-saal:2027-04-11"
+        },
+        {
+            "date": "2027-04-11",
+            "room": "Main Stage",
+            "title": "Tristan und Isolde",
+            "event_id": "8ac5dd70-ad6d-44d3-a8eb-2bc96269eedb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tristan-und-isolde/2027-04-11/",
+            "source_event_id": "tristan-und-isolde:2027-04-11"
+        },
+        {
+            "date": "2027-04-11",
+            "room": "Ballettsaal 1",
+            "title": "Workout in der Oper",
+            "event_id": "7d37e633-2a6b-46af-a5a5-3b8bf093ee18",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/workout-in-der-oper/2027-04-11/",
+            "source_event_id": "workout-in-der-oper:2027-04-11"
+        },
+        {
+            "date": "2027-04-13",
+            "room": "Main Stage",
+            "title": "»Es war einmal …« Märchen & Balladen",
+            "event_id": "1552959f-bee2-4553-89ba-de8f73d3e62d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/recital/2027-04-13/",
+            "source_event_id": "recital:2027-04-13"
+        },
+        {
+            "date": "2027-04-14",
+            "room": "Main Stage",
+            "title": "Manon Lescaut",
+            "event_id": "cf7e6efc-6c9c-428d-b9dc-75fc9ff7109a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/manon-lescaut/2027-04-14/",
+            "source_event_id": "manon-lescaut:2027-04-14"
+        },
+        {
+            "date": "2027-04-15",
+            "room": "Main Stage",
+            "title": "Tristan und Isolde",
+            "event_id": "b53d107d-014b-4c2c-8724-e542ec1536ce",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/tristan-und-isolde/2027-04-15/",
+            "source_event_id": "tristan-und-isolde:2027-04-15"
+        },
+        {
+            "date": "2027-04-16",
+            "room": "Main Stage",
+            "title": "Così fan tutte",
+            "event_id": "729ef694-d5fd-435c-82a5-56424870c4ec",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/cosi-fan-tutte/2027-04-16/",
+            "source_event_id": "cosi-fan-tutte:2027-04-16"
+        },
+        {
+            "date": "2027-04-17",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "58dbe665-4061-4342-8ac5-22361a31451c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2027-04-17/",
+            "source_event_id": "ariadne-auf-naxos:2027-04-17"
+        },
+        {
+            "date": "2027-04-17",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "755db500-665f-42ae-8b50-276232ad8f78",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-04-17/",
+            "source_event_id": "open-adult-ballet-class:2027-04-17"
+        },
+        {
+            "date": "2027-04-18",
+            "room": "Main Stage",
+            "title": "Manon Lescaut",
+            "event_id": "398dffa3-cc0e-41b1-9bf6-67ce4f357b62",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/manon-lescaut/2027-04-18/",
+            "source_event_id": "manon-lescaut:2027-04-18"
+        },
+        {
+            "date": "2027-04-18",
+            "room": "Main Stage",
+            "title": "Matinee zu Woolf Works",
+            "event_id": "fc57be71-c63d-4fbb-8723-f9ff566836f4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-woolf-works/2027-04-18/",
+            "source_event_id": "matinee-zu-woolf-works:2027-04-18"
+        },
+        {
+            "date": "2027-04-19",
+            "room": "Main Stage",
+            "title": "Così fan tutte",
+            "event_id": "461eccf6-20f1-4c0a-a735-107dcf7cd90c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/cosi-fan-tutte/2027-04-19/",
+            "source_event_id": "cosi-fan-tutte:2027-04-19"
+        },
+        {
+            "date": "2027-04-19",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "f989ed06-b0d9-4c1a-ba00-46d911e273b8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-04-19/",
+            "source_event_id": "woolf-works:2027-04-19"
+        },
+        {
+            "date": "2027-04-20",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "54137df7-9010-4688-86ab-32ddc4d2d6d6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-04-20/",
+            "source_event_id": "woolf-works:2027-04-20"
+        },
+        {
+            "date": "2027-04-21",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "ff640838-f576-4729-87b3-69d677e748ce",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2027-04-21/",
+            "source_event_id": "ariadne-auf-naxos:2027-04-21"
+        },
+        {
+            "date": "2027-04-23",
+            "room": "Main Stage",
+            "title": "Così fan tutte",
+            "event_id": "a10b16b4-3974-4b09-aca4-3123d9059c93",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/cosi-fan-tutte/2027-04-23/",
+            "source_event_id": "cosi-fan-tutte:2027-04-23"
+        },
+        {
+            "date": "2027-04-24",
+            "room": "Main Stage",
+            "title": "Ariadne auf Naxos",
+            "event_id": "b12cfc7a-6ca9-496b-8d4e-eb2e22ecd71f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ariadne-auf-naxos/2027-04-24/",
+            "source_event_id": "ariadne-auf-naxos:2027-04-24"
+        },
+        {
+            "date": "2027-04-24",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "4be9fb63-dde8-4b97-be41-f714de414048",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-04-24/",
+            "source_event_id": "open-adult-ballet-class:2027-04-24"
+        },
+        {
+            "date": "2027-04-25",
+            "room": "Main Stage",
+            "title": "Die tote Stadt",
+            "event_id": "1e6a38be-ee66-4b23-ac5e-45232426bd2d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-tote-stadt/2027-04-25/",
+            "source_event_id": "die-tote-stadt:2027-04-25"
+        },
+        {
+            "date": "2027-04-26",
+            "room": "Main Stage",
+            "title": "Così fan tutte",
+            "event_id": "82cdd2d8-ff16-42ad-a143-ab8ec39069f9",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/cosi-fan-tutte/2027-04-26/",
+            "source_event_id": "cosi-fan-tutte:2027-04-26"
+        },
+        {
+            "date": "2027-04-27",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "84c89d5e-6a0e-494b-b11b-bbf89390a26a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-04-27/",
+            "source_event_id": "woolf-works:2027-04-27"
+        },
+        {
+            "date": "2027-04-28",
+            "room": "Main Stage",
+            "title": "Die tote Stadt",
+            "event_id": "fcfc591f-ab3a-4c21-806c-72b54ce4e7d1",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-tote-stadt/2027-04-28/",
+            "source_event_id": "die-tote-stadt:2027-04-28"
+        },
+        {
+            "date": "2027-04-29",
+            "room": "Main Stage",
+            "title": "Così fan tutte",
+            "event_id": "511578eb-fa8d-433f-ad26-186ece7f1b4f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/cosi-fan-tutte/2027-04-29/",
+            "source_event_id": "cosi-fan-tutte:2027-04-29"
+        },
+        {
+            "date": "2027-04-30",
+            "room": "Main Stage",
+            "title": "Carmen",
+            "event_id": "cc05bcc6-5e28-48d5-a7ce-fdf80e4178e7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/carmen/2027-04-30/",
+            "source_event_id": "carmen:2027-04-30"
+        },
+        {
+            "date": "2027-05-01",
+            "room": "Main Stage",
+            "title": "Die tote Stadt",
+            "event_id": "d8b540a0-6a6a-43f5-a875-8bd24f8e84f5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-tote-stadt/2027-05-01/",
+            "source_event_id": "die-tote-stadt:2027-05-01"
+        },
+        {
+            "date": "2027-05-02",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "a0a11068-2a63-4946-99a4-2ce3cf8e8e17",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-05-02/",
+            "source_event_id": "woolf-works:2027-05-02"
+        },
+        {
+            "date": "2027-05-03",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "a43b5902-3435-44a9-ad28-df3d1dde5023",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-05-03/",
+            "source_event_id": "woolf-works:2027-05-03"
+        },
+        {
+            "date": "2027-05-04",
+            "room": "Main Stage",
+            "title": "Carmen",
+            "event_id": "1cb4107f-1aae-4b42-978a-d2b84d4be8c3",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/carmen/2027-05-04/",
+            "source_event_id": "carmen:2027-05-04"
+        },
+        {
+            "date": "2027-05-05",
+            "room": "Main Stage",
+            "title": "Die tote Stadt",
+            "event_id": "aa615006-4907-4bc7-9dba-14bfd39a4418",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-tote-stadt/2027-05-05/",
+            "source_event_id": "die-tote-stadt:2027-05-05"
+        },
+        {
+            "date": "2027-05-06",
+            "room": "Main Stage",
+            "title": "Die Meistersinger von Nürnberg",
+            "event_id": "57d71a76-9695-4a29-bbb7-8b3964718435",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-meistersinger-von-nuernberg/2027-05-06/",
+            "source_event_id": "die-meistersinger-von-nuernberg:2027-05-06"
+        },
+        {
+            "date": "2027-05-07",
+            "room": "Main Stage",
+            "title": "Carmen",
+            "event_id": "244c899f-de65-42a8-83e2-81613143078a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/carmen/2027-05-07/",
+            "source_event_id": "carmen:2027-05-07"
+        },
+        {
+            "date": "2027-05-08",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "2a95bb3b-b290-4955-ab41-5f89e9119ed5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-05-08/",
+            "source_event_id": "chamber-music:2027-05-08"
+        },
+        {
+            "date": "2027-05-08",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "33adb94c-79be-422e-8b6b-948332ad5d69",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2027-05-08/",
+            "source_event_id": "die-zauberfloete:2027-05-08"
+        },
+        {
+            "date": "2027-05-08",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "19f1294a-ee7b-4b6c-adc1-312730a032bd",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-05-08/",
+            "source_event_id": "open-adult-ballet-class:2027-05-08"
+        },
+        {
+            "date": "2027-05-09",
+            "room": "Main Stage",
+            "title": "Die Meistersinger von Nürnberg",
+            "event_id": "a3499878-679a-4075-96fd-4e1e60d69ad7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-meistersinger-von-nuernberg/2027-05-09/",
+            "source_event_id": "die-meistersinger-von-nuernberg:2027-05-09"
+        },
+        {
+            "date": "2027-05-11",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "43d3ce55-91a5-4385-94c9-0b1febfce39b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2027-05-11/",
+            "source_event_id": "die-zauberfloete:2027-05-11"
+        },
+        {
+            "date": "2027-05-12",
+            "room": "Main Stage",
+            "title": "Die Meistersinger von Nürnberg",
+            "event_id": "80a77008-35fa-4de7-b643-33426ec07b5c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-meistersinger-von-nuernberg/2027-05-12/",
+            "source_event_id": "die-meistersinger-von-nuernberg:2027-05-12"
+        },
+        {
+            "date": "2027-05-13",
+            "room": "Main Stage",
+            "title": "L'Elisir d'amore",
+            "event_id": "1165b3c6-87b0-4d36-81d3-e10f1d5bb7db",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lelisir-damore/2027-05-13/",
+            "source_event_id": "lelisir-damore:2027-05-13"
+        },
+        {
+            "date": "2027-05-14",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "0fba1317-a7cd-4124-ab56-d31f7369b400",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2027-05-14/",
+            "source_event_id": "die-zauberfloete:2027-05-14"
+        },
+        {
+            "date": "2027-05-15",
+            "room": "Main Stage",
+            "title": "L'Elisir d'amore",
+            "event_id": "672d3b9d-aa44-4b90-a884-73cffc74f842",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lelisir-damore/2027-05-15/",
+            "source_event_id": "lelisir-damore:2027-05-15"
+        },
+        {
+            "date": "2027-05-16",
+            "room": "Main Stage",
+            "title": "Die Meistersinger von Nürnberg",
+            "event_id": "6fed4987-c058-4ec7-a7e0-316e1cad9f3d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-meistersinger-von-nuernberg/2027-05-16/",
+            "source_event_id": "die-meistersinger-von-nuernberg:2027-05-16"
+        },
+        {
+            "date": "2027-05-17",
+            "room": "Main Stage",
+            "title": "Lulu",
+            "event_id": "c5f03fbc-9313-4f50-a320-770dae92e708",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lulu/2027-05-17/",
+            "source_event_id": "lulu:2027-05-17"
+        },
+        {
+            "date": "2027-05-18",
+            "room": "Main Stage",
+            "title": "L'Elisir d'amore",
+            "event_id": "f60e706c-242a-4444-a15c-96b8fde5abf8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lelisir-damore/2027-05-18/",
+            "source_event_id": "lelisir-damore:2027-05-18"
+        },
+        {
+            "date": "2027-05-19",
+            "room": "Main Stage",
+            "title": "Die Zauber­flöte",
+            "event_id": "c7f70b35-7416-4428-af6f-529abf2bdc5a",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/die-zauberfloete/2027-05-19/",
+            "source_event_id": "die-zauberfloete:2027-05-19"
+        },
+        {
+            "date": "2027-05-20",
+            "room": "Main Stage",
+            "title": "Lulu",
+            "event_id": "15ef38e1-c0f4-4864-869b-5439cfc9746c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lulu/2027-05-20/",
+            "source_event_id": "lulu:2027-05-20"
+        },
+        {
+            "date": "2027-05-21",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "d6d3e143-4733-4fa7-b9c3-28c778d99137",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-05-21/",
+            "source_event_id": "woolf-works:2027-05-21"
+        },
+        {
+            "date": "2027-05-22",
+            "room": "Main Stage",
+            "title": "Arabella",
+            "event_id": "ceb7fdb7-f894-4e0f-93c7-915ab110a9a4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/arabella/2027-05-22/",
+            "source_event_id": "arabella:2027-05-22"
+        },
+        {
+            "date": "2027-05-22",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "a5c8d301-6aa0-49ff-bf6e-6d8f3d376a9c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-05-22/",
+            "source_event_id": "chamber-music:2027-05-22"
+        },
+        {
+            "date": "2027-05-22",
+            "room": "Eberhard Waechter-Probebühne",
+            "title": "Impulse",
+            "event_id": "5bbd095b-ac20-4dc4-94e7-668f5386d5b1",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/impulse/2027-05-22/",
+            "source_event_id": "impulse:2027-05-22"
+        },
+        {
+            "date": "2027-05-22",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "5db74333-151d-41f5-979f-d36866bbb6a8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-05-22/",
+            "source_event_id": "open-adult-ballet-class:2027-05-22"
+        },
+        {
+            "date": "2027-05-23",
+            "room": "Main Stage",
+            "title": "Lulu",
+            "event_id": "aa719501-91c6-4b2e-a7d3-ca58ba7c22d2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lulu/2027-05-23/",
+            "source_event_id": "lulu:2027-05-23"
+        },
+        {
+            "date": "2027-05-25",
+            "room": "Main Stage",
+            "title": "Recital Juan Diego Flórez",
+            "event_id": "6d14ee01-f1a2-47ad-bafd-158fa36349e8",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/recital/2027-05-25/",
+            "source_event_id": "recital:2027-05-25"
+        },
+        {
+            "date": "2027-05-26",
+            "room": "Main Stage",
+            "title": "Lulu",
+            "event_id": "b0d768f2-2b91-461b-b8cf-fc074bbf60b2",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/lulu/2027-05-26/",
+            "source_event_id": "lulu:2027-05-26"
+        },
+        {
+            "date": "2027-05-27",
+            "room": "Main Stage",
+            "title": "Arabella",
+            "event_id": "6628bcb3-b79c-46e5-9b23-50bc172362c4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/arabella/2027-05-27/",
+            "source_event_id": "arabella:2027-05-27"
+        },
+        {
+            "date": "2027-05-28",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "1a7d0ffb-8076-46f8-bda3-4bc00567b6e7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-05-28/",
+            "source_event_id": "woolf-works:2027-05-28"
+        },
+        {
+            "date": "2027-05-29",
+            "room": "Main Stage",
+            "title": "Arabella",
+            "event_id": "d9ad457f-ca44-4e92-a7d2-926b65e77aed",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/arabella/2027-05-29/",
+            "source_event_id": "arabella:2027-05-29"
+        },
+        {
+            "date": "2027-05-29",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "36bfe3c3-6fcd-46d2-b932-c3bd1a6e67f9",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-05-29/",
+            "source_event_id": "open-adult-ballet-class:2027-05-29"
+        },
+        {
+            "date": "2027-05-30",
+            "room": "Main Stage",
+            "title": "Der fliegende Holländer",
+            "event_id": "a0075e1c-c152-450f-9bfd-7b82a8251302",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-fliegende-hollaender/2027-05-30/",
+            "source_event_id": "der-fliegende-hollaender:2027-05-30"
+        },
+        {
+            "date": "2027-05-30",
+            "room": "Main Stage",
+            "title": "Matinee zu I Capuleti e i Montecchi",
+            "event_id": "2298b9ea-e3d6-45c8-bdac-81097abed3f7",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-zu-i-capuleti-e-i-montecchi/2027-05-30/",
+            "source_event_id": "matinee-zu-i-capuleti-e-i-montecchi:2027-05-30"
+        },
+        {
+            "date": "2027-05-31",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "694b6cf9-4d5e-492a-9298-8431cd903096",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-05-31/",
+            "source_event_id": "woolf-works:2027-05-31"
+        },
+        {
+            "date": "2027-06-01",
+            "room": "Main Stage",
+            "title": "Arabella",
+            "event_id": "33157605-d0ee-4bdb-83aa-a5ae0fd231cf",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/arabella/2027-06-01/",
+            "source_event_id": "arabella:2027-06-01"
+        },
+        {
+            "date": "2027-06-02",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "af46780a-767d-46a0-9f38-340b60aafb23",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-02/",
+            "source_event_id": "woolf-works:2027-06-02"
+        },
+        {
+            "date": "2027-06-03",
+            "room": "Main Stage",
+            "title": "Der fliegende Holländer",
+            "event_id": "44ce65e0-f621-4adf-9651-94b21e177941",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-fliegende-hollaender/2027-06-03/",
+            "source_event_id": "der-fliegende-hollaender:2027-06-03"
+        },
+        {
+            "date": "2027-06-04",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "45d6538f-ac2c-4ad0-b73f-2092b127980b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-04/",
+            "source_event_id": "woolf-works:2027-06-04"
+        },
+        {
+            "date": "2027-06-05",
+            "room": "Main Stage",
+            "title": "Le nozze di Figaro",
+            "event_id": "5856aedf-fda2-4123-af93-22c0c2c2b428",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/le-nozze-di-figaro/2027-06-05/",
+            "source_event_id": "le-nozze-di-figaro:2027-06-05"
+        },
+        {
+            "date": "2027-06-05",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "abc45cb9-c072-4c97-b243-4f4fe0fc3e33",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-06-05/",
+            "source_event_id": "open-adult-ballet-class:2027-06-05"
+        },
+        {
+            "date": "2027-06-05",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Studiokonzert",
+            "event_id": "04c0518c-ad57-4d25-b381-48ae04e4d498",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/studiokonzert/2027-06-05/",
+            "source_event_id": "studiokonzert:2027-06-05"
+        },
+        {
+            "date": "2027-06-06",
+            "room": "Main Stage",
+            "title": "Der fliegende Holländer",
+            "event_id": "38eb5782-3937-41d2-959c-4db7df1946ab",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-fliegende-hollaender/2027-06-06/",
+            "source_event_id": "der-fliegende-hollaender:2027-06-06"
+        },
+        {
+            "date": "2027-06-06",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Ensemble­matinee im Mahler-Saal",
+            "event_id": "b6d1423f-bb96-4b5b-af4f-6e771f6786be",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ensemblematinee-im-mahler-saal/2027-06-06/",
+            "source_event_id": "ensemblematinee-im-mahler-saal:2027-06-06"
+        },
+        {
+            "date": "2027-06-07",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "421a3091-e2a2-477a-8008-56617e56bba6",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-07/",
+            "source_event_id": "woolf-works:2027-06-07"
+        },
+        {
+            "date": "2027-06-08",
+            "room": "Main Stage",
+            "title": "Le nozze di Figaro",
+            "event_id": "df65dc08-7b07-4f6a-a674-4e6bdce2e4ce",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/le-nozze-di-figaro/2027-06-08/",
+            "source_event_id": "le-nozze-di-figaro:2027-06-08"
+        },
+        {
+            "date": "2027-06-09",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "2dc65747-1f10-4d30-b9a6-4633eefada43",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-09/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-09"
+        },
+        {
+            "date": "2027-06-09",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "4a7c171a-74d5-49ac-ac8f-0ce575091ae5",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-09/",
+            "source_event_id": "woolf-works:2027-06-09"
+        },
+        {
+            "date": "2027-06-10",
+            "room": "Main Stage",
+            "title": "Der fliegende Holländer",
+            "event_id": "8b6bc484-385a-4a85-a205-ecaf1f4f4d47",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/der-fliegende-hollaender/2027-06-10/",
+            "source_event_id": "der-fliegende-hollaender:2027-06-10"
+        },
+        {
+            "date": "2027-06-11",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "bc692101-cb45-4b6b-8f71-a33f6915bea3",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-11/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-11"
+        },
+        {
+            "date": "2027-06-12",
+            "room": "Gustav-Mahler-Saal",
+            "title": "Chamber Music",
+            "event_id": "ae8f6c0e-3b25-4a87-905e-e0a96e59840b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/chamber-music/2027-06-12/",
+            "source_event_id": "chamber-music:2027-06-12"
+        },
+        {
+            "date": "2027-06-12",
+            "room": "Main Stage",
+            "title": "Le nozze di Figaro",
+            "event_id": "b0c3fe29-13d9-4358-836a-8e25a3c6936e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/le-nozze-di-figaro/2027-06-12/",
+            "source_event_id": "le-nozze-di-figaro:2027-06-12"
+        },
+        {
+            "date": "2027-06-12",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "14744793-4544-409b-95aa-a2fae67a92eb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-06-12/",
+            "source_event_id": "open-adult-ballet-class:2027-06-12"
+        },
+        {
+            "date": "2027-06-13",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "cdf52241-0288-4eee-859c-4e71ec72ffea",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-13/",
+            "source_event_id": "woolf-works:2027-06-13"
+        },
+        {
+            "date": "2027-06-14",
+            "room": "Main Stage",
+            "title": "Le nozze di Figaro",
+            "event_id": "d6b2e2a1-5132-4239-8462-f22da52cdacd",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/le-nozze-di-figaro/2027-06-14/",
+            "source_event_id": "le-nozze-di-figaro:2027-06-14"
+        },
+        {
+            "date": "2027-06-15",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "cc333ec4-1b96-4790-aa5e-81bf7b15a50d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-15/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-15"
+        },
+        {
+            "date": "2027-06-16",
+            "room": "Main Stage",
+            "title": "Woolf Works",
+            "event_id": "b3d9d409-032f-45c8-821b-357b30cd921e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/woolf-works/2027-06-16/",
+            "source_event_id": "woolf-works:2027-06-16"
+        },
+        {
+            "date": "2027-06-17",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "ebfadb38-c379-497f-9d74-ec83314efb6f",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-06-17/",
+            "source_event_id": "un-ballo-in-maschera:2027-06-17"
+        },
+        {
+            "date": "2027-06-18",
+            "room": "Main Stage",
+            "title": "Andrea Chénier",
+            "event_id": "75d0bd51-cd51-4724-8824-58b0e5bce380",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/andrea-chenier/2027-06-18/",
+            "source_event_id": "andrea-chenier:2027-06-18"
+        },
+        {
+            "date": "2027-06-19",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "a773ba38-85ec-426c-98b1-bebed5bc8499",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-19/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-19"
+        },
+        {
+            "date": "2027-06-19",
+            "room": "Nurejewsaal",
+            "title": "Open Adult Ballet Class",
+            "event_id": "dca80441-dd96-4eb0-a6e0-8b55940275bb",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/open-adult-ballet-class/2027-06-19/",
+            "source_event_id": "open-adult-ballet-class:2027-06-19"
+        },
+        {
+            "date": "2027-06-20",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "a401699f-ea52-4e5e-be30-25f6bc28451b",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-06-20/",
+            "source_event_id": "un-ballo-in-maschera:2027-06-20"
+        },
+        {
+            "date": "2027-06-20",
+            "room": "Ballettsaal 1",
+            "title": "Workout in der Oper",
+            "event_id": "92ca6c18-d8ff-47ab-aeee-2996ee114e5c",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/workout-in-der-oper/2027-06-20/",
+            "source_event_id": "workout-in-der-oper:2027-06-20"
+        },
+        {
+            "date": "2027-06-21",
+            "room": "Main Stage",
+            "title": "Andrea Chénier",
+            "event_id": "0b3ff30f-3081-4faa-b47f-1b72a3673f7e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/andrea-chenier/2027-06-21/",
+            "source_event_id": "andrea-chenier:2027-06-21"
+        },
+        {
+            "date": "2027-06-22",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "a2721bf3-b304-4fee-b1ed-dae68f70b78e",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-22/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-22"
+        },
+        {
+            "date": "2027-06-23",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "9dc036a1-ceea-4f59-89f0-91d542665b51",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-06-23/",
+            "source_event_id": "un-ballo-in-maschera:2027-06-23"
+        },
+        {
+            "date": "2027-06-24",
+            "room": "Main Stage",
+            "title": "Andrea Chénier",
+            "event_id": "914828fd-2568-44f1-b7eb-c0a6e53126e4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/andrea-chenier/2027-06-24/",
+            "source_event_id": "andrea-chenier:2027-06-24"
+        },
+        {
+            "date": "2027-06-25",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "ed600c6e-0887-475a-b0e5-00f74837c741",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-25/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-25"
+        },
+        {
+            "date": "2027-06-26",
+            "room": "Main Stage",
+            "title": "Un ballo in maschera",
+            "event_id": "7ed06117-292a-43f5-bfcb-5389c917f117",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/un-ballo-in-maschera/2027-06-26/",
+            "source_event_id": "un-ballo-in-maschera:2027-06-26"
+        },
+        {
+            "date": "2027-06-27",
+            "room": "Main Stage",
+            "title": "Andrea Chénier",
+            "event_id": "2d14933e-21c7-49fb-adad-075639311a50",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/andrea-chenier/2027-06-27/",
+            "source_event_id": "andrea-chenier:2027-06-27"
+        },
+        {
+            "date": "2027-06-27",
+            "room": "Main Stage",
+            "title": "Matinee der Ballett­akademie",
+            "event_id": "0b5023fe-7ebf-4279-a69a-a2c2dd943eba",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/matinee-der-ballettakademie-der-wiener-staatsoper/2027-06-27/",
+            "source_event_id": "matinee-der-ballettakademie-der-wiener-staatsoper:2027-06-27"
+        },
+        {
+            "date": "2027-06-28",
+            "room": "Main Stage",
+            "title": "Ballett-Gala 2027",
+            "event_id": "b3e44b4b-a307-49f5-bb39-4bad4b4cc7c4",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/ballett-gala-2027/2027-06-28/",
+            "source_event_id": "ballett-gala-2027:2027-06-28"
+        },
+        {
+            "date": "2027-06-29",
+            "room": "Main Stage",
+            "title": "I Ca­pu­le­ti e i Mon­tecchi",
+            "event_id": "d697a382-09ac-43e1-af7f-a97fa2a1982d",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/i-capuleti-e-i-montecchi/2027-06-29/",
+            "source_event_id": "i-capuleti-e-i-montecchi:2027-06-29"
+        },
+        {
+            "date": "2027-06-30",
+            "room": "Main Stage",
+            "title": "Andrea Chénier",
+            "event_id": "0706a5a9-0f56-45ef-8d54-d24bed294b93",
+            "timezone": "Europe/Vienna",
+            "source_url": "https://www.wiener-staatsoper.at/en/calendar/detail/andrea-chenier/2027-06-30/",
+            "source_event_id": "andrea-chenier:2027-06-30"
+        }
+    ],
+    "organization": "wiener-staatsoper"
+}

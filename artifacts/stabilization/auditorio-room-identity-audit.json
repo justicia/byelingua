@@ -1,0 +1,2423 @@
+{
+  "audit": "auditorio_room_identity_source_audit",
+  "organization": "auditorio-nacional-inaem",
+  "status": "complete",
+  "database_writes": 0,
+  "input_group_count": 44,
+  "groups_source_audited": 44,
+  "source_pages_fetched": 41,
+  "classification_counts": {
+    "ROOM_PARSER_DUPLICATION_DETERMINISTIC": 44,
+    "TRUE_MULTI_ROOM_PERFORMANCES": 0,
+    "SOURCE_ROOM_CONFLICT": 0,
+    "EVENT_IDENTITY_AMBIGUOUS": 0
+  },
+  "groups": [
+    {
+      "date": "2026-10-18",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 03",
+      "candidate_events": [
+        {
+          "event_id": "af0b8ef4-eaa8-4f8f-bbda-40930e76b786",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:4f3beaba957806a102ffc6d4",
+          "source_event_ids": [
+            "4f3beaba957806a102ffc6d4"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-03-1"
+          ]
+        },
+        {
+          "event_id": "be693804-39d2-4a80-b9ff-9ba417dca657",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:0f186641cc226a45c11f2fd1463d7852",
+          "source_event_ids": [
+            "6500a0ffaa5d13a245c54348"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-03-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-03-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-03-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "be693804-39d2-4a80-b9ff-9ba417dca657",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "af0b8ef4-eaa8-4f8f-bbda-40930e76b786"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-10-20",
+      "start_time": "19:30:00",
+      "title": "OCNE. Satélite 03. Purcell en la Taberna",
+      "candidate_events": [
+        {
+          "event_id": "102566a9-1f97-4613-8688-ff1b5b7970f9",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:abfa6ff52d0d1a18ba89a4de26b72cf6",
+          "source_event_ids": [
+            "c6a65e6d2fac39c9ac3e5dfa"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-03-purcell-en-la-taberna"
+          ]
+        },
+        {
+          "event_id": "d8454cd4-c3b6-4d91-8d2d-c7e4d32bac82",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:c9904781a084850cd092d94c",
+          "source_event_ids": [
+            "c9904781a084850cd092d94c"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-03-purcell-en-la-taberna"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-03-purcell-en-la-taberna"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-03-purcell-en-la-taberna",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "102566a9-1f97-4613-8688-ff1b5b7970f9",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "d8454cd4-c3b6-4d91-8d2d-c7e4d32bac82"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2026-10-27",
+      "start_time": "19:30:00",
+      "title": "CNDM. Joven Orquesta Nacional de España. JONDE",
+      "candidate_events": [
+        {
+          "event_id": "5dff4bc6-1693-4836-a7b4-c137b09e6ad6",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:247e2b57b2d9a083c2bb7d05d5811c12",
+          "source_event_ids": [
+            "9a142a401d63678cd3727fae"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-2"
+          ]
+        },
+        {
+          "event_id": "23dd182d-6d7b-472a-baf7-29e55390ed79",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:7888f97e51b87b0ac4b214a09bf363e9",
+          "source_event_ids": [
+            "6f0fbe3023b0c945a20b8273"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-1",
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-2"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-1",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        },
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-joven-orquesta-nacional-de-espana-jonde-2",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "23dd182d-6d7b-472a-baf7-29e55390ed79",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "5dff4bc6-1693-4836-a7b4-c137b09e6ad6"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2026-10-29",
+      "start_time": "19:30:00",
+      "title": "Ibermúsica. London Philharmonic Orchestra",
+      "candidate_events": [
+        {
+          "event_id": "33b9d8dd-881f-4fb5-89df-844203810f92",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:d9f7fe98c922e69b5e0a27fd",
+          "source_event_ids": [
+            "d9f7fe98c922e69b5e0a27fd"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-london-philharmonic-orchestra-12"
+          ]
+        },
+        {
+          "event_id": "f10cf2fb-8f49-46a0-b7b8-4c7587a3b5c9",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:6f661dae24e1df45b0e35518bb026f1c",
+          "source_event_ids": [
+            "a6945db05fc6e2493e8b69e6"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-london-philharmonic-orchestra-12"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-london-philharmonic-orchestra-12"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-london-philharmonic-orchestra-12",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "f10cf2fb-8f49-46a0-b7b8-4c7587a3b5c9",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "33b9d8dd-881f-4fb5-89df-844203810f92"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-10-30",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 04",
+      "candidate_events": [
+        {
+          "event_id": "a5aba717-e121-46ea-a25e-6e5a6fd8258b",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:924bcbb2181b37eae5a096af",
+          "source_event_ids": [
+            "924bcbb2181b37eae5a096af"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-04-1"
+          ]
+        },
+        {
+          "event_id": "3f3bdd56-095c-4c1c-a75f-eb60da8542f7",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:86666d7394339df85378ba1fa302ddbd",
+          "source_event_ids": [
+            "08268efe49963e7cf6c81597"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-04-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-04-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-04-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "3f3bdd56-095c-4c1c-a75f-eb60da8542f7",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "a5aba717-e121-46ea-a25e-6e5a6fd8258b"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-10-31",
+      "start_time": "22:30:00",
+      "title": "Film Symphony Orchestra. Dracul",
+      "candidate_events": [
+        {
+          "event_id": "32069b7a-b6ce-471e-95c0-85b8fce1af8f",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:5b7c43a85e3169b21ed02897",
+          "source_event_ids": [
+            "5b7c43a85e3169b21ed02897"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/film-symphony-orchestra-dracul-2"
+          ]
+        },
+        {
+          "event_id": "0c992a70-9cee-4cb1-819b-43d0dee91bbb",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:b966a1b9f45934ee63d2e95579557ae1",
+          "source_event_ids": [
+            "e479279b1b7917b2b357c3f1"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/film-symphony-orchestra-dracul-2"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/film-symphony-orchestra-dracul-2"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/film-symphony-orchestra-dracul-2",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "0c992a70-9cee-4cb1-819b-43d0dee91bbb",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "32069b7a-b6ce-471e-95c0-85b8fce1af8f"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-11-07",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 05",
+      "candidate_events": [
+        {
+          "event_id": "b7f7fae0-5e26-46a6-a745-6cd5fb6bc8ff",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:d9c15cc4846b5718638d3fad",
+          "source_event_ids": [
+            "d9c15cc4846b5718638d3fad"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-05-1"
+          ]
+        },
+        {
+          "event_id": "62a49701-140a-4481-a428-16a2167b47c1",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:0c637ee56b2c55457730dd8035b4c6ec",
+          "source_event_ids": [
+            "0fc95936a6a0a50297f56a93"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-05-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-05-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-05-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "62a49701-140a-4481-a428-16a2167b47c1",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "b7f7fae0-5e26-46a6-a745-6cd5fb6bc8ff"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 06",
+      "candidate_events": [
+        {
+          "event_id": "f21e05fb-b8e9-4168-b91b-28241b29a8b0",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:2abedb597a97c368dff96851",
+          "source_event_ids": [
+            "2abedb597a97c368dff96851"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1"
+          ]
+        },
+        {
+          "event_id": "8e37d02d-d2bb-40e4-a634-c870ab688b22",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:167c8b4805d92d9a5e54e662af48f99d",
+          "source_event_ids": [
+            "7c5d341afbf13a65f7405573"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "8e37d02d-d2bb-40e4-a634-c870ab688b22",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "f21e05fb-b8e9-4168-b91b-28241b29a8b0"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2026-11-14",
+      "start_time": "19:30:00",
+      "title": "UAM. Rafael Aguirre. La Voz de la Guitarra",
+      "candidate_events": [
+        {
+          "event_id": "d8f4a655-fb86-4e07-a834-54ff618e501b",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:a1844997482ba7da989b187f30491a03",
+          "source_event_ids": [
+            "d5075dadec89b9c507af5686"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra"
+          ]
+        },
+        {
+          "event_id": "651948d4-5a42-4b90-b5c1-c437cc6cfad7",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:cd09287b652f51e0135068fa",
+          "source_event_ids": [
+            "cd09287b652f51e0135068fa"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-rafael-aguirre-la-voz-de-la-guitarra",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "d8f4a655-fb86-4e07-a834-54ff618e501b",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "651948d4-5a42-4b90-b5c1-c437cc6cfad7"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2026-11-15",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 06",
+      "candidate_events": [
+        {
+          "event_id": "c44e2b44-0635-43a0-a761-b319f8b4c7cc",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:1ee3efec5f80d76e5bda7487",
+          "source_event_ids": [
+            "1ee3efec5f80d76e5bda7487"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1"
+          ]
+        },
+        {
+          "event_id": "72f0d265-bbc1-471e-9110-b7b05054c9ab",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:fea5bd6492d24e50c7854101a71610dc",
+          "source_event_ids": [
+            "20a227a02ee1be9c85093107"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-06-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "72f0d265-bbc1-471e-9110-b7b05054c9ab",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "c44e2b44-0635-43a0-a761-b319f8b4c7cc"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "start_time": "22:30:00",
+      "title": "UPM. Música Francesa: Debussy y Ravel",
+      "candidate_events": [
+        {
+          "event_id": "15961a58-ae6b-4164-a682-8edb93f24fab",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:f0c3a430dddfdd136ba76484",
+          "source_event_ids": [
+            "f0c3a430dddfdd136ba76484"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/upm-musica-francesa-debussy-y-ravel"
+          ]
+        },
+        {
+          "event_id": "377ece78-8535-45ac-88e9-172c4b8d9137",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:936c5f12d74ecf80c7a36117808f27cd",
+          "source_event_ids": [
+            "0882921569179208dcd7d00d"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/upm-musica-francesa-debussy-y-ravel"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/upm-musica-francesa-debussy-y-ravel"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-musica-francesa-debussy-y-ravel",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "377ece78-8535-45ac-88e9-172c4b8d9137",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "15961a58-ae6b-4164-a682-8edb93f24fab"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "start_time": "19:30:00",
+      "title": "OCNE. Satélite 06 Del Nacionalismo Checo a la Francia de Ravel",
+      "candidate_events": [
+        {
+          "event_id": "fc4b99ca-e6c0-41b2-9b10-fa7d0c7b109c",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:31e747815cd3fd1e6fe3aa2bf1dae400",
+          "source_event_ids": [
+            "25f6ef35bf436e4495f8a111"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-06-del-nacionalismo-checo-a-la-francia-de-ravel"
+          ]
+        },
+        {
+          "event_id": "066730e4-f5e9-4ccd-9a86-f14af3085f55",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:cda45df8cc4bc1a6543e0817",
+          "source_event_ids": [
+            "cda45df8cc4bc1a6543e0817"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-06-del-nacionalismo-checo-a-la-francia-de-ravel"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-06-del-nacionalismo-checo-a-la-francia-de-ravel"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-satelite-06-del-nacionalismo-checo-a-la-francia-de-ravel",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "fc4b99ca-e6c0-41b2-9b10-fa7d0c7b109c",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "066730e4-f5e9-4ccd-9a86-f14af3085f55"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2026-12-03",
+      "start_time": "19:30:00",
+      "title": "CNDM. Cantoría",
+      "candidate_events": [
+        {
+          "event_id": "3cb07978-5068-44d9-813c-2f79d0cbdd4f",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:6ac83393156a20173a18baa21237c9fb",
+          "source_event_ids": [
+            "3ba9db1033387d976509eee0"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria"
+          ]
+        },
+        {
+          "event_id": "177b87ae-00f1-48b9-97f6-7421ff241899",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:01203e4ab66d2d9d01cd59c9",
+          "source_event_ids": [
+            "01203e4ab66d2d9d01cd59c9"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-cantoria",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "3cb07978-5068-44d9-813c-2f79d0cbdd4f",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "177b87ae-00f1-48b9-97f6-7421ff241899"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2026-12-12",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 09",
+      "candidate_events": [
+        {
+          "event_id": "a70339ae-86ca-4550-b514-392366d7faf3",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:ce1c49ae32e7a7d82efb6ff4",
+          "source_event_ids": [
+            "ce1c49ae32e7a7d82efb6ff4"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-09-1"
+          ]
+        },
+        {
+          "event_id": "41149a1f-8fbb-4acb-aac7-31af6fe3ce1a",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:6a7778c3370a0c65b8a9cc247509997d",
+          "source_event_ids": [
+            "6cc2b3e3af5ae8f86402dfad"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-09-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-09-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-09-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "41149a1f-8fbb-4acb-aac7-31af6fe3ce1a",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "a70339ae-86ca-4550-b514-392366d7faf3"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-12-12",
+      "start_time": "22:30:00",
+      "title": "UPM. Concierto de Navidad",
+      "candidate_events": [
+        {
+          "event_id": "2931c368-655a-4124-9b0e-c673f6e1f2c9",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:7318a7a3dc0758613aee9d88",
+          "source_event_ids": [
+            "7318a7a3dc0758613aee9d88"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/upm-concierto-de-navidad-7"
+          ]
+        },
+        {
+          "event_id": "27145320-b6b5-4ae3-9e88-202eb6cded63",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:0627b56e8f3758b5e769195265135d84",
+          "source_event_ids": [
+            "42f281c6da96de3151903806"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/upm-concierto-de-navidad-7"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/upm-concierto-de-navidad-7"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/upm-concierto-de-navidad-7",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "27145320-b6b5-4ae3-9e88-202eb6cded63",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "2931c368-655a-4124-9b0e-c673f6e1f2c9"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2026-12-18",
+      "start_time": "19:30:00",
+      "title": "CNDM. Jean Rondeau",
+      "candidate_events": [
+        {
+          "event_id": "0235d306-93a1-4a7c-8e4e-e5792cc290f2",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:a6464267c7f99804fb468ee01f490e62",
+          "source_event_ids": [
+            "cb3bd0a14421658d1ec6f3eb"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau"
+          ]
+        },
+        {
+          "event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:8279237fec9640fb55a72744ae7ffdce",
+          "source_event_ids": [
+            "8f2bc8467f9751c00efd1f14"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau",
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau-1"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        },
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-jean-rondeau-1",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "46787381-4c01-4b95-87f6-ffd8a06ba344",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "0235d306-93a1-4a7c-8e4e-e5792cc290f2"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2027-01-02",
+      "start_time": "12:00:00",
+      "title": "Hispania Concertalia. Concierto de Año Nuevo de Viena en Madrid",
+      "candidate_events": [
+        {
+          "event_id": "4c96d16d-ceb3-4d55-9aa3-839338021b78",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:18584edc26ee0c916fe6fb078aff35ee",
+          "source_event_ids": [
+            "514e9bac0859e2b68623205f"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-concierto-de-ano-nuevo-de-viena-en-madrid-1"
+          ]
+        },
+        {
+          "event_id": "ed6388b8-2cf2-4af5-94ee-81fb12ce2c99",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:1a1a90d7d4df04c31a15b78763896aeb",
+          "source_event_ids": [
+            "a2c4cc329c76c6cfe9b9366e"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-concierto-de-ano-nuevo-de-viena-en-madrid"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-concierto-de-ano-nuevo-de-viena-en-madrid",
+        "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-concierto-de-ano-nuevo-de-viena-en-madrid-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-concierto-de-ano-nuevo-de-viena-en-madrid",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        },
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-concierto-de-ano-nuevo-de-viena-en-madrid-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "ed6388b8-2cf2-4af5-94ee-81fb12ce2c99",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "4c96d16d-ceb3-4d55-9aa3-839338021b78"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-01-09",
+      "start_time": "19:30:00",
+      "title": "CNDM.",
+      "candidate_events": [
+        {
+          "event_id": "fad962fb-30d5-44c3-9cb8-dd79234cbcdf",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:db6ffbef4ba35956bd74ab390aee3220",
+          "source_event_ids": [
+            "dc06dc99c33e25d36ba116b5"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-9"
+          ]
+        },
+        {
+          "event_id": "f78e9d77-36c0-4593-a731-ffc504ff9e5e",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:3a522c68d16c0e614722c650",
+          "source_event_ids": [
+            "3a522c68d16c0e614722c650"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-9"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-9"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-9",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "fad962fb-30d5-44c3-9cb8-dd79234cbcdf",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "f78e9d77-36c0-4593-a731-ffc504ff9e5e"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-01-10",
+      "start_time": "12:00:00",
+      "title": "Excelentia. Morricone y 100 años de Cine",
+      "candidate_events": [
+        {
+          "event_id": "2e872cf7-7320-4fde-a04b-1e832f06e555",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:da4c06dc77c1609cb04d5eee8af597cc",
+          "source_event_ids": [
+            "fa545b56e1d2f713ea28229f"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-morricone-y-100-anos-de-cine-2"
+          ]
+        },
+        {
+          "event_id": "729ee579-2d39-409b-9007-957be8838ac0",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:0d78a0776cd1729ec7758049",
+          "source_event_ids": [
+            "0d78a0776cd1729ec7758049"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-morricone-y-100-anos-de-cine-2"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-morricone-y-100-anos-de-cine-2"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-morricone-y-100-anos-de-cine-2",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "2e872cf7-7320-4fde-a04b-1e832f06e555",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "729ee579-2d39-409b-9007-957be8838ac0"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-01-16",
+      "start_time": "12:00:00",
+      "title": "CNDM. Juan de la Rubia",
+      "candidate_events": [
+        {
+          "event_id": "eb4e658a-7f5c-4cba-a8d9-9dc74c84732b",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:0bf9427c6a5ad83f06d3a746",
+          "source_event_ids": [
+            "0bf9427c6a5ad83f06d3a746"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-juan-de-la-rubia-1"
+          ]
+        },
+        {
+          "event_id": "88f4c9f6-678f-4006-ac2a-f0e64c41e5c2",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:c5816f997917655354148ce1a2c95a39",
+          "source_event_ids": [
+            "e3bb425ebc71df1eeaf5c11b"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-juan-de-la-rubia-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-juan-de-la-rubia-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-juan-de-la-rubia-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "88f4c9f6-678f-4006-ac2a-f0e64c41e5c2",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "eb4e658a-7f5c-4cba-a8d9-9dc74c84732b"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-01-21",
+      "start_time": "19:30:00",
+      "title": "Ibermúsica. Filarmonica della Scala",
+      "candidate_events": [
+        {
+          "event_id": "ec0e09af-ad3d-4d93-82b4-cee36fbaa318",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:aba6a79179e2769689680374",
+          "source_event_ids": [
+            "aba6a79179e2769689680374"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-filarmonica-della-scala-2"
+          ]
+        },
+        {
+          "event_id": "3819af67-1ff2-4706-a029-f5a06aa5234c",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:d03e9c088fa4e85a58d4b0e627cf5dc5",
+          "source_event_ids": [
+            "61de9ce01ed836084e2f3396"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-filarmonica-della-scala-2"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-filarmonica-della-scala-2"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-filarmonica-della-scala-2",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "3819af67-1ff2-4706-a029-f5a06aa5234c",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "ec0e09af-ad3d-4d93-82b4-cee36fbaa318"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-01-23",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 11",
+      "candidate_events": [
+        {
+          "event_id": "d573d37c-7c31-42ab-8780-5077af7128aa",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:372a8c462368e14ec608db16",
+          "source_event_ids": [
+            "372a8c462368e14ec608db16"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4"
+          ]
+        },
+        {
+          "event_id": "3cb72167-6eee-438d-9111-c0bd50e41921",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:2ab77647638d8f675e999e6a281e25dc",
+          "source_event_ids": [
+            "86249bd213e7611b970431ba"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "3cb72167-6eee-438d-9111-c0bd50e41921",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "d573d37c-7c31-42ab-8780-5077af7128aa"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-01-24",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 11",
+      "candidate_events": [
+        {
+          "event_id": "0901a28a-3459-4127-a0ea-8712f1213109",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:d56d0c356411f160543e581d",
+          "source_event_ids": [
+            "d56d0c356411f160543e581d"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4"
+          ]
+        },
+        {
+          "event_id": "44298259-65e8-489a-a440-ff6b9371c0ac",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:719affa91dcdfa5fff918a46fd030879",
+          "source_event_ids": [
+            "985bba6dc111490f8aa656eb"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-11-4",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "44298259-65e8-489a-a440-ff6b9371c0ac",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "0901a28a-3459-4127-a0ea-8712f1213109"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-01-26",
+      "start_time": "19:30:00",
+      "title": "La Filarmónica. Heroica de Beethoven",
+      "candidate_events": [
+        {
+          "event_id": "7b21819b-afb6-4fb7-92ff-97a76f58a52a",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:b68df43771157434259a895a",
+          "source_event_ids": [
+            "b68df43771157434259a895a"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/la-filarmonica-heroica-de-beethoven-1"
+          ]
+        },
+        {
+          "event_id": "76ef781d-7029-47bc-84d1-f23db677f83e",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:f1d3e419cea4c9787b9c764771993c7a",
+          "source_event_ids": [
+            "921f90dfc953a47c7b18bc03"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/la-filarmonica-heroica-de-beethoven-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/la-filarmonica-heroica-de-beethoven-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/la-filarmonica-heroica-de-beethoven-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "76ef781d-7029-47bc-84d1-f23db677f83e",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "7b21819b-afb6-4fb7-92ff-97a76f58a52a"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-01-27",
+      "start_time": "19:30:00",
+      "title": "CNDM. Irene Roldán",
+      "candidate_events": [
+        {
+          "event_id": "e47f814a-da1d-4d56-accd-ee869e172955",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:04b513b1e9b6a821329588c5",
+          "source_event_ids": [
+            "04b513b1e9b6a821329588c5"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-irene-roldan"
+          ]
+        },
+        {
+          "event_id": "64ef400b-159d-4af4-9de3-8e87ac469a22",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:dacf3a903c4ccfb0ef98e1b9e3482fcd",
+          "source_event_ids": [
+            "2f70508063bdac7d2516ca7e"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-irene-roldan"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-irene-roldan"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-irene-roldan",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "64ef400b-159d-4af4-9de3-8e87ac469a22",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "e47f814a-da1d-4d56-accd-ee869e172955"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2027-02-17",
+      "start_time": "19:30:00",
+      "title": "Excelentia. Violín Brahms y Sinfonía Dvorák 7",
+      "candidate_events": [
+        {
+          "event_id": "683d093c-4024-4b54-8403-1e40704d68ff",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:57ff48926d0557847485bf16",
+          "source_event_ids": [
+            "57ff48926d0557847485bf16"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-violin-brahms-y-sinfonia-dvorak-7"
+          ]
+        },
+        {
+          "event_id": "7a4a64e5-d829-45e2-b129-d23ba9dc4609",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:5543119a7f843583c11f19e9c3c33560",
+          "source_event_ids": [
+            "c42dd9bb3f572f9091826861"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-violin-brahms-y-sinfonia-dvorak-7"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-violin-brahms-y-sinfonia-dvorak-7"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/excelentia-violin-brahms-y-sinfonia-dvorak-7",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "7a4a64e5-d829-45e2-b129-d23ba9dc4609",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "683d093c-4024-4b54-8403-1e40704d68ff"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2027-02-19",
+      "start_time": "19:30:00",
+      "title": "CNDM. Benjamin Alard",
+      "candidate_events": [
+        {
+          "event_id": "203d968f-e42f-4a75-9b17-6566477058f3",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:b60f8018ab72ec864a494917b16b2db3",
+          "source_event_ids": [
+            "b74b851d2453c3ab6904ec07"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-benjamin-alard-9"
+          ]
+        },
+        {
+          "event_id": "94799f42-4e62-4aac-b0f4-6c983f478aed",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:a8223c7efe6f225633e25613",
+          "source_event_ids": [
+            "a8223c7efe6f225633e25613"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-benjamin-alard-9"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-benjamin-alard-9"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-benjamin-alard-9",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "203d968f-e42f-4a75-9b17-6566477058f3",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "94799f42-4e62-4aac-b0f4-6c983f478aed"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-02-26",
+      "start_time": "19:30:00",
+      "title": "CNDM. Kiki Morente",
+      "candidate_events": [
+        {
+          "event_id": "04f87a5e-5580-4742-a68a-a9a69bfcdf77",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:1a9d1636e47646f50bae1db81366f21a",
+          "source_event_ids": [
+            "4f7113fa0e7f0017cb8628d2"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-kiki-morente"
+          ]
+        },
+        {
+          "event_id": "c4770c7b-4a32-45c4-837a-622dc8772c1e",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:68fcc4d02a2d339a7d0e98cc",
+          "source_event_ids": [
+            "68fcc4d02a2d339a7d0e98cc"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-kiki-morente"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-kiki-morente"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-kiki-morente",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "04f87a5e-5580-4742-a68a-a9a69bfcdf77",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "c4770c7b-4a32-45c4-837a-622dc8772c1e"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-03-12",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 15",
+      "candidate_events": [
+        {
+          "event_id": "0157b395-5a41-4118-9d56-327ae006edd7",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:8325396b2af3c05fe4167d81",
+          "source_event_ids": [
+            "8325396b2af3c05fe4167d81"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4"
+          ]
+        },
+        {
+          "event_id": "55c1d367-6ac1-4e94-bab2-5488609cf47b",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:494d38bf59ff9054d026fd77d4614283",
+          "source_event_ids": [
+            "5fa18adc0f57d3a764e785fd"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "55c1d367-6ac1-4e94-bab2-5488609cf47b",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "0157b395-5a41-4118-9d56-327ae006edd7"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-03-13",
+      "start_time": "19:30:00",
+      "title": "UAM. Missa Papae Marcelli. La Gloria de Palestrina",
+      "candidate_events": [
+        {
+          "event_id": "03d6fb79-b161-48c8-94d5-ef5b49a0e467",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:4fe65ecba6fa69cbc448b7a2",
+          "source_event_ids": [
+            "4fe65ecba6fa69cbc448b7a2"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/uam-missa-papae-marcelli-la-gloria-de-palestrina"
+          ]
+        },
+        {
+          "event_id": "10a4b574-614c-4b07-86cc-29af67cbb68d",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:f56784b44420c9c42b1d5f3f98017cac",
+          "source_event_ids": [
+            "ead7af320b79cbcc6cd9fcff"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/uam-missa-papae-marcelli-la-gloria-de-palestrina"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/uam-missa-papae-marcelli-la-gloria-de-palestrina"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/uam-missa-papae-marcelli-la-gloria-de-palestrina",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "10a4b574-614c-4b07-86cc-29af67cbb68d",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "03d6fb79-b161-48c8-94d5-ef5b49a0e467"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2027-03-14",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 15",
+      "candidate_events": [
+        {
+          "event_id": "451b6b1b-c7d6-4121-aeb1-fb4272d1908a",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:634851e426f6cfd7a304ac2c",
+          "source_event_ids": [
+            "634851e426f6cfd7a304ac2c"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4"
+          ]
+        },
+        {
+          "event_id": "4157f1fa-583b-4c17-bab9-4fe0db309931",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:85b89ecd9caf51bc39b606b89d788580",
+          "source_event_ids": [
+            "90c93732daaf98b65fa5c76f"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-15-4",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "4157f1fa-583b-4c17-bab9-4fe0db309931",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "451b6b1b-c7d6-4121-aeb1-fb4272d1908a"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-04-08",
+      "start_time": "19:30:00",
+      "title": "CNDM. Céline Frisch",
+      "candidate_events": [
+        {
+          "event_id": "adc3fd04-a0d1-4238-adfe-06f192e947b7",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:4b9128ef396fd0109c090d9cce0b71b6",
+          "source_event_ids": [
+            "ec2737428c48389b4b0ab310"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-celine-frisch"
+          ]
+        },
+        {
+          "event_id": "c87373e7-e15e-4d88-900c-bf5c561c6a09",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:bbfd5a11543a37db89cb83c7",
+          "source_event_ids": [
+            "bbfd5a11543a37db89cb83c7"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-celine-frisch"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-celine-frisch"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-celine-frisch",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "adc3fd04-a0d1-4238-adfe-06f192e947b7",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "c87373e7-e15e-4d88-900c-bf5c561c6a09"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-04-09",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 16",
+      "candidate_events": [
+        {
+          "event_id": "b370f4f7-f3d4-4c7d-85e6-0823c2eb62a6",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:0759e2a4e7284144c6af2207",
+          "source_event_ids": [
+            "0759e2a4e7284144c6af2207"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4"
+          ]
+        },
+        {
+          "event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:82e48f11456c61994d0efb11ab8344d7",
+          "source_event_ids": [
+            "5b3890529af35daa472fd3a7"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "642c41c0-723c-4d11-98f5-8ac7d0f9f2a6",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "b370f4f7-f3d4-4c7d-85e6-0823c2eb62a6"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-04-10",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 16",
+      "candidate_events": [
+        {
+          "event_id": "0929acb6-a946-42f6-ab9a-1e432c291f76",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:f068743f6b4e8f1a6ad4a0a0",
+          "source_event_ids": [
+            "f068743f6b4e8f1a6ad4a0a0"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4"
+          ]
+        },
+        {
+          "event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:b49761ad9a1345a5652fa1356fb4cbe7",
+          "source_event_ids": [
+            "94f61454bbe50e79a2904a7e"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-16-4",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "e7b0abe1-be1f-442f-a954-925be3dd920f",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "0929acb6-a946-42f6-ab9a-1e432c291f76"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-04-28",
+      "start_time": "19:30:00",
+      "title": "Atlántida Chamber Orchestra. John Williams Tribute: de Broadway a Hollywood",
+      "candidate_events": [
+        {
+          "event_id": "ec928862-aa29-47ee-a0df-e36a35375b9b",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:65780af7173aca79769c9ac690911148",
+          "source_event_ids": [
+            "662888cd197ae7198224fefb"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-john-williams-tribute-de-broadway-a-hollywood"
+          ]
+        },
+        {
+          "event_id": "80aed465-8b3c-4e65-a3b1-6226d33b568f",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:3de31e87b997daef3dcdbe9f",
+          "source_event_ids": [
+            "3de31e87b997daef3dcdbe9f"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-john-williams-tribute-de-broadway-a-hollywood"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-john-williams-tribute-de-broadway-a-hollywood"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/atlantida-chamber-orchestra-john-williams-tribute-de-broadway-a-hollywood",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "ec928862-aa29-47ee-a0df-e36a35375b9b",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "80aed465-8b3c-4e65-a3b1-6226d33b568f"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-04-29",
+      "start_time": "19:30:00",
+      "title": "Hispania Concertalia. Danzas del Mundo",
+      "candidate_events": [
+        {
+          "event_id": "aef7276e-5b88-47e2-b9d6-67f73f432f91",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:20823d286ab28f447966251b",
+          "source_event_ids": [
+            "20823d286ab28f447966251b"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-danzas-del-mundo"
+          ]
+        },
+        {
+          "event_id": "ecdf7994-6efb-4ecd-ab9d-71d551668bb7",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:96be8b0c523aaad6bae20c27cd56922a",
+          "source_event_ids": [
+            "700d0e2e76c1a6d8ca447363"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-danzas-del-mundo"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-danzas-del-mundo"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/hispania-concertalia-danzas-del-mundo",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "ecdf7994-6efb-4ecd-ab9d-71d551668bb7",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "aef7276e-5b88-47e2-b9d6-67f73f432f91"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-05-14",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 19",
+      "candidate_events": [
+        {
+          "event_id": "7f1c9160-875a-4217-8930-ec9103267c8e",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:f682639692ea94cf3b640a9c",
+          "source_event_ids": [
+            "f682639692ea94cf3b640a9c"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5"
+          ]
+        },
+        {
+          "event_id": "1ae8d473-5aab-4e0b-832a-b9d43edf9438",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:1002dfb735b1265d74332e0e3e0eed8f",
+          "source_event_ids": [
+            "bbc661de4ad9dc44efa659d0"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "1ae8d473-5aab-4e0b-832a-b9d43edf9438",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "7f1c9160-875a-4217-8930-ec9103267c8e"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-05-16",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 19",
+      "candidate_events": [
+        {
+          "event_id": "8f2b8e7a-fe38-49a9-a977-d08774e49dff",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:764894e3d2a8aac4fdddc76f",
+          "source_event_ids": [
+            "764894e3d2a8aac4fdddc76f"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5"
+          ]
+        },
+        {
+          "event_id": "fa0be11c-563e-48e1-96f8-6c72bb8bfe15",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:c9e94ae1c34bb894ad6aed3fbf42247e",
+          "source_event_ids": [
+            "5f14f11c5def73ded66a55c7"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-19-5",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "fa0be11c-563e-48e1-96f8-6c72bb8bfe15",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "8f2b8e7a-fe38-49a9-a977-d08774e49dff"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-05-20",
+      "start_time": "19:30:00",
+      "title": "Ibermúsica. Hélène Grimaud",
+      "candidate_events": [
+        {
+          "event_id": "66e67a14-5b37-4e5f-a3ab-fed2e7059d4e",
+          "room": "Otros espacios",
+          "event_key": "auditorio_nacional:a475fd52caebd06187216531",
+          "source_event_ids": [
+            "a475fd52caebd06187216531"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-helene-grimaud-1"
+          ]
+        },
+        {
+          "event_id": "512356cc-d649-444f-a593-34718aa4611d",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:4e572e854cfb34fd0eb6b8f86d40f411",
+          "source_event_ids": [
+            "e3b4a45350f7d2c1abcd1588"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-helene-grimaud-1"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-helene-grimaud-1"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ibermusica-helene-grimaud-1",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "512356cc-d649-444f-a593-34718aa4611d",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "66e67a14-5b37-4e5f-a3ab-fed2e7059d4e"
+      ],
+      "incorrect_rooms": [
+        "Otros espacios"
+      ]
+    },
+    {
+      "date": "2027-05-21",
+      "start_time": "19:30:00",
+      "title": "CNDM. Capella de Ministrers",
+      "candidate_events": [
+        {
+          "event_id": "d106f498-a8df-4dd9-a28a-cfaeb13cd7e8",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:10368f77191acb31f8d0973fd4d70e06",
+          "source_event_ids": [
+            "a48b14a686280b5c3450b841"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-capella-de-ministrers-2"
+          ]
+        },
+        {
+          "event_id": "d59dab04-208c-41a3-ae91-0086451ab751",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:6188263e6ce66e123c0cbdf2",
+          "source_event_ids": [
+            "6188263e6ce66e123c0cbdf2"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/cndm-capella-de-ministrers-2"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/cndm-capella-de-ministrers-2"
+      ],
+      "official_room_text": "Sala de Cámara",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/cndm-capella-de-ministrers-2",
+          "official_room_text": "Sala de Cámara",
+          "official_rooms": [
+            "Sala de Cámara"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala de Cámara",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "d106f498-a8df-4dd9-a28a-cfaeb13cd7e8",
+      "surviving_room": "Sala de Cámara",
+      "incorrect_room_event_ids": [
+        "d59dab04-208c-41a3-ae91-0086451ab751"
+      ],
+      "incorrect_rooms": [
+        "Sala Sinfónica"
+      ]
+    },
+    {
+      "date": "2027-05-23",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 20",
+      "candidate_events": [
+        {
+          "event_id": "a4a72b80-4966-4c0d-8ffd-884232de3384",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:0efab3f7df9457304dc60686",
+          "source_event_ids": [
+            "0efab3f7df9457304dc60686"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-20-5"
+          ]
+        },
+        {
+          "event_id": "68f1056e-38ff-4b01-9de5-8131ce841dbb",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:b4d94a453c028ad239bcdbb933ab1ae6",
+          "source_event_ids": [
+            "ade562b4741d8aa0f9299f93"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-20-5"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-20-5"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-20-5",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "68f1056e-38ff-4b01-9de5-8131ce841dbb",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "a4a72b80-4966-4c0d-8ffd-884232de3384"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-06-05",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 21",
+      "candidate_events": [
+        {
+          "event_id": "544efc84-cb1c-40af-acd1-c027101c9eb6",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:0ed51f6e27b093b8b471cd6a",
+          "source_event_ids": [
+            "0ed51f6e27b093b8b471cd6a"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-21-5"
+          ]
+        },
+        {
+          "event_id": "727bc0e8-7595-4bc9-aa96-b3cc69170e8c",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:a4b19c02d67090e841ace8e4033ca9a3",
+          "source_event_ids": [
+            "95831f706e5e26197149509f"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-21-5"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-21-5"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-21-5",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "727bc0e8-7595-4bc9-aa96-b3cc69170e8c",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "544efc84-cb1c-40af-acd1-c027101c9eb6"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-06-11",
+      "start_time": "19:30:00",
+      "title": "OCNE. Sinfónico 22",
+      "candidate_events": [
+        {
+          "event_id": "5f4440d4-20ad-43d8-ae51-49ee0b51bb25",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:716e8b89405ade8d752a699e",
+          "source_event_ids": [
+            "716e8b89405ade8d752a699e"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5"
+          ]
+        },
+        {
+          "event_id": "3ce29379-71d0-4fdf-8dcd-317df98cca10",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:a8cd57cc7801b1c155bcde1d8e46bf14",
+          "source_event_ids": [
+            "22533a89483c65492e69654d"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "3ce29379-71d0-4fdf-8dcd-317df98cca10",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "5f4440d4-20ad-43d8-ae51-49ee0b51bb25"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    },
+    {
+      "date": "2027-06-13",
+      "start_time": "11:30:00",
+      "title": "OCNE. Sinfónico 22",
+      "candidate_events": [
+        {
+          "event_id": "20866a94-8cab-4164-8792-43c512506c61",
+          "room": "Sala de Cámara",
+          "event_key": "auditorio_nacional:73036b767b1452d3dff4815d",
+          "source_event_ids": [
+            "73036b767b1452d3dff4815d"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5"
+          ]
+        },
+        {
+          "event_id": "6d4b11af-6112-48a0-a31f-c27b8403898f",
+          "room": "Sala Sinfónica",
+          "event_key": "auditorio_nacional:dabad9206d523d8cf31f3689074cb93a",
+          "source_event_ids": [
+            "9bd2cef66fa632525073d126"
+          ],
+          "source_urls": [
+            "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5"
+          ]
+        }
+      ],
+      "official_source_urls": [
+        "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5"
+      ],
+      "official_room_text": "Sala Sinfónica",
+      "official_evidence": [
+        {
+          "source_url": "https://auditorionacional.inaem.gob.es/es/programacion/ocne-sinfonico-22-5",
+          "official_room_text": "Sala Sinfónica",
+          "official_rooms": [
+            "Sala Sinfónica"
+          ],
+          "evidence": "Official detail HTML contains the room label: Sala Sinfónica",
+          "fetch_status": 200
+        }
+      ],
+      "classification": "ROOM_PARSER_DUPLICATION_DETERMINISTIC",
+      "reason": "Official source explicitly supports one room and contradicts the other candidate room(s).",
+      "surviving_event_id": "6d4b11af-6112-48a0-a31f-c27b8403898f",
+      "surviving_room": "Sala Sinfónica",
+      "incorrect_room_event_ids": [
+        "20866a94-8cab-4164-8792-43c512506c61"
+      ],
+      "incorrect_rooms": [
+        "Sala de Cámara"
+      ]
+    }
+  ]
+}
