@@ -91,6 +91,29 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(result["status"], "existing")
         self.assertEqual(result["match_method"], "exact")
 
+    def test_transliteration_alias_resolves_to_existing_composer(self):
+        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [{"id": "tchaikovsky", "canonical_name": "Pyotr Ilyich Tchaikovsky"}], "work": [], "artist": [], "character": []}, composer_aliases=[{"composer_id": "tchaikovsky", "alias": "Tschaikowsky"}])
+        result = resolve_entity("composer", "Tschaikowsky", snapshot)
+        self.assertEqual(result["status"], "existing")
+        self.assertEqual(result["match_method"], "alias")
+
+    def test_unresolved_composer_blocks_work_resolution(self):
+        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [], "work": [], "artist": [], "character": []})
+        result = resolve_work("Localized German Title", {"status": "review_required", "entity_id": None}, snapshot)
+        self.assertEqual(result["status"], "review_required")
+
+    def test_localized_work_title_is_not_auto_created(self):
+        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [{"id": "mozart", "canonical_name": "Wolfgang Amadeus Mozart"}], "work": [], "artist": [], "character": []})
+        result = resolve_work("Die Zauberflöte", resolve_entity("composer", "Wolfgang Amadeus Mozart", snapshot), snapshot)
+        self.assertEqual(result["status"], "review_required")
+
+    def test_final_staging_excludes_review_items_from_preview(self):
+        staging = Path("artifacts/opernhaus-zurich/final-staging/final_staging.json")
+        if not staging.exists():
+            self.skipTest("final Zürich staging artifact not present")
+        payload = json.loads(staging.read_text(encoding="utf-8"))
+        self.assertEqual(payload["validation"]["review_items_in_sql"], 0)
+
     def test_shared_identity_normalizer_handles_accents_and_punctuation(self):
         self.assertEqual(normalize_identity("Richard Strauß"), normalize_identity("Richard Strauss"))
         self.assertEqual(normalize_identity("Antonín Dvořák"), normalize_identity("Antonin Dvorak"))
