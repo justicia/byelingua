@@ -1,0 +1,47 @@
+from __future__ import annotations
+
+import json
+import tempfile
+import unittest
+from pathlib import Path
+from unittest.mock import patch
+
+from season_ingestion.adapters.munich_bayerische_staatsoper import parse_calendar
+from season_ingestion.pipeline import run_pipeline
+
+
+HTML = '''<html><body><h1>Oktober 2026</h1>
+<a href="/productions/semele">2. Oktober 2026.10.26 Freitag Fr.18.00 Uhr | NationaltheaterSEMELE Georg Friedrich Händel Preise</a>
+<a href="/productions/ariadne">12. Oktober 2026.10.26 Montag Mo.19.00 Uhr | NationaltheaterARIADNE AUF NAXOS Richard Strauss Preise</a>
+</body></html>'''
+
+
+class SeasonIngestionPipelineV1Tests(unittest.TestCase):
+    def test_munich_parser_preserves_event_and_programme_provenance(self):
+        settings = {"organization": "Bayerische Staatsoper", "venue": "Nationaltheater", "city": "Munich", "country": "Germany", "timezone": "Europe/Berlin"}
+        events = parse_calendar(HTML, "https://www.staatsoper.de/spielplan/2026-10", settings, season_start="2026-09-01", season_end="2027-08-31")
+        self.assertEqual(len(events), 2)
+        self.assertEqual(events[0].programme[0]["original_programme_order"], 1)
+        self.assertTrue(events[0].source_url.startswith("https://www.staatsoper.de/"))
+
+    def test_apply_is_blocked(self):
+        with self.assertRaises(RuntimeError):
+            run_pipeline(venue="munich_bayerische_staatsoper", season="2026-27", mode="apply")
+
+    def test_output_contract_is_stable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            settings = {"organization": "Bayerische Staatsoper", "venue": "Nationaltheater", "city": "Munich", "country": "Germany", "timezone": "Europe/Berlin"}
+            class FakeAdapter:
+                last_errors = []
+                def ingest(self, season):
+                    return parse_calendar(HTML, "https://www.staatsoper.de/spielplan/2026-10", settings, season_start="2026-09-01", season_end="2027-08-31")
+            with patch("season_ingestion.pipeline.load_adapter", return_value=FakeAdapter()):
+                result = run_pipeline(venue="munich_bayerische_staatsoper", season="2026-27", output_dir=Path(tmp))
+            self.assertEqual(result["counts"]["writes"], 0)
+            self.assertTrue(result["gates"]["production_writes"])
+            self.assertTrue((Path(tmp) / "final_staging.json").exists())
+            self.assertEqual(set(json.loads((Path(tmp) / "summary.json").read_text())["gates"]), set(result["gates"]))
+
+
+if __name__ == "__main__":
+    unittest.main()
