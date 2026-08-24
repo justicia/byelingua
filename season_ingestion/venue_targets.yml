@@ -1,0 +1,24 @@
+schema_version: venue-onboarding-targets-v1
+targets:
+  - venue_id: opernhaus_zurich
+    organization: Opernhaus Zürich
+    venue: Opernhaus Zürich
+    city: Zürich
+    country: Switzerland
+    timezone: Europe/Zurich
+    season: 2026-27
+    official_homepage: https://www.opernhaus.ch/en/spielplan/oper-2627/
+    schedule_source: https://www.opernhaus.ch/en/spielplan/oper-2627/
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: bayerische_staatsoper
+    organization: Bayerische Staatsoper
+    venue: Nationaltheater
+    city: Munich
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://www.staatsoper.de/
+    schedule_source: https://www.staatsoper.de/spielplan/{year_month}
+    enabled: true
+    onboarding_status: PENDING
