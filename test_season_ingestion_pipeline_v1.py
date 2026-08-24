@@ -85,6 +85,12 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(resolve_work("Die Zauberflöte", resolve_entity("composer", "Mozart", snapshot), snapshot)["status"], "existing")
         self.assertEqual(resolve_work("The Magic Flute", resolve_entity("composer", "Mozart", snapshot), snapshot)["match_method"], "alias")
 
+    def test_work_resolver_deduplicates_canonical_name_and_title(self):
+        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [{"id": "wagner", "canonical_name": "Richard Wagner"}], "work": [{"id": "tannhauser", "canonical_name": "Tannhäuser", "title": "Tannhäuser", "composer_id": "wagner"}], "artist": [], "character": []})
+        result = resolve_work("Tannhäuser", resolve_entity("composer", "Richard Wagner", snapshot), snapshot)
+        self.assertEqual(result["status"], "existing")
+        self.assertEqual(result["match_method"], "exact")
+
     def test_shared_identity_normalizer_handles_accents_and_punctuation(self):
         self.assertEqual(normalize_identity("Richard Strauß"), normalize_identity("Richard Strauss"))
         self.assertEqual(normalize_identity("Antonín Dvořák"), normalize_identity("Antonin Dvorak"))

@@ -126,11 +126,13 @@ def resolve_work(source_title: str, composer: dict[str, Any] | str | None, snaps
     for row in snapshot.entities.get("work", []):
         if composer_id and row.get("composer_id") and row.get("composer_id") != composer_id:
             continue
+        canonical_key = normalize_identity(str(row.get("canonical_name") or row.get("title") or ""))
+        if normalized and normalized == canonical_key:
+            candidates.append((row, "exact"))
+            continue
         aliases = [alias.get("alias") for alias in snapshot.work_aliases if alias.get("work_id") == row.get("id")]
-        names = [row.get("canonical_name"), row.get("title"), *aliases]
-        for position, name in enumerate(names):
-            if normalized and normalized == normalize_identity(str(name or "")):
-                candidates.append((row, "exact" if position == 0 else "alias"))
+        if normalized and any(normalized == normalize_identity(str(alias or "")) for alias in aliases):
+            candidates.append((row, "alias"))
     if len(candidates) == 1:
         row, method = candidates[0]
         return {"status": "existing", "work_id": row.get("id"), "match_method": method, "reason": f"{method} global work match with resolved composer context"}
