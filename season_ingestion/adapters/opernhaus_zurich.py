@@ -131,7 +131,11 @@ class OpernhausZurichAdapter:
                     detail_html = self._fetch(detail_url)
                     events = parse_detail(detail_html, detail_url, self.settings, season_start=season_start, season_end=season_end)
                     if not events:
-                        raise ValueError("official detail page contained no season event JSON-LD")
+                        # A production page can be linked from the season overview while
+                        # its remaining dates fall outside the requested season window.
+                        # Count the official page as fetched, but do not invent an event.
+                        if not _jsonld_events(detail_html):
+                            raise ValueError("official detail page contained no season event JSON-LD")
                     self.source_pages[detail_url] = detail_url
                     self.successful_months.append(detail_url)
                     output.extend(events)
