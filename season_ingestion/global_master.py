@@ -97,8 +97,6 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
         "loaded_at": loaded_at,
         "query_errors": 0,
     }
-    if not health["global_master_loaded"]:
-        raise GlobalMasterError("GLOBAL_MASTER_EMPTY", "Global Master composers and works queries returned no rows")
     snapshot = GlobalEntitySnapshot(
         generated_at=loaded_at,
         source="supabase-read-only",
@@ -109,6 +107,8 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
         health=health,
     )
     snapshot.validate()
+    if not health["global_master_loaded"]:
+        snapshot.health.update({"error_code": "GLOBAL_MASTER_EMPTY", "error_message": "Global Master composers and works queries returned no rows"})
     return snapshot
 
 
