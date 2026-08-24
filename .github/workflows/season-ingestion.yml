@@ -28,6 +28,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   ingest:
@@ -43,7 +44,7 @@ jobs:
         if: inputs.mode == 'probe'
         run: python jobs/probe_official_source.py --output source-probe-summary.json
       - name: Run shared cloud entrypoint
-        if: inputs.mode != 'probe'
+        if: inputs.mode == 'dry-run'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
@@ -56,13 +57,22 @@ jobs:
             --season "${{ inputs.season }}" \
             --mode "${{ inputs.mode }}" \
             --output-dir season-ingestion-output
-      - name: Validate explicit apply approval
+      - name: Download approved dry-run artifact
+        if: inputs.mode == 'apply'
+        uses: actions/download-artifact@v4
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-dry-run
+          path: approved-artifact
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.approved_run_id }}
+      - name: Run approved production graph
         if: inputs.mode == 'apply'
         env:
-          APPROVED_RUN_ID: ${{ inputs.approved_run_id }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
         run: |
-          test -n "$APPROVED_RUN_ID"
-          echo "Approval reference supplied."
+          python jobs/apply_approved_season_run.py --approved-dir approved-artifact --output-dir season-ingestion-output --approved-run-id "${{ inputs.approved_run_id }}" --venue "${{ inputs.venue }}" --season "${{ inputs.season }}"
       - name: Send terminal cloud run notification
         if: always() && inputs.mode != 'probe'
         env:
@@ -70,7 +80,8 @@ jobs:
           INGESTION_NOTIFICATION_EMAIL: ${{ secrets.INGESTION_NOTIFICATION_EMAIL }}
           RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
           GITHUB_SHA: ${{ github.sha }}
-        run: python jobs/notify_season_run.py --output-dir season-ingestion-output
+        run: |
+          if [ "${{ inputs.mode }}" = "apply" ]; then python jobs/notify_apply_run.py --output-dir season-ingestion-output; else python jobs/notify_season_run.py --output-dir season-ingestion-output; fi
       - uses: actions/upload-artifact@v4
         if: always() && inputs.mode != 'probe'
         with:

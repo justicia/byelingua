@@ -1,7 +1,8 @@
 from __future__ import annotations
-import argparse, json, os
+import argparse, json, os, sys
 from datetime import datetime, timezone
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from season_ingestion.notifications import build_approval_manifest, classify_dry_run, github_run_url, notification_summary, render_email, send_resend
 
 def main() -> int:

@@ -1,6 +1,7 @@
 from __future__ import annotations
-import argparse
+import argparse, sys
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from season_ingestion.approval import validate_approval
 
 p=argparse.ArgumentParser()
