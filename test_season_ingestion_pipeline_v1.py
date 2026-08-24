@@ -69,7 +69,7 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
         events = parse_detail(ZURICH_TITLE_AS_COMPOSER_HTML, "https://www.opernhaus.ch/en/spielplan/calendar/herr-der-diebe/2026-2027/", settings, season_start="2026-09-01", season_end="2027-08-31")
         self.assertIsNone(events[0].programme[0].get("composer") if events[0].programme else None)
-        self.assertEqual(events[0].data_quality["programme"]["status"], "DETAIL_PARSE_REVIEW")
+        self.assertEqual(events[0].data_quality["programme"]["status"], "NO_PROGRAMME_EVIDENCE")
 
     def test_zurich_season_page_relative_detail_urls_are_discoverable(self):
         urls = _detail_urls('<a href="/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/">Rachmaninow</a>')
