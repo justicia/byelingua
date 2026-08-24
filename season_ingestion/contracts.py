@@ -3,6 +3,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any, Iterable, Mapping
 
+from .unicode_integrity import validate_unicode_integrity
+
 
 ENTITY_KINDS = ("composer", "artist", "work", "character")
 STAGES = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging")
@@ -48,6 +50,7 @@ def validate_programme(programme: Iterable[Mapping[str, Any]]) -> list[dict[str,
 
 def validate_canonical_event(event: Any) -> None:
     event.validate()
+    validate_unicode_integrity(event.to_dict())
     validate_programme(event.programme)
     for credit in event.credits:
         if not isinstance(credit, Mapping):
