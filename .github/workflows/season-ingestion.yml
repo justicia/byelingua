@@ -1,4 +1,4 @@
-name: Manual season ingestion
+name: Cloud Season Ingestion Pipeline V1
 
 on:
   workflow_dispatch:
@@ -8,27 +8,18 @@ on:
         required: true
         type: choice
         options:
-          - wiener_staatsoper
-          - operadeparis
-          - philharmonie_paris
-          - teatro_real
-          - auditorio_nacional
+          - munich_bayerische_staatsoper
       season:
         description: Season (September through August)
         required: true
         default: 2026-27
         type: string
-      staging_file:
-        description: Optional runtime JSONL path for venues without a committed adapter
-        required: false
-        default: ''
-        type: string
       mode:
-        description: Stage only, read-only reconciliation, or apply (unsupported)
+        description: Read-only cloud staging; apply remains disabled in V1
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, preflight, apply]
+        options: [dry-run, apply]
 
 permissions:
   contents: read
@@ -36,7 +27,6 @@ permissions:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.mode == 'apply' && 'season-ingestion-production' || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -44,26 +34,19 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements-season-ingestion.txt
-      - name: Ingest season
+      - name: Run shared cloud entrypoint
         env:
-          SUPABASE_URL: ${{ (inputs.mode == 'preflight' || inputs.mode == 'apply') && secrets.SUPABASE_URL || '' }}
-          SUPABASE_READONLY_KEY: ${{ inputs.mode == 'preflight' && secrets.SUPABASE_READONLY_KEY || '' }}
-          SUPABASE_SECRET_KEY: ${{ inputs.mode == 'apply' && secrets.SUPABASE_SECRET_KEY || '' }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
         run: |
-          args=(--venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}" --report-file reconciliation-report.json)
-          if [ -n "${{ inputs.staging_file }}" ]; then args+=(--staging-file "${{ inputs.staging_file }}"); fi
-          python jobs/sync_season.py "${args[@]}"
+          python -m season_ingestion.run \
+            --venue "${{ inputs.venue }}" \
+            --season "${{ inputs.season }}" \
+            --mode "${{ inputs.mode }}" \
+            --output-dir season-ingestion-output
       - uses: actions/upload-artifact@v4
-        if: always() && inputs.mode == 'dry-run'
+        if: always()
         with:
           name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
           path: season-ingestion-output/
           if-no-files-found: error
-      - name: Upload preflight reconciliation report (including blocked or failed runs)
-        uses: actions/upload-artifact@v4
-        if: ${{ always() && inputs.mode == 'preflight' }}
-        with:
-          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-preflight
-          path: reconciliation-report.json
-          if-no-files-found: error
-          retention-days: 30
