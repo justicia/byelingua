@@ -54,8 +54,12 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
         snapshot = empty_global_snapshot(generated_at)
     snapshot_health = dict(getattr(snapshot, "health", {}) or {})
     global_master_loaded = bool(snapshot_health.get("global_master_loaded", snapshot.entities.get("composer") and snapshot.entities.get("work")))
+    if not global_master_loaded and snapshot_health.get("error_code"):
+        global_master_error = {"code": snapshot_health["error_code"], "message": snapshot_health.get("error_message", "Global Master unavailable")}
     if global_master_error:
-        snapshot_health.update({"preflight_status": "FAIL", "global_master_loaded": False, "error_code": global_master_error["code"], "error_message": global_master_error["message"], "query_errors": 1})
+        snapshot_health.update({"preflight_status": "FAIL", "global_master_loaded": False, "error_code": global_master_error["code"], "error_message": global_master_error["message"]})
+        if not snapshot_health.get("query_errors"):
+            snapshot_health["query_errors"] = 1
     resolution_rows, review_rows = [], []
     composer_resolution = []
     for event in events:
