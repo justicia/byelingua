@@ -4,6 +4,7 @@ import json
 import tempfile
 import unittest
 from urllib.error import HTTPError
+from urllib.parse import parse_qs, urlparse
 from pathlib import Path
 from unittest.mock import patch
 
@@ -118,6 +119,38 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertNotIn("for insert", sql.lower())
         self.assertNotIn("for update", sql.lower())
         self.assertNotIn("for delete", sql.lower())
+
+    def test_global_master_loads_all_pages(self):
+        class Response:
+            status = 200
+            def __init__(self, rows):
+                self.rows = rows
+            def __enter__(self):
+                return self
+            def __exit__(self, *args):
+                return False
+            def read(self):
+                return json.dumps(self.rows).encode()
+
+        def fake_fetch(request, timeout):
+            parsed = urlparse(request.full_url)
+            table = parsed.path.rsplit("/", 1)[-1]
+            offset = int(parse_qs(parsed.query).get("offset", ["0"])[0])
+            if table in {"composers", "works"}:
+                if offset == 0:
+                    key = "canonical_name" if table == "composers" else "title"
+                    return Response([{"id": f"{table}-0-{i}", key: f"Row {i}"} for i in range(1000)])
+                if offset == 1000:
+                    key = "canonical_name" if table == "composers" else "title"
+                    return Response([{"id": f"{table}-1000", key: "Last row"}])
+            return Response([])
+
+        env = {"SUPABASE_URL": "https://pdtunknwruokybtuehua.supabase.co", "SUPABASE_READONLY_KEY": "redacted-test-key"}
+        with patch.dict("os.environ", env, clear=True), patch("season_ingestion.global_master.urlopen", side_effect=fake_fetch):
+            snapshot = load_global_snapshot()
+        self.assertEqual(len(snapshot.entities["composer"]), 1001)
+        self.assertEqual(len(snapshot.entities["work"]), 1001)
+        self.assertTrue(snapshot.health["global_master_loaded"])
 
     def test_global_master_unavailable_does_not_become_review(self):
         with tempfile.TemporaryDirectory() as tmp:

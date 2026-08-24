@@ -15,6 +15,7 @@ from .contracts import ENTITY_KINDS, GlobalEntitySnapshot, empty_global_snapshot
 
 
 EXPECTED_PROJECT_REF = "pdtunknwruokybtuehua"
+GLOBAL_MASTER_PAGE_SIZE = 1000
 
 
 class GlobalMasterError(RuntimeError):
@@ -57,19 +58,25 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
         "character": ("characters", "id,canonical_name"),
     }
     def fetch(table: str, fields: str) -> list[dict[str, Any]]:
-        query = urlencode({"select": fields, "order": "id.asc", "limit": "10000"})
-        request = Request(f"{url}/rest/v1/{table}?{query}", headers={"apikey": key, "Authorization": f"Bearer {key}"})
-        try:
-            with urlopen(request, timeout=60) as response:
-                payload = json.loads(response.read().decode("utf-8"))
-        except HTTPError as exc:
-            code = "GLOBAL_MASTER_AUTH_ERROR" if exc.code in {401, 403} else "GLOBAL_MASTER_QUERY_ERROR"
-            raise GlobalMasterError(code, f"{table} query failed with HTTP {exc.code}") from exc
-        except (URLError, TimeoutError, ValueError) as exc:
-            raise GlobalMasterError("GLOBAL_MASTER_QUERY_ERROR", f"{table} query failed: {type(exc).__name__}") from exc
-        if not isinstance(payload, list):
-            raise GlobalMasterError("GLOBAL_MASTER_QUERY_ERROR", f"{table} query returned a non-list payload")
-        return payload
+        rows: list[dict[str, Any]] = []
+        offset = 0
+        while True:
+            query = urlencode({"select": fields, "order": "id.asc", "limit": str(GLOBAL_MASTER_PAGE_SIZE), "offset": str(offset)})
+            request = Request(f"{url}/rest/v1/{table}?{query}", headers={"apikey": key, "Authorization": f"Bearer {key}"})
+            try:
+                with urlopen(request, timeout=60) as response:
+                    payload = json.loads(response.read().decode("utf-8"))
+            except HTTPError as exc:
+                code = "GLOBAL_MASTER_AUTH_ERROR" if exc.code in {401, 403} else "GLOBAL_MASTER_QUERY_ERROR"
+                raise GlobalMasterError(code, f"{table} query failed with HTTP {exc.code}") from exc
+            except (URLError, TimeoutError, ValueError) as exc:
+                raise GlobalMasterError("GLOBAL_MASTER_QUERY_ERROR", f"{table} query failed: {type(exc).__name__}") from exc
+            if not isinstance(payload, list):
+                raise GlobalMasterError("GLOBAL_MASTER_QUERY_ERROR", f"{table} query returned a non-list payload")
+            rows.extend(payload)
+            if len(payload) < GLOBAL_MASTER_PAGE_SIZE:
+                return rows
+            offset += GLOBAL_MASTER_PAGE_SIZE
 
     for kind in ENTITY_KINDS:
         table, fields = table_fields[kind]
