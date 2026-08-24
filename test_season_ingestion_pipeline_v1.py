@@ -110,6 +110,15 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
             with self.assertRaisesRegex(GlobalMasterError, "GLOBAL_MASTER_AUTH_ERROR"):
                 load_global_snapshot()
 
+    def test_global_master_read_policy_migration_is_select_only(self):
+        sql = Path("supabase_global_master_read_policies_migration.sql").read_text(encoding="utf-8")
+        self.assertIn("composers_public_read", sql)
+        self.assertIn("composer_aliases_public_read", sql)
+        self.assertIn("works_public_read", sql)
+        self.assertNotIn("for insert", sql.lower())
+        self.assertNotIn("for update", sql.lower())
+        self.assertNotIn("for delete", sql.lower())
+
     def test_global_master_unavailable_does_not_become_review(self):
         with tempfile.TemporaryDirectory() as tmp:
             settings = {"organization": "Bayerische Staatsoper", "venue": "Nationaltheater", "city": "Munich", "country": "Germany", "timezone": "Europe/Berlin"}
