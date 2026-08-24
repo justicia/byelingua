@@ -24,6 +24,20 @@
       "timezone": "Europe/Berlin",
       "season_start_month": 9,
       "official_source": "https://www.staatsoper.de/spielplan/2026-10"
+    },
+    "opernhaus_zurich": {
+      "venue_id": "opernhaus_zurich",
+      "adapter": "season_ingestion.adapters.opernhaus_zurich:OpernhausZurichAdapter",
+      "source_adapter": "opernhaus_zurich",
+      "source": "https://www.opernhaus.ch/en/spielplan/oper-2627/",
+      "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/",
+      "organization": "Opernhaus Zürich",
+      "venue": "Opernhaus Zürich",
+      "city": "Zürich",
+      "country": "Switzerland",
+      "timezone": "Europe/Zurich",
+      "season": "2026-27",
+      "enabled": true
     }
   }
 }
