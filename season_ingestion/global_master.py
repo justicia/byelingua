@@ -28,7 +28,7 @@ class GlobalMasterError(RuntimeError):
 def normalize_identity(value: str) -> str:
     """Shared deterministic identity key for names from source and Global Master."""
     value = unicodedata.normalize("NFKD", str(value or "")).casefold().replace("ß", "ss")
-    value = "".join(char for char in value if not unicodedata.combining(char))
+    value = "".join(char for char in value if not unicodedata.combining(char) and unicodedata.category(char) != "Cf")
     value = re.sub(r"\([^)]*(?:\d{3,4}|born|died|b\.|d\.)[^)]*\)", " ", value)
     value = re.sub(r"\b(?:composer|composed by|music by)\s*[:\-]?\s*", " ", value)
     value = re.sub(r"\b(?:19|20)\d{2}\s*[-–—]\s*(?:(?:19|20)\d{2})?\b", " ", value)
