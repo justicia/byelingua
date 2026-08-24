@@ -1,0 +1,1628 @@
+{
+  "source": "opernhaus_zurich",
+  "season": "2026-27",
+  "review_universe": {
+    "composer_occurrences": 31,
+    "composer_unique": 5,
+    "work_occurrences": 95,
+    "work_unique": 15
+  },
+  "composer": {
+    "safe": [
+      {
+        "candidate_key": "composer:franz lehar",
+        "raw_forms": [
+          "Franz Lehár"
+        ],
+        "normalized_form": "franz lehar",
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:3a10f5f938ee30bafec7db3a",
+          "opernhaus_zurich:59e6a0ba3d51a63ad1f0f776",
+          "opernhaus_zurich:62d63a6d641848e37a57570a",
+          "opernhaus_zurich:9fce8182700b58764754d995",
+          "opernhaus_zurich:cc5d3812fd9b6033a3378c56",
+          "opernhaus_zurich:fc6346007983a000a6138dcb"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/die-lustige-witwe/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_COMPOSER_CANDIDATE",
+        "reason": "official Composer attribution; no canonical or alias match in Global Master; candidate only, not an automatic canonical write"
+      },
+      {
+        "candidate_key": "composer:peter eotvos",
+        "raw_forms": [
+          "Péter Eötvös"
+        ],
+        "normalized_form": "peter eotvos",
+        "occurrence_count": 5,
+        "event_ids": [
+          "opernhaus_zurich:5148073c0676059b6382a9b0",
+          "opernhaus_zurich:65628af50a1fff9e39ac4100",
+          "opernhaus_zurich:978a95b170492db2feeac723",
+          "opernhaus_zurich:c4177a65e2850215301c6862",
+          "opernhaus_zurich:f3e141ddbf8dd8b93de416a3"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/angels-in-america/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_COMPOSER_CANDIDATE",
+        "reason": "official Composer attribution; no canonical or alias match in Global Master; candidate only, not an automatic canonical write"
+      },
+      {
+        "candidate_key": "composer:pierangelo valtinoni",
+        "raw_forms": [
+          "Pierangelo Valtinoni"
+        ],
+        "normalized_form": "pierangelo valtinoni",
+        "occurrence_count": 12,
+        "event_ids": [
+          "opernhaus_zurich:03dea91cdfd046220d34a976",
+          "opernhaus_zurich:12f124a0b9ee12d0ed28cd97",
+          "opernhaus_zurich:20494eca9f2f2176da877890",
+          "opernhaus_zurich:2ab0acc6aacd508bf4735047",
+          "opernhaus_zurich:350a00dff2592c381dbcaa32",
+          "opernhaus_zurich:3bc1be7ccf725f8a498f14bf",
+          "opernhaus_zurich:50b4b2e6c2a6e776ea26095e",
+          "opernhaus_zurich:b08f171a9fbfad0c7bbd7fc7",
+          "opernhaus_zurich:c022fab7166db293c121c8d4",
+          "opernhaus_zurich:c295a48d5a2a17a19261d1a4",
+          "opernhaus_zurich:caef062b57fa40dbfad43beb",
+          "opernhaus_zurich:db630fa942dc0caab03faf55"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/alice-im-wunderland/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_COMPOSER_CANDIDATE",
+        "reason": "official Composer attribution; no canonical or alias match in Global Master; candidate only, not an automatic canonical write"
+      },
+      {
+        "candidate_key": "composer:sophie hunger",
+        "raw_forms": [
+          "Sophie Hunger"
+        ],
+        "normalized_form": "sophie hunger",
+        "occurrence_count": 2,
+        "event_ids": [
+          "opernhaus_zurich:08149d7215ba47fb15e5601b",
+          "opernhaus_zurich:8c2907c6bcd6d71859218c62"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/hotel-hunger/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_COMPOSER_CANDIDATE",
+        "reason": "official Composer attribution; no canonical or alias match in Global Master; candidate only, not an automatic canonical write"
+      },
+      {
+        "candidate_key": "composer:thom luz",
+        "raw_forms": [
+          "Thom Luz"
+        ],
+        "normalized_form": "thom luz",
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:031e5d4d21d3391ecdf785ce",
+          "opernhaus_zurich:1e408d2016e7761650bffca5",
+          "opernhaus_zurich:1e5055980ed1ccf7590ed6fb",
+          "opernhaus_zurich:3b8784eb520dde2b19b60f4f",
+          "opernhaus_zurich:b9d2bea5d3bd40630ca0e814",
+          "opernhaus_zurich:d2d86820f84f6f24513c0226"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/werckmeister-harmonien/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_COMPOSER_CANDIDATE",
+        "reason": "official Composer attribution; no canonical or alias match in Global Master; candidate only, not an automatic canonical write"
+      }
+    ],
+    "review": [],
+    "backlog": []
+  },
+  "work": {
+    "safe": [
+      {
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "source_title": "Elektra",
+        "normalized_source_title": "elektra",
+        "composer": "Richard Strauss",
+        "composer_id": "0d2f4633-2ce7-43b6-9c1f-d6938a602462",
+        "occurrence_count": 7,
+        "event_ids": [
+          "opernhaus_zurich:2227e26ed2a17a81377f01ca",
+          "opernhaus_zurich:3109f7b73cc9fd5eaa128d30",
+          "opernhaus_zurich:39a36ca77cb70821ed6e65a9",
+          "opernhaus_zurich:457a5834116774acb21ef8eb",
+          "opernhaus_zurich:645f77948e4ec9998fb3a7bc",
+          "opernhaus_zurich:83ba4336030234f2f3060d53",
+          "opernhaus_zurich:a21d5fce721bb590acb8bb7f"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/elektra-1/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_WORK_CANDIDATE",
+        "proposed_canonical_title": "Elektra",
+        "reason": "official programme title, resolved Composer, no unique Global Work match; candidate only"
+      },
+      {
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "source_title": "La fanciulla del west",
+        "normalized_source_title": "la fanciulla del west",
+        "composer": "Giacomo Puccini",
+        "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+        "occurrence_count": 8,
+        "event_ids": [
+          "opernhaus_zurich:353be448ef2bb219f2d4bf51",
+          "opernhaus_zurich:54ad10f6b4d7992cba468614",
+          "opernhaus_zurich:6a03d8df19937c03d8328e00",
+          "opernhaus_zurich:7ceb6f1088dc45fe67713009",
+          "opernhaus_zurich:b7c81862fbb05a272d086aa2",
+          "opernhaus_zurich:ba485f6bf9ec30d76ea51ec9",
+          "opernhaus_zurich:fa22d99a594b9aeead1710e6",
+          "opernhaus_zurich:faf44af7620145ed2a365eb0"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/la-fanciulla-del-west-1/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_WORK_CANDIDATE",
+        "proposed_canonical_title": "La fanciulla del west",
+        "reason": "official programme title, resolved Composer, no unique Global Work match; candidate only"
+      },
+      {
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+        "source_title": "La rondine",
+        "normalized_source_title": "la rondine",
+        "composer": "Giacomo Puccini",
+        "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+        "occurrence_count": 5,
+        "event_ids": [
+          "opernhaus_zurich:065f70b97eaf4780a05b277a",
+          "opernhaus_zurich:1944aea48f8616f16a4275a7",
+          "opernhaus_zurich:22f7ad956bff901c94b0c34c",
+          "opernhaus_zurich:6f9676e22ae01944163aab35",
+          "opernhaus_zurich:7a909d0db23fb1cf7a0cb348"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/la-rondine/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_WORK_CANDIDATE",
+        "proposed_canonical_title": "La rondine",
+        "reason": "official programme title, resolved Composer, no unique Global Work match; candidate only"
+      },
+      {
+        "candidate_key": "work:8fa0e4e1-883d-468e-a062-c743b7601a1f:ascanio in alba",
+        "source_title": "Ascanio in Alba",
+        "normalized_source_title": "ascanio in alba",
+        "composer": "Wolfgang Amadeus Mozart",
+        "composer_id": "8fa0e4e1-883d-468e-a062-c743b7601a1f",
+        "occurrence_count": 2,
+        "event_ids": [
+          "opernhaus_zurich:62e7f231ceee4e02d5cbf50c",
+          "opernhaus_zurich:ae2ab63cbb57f627ea2ac1e5"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/ascanio-in-alba/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_WORK_CANDIDATE",
+        "proposed_canonical_title": "Ascanio in Alba",
+        "reason": "official programme title, resolved Composer, no unique Global Work match; candidate only"
+      },
+      {
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "source_title": "Doctor Atomic",
+        "normalized_source_title": "doctor atomic",
+        "composer": "John Adams",
+        "composer_id": "930c72cf-5c66-48eb-a2e1-666f1bcbe526",
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:2c6847b9e70a70b378e6cd47",
+          "opernhaus_zurich:67968bf1f027a85de442fa64",
+          "opernhaus_zurich:be7fc79d48f16a292b656bf4",
+          "opernhaus_zurich:c8430bf88475556cfb65e402",
+          "opernhaus_zurich:d2be512a53fad32f5d7f49d2",
+          "opernhaus_zurich:e767110b8188deb1ac757809"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/doctor-atomic/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_WORK_CANDIDATE",
+        "proposed_canonical_title": "Doctor Atomic",
+        "reason": "official programme title, resolved Composer, no unique Global Work match; candidate only"
+      },
+      {
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "source_title": "Samson et Dalila",
+        "normalized_source_title": "samson et dalila",
+        "composer": "Camille Saint-Saëns",
+        "composer_id": "caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88",
+        "occurrence_count": 8,
+        "event_ids": [
+          "opernhaus_zurich:03c4e46aca74ce8f119555f6",
+          "opernhaus_zurich:3cca711e66d3e8e6ccd86e53",
+          "opernhaus_zurich:5423cec9e044569bb2cfac37",
+          "opernhaus_zurich:5678484dfef8157b41866c31",
+          "opernhaus_zurich:58df6c5b888ec07fc4be411e",
+          "opernhaus_zurich:82b0ee46ed0cf66137de325c",
+          "opernhaus_zurich:ac3052a38d8f366ba149dcdd",
+          "opernhaus_zurich:d4ef6179cc38557eb0e7a335"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/samson-et-dalila/2026-2027/"
+        ],
+        "classification": "SAFE_NEW_WORK_CANDIDATE",
+        "proposed_canonical_title": "Samson et Dalila",
+        "reason": "official programme title, resolved Composer, no unique Global Work match; candidate only"
+      }
+    ],
+    "review": [
+      {
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "source_title": "La bohème",
+        "normalized_source_title": "la boheme",
+        "composer": "Giacomo Puccini",
+        "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:0f82094895c644321623539f",
+          "opernhaus_zurich:555525a24213fbe7d27ed9b1",
+          "opernhaus_zurich:6e64ca75f866d8178bf79b5b",
+          "opernhaus_zurich:745fe5fed483874ffc5fa2e7",
+          "opernhaus_zurich:944bd79da816df77fa05e3c3",
+          "opernhaus_zurich:a7de1faf1e7dc4b7748dc5da"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/la_boheme/2026-2027/"
+        ],
+        "classification": "WORK_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "existing-title candidates are ambiguous or require canonical/legacy disambiguation"
+      },
+      {
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "source_title": "Don Pasquale",
+        "normalized_source_title": "don pasquale",
+        "composer": "Gaetano Donizetti",
+        "composer_id": "2dac964d-5543-45ca-a5c7-4121c61e9fab",
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:65db07457eb9a9f3fcc576d3",
+          "opernhaus_zurich:7c18feac2f371ef7e31f3197",
+          "opernhaus_zurich:8d6d35e9594197ba02683c0f",
+          "opernhaus_zurich:92a5ab3684393425f437f8ea",
+          "opernhaus_zurich:cf4c5d7b4537dac3b1c51b1b",
+          "opernhaus_zurich:e09dac6ba098a61d8676560c"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/don-pasquale/2026-2027/"
+        ],
+        "classification": "WORK_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "existing-title candidates are ambiguous or require canonical/legacy disambiguation"
+      },
+      {
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "source_title": "La traviata",
+        "normalized_source_title": "la traviata",
+        "composer": "Giuseppe Verdi",
+        "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+        "occurrence_count": 11,
+        "event_ids": [
+          "opernhaus_zurich:1d764052d48926b26f2751de",
+          "opernhaus_zurich:1ddd3d2581ed8554c4b53e70",
+          "opernhaus_zurich:2fef0193cf03048d1aea7603",
+          "opernhaus_zurich:41c36656bf15a2accf4996f3",
+          "opernhaus_zurich:5c44bb05edcd4144b1bc06d8",
+          "opernhaus_zurich:648a12cf0dff2232a933aa3c",
+          "opernhaus_zurich:8111f190b98a3fdb234465d3",
+          "opernhaus_zurich:917ba622cb8c78b7660db583",
+          "opernhaus_zurich:ac2f73c239dadf387c6bb4ed",
+          "opernhaus_zurich:c90e017f7cad1dfdbfa1dd7e",
+          "opernhaus_zurich:e7b8d77bcb3f76706764d314"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/la-traviata-1/2026-2027/"
+        ],
+        "classification": "WORK_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "existing-title candidates are ambiguous or require canonical/legacy disambiguation"
+      },
+      {
+        "candidate_key": "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+        "source_title": "Roméo et Juliette",
+        "normalized_source_title": "romeo et juliette",
+        "composer": "Charles Gounod",
+        "composer_id": "c0f523a8-6792-41b4-9f9e-01f3af470caa",
+        "occurrence_count": 5,
+        "event_ids": [
+          "opernhaus_zurich:3424e49d644a25e115344c4c",
+          "opernhaus_zurich:793b45e4da0571f138d731f9",
+          "opernhaus_zurich:d14ec4afd09477b6f62b68c4",
+          "opernhaus_zurich:d21771973d516e50a67cc7d4",
+          "opernhaus_zurich:e912bd0c3bb9a4e418d6893d"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/romeo-et-juliette/2026-2027/"
+        ],
+        "classification": "WORK_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "existing-title candidates are ambiguous or require canonical/legacy disambiguation"
+      }
+    ],
+    "blocked": [
+      {
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "source_title": "Die lustige Witwe",
+        "normalized_source_title": "die lustige witwe",
+        "composer": "Franz Lehár",
+        "composer_id": null,
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:3a10f5f938ee30bafec7db3a",
+          "opernhaus_zurich:59e6a0ba3d51a63ad1f0f776",
+          "opernhaus_zurich:62d63a6d641848e37a57570a",
+          "opernhaus_zurich:9fce8182700b58764754d995",
+          "opernhaus_zurich:cc5d3812fd9b6033a3378c56",
+          "opernhaus_zurich:fc6346007983a000a6138dcb"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/die-lustige-witwe/2026-2027/"
+        ],
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "Composer is unresolved; Work cannot be independently classified or created"
+      },
+      {
+        "candidate_key": "work:review:peter eotvos:angels in america",
+        "source_title": "Angels in America",
+        "normalized_source_title": "angels in america",
+        "composer": "Péter Eötvös",
+        "composer_id": null,
+        "occurrence_count": 5,
+        "event_ids": [
+          "opernhaus_zurich:5148073c0676059b6382a9b0",
+          "opernhaus_zurich:65628af50a1fff9e39ac4100",
+          "opernhaus_zurich:978a95b170492db2feeac723",
+          "opernhaus_zurich:c4177a65e2850215301c6862",
+          "opernhaus_zurich:f3e141ddbf8dd8b93de416a3"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/angels-in-america/2026-2027/"
+        ],
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "Composer is unresolved; Work cannot be independently classified or created"
+      },
+      {
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "source_title": "Alice im Wunderland",
+        "normalized_source_title": "alice im wunderland",
+        "composer": "Pierangelo Valtinoni",
+        "composer_id": null,
+        "occurrence_count": 12,
+        "event_ids": [
+          "opernhaus_zurich:03dea91cdfd046220d34a976",
+          "opernhaus_zurich:12f124a0b9ee12d0ed28cd97",
+          "opernhaus_zurich:20494eca9f2f2176da877890",
+          "opernhaus_zurich:2ab0acc6aacd508bf4735047",
+          "opernhaus_zurich:350a00dff2592c381dbcaa32",
+          "opernhaus_zurich:3bc1be7ccf725f8a498f14bf",
+          "opernhaus_zurich:50b4b2e6c2a6e776ea26095e",
+          "opernhaus_zurich:b08f171a9fbfad0c7bbd7fc7",
+          "opernhaus_zurich:c022fab7166db293c121c8d4",
+          "opernhaus_zurich:c295a48d5a2a17a19261d1a4",
+          "opernhaus_zurich:caef062b57fa40dbfad43beb",
+          "opernhaus_zurich:db630fa942dc0caab03faf55"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/alice-im-wunderland/2026-2027/"
+        ],
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "Composer is unresolved; Work cannot be independently classified or created"
+      },
+      {
+        "candidate_key": "work:review:sophie hunger:hotel hunger",
+        "source_title": "Hotel Hunger",
+        "normalized_source_title": "hotel hunger",
+        "composer": "Sophie Hunger",
+        "composer_id": null,
+        "occurrence_count": 2,
+        "event_ids": [
+          "opernhaus_zurich:08149d7215ba47fb15e5601b",
+          "opernhaus_zurich:8c2907c6bcd6d71859218c62"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/hotel-hunger/2026-2027/"
+        ],
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "Composer is unresolved; Work cannot be independently classified or created"
+      },
+      {
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "source_title": "Werckmeister Harmonien",
+        "normalized_source_title": "werckmeister harmonien",
+        "composer": "Thom Luz",
+        "composer_id": null,
+        "occurrence_count": 6,
+        "event_ids": [
+          "opernhaus_zurich:031e5d4d21d3391ecdf785ce",
+          "opernhaus_zurich:1e408d2016e7761650bffca5",
+          "opernhaus_zurich:1e5055980ed1ccf7590ed6fb",
+          "opernhaus_zurich:3b8784eb520dde2b19b60f4f",
+          "opernhaus_zurich:b9d2bea5d3bd40630ca0e814",
+          "opernhaus_zurich:d2d86820f84f6f24513c0226"
+        ],
+        "source_urls": [
+          "https://www.opernhaus.ch/en/spielplan/calendar/werckmeister-harmonien/2026-2027/"
+        ],
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW",
+        "proposed_canonical_title": null,
+        "reason": "Composer is unresolved; Work cannot be independently classified or created"
+      }
+    ],
+    "backlog": []
+  },
+  "relationships": {
+    "safe_existing": [
+      {
+        "event_key": "opernhaus_zurich:a15a1d400968268ebfd541ca",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:a750125eaa9e2b66391a99cb",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:e2c79ec4aba916bf59327abd",
+        "work_id": "8a8d9b81-329e-45c9-9ac7-3665898bd139",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:5749e69737a5cf7a03e011e2",
+        "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:f75d30843aaf80328fc97422",
+        "work_id": "8a8d9b81-329e-45c9-9ac7-3665898bd139",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:78771173548fd1527aaf43bf",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:2d2c61cf73505a3f9f2974f7",
+        "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:3c3dfd3138b81932d718db0e",
+        "work_id": "8a8d9b81-329e-45c9-9ac7-3665898bd139",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:a787423609f1f2b4a0697832",
+        "work_id": "8a8d9b81-329e-45c9-9ac7-3665898bd139",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:6bc78c83d3bc1bf0e7b3eec7",
+        "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:b027bd34c88305f4ad7b6097",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c1faf4a5adb50d8bc17a94b0",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:4c801ee2167d3892b4b92d24",
+        "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:04e1c3ae25ee96833583c169",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:14d687553c0759d743f57030",
+        "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:29e94f85498a8d8bd8d68232",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:a810e4fc1ee95e413e2136a1",
+        "work_id": "c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:a11a9bff1eda04bceb5d0a94",
+        "work_id": "c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:4ac75627af990f37c90e0259",
+        "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1d1f69ec055402ea7d71b826",
+        "work_id": "c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:4b6e4222cb42027060ab4bec",
+        "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:0a31ebf23a126049575cb7bb",
+        "work_id": "c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:603ed2ed943ec788991b1102",
+        "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:57e2a50533fe0421b03b676f",
+        "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ef75ef458a4b61924e0f80b0",
+        "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:97b2783276fec332f27e56f3",
+        "work_id": "59101410-97f9-42ad-9b89-f7cab20eaf63",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ca8f90f0c935720c8c805b78",
+        "work_id": "59101410-97f9-42ad-9b89-f7cab20eaf63",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:3fef4d204abd5ed3b6ba8b4f",
+        "work_id": "59101410-97f9-42ad-9b89-f7cab20eaf63",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:15bac9fc95268d5f58794e2e",
+        "work_id": "59101410-97f9-42ad-9b89-f7cab20eaf63",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:3cd1f645682d5313b6492f43",
+        "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:d5b9af3f068f6a59cfa7df8c",
+        "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:6b7f25908947d8a9b2e205f4",
+        "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ce11762cb09dda8e4e61b9f1",
+        "work_id": "541991e8-774b-439e-87c3-ac19a06cd488",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:cdbfdc1ce6bbdf0d98da990f",
+        "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:819a25126ae23e7d4ebcaef6",
+        "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1f1f41254324c8c4fa8ce074",
+        "work_id": "541991e8-774b-439e-87c3-ac19a06cd488",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:b5255ec09ff9f30262aab093",
+        "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:be5f766c80fb5151b433b820",
+        "work_id": "541991e8-774b-439e-87c3-ac19a06cd488",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:28822db84e5f6b7dc9cf6337",
+        "work_id": "541991e8-774b-439e-87c3-ac19a06cd488",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:4cef62a3b7954a3ece3d8af0",
+        "work_id": "541991e8-774b-439e-87c3-ac19a06cd488",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1548876e7b1c37bbfa32bf82",
+        "work_id": "541991e8-774b-439e-87c3-ac19a06cd488",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ceecf7ffb3466889d6903dbe",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:54cf6e937d13f7d8a6f6aeaf",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:550f51851080fe01a387bce2",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:f03530d4d8b4055b413b6e45",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:462d8cbded11546de908f798",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:93c7799a995d57257abaaf10",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:206a4f57efb0aa347c82ea34",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c6d5da402f0357786063dd8f",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c531e872badef2d93c3f8059",
+        "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1a9b96d4e2a4f5b7c5daeba3",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:9e39caa906b706e46e5cb22c",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1071559dbcdee5f6883d4ff5",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c9cb71303cfb35b4a56a8300",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:b4fb70618582692541649e6e",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:33d04597473c52a1292bdd12",
+        "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1e4ed58ed58266f1ca253fa0",
+        "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c86a1ed4bc62754a5baa25b9",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:6bab6e312487057a95b65279",
+        "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:7f32cfd4ce18ce79ee3caa3d",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:bb66fb8e0b5402cf8979673d",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:3d03fa0c90a6ce78467d7dcd",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:336f501a317fdf1b8dc38fec",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:198d852f6a8afb17b2c24a74",
+        "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:e5b90cf8ff28986ff05aaece",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ecfec77dd9a792cf41832561",
+        "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:e7421a3201338f21386bf0b4",
+        "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c673e4a493ca2ec5ede91798",
+        "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:a5589ec6948cd628d12e11f1",
+        "work_id": "1419cf39-79a3-408c-b757-ab0188fb9963",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:f1eb5b119bb2866653c75ef0",
+        "work_id": "1419cf39-79a3-408c-b757-ab0188fb9963",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c3ec08f9da40885c49787157",
+        "work_id": "1419cf39-79a3-408c-b757-ab0188fb9963",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:10991a8b4f8629e5dbf1806a",
+        "work_id": "1419cf39-79a3-408c-b757-ab0188fb9963",
+        "order": 1,
+        "classification": "SAFE_EXISTING_WORK_RELATIONSHIP"
+      }
+    ],
+    "safe_new": [
+      {
+        "event_key": "opernhaus_zurich:6f9676e22ae01944163aab35",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:22f7ad956bff901c94b0c34c",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:1944aea48f8616f16a4275a7",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:065f70b97eaf4780a05b277a",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:7a909d0db23fb1cf7a0cb348",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:83ba4336030234f2f3060d53",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:457a5834116774acb21ef8eb",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:39a36ca77cb70821ed6e65a9",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:a21d5fce721bb590acb8bb7f",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:3109f7b73cc9fd5eaa128d30",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:2227e26ed2a17a81377f01ca",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:645f77948e4ec9998fb3a7bc",
+        "candidate_key": "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:d2be512a53fad32f5d7f49d2",
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:2c6847b9e70a70b378e6cd47",
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:67968bf1f027a85de442fa64",
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:e767110b8188deb1ac757809",
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:c8430bf88475556cfb65e402",
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:54ad10f6b4d7992cba468614",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:be7fc79d48f16a292b656bf4",
+        "candidate_key": "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:fa22d99a594b9aeead1710e6",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ba485f6bf9ec30d76ea51ec9",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:353be448ef2bb219f2d4bf51",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:62e7f231ceee4e02d5cbf50c",
+        "candidate_key": "work:8fa0e4e1-883d-468e-a062-c743b7601a1f:ascanio in alba",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ae2ab63cbb57f627ea2ac1e5",
+        "candidate_key": "work:8fa0e4e1-883d-468e-a062-c743b7601a1f:ascanio in alba",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:b7c81862fbb05a272d086aa2",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:faf44af7620145ed2a365eb0",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:7ceb6f1088dc45fe67713009",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:6a03d8df19937c03d8328e00",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:03c4e46aca74ce8f119555f6",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:ac3052a38d8f366ba149dcdd",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:58df6c5b888ec07fc4be411e",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:82b0ee46ed0cf66137de325c",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:3cca711e66d3e8e6ccd86e53",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:d4ef6179cc38557eb0e7a335",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:5423cec9e044569bb2cfac37",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      },
+      {
+        "event_key": "opernhaus_zurich:5678484dfef8157b41866c31",
+        "candidate_key": "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+        "order": 1,
+        "classification": "SAFE_NEW_WORK_RELATIONSHIP"
+      }
+    ],
+    "already_existing": [],
+    "review": [
+      {
+        "event_key": "opernhaus_zurich:20494eca9f2f2176da877890",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:3bc1be7ccf725f8a498f14bf",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:c295a48d5a2a17a19261d1a4",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:caef062b57fa40dbfad43beb",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:db630fa942dc0caab03faf55",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:03dea91cdfd046220d34a976",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:12f124a0b9ee12d0ed28cd97",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:1ddd3d2581ed8554c4b53e70",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:ac2f73c239dadf387c6bb4ed",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:cc5d3812fd9b6033a3378c56",
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:c90e017f7cad1dfdbfa1dd7e",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:59e6a0ba3d51a63ad1f0f776",
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:e7b8d77bcb3f76706764d314",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:b08f171a9fbfad0c7bbd7fc7",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:648a12cf0dff2232a933aa3c",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:62d63a6d641848e37a57570a",
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:8111f190b98a3fdb234465d3",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:c022fab7166db293c121c8d4",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:9fce8182700b58764754d995",
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:2ab0acc6aacd508bf4735047",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:5c44bb05edcd4144b1bc06d8",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:50b4b2e6c2a6e776ea26095e",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:3a10f5f938ee30bafec7db3a",
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:917ba622cb8c78b7660db583",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:fc6346007983a000a6138dcb",
+        "candidate_key": "work:review:franz lehar:die lustige witwe",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:41c36656bf15a2accf4996f3",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:350a00dff2592c381dbcaa32",
+        "candidate_key": "work:review:pierangelo valtinoni:alice im wunderland",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:2fef0193cf03048d1aea7603",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:1d764052d48926b26f2751de",
+        "candidate_key": "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:d14ec4afd09477b6f62b68c4",
+        "candidate_key": "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:793b45e4da0571f138d731f9",
+        "candidate_key": "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:d21771973d516e50a67cc7d4",
+        "candidate_key": "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:3424e49d644a25e115344c4c",
+        "candidate_key": "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:e912bd0c3bb9a4e418d6893d",
+        "candidate_key": "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:1e5055980ed1ccf7590ed6fb",
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:031e5d4d21d3391ecdf785ce",
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:d2d86820f84f6f24513c0226",
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:3b8784eb520dde2b19b60f4f",
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:1e408d2016e7761650bffca5",
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:b9d2bea5d3bd40630ca0e814",
+        "candidate_key": "work:review:thom luz:werckmeister harmonien",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:f3e141ddbf8dd8b93de416a3",
+        "candidate_key": "work:review:peter eotvos:angels in america",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:65628af50a1fff9e39ac4100",
+        "candidate_key": "work:review:peter eotvos:angels in america",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:978a95b170492db2feeac723",
+        "candidate_key": "work:review:peter eotvos:angels in america",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:c4177a65e2850215301c6862",
+        "candidate_key": "work:review:peter eotvos:angels in america",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:5148073c0676059b6382a9b0",
+        "candidate_key": "work:review:peter eotvos:angels in america",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:8d6d35e9594197ba02683c0f",
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:cf4c5d7b4537dac3b1c51b1b",
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:65db07457eb9a9f3fcc576d3",
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:92a5ab3684393425f437f8ea",
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:7c18feac2f371ef7e31f3197",
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:e09dac6ba098a61d8676560c",
+        "candidate_key": "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:8c2907c6bcd6d71859218c62",
+        "candidate_key": "work:review:sophie hunger:hotel hunger",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:0f82094895c644321623539f",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:745fe5fed483874ffc5fa2e7",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:08149d7215ba47fb15e5601b",
+        "candidate_key": "work:review:sophie hunger:hotel hunger",
+        "order": 1,
+        "classification": "WORK_BLOCKED_BY_COMPOSER_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:a7de1faf1e7dc4b7748dc5da",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:944bd79da816df77fa05e3c3",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:555525a24213fbe7d27ed9b1",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      },
+      {
+        "event_key": "opernhaus_zurich:6e64ca75f866d8178bf79b5b",
+        "candidate_key": "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+        "order": 1,
+        "classification": "WORK_REVIEW"
+      }
+    ]
+  },
+  "detail_backlog": {
+    "count": 3,
+    "classification": "DETAIL_PARSE_REVIEW_BACKLOG",
+    "policy": "preserved; not in safe subset"
+  },
+  "validation": {
+    "duplicate_event_work": 0,
+    "source_order_missing": 0,
+    "review_items_in_sql": 0,
+    "untraceable_items": 0
+  },
+  "production_preview": {
+    "new_composers": 5,
+    "new_works": 6,
+    "relationships": 108,
+    "aliases": 0,
+    "aliases_preview_only": true,
+    "sql_item_ids": [
+      "composer:franz lehar",
+      "composer:peter eotvos",
+      "composer:pierangelo valtinoni",
+      "composer:sophie hunger",
+      "composer:thom luz",
+      "opernhaus_zurich:03c4e46aca74ce8f119555f6:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:04e1c3ae25ee96833583c169:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:065f70b97eaf4780a05b277a:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+      "opernhaus_zurich:0a31ebf23a126049575cb7bb:c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+      "opernhaus_zurich:1071559dbcdee5f6883d4ff5:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:10991a8b4f8629e5dbf1806a:1419cf39-79a3-408c-b757-ab0188fb9963",
+      "opernhaus_zurich:14d687553c0759d743f57030:93072805-d1ae-472c-a7c9-3a2237962b97",
+      "opernhaus_zurich:1548876e7b1c37bbfa32bf82:541991e8-774b-439e-87c3-ac19a06cd488",
+      "opernhaus_zurich:15bac9fc95268d5f58794e2e:59101410-97f9-42ad-9b89-f7cab20eaf63",
+      "opernhaus_zurich:1944aea48f8616f16a4275a7:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+      "opernhaus_zurich:198d852f6a8afb17b2c24a74:7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "opernhaus_zurich:1a9b96d4e2a4f5b7c5daeba3:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:1d1f69ec055402ea7d71b826:c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+      "opernhaus_zurich:1e4ed58ed58266f1ca253fa0:7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "opernhaus_zurich:1f1f41254324c8c4fa8ce074:541991e8-774b-439e-87c3-ac19a06cd488",
+      "opernhaus_zurich:206a4f57efb0aa347c82ea34:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:2227e26ed2a17a81377f01ca:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:22f7ad956bff901c94b0c34c:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+      "opernhaus_zurich:28822db84e5f6b7dc9cf6337:541991e8-774b-439e-87c3-ac19a06cd488",
+      "opernhaus_zurich:29e94f85498a8d8bd8d68232:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:2c6847b9e70a70b378e6cd47:work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "opernhaus_zurich:2d2c61cf73505a3f9f2974f7:93072805-d1ae-472c-a7c9-3a2237962b97",
+      "opernhaus_zurich:3109f7b73cc9fd5eaa128d30:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:336f501a317fdf1b8dc38fec:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:33d04597473c52a1292bdd12:7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "opernhaus_zurich:353be448ef2bb219f2d4bf51:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:39a36ca77cb70821ed6e65a9:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:3c3dfd3138b81932d718db0e:8a8d9b81-329e-45c9-9ac7-3665898bd139",
+      "opernhaus_zurich:3cca711e66d3e8e6ccd86e53:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:3cd1f645682d5313b6492f43:76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "opernhaus_zurich:3d03fa0c90a6ce78467d7dcd:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:3fef4d204abd5ed3b6ba8b4f:59101410-97f9-42ad-9b89-f7cab20eaf63",
+      "opernhaus_zurich:457a5834116774acb21ef8eb:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:462d8cbded11546de908f798:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:4ac75627af990f37c90e0259:3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "opernhaus_zurich:4b6e4222cb42027060ab4bec:3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "opernhaus_zurich:4c801ee2167d3892b4b92d24:93072805-d1ae-472c-a7c9-3a2237962b97",
+      "opernhaus_zurich:4cef62a3b7954a3ece3d8af0:541991e8-774b-439e-87c3-ac19a06cd488",
+      "opernhaus_zurich:5423cec9e044569bb2cfac37:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:54ad10f6b4d7992cba468614:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:54cf6e937d13f7d8a6f6aeaf:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:550f51851080fe01a387bce2:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:5678484dfef8157b41866c31:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:5749e69737a5cf7a03e011e2:93072805-d1ae-472c-a7c9-3a2237962b97",
+      "opernhaus_zurich:57e2a50533fe0421b03b676f:3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "opernhaus_zurich:58df6c5b888ec07fc4be411e:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:603ed2ed943ec788991b1102:3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "opernhaus_zurich:62e7f231ceee4e02d5cbf50c:work:8fa0e4e1-883d-468e-a062-c743b7601a1f:ascanio in alba",
+      "opernhaus_zurich:645f77948e4ec9998fb3a7bc:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:67968bf1f027a85de442fa64:work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "opernhaus_zurich:6a03d8df19937c03d8328e00:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:6b7f25908947d8a9b2e205f4:76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "opernhaus_zurich:6bab6e312487057a95b65279:7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "opernhaus_zurich:6bc78c83d3bc1bf0e7b3eec7:93072805-d1ae-472c-a7c9-3a2237962b97",
+      "opernhaus_zurich:6f9676e22ae01944163aab35:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+      "opernhaus_zurich:78771173548fd1527aaf43bf:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:7a909d0db23fb1cf7a0cb348:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+      "opernhaus_zurich:7ceb6f1088dc45fe67713009:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:7f32cfd4ce18ce79ee3caa3d:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:819a25126ae23e7d4ebcaef6:76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "opernhaus_zurich:82b0ee46ed0cf66137de325c:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:83ba4336030234f2f3060d53:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:93c7799a995d57257abaaf10:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:97b2783276fec332f27e56f3:59101410-97f9-42ad-9b89-f7cab20eaf63",
+      "opernhaus_zurich:9e39caa906b706e46e5cb22c:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:a11a9bff1eda04bceb5d0a94:c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+      "opernhaus_zurich:a15a1d400968268ebfd541ca:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:a21d5fce721bb590acb8bb7f:work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "opernhaus_zurich:a5589ec6948cd628d12e11f1:1419cf39-79a3-408c-b757-ab0188fb9963",
+      "opernhaus_zurich:a750125eaa9e2b66391a99cb:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:a787423609f1f2b4a0697832:8a8d9b81-329e-45c9-9ac7-3665898bd139",
+      "opernhaus_zurich:a810e4fc1ee95e413e2136a1:c2bab1a9-16e2-421e-8ef4-b312a2accb57",
+      "opernhaus_zurich:ac3052a38d8f366ba149dcdd:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:ae2ab63cbb57f627ea2ac1e5:work:8fa0e4e1-883d-468e-a062-c743b7601a1f:ascanio in alba",
+      "opernhaus_zurich:b027bd34c88305f4ad7b6097:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:b4fb70618582692541649e6e:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:b5255ec09ff9f30262aab093:76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "opernhaus_zurich:b7c81862fbb05a272d086aa2:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:ba485f6bf9ec30d76ea51ec9:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:bb66fb8e0b5402cf8979673d:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:be5f766c80fb5151b433b820:541991e8-774b-439e-87c3-ac19a06cd488",
+      "opernhaus_zurich:be7fc79d48f16a292b656bf4:work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "opernhaus_zurich:c1faf4a5adb50d8bc17a94b0:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:c3ec08f9da40885c49787157:1419cf39-79a3-408c-b757-ab0188fb9963",
+      "opernhaus_zurich:c531e872badef2d93c3f8059:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:c673e4a493ca2ec5ede91798:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:c6d5da402f0357786063dd8f:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:c8430bf88475556cfb65e402:work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "opernhaus_zurich:c86a1ed4bc62754a5baa25b9:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:c9cb71303cfb35b4a56a8300:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:ca8f90f0c935720c8c805b78:59101410-97f9-42ad-9b89-f7cab20eaf63",
+      "opernhaus_zurich:cdbfdc1ce6bbdf0d98da990f:76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "opernhaus_zurich:ce11762cb09dda8e4e61b9f1:541991e8-774b-439e-87c3-ac19a06cd488",
+      "opernhaus_zurich:ceecf7ffb3466889d6903dbe:a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "opernhaus_zurich:d2be512a53fad32f5d7f49d2:work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "opernhaus_zurich:d4ef6179cc38557eb0e7a335:work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila",
+      "opernhaus_zurich:d5b9af3f068f6a59cfa7df8c:76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "opernhaus_zurich:e2c79ec4aba916bf59327abd:8a8d9b81-329e-45c9-9ac7-3665898bd139",
+      "opernhaus_zurich:e5b90cf8ff28986ff05aaece:184e5141-64ff-47df-b222-86104fae4ff5",
+      "opernhaus_zurich:e7421a3201338f21386bf0b4:7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "opernhaus_zurich:e767110b8188deb1ac757809:work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "opernhaus_zurich:ecfec77dd9a792cf41832561:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:ef75ef458a4b61924e0f80b0:3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "opernhaus_zurich:f03530d4d8b4055b413b6e45:c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "opernhaus_zurich:f1eb5b119bb2866653c75ef0:1419cf39-79a3-408c-b757-ab0188fb9963",
+      "opernhaus_zurich:f75d30843aaf80328fc97422:8a8d9b81-329e-45c9-9ac7-3665898bd139",
+      "opernhaus_zurich:fa22d99a594b9aeead1710e6:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "opernhaus_zurich:faf44af7620145ed2a365eb0:work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "work:0d2f4633-2ce7-43b6-9c1f-d6938a602462:elektra",
+      "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la fanciulla del west",
+      "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la rondine",
+      "work:8fa0e4e1-883d-468e-a062-c743b7601a1f:ascanio in alba",
+      "work:930c72cf-5c66-48eb-a2e1-666f1bcbe526:doctor atomic",
+      "work:caf15bf4-07ea-4fdf-b7bf-54b0b6b5cc88:samson et dalila"
+    ],
+    "review_item_ids": [
+      "work:149b4efc-877f-4884-ab7e-4c79f97e10bb:la boheme",
+      "work:2dac964d-5543-45ca-a5c7-4121c61e9fab:don pasquale",
+      "work:b75ade14-9776-424c-8229-d32d98861611:la traviata",
+      "work:c0f523a8-6792-41b4-9f9e-01f3af470caa:romeo et juliette",
+      "work:review:franz lehar:die lustige witwe",
+      "work:review:peter eotvos:angels in america",
+      "work:review:pierangelo valtinoni:alice im wunderland",
+      "work:review:sophie hunger:hotel hunger",
+      "work:review:thom luz:werckmeister harmonien"
+    ]
+  },
+  "production_writes": 0
+}
