@@ -4,6 +4,7 @@ import hashlib
 import html
 import json
 import re
+import time
 from datetime import date
 from typing import Callable
 from urllib.parse import urljoin
@@ -16,6 +17,26 @@ DETAIL_RE = re.compile(r"https://www\.opernhaus\.ch/(?:en/)?spielplan/calendar/[
 JSONLD_RE = re.compile(r"<script[^>]+type=[\"']application/ld\+json[\"'][^>]*>(.*?)</script>", re.IGNORECASE | re.DOTALL)
 
 
+def _jsonld_events(html_text: str) -> list[dict]:
+    """Read official JSON-LD Event objects, including graph/list encodings."""
+    output: list[dict] = []
+    for raw_json in JSONLD_RE.findall(html_text):
+        try:
+            payload = json.loads(html.unescape(raw_json.strip()))
+        except json.JSONDecodeError:
+            continue
+        candidates = payload if isinstance(payload, list) else [payload]
+        for candidate in candidates:
+            if not isinstance(candidate, dict):
+                continue
+            graph = candidate.get("@graph")
+            if isinstance(graph, list):
+                candidates.extend(graph)
+            elif candidate.get("@type") == "Event" or "Event" in (candidate.get("@type") or []):
+                output.append(candidate)
+    return output
+
+
 def _detail_urls(season_html: str) -> list[str]:
     absolute = set(DETAIL_RE.findall(season_html))
     relative = re.findall(r"/(?:en/)?spielplan/calendar/[^\"' ]+/2026-2027/?", season_html)
@@ -25,13 +46,7 @@ def _detail_urls(season_html: str) -> list[str]:
 
 def parse_detail(html_text: str, page_url: str, settings: dict, *, season_start: str, season_end: str) -> list[CanonicalEvent]:
     events: list[CanonicalEvent] = []
-    for raw_json in JSONLD_RE.findall(html_text):
-        try:
-            payload = json.loads(html.unescape(raw_json.strip()))
-        except json.JSONDecodeError:
-            continue
-        if not isinstance(payload, dict) or payload.get("@type") != "Event":
-            continue
+    for payload in _jsonld_events(html_text):
         start = str(payload.get("startDate") or "")
         if len(start) < 16 or start[10] != "T":
             continue
@@ -110,15 +125,24 @@ class OpernhausZurichAdapter:
         self.requested_months = detail_urls[:]
         output: list[CanonicalEvent] = []
         for detail_url in detail_urls:
-            try:
-                detail_html = self._fetch(detail_url)
-                events = parse_detail(detail_html, detail_url, self.settings, season_start=season_start, season_end=season_end)
-                if not events:
-                    raise ValueError("official detail page contained no season event JSON-LD")
-                self.source_pages[detail_url] = detail_url
-                self.successful_months.append(detail_url)
-                output.extend(events)
-            except Exception as exc:
+            last_exc: Exception | None = None
+            for attempt in range(2):
+                try:
+                    detail_html = self._fetch(detail_url)
+                    events = parse_detail(detail_html, detail_url, self.settings, season_start=season_start, season_end=season_end)
+                    if not events:
+                        raise ValueError("official detail page contained no season event JSON-LD")
+                    self.source_pages[detail_url] = detail_url
+                    self.successful_months.append(detail_url)
+                    output.extend(events)
+                    last_exc = None
+                    break
+                except Exception as exc:
+                    last_exc = exc
+                    if attempt == 0:
+                        time.sleep(1)
+            if last_exc is not None:
+                exc = last_exc
                 self.failed_months.append(detail_url)
                 self.last_errors.append({"url": detail_url, "error": f"{type(exc).__name__}: {exc}"})
         return sorted({event.event_key: event for event in output}.values(), key=lambda event: (event.date, event.start_time or "", event.event_key))
