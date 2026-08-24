@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 from season_ingestion.notifications import build_approval_manifest, classify_dry_run, render_email
+from season_ingestion.approval import ApprovalMismatch, validate_write_scope
 
 def summary(source="SOURCE_PASS"):
     return {"venue":"Opernhaus Zürich","season":"2026-27","mode":"dry-run","source_capability":source,"global_master_preflight":"PASS","counts":{"events_discovered":196,"review_items":59,"writes":0},"detail_enrichment":{"composer_resolution":{"review":0},"work_resolution":{"review":59}},"gates":{"duplicate_event_identity":True,"untraceable":True,"source_order_missing":True}}
@@ -19,3 +20,8 @@ def test_manifest_hash_is_stable(tmp_path):
     p=tmp_path/'final_staging.json'; p.write_text('{"a":1}',encoding='utf-8')
     s=summary(); a=build_approval_manifest(s,p,run_id='1',commit='c',created_at='t'); b=build_approval_manifest(s,p,run_id='1',commit='c',created_at='t')
     assert a['final_staging_hash']==b['final_staging_hash']
+
+def test_runtime_write_scope_cannot_exceed_approval():
+    try: validate_write_scope({'safe_event_count': 1}, {'events': 2})
+    except ApprovalMismatch: return
+    raise AssertionError('scope mismatch was not rejected')
