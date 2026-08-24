@@ -1,0 +1,88 @@
+name: Venue Onboarding Factory V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      season:
+        description: Season to onboard
+        required: true
+        default: 2026-27
+        type: string
+      scope:
+        description: Target queue scope
+        required: true
+        default: all-enabled
+        type: choice
+        options: [all-enabled, pending, selected]
+      mode:
+        description: Dry-run only in V1; apply-approved is contract-only
+        required: true
+        default: dry-run
+        type: choice
+        options: [dry-run, apply-approved]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.targets.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements-season-ingestion.txt
+      - id: targets
+        env:
+          SEASON: ${{ inputs.season }}
+          SCOPE: ${{ inputs.scope }}
+        run: |
+          matrix=$(python -c "import json,os; from season_ingestion.venue_targets import load_targets,matrix_targets; print(json.dumps({'include':matrix_targets(load_targets(season=os.environ['SEASON'],scope=os.environ['SCOPE']))},ensure_ascii=False))")
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  onboard:
+    needs: prepare
+    if: inputs.mode == 'dry-run'
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements-season-ingestion.txt
+      - name: Run independent venue onboarding
+        run: python jobs/run_venue_onboarding_target.py --venue-id "${{ matrix.venue_id }}" --season "${{ matrix.season }}" --output-root onboarding-output
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: onboarding-${{ matrix.venue_id }}
+          path: onboarding-output/
+          if-no-files-found: error
+
+  summarize:
+    if: always() && inputs.mode == 'dry-run'
+    needs: [prepare, onboard]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements-season-ingestion.txt
+      - uses: actions/download-artifact@v4
+        with:
+          path: onboarding-output
+      - run: python jobs/aggregate_venue_onboarding.py --season "${{ inputs.season }}" --output-root onboarding-output
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: venue-onboarding-factory-${{ inputs.season }}
+          path: onboarding-output/
+          if-no-files-found: error
