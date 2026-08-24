@@ -1,4 +1,19 @@
-from .teatro_real import TeatroRealAdapter
-from .wiener_staatsoper import WienerStaatsoperAdapter
+"""Venue adapters are loaded lazily so parser tests do not require HTTP extras."""
 
-__all__ = ["TeatroRealAdapter", "WienerStaatsoperAdapter"]
+__all__ = ["TeatroRealAdapter", "WienerStaatsoperAdapter", "MunichBayerischeStaatsoperAdapter", "OpernhausZurichAdapter"]
+
+
+def __getattr__(name):
+    modules = {
+        "TeatroRealAdapter": (".teatro_real", "TeatroRealAdapter"),
+        "WienerStaatsoperAdapter": (".wiener_staatsoper", "WienerStaatsoperAdapter"),
+        "MunichBayerischeStaatsoperAdapter": (".munich_bayerische_staatsoper", "MunichBayerischeStaatsoperAdapter"),
+        "OpernhausZurichAdapter": (".opernhaus_zurich", "OpernhausZurichAdapter"),
+    }
+    if name not in modules:
+        raise AttributeError(name)
+    from importlib import import_module
+    module, symbol = modules[name]
+    value = getattr(import_module(module, __name__), symbol)
+    globals()[name] = value
+    return value
