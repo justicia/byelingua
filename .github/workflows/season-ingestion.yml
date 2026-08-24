@@ -9,6 +9,7 @@ on:
         type: choice
         options:
           - bayerische_staatsoper
+          - opernhaus_zurich
       season:
         description: Season (September through August)
         required: true
@@ -19,7 +20,7 @@ on:
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, apply]
+        options: [dry-run, apply, probe]
 
 permissions:
   contents: read
@@ -34,7 +35,11 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements-season-ingestion.txt
+      - name: Probe official source
+        if: inputs.mode == 'probe'
+        run: python jobs/probe_official_source.py --output source-probe-summary.json
       - name: Run shared cloud entrypoint
+        if: inputs.mode != 'probe'
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
@@ -45,8 +50,14 @@ jobs:
             --mode "${{ inputs.mode }}" \
             --output-dir season-ingestion-output
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && inputs.mode != 'probe'
         with:
           name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
           path: season-ingestion-output/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.mode == 'probe'
+        with:
+          name: official-source-probe-${{ inputs.venue }}-${{ inputs.season }}
+          path: source-probe-summary.json
           if-no-files-found: error
