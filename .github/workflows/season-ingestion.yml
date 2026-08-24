@@ -40,6 +40,12 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements-season-ingestion.txt
+      - name: Dry-run credential preflight
+        if: inputs.mode == 'dry-run'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+        run: python jobs/check_season_ingestion_credentials.py --mode dry-run
       - name: Probe official source
         if: inputs.mode == 'probe'
         run: python jobs/probe_official_source.py --output source-probe-summary.json
@@ -80,6 +86,9 @@ jobs:
           INGESTION_NOTIFICATION_EMAIL: ${{ secrets.INGESTION_NOTIFICATION_EMAIL }}
           RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
           GITHUB_SHA: ${{ github.sha }}
+          INPUT_VENUE: ${{ inputs.venue }}
+          INPUT_SEASON: ${{ inputs.season }}
+          INPUT_MODE: ${{ inputs.mode }}
         run: |
           if [ "${{ inputs.mode }}" = "apply" ]; then python jobs/notify_apply_run.py --output-dir season-ingestion-output; else python jobs/notify_season_run.py --output-dir season-ingestion-output; fi
       - uses: actions/upload-artifact@v4

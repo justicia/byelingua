@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from season_ingestion.notifications import build_approval_manifest, classify_dry_run, github_run_url, notification_summary, render_email, send_resend
+from season_ingestion.credentials import check_required_credentials
 
 def main() -> int:
     p=argparse.ArgumentParser(); p.add_argument('--output-dir',type=Path,required=True); a=p.parse_args()
@@ -15,7 +16,9 @@ def main() -> int:
         manifest=build_approval_manifest(summary,out/'final_staging.json',run_id=os.getenv('GITHUB_RUN_ID','local'),commit=os.getenv('GITHUB_SHA','unknown'))
         (out/'approval_manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8'); status='READY_FOR_APPROVAL'
     subject, html_body, text_body=render_email(summary,status=status,manifest=manifest,run_url=github_run_url())
-    ns=notification_summary(summary,status=status,run_id=os.getenv('GITHUB_RUN_ID','local'))
+    notification_creds=check_required_credentials('notification')
+    ns=notification_summary(summary,status=status,run_id=os.getenv('GITHUB_RUN_ID','local')); ns['credentials']={'notification':'PASS' if notification_creds['configured'] else 'NOT_CONFIGURED'}
+    if notification_creds['missing']: ns['missing_notification_secrets']=notification_creds['missing']
     try:
         send_resend(subject,html_body,text_body); ns.update(notification_status='SENT',sent_at=datetime.now(timezone.utc).isoformat())
     except Exception as exc:
