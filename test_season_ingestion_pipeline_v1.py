@@ -9,6 +9,8 @@ from unittest.mock import patch
 from season_ingestion.adapters.munich_bayerische_staatsoper import parse_calendar
 from season_ingestion.adapters.opernhaus_zurich import parse_detail
 from season_ingestion.adapters.opernhaus_zurich import _detail_urls
+from season_ingestion.contracts import GlobalEntitySnapshot
+from season_ingestion.global_master import normalize_identity, resolve_entity, resolve_work
 from season_ingestion.pipeline import run_pipeline
 
 
@@ -22,6 +24,7 @@ ENGLISH_HTML = '''<html><body>
 ZURICH_DETAIL_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Rachmaninow – Die drei Opern","startDate":"2026-11-01T18:00","endDate":"2026-11-01T21:20","url":"https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/","description":"Sergei Rachmaninoff\\n\\nThree one-act operas","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Gianandrea Noseda","description":"Musikalische Leitung"},{"@type":"Person","name":"Elena Stikhina","description":"Soprano"}]}</script>'''
 ZURICH_NO_PROGRAMME_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Opernhaus für alle","startDate":"2027-07-02T19:00","endDate":"2027-07-02T21:00","url":"https://www.opernhaus.ch/en/spielplan/calendar/opernhaus-fuer-alle/2026-2027/","description":"","location":{"name":"Main Stage"}}</script>'''
 ZURICH_MULTI_WORK_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Requiem pour Ophélie","startDate":"2027-05-04T19:00","endDate":"2027-05-04T20:40","url":"https://www.opernhaus.ch/en/spielplan/calendar/requiem-pour-ophelie/2026-2027/","description":"Works by Hector Berlioz, Ambroise Thomas and Gabriel Fauré","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Raphaël Pichon","description":"Musikalische Leitung"},{"@type":"MusicGroup","name":"Orchestra of the Zurich Opera House","description":"Orchester"}]}</script>'''
+ZURICH_TITLE_AS_COMPOSER_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Herr der Diebe","startDate":"2027-02-27T14:00","endDate":"2027-02-27T16:00","url":"https://www.opernhaus.ch/en/spielplan/calendar/herr-der-diebe/2026-2027/","description":"Herr der Diebe\\n\\nMusic by three Master’s students of ZHdK: Marlena Kreßin, Joanna Lohmann and Moritz Lieberherr","location":{"name":"Main Stage"}}</script>'''
 
 
 class SeasonIngestionPipelineV1Tests(unittest.TestCase):
@@ -62,9 +65,27 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(events[0].data_quality["programme"]["status"], "DETAIL_PARSE_REVIEW")
         self.assertEqual(events[0].credits[0]["credit_kind"], "artistic_team")
 
+    def test_zurich_production_heading_is_not_composer(self):
+        settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
+        events = parse_detail(ZURICH_TITLE_AS_COMPOSER_HTML, "https://www.opernhaus.ch/en/spielplan/calendar/herr-der-diebe/2026-2027/", settings, season_start="2026-09-01", season_end="2027-08-31")
+        self.assertIsNone(events[0].programme[0].get("composer") if events[0].programme else None)
+        self.assertEqual(events[0].data_quality["programme"]["status"], "DETAIL_PARSE_REVIEW")
+
     def test_zurich_season_page_relative_detail_urls_are_discoverable(self):
         urls = _detail_urls('<a href="/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/">Rachmaninow</a>')
         self.assertEqual(urls, ["https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/"])
+
+    def test_shared_composer_resolver_matches_canonical_and_aliases(self):
+        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [{"id": "mozart", "canonical_name": "Wolfgang Amadeus Mozart"}], "work": [{"id": "magic", "title": "Die Zauberflöte", "composer_id": "mozart"}], "artist": [], "character": []}, composer_aliases=[{"composer_id": "mozart", "alias": "Mozart"}])
+        self.assertEqual(resolve_entity("composer", "Wolfgang Amadeus Mozart (1756–1791)", snapshot)["match_method"], "exact")
+        self.assertEqual(resolve_entity("composer", "Mozart", snapshot)["match_method"], "alias")
+        self.assertEqual(resolve_entity("composer", "Unknown Composer", snapshot)["status"], "review_required")
+        self.assertEqual(resolve_work("Die Zauberflöte", resolve_entity("composer", "Mozart", snapshot), snapshot)["status"], "existing")
+
+    def test_shared_identity_normalizer_handles_accents_and_punctuation(self):
+        self.assertEqual(normalize_identity("Richard Strauß"), normalize_identity("Richard Strauss"))
+        self.assertEqual(normalize_identity("Antonín Dvořák"), normalize_identity("Antonin Dvorak"))
+        self.assertEqual(normalize_identity("Composer: Wolfgang Amadeus Mozart (1756-1791)"), "wolfgang amadeus mozart")
 
     def test_apply_is_blocked(self):
         with self.assertRaises(RuntimeError):

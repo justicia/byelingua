@@ -14,6 +14,7 @@ class GlobalEntitySnapshot:
     source: str
     freshness_seconds: int | None
     entities: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
+    composer_aliases: list[dict[str, Any]] = field(default_factory=list)
 
     def validate(self) -> None:
         if not self.generated_at or not self.source:
