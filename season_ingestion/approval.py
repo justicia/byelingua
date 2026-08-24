@@ -4,6 +4,12 @@ from pathlib import Path
 
 class ApprovalMismatch(RuntimeError): pass
 
+def validate_write_scope(manifest: dict, actual: dict) -> None:
+    limits = {"events": "safe_event_count", "composers": "safe_composer_count", "works": "safe_work_count", "relationships": "safe_relationship_count"}
+    for actual_key, approved_key in limits.items():
+        if int(actual.get(actual_key, 0)) > int(manifest.get(approved_key, 0)):
+            raise ApprovalMismatch(f"APPROVAL_MISMATCH: runtime {actual_key} exceeds approved scope")
+
 def validate_approval(manifest_path: Path, staging_path: Path, *, approved_run_id: str, venue: str, season: str, commit: str | None = None) -> dict:
     if not approved_run_id:
         raise ApprovalMismatch('APPROVAL_MISMATCH: approved_run_id is required')
