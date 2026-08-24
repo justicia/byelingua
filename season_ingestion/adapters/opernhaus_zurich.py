@@ -45,13 +45,19 @@ def _clean_text(value: object) -> str:
     return re.sub(r"\s+", " ", html.unescape(str(value or "")).replace("\xa0", " ")).strip()
 
 
-def _composer_from_description(description: object) -> tuple[str | None, str | None]:
+def _composer_from_description(description: object, title: str) -> tuple[str | None, str | None]:
     text = html.unescape(str(description or "")).replace("\r", "")
     lines = [re.sub(r"\s+", " ", line).strip() for line in text.split("\n") if line.strip()]
     if not lines:
         return None, None
     first = lines[0]
     lowered = first.casefold()
+    if _clean_text(first).casefold() == _clean_text(title).casefold():
+        if any(marker in " ".join(lines[1:]).casefold() for marker in ("music by", "works by", "composer", "libretto")):
+            return None, "official detail describes music/work attribution without one composer identity"
+        return None, None
+    if "," in first or " & " in first or lowered.startswith(("concertant", "guest performance", "special concert")):
+        return None, "official detail first line is a production/programme heading, not a Composer identity"
     if lowered.startswith(("works by", "work by", "music by")):
         return None, "multiple works/composers stated without individual work titles"
     if lowered in {"guest performance", "concert performance", "recital", "matinee", "gala"}:
@@ -62,7 +68,7 @@ def _composer_from_description(description: object) -> tuple[str | None, str | N
 
 
 def _programme_for(payload: dict, page_url: str, title: str) -> tuple[list[dict], str, str]:
-    composer, composer_reason = _composer_from_description(payload.get("description"))
+    composer, composer_reason = _composer_from_description(payload.get("description"), title)
     provenance = {"source_url": page_url, "source_field": "jsonld.description", "raw_source_block": payload.get("description")}
     if composer:
         return ([{
