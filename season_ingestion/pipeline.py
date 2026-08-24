@@ -58,7 +58,7 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
         global_master_error = {"code": snapshot_health["error_code"], "message": snapshot_health.get("error_message", "Global Master unavailable")}
     if global_master_error:
         snapshot_health.update({"preflight_status": "FAIL", "global_master_loaded": False, "error_code": global_master_error["code"], "error_message": global_master_error["message"]})
-        if not snapshot_health.get("query_errors"):
+        if "query_errors" not in snapshot_health:
             snapshot_health["query_errors"] = 1
     resolution_rows, review_rows = [], []
     composer_resolution = []
