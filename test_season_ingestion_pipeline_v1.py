@@ -95,6 +95,7 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(normalize_identity("Richard Strauß"), normalize_identity("Richard Strauss"))
         self.assertEqual(normalize_identity("Antonín Dvořák"), normalize_identity("Antonin Dvorak"))
         self.assertEqual(normalize_identity("Composer: Wolfgang Amadeus Mozart (1756-1791)"), "wolfgang amadeus mozart")
+        self.assertEqual(normalize_identity("Die Zauber\u00adflöte"), normalize_identity("Die Zauberflöte"))
 
     def test_apply_is_blocked(self):
         with self.assertRaises(RuntimeError):
