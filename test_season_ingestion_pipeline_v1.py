@@ -14,6 +14,9 @@ HTML = '''<html><body><h1>Oktober 2026</h1>
 <a href="/productions/semele">2. Oktober 2026.10.26 Freitag Fr.18.00 Uhr | NationaltheaterSEMELE Georg Friedrich Händel Preise</a>
 <a href="/productions/ariadne">12. Oktober 2026.10.26 Montag Mo.19.00 Uhr | NationaltheaterARIADNE AUF NAXOS Richard Strauss Preise</a>
 </body></html>'''
+ENGLISH_HTML = '''<html><body>
+<a href="/productions/zauberfloete">3. December 2026.12.26 Thursday Thu 07:00 pm | NationaltheaterDIE ZAUBERFLÖTE Wolfgang Amadeus Mozart Prices</a>
+</body></html>'''
 
 
 class SeasonIngestionPipelineV1Tests(unittest.TestCase):
@@ -23,6 +26,12 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(len(events), 2)
         self.assertEqual(events[0].programme[0]["original_programme_order"], 1)
         self.assertTrue(events[0].source_url.startswith("https://www.staatsoper.de/"))
+
+    def test_official_english_fallback_format_is_supported(self):
+        settings = {"organization": "Bayerische Staatsoper", "venue": "Nationaltheater", "city": "Munich", "country": "Germany", "timezone": "Europe/Berlin"}
+        events = parse_calendar(ENGLISH_HTML, "https://www.staatsoper.de/en/schedule/2026-12", settings, season_start="2026-09-01", season_end="2027-08-31")
+        self.assertEqual(len(events), 1)
+        self.assertEqual(events[0].start_time, "19:00")
 
     def test_apply_is_blocked(self):
         with self.assertRaises(RuntimeError):

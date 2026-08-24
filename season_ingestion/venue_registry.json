@@ -1,9 +1,22 @@
 {
   "schema_version": "season-ingestion-registry-v1",
   "venues": {
+    "bayerische_staatsoper": {
+      "adapter": "season_ingestion.adapters.munich_bayerische_staatsoper:MunichBayerischeStaatsoperAdapter",
+      "source": "https://www.staatsoper.de/spielplan/{year_month}",
+      "fallback_source": "https://www.staatsoper.de/en/schedule/{year_month}",
+      "organization": "Bayerische Staatsoper",
+      "venue": "Nationaltheater",
+      "city": "Munich",
+      "country": "Germany",
+      "timezone": "Europe/Berlin",
+      "season_start_month": 9,
+      "official_source": "https://www.staatsoper.de/spielplan/2026-10"
+    },
     "munich_bayerische_staatsoper": {
       "adapter": "season_ingestion.adapters.munich_bayerische_staatsoper:MunichBayerischeStaatsoperAdapter",
       "source": "https://www.staatsoper.de/spielplan/{year_month}",
+      "fallback_source": "https://www.staatsoper.de/en/schedule/{year_month}",
       "organization": "Bayerische Staatsoper",
       "venue": "Nationaltheater",
       "city": "Munich",

@@ -2,9 +2,11 @@ from __future__ import annotations
 
 import hashlib
 import re
+import time
 from datetime import date
 from typing import Callable
 from urllib.parse import urljoin
+from urllib.error import HTTPError
 
 from html.parser import HTMLParser
 
@@ -51,10 +53,17 @@ def parse_calendar(html: str, page_url: str, settings: dict, *, season_start: st
     events: list[CanonicalEvent] = []
     for href, text in parser.links:
         match = re.search(r"(\d{1,2})\..*?\b(\d{1,2})[.:]([0-5]\d)\s*Uhr.*?\|\s*([^|]+)", text)
+        meridiem = None
+        if not match:
+            match = re.search(r"(\d{1,2})\..*?\b(\d{1,2}):([0-5]\d)\s*(am|pm).*?\|\s*([^|]+)", text, re.IGNORECASE)
+            meridiem = match.group(4).lower() if match else None
         if not match:
             continue
         day, hour, minute = int(match.group(1)), int(match.group(2)), match.group(3)
-        title_part = re.sub(r"\s+", " ", match.group(4)).strip()
+        if meridiem:
+            hour = hour % 12 + (12 if meridiem == "pm" else 0)
+        title_group = 5 if meridiem else 4
+        title_part = re.sub(r"\s+", " ", match.group(title_group)).strip()
         if title_part.startswith("Nationaltheater"):
             title_part = title_part[len("Nationaltheater"):].strip()
         title_part = re.sub(r"\s+(Preise|Abo-Serie|Familienvorstellung|<30)\b.*$", "", title_part).strip()
@@ -79,13 +88,30 @@ class MunichBayerischeStaatsoperAdapter:
     def __init__(self, settings: dict, fetch: Callable[[str], str] | None = None):
         self.settings, self._fetch = settings, fetch or self._fetch_url
         self.last_errors: list[dict[str, str]] = []
+        self.requested_months: list[str] = []
+        self.successful_months: list[str] = []
+        self.failed_months: list[str] = []
+        self.source_pages: dict[str, str] = {}
 
     @staticmethod
     def _fetch_url(url: str) -> str:
         from urllib.request import Request, urlopen
-        request = Request(url, headers={"User-Agent": "ByelinguaSeasonIngestion/1.0"})
-        with urlopen(request, timeout=60) as response:
-            return response.read().decode("utf-8")
+        last_error = None
+        for attempt in range(3):
+            try:
+                request = Request(url, headers={
+                    "User-Agent": "Mozilla/5.0 (compatible; ByelinguaSeasonIngestion/1.0; +https://github.com/justicia/byelingua)",
+                    "Accept": "text/html,application/xhtml+xml",
+                    "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
+                })
+                with urlopen(request, timeout=60) as response:
+                    return response.read().decode("utf-8")
+            except HTTPError as exc:
+                last_error = exc
+                if exc.code not in {403, 429, 500, 502, 503, 504} or attempt == 2:
+                    raise
+                time.sleep(min(2 ** attempt, 4))
+        raise last_error
 
     def ingest(self, season: str) -> list[CanonicalEvent]:
         from season_ingestion.season import resolve_season_bounds
@@ -94,9 +120,23 @@ class MunichBayerischeStaatsoperAdapter:
         output: list[CanonicalEvent] = []
         for month in range(9, 21):
             year, month_number = start_year + (month - 1) // 12, ((month - 1) % 12) + 1
+            month_key = f"{year:04d}-{month_number:02d}"
+            self.requested_months.append(month_key)
             url = self.settings["source"].format(year_month=f"{year:04d}-{month_number:02d}")
             try:
-                output.extend(parse_calendar(self._fetch(url), url, self.settings, season_start=start, season_end=end))
+                try:
+                    html = self._fetch(url)
+                    source_url = url
+                except HTTPError as primary_error:
+                    fallback = self.settings.get("fallback_source")
+                    if not fallback:
+                        raise
+                    source_url = fallback.format(year_month=f"{year:04d}-{month_number:02d}")
+                    html = self._fetch(source_url)
+                self.source_pages[month_key] = source_url
+                output.extend(parse_calendar(html, source_url, self.settings, season_start=start, season_end=end))
+                self.successful_months.append(month_key)
             except Exception as exc:
+                self.failed_months.append(month_key)
                 self.last_errors.append({"url": url, "error": f"{type(exc).__name__}: {exc}"})
         return sorted({event.event_key: event for event in output}.values(), key=lambda event: (event.date, event.start_time or "", event.event_key))
