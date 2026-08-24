@@ -1,0 +1,105 @@
+name: Cloud Season Ingestion Pipeline V1
+
+on:
+  workflow_dispatch:
+    inputs:
+      venue:
+        description: Venue adapter or runtime staging input
+        required: true
+        type: choice
+        options:
+          - bayerische_staatsoper
+          - opernhaus_zurich
+      season:
+        description: Season (September through August)
+        required: true
+        default: 2026-27
+        type: string
+      mode:
+        description: Read-only cloud staging; apply remains disabled in V1
+        required: true
+        default: dry-run
+        type: choice
+        options: [dry-run, apply, probe]
+      approved_run_id:
+        description: Required dry-run approval identity for apply
+        required: false
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: pip install -r requirements-season-ingestion.txt
+      - name: Dry-run credential preflight
+        if: inputs.mode == 'dry-run'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+        run: python jobs/check_season_ingestion_credentials.py --mode dry-run
+      - name: Probe official source
+        if: inputs.mode == 'probe'
+        run: python jobs/probe_official_source.py --output source-probe-summary.json
+      - name: Run shared cloud entrypoint
+        if: inputs.mode == 'dry-run'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+          INPUT_VENUE: ${{ inputs.venue }}
+          INPUT_SEASON: ${{ inputs.season }}
+          INPUT_MODE: ${{ inputs.mode }}
+        run: |
+          python -m season_ingestion.run \
+            --venue "${{ inputs.venue }}" \
+            --season "${{ inputs.season }}" \
+            --mode "${{ inputs.mode }}" \
+            --output-dir season-ingestion-output
+      - name: Download approved dry-run artifact
+        if: inputs.mode == 'apply'
+        uses: actions/download-artifact@v4
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-dry-run
+          path: approved-artifact
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ inputs.approved_run_id }}
+      - name: Run approved production graph
+        if: inputs.mode == 'apply'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: |
+          python jobs/apply_approved_season_run.py --approved-dir approved-artifact --output-dir season-ingestion-output --approved-run-id "${{ inputs.approved_run_id }}" --venue "${{ inputs.venue }}" --season "${{ inputs.season }}"
+      - name: Send terminal cloud run notification
+        if: always() && inputs.mode != 'probe'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          INGESTION_NOTIFICATION_EMAIL: ${{ secrets.INGESTION_NOTIFICATION_EMAIL }}
+          RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          GITHUB_SHA: ${{ github.sha }}
+          INPUT_VENUE: ${{ inputs.venue }}
+          INPUT_SEASON: ${{ inputs.season }}
+          INPUT_MODE: ${{ inputs.mode }}
+        run: |
+          if [ "${{ inputs.mode }}" = "apply" ]; then python jobs/notify_apply_run.py --output-dir season-ingestion-output; else python jobs/notify_season_run.py --output-dir season-ingestion-output; fi
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.mode != 'probe'
+        with:
+          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
+          path: season-ingestion-output/
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.mode == 'probe'
+        with:
+          name: official-source-probe-${{ inputs.venue }}-${{ inputs.season }}
+          path: source-probe-summary.json
+          if-no-files-found: error
