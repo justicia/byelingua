@@ -8,7 +8,7 @@ on:
         required: true
         type: choice
         options:
-          - munich_bayerische_staatsoper
+          - bayerische_staatsoper
       season:
         description: Season (September through August)
         required: true
