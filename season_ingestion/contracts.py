@@ -15,6 +15,8 @@ class GlobalEntitySnapshot:
     freshness_seconds: int | None
     entities: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
     composer_aliases: list[dict[str, Any]] = field(default_factory=list)
+    work_aliases: list[dict[str, Any]] = field(default_factory=list)
+    health: dict[str, Any] = field(default_factory=dict)
 
     def validate(self) -> None:
         if not self.generated_at or not self.source:
@@ -62,6 +64,18 @@ def empty_global_snapshot(generated_at: str) -> GlobalEntitySnapshot:
         source="read-only-empty-fallback",
         freshness_seconds=0,
         entities={kind: [] for kind in ENTITY_KINDS},
+        health={
+            "preflight_status": "FAIL",
+            "global_master_loaded": False,
+            "project_target_verified": False,
+            "composers_count": 0,
+            "composer_aliases_count": 0,
+            "works_count": 0,
+            "work_aliases_count": 0,
+            "loaded_at": generated_at,
+            "query_errors": 1,
+            "error_code": "GLOBAL_MASTER_UNAVAILABLE",
+        },
     )
     snapshot.validate()
     return snapshot

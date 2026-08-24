@@ -16,6 +16,7 @@ def main() -> int:
     parser.add_argument("--snapshot", type=Path)
     args = parser.parse_args()
     summary = run_pipeline(venue=args.venue, season=args.season, mode=args.mode, output_dir=args.output_dir, snapshot_path=args.snapshot)
+    print(f"GLOBAL_MASTER_PREFLIGHT={summary.get('global_master_preflight', 'FAIL')}")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if summary["passed"] else 2
 

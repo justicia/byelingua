@@ -8,9 +8,20 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Mapping
 from urllib.parse import urlencode
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from .contracts import ENTITY_KINDS, GlobalEntitySnapshot, empty_global_snapshot
+
+
+EXPECTED_PROJECT_REF = "pdtunknwruokybtuehua"
+
+
+class GlobalMasterError(RuntimeError):
+    def __init__(self, code: str, message: str):
+        super().__init__(f"{code}: {message}")
+        self.code = code
+        self.message = message
 
 
 def normalize_identity(value: str) -> str:
@@ -33,37 +44,69 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
         return snapshot
     url, key = os.environ.get("SUPABASE_URL", "").rstrip("/"), os.environ.get("SUPABASE_READONLY_KEY", "")
     if not url or not key:
-        return empty_global_snapshot(datetime.now(timezone.utc).isoformat())
+        raise GlobalMasterError("GLOBAL_MASTER_CONFIG_ERROR", "SUPABASE_URL and SUPABASE_READONLY_KEY are required")
+    match = re.match(r"https://([a-z0-9]+)\.supabase\.co/?$", url, re.I)
+    target_ref = match.group(1) if match else None
+    if target_ref != EXPECTED_PROJECT_REF:
+        raise GlobalMasterError("GLOBAL_MASTER_PROJECT_MISMATCH", "configured Supabase project does not match the Global Master project")
     entities: dict[str, list[dict[str, Any]]] = {}
     table_fields = {
-        "composer": ("composers", "id,canonical_name"),
+        "composer": ("composers", "id,canonical_name,identity_key"),
         "artist": ("artists", "id,artist_name"),
-        "work": ("works", "id,title,composer_id,work_kind,parent_work_id"),
+        "work": ("works", "id,title,composer_id,identity_key,normalization_status,work_kind,parent_work_id"),
         "character": ("characters", "id,canonical_name"),
     }
-    for kind in ENTITY_KINDS:
-        table, fields = table_fields[kind]
+    def fetch(table: str, fields: str) -> list[dict[str, Any]]:
         query = urlencode({"select": fields, "order": "id.asc", "limit": "10000"})
         request = Request(f"{url}/rest/v1/{table}?{query}", headers={"apikey": key, "Authorization": f"Bearer {key}"})
-        with urlopen(request, timeout=60) as response:
-            rows = json.loads(response.read().decode("utf-8"))
-            if kind == "artist":
-                for row in rows:
-                    row["canonical_name"] = row.get("artist_name")
-            if kind == "work":
-                for row in rows:
-                    row["canonical_name"] = row.get("title")
-            entities[kind] = rows
-    alias_query = urlencode({"select": "id,composer_id,alias,language,source", "order": "id.asc", "limit": "10000"})
-    alias_request = Request(f"{url}/rest/v1/composer_aliases?{alias_query}", headers={"apikey": key, "Authorization": f"Bearer {key}"})
-    with urlopen(alias_request, timeout=60) as response:
-        composer_aliases = json.loads(response.read().decode("utf-8"))
+        try:
+            with urlopen(request, timeout=60) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+        except HTTPError as exc:
+            code = "GLOBAL_MASTER_AUTH_ERROR" if exc.code in {401, 403} else "GLOBAL_MASTER_QUERY_ERROR"
+            raise GlobalMasterError(code, f"{table} query failed with HTTP {exc.code}") from exc
+        except (URLError, TimeoutError, ValueError) as exc:
+            raise GlobalMasterError("GLOBAL_MASTER_QUERY_ERROR", f"{table} query failed: {type(exc).__name__}") from exc
+        if not isinstance(payload, list):
+            raise GlobalMasterError("GLOBAL_MASTER_QUERY_ERROR", f"{table} query returned a non-list payload")
+        return payload
+
+    for kind in ENTITY_KINDS:
+        table, fields = table_fields[kind]
+        rows = fetch(table, fields)
+        if kind == "artist":
+            for row in rows:
+                row["canonical_name"] = row.get("artist_name")
+        if kind == "work":
+            for row in rows:
+                row["canonical_name"] = row.get("title")
+        entities[kind] = rows
+    composer_aliases = fetch("composer_aliases", "id,composer_id,alias,language,source")
+    work_aliases = fetch("work_aliases", "id,work_id,alias,language,source")
+    loaded_at = datetime.now(timezone.utc).isoformat()
+    health = {
+        "preflight_status": "PASS" if entities["composer"] and entities["work"] else "FAIL",
+        "global_master_loaded": bool(entities["composer"] and entities["work"]),
+        "project_target_verified": target_ref == EXPECTED_PROJECT_REF,
+        "target_project_ref": target_ref,
+        "credential_configured": bool(key),
+        "composers_count": len(entities["composer"]),
+        "composer_aliases_count": len(composer_aliases),
+        "works_count": len(entities["work"]),
+        "work_aliases_count": len(work_aliases),
+        "loaded_at": loaded_at,
+        "query_errors": 0,
+    }
+    if not health["global_master_loaded"]:
+        raise GlobalMasterError("GLOBAL_MASTER_EMPTY", "Global Master composers and works queries returned no rows")
     snapshot = GlobalEntitySnapshot(
-        generated_at=datetime.now(timezone.utc).isoformat(),
+        generated_at=loaded_at,
         source="supabase-read-only",
         freshness_seconds=0,
         entities=entities,
         composer_aliases=composer_aliases,
+        work_aliases=work_aliases,
+        health=health,
     )
     snapshot.validate()
     return snapshot
@@ -76,7 +119,8 @@ def resolve_work(source_title: str, composer: dict[str, Any] | str | None, snaps
     for row in snapshot.entities.get("work", []):
         if composer_id and row.get("composer_id") and row.get("composer_id") != composer_id:
             continue
-        names = [row.get("canonical_name"), row.get("title"), *(row.get("aliases") or [])]
+        aliases = [alias.get("alias") for alias in snapshot.work_aliases if alias.get("work_id") == row.get("id")]
+        names = [row.get("canonical_name"), row.get("title"), *aliases]
         for position, name in enumerate(names):
             if normalized and normalized == normalize_identity(str(name or "")):
                 candidates.append((row, "exact" if position == 0 else "alias"))
