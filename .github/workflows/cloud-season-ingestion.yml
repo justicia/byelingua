@@ -79,12 +79,9 @@ jobs:
           SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
         run: |
           python jobs/apply_approved_season_run.py --approved-dir approved-artifact --output-dir season-ingestion-output --approved-run-id "${{ inputs.approved_run_id }}" --venue "${{ inputs.venue }}" --season "${{ inputs.season }}"
-      - name: Send terminal cloud run notification
+      - name: Write Cloud Run Status summary
         if: always() && inputs.mode != 'probe'
         env:
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          INGESTION_NOTIFICATION_EMAIL: ${{ secrets.INGESTION_NOTIFICATION_EMAIL }}
-          RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
           GITHUB_SHA: ${{ github.sha }}
           INPUT_VENUE: ${{ inputs.venue }}
           INPUT_SEASON: ${{ inputs.season }}

@@ -1,4 +1,4 @@
-"""Operational Cloud Run notifications; deliberately separate from user digests."""
+"""Operational Cloud Run status surfaces; deliberately separate from user digests."""
 from __future__ import annotations
 
 import hashlib
@@ -61,7 +61,15 @@ def build_approval_manifest(summary: dict, staging_path: Path, *, run_id: str, c
 
 
 def notification_summary(summary: dict, *, status: str, notification_status: str = "NOT_SENT", sent_at: str | None = None, run_id: str | None = None) -> dict:
-    return {"run_id": run_id or os.getenv("GITHUB_RUN_ID", "local"), "mode": summary.get("mode"), "status": status, "notification_status": notification_status, "recipient_configured": bool(os.getenv("INGESTION_NOTIFICATION_EMAIL")), "sent_at": sent_at}
+    return {
+        "run_id": run_id or os.getenv("GITHUB_RUN_ID", "local"),
+        "mode": summary.get("mode"),
+        "status": status,
+        "notification_status": notification_status,
+        "delivery_channel": "github_actions_summary",
+        "recipient_configured": bool(os.getenv("INGESTION_NOTIFICATION_EMAIL")),
+        "sent_at": sent_at,
+    }
 
 
 def _counts(summary: dict) -> tuple[int, int, int, int]:
@@ -69,7 +77,67 @@ def _counts(summary: dict) -> tuple[int, int, int, int]:
     return c.get("events_discovered", 0), c.get("events_discovered", 0), d.get("composer_resolution", {}).get("review", 0), d.get("work_resolution", {}).get("review", 0)
 
 
+def _safe_failure_reason(value: object) -> str:
+    text = str(value or "").strip()
+    for name in ("SUPABASE_SECRET_KEY", "SUPABASE_READONLY_KEY", "RESEND_API_KEY"):
+        secret = os.getenv(name, "")
+        if secret:
+            text = text.replace(secret, "[redacted]")
+    return text[:300]
+
+
+def render_github_summary(summary: dict, *, status: str, manifest: dict | None = None, run_url: str = "", failure_reason: object = None) -> str:
+    counts = summary.get("counts") or {}
+    venue = summary.get("venue", "unknown")
+    season = summary.get("season", "unknown")
+    mode = summary.get("mode", "unknown")
+    run_id = os.getenv("GITHUB_RUN_ID", "local")
+    production_writes = counts.get("writes", 0)
+    approval_status = manifest.get("status") if manifest else ("BLOCKED" if status.startswith("DRY_RUN_") else "N/A")
+    lines = [
+        "# Cloud Season Ingestion Pipeline V1",
+        "",
+        f"- **Venue:** {venue}",
+        f"- **Season:** {season}",
+        f"- **Mode:** {mode}",
+        f"- **Run ID:** {run_id}",
+        f"- **Status:** {status}",
+        f"- **Source capability:** {summary.get('source_capability', 'UNKNOWN')}",
+        f"- **Global Master preflight:** {summary.get('global_master_preflight', 'UNKNOWN')}",
+        f"- **Events discovered:** {counts.get('events_discovered', 0)}",
+        f"- **Review items:** {counts.get('review_items', 0)}",
+        f"- **Production writes:** {production_writes}",
+        f"- **Approval status:** {approval_status}",
+    ]
+    if run_url:
+        lines.append(f"- **Run URL:** {run_url}")
+    if manifest:
+        lines.extend([
+            f"- **Approved dry-run ID:** {manifest.get('dry_run_id', '')}",
+            f"- **Staging hash:** `{manifest.get('final_staging_hash', '')}`",
+        ])
+    safe_reason = _safe_failure_reason(failure_reason)
+    if safe_reason:
+        lines.append(f"- **Failure reason:** {safe_reason}")
+    blockers = systemic_blockers(summary)
+    if blockers:
+        lines.append(f"- **Systemic blockers:** {', '.join(blockers)}")
+    return "\n".join(lines) + "\n"
+
+
+def write_github_step_summary(markdown: str) -> bool:
+    target = os.getenv("GITHUB_STEP_SUMMARY", "").strip()
+    if not target:
+        return False
+    path = Path(target)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        handle.write(markdown)
+    return True
+
+
 def render_email(summary: dict, *, status: str, manifest: dict | None = None, run_url: str = "") -> tuple[str, str, str]:
+    """Legacy optional email renderer retained for backward compatibility."""
     venue, season = summary.get("venue", ""), summary.get("season", "")
     events, safe_events, composer_review, work_review = _counts(summary)
     source = summary.get("source_capability", "UNKNOWN")
@@ -85,6 +153,7 @@ def render_email(summary: dict, *, status: str, manifest: dict | None = None, ru
 
 
 def send_resend(subject: str, html_body: str, text_body: str, *, sender=urlopen) -> None:
+    """Legacy optional email sender; Cloud Run Status V1 does not require it."""
     api_key = os.getenv("RESEND_API_KEY")
     recipient = os.getenv("INGESTION_NOTIFICATION_EMAIL")
     from_address = os.getenv("RESEND_FROM_EMAIL")
