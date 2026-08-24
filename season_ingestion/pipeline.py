@@ -37,7 +37,14 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
     successful_months = getattr(adapter, "successful_months", [])
     failed_months = getattr(adapter, "failed_months", [])
     source_audit = {"venue": venue, "season": season, "official_source": config["official_source"], "official_fallback_source": config.get("fallback_source"), "source_strategy": "German monthly page -> bounded retry -> official English monthly schedule fallback", "requested_months": requested_months, "successful_months": successful_months, "failed_months": failed_months, "source_pages": getattr(adapter, "source_pages", {}), "adapter_errors": adapter.last_errors, "events": len(events)}
-    summary = {"generated_at": generated_at, "venue": venue, "season": season, "mode": mode, "months": {"requested": len(requested_months), "successful": len(successful_months), "failed": len(failed_months)}, "counts": {"events": len(events), "works_existing": sum(row["status"] == "existing" for row in resolution_rows), "works_review": len(review_rows), "review_items": len(review_rows), "writes": 0}, "gates": gates, "passed": all(gates.values())}
+    if failed_months:
+        source_capability = "SOURCE_BLOCKED" if adapter.last_errors and all("403" in item.get("error", "") for item in adapter.last_errors) else "SOURCE_PARTIAL"
+    elif not successful_months or not events:
+        source_capability = "SOURCE_UNSUPPORTED"
+    else:
+        source_capability = "SOURCE_PASS"
+    source_audit["source_capability"] = source_capability
+    summary = {"generated_at": generated_at, "venue": venue, "season": season, "mode": mode, "source_capability": source_capability, "months": {"requested": len(requested_months), "successful": len(successful_months), "failed": len(failed_months)}, "counts": {"events": len(events), "works_existing": sum(row["status"] == "existing" for row in resolution_rows), "works_review": len(review_rows), "review_items": len(review_rows), "writes": 0}, "gates": gates, "passed": all(gates.values())}
     payloads = {"source_audit": source_audit, "raw": [event.raw | {"event_key": event.event_key, "source_url": event.source_url} for event in events], "normalized": [event.to_dict() for event in events], "snapshot": snapshot.__dict__, "resolution_staging": resolution_rows, "final_staging": {"events": [event.to_dict() for event in events], "resolution": resolution_rows, "review": review_rows, "writes": 0}, "summary": summary}
     output_dir.mkdir(parents=True, exist_ok=True)
     for stage in STAGES:
