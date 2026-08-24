@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import tempfile
 import unittest
+from urllib.error import HTTPError
 from pathlib import Path
 from unittest.mock import patch
 
@@ -10,7 +11,7 @@ from season_ingestion.adapters.munich_bayerische_staatsoper import parse_calenda
 from season_ingestion.adapters.opernhaus_zurich import parse_detail
 from season_ingestion.adapters.opernhaus_zurich import _detail_urls
 from season_ingestion.contracts import GlobalEntitySnapshot
-from season_ingestion.global_master import normalize_identity, resolve_entity, resolve_work
+from season_ingestion.global_master import GlobalMasterError, load_global_snapshot, normalize_identity, resolve_entity, resolve_work
 from season_ingestion.pipeline import run_pipeline
 
 
@@ -76,11 +77,12 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(urls, ["https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/"])
 
     def test_shared_composer_resolver_matches_canonical_and_aliases(self):
-        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [{"id": "mozart", "canonical_name": "Wolfgang Amadeus Mozart"}], "work": [{"id": "magic", "title": "Die Zauberflöte", "composer_id": "mozart"}], "artist": [], "character": []}, composer_aliases=[{"composer_id": "mozart", "alias": "Mozart"}])
+        snapshot = GlobalEntitySnapshot(generated_at="now", source="test", freshness_seconds=0, entities={"composer": [{"id": "mozart", "canonical_name": "Wolfgang Amadeus Mozart"}], "work": [{"id": "magic", "title": "Die Zauberflöte", "composer_id": "mozart"}], "artist": [], "character": []}, composer_aliases=[{"composer_id": "mozart", "alias": "Mozart"}], work_aliases=[{"work_id": "magic", "alias": "The Magic Flute"}])
         self.assertEqual(resolve_entity("composer", "Wolfgang Amadeus Mozart (1756–1791)", snapshot)["match_method"], "exact")
         self.assertEqual(resolve_entity("composer", "Mozart", snapshot)["match_method"], "alias")
         self.assertEqual(resolve_entity("composer", "Unknown Composer", snapshot)["status"], "review_required")
         self.assertEqual(resolve_work("Die Zauberflöte", resolve_entity("composer", "Mozart", snapshot), snapshot)["status"], "existing")
+        self.assertEqual(resolve_work("The Magic Flute", resolve_entity("composer", "Mozart", snapshot), snapshot)["match_method"], "alias")
 
     def test_shared_identity_normalizer_handles_accents_and_punctuation(self):
         self.assertEqual(normalize_identity("Richard Strauß"), normalize_identity("Richard Strauss"))
@@ -90,6 +92,38 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
     def test_apply_is_blocked(self):
         with self.assertRaises(RuntimeError):
             run_pipeline(venue="munich_bayerische_staatsoper", season="2026-27", mode="apply")
+
+    def test_global_master_missing_config_is_explicit(self):
+        with patch.dict("os.environ", {}, clear=True):
+            with self.assertRaisesRegex(GlobalMasterError, "GLOBAL_MASTER_CONFIG_ERROR"):
+                load_global_snapshot()
+
+    def test_global_master_wrong_project_is_explicit(self):
+        with patch.dict("os.environ", {"SUPABASE_URL": "https://wrong-project.supabase.co", "SUPABASE_READONLY_KEY": "redacted-test-key"}, clear=True):
+            with self.assertRaisesRegex(GlobalMasterError, "GLOBAL_MASTER_PROJECT_MISMATCH"):
+                load_global_snapshot()
+
+    def test_global_master_auth_failure_is_not_empty_snapshot(self):
+        error = HTTPError("https://pdtunknwruokybtuehua.supabase.co/rest/v1/composers", 401, "unauthorized", {}, None)
+        env = {"SUPABASE_URL": "https://pdtunknwruokybtuehua.supabase.co", "SUPABASE_READONLY_KEY": "redacted-test-key"}
+        with patch.dict("os.environ", env, clear=True), patch("season_ingestion.global_master.urlopen", side_effect=error):
+            with self.assertRaisesRegex(GlobalMasterError, "GLOBAL_MASTER_AUTH_ERROR"):
+                load_global_snapshot()
+
+    def test_global_master_unavailable_does_not_become_review(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            settings = {"organization": "Bayerische Staatsoper", "venue": "Nationaltheater", "city": "Munich", "country": "Germany", "timezone": "Europe/Berlin"}
+            class FakeAdapter:
+                last_errors = []
+                def ingest(self, season):
+                    return parse_calendar(HTML, "https://www.staatsoper.de/spielplan/2026-10", settings, season_start="2026-09-01", season_end="2027-08-31")
+            with patch("season_ingestion.pipeline.load_adapter", return_value=FakeAdapter()), patch.dict("os.environ", {}, clear=True):
+                result = run_pipeline(venue="munich_bayerische_staatsoper", season="2026-27", output_dir=Path(tmp))
+            self.assertEqual(result["global_master_preflight"], "FAIL")
+            self.assertEqual(result["detail_enrichment"]["composer_resolution"]["review"], 0)
+            self.assertEqual(result["detail_enrichment"]["composer_resolution"]["not_run"], 2)
+            self.assertEqual(result["detail_enrichment"]["work_resolution"]["review"], 0)
+            self.assertEqual(result["counts"]["review_items"], 0)
 
     def test_output_contract_is_stable(self):
         with tempfile.TemporaryDirectory() as tmp:
