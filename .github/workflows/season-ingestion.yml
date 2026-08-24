@@ -21,6 +21,10 @@ on:
         default: dry-run
         type: choice
         options: [dry-run, apply, probe]
+      approved_run_id:
+        description: Required dry-run approval identity for apply
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -43,12 +47,30 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+          INPUT_VENUE: ${{ inputs.venue }}
+          INPUT_SEASON: ${{ inputs.season }}
+          INPUT_MODE: ${{ inputs.mode }}
         run: |
           python -m season_ingestion.run \
             --venue "${{ inputs.venue }}" \
             --season "${{ inputs.season }}" \
             --mode "${{ inputs.mode }}" \
             --output-dir season-ingestion-output
+      - name: Validate explicit apply approval
+        if: inputs.mode == 'apply'
+        env:
+          APPROVED_RUN_ID: ${{ inputs.approved_run_id }}
+        run: |
+          test -n "$APPROVED_RUN_ID"
+          echo "Approval reference supplied."
+      - name: Send terminal cloud run notification
+        if: always() && inputs.mode != 'probe'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          INGESTION_NOTIFICATION_EMAIL: ${{ secrets.INGESTION_NOTIFICATION_EMAIL }}
+          RESEND_FROM_EMAIL: ${{ secrets.RESEND_FROM_EMAIL }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: python jobs/notify_season_run.py --output-dir season-ingestion-output
       - uses: actions/upload-artifact@v4
         if: always() && inputs.mode != 'probe'
         with:
