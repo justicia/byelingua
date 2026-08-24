@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 from season_ingestion.adapters.munich_bayerische_staatsoper import parse_calendar
 from season_ingestion.adapters.opernhaus_zurich import parse_detail
+from season_ingestion.adapters.opernhaus_zurich import _detail_urls
 from season_ingestion.pipeline import run_pipeline
 
 
@@ -42,6 +43,10 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(events[0].programme[0]["original_programme_order"], 1)
         self.assertEqual(events[0].venue, "Main Stage")
         self.assertEqual(events[0].data_quality["character"]["status"], "unavailable")
+
+    def test_zurich_season_page_relative_detail_urls_are_discoverable(self):
+        urls = _detail_urls('<a href="/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/">Rachmaninow</a>')
+        self.assertEqual(urls, ["https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/"])
 
     def test_apply_is_blocked(self):
         with self.assertRaises(RuntimeError):

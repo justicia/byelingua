@@ -17,7 +17,10 @@ JSONLD_RE = re.compile(r"<script[^>]+type=[\"']application/ld\+json[\"'][^>]*>(.
 
 
 def _detail_urls(season_html: str) -> list[str]:
-    return sorted(set(DETAIL_RE.findall(season_html)))
+    absolute = set(DETAIL_RE.findall(season_html))
+    relative = re.findall(r"/(?:en/)?spielplan/calendar/[^\"' ]+/2026-2027/?", season_html)
+    absolute.update(urljoin("https://www.opernhaus.ch", path) for path in relative)
+    return sorted(absolute)
 
 
 def parse_detail(html_text: str, page_url: str, settings: dict, *, season_start: str, season_end: str) -> list[CanonicalEvent]:
