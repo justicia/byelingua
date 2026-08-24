@@ -53,13 +53,11 @@ def _composer_from_description(description: object, title: str) -> tuple[str | N
     first = lines[0]
     lowered = first.casefold()
     if _clean_text(first).casefold() == _clean_text(title).casefold():
-        if any(marker in " ".join(lines[1:]).casefold() for marker in ("music by", "works by", "composer", "libretto")):
-            return None, "official detail describes music/work attribution without one composer identity"
         return None, None
-    if "," in first or " & " in first or lowered.startswith(("concertant", "guest performance", "special concert")):
-        return None, "official detail first line is a production/programme heading, not a Composer identity"
     if lowered.startswith(("works by", "work by", "music by")):
         return None, "multiple works/composers stated without individual work titles"
+    if "," in first or " & " in first or lowered.startswith(("concertant", "guest performance", "special concert")):
+        return None, None
     if lowered in {"guest performance", "concert performance", "recital", "matinee", "gala"}:
         return None, None
     if " by " in lowered and len(first.split()) > 2:
