@@ -15,6 +15,10 @@ from season_ingestion.schema import CanonicalEvent
 
 DETAIL_RE = re.compile(r"https://www\.opernhaus\.ch/(?:en/)?spielplan/calendar/[^\"' ]+/2026-2027/?")
 JSONLD_RE = re.compile(r"<script[^>]+type=[\"']application/ld\+json[\"'][^>]*>(.*?)</script>", re.IGNORECASE | re.DOTALL)
+ROLE_REVIEW_LABELS = {"inszenierung", "mise en scène", "austattung", "ausstattung", "lichtgestaltung", "dramaturgie", "choreinstudierung", "kostüme", "kostümbild", "bühnenbild"}
+CAST_ROLE_LABELS = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone", "schauspieler"}
+CONDUCTOR_LABELS = {"musikalische leitung", "conductor", "musical director", "chorus master", "chorus director", "choreinstudierung"}
+ARTISTIC_LABELS = ROLE_REVIEW_LABELS | CONDUCTOR_LABELS | {"orchester", "orchestra", "chor", "choir", "ensemble", "music group"}
 
 
 def _jsonld_events(html_text: str) -> list[dict]:
@@ -35,6 +39,82 @@ def _jsonld_events(html_text: str) -> list[dict]:
             elif candidate.get("@type") == "Event" or "Event" in (candidate.get("@type") or []):
                 output.append(candidate)
     return output
+
+
+def _clean_text(value: object) -> str:
+    return re.sub(r"\s+", " ", html.unescape(str(value or "")).replace("\xa0", " ")).strip()
+
+
+def _composer_from_description(description: object) -> tuple[str | None, str | None]:
+    text = html.unescape(str(description or "")).replace("\r", "")
+    lines = [re.sub(r"\s+", " ", line).strip() for line in text.split("\n") if line.strip()]
+    if not lines:
+        return None, None
+    first = lines[0]
+    lowered = first.casefold()
+    if lowered.startswith(("works by", "work by", "music by")):
+        return None, "multiple works/composers stated without individual work titles"
+    if lowered in {"guest performance", "concert performance", "recital", "matinee", "gala"}:
+        return None, None
+    if " by " in lowered and len(first.split()) > 2:
+        first = re.split(r"\s+by\s+", first, maxsplit=1, flags=re.IGNORECASE)[-1].strip()
+    return first or None, "official detail JSON-LD description first attribution line"
+
+
+def _programme_for(payload: dict, page_url: str, title: str) -> tuple[list[dict], str, str]:
+    composer, composer_reason = _composer_from_description(payload.get("description"))
+    provenance = {"source_url": page_url, "source_field": "jsonld.description", "raw_source_block": payload.get("description")}
+    if composer:
+        return ([{
+            "source_title": title,
+            "raw_title": title,
+            "composer": composer,
+            "composer_candidate": {"raw_name": composer, "normalized_name": _clean_text(composer), "source_field": "jsonld.description", "source_url": page_url, "confidence": "official composer attribution"},
+            "source_programme_index": 1,
+            "raw_programme_index": 1,
+            "original_programme_order": 1,
+            "resolution_status": "pending_global_resolution",
+            "provenance": provenance,
+        }], "PROGRAMME_EVIDENCE_FOUND", "official detail JSON-LD supplies composer attribution")
+    if composer_reason:
+        return ([], "DETAIL_PARSE_REVIEW", composer_reason)
+    return ([], "NO_PROGRAMME_EVIDENCE", "official detail has no programme/work/composer attribution")
+
+
+def _credits_for(payload: dict, page_url: str) -> list[dict]:
+    credits: list[dict] = []
+    performers = payload.get("performer") or []
+    if isinstance(performers, dict):
+        performers = [performers]
+    for index, performer in enumerate(performers, start=1):
+        if not isinstance(performer, dict):
+            continue
+        name = _clean_text(performer.get("name"))
+        role = _clean_text(performer.get("description"))
+        if not name:
+            continue
+        lowered = role.casefold()
+        kind = "cast" if lowered in CAST_ROLE_LABELS else "artistic_team"
+        if performer.get("@type") == "MusicGroup" or lowered in {"orchester", "orchestra", "chor", "choir", "ensemble"}:
+            kind = "ensemble"
+        elif lowered in ARTISTIC_LABELS or any(label in lowered for label in CONDUCTOR_LABELS):
+            kind = "artistic_team"
+        elif kind == "artistic_team":
+            kind = "review_required"
+        credit = {
+            "artist_name": name,
+            "source_role": role,
+            "function": role.casefold() or None,
+            "credit_kind": kind,
+            "source_url": page_url,
+            "source_field": f"jsonld.performer[{index}]",
+            "raw_source_block": performer,
+            "provenance": {"source_url": page_url, "credit_section": "jsonld.performer", "source_field": f"jsonld.performer[{index}]"},
+        }
+        if kind == "cast":
+            credit["character"] = role
+        credits.append(credit)
+    return credits
 
 
 def _detail_urls(season_html: str) -> list[str]:
@@ -62,6 +142,8 @@ def parse_detail(html_text: str, page_url: str, settings: dict, *, season_start:
         venue = str(location.get("name") or settings["venue"]).strip()
         source_url = str(payload.get("url") or page_url)
         source_event_id = hashlib.sha256(f"{source_url}|{start}".encode()).hexdigest()[:24]
+        programme, programme_status, programme_reason = _programme_for(payload, page_url, title)
+        credits = _credits_for(payload, page_url)
         event = CanonicalEvent(
             source="opernhaus_zurich",
             source_event_id=source_event_id,
@@ -77,18 +159,10 @@ def parse_detail(html_text: str, page_url: str, settings: dict, *, season_start:
             end_time=str(payload.get("endDate") or "")[11:16] or None,
             room=venue,
             event_type="performance",
-            programme=[{
-                "source_title": title,
-                "composer": None,
-                "source_programme_index": 1,
-                "raw_programme_index": 1,
-                "original_programme_order": 1,
-                "resolution_status": "review_required",
-                "resolution_reason": "official detail page does not expose a machine-readable composer field",
-            }],
-            credits=[],
-            data_quality={"composer": {"status": "unavailable_in_structured_source"}, "character": {"status": "unavailable"}},
-            raw={"season_source_url": settings["official_source"], "detail_source_url": page_url, "source_title": title, "source_description": payload.get("description")},
+            programme=programme,
+            credits=credits,
+            data_quality={"programme": {"status": programme_status, "reason": programme_reason}, "character": {"status": "available" if any(c.get("character") for c in credits) else "unavailable"}, "detail_enrichment": {"status": "complete", "source_url": page_url}},
+            raw={"season_source_url": settings["official_source"], "detail_source_url": page_url, "source_title": title, "source_description": payload.get("description"), "source_event_jsonld": payload},
         )
         event.validate()
         events.append(event)

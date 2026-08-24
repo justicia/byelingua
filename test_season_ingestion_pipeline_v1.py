@@ -19,7 +19,9 @@ HTML = '''<html><body><h1>Oktober 2026</h1>
 ENGLISH_HTML = '''<html><body>
 <a href="/productions/zauberfloete">3. December 2026.12.26 Thursday Thu 07:00 pm | NationaltheaterDIE ZAUBERFLÖTE Wolfgang Amadeus Mozart Prices</a>
 </body></html>'''
-ZURICH_DETAIL_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Rachmaninow – Die drei Opern","startDate":"2026-11-01T18:00","endDate":"2026-11-01T21:20","url":"https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/","location":{"name":"Main Stage"}}</script>'''
+ZURICH_DETAIL_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Rachmaninow – Die drei Opern","startDate":"2026-11-01T18:00","endDate":"2026-11-01T21:20","url":"https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/","description":"Sergei Rachmaninoff\\n\\nThree one-act operas","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Gianandrea Noseda","description":"Musikalische Leitung"},{"@type":"Person","name":"Elena Stikhina","description":"Soprano"}]}</script>'''
+ZURICH_NO_PROGRAMME_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Opernhaus für alle","startDate":"2027-07-02T19:00","endDate":"2027-07-02T21:00","url":"https://www.opernhaus.ch/en/spielplan/calendar/opernhaus-fuer-alle/2026-2027/","description":"","location":{"name":"Main Stage"}}</script>'''
+ZURICH_MULTI_WORK_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Requiem pour Ophélie","startDate":"2027-05-04T19:00","endDate":"2027-05-04T20:40","url":"https://www.opernhaus.ch/en/spielplan/calendar/requiem-pour-ophelie/2026-2027/","description":"Works by Hector Berlioz, Ambroise Thomas and Gabriel Fauré","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Raphaël Pichon","description":"Musikalische Leitung"},{"@type":"MusicGroup","name":"Orchestra of the Zurich Opera House","description":"Orchester"}]}</script>'''
 
 
 class SeasonIngestionPipelineV1Tests(unittest.TestCase):
@@ -42,7 +44,23 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0].programme[0]["original_programme_order"], 1)
         self.assertEqual(events[0].venue, "Main Stage")
-        self.assertEqual(events[0].data_quality["character"]["status"], "unavailable")
+        self.assertEqual(events[0].programme[0]["composer"], "Sergei Rachmaninoff")
+        self.assertEqual(events[0].credits[0]["credit_kind"], "artistic_team")
+        self.assertEqual(events[0].credits[1]["artist_name"], "Elena Stikhina")
+        self.assertEqual(events[0].credits[1]["character"], "Soprano")
+
+    def test_zurich_no_programme_evidence_is_not_a_work_candidate(self):
+        settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
+        events = parse_detail(ZURICH_NO_PROGRAMME_HTML, "https://www.opernhaus.ch/en/spielplan/calendar/opernhaus-fuer-alle/2026-2027/", settings, season_start="2026-09-01", season_end="2027-08-31")
+        self.assertEqual(events[0].programme, [])
+        self.assertEqual(events[0].data_quality["programme"]["status"], "NO_PROGRAMME_EVIDENCE")
+
+    def test_zurich_multi_work_description_is_review_not_fake_single_work(self):
+        settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
+        events = parse_detail(ZURICH_MULTI_WORK_HTML, "https://www.opernhaus.ch/en/spielplan/calendar/requiem-pour-ophelie/2026-2027/", settings, season_start="2026-09-01", season_end="2027-08-31")
+        self.assertEqual(events[0].programme, [])
+        self.assertEqual(events[0].data_quality["programme"]["status"], "DETAIL_PARSE_REVIEW")
+        self.assertEqual(events[0].credits[0]["credit_kind"], "artistic_team")
 
     def test_zurich_season_page_relative_detail_urls_are_discoverable(self):
         urls = _detail_urls('<a href="/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/">Rachmaninow</a>')
