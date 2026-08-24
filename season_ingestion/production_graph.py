@@ -5,6 +5,8 @@ import json
 import os
 from urllib.request import Request, urlopen
 
+from .unicode_integrity import validate_unicode_integrity
+
 
 RPC_PATH = "/rest/v1/rpc/apply_canonical_production_graph"
 
@@ -28,7 +30,7 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
     safe_composers = staging["composer"]["safe"]
     safe_works = staging["work"]["safe"]
     safe_relationships = staging["relationships"]["safe_existing"] + staging["relationships"]["safe_new"]
-    return {
+    payload = {
         "source": safe_events[0]["source"],
         "organization": organization,
         "venue": venue,
@@ -38,9 +40,12 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
         "relationships": safe_relationships,
         "expected": {"events": len(safe_events), "composers": len(safe_composers), "works": len(safe_works), "relationships": len(safe_relationships)},
     }
+    validate_unicode_integrity(payload)
+    return payload
 
 
 def apply_graph(payload: dict, *, sender=urlopen) -> dict:
+    validate_unicode_integrity(payload)
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
     key = os.environ.get("SUPABASE_SECRET_KEY", "")
     if not url or not key:
