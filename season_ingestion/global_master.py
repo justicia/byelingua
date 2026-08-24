@@ -22,12 +22,25 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
     if not url or not key:
         return empty_global_snapshot(datetime.now(timezone.utc).isoformat())
     entities: dict[str, list[dict[str, Any]]] = {}
+    table_fields = {
+        "composer": ("composers", "id,canonical_name"),
+        "artist": ("artists", "id,artist_name"),
+        "work": ("works", "id,title,composer_id,work_kind,parent_work_id"),
+        "character": ("characters", "id,canonical_name"),
+    }
     for kind in ENTITY_KINDS:
-        table = f"{kind}s"
-        query = urlencode({"select": "id,canonical_name", "order": "id.asc", "limit": "10000"})
+        table, fields = table_fields[kind]
+        query = urlencode({"select": fields, "order": "id.asc", "limit": "10000"})
         request = Request(f"{url}/rest/v1/{table}?{query}", headers={"apikey": key, "Authorization": f"Bearer {key}"})
         with urlopen(request, timeout=60) as response:
-            entities[kind] = json.loads(response.read().decode("utf-8"))
+            rows = json.loads(response.read().decode("utf-8"))
+            if kind == "artist":
+                for row in rows:
+                    row["canonical_name"] = row.get("artist_name")
+            if kind == "work":
+                for row in rows:
+                    row["canonical_name"] = row.get("title")
+            entities[kind] = rows
     snapshot = GlobalEntitySnapshot(
         generated_at=datetime.now(timezone.utc).isoformat(),
         source="supabase-read-only",
