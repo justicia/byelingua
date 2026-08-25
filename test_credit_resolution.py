@@ -1,6 +1,7 @@
 from types import SimpleNamespace
 
 from season_ingestion.credit_resolution import canonical_role, resolve_credit, stage_credits
+from season_ingestion.character_linkage import classify_unlinked_character
 from season_ingestion.production_graph import build_payload
 
 
@@ -32,6 +33,14 @@ def test_artist_resolution_is_unicode_safe_and_new_artists_are_safe():
     assert fresh["artist_resolution"]["status"] == "SAFE_NEW_ARTIST"
 
 
+def test_known_zurich_artists_resolve_existing():
+    s = snapshot([{"id": "armiliato", "artist_name": "Marco Armiliato"}, {"id": "beczala", "artist_name": "Piotr Beczała"}])
+    assert resolve_credit({"artist_name": "Marco Armiliato", "source_role": "Musical Director"}, work_id=None, snapshot=s)["artist_resolution"]["status"] == "SAFE_EXISTING"
+    result = resolve_credit({"artist_name": "Piotr Beczala", "source_role": "Singer"}, work_id=None, snapshot=s)
+    assert result["artist_resolution"]["status"] == "SAFE_EXISTING"
+    assert result["artist_resolution"]["canonical_name"] == "Piotr Beczała"
+
+
 def test_voice_type_never_becomes_character():
     result = resolve_credit({"artist_name": "Jane Doe", "source_role": "Soprano", "character": "Soprano"}, work_id="w1", snapshot=snapshot())
     assert result["source_character"] is None
@@ -44,6 +53,27 @@ def test_work_scoped_character_resolution_and_review():
     assert safe["character_resolution"]["status"] == "SAFE_CHARACTER"
     review = resolve_credit({"artist_name": "Jane Doe", "source_role": "Singer", "character": "Venus"}, work_id="w1", snapshot=s)
     assert review["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"
+
+
+def test_unlinked_work_character_never_becomes_safe_character():
+    s = snapshot(work_characters=[{"work_id": "w1", "canonical_name": "Elisabeth", "character_uid": None}])
+    result = resolve_credit({"artist_name": "Jane Doe", "source_role": "Singer", "character": "Elisabeth"}, work_id="w1", snapshot=s)
+    assert result["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"
+
+
+def test_credit_status_precedence_allows_safe_non_character_credits():
+    s = snapshot([{"id": "armiliato", "artist_name": "Marco Armiliato"}])
+    for role in ("Musikalische Leitung", "Inszenierung", "Singer"):
+        result = resolve_credit({"artist_name": "Marco Armiliato", "source_role": role}, work_id="w1", snapshot=s)
+        assert result["resolution_status"] == "SAFE_ROLE"
+
+
+def test_character_linkage_hard_blocks_jobs_and_allows_linked_characters():
+    s = snapshot(work_characters=[], character_aliases=[{"character_id": "c1", "alias": "The Wanderer"}])
+    s.entities["character"] = [{"id": "c1", "canonical_name": "Der Wanderer"}]
+    assert classify_unlinked_character({"canonical_name": "Stage Director"}, s)["classification"] == "NON_CHARACTER_CONTAMINATION"
+    assert classify_unlinked_character({"canonical_name": "The Wanderer"}, s)["classification"] == "SAFE_LINK_EXISTING_CHARACTER"
+    assert classify_unlinked_character({"canonical_name": "Elisabeth"}, s)["classification"] == "SAFE_NEW_GLOBAL_CHARACTER"
 
 
 def test_review_never_enters_safe_staging_and_duplicates_are_deterministic():
@@ -62,3 +92,4 @@ def test_graph_payload_carries_artists_and_event_credits():
     )
     assert len(payload["artists"]) == 1
     assert payload["expected"]["event_credits"] == 1
+
