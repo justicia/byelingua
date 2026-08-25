@@ -79,7 +79,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: onboarding-output
-      - run: python jobs/aggregate_venue_onboarding.py --season "${{ inputs.season }}" --output-root onboarding-output
+      - run: PYTHONPATH=. python jobs/aggregate_venue_onboarding.py --season "${{ inputs.season }}" --output-root onboarding-output
       - uses: actions/upload-artifact@v4
         if: always()
         with:
