@@ -30,6 +30,17 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
     safe_composers = staging["composer"]["safe"]
     safe_works = staging["work"]["safe"]
     safe_relationships = staging["relationships"]["safe_existing"] + staging["relationships"]["safe_new"]
+    credit_staging = staging.get("credit_resolution") or {}
+    safe_credits = credit_staging.get("safe_event_credits", [])
+    if any(not row.get("credit", {}).get("canonical_role") or not row.get("credit", {}).get("artist_resolution", {}).get("status", "").startswith("SAFE_") for row in safe_credits):
+        raise ValueError("review credit entered safe production payload")
+    artists = credit_staging.get("safe_new_artists", [])
+    event_credits = []
+    for row in safe_credits:
+        credit = row["credit"]
+        artist = credit["artist_resolution"]
+        character = credit["character_resolution"]
+        event_credits.append({"event_key": row["event_key"], "artist_id": artist.get("artist_id"), "artist_name": artist.get("canonical_name") or credit.get("source_artist_name"), "role": credit["canonical_role"], "character_id": character.get("character_id"), "character": character.get("character"), "raw_character": credit.get("source_character"), "source_url": credit.get("source_url"), "source_field": credit.get("source_field")})
     payload = {
         "source": safe_events[0]["source"],
         "organization": organization,
@@ -38,7 +49,9 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
         "composers": safe_composers,
         "works": safe_works,
         "relationships": safe_relationships,
-        "expected": {"events": len(safe_events), "composers": len(safe_composers), "works": len(safe_works), "relationships": len(safe_relationships)},
+        "artists": artists,
+        "event_credits": event_credits,
+        "expected": {"events": len(safe_events), "composers": len(safe_composers), "works": len(safe_works), "relationships": len(safe_relationships), "artists": len(artists), "event_credits": len(event_credits)},
     }
     validate_unicode_integrity(payload)
     return payload
