@@ -18,6 +18,9 @@ class GlobalEntitySnapshot:
     entities: dict[str, list[dict[str, Any]]] = field(default_factory=dict)
     composer_aliases: list[dict[str, Any]] = field(default_factory=list)
     work_aliases: list[dict[str, Any]] = field(default_factory=list)
+    artist_aliases: list[dict[str, Any]] = field(default_factory=list)
+    character_aliases: list[dict[str, Any]] = field(default_factory=list)
+    work_characters: list[dict[str, Any]] = field(default_factory=list)
     health: dict[str, Any] = field(default_factory=dict)
 
     def validate(self) -> None:
