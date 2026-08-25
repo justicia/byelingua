@@ -115,7 +115,9 @@ def _credits_for(payload: dict, page_url: str) -> list[dict]:
             "raw_source_block": performer,
             "provenance": {"source_url": page_url, "credit_section": "jsonld.performer", "source_field": f"jsonld.performer[{index}]"},
         }
-        if kind == "cast":
+        # Voice type is performer metadata, never a dramatic Character.
+        # Character assignment requires explicit official role evidence.
+        if kind == "cast" and lowered not in CAST_ROLE_LABELS:
             credit["character"] = role
         credits.append(credit)
     return credits
