@@ -36,11 +36,17 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
         raise ValueError("review credit entered safe production payload")
     artists = credit_staging.get("safe_new_artists", [])
     event_credits = []
+    projected_ids = set()
     for row in safe_credits:
         credit = row["credit"]
         artist = credit["artist_resolution"]
         character = credit["character_resolution"]
-        event_credits.append({"event_key": row["event_key"], "artist_id": artist.get("artist_id"), "artist_name": artist.get("canonical_name") or credit.get("source_artist_name"), "role": credit["canonical_role"], "character_id": character.get("character_id"), "character": character.get("character"), "raw_character": credit.get("source_character"), "source_url": credit.get("source_url"), "source_field": credit.get("source_field")})
+        artist_identity_key = artist.get("lookup_key")
+        projected_id = (row["event_key"], artist.get("artist_id") or artist_identity_key, credit["canonical_role"], character.get("character_id"))
+        if projected_id in projected_ids:
+            raise ValueError("duplicate safe event credit identity")
+        projected_ids.add(projected_id)
+        event_credits.append({"event_key": row["event_key"], "artist_id": artist.get("artist_id"), "artist_identity_key": artist_identity_key, "artist_name": artist.get("canonical_name") or credit.get("source_artist_name"), "role": credit["canonical_role"], "character_id": character.get("character_id"), "character": character.get("character"), "raw_character": credit.get("source_character"), "source_url": credit.get("source_url"), "source_field": credit.get("source_field")})
     payload = {
         "source": safe_events[0]["source"],
         "organization": organization,
@@ -71,3 +77,4 @@ def apply_graph(payload: dict, *, sender=urlopen) -> dict:
         if response.status not in (200, 201):
             raise RuntimeError(f"production graph RPC returned HTTP {response.status}: {body[:500]}")
     return json.loads(body) if body else {}
+
