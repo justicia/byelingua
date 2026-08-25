@@ -77,6 +77,8 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
     artist_name = str(raw.get("artist_name") or raw.get("source_artist_name") or "").strip()
     artist = _artist_resolution(artist_name, snapshot)
     source_character = raw.get("character") if source_role.casefold() not in VOICE_TYPES else None
+    if (raw.get("credit_kind") == "cast" or source_character is not None) and source_character:
+        role = "performer"
     character = _character_resolution(source_character, work_id, snapshot)
     status = "SAFE_ROLE" if role else "REVIEW_ROLE_UNKNOWN"
     if artist["status"].startswith("REVIEW"):
@@ -88,17 +90,36 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
 
 def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot: Any) -> dict[str, Any]:
     work_by_event = {row.get("event_key"): row.get("work_id") for row in resolutions if row.get("work_id")}
-    all_rows = []
-    for event in events:
-        for raw in event.credits:
-            all_rows.append({"event_key": event.event_key, "credit": resolve_credit(raw, work_id=work_by_event.get(event.event_key), snapshot=snapshot)})
-    safe, review, seen = [], [], set()
+    all_rows = [{"event_key": event.event_key, "credit": resolve_credit(raw, work_id=work_by_event.get(event.event_key), snapshot=snapshot)} for event in events for raw in event.credits]
+    safe, review, seen, deduped = [], [], set(), []
     for row in all_rows:
         credit = row["credit"]
         key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), credit["character_resolution"].get("character_id"))
         if key in seen:
             continue
         seen.add(key)
+        deduped.append(row)
+        (safe if credit["resolution_status"].startswith("SAFE_") else review).append(row)
+    artists = {r["credit"]["artist_resolution"]["canonical_name"]: r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_NEW_ARTIST"}
+    statuses = [r["credit"]["artist_resolution"]["status"] for r in deduped]
+    counts = {"credits_raw": len(all_rows), "credits_safe": len(safe), "credits_review": len(review), "role_safe": sum(bool(r["credit"].get("canonical_role")) for r in deduped), "role_review": sum(not bool(r["credit"].get("canonical_role")) for r in deduped), "artist_existing": sum(s == "SAFE_EXISTING" for s in statuses), "artist_new_safe": sum(s == "SAFE_NEW_ARTIST" for s in statuses), "artist_review": sum(s.startswith("REVIEW") for s in statuses), "artist_resolution_existing": sum(s == "SAFE_EXISTING" for s in statuses), "artist_resolution_new": sum(s == "SAFE_NEW_ARTIST" for s in statuses), "artist_resolution_conflict": sum(s == "REVIEW_ARTIST_CONFLICT" for s in statuses), "character_safe": sum(r["credit"]["character_resolution"]["status"] == "SAFE_CHARACTER" for r in deduped), "character_review": sum(r["credit"]["character_resolution"]["status"].startswith("REVIEW") for r in deduped)}
+    return {"safe_existing_artists": [r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING"], "safe_new_artists": list(artists.values()), "safe_cast_assignments": [r for r in safe if r["credit"].get("credit_kind") == "cast"], "safe_artistic_team": [r for r in safe if r["credit"].get("credit_kind") == "artistic_team"], "safe_ensembles": [r for r in safe if r["credit"].get("credit_kind") == "ensemble"], "review_artist_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ARTIST_CONFLICT"], "review_character_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"], "review_unknown_roles": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ROLE_UNKNOWN"], "review_source_ambiguous": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_SOURCE_AMBIGUOUS"], "safe_event_credits": safe, "review_event_credits": review, "counts": counts}
+
+
+def _stage_credits_legacy(events: list[Any], resolutions: list[dict[str, Any]], snapshot: Any) -> dict[str, Any]:
+    work_by_event = {row.get("event_key"): row.get("work_id") for row in resolutions if row.get("work_id")}
+    all_rows = []
+    for event in events:
+        for raw in event.credits:
+            all_rows.append({"event_key": event.event_key, "credit": resolve_credit(raw, work_id=work_by_event.get(event.event_key), snapshot=snapshot)})
+    safe, review, seen, deduped = [], [], set(), []
+    for row in all_rows:
+        credit = row["credit"]
+        key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), credit["character_resolution"].get("character_id"))
+        if key in seen:
+            continue
+        seen.add(key)
+        deduped.append(row)
         (safe if credit["resolution_status"].startswith("SAFE_") else review).append(row)
     artists = {r["credit"]["artist_resolution"]["canonical_name"]: r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_NEW_ARTIST"}
     return {"safe_existing_artists": [r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING"], "safe_new_artists": list(artists.values()), "safe_cast_assignments": [r for r in safe if r["credit"].get("credit_kind") == "cast"], "safe_artistic_team": [r for r in safe if r["credit"].get("credit_kind") == "artistic_team"], "safe_ensembles": [r for r in safe if r["credit"].get("credit_kind") == "ensemble"], "review_artist_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ARTIST_CONFLICT"], "review_character_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"], "review_unknown_roles": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ROLE_UNKNOWN"], "review_source_ambiguous": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_SOURCE_AMBIGUOUS"], "safe_event_credits": safe, "review_event_credits": review, "counts": {"credits_raw": len(all_rows), "credits_safe": len(safe), "credits_review": len(review), "role_safe": sum(bool(r["credit"].get("canonical_role")) for r in safe), "role_review": sum(not bool(r["credit"].get("canonical_role")) for r in review), "artist_existing": sum(r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING" for r in safe), "artist_new_safe": sum(r["credit"]["artist_resolution"]["status"] == "SAFE_NEW_ARTIST" for r in safe), "artist_review": sum(r["credit"]["artist_resolution"]["status"].startswith("REVIEW") for r in review), "character_safe": sum(r["credit"]["character_resolution"]["status"] == "SAFE_CHARACTER" for r in safe), "character_review": sum(r["credit"]["character_resolution"]["status"].startswith("REVIEW") for r in review)}}
