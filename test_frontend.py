@@ -101,6 +101,17 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn("organizations:selected('organization')", self.schedule)
         self.assertIn("venues:selected('venue')", self.schedule)
 
+    def test_location_search_normalizes_accents_and_common_transliterations(self):
+        self.assertIn("function normalizeLocationKey(value)", self.i18n)
+        self.assertIn("function locationMatches(query,candidate)", self.i18n)
+        self.assertIn("zurich:'Zürich'", self.i18n)
+        self.assertIn("zuerich:'Zürich'", self.i18n)
+        self.assertIn("munich:'München'", self.i18n)
+        self.assertIn("muenchen:'München'", self.i18n)
+        self.assertIn("'theatre des champs elysees':'Théâtre des Champs-Élysées'", self.i18n)
+        self.assertIn("input.id!=='locationSearch'", self.i18n)
+        self.assertIn("canonicalizeLocationInput(input.value)", self.i18n)
+
 
 if __name__ == "__main__":
     unittest.main()
