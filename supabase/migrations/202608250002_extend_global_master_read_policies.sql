@@ -1,5 +1,5 @@
 -- Global Master read-only visibility for the Cloud Pipeline snapshot.
--- Intentionally not executed in this task.
+-- Executed once in the approved final-unblock task; retain as migration history.
 alter table public.artists enable row level security;
 alter table public.artist_aliases enable row level security;
 alter table public.characters enable row level security;
