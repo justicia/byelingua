@@ -31,16 +31,16 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
     try:
         summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", output_dir=output_dir, snapshot_path=snapshot_path)
         status = classify_summary(summary)
-    except KeyError:
-        summary = {"venue": venue_id, "season": target["season"], "source_capability": "ADAPTER_REQUIRED", "counts": {"writes": 0}, "passed": False}
+    except (KeyError, ModuleNotFoundError, ValueError):
+        summary = {"venue": venue_id, "season": target["season"], "source_capability": "ADAPTER_REQUIRED", "counts": {"writes": 0}, "passed": False, "failure_reason": "No verified reusable venue adapter is registered"}
         status = "ADAPTER_REQUIRED"
     except Exception as exc:
         summary = {"venue": venue_id, "season": target["season"], "source_capability": "FAILED", "counts": {"writes": 0}, "passed": False, "failure_reason": str(exc)[:300]}
         status = "FAILED"
     result = {"venue_id": venue_id, "season": target["season"], "status": status, "production_writes": 0, "summary": summary}
     output_dir.mkdir(parents=True, exist_ok=True)
-    structure_type = "JSON_LD" if venue_id == "opernhaus_zurich" else "STRUCTURED_HTML_LISTING"
-    (output_dir / "source_structure.json").write_text(json.dumps({"venue_id": venue_id, "structure_type": structure_type, "confidence": "HIGH", "source": target.get("schedule_source")}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    structure_type = target.get("structure_type") or ("JSON_LD" if venue_id == "opernhaus_zurich" else "STRUCTURED_HTML_LISTING")
+    (output_dir / "source_structure.json").write_text(json.dumps({"venue_id": venue_id, "source_status": target.get("source_status", "UNVERIFIED"), "structure_type": structure_type, "confidence": "HIGH", "source": target.get("schedule_source")}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if status == "READY_FOR_APPROVAL" and (output_dir / "final_staging.json").exists():
         manifest = build_approval_manifest(summary, output_dir / "final_staging.json", run_id=str(summary.get("run_id", "local")), commit=str(summary.get("git_commit", "unknown")))
         (output_dir / "approval_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -49,7 +49,7 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
 
 
 def build_batch_summary(results: list[dict[str, Any]], *, season: str, batch_run_id: str, git_commit: str) -> dict[str, Any]:
-    counts = {"ready_for_approval": 0, "review_required": 0, "source_blocked": 0, "adapter_required": 0, "failed": 0}
+    counts = {"ready_for_approval": 0, "review_required": 0, "source_blocked": 0, "source_partial": 0, "adapter_required": 0, "failed": 0}
     for result in results:
         key = result["status"].lower()
         if key in counts:
