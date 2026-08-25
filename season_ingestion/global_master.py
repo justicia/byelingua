@@ -27,7 +27,8 @@ class GlobalMasterError(RuntimeError):
 
 def normalize_identity(value: str) -> str:
     """Shared deterministic identity key for names from source and Global Master."""
-    value = unicodedata.normalize("NFKD", str(value or "")).casefold().replace("ß", "ss")
+    value = str(value or "").translate(str.maketrans({"ł": "l", "Ł": "L", "đ": "d", "Đ": "D", "ø": "o", "Ø": "O"}))
+    value = unicodedata.normalize("NFKD", value).casefold().replace("ß", "ss")
     value = "".join(char for char in value if not unicodedata.combining(char) and unicodedata.category(char) != "Cf")
     value = re.sub(r"\([^)]*(?:\d{3,4}|born|died|b\.|d\.)[^)]*\)", " ", value)
     value = re.sub(r"\b(?:composer|composed by|music by)\s*[:\-]?\s*", " ", value)
@@ -90,6 +91,9 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
         entities[kind] = rows
     composer_aliases = fetch("composer_aliases", "id,composer_id,alias,language,source")
     work_aliases = fetch("work_aliases", "id,work_id,alias,language,source")
+    artist_aliases = fetch("artist_aliases", "id,artist_id,alias,language,source")
+    character_aliases = fetch("character_aliases", "id,character_id,alias,language,source")
+    work_characters = fetch("work_characters", "id,work_id,canonical_name,character_uid")
     loaded_at = datetime.now(timezone.utc).isoformat()
     health = {
         "preflight_status": "PASS" if entities["composer"] and entities["work"] else "FAIL",
@@ -111,6 +115,9 @@ def load_global_snapshot(*, path: Path | None = None) -> GlobalEntitySnapshot:
         entities=entities,
         composer_aliases=composer_aliases,
         work_aliases=work_aliases,
+        artist_aliases=artist_aliases,
+        character_aliases=character_aliases,
+        work_characters=work_characters,
         health=health,
     )
     snapshot.validate()
@@ -149,17 +156,19 @@ def resolve_entity(kind: str, raw_name: str, snapshot: GlobalEntitySnapshot) -> 
     if len(canonical_matches) == 1:
         row = canonical_matches[0]
         return {"status": "existing", "entity_id": row.get("id"), "canonical_name": row.get("canonical_name"), "match_method": "exact", "lookup_key": lookup_key, "reason": f"canonical exact global {kind} match"}
-    if kind == "composer":
-        composer_by_id = {row.get("id"): row for row in rows}
+    alias_rows = getattr(snapshot, f"{kind}_aliases", [])
+    if alias_rows:
+        id_field = f"{kind}_id"
+        by_id = {row.get("id"): row for row in rows}
         alias_matches = []
-        for alias in snapshot.composer_aliases:
-            if lookup_key == normalize_identity(str(alias.get("alias") or "")) and alias.get("composer_id") in composer_by_id:
-                alias_matches.append((composer_by_id[alias["composer_id"]], alias))
+        for alias in alias_rows:
+            if lookup_key == normalize_identity(str(alias.get("alias") or "")) and alias.get(id_field) in by_id:
+                alias_matches.append((by_id[alias[id_field]], alias))
         if len(alias_matches) == 1:
             row, alias = alias_matches[0]
             return {"status": "existing", "entity_id": row.get("id"), "canonical_name": row.get("canonical_name"), "matched_alias": alias.get("alias"), "match_method": "alias", "lookup_key": lookup_key, "reason": "known composer alias match"}
-        normalized_matches = [row for row in rows if lookup_key == normalize_identity(str(row.get("canonical_name") or ""))]
-        if len(normalized_matches) == 1:
-            row = normalized_matches[0]
-            return {"status": "existing", "entity_id": row.get("id"), "canonical_name": row.get("canonical_name"), "match_method": "normalized", "lookup_key": lookup_key, "reason": "normalized global composer match"}
+    normalized_matches = [row for row in rows if lookup_key == normalize_identity(str(row.get("canonical_name") or row.get("artist_name") or ""))]
+    if len(normalized_matches) == 1:
+        row = normalized_matches[0]
+        return {"status": "existing", "entity_id": row.get("id"), "canonical_name": row.get("canonical_name") or row.get("artist_name"), "match_method": "normalized", "lookup_key": lookup_key, "reason": f"normalized global {kind} match"}
     return {"status": "review_required", "entity_id": None, "lookup_key": lookup_key, "candidate_matches": [row.get("canonical_name") for row in canonical_matches], "reason": f"no unique global {kind} match; do not auto-create"}
