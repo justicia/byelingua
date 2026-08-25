@@ -35,6 +35,43 @@ NON_CHARACTER_TERMS = {
     "costumes",
     "lumieres",
     "lumières",
+    "musical conductor",
+    "stage director",
+    "chorus conductor",
+    "lighting",
+    "set designer",
+    "costumes",
+    "choreography",
+    "orchestra",
+    "szenische einstudierung",
+    "textbearbeitung",
+    "kampfmeister",
+    "puppenbau",
+    "puppencoach",
+    "iluminator",
+    "children's chorus director",
+    "bajo",
+    "contratenor",
+    "bass",
+    "baritone",
+    "mezzo",
+}
+
+VOICE_TYPE_TERMS = {
+    "soprano", "mezzo", "mezzo-soprano", "tenor", "bass", "baritone",
+    "contratenor", "bajo", "sopran", "mezzosopran", "bariton",
+}
+
+ENSEMBLE_TERMS = {
+    "ensemble", "chorus", "choir", "chor", "children's chorus",
+    "vier edelknaben", "three ladies", "three boys",
+}
+
+PRODUCTION_ROLE_TERMS = {
+    "conductor", "musical conductor", "stage director", "chorus conductor",
+    "lighting", "set designer", "costumes", "choreography", "orchestra",
+    "szenische einstudierung", "textbearbeitung", "kampfmeister", "puppenbau",
+    "puppencoach", "iluminator", "children's chorus director", "director",
 }
 
 
@@ -75,6 +112,41 @@ def is_character(raw_character):
     }
 
     return key not in non_character_keys
+
+
+def _clean_lookup_label(value):
+    """Return a lookup-only label while preserving the caller's raw value."""
+    value = str(value or "").strip()
+    value = re.sub(r"\s*[/／]\s*$", "", value).strip()
+    return value
+
+
+def parse_source_label(raw_character):
+    """Classify a legacy source label without assigning global identity."""
+    raw = str(raw_character or "").strip()
+    lookup = _clean_lookup_label(raw)
+    key = normalize_key(lookup).replace("-", " ")
+
+    if not raw:
+        return {"class": "AMBIGUOUS", "raw": raw, "lookup": lookup}
+    if key in {normalize_key(v).replace("-", " ") for v in VOICE_TYPE_TERMS}:
+        return {"class": "VOICE_TYPE", "raw": raw, "lookup": lookup}
+    if key in {normalize_key(v).replace("-", " ") for v in ENSEMBLE_TERMS}:
+        return {"class": "ENSEMBLE", "raw": raw, "lookup": lookup}
+    if key in {normalize_key(v).replace("-", " ") for v in PRODUCTION_ROLE_TERMS}:
+        return {"class": "PRODUCTION_ROLE", "raw": raw, "lookup": lookup}
+    if "/" in lookup or "／" in lookup:
+        return {"class": "COMPOSITE_DOUBLE_ROLE", "raw": raw, "lookup": lookup}
+    if re.search(r"\s[-–—]\s*(?:schauspieler(?:in)?|actor|actress)\s*$", lookup, re.I):
+        base = re.sub(r"\s[-–—]\s*(?:schauspieler(?:in)?|actor|actress)\s*$", "", lookup, flags=re.I).strip()
+        return {"class": "PERFORMER_VARIANT", "raw": raw, "lookup": base, "descriptor": lookup[len(base):].strip()}
+    if "," in lookup:
+        base, descriptor = lookup.split(",", 1)
+        if base.strip() and descriptor.strip():
+            return {"class": "DESCRIPTOR_CHARACTER", "raw": raw, "lookup": base.strip(), "descriptor": descriptor.strip()}
+    if not is_character(lookup):
+        return {"class": "PRODUCTION_ROLE", "raw": raw, "lookup": lookup}
+    return {"class": "SIMPLE_CHARACTER", "raw": raw, "lookup": lookup}
 
 
 def load_character_registry():
@@ -193,23 +265,16 @@ def resolve_character(
                 "source": "registry",
             }
 
-    fallback_identity_key = ":".join(
-        [
-            normalize_key(composer),
-            normalize_key(work_title),
-            raw_key,
-        ]
-    )
-
     return {
-        "kind": "character",
-        "identity_key": fallback_identity_key,
-        "canonical_name": raw_character,
+        "kind": "review",
+        "review_code": "REVIEW_CANONICAL_NAME",
+        "identity_key": None,
+        "canonical_name": None,
         "raw_character": raw_character,
         "composer": composer,
         "work_title": work_title,
         "aliases": {},
-        "source": "fallback",
+        "source": "unresolved",
     }
 
 def normalize_character_credit(
