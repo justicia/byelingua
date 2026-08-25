@@ -1,6 +1,11 @@
 import unittest
 
-from jobs.build_character_master_phase2 import _classify_row, _identity_key
+from jobs.build_character_master_phase2 import (
+    _classify_row,
+    _identity_key,
+    reclassify_work_rows,
+    simulate_credit_impact,
+)
 from normalization.characters import parse_source_label, resolve_character
 
 
@@ -63,6 +68,79 @@ class CharacterMasterPhase2Tests(unittest.TestCase):
     def test_unknown_catalog_label_remains_review(self):
         result = _classify_row({"id": "a", "work_id": "w", "canonical_name": "Unknown label"}, {"canonical_roles": [], "aliases": []})
         self.assertEqual(result["primary_classification"], "REVIEW_CANONICAL_SOURCE")
+
+    def test_hermann_is_work_scoped_against_unrelated_global_name(self):
+        master = {
+            "characters": [{"id": "queen-hermann", "canonical_name": "Hermann"}],
+            "character_aliases": [],
+            "work_characters": [{"work_id": "queen", "character_uid": "queen-hermann", "canonical_name": "Hermann"}],
+        }
+        tann = {"work_title": "Tannhäuser", "composer": "Richard Wagner", "canonical_roles": ["Hermann, Landgraf von Thüringen"], "aliases": {}, "evidence_sources": []}
+        queen = {"work_title": "The Queen of Spades", "composer": "Pyotr Ilyich Tchaikovsky", "canonical_roles": ["Hermann"], "aliases": {}, "evidence_sources": []}
+        tann_row = _classify_row({"id": "t", "work_id": "tann", "canonical_name": "Hermann"}, tann, master)
+        queen_row = _classify_row({"id": "q", "work_id": "queen", "canonical_name": "Hermann"}, queen, master)
+        self.assertIn(tann_row["primary_classification"], {"SAFE_NEW_CHARACTER", "SAFE_NEW_ALIAS"})
+        self.assertEqual(queen_row["primary_classification"], "SAFE_LINK_EXISTING")
+        self.assertNotEqual(tann_row["candidate_key"], queen_row["candidate_key"])
+
+    def test_same_name_unrelated_work_does_not_auto_merge_or_block_safe_new(self):
+        master = {
+            "characters": [{"id": "old", "canonical_name": "Figaro"}],
+            "character_aliases": [],
+            "work_characters": [{"work_id": "barbiere", "character_uid": "old", "canonical_name": "Figaro"}],
+        }
+        catalog = {"work_title": "Le nozze di Figaro", "composer": "Wolfgang Amadeus Mozart", "canonical_roles": ["Figaro"], "aliases": {}, "evidence_sources": []}
+        result = _classify_row({"id": "f", "work_id": "figaro", "canonical_name": "Figaro"}, catalog, master)
+        self.assertEqual(result["primary_classification"], "SAFE_NEW_CHARACTER")
+        self.assertEqual(result["proposed_character_id"], result["candidate_key"])
+
+    def test_verified_wotan_shared_identity_can_reuse_global_character(self):
+        master = {
+            "characters": [{"id": "wotan", "canonical_name": "Wotan"}],
+            "character_aliases": [{"character_id": "wotan", "alias": "Der Wanderer"}],
+            "work_characters": [{"work_id": "walkure", "character_uid": "wotan", "canonical_name": "Wotan"}],
+            "verified_shared_identity": [{"character_uid": "wotan", "work_ids": ["siegfried"]}],
+        }
+        catalog = {"work_title": "Siegfried", "composer": "Richard Wagner", "canonical_roles": ["Der Wanderer"], "aliases": {}, "evidence_sources": []}
+        result = _classify_row({"id": "w", "work_id": "siegfried", "canonical_name": "Der Wanderer"}, catalog, master)
+        self.assertEqual(result["primary_classification"], "SAFE_LINK_EXISTING")
+        self.assertEqual(result["proposed_character_id"], "wotan")
+
+    def test_same_work_relationship_is_safe_link_existing(self):
+        master = {
+            "characters": [{"id": "figaro-id", "canonical_name": "Figaro"}],
+            "character_aliases": [],
+            "work_characters": [{"work_id": "figaro", "character_uid": "figaro-id", "canonical_name": "Figaro"}],
+        }
+        catalog = {"work_title": "Le nozze di Figaro", "composer": "Wolfgang Amadeus Mozart", "canonical_roles": ["Figaro"], "aliases": {}, "evidence_sources": []}
+        result = _classify_row({"id": "f", "work_id": "figaro", "canonical_name": "Figaro"}, catalog, master)
+        self.assertEqual(result["primary_classification"], "SAFE_LINK_EXISTING")
+        self.assertEqual(result["proposed_character_id"], "figaro-id")
+
+    def test_figaro_aliases_are_safe_new_alias_when_canonical_is_safe(self):
+        rows = [
+            {"id": "c", "work_id": "figaro", "canonical_name": "Count Almaviva"},
+            {"id": "g", "work_id": "figaro", "canonical_name": "Graf Almaviva"},
+        ]
+        results = reclassify_work_rows(rows, "Le nozze di Figaro", "Wolfgang Amadeus Mozart", {})
+        self.assertEqual([row["primary_classification"] for row in results], ["SAFE_NEW_ALIAS", "SAFE_NEW_ALIAS"])
+        self.assertEqual(results[0]["proposed_character_id"], results[1]["proposed_character_id"])
+
+    def test_credit_impact_uses_event_credit_occurrences_not_work_rows(self):
+        staged = [
+            {"work_character_id": "a", "primary_classification": "SAFE_NEW_CHARACTER"},
+            {"work_character_id": "b", "primary_classification": "SAFE_NEW_ALIAS"},
+        ]
+        event_credits = [
+            {"work_character_id": "a", "character_review": True},
+            {"work_character_id": "b", "resolution_status": "review"},
+            {"work_character_id": "x", "character_review": True},
+        ]
+        self.assertEqual(simulate_credit_impact(event_credits, staged), {
+            "event_credit_character_review_before": 3,
+            "event_credit_unlockable_after_character_staging": 2,
+            "event_credit_character_review_after": 1,
+        })
 
 
 if __name__ == "__main__":
