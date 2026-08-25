@@ -19,7 +19,7 @@ ROLE_REVIEW_LABELS = {"inszenierung", "mise en scène", "austattung", "ausstattu
 CAST_ROLE_LABELS = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone", "schauspieler"}
 VOICE_TYPE_LABELS = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone"}
 CONDUCTOR_LABELS = {"musikalische leitung", "conductor", "musical director", "chorus master", "chorus director", "choreinstudierung"}
-ARTISTIC_LABELS = ROLE_REVIEW_LABELS | CONDUCTOR_LABELS | {"orchester", "orchestra", "chor", "choir", "ensemble", "music group", "statisten", "extras"}
+ARTISTIC_LABELS = ROLE_REVIEW_LABELS | CONDUCTOR_LABELS | {"orchester", "orchestra", "chor", "choir", "ensemble", "music group", "statisten", "extras", "choreografie", "video", "austattung"}
 
 
 def _jsonld_events(html_text: str) -> list[dict]:
