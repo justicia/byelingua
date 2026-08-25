@@ -59,8 +59,18 @@
     text=text.normalize('NFKD').replace(/[\u0300-\u036f]/g,'');
     return text.replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
   }
+  const canonicalLocationAliases={
+    zurich:'Zürich',zuerich:'Zürich',
+    munich:'München',muenchen:'München',
+    'theatre des champs elysees':'Théâtre des Champs-Élysées'
+  };
+  function canonicalizeLocationInput(value){
+    const key=normalizeLocationKey(value);
+    return canonicalLocationAliases[key]||value;
+  }
   function locationSearchKeys(value){
-    const raw=String(value||'').trim().toLowerCase();
+    const canonical=canonicalizeLocationInput(value);
+    const raw=String(canonical||'').trim().toLowerCase();
     const keys=new Set([normalizeLocationKey(raw)]);
     const german=raw
       .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
@@ -74,15 +84,6 @@
     const queryKeys=locationSearchKeys(query), candidateKeys=locationSearchKeys(candidate);
     if(!queryKeys.length)return true;
     return queryKeys.some(q=>candidateKeys.some(c=>c.includes(q)||q.includes(c)));
-  }
-  const canonicalLocationAliases={
-    zurich:'Zürich',zuerich:'Zürich',
-    munich:'München',muenchen:'München',
-    'theatre des champs elysees':'Théâtre des Champs-Élysées'
-  };
-  function canonicalizeLocationInput(value){
-    const key=normalizeLocationKey(value);
-    return canonicalLocationAliases[key]||value;
   }
   function installScheduleLocationAliasBridge(){
     document.addEventListener('input',event=>{
