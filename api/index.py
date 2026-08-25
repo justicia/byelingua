@@ -2180,7 +2180,7 @@ def schedule_event_detail(event_id):
     event["room"] = base[0].get("room")
     programme = supabase_service(
         "GET", "/rest/v1/event_programme",
-        params={"event_id": f"eq.{internal_id}", "select": '"order",works(title,composer)', "order": '"order"'},
+        params={"event_id": f"eq.{internal_id}", "select": '"order",works(id,title,composer)', "order": '"order"'},
     ) or []
     credits = supabase_service(
         "GET", "/rest/v1/event_credits",
@@ -2188,6 +2188,9 @@ def schedule_event_detail(event_id):
     ) or []
     event["programme"] = normalized_programme(event, programme)
     event["credits"] = [_serialize_event_credit(row) for row in credits]
+    work_ids = list(dict.fromkeys(str((row.get("works") or {}).get("id")) for row in programme if (row.get("works") or {}).get("id")))
+    skeleton = supabase_service("GET", "/rest/v1/work_characters", params={"work_id": f"in.({','.join(work_ids)})", "select": "id,work_id,character_uid,canonical_name", "order": "canonical_name", "limit": "3000"}) if work_ids else []
+    event["work_character_skeleton"] = [{"character_id": row.get("character_uid") or row.get("id"), "canonical_name": row.get("canonical_name"), "artist_id": None, "artist_name": None} for row in (skeleton or [])]
     return {"event": event}
 
 

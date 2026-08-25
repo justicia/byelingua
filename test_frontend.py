@@ -112,6 +112,10 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn("input.id!=='locationSearch'", self.i18n)
         self.assertIn("canonicalizeLocationInput(input.value)", self.i18n)
 
+    def test_unassigned_work_character_is_empty_cast_cell(self):
+        self.assertIn("event.work_character_skeleton", (ROOT / "schedule.html").read_text(encoding="utf-8"))
+        self.assertIn("<strong>—</strong>", (ROOT / "schedule.html").read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()
