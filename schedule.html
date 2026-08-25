@@ -319,7 +319,9 @@ const _roleLabel=value=>_presentationRoleMap[String(value||'').toLowerCase()]||f
 renderPresentationCredits=function(event){
  const credits=event.credits||[], opera=['opera','operetta'].includes(normalizedUi(event.event_type));
  if(!opera){const rows=credits.map(x=>`<li>${artistLink(x)} · ${escapeHtml(_roleLabel(x.role||'Artist'))}</li>`).join('');return `<h4>Artists / Artistic Team</h4><ul>${rows||'<li class="hint">暂无 artists</li>'}</ul>`}
- const cast=credits.filter(x=>x.character).map(x=>`<li><span>${escapeHtml(x.character)}</span><strong>${artistLink(x)}</strong></li>`).join('');
+ const assigned=new Set(credits.filter(x=>x.character).map(x=>String(x.character)));
+ const skeleton=(event.work_character_skeleton||[]).filter(x=>x.canonical_name&&!assigned.has(String(x.canonical_name))).map(x=>`<li><span>${escapeHtml(x.canonical_name)}</span><strong>—</strong></li>`).join('');
+ const cast=credits.filter(x=>x.character).map(x=>`<li><span>${escapeHtml(x.character)}</span><strong>${artistLink(x)}</strong></li>`).join('')+skeleton;
  const grouped=new Map();credits.filter(x=>!x.character).forEach(x=>{const label=_roleLabel(x.role||'Artistic Team');if(!grouped.has(label))grouped.set(label,[]);grouped.get(label).push(x)});
  const team=[...grouped].map(([label,rows])=>`<div class="team-group"><h5>${escapeHtml(label)}</h5><ul>${rows.map(x=>`<li>${artistLink(x)}</li>`).join('')}</ul></div>`).join('');
  return `<h4>Cast</h4><ul class="cast-list">${cast||'<li class="hint">暂无 cast</li>'}</ul><h4>Artistic Team</h4>${team||'<div class="hint">暂无 artistic team</div>'}`;
