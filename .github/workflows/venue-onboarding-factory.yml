@@ -51,6 +51,9 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,7 +66,9 @@ jobs:
         if: always()
         with:
           name: onboarding-${{ matrix.venue_id }}
-          path: onboarding-output/
+          path: |
+            onboarding-output/${{ matrix.venue_id }}/onboarding_status.json
+            onboarding-output/${{ matrix.venue_id }}/source_structure.json
           if-no-files-found: error
 
   summarize:
