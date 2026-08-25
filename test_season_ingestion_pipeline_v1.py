@@ -52,7 +52,7 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(events[0].programme[0]["composer"], "Sergei Rachmaninoff")
         self.assertEqual(events[0].credits[0]["credit_kind"], "artistic_team")
         self.assertEqual(events[0].credits[1]["artist_name"], "Elena Stikhina")
-        self.assertEqual(events[0].credits[1]["character"], "Soprano")
+        self.assertIsNone(events[0].credits[1].get("character"))
 
     def test_zurich_no_programme_evidence_is_not_a_work_candidate(self):
         settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
