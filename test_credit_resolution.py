@@ -47,6 +47,13 @@ def test_voice_type_never_becomes_character():
     assert result["canonical_role"] == "singer"
 
 
+def test_explicit_cast_character_uses_performer_role():
+    result = resolve_credit({"artist_name": "Jane Doe", "source_role": "Elisabeth", "credit_kind": "cast", "character": "Elisabeth"}, work_id="w1", snapshot=snapshot())
+    assert result["canonical_role"] == "performer"
+    assert result["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"
+    assert result["resolution_status"] != "REVIEW_ROLE_UNKNOWN"
+
+
 def test_work_scoped_character_resolution_and_review():
     s = snapshot(work_characters=[{"work_id": "w1", "canonical_name": "Elisabeth", "character_uid": "c1"}])
     safe = resolve_credit({"artist_name": "Jane Doe", "source_role": "Singer", "character": "Elisabeth"}, work_id="w1", snapshot=s)
@@ -73,7 +80,8 @@ def test_character_linkage_hard_blocks_jobs_and_allows_linked_characters():
     s.entities["character"] = [{"id": "c1", "canonical_name": "Der Wanderer"}]
     assert classify_unlinked_character({"canonical_name": "Stage Director"}, s)["classification"] == "NON_CHARACTER_CONTAMINATION"
     assert classify_unlinked_character({"canonical_name": "The Wanderer"}, s)["classification"] == "SAFE_LINK_EXISTING_CHARACTER"
-    assert classify_unlinked_character({"canonical_name": "Elisabeth"}, s)["classification"] == "SAFE_NEW_GLOBAL_CHARACTER"
+    assert classify_unlinked_character({"canonical_name": "Elisabeth"}, s, verified_original_names={"Elisabeth"})["classification"] == "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED"
+    assert classify_unlinked_character({"canonical_name": "Un Joven Pastor"}, s)["classification"] == "REVIEW_LOCALIZED_NAME"
 
 
 def test_review_never_enters_safe_staging_and_duplicates_are_deterministic():
