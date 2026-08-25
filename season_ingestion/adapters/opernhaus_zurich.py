@@ -17,8 +17,9 @@ DETAIL_RE = re.compile(r"https://www\.opernhaus\.ch/(?:en/)?spielplan/calendar/[
 JSONLD_RE = re.compile(r"<script[^>]+type=[\"']application/ld\+json[\"'][^>]*>(.*?)</script>", re.IGNORECASE | re.DOTALL)
 ROLE_REVIEW_LABELS = {"inszenierung", "mise en scène", "austattung", "ausstattung", "lichtgestaltung", "dramaturgie", "choreinstudierung", "kostüme", "kostümbild", "bühnenbild"}
 CAST_ROLE_LABELS = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone", "schauspieler"}
+VOICE_TYPE_LABELS = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone"}
 CONDUCTOR_LABELS = {"musikalische leitung", "conductor", "musical director", "chorus master", "chorus director", "choreinstudierung"}
-ARTISTIC_LABELS = ROLE_REVIEW_LABELS | CONDUCTOR_LABELS | {"orchester", "orchestra", "chor", "choir", "ensemble", "music group"}
+ARTISTIC_LABELS = ROLE_REVIEW_LABELS | CONDUCTOR_LABELS | {"orchester", "orchestra", "chor", "choir", "ensemble", "music group", "statisten", "extras"}
 
 
 def _jsonld_events(html_text: str) -> list[dict]:
@@ -98,13 +99,12 @@ def _credits_for(payload: dict, page_url: str) -> list[dict]:
         if not name:
             continue
         lowered = role.casefold()
-        kind = "cast" if lowered in CAST_ROLE_LABELS else "artistic_team"
+        is_voice_type = lowered in VOICE_TYPE_LABELS
+        kind = "cast"
         if performer.get("@type") == "MusicGroup" or lowered in {"orchester", "orchestra", "chor", "choir", "ensemble"}:
             kind = "ensemble"
         elif lowered in ARTISTIC_LABELS or any(label in lowered for label in CONDUCTOR_LABELS):
             kind = "artistic_team"
-        elif kind == "artistic_team":
-            kind = "review_required"
         credit = {
             "artist_name": name,
             "source_role": role,
@@ -117,7 +117,9 @@ def _credits_for(payload: dict, page_url: str) -> list[dict]:
         }
         # Voice type is performer metadata, never a dramatic Character.
         # Character assignment requires explicit official role evidence.
-        if kind == "cast" and lowered not in CAST_ROLE_LABELS:
+        if is_voice_type:
+            credit["voice_type"] = role
+        elif kind == "cast":
             credit["character"] = role
         credits.append(credit)
     return credits
@@ -230,3 +232,4 @@ class OpernhausZurichAdapter:
                 self.failed_months.append(detail_url)
                 self.last_errors.append({"url": detail_url, "error": f"{type(exc).__name__}: {exc}"})
         return sorted({event.event_key: event for event in output}.values(), key=lambda event: (event.date, event.start_time or "", event.event_key))
+
