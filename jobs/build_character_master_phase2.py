@@ -19,67 +19,6 @@ from pathlib import Path
 from normalization.characters import normalize_key, parse_source_label
 
 
-OFFICIAL_CATALOGS = {
-    "Tannhäuser": {
-        "original_language": "de",
-        "evidence_status": "CATALOG_READY",
-        "evidence_sources": [
-            {
-                "url": "https://www.staatsoper.de/stuecke/tannhaeuser",
-                "publisher": "Bayerische Staatsoper",
-                "type": "official_production_cast",
-            }
-        ],
-        "canonical_roles": [
-            "Hermann, Landgraf von Thüringen",
-            "Tannhäuser",
-            "Wolfram von Eschenbach",
-            "Walther von der Vogelweide",
-            "Biterolf",
-            "Heinrich der Schreiber",
-            "Reinmar von Zweter",
-            "Elisabeth, Nichte des Landgrafen",
-            "Venus",
-            "Ein junger Hirt",
-        ],
-        "aliases": {
-            "Ein junger Hirt": ["Un Joven Pastor"],
-            "Walther von der Vogelweide": ["Walter von der Vogelweide"],
-            "Wolfram von Eschenbach": ["Wolfram Von Eschenbach"],
-            "Heinrich der Schreiber": ["Heinrich Der Schreiber"],
-        },
-    },
-    "Le nozze di Figaro": {
-        "original_language": "it",
-        "evidence_status": "CATALOG_READY",
-        "evidence_sources": [
-            {
-                "url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
-                "publisher": "The Metropolitan Opera",
-                "type": "official_character_guide",
-            }
-        ],
-        "canonical_roles": [
-            "Il Conte Almaviva",
-            "La Contessa Almaviva",
-            "Figaro",
-            "Susanna",
-            "Cherubino",
-            "Marcellina",
-            "Bartolo",
-            "Basilio",
-            "Don Curzio",
-            "Barbarina",
-            "Antonio",
-        ],
-        "aliases": {
-            "Il Conte Almaviva": ["Count Almaviva", "Graf Almaviva"],
-            "La Contessa Almaviva": ["Countess Almaviva", "Gräfin Almaviva"],
-        },
-    },
-}
-
-
 def _git_json(revision: str, path: str) -> dict:
     git_executable = os.environ.get(
         "CHARACTER_MASTER_GIT_EXE",
@@ -272,10 +211,15 @@ def _classify_row(row: dict, catalog: dict | None, global_master: dict | None = 
     return base
 
 
-def reclassify_work_rows(rows: list[dict], work_title: str, composer: str, global_master: dict | None = None) -> list[dict]:
-    """Reclassify only a supplied Work slice; never expands the catalog or writes production."""
-    evidence = OFFICIAL_CATALOGS[work_title]
-    catalog = dict(evidence, work_title=work_title, composer=composer)
+def reclassify_work_rows(
+    rows: list[dict],
+    work_title: str,
+    composer: str,
+    catalog: dict,
+    global_master: dict | None = None,
+) -> list[dict]:
+    """Reclassify only a supplied Work slice; catalog evidence is an explicit input."""
+    catalog = dict(catalog, work_title=work_title, composer=composer)
     return [_classify_row(row, catalog, global_master or {}) for row in rows]
 
 
@@ -305,6 +249,7 @@ def build(
     phase1: dict,
     work_snapshot: dict | None = None,
     event_credits: list[dict] | None = None,
+    catalog_source: dict | None = None,
 ) -> tuple[dict, dict]:
     rows = phase1.get("rows") or []
     snapshot_works = {str(row.get("id")): row for row in (work_snapshot or {}).get("works", [])}
@@ -321,7 +266,7 @@ def build(
         snapshot = snapshot_works.get(work_id, {})
         title = _canonical_work_name(snapshot.get("title") or source_title)
         composer = str(snapshot.get("composer") or "").strip()
-        evidence = OFFICIAL_CATALOGS.get(title)
+        evidence = (catalog_source or {}).get(title)
         if evidence:
             catalog = dict(evidence)
             catalog["work_title"] = title

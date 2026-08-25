@@ -122,7 +122,15 @@ class CharacterMasterPhase2Tests(unittest.TestCase):
             {"id": "c", "work_id": "figaro", "canonical_name": "Count Almaviva"},
             {"id": "g", "work_id": "figaro", "canonical_name": "Graf Almaviva"},
         ]
-        results = reclassify_work_rows(rows, "Le nozze di Figaro", "Wolfgang Amadeus Mozart", {})
+        catalog = {
+            "canonical_roles": ["Il Conte Almaviva", "La Contessa Almaviva"],
+            "aliases": {
+                "Il Conte Almaviva": ["Count Almaviva", "Graf Almaviva"],
+                "La Contessa Almaviva": ["Countess Almaviva", "Gräfin Almaviva"],
+            },
+            "evidence_sources": [{"url": "https://example.test/figaro"}],
+        }
+        results = reclassify_work_rows(rows, "Le nozze di Figaro", "Wolfgang Amadeus Mozart", catalog, {})
         self.assertEqual([row["primary_classification"] for row in results], ["SAFE_NEW_ALIAS", "SAFE_NEW_ALIAS"])
         self.assertEqual(results[0]["proposed_character_id"], results[1]["proposed_character_id"])
 
