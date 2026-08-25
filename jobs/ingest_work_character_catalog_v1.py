@@ -3,16 +3,98 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from collections import Counter
 from pathlib import Path
 
 from jobs.build_character_master_phase2 import _classify_row
 from season_ingestion.work_character_catalog import EvidenceCache, WikidataReference, WikipediaReference, ingest_work_catalog
+from season_ingestion.global_master import load_global_snapshot, normalize_identity
 
 
 def _load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+PILOT_TITLES = ("Tannhäuser", "Le nozze di Figaro", "Carmen", "Die Zauberflöte", "Norma", "Otello", "Ariadne auf Naxos", "Lulu")
+
+
+def snapshot_payload(snapshot) -> dict:
+    return {
+        "generated_at": snapshot.generated_at,
+        "source": snapshot.source,
+        "freshness_seconds": snapshot.freshness_seconds,
+        "health": snapshot.health,
+        "entities": snapshot.entities,
+        "composer_aliases": snapshot.composer_aliases,
+        "work_aliases": snapshot.work_aliases,
+        "artist_aliases": snapshot.artist_aliases,
+        "character_aliases": snapshot.character_aliases,
+        "work_characters": snapshot.work_characters,
+    }
+
+
+def bootstrap_inputs(snapshot) -> tuple[dict, dict, dict]:
+    """Build the catalog and classifier inputs from one frozen read-only snapshot."""
+    payload = snapshot_payload(snapshot)
+    works = snapshot.entities.get("work", [])
+    composers = {str(row.get("id")): row for row in snapshot.entities.get("composer", [])}
+    works_by_id = {str(row.get("id")): row for row in works}
+    unlinked = [row for row in snapshot.work_characters if row.get("character_uid") is None]
+    work_input = []
+    phase2_rows = []
+    for relation in unlinked:
+        work = works_by_id.get(str(relation.get("work_id")))
+        composer = composers.get(str(work.get("composer_id"))) if work and work.get("composer_id") else None
+        row = {
+            "id": relation.get("id"),
+            "work_character_id": relation.get("id"),
+            "work_id": relation.get("work_id"),
+            "canonical_name": relation.get("canonical_name"),
+            "raw_source_name": relation.get("canonical_name"),
+            "work_title": work.get("title") if work else None,
+            "canonical_work_title": work.get("title") if work else None,
+            "composer_id": work.get("composer_id") if work else None,
+            "composer_canonical_name": composer.get("canonical_name") if composer else None,
+        }
+        phase2_rows.append(row)
+        if work:
+            work_input.append({
+                "work_id": work.get("id"),
+                "canonical_work_title": work.get("title"),
+                "composer_id": work.get("composer_id"),
+                "composer_canonical_name": composer.get("canonical_name") if composer else None,
+            })
+    unique_works = {str(row["work_id"]): row for row in work_input if row.get("work_id")}
+    return {"works": list(unique_works.values())}, {"rows": phase2_rows}, payload
+
+
+def bootstrap_preflight(snapshot, work_input: dict) -> dict:
+    works = snapshot.entities.get("work", [])
+    work_ids = {str(row.get("id")) for row in works}
+    unlinked = [row for row in snapshot.work_characters if row.get("character_uid") is None]
+    missing_work = [row for row in unlinked if str(row.get("work_id")) not in work_ids]
+    works_by_id = {str(row.get("id")): row for row in works}
+    composers = {str(row.get("id")): row for row in snapshot.entities.get("composer", [])}
+    pilot = []
+    for title in PILOT_TITLES:
+        matches = [row for row in work_input.get("works", []) if normalize_identity(row.get("canonical_work_title")) == normalize_identity(title)]
+        pilot.append({"title": title, "matches": matches})
+    return {
+        "characters": len(snapshot.entities.get("character", [])),
+        "character_aliases": len(snapshot.character_aliases),
+        "work_characters": len(snapshot.work_characters),
+        "linked": sum(row.get("character_uid") is not None for row in snapshot.work_characters),
+        "unlinked": len(unlinked),
+        "works_with_unlinked": len({str(row.get("work_id")) for row in unlinked if row.get("work_id")}),
+        "unlinked_rows_with_work": len(unlinked) - len(missing_work),
+        "unlinked_rows_missing_work": len(missing_work),
+        "works_with_composer_id": sum(bool(works_by_id.get(str(row.get("work_id")), {}).get("composer_id")) for row in unlinked if str(row.get("work_id")) in works_by_id),
+        "works_with_composer_name": sum(bool(composers.get(str(works_by_id.get(str(row.get("work_id")), {}).get("composer_id")), {}).get("canonical_name")) for row in unlinked if str(row.get("work_id")) in works_by_id),
+        "works_missing_composer_master": len({str(row.get("work_id")) for row in unlinked if str(row.get("work_id")) in works_by_id and (not works_by_id[str(row.get("work_id"))].get("composer_id") or not composers.get(str(works_by_id[str(row.get("work_id"))].get("composer_id"))))}),
+        "pilot": pilot,
+    }
 
 
 def _classifier_catalog(catalog: dict) -> dict:
@@ -38,14 +120,18 @@ def _classifier_catalog(catalog: dict) -> dict:
 
 
 def run(args: argparse.Namespace) -> dict:
-    if not args.global_master_snapshot:
-        raise RuntimeError("GLOBAL_MASTER_REQUIRED")
-    work_input = _load(args.work_input)
-    phase2 = _load(args.phase2_input)
+    replay_path = args.snapshot_file or args.global_master_snapshot
+    snapshot = load_global_snapshot(path=replay_path) if replay_path else load_global_snapshot()
+    work_input, phase2, snapshot_payload_data = bootstrap_inputs(snapshot)
+    if args.work_input:
+        work_input = _load(args.work_input)
+    if args.phase2_input:
+        phase2 = _load(args.phase2_input)
+    preflight = bootstrap_preflight(snapshot, work_input)
     cache = EvidenceCache(args.cache_dir, offline=args.offline)
     wikidata = WikidataReference(cache)
     wikipedia = WikipediaReference(cache)
-    global_master = _load(args.global_master_snapshot)
+    global_master = snapshot_payload_data
     entities = global_master.get("entities", {})
     composers = global_master.get("composers") or entities.get("composer") or []
     composer_by_id = {str(row.get("id")): row for row in composers if row.get("id")}
@@ -77,6 +163,15 @@ def run(args: argparse.Namespace) -> dict:
         work["composer_canonical_name"] = canonical_name
         resolved_works.append(work)
     works = resolved_works
+    all_works = works
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    snapshot_bytes = json.dumps(snapshot_payload_data, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    snapshot_hash = hashlib.sha256(snapshot_bytes).hexdigest()
+    (args.output_dir / "global_master_snapshot.json").write_bytes(snapshot_bytes + b"\n")
+    if preflight["unlinked_rows_missing_work"] or preflight["works_missing_composer_master"]:
+        return {"mode": "REPLAY" if replay_path else "LIVE_READONLY", "bootstrap_status": "INPUT_BLOCKED", "snapshot_hash": snapshot_hash, "preflight": preflight, "missing_work_character_ids": [row.get("id") for row in snapshot.work_characters if row.get("character_uid") is None and str(row.get("work_id")) not in {str(work.get("id")) for work in snapshot.entities.get("work", [])}]}
+    pilot_ids = {str(row.get("work_id")) for row in work_input.get("works", []) if normalize_identity(row.get("canonical_work_title")) in {normalize_identity(title) for title in PILOT_TITLES}}
+    works = [work for work in all_works if str(work.get("work_id")) in pilot_ids]
     catalogs = []
     wikipedia_rows = []
     evidence_rows = []
@@ -85,6 +180,17 @@ def run(args: argparse.Namespace) -> dict:
         catalogs.append(catalog)
         wikipedia_rows.extend([{**row, "work_id": work.get("work_id")} for row in wiki_rows])
         evidence_rows.extend(evidence)
+    pilot_catalogs = list(catalogs)
+    pilot_pass = any(row.get("work_match_diagnostics", {}).get("selected_qid") and row.get("evidence_status") in {"CATALOG_READY", "CATALOG_PARTIAL"} for row in pilot_catalogs)
+    if pilot_pass:
+        processed = {str(row.get("work_id")) for row in catalogs}
+        for work in all_works:
+            if str(work.get("work_id")) in processed:
+                continue
+            catalog, wiki_rows, evidence = ingest_work_catalog(work, wikidata, wikipedia)
+            catalogs.append(catalog)
+            wikipedia_rows.extend([{**row, "work_id": work.get("work_id")} for row in wiki_rows])
+            evidence_rows.extend(evidence)
 
     catalog_by_work = {str(row.get("work_id")): row for row in catalogs}
     phase2_rows = phase2.get("rows", [])
@@ -105,7 +211,6 @@ def run(args: argparse.Namespace) -> dict:
         staged.append(result)
         counts[result["primary_classification"]] += 1
 
-    args.output_dir.mkdir(parents=True, exist_ok=True)
     (args.output_dir / "wikidata_work_character_snapshot.json").write_text(json.dumps({"schema_version": "wikidata-work-character-snapshot-v1", "works": catalogs, "evidence": evidence_rows}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (args.output_dir / "wikipedia_character_reference.json").write_text(json.dumps({"schema_version": "wikipedia-character-reference-v1", "rows": wikipedia_rows}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     final = {
@@ -128,16 +233,17 @@ def run(args: argparse.Namespace) -> dict:
         },
     }
     (args.output_dir / "work_character_catalog_final_staging.json").write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return {"works": len(catalogs), "wikipedia_rows": len(wikipedia_rows), "classification_counts": dict(sorted(counts.items())), "works_with_composer_id": works_with_composer_id, "works_with_composer_name": works_with_composer_name, "works_missing_composer_master": works_missing_composer_master}
+    return {"works": len(catalogs), "wikipedia_rows": len(wikipedia_rows), "classification_counts": dict(sorted(counts.items())), "works_with_composer_id": works_with_composer_id, "works_with_composer_name": works_with_composer_name, "works_missing_composer_master": works_missing_composer_master, "snapshot_hash": snapshot_hash, "preflight": preflight, "pilot_works": len(pilot_catalogs), "pilot_pass": pilot_pass, "all_works_run": pilot_pass and len(catalogs) == len(all_works), "mode": "REPLAY" if replay_path else "LIVE_READONLY"}
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--work-input", type=Path, required=True)
-    parser.add_argument("--phase2-input", type=Path, required=True)
+    parser.add_argument("--work-input", type=Path)
+    parser.add_argument("--phase2-input", type=Path)
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/work-character-catalog-v1"))
     parser.add_argument("--cache-dir", type=Path, default=Path("artifacts/work-character-catalog-v1/cache"))
-    parser.add_argument("--global-master-snapshot", type=Path, required=True)
+    parser.add_argument("--global-master-snapshot", type=Path, help=argparse.SUPPRESS)
+    parser.add_argument("--snapshot-file", type=Path)
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     print(json.dumps(run(args), ensure_ascii=False, sort_keys=True))
