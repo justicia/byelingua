@@ -1,12 +1,14 @@
 {
-  "schema_version": "character-linkage-staging-v1",
-  "source": "supabase-read-only-audit",
-  "generated_at": "2026-08-25T08:36:12.683Z",
+  "schema_version": "character-linkage-staging-v2",
+  "source": "supabase-read-only-audit-plus-official-zurich-evidence",
+  "generated_at": "2026-08-25T08:52:27.228Z",
   "counts": {
     "SAFE_LINK_EXISTING_CHARACTER": 0,
-    "SAFE_NEW_GLOBAL_CHARACTER": 399,
+    "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED": 6,
     "NON_CHARACTER_CONTAMINATION": 75,
-    "REVIEW_CHARACTER_IDENTITY": 51
+    "REVIEW_LOCALIZED_NAME": 1,
+    "REVIEW_CANONICAL_NAME": 3,
+    "REVIEW_CHARACTER_IDENTITY": 440
   },
   "rows": [
     {
@@ -17,7 +19,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "00afd425-0ee2-4051-9050-af691f2a7905",
@@ -26,8 +28,8 @@
       "canonical_name": "Wurm",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "00dcebb0-c048-42cb-8cef-7c8623e077f9",
@@ -36,8 +38,8 @@
       "canonical_name": "Barnaba",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "019edc94-c2f3-45b6-8909-ca32cc5987e1",
@@ -47,7 +49,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "02001144-5ff9-49dd-b137-b0ef2481cd3c",
@@ -56,8 +58,8 @@
       "canonical_name": "Blonde",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "025efafe-5602-4a7f-b741-1cb8c0d19306",
@@ -67,7 +69,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "028050e1-ab27-48fe-8714-5f2456fa61d1",
@@ -96,8 +98,8 @@
       "canonical_name": "Guglielmo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "031afc40-62e9-4dfa-a603-9da34d361609",
@@ -106,8 +108,8 @@
       "canonical_name": "Kecal",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "033cabe9-e1b8-40bb-b81c-c14d7f651d83",
@@ -116,8 +118,8 @@
       "canonical_name": "Jeník",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0367e0ad-6559-47e2-82b7-e0d157d67c0c",
@@ -126,8 +128,8 @@
       "canonical_name": "Ballett 3. Akt: Venus",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "03e20a91-8a08-4433-96e5-a96c0f411be0",
@@ -136,8 +138,8 @@
       "canonical_name": "Leonardo’s Wife",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "041370c7-3743-4198-b2d0-66662064df10",
@@ -146,8 +148,8 @@
       "canonical_name": "Monostatos",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "04d3f0dd-63dc-44b6-a8fa-6e5f7f1c245f",
@@ -156,8 +158,8 @@
       "canonical_name": "Die Musik / Die Hoffnung / Echo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "051d1f8e-edfc-4315-9dd5-089d4907c667",
@@ -166,8 +168,8 @@
       "canonical_name": "Hans Sachs, Schuster",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0606470e-8d9c-4d0b-891d-f97b9ab1412e",
@@ -186,8 +188,8 @@
       "canonical_name": "Florestan",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "06438747-d80f-4e8f-a413-f84069baf2be",
@@ -196,8 +198,8 @@
       "canonical_name": "Schigolch, ein Greis",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "069f1957-3f08-4c33-bc8a-33898ef1c99a",
@@ -206,8 +208,8 @@
       "canonical_name": "Jacopo Fiesco",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "06bec284-197c-4a20-9903-275f2ceac78f",
@@ -226,8 +228,8 @@
       "canonical_name": "Madelon",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0883e501-f772-4612-af78-c7021d9a5c56",
@@ -246,8 +248,8 @@
       "canonical_name": "Marcello",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0a83208a-70f4-42b7-a752-a5a8d092c0c3",
@@ -257,7 +259,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0abe9d54-3d80-4822-855a-f26974471517",
@@ -266,8 +268,8 @@
       "canonical_name": "Grech",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0b386516-e10b-469d-875c-4e9fdcb2c57d",
@@ -276,8 +278,8 @@
       "canonical_name": "Elisabeth",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED",
+      "reason": "official Zürich Tannhäuser JSON-LD original-language dramatic role verified"
     },
     {
       "id": "0b811446-eeaf-41c7-be4e-5cfecc8830fa",
@@ -286,8 +288,8 @@
       "canonical_name": "Háta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0cfe61e6-02cd-4c71-9ead-f4c454b2a3f8",
@@ -296,8 +298,8 @@
       "canonical_name": "Isèpo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0dd0da1c-765f-43c3-9ad0-1a660019b621",
@@ -306,8 +308,8 @@
       "canonical_name": "Dr. Falke",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0e09ff20-ad6d-425b-97d5-d0fb1443cda2",
@@ -326,8 +328,8 @@
       "canonical_name": "Königin der Nacht",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0eb7a1da-36c1-40f8-85ce-9070c9e4b8fe",
@@ -336,8 +338,8 @@
       "canonical_name": "Hija de Herodías",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0ed21311-8a05-453a-af21-27b364c2037f",
@@ -346,8 +348,8 @@
       "canonical_name": "Frasquita",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0edd686a-1dc6-41c4-885a-f09268fc13d3",
@@ -356,8 +358,8 @@
       "canonical_name": "Micaëla",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0f376227-d716-40ad-b74f-bc3b482ed3f9",
@@ -366,8 +368,8 @@
       "canonical_name": "Adriana Lecouvreur",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0f3fe54a-3e36-4bb5-99f3-b4c8a3f60846",
@@ -376,8 +378,8 @@
       "canonical_name": "Stimme vom Himmel",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0f839d25-e1c3-4a74-837f-783658f37512",
@@ -386,8 +388,8 @@
       "canonical_name": "Servilia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "0ffbfba3-1c26-4fc7-8c02-ac93fe68adf6",
@@ -396,8 +398,8 @@
       "canonical_name": "Haushofmeister",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "12647680-9c7f-41b7-820c-b2dace560529",
@@ -406,8 +408,8 @@
       "canonical_name": "Primadonna/Ariadne",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1291cd2e-e14d-4a08-b775-95affa0bf173",
@@ -416,8 +418,8 @@
       "canonical_name": "Alvise Badoero",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "12d5eebd-ccde-4052-b361-07fdc42c9add",
@@ -426,8 +428,8 @@
       "canonical_name": "Titurel",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "13afa7b6-861e-4779-81e0-b1a30325cf5c",
@@ -436,8 +438,8 @@
       "canonical_name": "Groom",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "14109919-fa6d-4bbe-99b4-c74c1a85d20c",
@@ -446,8 +448,8 @@
       "canonical_name": "Polina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "148023bb-493b-4f45-95f3-ba40b69a797d",
@@ -456,8 +458,8 @@
       "canonical_name": "Laodice",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "14c1c627-3054-43b3-9dc9-d305b108010e",
@@ -466,8 +468,8 @@
       "canonical_name": "Violetta Valéry",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "151cd57a-2d94-4ede-8f89-a6033d2f6a6f",
@@ -476,8 +478,8 @@
       "canonical_name": "Poisson",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "16079fda-dbbc-4cc7-8af2-828e8e388e83",
@@ -486,8 +488,8 @@
       "canonical_name": "Mönch",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "16728ab2-697e-4199-a048-0c60bdeabec7",
@@ -496,8 +498,8 @@
       "canonical_name": "Blonde - Schauspielerin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1678e3f9-9e22-4a46-8d82-c221c44e9c9f",
@@ -516,8 +518,8 @@
       "canonical_name": "Nourabad",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1736d2dc-4801-475e-9636-19f20ed00a3d",
@@ -527,7 +529,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "181bc869-cd9e-4c60-8261-2b573a17ee1a",
@@ -536,8 +538,8 @@
       "canonical_name": "Surin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "187bcc97-9ae9-4444-89e9-978c517c9fde",
@@ -557,7 +559,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "19670dcd-7b95-4cfa-a5a9-91b6d239fae7",
@@ -566,8 +568,8 @@
       "canonical_name": "Basilio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1ad89664-3085-4e34-b45a-53e68c478170",
@@ -586,8 +588,8 @@
       "canonical_name": "Désiré / El barón Rouvel",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1b0dad21-3ad5-47b9-9066-23b824b343f1",
@@ -596,8 +598,8 @@
       "canonical_name": "Mesner",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1b23d64d-1e9d-49c6-8a02-71d4bd9a30d9",
@@ -606,8 +608,8 @@
       "canonical_name": "Leonardo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1baf0320-d109-4d6c-a1d3-c104a98c54c3",
@@ -616,8 +618,8 @@
       "canonical_name": "Najade",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1d638b0d-3a49-4fe1-baa2-22cff86a1385",
@@ -627,7 +629,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1d916d1e-c565-4bff-82df-a62aec02afc8",
@@ -636,8 +638,8 @@
       "canonical_name": "Lodovico",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1e9bc3b7-33e5-4b81-b893-ed1ded84b70c",
@@ -646,8 +648,8 @@
       "canonical_name": "Cesare Angelotti",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1f56a820-a20b-48ac-81bf-dafdb706e8f2",
@@ -666,8 +668,8 @@
       "canonical_name": "Antonio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "1ffd0ddb-02e0-4e17-8b91-a3b44e2219c9",
@@ -676,8 +678,8 @@
       "canonical_name": "Figurenbauer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "21302435-ec9f-4796-af26-92f060bb1942",
@@ -706,8 +708,8 @@
       "canonical_name": "Lady Macbeth",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "21e891bf-3c3e-48b4-9185-86f39815c3fc",
@@ -716,8 +718,8 @@
       "canonical_name": "Masetto",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "22c64ed3-d918-4bc7-b4c8-d08304f458fd",
@@ -726,8 +728,8 @@
       "canonical_name": "Don Ottavio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "22d16690-842a-4521-b7f9-01e255bb19c9",
@@ -747,7 +749,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "230928c2-f04f-46e7-bb19-e801082f367b",
@@ -756,8 +758,8 @@
       "canonical_name": "Mario Cavaradossi",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "236b0519-f761-4ceb-9d3a-dcb4b03cb97d",
@@ -766,8 +768,8 @@
       "canonical_name": "Don Carlos",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "23ea6c10-28d1-4937-8ac0-6518d38d414f",
@@ -776,8 +778,8 @@
       "canonical_name": "1. Dame",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "24aced30-7ef3-4237-89b7-e7a5fb701779",
@@ -786,8 +788,8 @@
       "canonical_name": "Jesús",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "24ecbc82-8b31-492d-9821-43321f60d80e",
@@ -796,8 +798,8 @@
       "canonical_name": "Riccardo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "24f28353-f93c-4d0c-825d-c55e5371250a",
@@ -806,8 +808,8 @@
       "canonical_name": "Grand Inquisiteur",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "24f6cdb9-ab83-4755-bef4-182826c1fbc4",
@@ -816,8 +818,8 @@
       "canonical_name": "2. Dame",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "252ce7a4-66d0-4175-932a-9b6c5e893036",
@@ -826,8 +828,8 @@
       "canonical_name": "Frank, Pauls Freund",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "256e98ed-9dea-414f-899c-788315378da9",
@@ -836,8 +838,8 @@
       "canonical_name": "Belmonte - Schauspieler",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "25bda5e1-07b7-4ffb-aaac-09a07b682e82",
@@ -846,8 +848,8 @@
       "canonical_name": "Desdemona",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "263895e3-d7ed-4869-b0e4-5422981a524e",
@@ -856,8 +858,8 @@
       "canonical_name": "La Gioconda",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "268b2a78-0ef9-4026-ba08-0e4f3a17f0c0",
@@ -867,7 +869,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "269aaa7f-9166-4783-84ef-6bdddf451b76",
@@ -876,8 +878,8 @@
       "canonical_name": "Borov / Lorek",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "271f5c4b-967a-4bf0-9b3e-b4a267d3c651",
@@ -886,8 +888,8 @@
       "canonical_name": "Feklusa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "282eb0bd-3f4f-4d44-adc7-14cd943f7eaf",
@@ -896,8 +898,8 @@
       "canonical_name": "Mícha",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "28346963-86ce-4c4e-8378-ea42e1611648",
@@ -916,8 +918,8 @@
       "canonical_name": "Dikoi",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "296c0119-b8d0-4386-afdd-f189a96e61ff",
@@ -926,8 +928,8 @@
       "canonical_name": "Der damalige Parsifal",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "2981cfe5-3e91-4cf8-af94-ec7bf8f04884",
@@ -936,8 +938,8 @@
       "canonical_name": "Méphistophélès",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "2aa50e53-8f19-426d-8237-caf4fdcc2b67",
@@ -956,8 +958,8 @@
       "canonical_name": "Veit Pogner, Goldschmied",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "2e488ab4-a9ff-4567-9d40-27d445e1e9b3",
@@ -967,7 +969,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "2e61446c-92f4-42b5-808d-fd960b0d1376",
@@ -976,8 +978,8 @@
       "canonical_name": "Miller",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "2e995dad-ec3d-4b90-a02b-53f1b83a8c9b",
@@ -986,8 +988,8 @@
       "canonical_name": "Farnace",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "2f06eb24-d9ec-4a03-9342-118e7b52b27f",
@@ -1006,8 +1008,8 @@
       "canonical_name": "Countess Olga Sharev",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3068610e-efe9-4ac0-90b6-b504eb6877fc",
@@ -1016,8 +1018,8 @@
       "canonical_name": "Tenor/Bacchus",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "30af35ac-4c7b-4079-b5a1-bb9a3cf7734e",
@@ -1037,7 +1039,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "311931a3-68bd-4e8d-9452-4cf3f055f545",
@@ -1046,8 +1048,8 @@
       "canonical_name": "Belcore",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3135f608-c2d6-409b-8b46-4588d989da27",
@@ -1056,8 +1058,8 @@
       "canonical_name": "Sarastro",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "313e21b4-92db-4b70-9a5e-c6a6d02b6110",
@@ -1066,8 +1068,8 @@
       "canonical_name": "Sprecher",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3175f321-1bf7-44d6-a3f7-326965f055b5",
@@ -1076,8 +1078,8 @@
       "canonical_name": "Amelia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "31a611aa-4fa9-47b7-84a2-4ce2e0c199fe",
@@ -1096,8 +1098,8 @@
       "canonical_name": "Nemorino",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "32637019-62d0-48a5-8140-704e9525ddb8",
@@ -1106,8 +1108,8 @@
       "canonical_name": "Sergeant of the Royal Archers",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "32a329ba-45aa-4fc7-a3b8-16ae02f848b1",
@@ -1116,8 +1118,8 @@
       "canonical_name": "Barbarina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "32c6e40c-4a80-41cc-813b-1fa40c5b8afe",
@@ -1126,8 +1128,8 @@
       "canonical_name": "Jouvenot",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "32dc48a8-ac7f-43c2-85c0-c9b07b134b13",
@@ -1137,7 +1139,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "340d762b-b71f-42f8-9be4-4337192820d3",
@@ -1146,8 +1148,8 @@
       "canonical_name": "Donna Elvira",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "351cd46c-c629-48da-903b-83d0c6943b57",
@@ -1156,8 +1158,8 @@
       "canonical_name": "Jochanaan",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "35c07c59-43a1-4977-82d7-7f088eeccc7a",
@@ -1166,8 +1168,8 @@
       "canonical_name": "Don José",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "35d75096-c87e-4c80-8c8e-40ec608ff970",
@@ -1176,8 +1178,8 @@
       "canonical_name": "Arbate",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "35eeac98-8063-446d-ac95-ada4aa2f36e3",
@@ -1186,8 +1188,8 @@
       "canonical_name": "Zerbinetta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "35f9d952-685b-495f-b413-1c93e496cb04",
@@ -1196,8 +1198,8 @@
       "canonical_name": "Federica",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3663c3b9-f565-402f-b1d6-8c1d3cce70bc",
@@ -1206,8 +1208,8 @@
       "canonical_name": "Donna Anna",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "371f803a-1388-4be6-9e74-64a126b94f16",
@@ -1216,8 +1218,8 @@
       "canonical_name": "Lescaut",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "39828987-14e9-4668-ab05-7de5374ca806",
@@ -1227,7 +1229,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3a6127e5-c8b3-4d68-ac37-35c41f959c07",
@@ -1236,8 +1238,8 @@
       "canonical_name": "Philippe II.",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3beffd2b-6c6c-4e09-aa56-37774eb00abd",
@@ -1246,8 +1248,8 @@
       "canonical_name": "Krušina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3c7de0af-3b68-4341-8e78-c71676190aaf",
@@ -1256,8 +1258,8 @@
       "canonical_name": "Princess Fedora",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3ce8094d-d2e7-484d-ba3e-d68d4cd9e7c9",
@@ -1266,8 +1268,8 @@
       "canonical_name": "A Captain of the Crossbowmen",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3d731e9c-f4a7-41b7-b521-862b52285cf2",
@@ -1276,8 +1278,8 @@
       "canonical_name": "Tschekalinski",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3dbdb6c3-eea1-4e8a-8e8c-cd1c6fde6193",
@@ -1286,8 +1288,8 @@
       "canonical_name": "Macduff",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3e3ba905-9c84-4ab3-a07a-b1a49866ef24",
@@ -1296,8 +1298,8 @@
       "canonical_name": "Graf Waldner",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3f311a33-ac40-4a31-83be-9f5b00950551",
@@ -1306,8 +1308,8 @@
       "canonical_name": "Tonio, junger Bauer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3f4bb3bf-5530-40de-93f6-ba75ec02a117",
@@ -1316,8 +1318,8 @@
       "canonical_name": "Gurnemanz",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3f620716-5b56-4f84-86b9-8683c52a2c43",
@@ -1326,8 +1328,8 @@
       "canonical_name": "The Innkeeper /",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "3fad0fb2-3e22-46ad-b6d6-b323d6319650",
@@ -1336,8 +1338,8 @@
       "canonical_name": "Actor",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "402af53f-2c98-4114-950b-995cf3330c10",
@@ -1346,8 +1348,8 @@
       "canonical_name": "Pamina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "40e5b39a-6068-48cc-9cc4-4b2a5f25d0dc",
@@ -1357,7 +1359,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "414be9f8-5612-48da-99f3-69df229fe969",
@@ -1366,8 +1368,8 @@
       "canonical_name": "Leonore",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4180eba7-aa17-4145-bb5b-20f644f5dfe6",
@@ -1376,8 +1378,8 @@
       "canonical_name": "Zurga",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "418374e8-af0d-4695-a4e6-4f18d88d2064",
@@ -1386,8 +1388,8 @@
       "canonical_name": "Cirillo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "41858415-b9d8-4755-bfb7-3c6c986215aa",
@@ -1397,7 +1399,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "41a479e1-53c5-462b-b9c1-28fdf8127af6",
@@ -1406,8 +1408,8 @@
       "canonical_name": "Puppenbau",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "420c3e44-f0d8-4022-a05a-691e3a36f006",
@@ -1417,7 +1419,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4248f680-1b96-4292-a626-537dcce7eb56",
@@ -1426,8 +1428,8 @@
       "canonical_name": "Zdenka",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "424a993a-4321-44fc-b9a7-0d15c5d16baa",
@@ -1436,8 +1438,8 @@
       "canonical_name": "Michonnet",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "424b2435-56c0-426a-a5d1-9923e5abdf5a",
@@ -1446,8 +1448,8 @@
       "canonical_name": "Suzuki",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "42e5bf53-f2b8-4de0-8300-9e8c1943ff3d",
@@ -1456,8 +1458,8 @@
       "canonical_name": "Father of the Bride",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "444f3ffb-26d4-4f57-870b-5d8a3a3212fc",
@@ -1466,8 +1468,8 @@
       "canonical_name": "Fiorello",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "44f7e666-a922-4d45-b618-7b3d7200eaf9",
@@ -1476,8 +1478,8 @@
       "canonical_name": "Musiklehrer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "45210b22-7bb4-4de0-b076-25360706d938",
@@ -1487,7 +1489,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4530ffc4-087f-4dd3-8d57-b290062efc86",
@@ -1496,8 +1498,8 @@
       "canonical_name": "Frosch",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "45bd7e39-f676-47d9-a96e-5b832f4d91f1",
@@ -1516,8 +1518,8 @@
       "canonical_name": "Susanna",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "465e26dc-1cf5-42f4-a9f3-475ee807c0ab",
@@ -1526,8 +1528,8 @@
       "canonical_name": "Lulu",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "46b40be5-d698-4db3-a2a9-8a332031d439",
@@ -1536,8 +1538,8 @@
       "canonical_name": "Il Principe di Bouillon",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "479d54a8-aa85-4a9c-88da-13c9a0cba6d2",
@@ -1556,8 +1558,8 @@
       "canonical_name": "Rocco",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "496b57e1-12cb-4244-a334-13653d29ca04",
@@ -1566,8 +1568,8 @@
       "canonical_name": "Papagena",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "499256c9-6597-4632-a58b-ae1802c12293",
@@ -1577,7 +1579,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4b36f829-6148-40e0-b915-68aa8527f002",
@@ -1596,8 +1598,8 @@
       "canonical_name": "Amfortas",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4c16623a-da4c-4323-ba93-cc166c3cf4b1",
@@ -1606,8 +1608,8 @@
       "canonical_name": "Andrea Chénier",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4c692125-101e-4a61-827d-27f29dc89bbc",
@@ -1616,8 +1618,8 @@
       "canonical_name": "Gustavo III.",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4c723604-d7b6-4c60-9177-ec8a660aa5a0",
@@ -1636,8 +1638,8 @@
       "canonical_name": "Osmin - Schauspieler",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4cce85fa-a224-4b70-bb72-a1e9fd4bf526",
@@ -1666,8 +1668,8 @@
       "canonical_name": "Cherubino",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "4fd6ff10-dac8-4d68-9d1f-c8833cf94fdb",
@@ -1676,8 +1678,8 @@
       "canonical_name": "Reinmar von Zweter",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED",
+      "reason": "official Zürich Tannhäuser JSON-LD original-language dramatic role verified"
     },
     {
       "id": "4fea94ba-f958-447e-81f7-c68e16a07cf2",
@@ -1686,8 +1688,8 @@
       "canonical_name": "Sulpice, Sergeant",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "50bd0afc-33b4-4259-b129-3e4d5765c364",
@@ -1696,8 +1698,8 @@
       "canonical_name": "Gräfin Geschwitz",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "50fe12ff-149b-4c72-83c0-c2da57ae0325",
@@ -1706,8 +1708,8 @@
       "canonical_name": "Graf Lamoral",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "51b4ec05-858a-470e-a480-ffd5e8446e59",
@@ -1716,8 +1718,8 @@
       "canonical_name": "Feldmarschallin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "51f2072f-2a0b-4925-b755-73348aa4ea06",
@@ -1726,8 +1728,8 @@
       "canonical_name": "Otello",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "52198b74-ebfb-4fc3-83b5-fea4c7de5e82",
@@ -1736,8 +1738,8 @@
       "canonical_name": "Frank",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "53075d6f-bcbf-4b82-bdb5-acfe65c65f2f",
@@ -1746,8 +1748,8 @@
       "canonical_name": "Berardo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "54c7f5a5-104f-4246-81d6-ea0b336d56b6",
@@ -1756,8 +1758,8 @@
       "canonical_name": "Marzelline",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "54f0d7e1-9ad8-4be9-8e54-5e3ba34e30a7",
@@ -1766,8 +1768,8 @@
       "canonical_name": "Zerlina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5548c7ba-51b5-4a63-90e6-6225fa48fd58",
@@ -1776,8 +1778,8 @@
       "canonical_name": "Kudriash",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "554ab1ae-4dd9-4670-93b4-cba7cb87f0ea",
@@ -1786,8 +1788,8 @@
       "canonical_name": "Mercédès",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "557ebac1-3310-4caa-8c73-da932f3f5d24",
@@ -1817,7 +1819,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "57ee94ad-e7b0-4cf7-80fe-65f9d713a06a",
@@ -1826,8 +1828,8 @@
       "canonical_name": "Principal Coaching",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "59b1572c-ce50-4513-9b21-4687455bfa81",
@@ -1836,8 +1838,8 @@
       "canonical_name": "A peasant kid",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5a24b461-17c8-4533-9a78-2f7b0f96b346",
@@ -1846,8 +1848,8 @@
       "canonical_name": "Künstlerische Mitarbeit",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5a3da314-48b3-41ab-9779-43a719796719",
@@ -1866,8 +1868,8 @@
       "canonical_name": "Vierter Jude",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5a9c48b1-db12-4c99-b320-7f712696dc6a",
@@ -1876,8 +1878,8 @@
       "canonical_name": "Turandot",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5ab94be3-6bf0-4605-953c-5e08610762e6",
@@ -1886,8 +1888,8 @@
       "canonical_name": "Kurwenal",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5b2a2800-4e19-474c-a2f5-e22fd357f076",
@@ -1896,8 +1898,8 @@
       "canonical_name": "Graf Albert",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5b8ca8e2-4022-4dfc-b84d-391844ad5909",
@@ -1906,8 +1908,8 @@
       "canonical_name": "Dangeville",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5bb80ddd-dbfa-4c21-929c-8e3563599e78",
@@ -1916,8 +1918,8 @@
       "canonical_name": "Biterolf",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED",
+      "reason": "official Zürich Tannhäuser JSON-LD original-language dramatic role verified"
     },
     {
       "id": "5c2b5d88-6493-4a9e-90ee-2ae0954c23af",
@@ -1926,8 +1928,8 @@
       "canonical_name": "Eva, Pogners Tochter",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5c331527-750c-49ec-8894-753df30cc8bf",
@@ -1936,8 +1938,8 @@
       "canonical_name": "Ein Arzt",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5d1ec78f-95de-40a5-b485-23d31b90a9c1",
@@ -1946,8 +1948,8 @@
       "canonical_name": "Dancaïre",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5e5e4599-4a60-4a35-a186-5e39d322319c",
@@ -1956,8 +1958,8 @@
       "canonical_name": "Judith",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5e9f0ecb-e340-4eab-8d27-3ae9ebc45a9c",
@@ -1966,8 +1968,8 @@
       "canonical_name": "Dirección de escena, escenografía, vestuario, iluminación y dramaturgia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "5ec95cdf-f08e-4dd9-9345-b5f4319d885d",
@@ -1976,8 +1978,8 @@
       "canonical_name": "Amelia Grimaldi",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "60093225-25c9-4f40-a366-5f59b0a8882f",
@@ -1986,8 +1988,8 @@
       "canonical_name": "Rosina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6096b6e8-ec55-44ce-943c-ad67f4a7f1f1",
@@ -1996,8 +1998,8 @@
       "canonical_name": "Romeo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "60ebea68-6297-456c-a26d-193f3b4fbb66",
@@ -2016,8 +2018,8 @@
       "canonical_name": "Jeletzki",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "613b8753-c559-4f15-b796-061bc509dbc7",
@@ -2036,8 +2038,8 @@
       "canonical_name": "Boleslao Lazinski",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "61b4c310-0a4e-4409-a70a-593db9b1f11d",
@@ -2046,8 +2048,8 @@
       "canonical_name": "Countess Almaviva",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "639af120-fc7d-4103-ae52-d2418e8cc55d",
@@ -2056,8 +2058,8 @@
       "canonical_name": "Harlekin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "63fedb7f-6bdf-4480-a258-0a2a7048b587",
@@ -2066,8 +2068,8 @@
       "canonical_name": "Floria Tosca",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "641fd3f5-d90c-42ff-9ad3-63579db878fb",
@@ -2076,8 +2078,8 @@
       "canonical_name": "Macbeth",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "647e6733-61b3-4219-8371-4e939d7c224e",
@@ -2086,8 +2088,8 @@
       "canonical_name": "Consejero",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "64a17798-0f37-430e-82eb-fba210cc8d4c",
@@ -2096,8 +2098,8 @@
       "canonical_name": "Botin / Proserpina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "64d7b93e-cc88-4698-b9ce-2829fb9dfe6b",
@@ -2116,8 +2118,8 @@
       "canonical_name": "Apollo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "65d891c6-ae75-47f7-87c6-9ea9bba73a23",
@@ -2127,7 +2129,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "666f3e56-55b9-48a4-a354-f52033961895",
@@ -2137,7 +2139,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "66a22adb-5802-488e-872b-542395a455d3",
@@ -2146,8 +2148,8 @@
       "canonical_name": "Der Holländer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "66d864cc-d5d1-4a15-8f2f-aa759ebd4bdf",
@@ -2166,8 +2168,8 @@
       "canonical_name": "Direktor der Komödianten",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "67dcb7d0-de9d-4d40-b47b-1be0018a7dc1",
@@ -2176,8 +2178,8 @@
       "canonical_name": "Escamillo, Toreador",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "67f2533c-7957-4caf-b1a6-1a662784b40e",
@@ -2187,7 +2189,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "69da56b5-6e67-49f5-b511-d07918e1b29a",
@@ -2196,8 +2198,8 @@
       "canonical_name": "Marzellina (Berta)",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6a242db1-7e16-4534-a0ea-6813047090a0",
@@ -2206,8 +2208,8 @@
       "canonical_name": "Duke Bluebeard",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6a4cb4d8-610f-40d1-9635-90a7d9349840",
@@ -2236,8 +2238,8 @@
       "canonical_name": "Capellio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6b6221fc-e188-43bd-882a-25d4439e2d49",
@@ -2247,7 +2249,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6bc3d631-ea3b-4381-b4d9-96e09a2160ab",
@@ -2256,8 +2258,8 @@
       "canonical_name": "Don Giovanni",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6c273b38-5c6e-4815-93c4-553b1efd09b3",
@@ -2266,8 +2268,8 @@
       "canonical_name": "Pedrillo - Schauspieler",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6c6a146c-8c17-47a6-8d27-3b719a1f8df0",
@@ -2276,8 +2278,8 @@
       "canonical_name": "Isolde",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6d34ba54-ac05-4b9d-963d-61400be89f7b",
@@ -2286,8 +2288,8 @@
       "canonical_name": "Mezzosoprano",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6de7c459-ff2d-42fe-8455-a1bf22d7b6d5",
@@ -2296,8 +2298,8 @@
       "canonical_name": "3. Dame",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6f69cc29-9e3f-4ddf-bfb9-7cd66df6126c",
@@ -2306,8 +2308,8 @@
       "canonical_name": "Don Pizarro",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6f6a4224-9359-4f5c-9f2e-95001299394f",
@@ -2316,8 +2318,8 @@
       "canonical_name": "Don Curzio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6f766fd2-3d5e-4a86-896f-508cc8a33a06",
@@ -2326,8 +2328,8 @@
       "canonical_name": "Graf Elemer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "6fbbee5b-1358-4c9b-901b-75a79abbdcc4",
@@ -2337,7 +2339,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "711bd6fd-eb11-40ce-8c49-4e8b03535bb5",
@@ -2346,8 +2348,8 @@
       "canonical_name": "Tierbändiger/Athlet",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7131ef52-ab65-49c9-9a68-35cfd10430d1",
@@ -2356,8 +2358,8 @@
       "canonical_name": "Guido Bardi, Prinz von Florenz",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7157198f-11f9-4d8a-8e84-295f29c9c80e",
@@ -2366,8 +2368,8 @@
       "canonical_name": "Plutone",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7310635d-6abb-4c4c-bef5-81f04946f1c0",
@@ -2376,8 +2378,8 @@
       "canonical_name": "Ballett 3. Akt: Minerva",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "734888de-c5b9-4e92-a95f-954716d89808",
@@ -2396,8 +2398,8 @@
       "canonical_name": "Orfeo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "74f7bcfc-0b3b-410e-8fbd-e26ef7d27c04",
@@ -2406,8 +2408,8 @@
       "canonical_name": "Mandryka",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "754a06b8-cec3-4be1-84b7-4f10b2c20c0f",
@@ -2416,8 +2418,8 @@
       "canonical_name": "Tito",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7687df09-a175-463f-8494-0d6d3ccc8bf6",
@@ -2426,8 +2428,8 @@
       "canonical_name": "Gräfin Almaviva",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "76b3edc6-95d9-475f-a77e-eac80c329e3e",
@@ -2436,8 +2438,8 @@
       "canonical_name": "Film Design",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "76ca928a-3a2a-4352-9d59-49887d893239",
@@ -2446,8 +2448,8 @@
       "canonical_name": "Gabriele Adorno",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "76f91069-9f95-48f3-9751-8a051699c22e",
@@ -2456,8 +2458,8 @@
       "canonical_name": "Pulcheria",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7750a219-6006-4b6b-a33a-089972a84b61",
@@ -2467,7 +2469,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "77b60a90-9b02-4930-bf07-d0449d397aec",
@@ -2476,8 +2478,8 @@
       "canonical_name": "Ferrando",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "78f83c9e-4323-4089-935d-a4ac4d835718",
@@ -2487,7 +2489,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7961857a-b1cc-44f4-8ccd-6828a6d795f4",
@@ -2496,8 +2498,8 @@
       "canonical_name": "Page",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "79a574e5-db08-429c-9da7-73cc22a452f5",
@@ -2506,8 +2508,8 @@
       "canonical_name": "Puppencoach",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7a705eae-c783-4cfa-8070-0a530618baa0",
@@ -2516,8 +2518,8 @@
       "canonical_name": "Vitellia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7b295a4d-23fd-4f8c-ad25-79859ed1f033",
@@ -2526,8 +2528,8 @@
       "canonical_name": "Papageno",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7b713acb-87be-4580-9b3c-57d4dccfe542",
@@ -2536,8 +2538,8 @@
       "canonical_name": "Un Joven Pastor",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_LOCALIZED_NAME",
+      "reason": "localized source label requires original-language canonical verification"
     },
     {
       "id": "7d356908-26b0-4288-ae59-c63e87877dc2",
@@ -2546,8 +2548,8 @@
       "canonical_name": "Baron Scarpia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7d3bdc76-39b7-44c9-b409-cdbe9465de5e",
@@ -2556,8 +2558,8 @@
       "canonical_name": "Kundry",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7d3ef6c3-c993-4faf-950a-a297f9bb7e3e",
@@ -2576,8 +2578,8 @@
       "canonical_name": "Tamino",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "7de4e457-7cb2-4cdc-9bc0-ac5090bb15b4",
@@ -2587,7 +2589,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "80931ab8-40da-4811-921e-80ab6fb17793",
@@ -2596,8 +2598,8 @@
       "canonical_name": "Daland",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8098f705-0918-46bd-82c0-6a8e1be6bff3",
@@ -2606,8 +2608,8 @@
       "canonical_name": "Echo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "828ad681-9c78-42e4-82a5-6fa7689c50ec",
@@ -2616,8 +2618,8 @@
       "canonical_name": "Zuniga",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "82c6aff4-e42f-4fe8-984f-89115735ea52",
@@ -2627,7 +2629,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "82cdc8d6-ce3e-457f-a496-f679cbe196ee",
@@ -2636,8 +2638,8 @@
       "canonical_name": "Pietro",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "83ea504f-830c-4920-882c-3b72da39a913",
@@ -2646,8 +2648,8 @@
       "canonical_name": "Carmen",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "849c1c89-c15e-4545-835c-63fc61865796",
@@ -2656,8 +2658,8 @@
       "canonical_name": "Hermann",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "classification": "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED",
+      "reason": "official Zürich Tannhäuser JSON-LD original-language dramatic role verified"
     },
     {
       "id": "8506ce42-12ac-4851-a9ef-d042a4b432f1",
@@ -2666,8 +2668,8 @@
       "canonical_name": "Elisabetta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8525a508-bd29-4bc9-938f-b506c44fd425",
@@ -2676,8 +2678,8 @@
       "canonical_name": "Parsifal",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "858b2229-b195-492d-9b70-9f394ee23f28",
@@ -2686,8 +2688,8 @@
       "canonical_name": "Edmondo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8636e412-b6b0-4616-aca5-78ce954e7fa3",
@@ -2696,8 +2698,8 @@
       "canonical_name": "Bassa Selim",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "864490aa-ca6e-4b61-85a8-8098be2ee2e1",
@@ -2707,7 +2709,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "86aca66c-048d-45fa-a8db-8152aa4876f3",
@@ -2716,8 +2718,8 @@
       "canonical_name": "Ballett 3. Akt: Juno",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8780e5aa-af5e-4f02-b0fd-04cfe2a0ada8",
@@ -2726,8 +2728,8 @@
       "canonical_name": "Klavier",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "886267e2-8483-4c20-b4ca-d2c3740c210f",
@@ -2736,8 +2738,8 @@
       "canonical_name": "Liù",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "886a5212-68dc-4570-95f8-5037023a4eca",
@@ -2756,8 +2758,8 @@
       "canonical_name": "Roderigo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "88c3e3be-00ec-4249-b84b-f97186402667",
@@ -2766,8 +2768,8 @@
       "canonical_name": "Sciarrone",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8907e76a-c9b6-4b88-ad91-81102d232c5b",
@@ -2786,8 +2788,8 @@
       "canonical_name": "Rodrigo, Marquis von Posa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "89681e9b-c7f1-4d44-add6-2dc68c8c7fdf",
@@ -2796,8 +2798,8 @@
       "canonical_name": "Bianca, seine Frau",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "89cbebdc-7edb-4935-9eb6-784a0c553b19",
@@ -2806,8 +2808,8 @@
       "canonical_name": "Glasa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8a2aa2b7-281d-4901-a87d-eadc94d9c92f",
@@ -2826,8 +2828,8 @@
       "canonical_name": "Boris",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8b55a38e-8eb5-48b6-9326-cbdea3d4ae4e",
@@ -2836,8 +2838,8 @@
       "canonical_name": "Berta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8b74098b-f5f2-4672-927e-cfddf29fa756",
@@ -2846,8 +2848,8 @@
       "canonical_name": "Make-up Designer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8c950ba5-bc18-4e7d-bbba-171539bca2ad",
@@ -2856,8 +2858,8 @@
       "canonical_name": "Ballett 3. Akt: Paris",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8ce04bec-d91c-4ac9-b834-29fae0aaceed",
@@ -2866,8 +2868,8 @@
       "canonical_name": "Tomski",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8d623494-7dac-40d1-90b0-6391716a6c29",
@@ -2876,8 +2878,8 @@
       "canonical_name": "Varvara",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "8dfb65ec-2f3d-4564-9848-217ccb1c60a6",
@@ -2886,8 +2888,8 @@
       "canonical_name": "Erik",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "904bb977-7662-40b9-8a5c-257eb9bb2ed4",
@@ -2896,8 +2898,8 @@
       "canonical_name": "Lorenzo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "910cbf38-a866-4cb4-8451-48aeb5fd7e5a",
@@ -2906,8 +2908,8 @@
       "canonical_name": "La mujer de Pilato",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9172636f-16d8-45ae-a2d4-ec78866ca6a1",
@@ -2916,8 +2918,8 @@
       "canonical_name": "Ballett 3. Akt: Erisa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9256f042-082a-4ff3-beea-9d6eca13cfac",
@@ -2926,8 +2928,8 @@
       "canonical_name": "Marietta, Tänzerin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "925ab0d3-e28d-4794-b15c-d2a052eb7634",
@@ -2936,8 +2938,8 @@
       "canonical_name": "Brangäne",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "936ca312-acab-4420-a6c3-89bf31851566",
@@ -2946,8 +2948,8 @@
       "canonical_name": "Marcellina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "93c157e7-10c2-43fe-9dbc-083f5ea1e977",
@@ -2956,8 +2958,8 @@
       "canonical_name": "Rodrigue",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "95985e0c-4b02-4f5b-99d2-d1dbd3ad4f41",
@@ -2966,8 +2968,8 @@
       "canonical_name": "Ballett 3. Akt: Jupiter",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "95c6be6e-1a50-432d-ab32-e6fcff3e1eeb",
@@ -2986,8 +2988,8 @@
       "canonical_name": "Paolo Albiani",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "969f8fb1-9e17-486a-a7c1-5387ec39237b",
@@ -2996,8 +2998,8 @@
       "canonical_name": "Philipp II.",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "97cb7dbe-7d06-4071-8b86-bebdb6b35c64",
@@ -3026,8 +3028,8 @@
       "canonical_name": "Octavian",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "99946103-fa13-468e-8b8a-79189ef3b6b1",
@@ -3036,8 +3038,8 @@
       "canonical_name": "Adelaide",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "999ed975-cedd-4078-ae20-01d7199d8a6e",
@@ -3046,8 +3048,8 @@
       "canonical_name": "Geronte di Ravoir",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "99b97823-a7d8-435c-b2dd-39379d3ee6b7",
@@ -3056,8 +3058,8 @@
       "canonical_name": "Isacio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "99e60842-5f16-46c7-81c9-3e5fb61fefb5",
@@ -3066,8 +3068,8 @@
       "canonical_name": "Adele",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "99eab793-1386-4581-96b3-6b396bb12d21",
@@ -3076,8 +3078,8 @@
       "canonical_name": "Ein Schließer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9a9d01ca-9727-4330-ba79-f285034a38ca",
@@ -3096,8 +3098,8 @@
       "canonical_name": "Barnabotto",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9b0cdd2a-3416-488f-a27a-50fd548b2e53",
@@ -3106,8 +3108,8 @@
       "canonical_name": "Luisa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9b22455d-9741-4030-b389-39ed874ff313",
@@ -3126,8 +3128,8 @@
       "canonical_name": "Tristan",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9c88b330-d40f-449e-9735-bd207336e18f",
@@ -3136,8 +3138,8 @@
       "canonical_name": "David, Sachsens Lehrbube",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9c946593-0eea-4e26-82c2-c2e39323f059",
@@ -3146,8 +3148,8 @@
       "canonical_name": "Walther von Stolzing, ein junger Ritter aus Franken",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9c97a50c-d189-454f-9f12-a5e58e9a281f",
@@ -3156,8 +3158,8 @@
       "canonical_name": "Fiordiligi",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9d11ac49-1c6f-4b87-9091-5ed7eae32c29",
@@ -3166,8 +3168,8 @@
       "canonical_name": "Remendado",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9d3d8464-046b-473f-8923-f2f964c3adeb",
@@ -3176,8 +3178,8 @@
       "canonical_name": "Charlotte",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9dcbe891-aaaa-4b20-b060-6eb0db5e0bad",
@@ -3186,8 +3188,8 @@
       "canonical_name": "Despina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9dcf9355-444d-412c-a607-fdf254011062",
@@ -3206,8 +3208,8 @@
       "canonical_name": "The Dancing Master /",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9e1a1c1a-3096-4233-a2ec-cc37ed6c2214",
@@ -3216,8 +3218,8 @@
       "canonical_name": "Alfredo Germont",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9e596a4b-b416-4251-a8e1-f62e0357485b",
@@ -3227,7 +3229,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9e9c12d4-1bc6-4c5f-92b2-12660797fe10",
@@ -3236,8 +3238,8 @@
       "canonical_name": "Fritz, der Pierrot",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9ed33fc7-500c-4c38-bf5b-f01939a5ae56",
@@ -3257,7 +3259,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9f14bfd3-d00c-4a2d-87c2-12b22265c54d",
@@ -3267,7 +3269,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "9f846393-f9d4-44d3-a9b0-17b12d4ab13f",
@@ -3286,8 +3288,8 @@
       "canonical_name": "Ludmila",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a07f6f91-57bf-40ac-be51-2f72970c28cf",
@@ -3296,8 +3298,8 @@
       "canonical_name": "Leila",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a0bd00b5-30f3-41b5-a174-993951570f6d",
@@ -3306,8 +3308,8 @@
       "canonical_name": "Mitridate",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a178da41-17de-44fc-895c-5c6e18772211",
@@ -3317,7 +3319,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a1f802d3-efc1-4faa-b2b2-0b129b6106d0",
@@ -3326,8 +3328,8 @@
       "canonical_name": "Sound Associate",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a20f9576-b63c-4418-9482-5ebf0024c848",
@@ -3346,8 +3348,8 @@
       "canonical_name": "Mařenka",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a2a742be-2919-4a99-b7ee-799dc7ad6c79",
@@ -3356,8 +3358,8 @@
       "canonical_name": "Tannhäuser",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED",
+      "reason": "official Zürich Tannhäuser JSON-LD original-language dramatic role verified"
     },
     {
       "id": "a2b63f20-999a-4bb2-8b98-e8a7b329496a",
@@ -3366,8 +3368,8 @@
       "canonical_name": "Oronte",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a32ef403-fadf-4eac-ba0f-5f880ab9031f",
@@ -3376,8 +3378,8 @@
       "canonical_name": "Truffaldin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a3478e4f-c37e-4504-b149-dec006acd63e",
@@ -3386,8 +3388,8 @@
       "canonical_name": "Don Fernando",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a3663c49-0b45-44fd-aa59-262a167b1c70",
@@ -3396,8 +3398,8 @@
       "canonical_name": "Don Alfonso",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a42f08a9-dcec-421e-8c60-adae66728f29",
@@ -3417,7 +3419,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a4def526-e7a3-498d-8f14-5e66b9c1eccf",
@@ -3426,8 +3428,8 @@
       "canonical_name": "Oronta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a507acc6-9f26-4aef-a30e-f321fe7dcd6d",
@@ -3436,8 +3438,8 @@
       "canonical_name": "Sixtus Beckmesser, Schreiber",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a517ea12-e5ab-4073-bf06-df65844d51c2",
@@ -3446,8 +3448,8 @@
       "canonical_name": "Senta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a5618b54-058b-40f3-9ac3-368eb14901f2",
@@ -3456,8 +3458,8 @@
       "canonical_name": "Gymnasiast/Groom",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a5d608a5-b937-41da-9d03-09d24ad346a6",
@@ -3476,8 +3478,8 @@
       "canonical_name": "Brighella",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a762bf1e-b27d-4d99-9fb2-05162efe3fab",
@@ -3486,8 +3488,8 @@
       "canonical_name": "Die Fiakermilli",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a7994841-7297-4230-a398-e9a61940afea",
@@ -3506,8 +3508,8 @@
       "canonical_name": "Maurizio, Conte di Sassonia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a7d3db86-3f9a-46f5-8014-acb7f9718677",
@@ -3516,8 +3518,8 @@
       "canonical_name": "Orchester",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "a88c8aad-6635-41d9-a553-8629d399f6c3",
@@ -3526,8 +3528,8 @@
       "canonical_name": "Ein Sänger",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "aa25e8cf-933f-4dfd-8822-0b4665c6d5b4",
@@ -3537,7 +3539,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "aa56de82-3d23-4247-ab8d-93ff1b7c310b",
@@ -3546,8 +3548,8 @@
       "canonical_name": "König Marke",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "aa7cbca7-b026-4405-af70-53113cc1570f",
@@ -3556,8 +3558,8 @@
       "canonical_name": "Zuàne /",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "aa879fdc-16bb-48e8-a9a6-35ed3f33deb9",
@@ -3566,8 +3568,8 @@
       "canonical_name": "Herzogin von Crakentorp",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "aaba12ef-c83e-47b1-b5a1-e3c2b3fe1d54",
@@ -3576,8 +3578,8 @@
       "canonical_name": "Albert",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ab05c7ea-1d6a-41df-b88e-f6f7ebb9a018",
@@ -3586,8 +3588,8 @@
       "canonical_name": "Goro",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ab2ad6b3-53d3-4d2f-8fbe-3eb5895cbb90",
@@ -3596,8 +3598,8 @@
       "canonical_name": "Ein Mönch",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ac277c04-3770-43b8-8ca8-dc090b8a0947",
@@ -3606,8 +3608,8 @@
       "canonical_name": "Adina",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ac391981-a38f-4179-acbd-5ddcf8d725e4",
@@ -3617,7 +3619,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ac6ceadd-441d-4244-9a29-36dea7f37f08",
@@ -3626,8 +3628,8 @@
       "canonical_name": "Cio-Cio-San",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ad6c9c3a-5176-4de6-9744-f9c03a915378",
@@ -3636,8 +3638,8 @@
       "canonical_name": "Pollione",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ae3850d4-6096-4df1-b482-bc7bdbac9597",
@@ -3646,8 +3648,8 @@
       "canonical_name": "Dr. Schön/Jack the Ripper",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ae4fafa1-5498-4c5a-ad9d-31ab33fc8d62",
@@ -3656,8 +3658,8 @@
       "canonical_name": "Ankarström",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "afd1664f-d2d3-41bf-a535-2095c3a29992",
@@ -3666,8 +3668,8 @@
       "canonical_name": "Manon Lescaut",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b00b98bc-fcb4-403c-8feb-dd3389513661",
@@ -3676,8 +3678,8 @@
       "canonical_name": "Salome",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b06bca83-3395-4361-9053-1f43c44d6b05",
@@ -3686,8 +3688,8 @@
       "canonical_name": "Simon Boccanegra",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b13ae192-ca4f-42a6-aa4e-5237b25d1b16",
@@ -3696,8 +3698,8 @@
       "canonical_name": "Herzog Blaubart",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b17799ce-6a51-4c23-b715-bf627a3f7670",
@@ -3706,8 +3708,8 @@
       "canonical_name": "Giorgio Germont",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b1839688-08f3-4e62-a264-f56d2f17833f",
@@ -3716,8 +3718,8 @@
       "canonical_name": "Katia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b2c988c0-dfc2-4792-b8fa-7b6bf198790b",
@@ -3726,8 +3728,8 @@
       "canonical_name": "Der Großinquisitor",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b2fc9b63-8ed4-4b63-bab4-9a4eed32e2b0",
@@ -3736,8 +3738,8 @@
       "canonical_name": "La Cieca",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b3ffd7f6-61f1-42b7-ba35-8172e2ef59bd",
@@ -3746,8 +3748,8 @@
       "canonical_name": "Venus",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "SAFE_NEW_GLOBAL_CHARACTER_VERIFIED",
+      "reason": "official Zürich Tannhäuser JSON-LD original-language dramatic role verified"
     },
     {
       "id": "b5440287-43a5-4abb-ad2d-a2aab5956265",
@@ -3756,8 +3758,8 @@
       "canonical_name": "Montano",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b54a3c36-3a06-4b56-8b2b-035506fb2cc4",
@@ -3766,8 +3768,8 @@
       "canonical_name": "Euridice",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b55dd05a-1f72-401b-a0f9-a7659f26c6e6",
@@ -3776,8 +3778,8 @@
       "canonical_name": "Gabriel von Eisenstein",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b568fd33-e7e3-4006-a5f2-1d9669c43c8e",
@@ -3786,8 +3788,8 @@
       "canonical_name": "Malcolm",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b5b5c80f-4b33-4910-967c-9afd7950a881",
@@ -3806,8 +3808,8 @@
       "canonical_name": "Walter von der Vogelweide",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CANONICAL_NAME",
+      "reason": "source label requires canonical spelling/capitalization verification"
     },
     {
       "id": "b6377cdd-8340-4917-94c2-86671c33ecf1",
@@ -3816,8 +3818,8 @@
       "canonical_name": "Judit",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b643f387-475e-4464-ab80-8a31ececbb03",
@@ -3826,8 +3828,8 @@
       "canonical_name": "Clotilde",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b7d2efff-4fd1-48f7-9170-9b46a29130b4",
@@ -3836,8 +3838,8 @@
       "canonical_name": "Carlo Gérard",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b8610c65-9303-437b-bb2e-cf02cdc154ab",
@@ -3846,8 +3848,8 @@
       "canonical_name": "Leporello",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b883c028-9d2c-470f-91da-ec789825e0b5",
@@ -3856,8 +3858,8 @@
       "canonical_name": "Konstanze - Schauspielerin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b8d15c4a-1ade-4571-9575-c8d90d5694d7",
@@ -3866,8 +3868,8 @@
       "canonical_name": "Annio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "b9d3e772-cc4e-48d4-bb78-c9787cd992cc",
@@ -3876,8 +3878,8 @@
       "canonical_name": "Paul",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ba7afbc7-e405-4eed-acfa-c78cc7e879ea",
@@ -3897,7 +3899,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "bb66a2a7-1559-48b2-a545-4369f62d0031",
@@ -3906,8 +3908,8 @@
       "canonical_name": "Maid",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "bb8f496f-75e5-4ea0-8df7-1e0d6134d297",
@@ -3916,8 +3918,8 @@
       "canonical_name": "Alwa, sein Sohn",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "bc71252b-0ffe-4729-b0c1-6751803fee05",
@@ -3926,8 +3928,8 @@
       "canonical_name": "Amelia’s Maidservant",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "be7f2e80-1739-44c2-8146-9382123fb509",
@@ -3936,8 +3938,8 @@
       "canonical_name": "Dorabella",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "bed25faf-86c5-4d05-b06e-0c6be49a3103",
@@ -3946,8 +3948,8 @@
       "canonical_name": "A singer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "bfca0aea-1571-43d6-a104-439d1bd385ed",
@@ -3956,8 +3958,8 @@
       "canonical_name": "Balthasar Zorn, Zinngießer",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c15921d0-05ce-4fb0-af00-6e1432f2df75",
@@ -3966,8 +3968,8 @@
       "canonical_name": "Haushofmeisterin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c177032c-2274-466b-af2f-fc89497faf03",
@@ -3976,8 +3978,8 @@
       "canonical_name": "Maddalena di Coigny",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c22ac5d8-d736-4b11-970a-bcc8ca81bbad",
@@ -3986,8 +3988,8 @@
       "canonical_name": "Spoletta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c22b4142-dae0-43e5-9e10-1f63a3cd00bc",
@@ -3996,8 +3998,8 @@
       "canonical_name": "Don Basilio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c44e0716-6207-4225-a499-0b3f1c4ec602",
@@ -4006,8 +4008,8 @@
       "canonical_name": "Scaramuccio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c54f33d1-0f47-4372-95c5-fa12a2cbcbed",
@@ -4016,8 +4018,8 @@
       "canonical_name": "Colline",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c55729ad-c7f0-4efa-8c2f-d4f810077112",
@@ -4026,8 +4028,8 @@
       "canonical_name": "Arabella",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c56a0bd9-7cdd-4c96-877f-a6d4a7ed9ab1",
@@ -4046,8 +4048,8 @@
       "canonical_name": "Banco",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c69bb60e-a196-46a1-b7cc-61db8b343268",
@@ -4056,8 +4058,8 @@
       "canonical_name": "Count Loris Ipanoff",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c7c2e0b7-011c-4705-a765-46498cd20203",
@@ -4066,8 +4068,8 @@
       "canonical_name": "Konstanze",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c7d23051-34f9-4db5-aab8-ce9bc8fe01af",
@@ -4076,8 +4078,8 @@
       "canonical_name": "Bride",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c8223fec-a26e-4e7d-8d21-d605556eadf5",
@@ -4086,8 +4088,8 @@
       "canonical_name": "Graf von Walter",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "c9744b7f-b519-4b4c-a420-1d9242199954",
@@ -4096,8 +4098,8 @@
       "canonical_name": "Simone, ein Kaufmann",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ca81febe-807d-4b53-8b06-456df55a8627",
@@ -4107,7 +4109,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cab57574-361b-4bca-998a-6c4a59c964df",
@@ -4126,8 +4128,8 @@
       "canonical_name": "San Juan Bautista",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cd63fe0b-90ef-400b-8a2c-6763ed74c47a",
@@ -4136,8 +4138,8 @@
       "canonical_name": "Calaf",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cd6d8dc6-f026-489a-a98a-88ca97c59270",
@@ -4146,8 +4148,8 @@
       "canonical_name": "Faust",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cd8ae26d-1d7c-4b03-89ff-1fd69e206222",
@@ -4156,8 +4158,8 @@
       "canonical_name": "Prinz Orlofsky",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cdbe4bf1-912a-46b9-a24e-d30dbbddf553",
@@ -4166,8 +4168,8 @@
       "canonical_name": "Tichon",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cf455475-e4d2-4783-826e-ea455e09d0c4",
@@ -4176,8 +4178,8 @@
       "canonical_name": "Kabanicha",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "cfcf45f3-3fa1-4b23-b2d9-071579ab4247",
@@ -4196,8 +4198,8 @@
       "canonical_name": "Jaquino",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d22b0a9a-eff5-413c-9217-638fc97c6795",
@@ -4206,8 +4208,8 @@
       "canonical_name": "Don Carlo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d3a0851a-5134-4612-8dab-8b4f91929739",
@@ -4217,7 +4219,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d486fc13-de91-42de-acd8-3271dfaf1183",
@@ -4227,7 +4229,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d4f28e1f-9da7-4623-b3a4-7304a7197fd8",
@@ -4236,8 +4238,8 @@
       "canonical_name": "Gräfin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d5094e20-1b11-44cc-81cb-521612ae5d24",
@@ -4246,8 +4248,8 @@
       "canonical_name": "Pong",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d52613ae-ebfb-4a28-b577-87f67c300bc0",
@@ -4256,8 +4258,8 @@
       "canonical_name": "Komponist",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d52a54fd-3faa-4b42-ad64-00b5557ae4c9",
@@ -4266,8 +4268,8 @@
       "canonical_name": "Graf von Lerma/Herold",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d53d1149-4786-4152-b518-f71c47446f5a",
@@ -4276,8 +4278,8 @@
       "canonical_name": "La Principessa di Bouillon",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d60fa7ca-1eda-4498-98b7-f3fa2127f0c4",
@@ -4286,8 +4288,8 @@
       "canonical_name": "1. Geharnischter",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d650384e-cbdc-49ec-b74f-3976d860de6d",
@@ -4296,8 +4298,8 @@
       "canonical_name": "Publio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d7536bdb-f8b0-4e17-99b7-2f961d5f4cd8",
@@ -4306,8 +4308,8 @@
       "canonical_name": "Norma",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d781b03e-9b29-4445-acc3-4659f17a3822",
@@ -4316,8 +4318,8 @@
       "canonical_name": "Nadir",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d819d0a3-141c-43d3-bddc-fbfb68299be2",
@@ -4326,8 +4328,8 @@
       "canonical_name": "Children's chorus director",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d8cd9a44-a210-4faa-9cbb-f68ccd5e25f5",
@@ -4337,7 +4339,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d9355022-5ebd-41f9-b5c1-6fa823fe4793",
@@ -4346,8 +4348,8 @@
       "canonical_name": "Gaston von Létorières",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "d9edfded-d270-4612-be1b-8fb3ab8beabc",
@@ -4356,8 +4358,8 @@
       "canonical_name": "Marie, junge Marketenderin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "da0e6fe4-fe59-49c2-beac-544f85b64bd8",
@@ -4366,8 +4368,8 @@
       "canonical_name": "Cassio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "da22aa63-479e-4083-84f9-8e9da0f6cfc2",
@@ -4376,8 +4378,8 @@
       "canonical_name": "Belmonte",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dbc6bda0-2fe0-44f8-92d7-33ed18c06d97",
@@ -4386,8 +4388,8 @@
       "canonical_name": "The Chevalier Renato des Grieux",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dbfa3626-f998-4357-8ed0-04c89e44abb5",
@@ -4396,8 +4398,8 @@
       "canonical_name": "Marguerite",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dc1d82d6-ea1c-483b-9ee1-f7e4b7af67d1",
@@ -4407,7 +4409,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dcb057e4-a172-424a-8e38-289c14e61357",
@@ -4416,8 +4418,8 @@
       "canonical_name": "Dumas",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dd038d66-6829-4428-bb12-f41c52e57c23",
@@ -4426,8 +4428,8 @@
       "canonical_name": "Komtur",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dd22ce00-8e42-44ab-8efb-cfa6a1416f93",
@@ -4436,8 +4438,8 @@
       "canonical_name": "Wolfram Von Eschenbach",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CANONICAL_NAME",
+      "reason": "source label requires canonical spelling/capitalization verification"
     },
     {
       "id": "dda24c25-024a-4fad-aeec-e214bd3e3ba4",
@@ -4446,8 +4448,8 @@
       "canonical_name": "Lisa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ddb023db-695d-4d7f-afeb-b5300ad9d055",
@@ -4456,8 +4458,8 @@
       "canonical_name": "Laura Adorno",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "de337b63-9a1a-4aeb-948c-252f9e7d5ac2",
@@ -4467,7 +4469,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "df3d6820-3cb6-4ba6-94b0-fd175122da1a",
@@ -4486,8 +4488,8 @@
       "canonical_name": "Alfred, ein Tenor",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "df4d3704-1442-4149-919c-2097756a87b0",
@@ -4496,8 +4498,8 @@
       "canonical_name": "Sesto",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "df76c0f8-9e29-417e-8742-5c870c72c313",
@@ -4506,8 +4508,8 @@
       "canonical_name": "Rosalinde",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "df9aa74e-98a3-4610-837c-db411daea70b",
@@ -4516,8 +4518,8 @@
       "canonical_name": "Baron Ochs auf Lerchenau",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "dff3a305-a113-48fd-a44a-409a67b396a4",
@@ -4526,8 +4528,8 @@
       "canonical_name": "Leonardo’s Mother-in-Law",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e07aee91-00ff-4c02-ad8e-5e0d4e4f50a5",
@@ -4556,8 +4558,8 @@
       "canonical_name": "Soprano",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e25bac13-7c1c-4a76-b5db-a2a4d6cc566e",
@@ -4576,8 +4578,8 @@
       "canonical_name": "Costanza",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e49e66a8-70df-4538-88e9-bf5e956fb542",
@@ -4586,8 +4588,8 @@
       "canonical_name": "Klingsor",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e52490cd-449b-4e43-88e7-677098d12f0a",
@@ -4596,8 +4598,8 @@
       "canonical_name": "Set design and lighting",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e57f053e-5306-41df-9422-dfe6ee6e6c10",
@@ -4606,8 +4608,8 @@
       "canonical_name": "Sharpless",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e5ef1f6e-65bc-4ecd-9990-928095aad254",
@@ -4616,8 +4618,8 @@
       "canonical_name": "Pedrillo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e768a957-4b60-4104-ac6f-25c23b175671",
@@ -4626,8 +4628,8 @@
       "canonical_name": "Werther",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e78f8d81-96d6-4ef5-a650-8a33fb8ef9f7",
@@ -4636,8 +4638,8 @@
       "canonical_name": "Chevalier René Des Grieux",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e7b81fd6-01e6-492c-b351-564a1f144557",
@@ -4647,7 +4649,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "e80431d6-1086-4975-9b0b-ef5d3909acb7",
@@ -4657,7 +4659,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ea01de73-e10d-4a66-aec9-db9d2b7993df",
@@ -4666,8 +4668,8 @@
       "canonical_name": "Tigrane",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ea43d621-c561-4355-ba36-9c7c08568814",
@@ -4676,8 +4678,8 @@
       "canonical_name": "Jago",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ea564fac-20a1-4f93-b6e5-695f1563060b",
@@ -4696,8 +4698,8 @@
       "canonical_name": "Adalgisa",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "eb30befc-a5f9-48ef-9167-4df9f081c004",
@@ -4716,8 +4718,8 @@
       "canonical_name": "Mascha",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ec4239fa-83e1-4ebc-9e2c-9ab332797f82",
@@ -4726,8 +4728,8 @@
       "canonical_name": "De Siriex",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ec714dca-e613-4274-a6fc-8eb937ad881c",
@@ -4736,8 +4738,8 @@
       "canonical_name": "Kuligin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ecc9ccab-f757-4350-b13b-5e836d2b3166",
@@ -4776,8 +4778,8 @@
       "canonical_name": "Heinrich Der Schreiber",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CANONICAL_NAME",
+      "reason": "source label requires canonical spelling/capitalization verification"
     },
     {
       "id": "ee8a16d3-aebb-4ec5-a11a-2b83a0b31dfc",
@@ -4786,8 +4788,8 @@
       "canonical_name": "Oscar",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "eec8fecf-ac5d-4a18-9d71-7b9591eeaf36",
@@ -4796,8 +4798,8 @@
       "canonical_name": "Herr von Faninal",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "eedbfbc9-7987-4bc6-8aac-d7a30bf52c58",
@@ -4806,8 +4808,8 @@
       "canonical_name": "Ballett 3 Akt: Mercurio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "efbff082-644c-476d-9879-3f1007eee78a",
@@ -4816,8 +4818,8 @@
       "canonical_name": "Ballett 3. Akt: Pastoria",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f02eb063-7e03-41f3-8dc5-bcfb2f2f2093",
@@ -4827,7 +4829,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f03376c4-1df9-4989-8b56-356e99adf881",
@@ -4837,7 +4839,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f059f0f5-6021-449d-9b96-903be03246d0",
@@ -4856,8 +4858,8 @@
       "canonical_name": "Brander",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f0834e46-f678-4d2a-971b-0d7973291e6f",
@@ -4866,8 +4868,8 @@
       "canonical_name": "Tanzmeister",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f099fc4b-44c1-435b-a3e0-f25f2d86dc57",
@@ -4876,8 +4878,8 @@
       "canonical_name": "Narraboth",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f0e4716d-bd55-409f-a23d-94d2b67ffbee",
@@ -4896,8 +4898,8 @@
       "canonical_name": "Dryade",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f1771775-7b99-4367-9cc8-b72453fe3416",
@@ -4917,7 +4919,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f1aee810-a8bd-4d02-b168-da5680cb44d8",
@@ -4926,8 +4928,8 @@
       "canonical_name": "Ulrica",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f2025f27-f6ac-4ac3-a470-94293e3abe58",
@@ -4936,8 +4938,8 @@
       "canonical_name": "Matteo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f210dce3-4ea2-4da0-a123-70fa0620ccb5",
@@ -4946,8 +4948,8 @@
       "canonical_name": "Quinault",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f2d9799e-62c8-46ea-bf23-a5b24fed03f9",
@@ -4966,8 +4968,8 @@
       "canonical_name": "Caronte",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f418400b-89a8-430b-9e41-5d25bad35304",
@@ -4976,8 +4978,8 @@
       "canonical_name": "Doktor Dulcamara",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f433f7f9-2e44-49d4-89ec-6e548d5bd7ed",
@@ -4986,8 +4988,8 @@
       "canonical_name": "Flavio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f56d150d-e640-4da6-bb51-2413a934c79b",
@@ -4996,8 +4998,8 @@
       "canonical_name": "Pinkerton",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f5d1f7cf-845f-4844-afd3-fefe2040dfbe",
@@ -5026,8 +5028,8 @@
       "canonical_name": "Vašek",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f6cc3065-7394-470b-a58d-7689fe32d94b",
@@ -5036,8 +5038,8 @@
       "canonical_name": "Musetta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f775fdce-d614-482b-90a1-a941c8f1120c",
@@ -5056,8 +5058,8 @@
       "canonical_name": "Maler/Neger",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f869c663-2d78-432c-85fd-fd9d0f5ebd1c",
@@ -5066,8 +5068,8 @@
       "canonical_name": "Elisabeth de Valois",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f8a7c6bb-a15d-4b1e-9073-e2fd72a17918",
@@ -5076,8 +5078,8 @@
       "canonical_name": "Iluminator",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f8ff9add-e21f-4bc1-9055-bf135d4c6421",
@@ -5087,7 +5089,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f92eb68e-1f27-4e85-998c-823813bb5ca3",
@@ -5096,8 +5098,8 @@
       "canonical_name": "Evangelista",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f95e6044-3ec6-49ea-ae32-4a17715e730b",
@@ -5116,8 +5118,8 @@
       "canonical_name": "Ambrogio",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f9884d71-bdea-4108-9577-909b7d590ccf",
@@ -5126,8 +5128,8 @@
       "canonical_name": "Kammerfrau",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "f9de4c38-b19e-4f91-966e-4760164d33fd",
@@ -5136,8 +5138,8 @@
       "canonical_name": "Abate",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fa0ab731-7752-47d3-83fb-962c7e6418ff",
@@ -5146,8 +5148,8 @@
       "canonical_name": "Emilia",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fb578a42-4b0e-4264-b1fd-11ffbfa997fd",
@@ -5156,8 +5158,8 @@
       "canonical_name": "Enzo Grimaldo",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fb8926f5-a6b8-448c-adb7-e8cf403462fc",
@@ -5166,8 +5168,8 @@
       "canonical_name": "Mimì",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fb99a69d-4819-4994-8876-12e21d4081b4",
@@ -5176,8 +5178,8 @@
       "canonical_name": "Moon",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fbfde429-494c-4db6-954f-763f3ff34088",
@@ -5196,8 +5198,8 @@
       "canonical_name": "Graf Dominik",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fd35440c-7a50-443e-8259-9248671a1bba",
@@ -5216,8 +5218,8 @@
       "canonical_name": "Osmin",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "fe80bacd-8902-49ad-9e8c-9c532b7ddda9",
@@ -5226,8 +5228,8 @@
       "canonical_name": "Giulietta",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ff2b49a2-2b8e-4b4d-bd31-9290c8b6d85b",
@@ -5246,8 +5248,8 @@
       "canonical_name": "Oroveso",
       "character_uid": null,
       "proposed_character_id": null,
-      "classification": "SAFE_NEW_GLOBAL_CHARACTER",
-      "reason": "unique work-scoped dramatic role with no global match"
+      "classification": "REVIEW_CHARACTER_IDENTITY",
+      "reason": "canonical original-language identity is not verified"
     },
     {
       "id": "ff4cd5b7-a081-40fc-af76-5f25055437fb",
@@ -5257,7 +5259,7 @@
       "character_uid": null,
       "proposed_character_id": null,
       "classification": "REVIEW_CHARACTER_IDENTITY",
-      "reason": "same new label occurs across multiple works; no blind cross-work merge"
+      "reason": "canonical original-language identity is not verified"
     }
   ]
 }
