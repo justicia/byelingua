@@ -43,7 +43,7 @@ jobs:
               print("WORK CHARACTER CATALOG V1\n\nBOOTSTRAP_BLOCKED_CREDENTIALS or BOOTSTRAP_BLOCKED_GLOBAL_MASTER")
               raise SystemExit(0)
           data = json.loads(summary_path.read_text(encoding="utf-8"))
-          counts = data.get("global_master_counts", {})
+          counts = data
           join = data.get("join_health", {})
           result = data.get("result", {})
           lines = [
@@ -51,7 +51,7 @@ jobs:
               f"Git SHA: `{data.get('git_sha')}`", f"Snapshot hash: `{data.get('snapshot_hash')}`", "",
               "### GLOBAL MASTER", "",
           ]
-          for key in ("characters", "character_aliases", "work_characters", "linked", "unlinked", "works_with_unlinked"):
+          for key in ("characters_count", "character_aliases_count", "work_character_count", "linked_count", "unlinked_count", "works_with_unlinked_count"):
               lines.append(f"- {key}: {counts.get(key)}")
           lines += ["", "### JOIN HEALTH", ""]
           for key in ("unlinked_rows_with_work", "unlinked_rows_missing_work", "works_with_composer_id", "works_with_composer_name", "works_missing_composer_master"):
@@ -62,9 +62,15 @@ jobs:
           lines += ["", "### CATALOG", "", f"- all_works_run: {result.get('all_works_run')}", f"- works_total: {result.get('works')}", f"- classification_counts: `{json.dumps(data.get('classification_counts', {}), ensure_ascii=False, sort_keys=True)}`", "", "### WRITES", "", "- production_writes: 0"]
           Path(os.environ["GITHUB_STEP_SUMMARY"]).write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
+      - name: Prepare minimized safe artifacts
+        if: always()
+        run: |
+          mkdir -p work-character-catalog-summary
+          if [ -f work-character-catalog-output/summary.json ]; then cp work-character-catalog-output/summary.json work-character-catalog-summary/summary.json; fi
+          if [ -f work-character-catalog-output/pilot_diagnostics.json ]; then cp work-character-catalog-output/pilot_diagnostics.json work-character-catalog-summary/pilot_diagnostics.json; fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: work-character-catalog-v1-${{ github.sha }}
-          path: work-character-catalog-output/
+          path: work-character-catalog-summary/
           if-no-files-found: warn
