@@ -27,6 +27,7 @@ ZURICH_DETAIL_HTML = '''<script type="application/ld+json">{"@type":"Event","nam
 ZURICH_NO_PROGRAMME_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Opernhaus für alle","startDate":"2027-07-02T19:00","endDate":"2027-07-02T21:00","url":"https://www.opernhaus.ch/en/spielplan/calendar/opernhaus-fuer-alle/2026-2027/","description":"","location":{"name":"Main Stage"}}</script>'''
 ZURICH_MULTI_WORK_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Requiem pour Ophélie","startDate":"2027-05-04T19:00","endDate":"2027-05-04T20:40","url":"https://www.opernhaus.ch/en/spielplan/calendar/requiem-pour-ophelie/2026-2027/","description":"Works by Hector Berlioz, Ambroise Thomas and Gabriel Fauré","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Raphaël Pichon","description":"Musikalische Leitung"},{"@type":"MusicGroup","name":"Orchestra of the Zurich Opera House","description":"Orchester"}]}</script>'''
 ZURICH_TITLE_AS_COMPOSER_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Herr der Diebe","startDate":"2027-02-27T14:00","endDate":"2027-02-27T16:00","url":"https://www.opernhaus.ch/en/spielplan/calendar/herr-der-diebe/2026-2027/","description":"Herr der Diebe\\n\\nMusic by three Master’s students of ZHdK: Marlena Kreßin, Joanna Lohmann and Moritz Lieberherr","location":{"name":"Main Stage"}}</script>'''
+ZURICH_LIVE_CREDIT_SHAPED_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Tannhäuser","startDate":"2026-09-26T18:00","endDate":"2026-09-26T22:15","url":"https://www.opernhaus.ch/en/spielplan/calendar/tannhaeuser-1/2026-2027","description":"Richard Wagner\\n\\nOpera in three acts","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Markus Poschner","description":"Musikalische Leitung"},{"@type":"Person","name":"Thorleifur Örn Arnarsson","description":"Inszenierung"},{"@type":"Person","name":"Christina Nilsson","description":"Elisabeth"},{"@type":"Person","name":"Rachael Wilson","description":"Venus"},{"@type":"Person","name":"Elena Stikhina","description":"Soprano"},{"@type":"MusicGroup","name":"Choir of the Zurich Opera House","description":"Chor"}]}</script>'''
 
 
 class SeasonIngestionPipelineV1Tests(unittest.TestCase):
@@ -53,6 +54,18 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         self.assertEqual(events[0].credits[0]["credit_kind"], "artistic_team")
         self.assertEqual(events[0].credits[1]["artist_name"], "Elena Stikhina")
         self.assertIsNone(events[0].credits[1].get("character"))
+
+    def test_zurich_live_credit_shape_preserves_roles_and_provenance(self):
+        settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
+        events = parse_detail(ZURICH_LIVE_CREDIT_SHAPED_HTML, "https://www.opernhaus.ch/en/spielplan/calendar/tannhaeuser-1/2026-2027", settings, season_start="2026-09-01", season_end="2027-08-31")
+        by_name = {credit["artist_name"]: credit for credit in events[0].credits}
+        self.assertEqual(by_name["Markus Poschner"]["source_role"], "Musikalische Leitung")
+        self.assertEqual(by_name["Christina Nilsson"]["character"], "Elisabeth")
+        self.assertEqual(by_name["Rachael Wilson"]["character"], "Venus")
+        self.assertIsNone(by_name["Elena Stikhina"].get("character"))
+        self.assertEqual(by_name["Elena Stikhina"]["voice_type"], "Soprano")
+        self.assertEqual(by_name["Markus Poschner"]["provenance"]["source_field"], "jsonld.performer[1]")
+        self.assertEqual(by_name["Markus Poschner"]["raw_source_block"]["description"], "Musikalische Leitung")
 
     def test_zurich_no_programme_evidence_is_not_a_work_candidate(self):
         settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
@@ -214,3 +227,4 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
