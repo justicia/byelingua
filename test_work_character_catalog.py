@@ -114,6 +114,33 @@ class WorkCharacterCatalogTests(unittest.TestCase):
         self.assertEqual(bootstrap_preflight(snapshot, work_input)["unlinked"], 1)
         self.assertEqual(snapshot_payload(snapshot)["work_characters"], snapshot.work_characters)
 
+    def test_missing_composer_isolated_from_valid_work(self):
+        snapshot = GlobalEntitySnapshot(
+            generated_at="2026-08-25T00:00:00Z", source="fake-read-only", freshness_seconds=0,
+            entities={
+                "composer": [{"id": "c1", "canonical_name": "Richard Wagner"}],
+                "work": [
+                    {"id": "w-valid", "title": "Tannhäuser", "composer_id": "c1"},
+                    {"id": "w-blocked", "title": "Living Legacies", "composer_id": None},
+                ],
+                "character": [], "artist": [],
+            },
+            work_characters=[
+                {"id": "wc-valid", "work_id": "w-valid", "canonical_name": "Wotan", "character_uid": None},
+                {"id": "wc-blocked", "work_id": "w-blocked", "canonical_name": "Legacy", "character_uid": None},
+            ],
+        )
+        work_input, phase2, _ = bootstrap_inputs(snapshot)
+        preflight = bootstrap_preflight(snapshot, work_input)
+        self.assertEqual(preflight["works_with_composer_master"], 1)
+        self.assertEqual(preflight["works_missing_composer_master"], 1)
+        self.assertEqual(preflight["unlinked_rows_with_composer_master"], 1)
+        self.assertEqual(preflight["unlinked_rows_missing_composer_master"], 1)
+        statuses = {item["work_title"]: item["status"] for item in preflight["work_input_status"]}
+        self.assertEqual(statuses["Tannhäuser"], "RUNNABLE")
+        self.assertEqual(statuses["Living Legacies"], "INPUT_BLOCKED_MISSING_COMPOSER")
+        self.assertEqual(len(phase2["rows"]), 2)
+
 
 if __name__ == "__main__":
     unittest.main()
