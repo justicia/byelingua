@@ -1,0 +1,70 @@
+name: Work Character Catalog V1 — Live Readonly
+
+on:
+  push:
+    branches:
+      - character-master-v1
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  catalog:
+    runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install season ingestion dependencies
+        run: pip install -r requirements-season-ingestion.txt
+      - name: Readonly credential preflight
+        run: python jobs/check_season_ingestion_credentials.py --mode dry-run
+      - name: Run live readonly catalog bootstrap and ingestion
+        run: |
+          mkdir -p work-character-catalog-output
+          python jobs/ingest_work_character_catalog_v1.py \
+            --output-dir work-character-catalog-output
+      - name: Write GitHub Step Summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          summary_path = Path("work-character-catalog-output/summary.json")
+          if not summary_path.exists():
+              print("WORK CHARACTER CATALOG V1\n\nBOOTSTRAP_BLOCKED_CREDENTIALS or BOOTSTRAP_BLOCKED_GLOBAL_MASTER")
+              raise SystemExit(0)
+          data = json.loads(summary_path.read_text(encoding="utf-8"))
+          counts = data.get("global_master_counts", {})
+          join = data.get("join_health", {})
+          result = data.get("result", {})
+          lines = [
+              "## WORK CHARACTER CATALOG V1", "",
+              f"Git SHA: `{data.get('git_sha')}`", f"Snapshot hash: `{data.get('snapshot_hash')}`", "",
+              "### GLOBAL MASTER", "",
+          ]
+          for key in ("characters", "character_aliases", "work_characters", "linked", "unlinked", "works_with_unlinked"):
+              lines.append(f"- {key}: {counts.get(key)}")
+          lines += ["", "### JOIN HEALTH", ""]
+          for key in ("unlinked_rows_with_work", "unlinked_rows_missing_work", "works_with_composer_id", "works_with_composer_name", "works_missing_composer_master"):
+              lines.append(f"- {key}: {join.get(key)}")
+          lines += ["", "### PILOT", ""]
+          for item in data.get("pilot", []):
+              lines.append(f"- {item.get('title')}: {len(item.get('matches', []))} input match(es)")
+          lines += ["", "### CATALOG", "", f"- all_works_run: {result.get('all_works_run')}", f"- works_total: {result.get('works')}", f"- classification_counts: `{json.dumps(data.get('classification_counts', {}), ensure_ascii=False, sort_keys=True)}`", "", "### WRITES", "", "- production_writes: 0"]
+          Path(os.environ["GITHUB_STEP_SUMMARY"]).write_text("\n".join(lines) + "\n", encoding="utf-8")
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: work-character-catalog-v1-${{ github.sha }}
+          path: work-character-catalog-output/
+          if-no-files-found: warn

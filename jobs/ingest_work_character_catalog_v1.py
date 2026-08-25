@@ -246,7 +246,25 @@ def main() -> None:
     parser.add_argument("--snapshot-file", type=Path)
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
-    print(json.dumps(run(args), ensure_ascii=False, sort_keys=True))
+    result = run(args)
+    summary = {
+        "git_sha": __import__("os").environ.get("GITHUB_SHA"),
+        "run_mode": result.get("mode"),
+        "snapshot_hash": result.get("snapshot_hash"),
+        "snapshot_loaded": bool(result.get("snapshot_hash")),
+        "global_master_counts": {key: result.get("preflight", {}).get(key) for key in ("characters", "character_aliases", "work_characters", "linked", "unlinked", "works_with_unlinked")},
+        "join_health": {key: result.get("preflight", {}).get(key) for key in ("unlinked_rows_with_work", "unlinked_rows_missing_work", "works_with_composer_id", "works_with_composer_name", "works_missing_composer_master")},
+        "pilot": result.get("preflight", {}).get("pilot", []),
+        "wikidata_request_stats": {"live_requests": result.get("wikidata_live_requests", 0)},
+        "wikipedia_request_stats": {"live_requests": result.get("wikipedia_live_requests", 0)},
+        "all_work": {key: result.get(key) for key in ("all_works_run", "works")},
+        "classification_counts": result.get("classification_counts", {}),
+        "invariants": {"production_writes": 0, "character_writes": 0, "alias_writes": 0, "work_character_writes": 0, "event_credit_writes": 0, "migrations": 0, "vercel": 0},
+        "result": result,
+    }
+    args.output_dir.mkdir(parents=True, exist_ok=True)
+    (args.output_dir / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
 
 
 if __name__ == "__main__":
