@@ -60,6 +60,10 @@ def _character_resolution(raw: str | None, work_id: str | None, snapshot: Any) -
     aliases = {str(a.get("character_id")): a for a in getattr(snapshot, "character_aliases", [])}
     matches = []
     for row in rows:
+        # A work_character row without character_uid is only a staging candidate;
+        # it must never be promoted to SAFE_CHARACTER by label alone.
+        if not row.get("character_uid"):
+            continue
         if normalize_identity(row.get("canonical_name")) == normalize_identity(raw) or normalize_identity(aliases.get(str(row.get("character_uid")), {}).get("alias")) == normalize_identity(raw):
             matches.append(row)
     if len(matches) == 1:
@@ -98,3 +102,4 @@ def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot
         (safe if credit["resolution_status"].startswith("SAFE_") else review).append(row)
     artists = {r["credit"]["artist_resolution"]["canonical_name"]: r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_NEW_ARTIST"}
     return {"safe_existing_artists": [r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING"], "safe_new_artists": list(artists.values()), "safe_cast_assignments": [r for r in safe if r["credit"].get("credit_kind") == "cast"], "safe_artistic_team": [r for r in safe if r["credit"].get("credit_kind") == "artistic_team"], "safe_ensembles": [r for r in safe if r["credit"].get("credit_kind") == "ensemble"], "review_artist_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ARTIST_CONFLICT"], "review_character_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"], "review_unknown_roles": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ROLE_UNKNOWN"], "review_source_ambiguous": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_SOURCE_AMBIGUOUS"], "safe_event_credits": safe, "review_event_credits": review, "counts": {"credits_raw": len(all_rows), "credits_safe": len(safe), "credits_review": len(review), "role_safe": sum(bool(r["credit"].get("canonical_role")) for r in safe), "role_review": sum(not bool(r["credit"].get("canonical_role")) for r in review), "artist_existing": sum(r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING" for r in safe), "artist_new_safe": sum(r["credit"]["artist_resolution"]["status"] == "SAFE_NEW_ARTIST" for r in safe), "artist_review": sum(r["credit"]["artist_resolution"]["status"].startswith("REVIEW") for r in review), "character_safe": sum(r["credit"]["character_resolution"]["status"] == "SAFE_CHARACTER" for r in safe), "character_review": sum(r["credit"]["character_resolution"]["status"].startswith("REVIEW") for r in review)}}
+
