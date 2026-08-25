@@ -2,6 +2,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from jobs.ingest_work_character_catalog_v1 import bootstrap_inputs, bootstrap_preflight, snapshot_payload
+from season_ingestion.contracts import GlobalEntitySnapshot
 from season_ingestion.work_character_catalog import EvidenceCache, WikidataReference, ingest_work_catalog
 
 
@@ -87,6 +89,30 @@ class WorkCharacterCatalogTests(unittest.TestCase):
         rows, _ = __import__("season_ingestion.work_character_catalog", fromlist=["WikipediaReference"]).WikipediaReference(HtmlCache()).page_reference("Work", "en")
         self.assertEqual([row["displayed_role"] for row in rows], ["Figaro"])
         self.assertNotIn("Artist Name", [row["displayed_role"] for row in rows])
+
+    def test_cloud_bootstrap_builds_inputs_from_frozen_snapshot(self):
+        snapshot = GlobalEntitySnapshot(
+            generated_at="2026-08-25T00:00:00Z",
+            source="fake-read-only",
+            freshness_seconds=0,
+            entities={
+                "composer": [{"id": "c1", "canonical_name": "Richard Wagner"}],
+                "work": [{"id": "w1", "title": "Tannhäuser", "composer_id": "c1"}],
+                "character": [{"id": "ch1", "canonical_name": "Wotan"}],
+                "artist": [],
+            },
+            character_aliases=[{"id": "a1", "character_id": "ch1", "alias": "Wotan"}],
+            work_characters=[
+                {"id": "wc1", "work_id": "w1", "canonical_name": "Wotan", "character_uid": None},
+                {"id": "wc2", "work_id": "w1", "canonical_name": "Wotan", "character_uid": "ch1"},
+            ],
+            health={"global_master_loaded": True},
+        )
+        work_input, phase2, payload = bootstrap_inputs(snapshot)
+        self.assertEqual(work_input["works"][0]["composer_canonical_name"], "Richard Wagner")
+        self.assertEqual(phase2["rows"][0]["work_character_id"], "wc1")
+        self.assertEqual(bootstrap_preflight(snapshot, work_input)["unlinked"], 1)
+        self.assertEqual(snapshot_payload(snapshot)["work_characters"], snapshot.work_characters)
 
 
 if __name__ == "__main__":
