@@ -10,8 +10,11 @@ import hashlib
 import html
 import json
 import re
+import socket
 import time
+import unicodedata
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
@@ -22,8 +25,18 @@ WIKIDATA_API = "https://www.wikidata.org/w/api.php"
 WIKIPEDIA_API = "https://{language}.wikipedia.org/w/api.php"
 
 
+def normalize_work_title(value: str) -> str:
+    """Lookup-only Work identity key; canonical production titles are untouched."""
+    value = unicodedata.normalize("NFKD", str(value or "")).replace("\u00a0", " ")
+    value = "".join(char for char in value if unicodedata.category(char) != "Cf" and not unicodedata.combining(char))
+    value = value.casefold().replace("’", "'").replace("‘", "'")
+    value = re.sub(r"[‐‑‒–—―]", "-", value)
+    value = re.sub(r"\s+", " ", value).strip()
+    return value.replace("-", " ")
+
+
 def _norm(value: str) -> str:
-    return normalize_key(value).replace("-", " ").strip()
+    return normalize_work_title(value)
 
 
 def _sha256(value: bytes) -> str:
@@ -34,6 +47,7 @@ class EvidenceCache:
     def __init__(self, root: Path, *, offline: bool = False):
         self.root = Path(root)
         self.offline = offline
+        self.stats = {"requests_total": 0, "requests_success": 0, "requests_http_error": 0, "requests_rate_limited": 0, "requests_timeout": 0, "requests_network_error": 0, "requests_invalid_json": 0, "genuine_zero_result_searches": 0}
         self.root.mkdir(parents=True, exist_ok=True)
 
     def get_json(self, url: str, params: dict) -> tuple[dict | None, dict]:
@@ -45,39 +59,56 @@ class EvidenceCache:
             payload = json.loads(cache_path.read_text(encoding="utf-8"))
             return payload["payload"], payload["evidence"]
         if self.offline:
-            return None, {"source_url": full_url, "cache_hit": False, "offline": True}
+            return None, {"source_url": full_url, "cache_hit": False, "offline": True, "status": "SOURCE_NETWORK_ERROR", "endpoint_category": url}
         request = Request(full_url, headers={"User-Agent": "ByelinguaWorkCharacterCatalog/1.0"})
-        try:
-            with urlopen(request, timeout=30) as response:
-                raw = response.read()
-        except Exception as error:
-            return None, {
-                "source_url": full_url,
-                "cache_hit": False,
-                "error_type": type(error).__name__,
-                "error": str(error),
-            }
-        payload = json.loads(raw.decode("utf-8"))
-        evidence = {
-            "source_url": full_url,
-            "retrieved_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "raw_evidence_sha256": _sha256(raw),
-            "cache_hit": False,
-        }
-        cache_path.write_text(json.dumps({"payload": payload, "evidence": evidence}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        return payload, evidence
+        last_evidence = None
+        for attempt in range(3):
+            self.stats["requests_total"] += 1
+            try:
+                with urlopen(request, timeout=30) as response:
+                    raw = response.read()
+                payload = json.loads(raw.decode("utf-8"))
+                evidence = {"source_url": full_url, "retrieved_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()), "raw_evidence_sha256": _sha256(raw), "cache_hit": False, "status": "SOURCE_OK", "endpoint_category": url}
+                self.stats["requests_success"] += 1
+                if isinstance(payload, dict) and not payload.get("search") and params.get("action") == "wbsearchentities":
+                    self.stats["genuine_zero_result_searches"] += 1
+                cache_path.write_text(json.dumps({"payload": payload, "evidence": evidence}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+                return payload, evidence
+            except HTTPError as error:
+                status = "SOURCE_RATE_LIMITED" if error.code == 429 else "SOURCE_HTTP_ERROR"
+                if error.code in {429, 503} and attempt < 2:
+                    time.sleep(0.25 * (attempt + 1))
+                    continue
+                self.stats["requests_http_error"] += 1
+                if status == "SOURCE_RATE_LIMITED":
+                    self.stats["requests_rate_limited"] += 1
+                last_evidence = {"source_url": full_url, "cache_hit": False, "status": status, "http_status": error.code, "error_type": type(error).__name__, "endpoint_category": url}
+                break
+            except (socket.timeout, TimeoutError) as error:
+                self.stats["requests_timeout"] += 1
+                last_evidence = {"source_url": full_url, "cache_hit": False, "status": "SOURCE_TIMEOUT", "error_type": type(error).__name__, "endpoint_category": url}
+                break
+            except (URLError, OSError) as error:
+                self.stats["requests_network_error"] += 1
+                last_evidence = {"source_url": full_url, "cache_hit": False, "status": "SOURCE_NETWORK_ERROR", "error_type": type(error).__name__, "endpoint_category": url}
+                break
+            except (UnicodeDecodeError, json.JSONDecodeError) as error:
+                self.stats["requests_invalid_json"] += 1
+                last_evidence = {"source_url": full_url, "cache_hit": False, "status": "SOURCE_INVALID_JSON", "error_type": type(error).__name__, "endpoint_category": url}
+                break
+        return None, last_evidence or {"source_url": full_url, "cache_hit": False, "status": "SOURCE_NETWORK_ERROR", "endpoint_category": url}
 
 
 class WikidataReference:
     def __init__(self, cache: EvidenceCache):
         self.cache = cache
 
-    def _search(self, query: str) -> tuple[list[dict], dict]:
+    def _search(self, query: str) -> dict:
         payload, evidence = self.cache.get_json(
             WIKIDATA_API,
             {"action": "wbsearchentities", "search": query, "language": "en", "format": "json", "limit": 10},
         )
-        return ((payload or {}).get("search") or []), evidence
+        return {"status": evidence.get("status", "SOURCE_OK" if payload is not None else "SOURCE_NETWORK_ERROR"), "results": ((payload or {}).get("search") or []) if payload is not None else [], "evidence": evidence}
 
     def _entity(self, qid: str) -> tuple[dict | None, dict]:
         payload, evidence = self.cache.get_json(
@@ -85,6 +116,15 @@ class WikidataReference:
             {"action": "wbgetentities", "ids": qid, "languages": "en|de|fr|es|it", "props": "labels|aliases|claims|sitelinks", "format": "json"},
         )
         return ((payload or {}).get("entities") or {}).get(qid), evidence
+
+    def _entities(self, qids: list[str]) -> tuple[dict[str, dict], dict]:
+        if not qids:
+            return {}, {"status": "SOURCE_OK", "cache_hit": False}
+        payload, evidence = self.cache.get_json(
+            WIKIDATA_API,
+            {"action": "wbgetentities", "ids": "|".join(sorted(set(qids))), "languages": "en|de|fr|es|it", "props": "labels|aliases|claims|sitelinks|descriptions", "format": "json"},
+        )
+        return ((payload or {}).get("entities") or {}) if payload is not None else {}, evidence
 
     def _reverse_characters(self, work_qid: str) -> tuple[list[str], dict]:
         query = f"SELECT ?character WHERE {{ ?character wdt:P1441 wd:{work_qid}. }}"
@@ -112,47 +152,61 @@ class WikidataReference:
         ]
 
     def resolve_work(self, title: str, composer: str) -> dict:
-        title_results, title_search_evidence = self._search(title)
-        combined_results, combined_search_evidence = self._search(f"{title} {composer}".strip()) if composer else ([], {})
-        work_results = {item.get("id"): item for item in [*title_results, *combined_results] if item.get("id")}
-        candidates = []
-        entity_evidence = []
-        for item in work_results.values():
-            qid = item.get("id")
-            if not qid:
-                continue
-            entity, evidence = self._entity(qid)
+        queries = [title]
+        if composer:
+            queries.append(f"{title} {composer}".strip())
+        lookup_title = normalize_work_title(title)
+        if lookup_title != title.casefold().strip():
+            queries.append(lookup_title)
+        searches = [self._search(query) for query in dict.fromkeys(queries)]
+        source_failures = [search for search in searches if search["status"] != "SOURCE_OK"]
+        work_results = {item.get("id"): item for search in searches for item in search["results"] if item.get("id")}
+        entities, entity_evidence = self._entities(list(work_results))
+        claimed_composer_qids = sorted({qid for entity in entities.values() for qid in (self._claim_qids(entity, "P86") or self._claim_qids(entity, "P170"))})
+        composer_entities, composer_evidence = self._entities(claimed_composer_qids)
+        candidate_diagnostics = []
+        survivors = []
+        for qid in work_results:
+            entity = entities.get(qid)
             if not entity:
+                candidate_diagnostics.append({"qid": qid, "title_match": False, "matched_label_or_alias": None, "composer_qids": [], "composer_match": False, "description": None, "rejection_reason": "ENTITY_NOT_FOUND"})
                 continue
             labels = self._labels(entity)
             aliases = self._aliases(entity)
-            title_match = any(_norm(value) == _norm(title) for value in [*labels.values(), *sum(aliases.values(), [])])
-            claimed_composers = set(self._claim_qids(entity, "P86")) | set(self._claim_qids(entity, "P170"))
-            composer_match = False
-            for composer_qid in claimed_composers:
-                claimed, _ = self._entity(composer_qid)
-                if claimed:
-                    composer_labels = self._labels(claimed)
-                    composer_aliases = self._aliases(claimed)
-                    names = [*composer_labels.values(), *sum(composer_aliases.values(), [])]
-                    composer_match = any(_norm(value) == _norm(composer) for value in names)
-                if composer_match:
-                    break
-            if title_match and composer_match:
-                candidates.append({"qid": qid, "entity": entity, "labels": labels, "aliases": aliases, "composer_match": composer_match})
-            entity_evidence.append(evidence)
-        status = "SAFE_WORK_QID" if len(candidates) == 1 and candidates[0]["composer_match"] else "REVIEW_WORK_QID"
-        selected = candidates[0] if len(candidates) == 1 else None
+            matched = next((value for value in [*labels.values(), *sum(aliases.values(), [])] if _norm(value) == _norm(title)), None)
+            p86 = self._claim_qids(entity, "P86")
+            p170 = self._claim_qids(entity, "P170")
+            composer_qids = p86 or p170
+            composer_names = [name for qid2 in composer_qids for name in [*self._labels(composer_entities.get(qid2, {})).values(), *sum(self._aliases(composer_entities.get(qid2, {})).values(), [])]]
+            composer_match = any(_norm(value) == _norm(composer) for value in composer_names)
+            diag = {"qid": qid, "title_match": bool(matched), "matched_label_or_alias": matched, "composer_qids": composer_qids, "composer_match": composer_match, "work_type_signal": self._claim_qids(entity, "P31"), "description": (entity.get("descriptions") or {}).get("en", {}).get("value"), "rejection_reason": None}
+            if not matched:
+                diag["rejection_reason"] = "TITLE_MISMATCH"
+            elif not composer_match:
+                diag["rejection_reason"] = "COMPOSER_MISMATCH"
+            else:
+                survivors.append({"qid": qid, "entity": entity, "labels": labels, "aliases": aliases, "composer_match": True})
+            candidate_diagnostics.append(diag)
+        if source_failures:
+            status = "SOURCE_BLOCKED_WIKIDATA"
+        elif len(survivors) == 1:
+            status = "SAFE_WORK_QID"
+        elif len(survivors) > 1:
+            status = "REVIEW_WORK_QID_AMBIGUOUS"
+        else:
+            status = "SOURCE_NO_MATCH"
+        selected = survivors[0] if len(survivors) == 1 else None
         return {
             "wikidata_work_qid": selected["qid"] if selected else None,
             "work_match_status": status,
-            "candidates": [{"qid": row["qid"], "labels": row["labels"]} for row in candidates],
+            "candidates": candidate_diagnostics,
             "sitelinks": (selected["entity"].get("sitelinks") if selected else {}),
             "original_language": self._language_from_claim(selected["entity"]) if selected else None,
             "work_search_candidates": list(work_results),
-            "title_match_candidates": [row["qid"] for row in candidates if row.get("labels")],
-            "composer_match_candidates": [row["qid"] for row in candidates if row.get("composer_match")],
-            "evidence": [title_search_evidence, combined_search_evidence, *entity_evidence],
+            "title_match_candidates": [row["qid"] for row in candidate_diagnostics if row.get("title_match")],
+            "composer_match_candidates": [row["qid"] for row in candidate_diagnostics if row.get("composer_match")],
+            "search_status": "SOURCE_BLOCKED_WIKIDATA" if source_failures else "SOURCE_OK",
+            "evidence": [*(search["evidence"] for search in searches), entity_evidence, composer_evidence],
         }
 
     def _language_from_claim(self, entity: dict | None) -> str | None:
@@ -263,10 +317,13 @@ def ingest_work_catalog(work: dict, wikidata: WikidataReference, wikipedia: Wiki
     candidates, wikidata_evidence = ([], [])
     if wikidata_result.get("wikidata_work_qid"):
         candidates, wikidata_evidence = wikidata.character_candidates(wikidata_result["wikidata_work_qid"])
-    try:
-        wikipedia_rows, wikipedia_evidence = wikipedia.page_reference(title, language or "en", sitelinks=wikidata_result.get("sitelinks"))
-    except TypeError:
-        wikipedia_rows, wikipedia_evidence = wikipedia.page_reference(title, language or "en")
+    if wikidata_result.get("work_match_status") == "SOURCE_BLOCKED_WIKIDATA":
+        wikipedia_rows, wikipedia_evidence = [], []
+    else:
+        try:
+            wikipedia_rows, wikipedia_evidence = wikipedia.page_reference(title, language or "en", sitelinks=wikidata_result.get("sitelinks"))
+        except TypeError:
+            wikipedia_rows, wikipedia_evidence = wikipedia.page_reference(title, language or "en")
     prior_catalog_used = False
     if not candidates and work.get("evidence_status") == "CATALOG_READY" and work.get("canonical_roles"):
         candidates = [
@@ -282,14 +339,20 @@ def ingest_work_catalog(work: dict, wikidata: WikidataReference, wikipedia: Wiki
         prior_catalog_used = bool(candidates)
         wikidata_evidence.append({"source": "prior_approved_catalog", "used": prior_catalog_used})
     evidence_status = "CATALOG_WORK_QID_REVIEW"
+    if wikidata_result.get("work_match_status") == "SOURCE_BLOCKED_WIKIDATA":
+        evidence_status = "CATALOG_SOURCE_BLOCKED"
     if not language:
         evidence_status = "CATALOG_SOURCE_MISSING"
     elif wikidata_result["work_match_status"] == "SAFE_WORK_QID":
         evidence_status = "CATALOG_READY" if candidates else ("CATALOG_PARTIAL" if wikipedia_rows else "CATALOG_SOURCE_MISSING")
     elif prior_catalog_used:
         evidence_status = "CATALOG_READY"
-    if not wikidata_result.get("wikidata_work_qid") and not wikipedia_rows and not prior_catalog_used:
+    if wikidata_result.get("work_match_status") == "SOURCE_NO_MATCH":
+        evidence_status = "CATALOG_WORK_QID_REVIEW"
+    if not wikidata_result.get("wikidata_work_qid") and not wikipedia_rows and not prior_catalog_used and evidence_status != "CATALOG_SOURCE_BLOCKED":
         evidence_status = "CATALOG_SOURCE_MISSING"
+    if wikidata_result.get("work_match_status") == "SOURCE_BLOCKED_WIKIDATA":
+        evidence_status = "CATALOG_SOURCE_BLOCKED"
     catalog = {
         "work_id": work.get("work_id"),
         "composer_id": work.get("composer_id"),
@@ -303,6 +366,8 @@ def ingest_work_catalog(work: dict, wikidata: WikidataReference, wikipedia: Wiki
             "work_search_candidates": wikidata_result.get("work_search_candidates", []),
             "title_match_candidates": wikidata_result.get("title_match_candidates", []),
             "composer_match_candidates": wikidata_result.get("composer_match_candidates", []),
+            "candidate_diagnostics": wikidata_result.get("candidates", []),
+            "work_resolution_status": wikidata_result.get("work_match_status"),
             "selected_qid": wikidata_result.get("wikidata_work_qid"),
             "rejection_reason": None if wikidata_result.get("wikidata_work_qid") else wikidata_result.get("work_match_status"),
         },
