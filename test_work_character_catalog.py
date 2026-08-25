@@ -60,6 +60,34 @@ class WorkCharacterCatalogTests(unittest.TestCase):
             self.assertIsNone(payload)
             self.assertTrue(evidence["offline"])
 
+    def test_p674_and_p1441_are_unioned_and_deduplicated(self):
+        class ReverseCache(FakeCache):
+            def get_json(self, url, params):
+                if "query.wikidata.org" in url:
+                    return {"results": {"bindings": [{"character": {"value": "http://www.wikidata.org/entity/Q_CHAR"}}]}}, {"source": "fake"}
+                if params.get("action") == "wbgetentities" and params.get("ids") == "Q_WORK":
+                    return {"entities": {"Q_WORK": {"labels": {"en": {"value": "Work"}}, "claims": {"P674": [{"mainsnak": {"datavalue": {"value": {"id": "Q_CHAR"}}}}]}}}}, {"source": "fake"}
+                if params.get("action") == "wbgetentities" and params.get("ids") == "Q_CHAR":
+                    return {"entities": {"Q_CHAR": {"labels": {"de": {"value": "Figaro"}}, "aliases": {}, "claims": {}}}}, {"source": "fake"}
+                return super().get_json(url, params)
+
+        rows, _ = WikidataReference(ReverseCache()).character_candidates("Q_WORK")
+        self.assertEqual([row["wikidata_qid"] for row in rows], ["Q_CHAR"])
+        self.assertEqual(rows[0]["relationship_type"], "P674")
+
+    def test_wikipedia_role_parser_uses_role_column_only(self):
+        class HtmlCache:
+            def get_json(self, url, params):
+                if params.get("action") == "opensearch":
+                    return ["Work", ["Work"], [], []], {"source": "fake"}
+                if params.get("action") == "parse":
+                    return {"parse": {"text": {"*": '<table><tr><th>Role</th><th>Voice</th><th>Premiere cast</th></tr><tr><td>Figaro</td><td>baritone</td><td>Artist Name</td></tr></table>'}}}, {"source": "fake"}
+                return [[], [], [], []], {"source": "fake"}
+
+        rows, _ = __import__("season_ingestion.work_character_catalog", fromlist=["WikipediaReference"]).WikipediaReference(HtmlCache()).page_reference("Work", "en")
+        self.assertEqual([row["displayed_role"] for row in rows], ["Figaro"])
+        self.assertNotIn("Artist Name", [row["displayed_role"] for row in rows])
+
 
 if __name__ == "__main__":
     unittest.main()

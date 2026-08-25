@@ -10,6 +10,14 @@ from normalization.characters import parse_source_label, resolve_character
 
 
 class CharacterMasterPhase2Tests(unittest.TestCase):
+    def test_unlinked_legacy_relation_is_safe_new_and_preserves_work_row(self):
+        result = _classify_row(
+            {"id": "wc-1", "work_id": "work-1", "canonical_name": "Hermann"},
+            {"work_title": "Tannhäuser", "composer": "Richard Wagner", "canonical_roles": ["Hermann"], "aliases": {}, "evidence_sources": [{"url": "https://example.test"}]},
+            {"work_characters": [{"id": "wc-1", "work_id": "work-1", "canonical_name": "Hermann", "character_uid": None}], "characters": []},
+        )
+        self.assertEqual(result["primary_classification"], "SAFE_NEW_CHARACTER")
+        self.assertEqual(result["work_character_id"], "wc-1")
     def test_unknown_label_never_uses_raw_fallback(self):
         result = resolve_character("Un Joven Pastor", "Richard Wagner", "Tannhäuser", registry={"characters": {}})
         self.assertEqual(result["kind"], "review")

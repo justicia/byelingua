@@ -38,12 +38,45 @@ def _classifier_catalog(catalog: dict) -> dict:
 
 
 def run(args: argparse.Namespace) -> dict:
+    if not args.global_master_snapshot:
+        raise RuntimeError("GLOBAL_MASTER_REQUIRED")
     work_input = _load(args.work_input)
     phase2 = _load(args.phase2_input)
     cache = EvidenceCache(args.cache_dir, offline=args.offline)
     wikidata = WikidataReference(cache)
     wikipedia = WikipediaReference(cache)
+    global_master = _load(args.global_master_snapshot)
+    entities = global_master.get("entities", {})
+    composers = global_master.get("composers") or entities.get("composer") or []
+    composer_by_id = {str(row.get("id")): row for row in composers if row.get("id")}
+    # Keep the classifier's historical flat snapshot contract while accepting
+    # the canonical GlobalEntitySnapshot shape.
+    if entities:
+        global_master = {
+            **global_master,
+            "characters": entities.get("character", []),
+            "character_aliases": global_master.get("character_aliases", []),
+            "work_characters": global_master.get("work_characters", []),
+        }
     works = work_input.get("catalogs", work_input.get("works", []))
+    works_with_composer_id = 0
+    works_with_composer_name = 0
+    works_missing_composer_master = 0
+    resolved_works = []
+    for work in works:
+        work = dict(work)
+        composer_id = work.get("composer_id")
+        composer_row = composer_by_id.get(str(composer_id)) if composer_id else None
+        canonical_name = (composer_row or {}).get("canonical_name") or (composer_row or {}).get("name")
+        if composer_id:
+            works_with_composer_id += 1
+        if canonical_name:
+            works_with_composer_name += 1
+        elif composer_id:
+            works_missing_composer_master += 1
+        work["composer_canonical_name"] = canonical_name
+        resolved_works.append(work)
+    works = resolved_works
     catalogs = []
     wikipedia_rows = []
     evidence_rows = []
@@ -55,7 +88,6 @@ def run(args: argparse.Namespace) -> dict:
 
     catalog_by_work = {str(row.get("work_id")): row for row in catalogs}
     phase2_rows = phase2.get("rows", [])
-    global_master = _load(args.global_master_snapshot) if args.global_master_snapshot else None
     staged = []
     counts = Counter()
     for row in phase2_rows:
@@ -96,7 +128,7 @@ def run(args: argparse.Namespace) -> dict:
         },
     }
     (args.output_dir / "work_character_catalog_final_staging.json").write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return {"works": len(catalogs), "wikipedia_rows": len(wikipedia_rows), "classification_counts": dict(sorted(counts.items()))}
+    return {"works": len(catalogs), "wikipedia_rows": len(wikipedia_rows), "classification_counts": dict(sorted(counts.items())), "works_with_composer_id": works_with_composer_id, "works_with_composer_name": works_with_composer_name, "works_missing_composer_master": works_missing_composer_master}
 
 
 def main() -> None:
@@ -105,7 +137,7 @@ def main() -> None:
     parser.add_argument("--phase2-input", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, default=Path("artifacts/work-character-catalog-v1"))
     parser.add_argument("--cache-dir", type=Path, default=Path("artifacts/work-character-catalog-v1/cache"))
-    parser.add_argument("--global-master-snapshot", type=Path)
+    parser.add_argument("--global-master-snapshot", type=Path, required=True)
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     print(json.dumps(run(args), ensure_ascii=False, sort_keys=True))
