@@ -189,9 +189,13 @@ def run(args: argparse.Namespace) -> dict:
         evidence_rows.extend(evidence)
     pilot_catalogs = list(catalogs)
     pilot_pass = any(row.get("work_match_diagnostics", {}).get("selected_qid") and row.get("evidence_status") in {"CATALOG_READY", "CATALOG_PARTIAL"} for row in pilot_catalogs)
+    pilot_source_blocked = any(row.get("work_match_diagnostics", {}).get("work_resolution_status") in {"SOURCE_BLOCKED_WIKIDATA", "SOURCE_PARTIAL_WIKIDATA"} for row in pilot_catalogs)
+    pilot_pass = bool(pilot_catalogs) and any(row.get("work_match_diagnostics", {}).get("selected_qid") and row.get("work_match_diagnostics", {}).get("work_resolution_status") == "SAFE_WORK_QID" for row in pilot_catalogs) and not pilot_source_blocked
     if pilot_pass:
         processed = {str(row.get("work_id")) for row in catalogs}
         for work in all_works:
+            if str(work.get("work_id")) not in runnable_ids:
+                continue
             if str(work.get("work_id")) in processed:
                 continue
             catalog, wiki_rows, evidence = ingest_work_catalog(work, wikidata, wikipedia)
@@ -244,12 +248,25 @@ def run(args: argparse.Namespace) -> dict:
         },
     }
     (args.output_dir / "work_character_catalog_final_staging.json").write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    pipeline_status = "RUN_COMPLETE_WITH_INPUT_BACKLOG" if pilot_pass and preflight["works_missing_composer_master"] else ("RUN_COMPLETE" if pilot_pass else "PILOT_ENGINE_BLOCKED")
     wikidata_live_requests = sum("wikidata.org" in str(item.get("source_url")) and not item.get("cache_hit", False) for item in evidence_rows)
     wikipedia_live_requests = sum("wikipedia.org" in str(item.get("source_url")) and not item.get("cache_hit", False) for item in evidence_rows)
     source_statuses = Counter(str(item.get("status")) for item in evidence_rows if item.get("source_url"))
+    source_blocked = any(status in {"SOURCE_BLOCKED_WIKIDATA", "SOURCE_PARTIAL_WIKIDATA", "SOURCE_RATE_LIMITED", "SOURCE_HTTP_ERROR", "SOURCE_TIMEOUT", "SOURCE_NETWORK_ERROR", "SOURCE_INVALID_JSON"} for status in source_statuses) or any(catalog.get("evidence_status") == "CATALOG_SOURCE_BLOCKED" for catalog in catalogs) or cache.stats["requests_rate_limited"] > 0
+    if preflight["unlinked_rows_missing_work"]:
+        pipeline_status = "BOOTSTRAP_BLOCKED"
+    elif pilot_source_blocked or source_blocked and not pilot_pass:
+        pipeline_status = "SOURCE_BLOCKED_WIKIDATA"
+    elif not pilot_pass:
+        pipeline_status = "PILOT_ENGINE_BLOCKED"
+    elif source_blocked:
+        pipeline_status = "SOURCE_PARTIAL_WIKIDATA"
+    elif preflight["works_missing_composer_master"]:
+        pipeline_status = "RUN_COMPLETE_WITH_INPUT_BACKLOG"
+    else:
+        pipeline_status = "RUN_COMPLETE"
+    source_stats = dict(cache.stats)
     catalog_status_counts = Counter(str(catalog.get("evidence_status")) for catalog in catalogs)
-    return {"works": len(catalogs), "works_total": len(all_works), "works_runnable": len(runnable_ids), "works_attempted": len(catalogs), "works_input_blocked": preflight["works_missing_composer_master"], "rows_input_blocked": preflight["unlinked_rows_missing_composer_master"], "wikipedia_rows": wikipedia_rows, "classification_counts": dict(sorted(counts.items())), "catalog_status_counts": dict(sorted(catalog_status_counts.items())), "source_statuses": dict(sorted(source_statuses.items())), "wikidata_live_requests": wikidata_live_requests, "wikipedia_live_requests": wikipedia_live_requests, "wikidata_safe_work_qid": sum(catalog.get("work_match_diagnostics", {}).get("work_resolution_status") == "SAFE_WORK_QID" for catalog in pilot_catalogs), "works_with_composer_master": preflight["works_with_composer_master"], "works_missing_composer_master": preflight["works_missing_composer_master"], "unlinked_rows_with_composer_master": preflight["unlinked_rows_with_composer_master"], "unlinked_rows_missing_composer_master": preflight["unlinked_rows_missing_composer_master"], "snapshot_hash": snapshot_hash, "preflight": preflight, "pilot_works": len(pilot_catalogs), "pilot_pass": pilot_pass, "all_works_run": pilot_pass and len(catalogs) == len(runnable_ids), "pipeline_status": pipeline_status, "mode": "REPLAY" if replay_path else "LIVE_READONLY", "catalogs": catalogs}
+    return {"works": len(catalogs), "works_total": len(all_works), "works_runnable": len(runnable_ids), "works_attempted": len(catalogs), "works_input_blocked": preflight["works_missing_composer_master"], "rows_input_blocked": preflight["unlinked_rows_missing_composer_master"], "wikipedia_rows": wikipedia_rows, "classification_counts": dict(sorted(counts.items())), "catalog_status_counts": dict(sorted(catalog_status_counts.items())), "source_statuses": dict(sorted(source_statuses.items())), "source_stats": source_stats, "circuit_breaker_open": cache.circuit_breaker_open, "circuit_breaker_after_request": cache.circuit_breaker_after_request, "wikidata_live_requests": wikidata_live_requests, "wikipedia_live_requests": wikipedia_live_requests, "wikidata_safe_work_qid": sum(catalog.get("work_match_diagnostics", {}).get("work_resolution_status") == "SAFE_WORK_QID" for catalog in pilot_catalogs), "works_with_composer_master": preflight["works_with_composer_master"], "works_missing_composer_master": preflight["works_missing_composer_master"], "unlinked_rows_with_composer_master": preflight["unlinked_rows_with_composer_master"], "unlinked_rows_missing_composer_master": preflight["unlinked_rows_missing_composer_master"], "snapshot_hash": snapshot_hash, "preflight": preflight, "pilot_works": len(pilot_catalogs), "pilot_pass": pilot_pass, "all_works_run": pilot_pass and len(catalogs) == len(runnable_ids), "pipeline_status": pipeline_status, "mode": "REPLAY" if replay_path else "LIVE_READONLY", "catalogs": catalogs}
 
 
 def main() -> None:
@@ -287,6 +304,16 @@ def main() -> None:
             "wikipedia_role_row_count": wikipedia_rows_by_work.get(str(catalog.get("work_id")), 0),
             "catalog_status": catalog.get("evidence_status"),
             "blocker_or_review_reason": catalog.get("work_match_diagnostics", {}).get("rejection_reason"),
+            "search_status": catalog.get("work_match_diagnostics", {}).get("search_status"),
+            "search_request_count": catalog.get("work_match_diagnostics", {}).get("search_request_count", 0),
+            "entity_status": catalog.get("work_match_diagnostics", {}).get("entity_status"),
+            "composer_entity_status": catalog.get("work_match_diagnostics", {}).get("composer_entity_status"),
+            "search_result_count": len(catalog.get("work_match_diagnostics", {}).get("work_search_candidates", [])),
+            "title_match_count": len(catalog.get("work_match_diagnostics", {}).get("title_match_candidates", [])),
+            "composer_match_count": len(catalog.get("work_match_diagnostics", {}).get("composer_match_candidates", [])),
+            "composer_unverified_count": catalog.get("work_match_diagnostics", {}).get("composer_unverified_count", 0),
+            "resolution_status": catalog.get("work_match_diagnostics", {}).get("work_resolution_status"),
+            "source_error_count": catalog.get("work_match_diagnostics", {}).get("source_error_count", 0),
         })
     result["catalogs"] = []
     result["wikipedia_rows"] = []
@@ -303,11 +330,13 @@ def main() -> None:
         "works_with_unlinked_count": result.get("preflight", {}).get("works_with_unlinked"),
         "join_health": {key: result.get("preflight", {}).get(key) for key in ("unlinked_rows_with_work", "unlinked_rows_missing_work", "works_with_composer_master", "works_missing_composer_master", "unlinked_rows_with_composer_master", "unlinked_rows_missing_composer_master")},
         "pilot": pilot_diagnostics,
-        "wikidata_request_stats": {"live_requests": result.get("wikidata_live_requests", 0), "safe_work_qid": result.get("wikidata_safe_work_qid", 0)},
+        "wikidata_request_stats": result.get("source_stats", {}),
         "wikipedia_request_stats": {"live_requests": result.get("wikipedia_live_requests", 0)},
         "source_statuses": result.get("source_statuses", {}),
         "all_work": {key: result.get(key) for key in ("all_works_run", "works_total", "works_runnable", "works_attempted", "works_input_blocked")},
         "pipeline_status": result.get("pipeline_status"),
+        "circuit_breaker_open": result.get("circuit_breaker_open", False),
+        "circuit_breaker_after_request": result.get("circuit_breaker_after_request"),
         "catalog_status_counts": result.get("catalog_status_counts", {}),
         "classification_counts": result.get("classification_counts", {}),
         "invariants": {"production_writes": 0, "character_writes": 0, "alias_writes": 0, "work_character_writes": 0, "event_credit_writes": 0, "migrations": 0, "vercel": 0},

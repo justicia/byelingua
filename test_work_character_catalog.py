@@ -81,6 +81,67 @@ class WorkCharacterCatalogTests(unittest.TestCase):
         result = WikidataReference(SoftHyphenCache()).resolve_work("Die Zauber\u00adflöte", "Wolfgang Amadeus Mozart")
         self.assertEqual(result["work_match_status"], "SAFE_WORK_QID")
 
+    def test_composer_entity_rate_limit_is_partial_not_mismatch(self):
+        class RateLimitedComposerCache:
+            def get_json(self, url, params):
+                if params.get("action") == "wbsearchentities":
+                    return {"search": [{"id": "Q5064"}]}, {"status": "SOURCE_OK", "source": "fake"}
+                if params.get("action") == "wbgetentities":
+                    ids = params["ids"].split("|")
+                    if "Q5064" in ids:
+                        return {"entities": {"Q5064": {"labels": {"de": {"value": "Die Zauberflöte"}}, "claims": {"P86": [{"mainsnak": {"datavalue": {"value": {"id": "Q254"}}}}]}}}}, {"status": "SOURCE_OK", "source": "fake"}
+                    return None, {"status": "SOURCE_RATE_LIMITED", "source": "fake"}
+                return {}, {"status": "SOURCE_OK", "source": "fake"}
+
+        result = WikidataReference(RateLimitedComposerCache()).resolve_work("Die Zauberflöte", "Wolfgang Amadeus Mozart")
+        self.assertEqual(result["work_match_status"], "SOURCE_PARTIAL_WIKIDATA")
+        self.assertNotEqual(result["candidates"][0]["rejection_reason"], "COMPOSER_MISMATCH")
+
+    def test_entity_qid_is_fetched_once_per_run(self):
+        class CountingCache(FakeCache):
+            def __init__(self):
+                self.calls = []
+            def get_json(self, url, params):
+                if params.get("action") == "wbgetentities":
+                    self.calls.append(tuple(sorted(params["ids"].split("|"))))
+                return super().get_json(url, params)
+
+        cache = CountingCache()
+        ref = WikidataReference(cache)
+        ref._entities(["Q254"])
+        ref._entities(["Q254"])
+        self.assertEqual(sum("Q254" in call for call in cache.calls), 1)
+
+    def test_adaptive_search_stops_after_successful_first_strategy(self):
+        class SearchCountingCache(FakeCache):
+            def __init__(self):
+                self.searches = []
+            def get_json(self, url, params):
+                if params.get("action") == "wbsearchentities":
+                    self.searches.append(params["search"])
+                return super().get_json(url, params)
+
+        cache = SearchCountingCache()
+        result = WikidataReference(cache).resolve_work("Le nozze di Figaro", "Wolfgang Amadeus Mozart")
+        self.assertEqual(result["work_match_status"], "SAFE_WORK_QID")
+        self.assertEqual(len(cache.searches), 1)
+
+    def test_retry_after_is_honored(self):
+        with tempfile.TemporaryDirectory() as directory:
+            error = HTTPError("https://www.wikidata.org/w/api.php", 429, "rate", {"Retry-After": "7"}, None)
+            with patch("season_ingestion.work_character_catalog.urlopen", side_effect=error), patch("season_ingestion.work_character_catalog.time.sleep") as sleeper:
+                EvidenceCache(Path(directory)).get_json("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": "Carmen"})
+            self.assertIn(7.0, [call.args[0] for call in sleeper.call_args_list])
+
+    def test_three_final_rate_limits_open_circuit(self):
+        with tempfile.TemporaryDirectory() as directory:
+            error = HTTPError("https://www.wikidata.org/w/api.php", 429, "rate", {}, None)
+            cache = EvidenceCache(Path(directory))
+            with patch("season_ingestion.work_character_catalog.urlopen", side_effect=error), patch("season_ingestion.work_character_catalog.time.sleep"):
+                for _ in range(3):
+                    cache.get_json("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": str(_)})
+            self.assertTrue(cache.circuit_breaker_open)
+
     def test_wikipedia_only_reference_is_partial_not_canonical(self):
         class StubWikidata:
             def resolve_work(self, title, composer):
