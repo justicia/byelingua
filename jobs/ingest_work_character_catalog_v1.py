@@ -233,7 +233,7 @@ def run(args: argparse.Namespace) -> dict:
         },
     }
     (args.output_dir / "work_character_catalog_final_staging.json").write_text(json.dumps(final, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    return {"works": len(catalogs), "wikipedia_rows": len(wikipedia_rows), "classification_counts": dict(sorted(counts.items())), "works_with_composer_id": works_with_composer_id, "works_with_composer_name": works_with_composer_name, "works_missing_composer_master": works_missing_composer_master, "snapshot_hash": snapshot_hash, "preflight": preflight, "pilot_works": len(pilot_catalogs), "pilot_pass": pilot_pass, "all_works_run": pilot_pass and len(catalogs) == len(all_works), "mode": "REPLAY" if replay_path else "LIVE_READONLY"}
+    return {"works": len(catalogs), "wikipedia_rows": wikipedia_rows, "classification_counts": dict(sorted(counts.items())), "works_with_composer_id": works_with_composer_id, "works_with_composer_name": works_with_composer_name, "works_missing_composer_master": works_missing_composer_master, "snapshot_hash": snapshot_hash, "preflight": preflight, "pilot_works": len(pilot_catalogs), "pilot_pass": pilot_pass, "all_works_run": pilot_pass and len(catalogs) == len(all_works), "mode": "REPLAY" if replay_path else "LIVE_READONLY", "catalogs": catalogs}
 
 
 def main() -> None:
@@ -247,24 +247,55 @@ def main() -> None:
     parser.add_argument("--offline", action="store_true")
     args = parser.parse_args()
     result = run(args)
+    pilot_diagnostics = []
+    wikipedia_rows_by_work = {}
+    for row in result.get("wikipedia_rows", []):
+        wikipedia_rows_by_work[str(row.get("work_id"))] = wikipedia_rows_by_work.get(str(row.get("work_id")), 0) + 1
+    for catalog in result.get("catalogs", []):
+        title = catalog.get("canonical_work_title")
+        if normalize_identity(title) not in {normalize_identity(item) for item in PILOT_TITLES}:
+            continue
+        characters = catalog.get("characters", [])
+        pilot_diagnostics.append({
+            "work_id": catalog.get("work_id"),
+            "work_title": title,
+            "composer_canonical_name": catalog.get("composer"),
+            "wikidata_work_qid_candidates": catalog.get("work_match_diagnostics", {}).get("work_search_candidates", []),
+            "selected_work_qid": catalog.get("external_ids", {}).get("wikidata"),
+            "original_language": catalog.get("original_language"),
+            "p674_count": sum("wikidata:P674" in row.get("evidence_sources", []) for row in characters),
+            "p1441_count": sum("wikidata:P1441" in row.get("evidence_sources", []) for row in characters),
+            "wikipedia_role_row_count": wikipedia_rows_by_work.get(str(catalog.get("work_id")), 0),
+            "catalog_status": catalog.get("evidence_status"),
+            "blocker_or_review_reason": catalog.get("work_match_diagnostics", {}).get("rejection_reason"),
+        })
+    result["catalogs"] = []
+    result["wikipedia_rows"] = []
     summary = {
         "git_sha": __import__("os").environ.get("GITHUB_SHA"),
         "run_mode": result.get("mode"),
         "snapshot_hash": result.get("snapshot_hash"),
         "snapshot_loaded": bool(result.get("snapshot_hash")),
-        "global_master_counts": {key: result.get("preflight", {}).get(key) for key in ("characters", "character_aliases", "work_characters", "linked", "unlinked", "works_with_unlinked")},
+        "characters_count": result.get("preflight", {}).get("characters"),
+        "character_aliases_count": result.get("preflight", {}).get("character_aliases"),
+        "work_character_count": result.get("preflight", {}).get("work_characters"),
+        "linked_count": result.get("preflight", {}).get("linked"),
+        "unlinked_count": result.get("preflight", {}).get("unlinked"),
+        "works_with_unlinked_count": result.get("preflight", {}).get("works_with_unlinked"),
         "join_health": {key: result.get("preflight", {}).get(key) for key in ("unlinked_rows_with_work", "unlinked_rows_missing_work", "works_with_composer_id", "works_with_composer_name", "works_missing_composer_master")},
-        "pilot": result.get("preflight", {}).get("pilot", []),
+        "pilot": [{"work_title": item.get("title"), "match_count": len(item.get("matches", []))} for item in result.get("preflight", {}).get("pilot", [])],
         "wikidata_request_stats": {"live_requests": result.get("wikidata_live_requests", 0)},
         "wikipedia_request_stats": {"live_requests": result.get("wikipedia_live_requests", 0)},
         "all_work": {key: result.get(key) for key in ("all_works_run", "works")},
         "classification_counts": result.get("classification_counts", {}),
         "invariants": {"production_writes": 0, "character_writes": 0, "alias_writes": 0, "work_character_writes": 0, "event_credit_writes": 0, "migrations": 0, "vercel": 0},
-        "result": result,
+        "production_writes": 0,
     }
     args.output_dir.mkdir(parents=True, exist_ok=True)
     (args.output_dir / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps(result, ensure_ascii=False, sort_keys=True))
+    (args.output_dir / "pilot_diagnostics.json").write_text(json.dumps(pilot_diagnostics, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    log_result = {key: value for key, value in result.items() if key not in {"catalogs", "wikipedia_rows"}}
+    print(json.dumps(log_result, ensure_ascii=False, sort_keys=True))
 
 
 if __name__ == "__main__":
