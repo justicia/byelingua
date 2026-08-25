@@ -12,6 +12,7 @@ import json
 import os
 import re
 import subprocess
+import shutil
 import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -20,10 +21,9 @@ from normalization.characters import normalize_key, parse_source_label
 
 
 def _git_json(revision: str, path: str) -> dict:
-    git_executable = os.environ.get(
-        "CHARACTER_MASTER_GIT_EXE",
-        r"C:\Users\cheng\.cache\codex-runtimes\codex-primary-runtime\dependencies\native\git\cmd\git.exe",
-    )
+    git_executable = os.environ.get("CHARACTER_MASTER_GIT_EXE") or shutil.which("git")
+    if not git_executable:
+        raise RuntimeError("git executable is not available in PATH")
     output = subprocess.check_output([git_executable, "show", f"{revision}:{path}"])
     return json.loads(output.decode("utf-8"))
 
@@ -112,6 +112,13 @@ def _resolve_work_scoped_identity(canonical: str, candidate_key: str, work_id: s
     ]
     if current_relations:
         relation = current_relations[0]
+        if not relation.get("character_uid"):
+            return {
+                "classification": "SAFE_NEW_CHARACTER",
+                "character_uid": None,
+                "work_character_id": relation.get("id") or relation.get("work_character_id"),
+                "reason": "legacy Work relationship has no global Character; preserve its work_character_id",
+            }
         return {
             "classification": "SAFE_LINK_EXISTING",
             "character_uid": relation.get("character_uid"),
