@@ -1,10 +1,13 @@
 import tempfile
 import unittest
 from pathlib import Path
+import socket
+from unittest.mock import patch
+from urllib.error import HTTPError
 
 from jobs.ingest_work_character_catalog_v1 import bootstrap_inputs, bootstrap_preflight, snapshot_payload
 from season_ingestion.contracts import GlobalEntitySnapshot
-from season_ingestion.work_character_catalog import EvidenceCache, WikidataReference, ingest_work_catalog
+from season_ingestion.work_character_catalog import EvidenceCache, WikidataReference, ingest_work_catalog, normalize_work_title
 
 
 class FakeCache:
@@ -33,7 +36,50 @@ class WorkCharacterCatalogTests(unittest.TestCase):
                     payload["entities"]["Q_FIGARO"]["claims"]["P86"][0]["mainsnak"]["datavalue"]["value"]["id"] = "Q_OTHER"
                 return payload, evidence
 
-        self.assertEqual(WikidataReference(WrongComposerCache()).resolve_work("Le nozze di Figaro", "Wolfgang Amadeus Mozart")["work_match_status"], "REVIEW_WORK_QID")
+        self.assertEqual(WikidataReference(WrongComposerCache()).resolve_work("Le nozze di Figaro", "Wolfgang Amadeus Mozart")["work_match_status"], "SOURCE_NO_MATCH")
+
+    def test_work_title_normalization_removes_format_chars_without_space(self):
+        self.assertEqual(normalize_work_title("Die Zauber\u00adflöte"), normalize_work_title("Die Zauberflöte"))
+        self.assertEqual(normalize_work_title("Die Zauber\u200bflöte"), normalize_work_title("Die Zauberflote"))
+
+    def test_http_429_is_not_empty_search(self):
+        with tempfile.TemporaryDirectory() as directory:
+            error = HTTPError("https://www.wikidata.org/w/api.php", 429, "rate", {}, None)
+            with patch("season_ingestion.work_character_catalog.urlopen", side_effect=error), patch("season_ingestion.work_character_catalog.time.sleep"):
+                payload, evidence = EvidenceCache(Path(directory)).get_json("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": "Carmen"})
+            self.assertIsNone(payload)
+            self.assertEqual(evidence["status"], "SOURCE_RATE_LIMITED")
+
+    def test_timeout_is_not_empty_search(self):
+        with tempfile.TemporaryDirectory() as directory:
+            with patch("season_ingestion.work_character_catalog.urlopen", side_effect=socket.timeout("timeout")):
+                payload, evidence = EvidenceCache(Path(directory)).get_json("https://www.wikidata.org/w/api.php", {"action": "wbsearchentities", "search": "Carmen"})
+            self.assertIsNone(payload)
+            self.assertEqual(evidence["status"], "SOURCE_TIMEOUT")
+
+    def test_valid_empty_search_is_source_no_match(self):
+        class EmptyCache(FakeCache):
+            def get_json(self, url, params):
+                if params.get("action") == "wbsearchentities":
+                    return {"search": []}, {"status": "SOURCE_OK", "source": "fake"}
+                return super().get_json(url, params)
+
+        result = WikidataReference(EmptyCache()).resolve_work("Carmen", "Georges Bizet")
+        self.assertEqual(result["work_match_status"], "SOURCE_NO_MATCH")
+
+    def test_soft_hyphen_work_matches_candidate_label_with_composer(self):
+        class SoftHyphenCache(FakeCache):
+            def get_json(self, url, params):
+                if params.get("action") == "wbsearchentities":
+                    if "Mozart" in params.get("search", ""):
+                        return {"search": [{"id": "Q_ZAUBER"}]}, {"status": "SOURCE_OK", "source": "fake"}
+                    return {"search": [{"id": "Q_ZAUBER"}]}, {"status": "SOURCE_OK", "source": "fake"}
+                if params.get("action") == "wbgetentities" and params.get("ids") == "Q_ZAUBER":
+                    return {"entities": {"Q_ZAUBER": {"labels": {"de": {"value": "Die Zauberflöte"}}, "aliases": {}, "claims": {"P86": [{"mainsnak": {"datavalue": {"value": {"id": "Q_MOZART"}}}}]}}}}, {"status": "SOURCE_OK", "source": "fake"}
+                return super().get_json(url, params)
+
+        result = WikidataReference(SoftHyphenCache()).resolve_work("Die Zauber\u00adflöte", "Wolfgang Amadeus Mozart")
+        self.assertEqual(result["work_match_status"], "SAFE_WORK_QID")
 
     def test_wikipedia_only_reference_is_partial_not_canonical(self):
         class StubWikidata:
