@@ -1,6 +1,7 @@
 import unittest
 
 from jobs.work_master_finalization import audit_work_master
+from jobs.work_master_operational_freeze import build_freeze
 
 
 class WorkMasterFinalizationTests(unittest.TestCase):
@@ -35,6 +36,16 @@ class WorkMasterFinalizationTests(unittest.TestCase):
         summary, staging = audit_work_master(self.base([{"id": "w1", "title": "Living Legacies", "composer_id": None}]))
         self.assertEqual(summary["works_missing_composer"], 1)
         self.assertEqual(staging["works"][0]["classification"], "REVIEW_COMPOSER")
+
+    def test_review_required_never_enters_operational_master(self):
+        summary, manifest = build_freeze(self.base([{"id": "w1", "title": "Work", "composer_id": "c1", "normalization_status": "review_required"}]))
+        self.assertEqual(summary["auto_match_eligible"], 0)
+        self.assertEqual(manifest["works"][0]["exclusion_reason"], "LEGACY_REVIEW_CANDIDATE")
+
+    def test_verified_unique_work_enters_operational_master(self):
+        summary, manifest = build_freeze(self.base([{"id": "w1", "title": "Work", "composer_id": "c1", "normalization_status": "verified"}]))
+        self.assertEqual(summary["auto_match_eligible"], 1)
+        self.assertTrue(manifest["works"][0]["auto_match_eligible"])
 
 
 if __name__ == "__main__":
