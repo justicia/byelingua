@@ -10,3 +10,4 @@ work/
 .reports/
 reports/ingestion/
 season-ingestion-output/
+artifacts/work-character-catalog-v1/cache/
