@@ -52,6 +52,49 @@
     if(code==='network_error')return t('networkError');
     return code&&dictionaries[getUiLanguage()][code]||t('unknownError');
   }
-  window.ByelinguaI18n={getUiLanguage,setUiLanguage,t,formatDate,formatTime,formatDateRange,formatEventCount,formatScheduleStatus,formatIntent,formatEventType,localizeApiError};
+
+  function normalizeLocationKey(value){
+    let text=String(value||'').trim().toLowerCase();
+    text=text.replace(/ß/g,'ss').replace(/œ/g,'oe').replace(/æ/g,'ae');
+    text=text.normalize('NFKD').replace(/[\u0300-\u036f]/g,'');
+    return text.replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+  }
+  const canonicalLocationAliases={
+    zurich:'Zürich',zuerich:'Zürich',
+    munich:'München',muenchen:'München',
+    'theatre des champs elysees':'Théâtre des Champs-Élysées'
+  };
+  function canonicalizeLocationInput(value){
+    const key=normalizeLocationKey(value);
+    return canonicalLocationAliases[key]||value;
+  }
+  function locationSearchKeys(value){
+    const canonical=canonicalizeLocationInput(value);
+    const raw=String(canonical||'').trim().toLowerCase();
+    const keys=new Set([normalizeLocationKey(raw)]);
+    const german=raw
+      .replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue').replace(/ß/g,'ss');
+    keys.add(normalizeLocationKey(german));
+    const plain=raw
+      .replace(/ä/g,'a').replace(/ö/g,'o').replace(/ü/g,'u').replace(/ß/g,'ss');
+    keys.add(normalizeLocationKey(plain));
+    return [...keys].filter(Boolean);
+  }
+  function locationMatches(query,candidate){
+    const queryKeys=locationSearchKeys(query), candidateKeys=locationSearchKeys(candidate);
+    if(!queryKeys.length)return true;
+    return queryKeys.some(q=>candidateKeys.some(c=>c.includes(q)||q.includes(c)));
+  }
+  function installScheduleLocationAliasBridge(){
+    document.addEventListener('input',event=>{
+      const input=event.target;
+      if(!input||input.id!=='locationSearch')return;
+      const canonical=canonicalizeLocationInput(input.value);
+      if(canonical!==input.value)input.value=canonical;
+    },true);
+  }
+
+  window.ByelinguaI18n={getUiLanguage,setUiLanguage,t,formatDate,formatTime,formatDateRange,formatEventCount,formatScheduleStatus,formatIntent,formatEventType,localizeApiError,normalizeLocationKey,locationSearchKeys,locationMatches,canonicalizeLocationInput};
   document.documentElement.lang=getUiLanguage()==='en'?'en-GB':'zh-CN';
+  installScheduleLocationAliasBridge();
 })();
