@@ -114,6 +114,10 @@ def _match_role(label: str, catalog: dict) -> tuple[dict | None, str | None]:
         if lookup_key == _norm(canonical):
             method = "canonical_exact" if lookup == canonical else "verified_variant"
             return {"canonical_name": canonical, "match_method": method, "parser": parsed}, canonical
+        if parsed["class"] == "SIMPLE_CHARACTER" and "," in canonical:
+            canonical_base = canonical.split(",", 1)[0].strip()
+            if lookup_key == _norm(canonical_base):
+                return {"canonical_name": canonical, "match_method": "verified_descriptor_stripping", "parser": parsed}, canonical
     aliases_by_role = catalog.get("aliases") or {}
     if not isinstance(aliases_by_role, dict):
         aliases_by_role = {}
@@ -129,7 +133,76 @@ def _match_role(label: str, catalog: dict) -> tuple[dict | None, str | None]:
     return None, None
 
 
-def _classify_row(row: dict, catalog: dict | None) -> dict:
+def _master_character_matches(canonical: str, global_master: dict) -> list[dict]:
+    canonical_key = _norm(canonical)
+    aliases_by_character = defaultdict(list)
+    for alias in global_master.get("character_aliases", []) or []:
+        aliases_by_character[str(alias.get("character_id"))].append(alias.get("alias"))
+    matches = []
+    for character in global_master.get("characters", []) or []:
+        character_id = str(character.get("id") or "")
+        names = [character.get("canonical_name"), *aliases_by_character.get(character_id, [])]
+        if any(_norm(name) == canonical_key for name in names):
+            matches.append(character)
+    return matches
+
+
+def _has_verified_shared_identity(character_id: str, work_id: str, global_master: dict) -> bool:
+    for evidence in global_master.get("verified_shared_identity", []) or []:
+        if str(evidence.get("character_uid") or evidence.get("character_id")) != str(character_id):
+            continue
+        if str(work_id) in {str(value) for value in evidence.get("work_ids", [])}:
+            return True
+    for relation in global_master.get("work_characters", []) or []:
+        if str(relation.get("character_uid")) == str(character_id) and str(relation.get("work_id")) == str(work_id):
+            if relation.get("verified_shared_identity") is True:
+                return True
+    return False
+
+
+def _resolve_work_scoped_identity(canonical: str, candidate_key: str, work_id: str, global_master: dict) -> dict:
+    """Resolve a catalog role without treating an unrelated same-name row as a collision."""
+    relations = global_master.get("work_characters", []) or []
+    current_relations = [
+        relation for relation in relations
+        if str(relation.get("work_id")) == str(work_id)
+        and (
+            _norm(relation.get("canonical_name")) == _norm(canonical)
+            or str(relation.get("character_uid")) == candidate_key
+        )
+    ]
+    if current_relations:
+        relation = current_relations[0]
+        return {
+            "classification": "SAFE_LINK_EXISTING",
+            "character_uid": relation.get("character_uid"),
+            "reason": "existing relationship for this Work",
+        }
+
+    matches = _master_character_matches(canonical, global_master)
+    for character in matches:
+        character_id = str(character.get("id") or "")
+        if _has_verified_shared_identity(character_id, work_id, global_master):
+            return {
+                "classification": "SAFE_LINK_EXISTING",
+                "character_uid": character_id,
+                "reason": "explicit verified cross-Work fictional identity",
+            }
+
+    current_candidates = (global_master.get("current_work_candidates") or {}).get(str(work_id), [])
+    if len(current_candidates) > 1:
+        return {
+            "classification": "REVIEW_IDENTITY",
+            "reason": "multiple plausible identities within the current Work require review",
+        }
+
+    return {
+        "classification": "SAFE_NEW_CHARACTER",
+        "reason": "Work-scoped identity is independent of unrelated same-name Characters",
+    }
+
+
+def _classify_row(row: dict, catalog: dict | None, global_master: dict | None = None) -> dict:
     raw = str(row.get("canonical_name") or row.get("raw_source_name") or "").strip()
     parsed = parse_source_label(raw)
     base = {
@@ -173,22 +246,66 @@ def _classify_row(row: dict, catalog: dict | None) -> dict:
     if not match:
         base.update(primary_classification="REVIEW_CANONICAL_SOURCE", reason="label not in authoritative catalog")
         return base
+    candidate_key = _identity_key(catalog.get("composer", ""), catalog.get("work_title", ""), canonical)
     base.update(
         canonical_character_name=canonical,
-        candidate_key=_identity_key(catalog.get("composer", ""), catalog.get("work_title", ""), canonical),
+        candidate_key=candidate_key,
         match_method=match["match_method"],
         evidence=catalog.get("evidence_sources", []),
     )
+    identity = _resolve_work_scoped_identity(
+        canonical,
+        candidate_key,
+        str(row.get("work_id") or ""),
+        global_master or {},
+    )
+    base["proposed_character_id"] = identity.get("character_uid") or candidate_key
     if match["match_method"] == "canonical_exact":
-        base["primary_classification"] = "REVIEW_CROSS_WORK_IDENTITY"
-        base["reason"] = "canonical catalog match; existing global collision not locally verifiable"
+        base["primary_classification"] = identity["classification"]
+        base["reason"] = identity["reason"]
+    elif identity["classification"] == "REVIEW_IDENTITY":
+        base["primary_classification"] = "REVIEW_IDENTITY"
+        base["reason"] = identity["reason"]
     else:
-        base["primary_classification"] = "REVIEW_LOCALIZED_ALIAS"
-        base["reason"] = "verified source variation; alias requires production review"
+        base["primary_classification"] = "SAFE_NEW_ALIAS"
+        base["reason"] = "verified source variation for a safe Work-scoped Character candidate"
     return base
 
 
-def build(phase1: dict, work_snapshot: dict | None = None) -> tuple[dict, dict]:
+def reclassify_work_rows(rows: list[dict], work_title: str, composer: str, global_master: dict | None = None) -> list[dict]:
+    """Reclassify only a supplied Work slice; never expands the catalog or writes production."""
+    evidence = OFFICIAL_CATALOGS[work_title]
+    catalog = dict(evidence, work_title=work_title, composer=composer)
+    return [_classify_row(row, catalog, global_master or {}) for row in rows]
+
+
+def simulate_credit_impact(event_credits: list[dict], classified_rows: list[dict]) -> dict:
+    """Compute event-credit impact from supplied read-only staging, not work-row counts."""
+    review_rows = [
+        row for row in event_credits
+        if row.get("character_review") is True or row.get("resolution_status") == "review"
+    ]
+    staged_by_work_character = {
+        str(row.get("work_character_id")): row
+        for row in classified_rows
+        if str(row.get("primary_classification", "")).startswith("SAFE_")
+    }
+    unlockable = sum(
+        1 for row in review_rows
+        if str(row.get("work_character_id")) in staged_by_work_character
+    )
+    return {
+        "event_credit_character_review_before": len(review_rows),
+        "event_credit_unlockable_after_character_staging": unlockable,
+        "event_credit_character_review_after": len(review_rows) - unlockable,
+    }
+
+
+def build(
+    phase1: dict,
+    work_snapshot: dict | None = None,
+    event_credits: list[dict] | None = None,
+) -> tuple[dict, dict]:
     rows = phase1.get("rows") or []
     snapshot_works = {str(row.get("id")): row for row in (work_snapshot or {}).get("works", [])}
     grouped = defaultdict(list)
@@ -247,7 +364,7 @@ def build(phase1: dict, work_snapshot: dict | None = None) -> tuple[dict, dict]:
 
     review_before = len(rows)
     impact = {
-        "review_character_credits_before": review_before,
+        "work_character_review_rows_before": review_before,
         "unlockable_by_existing_character": final_counts["safe_link_existing"],
         "unlockable_by_new_character": final_counts["safe_new_character"],
         "unlockable_by_alias": final_counts["safe_new_alias"],
@@ -257,6 +374,7 @@ def build(phase1: dict, work_snapshot: dict | None = None) -> tuple[dict, dict]:
         ),
         "simulation_basis": "local row-level staging only; no production credit reads or writes",
     }
+    impact.update(simulate_credit_impact(event_credits or [], final_rows))
     catalog_artifact = {
         "schema_version": "character-work-catalog-v2",
         "source": "Phase 1 historical staging plus authoritative catalog evidence",
