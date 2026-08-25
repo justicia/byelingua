@@ -25,11 +25,16 @@ jobs:
       - name: Install season ingestion dependencies
         run: pip install -r requirements-season-ingestion.txt
       - name: Readonly credential preflight
+        id: credential_preflight
         run: python jobs/check_season_ingestion_credentials.py --mode dry-run
+      - name: Catalog import preflight
+        id: catalog_import_preflight
+        run: python -c "import jobs.ingest_work_character_catalog_v1; print('CATALOG_IMPORT_PREFLIGHT=PASS')"
       - name: Run live readonly catalog bootstrap and ingestion
+        id: catalog_run
         run: |
           mkdir -p work-character-catalog-output
-          python jobs/ingest_work_character_catalog_v1.py \
+          python -m jobs.ingest_work_character_catalog_v1 \
             --output-dir work-character-catalog-output
       - name: Write GitHub Step Summary
         if: always()
@@ -40,12 +45,19 @@ jobs:
           from pathlib import Path
           summary_path = Path("work-character-catalog-output/summary.json")
           if not summary_path.exists():
-              print("WORK CHARACTER CATALOG V1\n\nBOOTSTRAP_BLOCKED_CREDENTIALS or BOOTSTRAP_BLOCKED_GLOBAL_MASTER")
+              import os
+              if os.environ.get("CATALOG_RUN_OUTCOME") == "failure":
+                  status = "RUNNER_EXECUTION_FAILED"
+              elif os.environ.get("CREDENTIAL_OUTCOME") == "failure":
+                  status = "BOOTSTRAP_BLOCKED_CREDENTIALS"
+              else:
+                  status = "BOOTSTRAP_BLOCKED_GLOBAL_MASTER"
+              print(f"WORK CHARACTER CATALOG V1\n\n{status}")
               raise SystemExit(0)
           data = json.loads(summary_path.read_text(encoding="utf-8"))
           counts = data
           join = data.get("join_health", {})
-          result = data.get("result", {})
+          result = data.get("all_work", {})
           lines = [
               "## WORK CHARACTER CATALOG V1", "",
               f"Git SHA: `{data.get('git_sha')}`", f"Snapshot hash: `{data.get('snapshot_hash')}`", "",
@@ -58,10 +70,13 @@ jobs:
               lines.append(f"- {key}: {join.get(key)}")
           lines += ["", "### PILOT", ""]
           for item in data.get("pilot", []):
-              lines.append(f"- {item.get('title')}: {len(item.get('matches', []))} input match(es)")
+              lines.append(f"- {item.get('work_title')}: {item.get('match_count')} input match(es)")
           lines += ["", "### CATALOG", "", f"- all_works_run: {result.get('all_works_run')}", f"- works_total: {result.get('works')}", f"- classification_counts: `{json.dumps(data.get('classification_counts', {}), ensure_ascii=False, sort_keys=True)}`", "", "### WRITES", "", "- production_writes: 0"]
           Path(os.environ["GITHUB_STEP_SUMMARY"]).write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
+        env:
+          CATALOG_RUN_OUTCOME: ${{ steps.catalog_run.outcome }}
+          CREDENTIAL_OUTCOME: ${{ steps.credential_preflight.outcome }}
       - name: Prepare minimized safe artifacts
         if: always()
         run: |
