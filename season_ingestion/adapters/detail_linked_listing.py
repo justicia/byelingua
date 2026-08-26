@@ -181,6 +181,7 @@ class DetailLinkedListingAdapter:
         self.detail_pages_requested: list[str] = []
         self.detail_pages_successful: list[str] = []
         self.detail_pages_failed: list[str] = []
+        self.detail_year_hints: dict[str, int] = {}
         self.productions_discovered = 0
         self.detail_pages_out_of_season_skipped = 0
         self.date_candidates_found = 0
@@ -191,6 +192,7 @@ class DetailLinkedListingAdapter:
         self.basel_activity_date_contamination = 0
         self.duplicate_performance_slot = 0
         self.ambiguous_same_day_occurrence = 0
+        self.null_timed_shadow_duplicates = 0
         self.year_inferred_without_production_evidence = 0
 
     @staticmethod
@@ -212,6 +214,16 @@ class DetailLinkedListingAdapter:
                 continue
             if pattern and not re.search(pattern, absolute):
                 continue
+            context_node = link
+            context = ""
+            for _ in range(4):
+                context = _text(context_node)
+                if re.search(r"20\d{2}", context):
+                    break
+                context_node = context_node.parent
+            years = [int(match.group(1)) for match in re.finditer(r"(?<![/-])(20\d{2})(?![/-])", context)]
+            if years:
+                self.detail_year_hints[absolute] = max(years)
             if absolute not in urls:
                 urls.append(absolute)
         return urls
@@ -272,16 +284,16 @@ class DetailLinkedListingAdapter:
 
     def _production_year_hint(self, soup: BeautifulSoup, title: str) -> int | None:
         text = _text(soup)
-        match = re.search(rf"{re.escape(title)}.{{0,240}}?(20\d{{2}})", text, re.I)
+        match = re.search(rf"{re.escape(title)}.{{0,240}}?(?<![/-])(20\d{{2}})(?![/-])", text, re.I)
         return int(match.group(1)) if match else None
 
-    def _events_from_detail(self, page: str, page_url: str, fallback_title: str, season: str) -> list[CanonicalEvent]:
+    def _events_from_detail(self, page: str, page_url: str, fallback_title: str, season: str, year_hint: int | None = None) -> list[CanonicalEvent]:
         soup = BeautifulSoup(page, "html.parser")
         documents = _jsonld_documents(page)
         if not self._page_season_matches(soup, season):
             raise OutOfSeasonDetail(page_url)
         title = _detail_title(soup, documents, fallback_title)
-        production_year_hint = self._production_year_hint(soup, title)
+        production_year_hint = year_hint or self._production_year_hint(soup, title)
         composer, composer_reason = _composer(soup, documents, title, page_url)
         programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": {"raw_name": composer, "normalized_name": composer, "source_field": "detail.composer", "source_url": page_url, "confidence": "official composer label"} if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer" if composer else "detail.title"}}]
         occurrences: list[tuple[str, str | None]] = []
@@ -317,25 +329,26 @@ class DetailLinkedListingAdapter:
             elif not has_year:
                 self.date_year_unverified += 1
                 self.date_candidates_rejected += 1
-        unique = []
-        seen_by_day: dict[str, set[str | None]] = {}
-        for item in dict.fromkeys(occurrences):
+        grouped: dict[str, list[str | None]] = {}
+        for item in occurrences:
             if _in_season(item[0], season, self.settings):
-                day_times = seen_by_day.setdefault(item[0], set())
-                if item[1] is None and day_times:
-                    self.ambiguous_same_day_occurrence += 1
-                    continue
-                if item[1] is not None and None in day_times:
-                    unique = [existing for existing in unique if existing[0] != item[0] or existing[1] is not None]
-                    day_times.discard(None)
-                if item[1] in day_times:
-                    self.duplicate_performance_slot += 1
-                    continue
-                day_times.add(item[1])
-                unique.append(item)
-                self.date_candidates_accepted += 1
+                grouped.setdefault(item[0], []).append(item[1])
             else:
                 self.date_candidates_rejected += 1
+        unique = []
+        for event_date, times in grouped.items():
+            distinct: list[str | None] = []
+            for start_time in times:
+                if start_time in distinct:
+                    self.duplicate_performance_slot += 1
+                    continue
+                distinct.append(start_time)
+            if None in distinct and any(value is not None for value in distinct):
+                distinct.remove(None)
+                self.null_timed_shadow_duplicates += 1
+            for start_time in distinct:
+                unique.append((event_date, start_time))
+                self.date_candidates_accepted += 1
         credits = _credits(soup, page_url)
         events: list[CanonicalEvent] = []
         for event_date, start_time in unique:
@@ -370,7 +383,7 @@ class DetailLinkedListingAdapter:
                 self.successful_months.append(detail_url)
                 self.detail_pages_successful.append(detail_url)
                 self.source_pages[detail_url] = detail_url
-                output.extend(self._events_from_detail(detail_page, detail_url, detail_url.rstrip("/").rsplit("/", 1)[-1], season))
+                output.extend(self._events_from_detail(detail_page, detail_url, detail_url.rstrip("/").rsplit("/", 1)[-1], season, self.detail_year_hints.get(detail_url)))
             except OutOfSeasonDetail:
                 self.detail_pages_out_of_season_skipped += 1
             except Exception as exc:
