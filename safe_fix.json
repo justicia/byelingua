@@ -1,0 +1,9 @@
+{
+  "classification": "SAFE_FIX",
+  "count": 0,
+  "requested": 0,
+  "validated": 0,
+  "fix_collision": 0,
+  "broken_programme_relationships": 0,
+  "production_writes": 0
+}
