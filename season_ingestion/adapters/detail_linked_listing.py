@@ -25,6 +25,10 @@ ROLE_LABELS = {
 }
 
 
+class OutOfSeasonDetail(Exception):
+    """The official detail page explicitly belongs to another season."""
+
+
 def _text(node: Any) -> str:
     return re.sub(r"\s+", " ", node.get_text(" ", strip=True)).strip() if node else ""
 
@@ -110,9 +114,15 @@ def _composer(detail: BeautifulSoup, documents: list[dict[str, Any]], title: str
         if len(text) > 250:
             continue
         match = re.search(rf"{labels}\s*[:\-]?\s*([^|;\n]+)", text, re.I)
+        if not match and re.fullmatch(labels, text, re.I):
+            sibling = node.find_next_sibling()
+            sibling_text = _text(sibling)
+            if sibling_text:
+                match = re.match(r"(.+)", sibling_text)
         if match:
             value = re.sub(r"\s+", " ", match.group(1)).strip(" -–—:")
-            value = re.split(r"\s+(?:Libretto|Lyrics|Regia|Stage direction|Directed by|Text von|Text by)\b", value, maxsplit=1, flags=re.I)[0].strip()
+            value = re.sub(r"^[Â\u00a0]+", "", value).strip()
+            value = re.split(r"\s+(?:Libretto|Lyrics|Regia|Stage direction|Directed by|Text von|Text by|Uraufführung|Premiere)\b", value, maxsplit=1, flags=re.I)[0].strip(" -–—:;")
             if len(value) > 120:
                 continue
             if value and value.casefold() != title.casefold():
@@ -121,7 +131,7 @@ def _composer(detail: BeautifulSoup, documents: list[dict[str, Any]], title: str
         description = str(document.get("description") or "")
         match = re.search(rf"{labels}\s*[:\-]?\s*([^|;\n]+)", description, re.I)
         if match:
-            return match.group(1).strip(), "official detail JSON-LD description"
+            return re.sub(r"^[Â\u00a0]+", "", match.group(1).strip()), "official detail JSON-LD description"
     return None, None
 
 
@@ -171,6 +181,14 @@ class DetailLinkedListingAdapter:
         self.detail_pages_requested: list[str] = []
         self.detail_pages_successful: list[str] = []
         self.detail_pages_failed: list[str] = []
+        self.productions_discovered = 0
+        self.detail_pages_out_of_season_skipped = 0
+        self.date_candidates_found = 0
+        self.date_candidates_accepted = 0
+        self.date_candidates_rejected = 0
+        self.date_year_unverified = 0
+        self.events_outside_season = 0
+        self.basel_activity_date_contamination = 0
 
     @staticmethod
     def _fetch_url(url: str) -> str:
@@ -195,9 +213,65 @@ class DetailLinkedListingAdapter:
                 urls.append(absolute)
         return urls
 
+    def _page_season_proven(self, soup: BeautifulSoup, season: str) -> bool:
+        selector = self.settings.get("page_season_selector")
+        pattern = self.settings.get("page_season_pattern")
+        if not selector or not pattern:
+            return False
+        nodes = soup.select(selector)
+        text = " ".join(_text(node) for node in nodes)
+        matches = re.findall(pattern, text, re.I)
+        if not matches:
+            return False
+        wanted = re.sub(r"[^0-9]", "", season)
+        start_year, end_year = season.split("-", 1)
+        full_end = end_year if len(end_year) == 4 else start_year[:2] + end_year
+        for match in matches:
+            value = "".join(match) if isinstance(match, tuple) else str(match)
+            digits = re.sub(r"[^0-9]", "", value)
+            if digits in {wanted, start_year + full_end}:
+                return True
+        return False
+
+    def _page_season_matches(self, soup: BeautifulSoup, season: str) -> bool:
+        selector = self.settings.get("page_season_selector")
+        pattern = self.settings.get("page_season_pattern")
+        if not selector or not pattern:
+            return True
+        nodes = soup.select(selector)
+        text = " ".join(_text(node) for node in nodes)
+        matches = re.findall(pattern, text, re.I)
+        return not matches or self._page_season_proven(soup, season)
+
+    def _performance_values(self, soup: BeautifulSoup) -> list[str]:
+        container_selector = self.settings.get("performance_container_selector")
+        date_selector = self.settings.get("performance_date_selector")
+        time_selector = self.settings.get("performance_time_selector")
+        if not container_selector:
+            # Legacy fixtures only; registered live venues provide an explicit
+            # performance container and never use this page-wide fallback.
+            return [str(node.get("datetime") or node.get("data-date") or node.get("data-start") or _text(node)) for node in soup.select("time[datetime], [data-date], .datelist li, [data-start]")]
+        containers = soup.select(container_selector)
+        values: list[str] = []
+        for container in containers:
+            date_nodes = [container]
+            if date_selector and date_selector != ":scope":
+                date_nodes = container.select(date_selector)
+            for date_node in date_nodes:
+                raw_date = str(date_node.get("datetime") or date_node.get("data-date") or date_node.get("data-start") or _text(date_node))
+                if not raw_date:
+                    continue
+                clocks = []
+                if time_selector:
+                    clocks = [_text(node) or str(node.get("datetime") or node.get("data-time") or "") for node in container.select(time_selector)]
+                values.extend([f"{raw_date} {clock}" for clock in clocks] or [raw_date])
+        return values
+
     def _events_from_detail(self, page: str, page_url: str, fallback_title: str, season: str) -> list[CanonicalEvent]:
         soup = BeautifulSoup(page, "html.parser")
         documents = _jsonld_documents(page)
+        if not self._page_season_matches(soup, season):
+            raise OutOfSeasonDetail(page_url)
         title = _detail_title(soup, documents, fallback_title)
         composer, composer_reason = _composer(soup, documents, title, page_url)
         programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": {"raw_name": composer, "normalized_name": composer, "source_field": "detail.composer", "source_url": page_url, "confidence": "official composer label"} if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer" if composer else "detail.title"}}]
@@ -205,15 +279,35 @@ class DetailLinkedListingAdapter:
         for document in documents:
             start = document.get("startDate") or document.get("startTime")
             if start:
+                self.date_candidates_found += 1
+                if not re.search(r"20\d{2}", str(start)) and self.settings.get("page_season_selector") and not self._page_season_proven(soup, season):
+                    self.date_year_unverified += 1
+                    self.date_candidates_rejected += 1
+                    continue
                 parsed = _parse_date_time(str(start), season=season, settings=self.settings)
                 if parsed:
                     occurrences.append(parsed)
-        for node in soup.select("time[datetime], [data-date], .datelist li, [data-start]"):
-            value = str(node.get("datetime") or node.get("data-date") or node.get("data-start") or _text(node))
+        for value in self._performance_values(soup):
+            self.date_candidates_found += 1
+            has_year = bool(re.search(r"20\d{2}", value))
+            if not has_year and self.settings.get("page_season_selector") and not self._page_season_proven(soup, season):
+                self.date_year_unverified += 1
+                self.date_candidates_rejected += 1
+                continue
             parsed = _parse_date_time(value, season=season, settings=self.settings)
             if parsed:
                 occurrences.append(parsed)
-        unique = list(dict.fromkeys(item for item in occurrences if _in_season(item[0], season, self.settings)))
+            elif not has_year:
+                self.date_year_unverified += 1
+                self.date_candidates_rejected += 1
+        unique = []
+        for item in dict.fromkeys(occurrences):
+            if _in_season(item[0], season, self.settings):
+                unique.append(item)
+                self.date_candidates_accepted += 1
+            else:
+                self.events_outside_season += 1
+                self.date_candidates_rejected += 1
         credits = _credits(soup, page_url)
         events: list[CanonicalEvent] = []
         for event_date, start_time in unique:
@@ -238,6 +332,7 @@ class DetailLinkedListingAdapter:
             self.last_errors.append({"url": listing_url, "error": f"{type(exc).__name__}: {exc}"})
             return []
         detail_urls = self._listing_urls(listing_page, listing_url)
+        self.productions_discovered = len(detail_urls)
         self.requested_months.extend(detail_urls)
         self.detail_pages_requested.extend(detail_urls)
         output: list[CanonicalEvent] = []
@@ -248,6 +343,8 @@ class DetailLinkedListingAdapter:
                 self.detail_pages_successful.append(detail_url)
                 self.source_pages[detail_url] = detail_url
                 output.extend(self._events_from_detail(detail_page, detail_url, detail_url.rstrip("/").rsplit("/", 1)[-1], season))
+            except OutOfSeasonDetail:
+                self.detail_pages_out_of_season_skipped += 1
             except Exception as exc:
                 self.failed_months.append(detail_url)
                 self.detail_pages_failed.append(detail_url)
