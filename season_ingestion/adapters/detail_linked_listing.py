@@ -104,13 +104,17 @@ def _in_season(event_date: str, season: str, settings: dict[str, Any]) -> bool:
 
 
 def _composer(detail: BeautifulSoup, documents: list[dict[str, Any]], title: str, page_url: str) -> tuple[str | None, str | None]:
-    labels = r"(?:Musica(?:\s+di)?|Music\s+by|Composer|Composed\s+by)"
-    for node in detail.select(".composer, [data-role='composer'], .music, .musica, dt, p, li, div"):
+    labels = r"(?:Musica\s+di|Musik\s+von|Music\s+by|Composer|Composed\s+by)"
+    for node in detail.select(".composer, [data-role='composer'], .music, .musica, [class*='composer'], [class*='musica'], dt, p, li"):
         text = _text(node)
+        if len(text) > 250:
+            continue
         match = re.search(rf"{labels}\s*[:\-]?\s*([^|;\n]+)", text, re.I)
         if match:
             value = re.sub(r"\s+", " ", match.group(1)).strip(" -–—:")
-            value = re.split(r"\s+(?:Libretto|Lyrics|Regia|Stage direction|Directed by)\b", value, maxsplit=1, flags=re.I)[0].strip()
+            value = re.split(r"\s+(?:Libretto|Lyrics|Regia|Stage direction|Directed by|Text von|Text by)\b", value, maxsplit=1, flags=re.I)[0].strip()
+            if len(value) > 120:
+                continue
             if value and value.casefold() != title.casefold():
                 return value, "official detail composer label"
     for document in documents:
