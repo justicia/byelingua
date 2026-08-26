@@ -21,7 +21,10 @@ def classify_summary(summary: dict[str, Any]) -> str:
     if summary.get("global_master_preflight") == "FAIL":
         return "FAILED"
     if summary.get("passed") and summary.get("source_capability") == "SOURCE_PASS":
-        return "READY_FOR_APPROVAL" if summary.get("counts", {}).get("writes", 0) == 0 else "FAILED"
+        counts = summary.get("counts", {})
+        if counts.get("programme_items", summary.get("detail_enrichment", {}).get("programme_items", 0)) and counts.get("safe_programme_relationships", 0) == 0 and counts.get("review_programme_relationships", 0) == counts.get("programme_items", summary.get("detail_enrichment", {}).get("programme_items", 0)):
+            return "REVIEW_REQUIRED"
+        return "READY_FOR_APPROVAL" if counts.get("writes", 0) == 0 else "FAILED"
     return "REVIEW_REQUIRED" if summary.get("counts", {}).get("review_items", 0) else "FAILED"
 
 

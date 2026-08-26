@@ -89,5 +89,7 @@ jobs:
         if: always()
         with:
           name: venue-onboarding-factory-${{ inputs.season }}
-          path: onboarding-output/
+          path: |
+            onboarding-output/summary.json
+            onboarding-output/pilot_diagnostics.json
           if-no-files-found: error

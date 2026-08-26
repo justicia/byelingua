@@ -54,6 +54,11 @@
       "timezone": "Europe/Rome",
       "season_start_month": 8,
       "season_end_month": 7,
+      "season_bounds": {"2026-27": {"season_start": "2026-08-01", "season_end": "2027-08-31"}},
+      "page_season_selector": "body",
+      "page_season_pattern": "Stagione\\s+(20\\d{2}\\s*[/\\-]\\s*20\\d{2})",
+      "performance_container_selector": "time.mcl-time",
+      "performance_date_selector": ":scope",
       "season": "2026-27",
       "enabled": true
     },
@@ -72,6 +77,12 @@
       "timezone": "Europe/Rome",
       "season_start_month": 8,
       "season_end_month": 7,
+      "season_bounds": {"2026-27": {"season_start": "2026-08-01", "season_end": "2027-08-31"}},
+      "page_season_selector": "body",
+      "page_season_pattern": "Stagione\\s+(20\\d{2}\\s*[/\\-]\\s*20\\d{2})",
+      "performance_container_selector": "#date-2",
+      "performance_date_selector": ".datelist li",
+      "performance_time_selector": ".turno",
       "season": "2026-27",
       "enabled": true
     },
@@ -90,6 +101,10 @@
       "timezone": "Europe/Zurich",
       "season_start_month": 8,
       "season_end_month": 7,
+      "season_bounds": {"2026-27": {"season_start": "2026-08-01", "season_end": "2027-08-31"}},
+      "performance_container_selector": ".termine-tickets, [data-section='termine-tickets']",
+      "performance_date_selector": "time[datetime], [data-date], .event-date",
+      "performance_time_selector": "time[datetime], .event-time",
       "season": "2026-27",
       "enabled": true
     }
