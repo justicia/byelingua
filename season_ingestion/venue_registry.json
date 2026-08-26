@@ -77,7 +77,7 @@
       "timezone": "Europe/Rome",
       "season_start_month": 8,
       "season_end_month": 7,
-      "season_bounds": {"2026-27": {"season_start": "2026-08-01", "season_end": "2027-08-31"}},
+      "season_bounds": {"2026-27": {"season_start": "2026-08-01", "season_end": "2027-12-31"}},
       "page_season_selector": "body",
       "page_season_pattern": "Stagione\\s+(20\\d{2}\\s*[/\\-]\\s*20\\d{2})",
       "performance_container_selector": "#date-2",

@@ -104,7 +104,7 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
     successful_months = getattr(adapter, "successful_months", [])
     failed_months = getattr(adapter, "failed_months", [])
     source_audit = {"venue": venue, "season": season, "official_source": config["official_source"], "official_fallback_source": config.get("fallback_source"), "source_strategy": "official listing -> official detail links -> performance-level detail extraction", "requested_months": requested_months, "successful_months": successful_months, "failed_months": failed_months, "source_pages": getattr(adapter, "source_pages", {}), "adapter_errors": adapter.last_errors, "events": len(events), "listing_pages_requested": len(getattr(adapter, "listing_pages_requested", [])), "listing_pages_successful": len(getattr(adapter, "listing_pages_successful", [])), "listing_pages_failed": len(getattr(adapter, "listing_pages_failed", [])), "detail_pages_requested": len(getattr(adapter, "detail_pages_requested", requested_months)), "detail_pages_successful": len(getattr(adapter, "detail_pages_successful", successful_months)), "detail_pages_failed": len(getattr(adapter, "detail_pages_failed", failed_months))}
-    source_audit.update({key: getattr(adapter, key, 0) for key in ("productions_discovered", "detail_pages_out_of_season_skipped", "date_candidates_found", "date_candidates_accepted", "date_candidates_rejected", "date_year_unverified", "events_outside_season")})
+    source_audit.update({key: getattr(adapter, key, 0) for key in ("productions_discovered", "detail_pages_out_of_season_skipped", "date_candidates_found", "date_candidates_accepted", "date_candidates_rejected", "date_year_unverified", "events_outside_season", "duplicate_performance_slot", "ambiguous_same_day_occurrence", "year_inferred_without_production_evidence")})
     if failed_months:
         source_capability = "SOURCE_BLOCKED" if not events and adapter.last_errors and all("403" in item.get("error", "") for item in adapter.last_errors) else "SOURCE_PARTIAL"
     elif not successful_months or not events:
@@ -133,6 +133,9 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
         "date_candidates_rejected": source_audit["date_candidates_rejected"],
         "date_year_unverified": source_audit["date_year_unverified"],
         "events_outside_season": source_audit["events_outside_season"],
+        "duplicate_performance_slot": source_audit["duplicate_performance_slot"],
+        "ambiguous_same_day_occurrence": source_audit["ambiguous_same_day_occurrence"],
+        "year_inferred_without_production_evidence": source_audit["year_inferred_without_production_evidence"],
         "date_min": min(event_dates) if event_dates else None,
         "date_max": max(event_dates) if event_dates else None,
     })

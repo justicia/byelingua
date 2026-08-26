@@ -29,6 +29,21 @@ def adapter_for(venue_id, fixture_name, config):
 
 
 class DetailLinkedListingAdapterTests(unittest.TestCase):
+    def test_rome_pairs_each_occurrence_row_and_does_not_cross_product_times(self):
+        config = settings("opera_roma", "/spettacoli/", "Teatro dell'Opera di Roma", "Teatro dell'Opera di Roma", "Rome", "Italy", "Europe/Rome")
+        config.update({"performance_container_selector": "#date-2", "performance_date_selector": ".datelist li", "performance_time_selector": ".turno", "page_season_selector": "body", "page_season_pattern": r"Stagione\s+(20\d{2}\s*[/\-]\s*20\d{2})"})
+        detail = "<body>Stagione 2026/2027<h1>Il trovatore</h1><p>Musica di Giuseppe Verdi</p><section id=date-2>" + "".join(f"<div class=datelist><li>{d}<span class=turno>{t}</span></li></div>" for d, t in [("22 Giu", "ORE 20:00"), ("23 Giu", "ORE 20:00"), ("25 Giu", "ORE 20:00"), ("26 Giu", "ORE 18:00"), ("27 Giu", "ORE 16:30"), ("30 Giu", "ORE 20:00"), ("01 Lug", "ORE 20:00")]) + "</section></body>"
+        pages = {config["listing_source"]: '<a href="https://official.example/spettacoli/trovatore/">Il trovatore</a>', "https://official.example/spettacoli/trovatore/": detail}
+        events = DetailLinkedListingAdapter(config, fetch=pages.__getitem__).ingest("2026-27")
+        self.assertEqual([(event.date, event.start_time) for event in events], [("2027-06-22", "20:00"), ("2027-06-23", "20:00"), ("2027-06-25", "20:00"), ("2027-06-26", "18:00"), ("2027-06-27", "16:30"), ("2027-06-30", "20:00"), ("2027-07-01", "20:00")])
+
+    def test_rome_production_date_context_resolves_late_year(self):
+        config = settings("opera_roma", "/spettacoli/", "Teatro dell'Opera di Roma", "Teatro dell'Opera di Roma", "Rome", "Italy", "Europe/Rome")
+        config.update({"performance_container_selector": "#date-2", "performance_date_selector": ".datelist li", "performance_time_selector": ".turno", "page_season_selector": "body", "page_season_pattern": r"Stagione\s+(20\d{2}\s*[/\-]\s*20\d{2})", "season_bounds": {"2026-27": {"season_start": "2026-08-01", "season_end": "2027-12-31"}}})
+        detail = "<body>Stagione 2026/2027<h1>La rondine</h1><section id=date-2><div class=datelist><li>18 Settembre<span class=turno>ORE 20:00</span></li></div></section><p>La rondine</p><p>Dal 18 Settembre al 26 Settembre 2027</p></body>"
+        pages = {config["listing_source"]: '<a href="https://official.example/spettacoli/rondine/">La rondine</a>', "https://official.example/spettacoli/rondine/": detail}
+        events = DetailLinkedListingAdapter(config, fetch=pages.__getitem__).ingest("2026-27")
+        self.assertEqual([(event.date, event.start_time) for event in events], [("2027-09-18", "20:00")])
     def test_milan_listing_detail_multiple_performances_and_traceability(self):
         config = settings("teatro_alla_scala", "/en/season/2026-2027/", "Teatro alla Scala", "Teatro alla Scala", "Milan", "Italy", "Europe/Rome")
         adapter = adapter_for("teatro_alla_scala", "teatro_alla_scala", config)
