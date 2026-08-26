@@ -189,6 +189,9 @@ class DetailLinkedListingAdapter:
         self.date_year_unverified = 0
         self.events_outside_season = 0
         self.basel_activity_date_contamination = 0
+        self.duplicate_performance_slot = 0
+        self.ambiguous_same_day_occurrence = 0
+        self.year_inferred_without_production_evidence = 0
 
     @staticmethod
     def _fetch_url(url: str) -> str:
@@ -263,9 +266,14 @@ class DetailLinkedListingAdapter:
                     continue
                 clocks = []
                 if time_selector:
-                    clocks = [_text(node) or str(node.get("datetime") or node.get("data-time") or "") for node in container.select(time_selector)]
+                    clocks = [_text(node) or str(node.get("datetime") or node.get("data-time") or "") for node in date_node.select(time_selector)]
                 values.extend([f"{raw_date} {clock}" for clock in clocks] or [raw_date])
         return values
+
+    def _production_year_hint(self, soup: BeautifulSoup, title: str) -> int | None:
+        text = _text(soup)
+        match = re.search(rf"{re.escape(title)}.{{0,240}}?(20\d{{2}})", text, re.I)
+        return int(match.group(1)) if match else None
 
     def _events_from_detail(self, page: str, page_url: str, fallback_title: str, season: str) -> list[CanonicalEvent]:
         soup = BeautifulSoup(page, "html.parser")
@@ -273,6 +281,7 @@ class DetailLinkedListingAdapter:
         if not self._page_season_matches(soup, season):
             raise OutOfSeasonDetail(page_url)
         title = _detail_title(soup, documents, fallback_title)
+        production_year_hint = self._production_year_hint(soup, title)
         composer, composer_reason = _composer(soup, documents, title, page_url)
         programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": {"raw_name": composer, "normalized_name": composer, "source_field": "detail.composer", "source_url": page_url, "confidence": "official composer label"} if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer" if composer else "detail.title"}}]
         occurrences: list[tuple[str, str | None]] = []
@@ -290,10 +299,18 @@ class DetailLinkedListingAdapter:
         for value in self._performance_values(soup):
             self.date_candidates_found += 1
             has_year = bool(re.search(r"20\d{2}", value))
+            if not has_year and production_year_hint:
+                if re.search(r"\d{1,2}[./-]\d{1,2}", value):
+                    value = re.sub(r"(\d{1,2}[./-]\d{1,2})", rf"\1/{production_year_hint}", value, count=1)
+                else:
+                    value = re.sub(r"(\d{1,2}\s+[A-Za-zÀ-ÿ]{3,9})", rf"\1 {production_year_hint}", value, count=1)
+                has_year = True
             if not has_year and self.settings.get("page_season_selector") and not self._page_season_proven(soup, season):
                 self.date_year_unverified += 1
                 self.date_candidates_rejected += 1
                 continue
+            if not has_year and not self._page_season_proven(soup, season):
+                self.year_inferred_without_production_evidence += 1
             parsed = _parse_date_time(value, season=season, settings=self.settings)
             if parsed:
                 occurrences.append(parsed)
@@ -301,8 +318,20 @@ class DetailLinkedListingAdapter:
                 self.date_year_unverified += 1
                 self.date_candidates_rejected += 1
         unique = []
+        seen_by_day: dict[str, set[str | None]] = {}
         for item in dict.fromkeys(occurrences):
             if _in_season(item[0], season, self.settings):
+                day_times = seen_by_day.setdefault(item[0], set())
+                if item[1] is None and day_times:
+                    self.ambiguous_same_day_occurrence += 1
+                    continue
+                if item[1] is not None and None in day_times:
+                    unique = [existing for existing in unique if existing[0] != item[0] or existing[1] is not None]
+                    day_times.discard(None)
+                if item[1] in day_times:
+                    self.duplicate_performance_slot += 1
+                    continue
+                day_times.add(item[1])
                 unique.append(item)
                 self.date_candidates_accepted += 1
             else:
