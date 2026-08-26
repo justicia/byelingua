@@ -220,6 +220,8 @@ class DetailLinkedListingAdapter:
                 context = _text(context_node)
                 if re.search(r"20\d{2}", context):
                     break
+                if context_node is None:
+                    break
                 context_node = context_node.parent
             years = [int(match.group(1)) for match in re.finditer(r"(?<![/-])(20\d{2})(?![/-])", context)]
             if years:
