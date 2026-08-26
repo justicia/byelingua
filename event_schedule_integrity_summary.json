@@ -1,0 +1,35 @@
+{
+  "contract": "EVENT SCHEDULE INTEGRITY V1",
+  "branch": "venue-expansion-v1",
+  "commit": "7b9eb7d2e7286da01eac828f92ad85dc15bd2f3a",
+  "production_audit": {
+    "organizations": 6,
+    "venues": 17,
+    "events_total": 2081,
+    "safe_keep": 2036,
+    "safe_fix": 0,
+    "review_backlog": 45,
+    "duplicate_event_identity": 0,
+    "duplicate_performance_slot": 45,
+    "null_timed_shadow_duplicates": 0,
+    "ambiguous_same_day_occurrence": 0,
+    "year_unverified": 0,
+    "invalid_date": 0,
+    "untraceable_source": 0,
+    "same_day_multi_time_valid": 63
+  },
+  "new_venue_staging": {
+    "rome_events_extracted": 13,
+    "rome_il_trovatore_occurrences": 7,
+    "rome_la_rondine_occurrences": 6,
+    "rome_safe_new_events": 0,
+    "rome_programme_review_relationships": 13,
+    "milan_events_audited": 0,
+    "basel_events_audited": 0
+  },
+  "safe_fix": {"requested": 0, "validated": 0, "fix_collision": 0, "broken_programme_relationships": 0},
+  "safe_new_preflight": {"already_existing_events": 0, "new_events": 0, "already_existing_event_sources": 0, "new_event_sources": 0, "already_existing_relationships": 0, "new_relationships": 0},
+  "production_writes": 0,
+  "migrations": 0,
+  "vercel": 0
+}

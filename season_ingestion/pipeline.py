@@ -7,7 +7,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from .contracts import STAGES, validate_canonical_event
+from .contracts import STAGES, validate_canonical_event, validate_schedule_integrity
 from .contracts import empty_global_snapshot
 from .global_master import GlobalMasterError, load_global_snapshot, resolve_entity, resolve_work
 from .registry import load_adapter, load_registry
@@ -46,6 +46,7 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
     events = adapter.ingest(season)
     for event in events:
         validate_canonical_event(event)
+    schedule_contract = validate_schedule_integrity(events)
     generated_at = datetime.now(timezone.utc).isoformat()
     global_master_error = None
     try:
@@ -99,7 +100,7 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
     snapshot_counts = {kind: len(snapshot.entities.get(kind, [])) for kind in ("composer", "artist", "work", "character")}
     snapshot_counts["composer_aliases"] = len(getattr(snapshot, "composer_aliases", []))
     snapshot_counts["work_aliases"] = len(getattr(snapshot, "work_aliases", []))
-    gates = {"events_gt_zero": len(events) > 0, "traceable_urls": all(bool(event.source_url) for event in events), "duplicate_event_identity": duplicate_event_identity == 0, "artist_boundary_high": all(not (credit.get("artist_name") or "").casefold().endswith((" soprano", " tenor", " baritone", " bass")) for credit in credits), "programme_credit_contamination": all(credit.get("credit_kind") not in {"cast", "character"} or credit.get("function") not in {"conductor", "director", "orchestra", "chorus", "designer"} for credit in credits), "source_order_missing": all(item.get("original_programme_order") == item.get("source_programme_index") for item in programme_rows), "untraceable": not untraceable, "review_items_in_safe_subset": 0 == 0, "production_writes": 0 == 0, "source_fetch_failures": len(adapter.last_errors) == 0, "global_master_loaded": global_master_loaded}
+    gates = {"events_gt_zero": len(events) > 0, "traceable_urls": all(bool(event.source_url) for event in events), "duplicate_event_identity": duplicate_event_identity == 0, "duplicate_performance_slot": schedule_contract["duplicate_performance_slot"] == 0, "null_timed_shadow_duplicates": schedule_contract["null_timed_shadow_duplicates"] == 0, "ambiguous_same_day_occurrence": schedule_contract["ambiguous_same_day_occurrence"] == 0, "year_inferred_without_production_evidence": schedule_contract["year_inferred_without_production_evidence"] == 0, "year_unverified": schedule_contract["year_unverified"] == 0, "artist_boundary_high": all(not (credit.get("artist_name") or "").casefold().endswith((" soprano", " tenor", " baritone", " bass")) for credit in credits), "programme_credit_contamination": all(credit.get("credit_kind") not in {"cast", "character"} or credit.get("function") not in {"conductor", "director", "orchestra", "chorus", "designer"} for credit in credits), "source_order_missing": all(item.get("original_programme_order") == item.get("source_programme_index") for item in programme_rows), "untraceable": not untraceable, "review_items_in_safe_subset": 0 == 0, "production_writes": 0 == 0, "source_fetch_failures": len(adapter.last_errors) == 0, "global_master_loaded": global_master_loaded}
     requested_months = getattr(adapter, "requested_months", [])
     successful_months = getattr(adapter, "successful_months", [])
     failed_months = getattr(adapter, "failed_months", [])

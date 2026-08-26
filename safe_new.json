@@ -1,0 +1,13 @@
+{
+  "classification": "SAFE_NEW",
+  "count": 0,
+  "rome_schedule_safe_candidates": 13,
+  "reason": "Rome schedule candidates remain review until Composer/Work and production identity preflight are available",
+  "already_existing_events": 0,
+  "new_events": 0,
+  "already_existing_event_sources": 0,
+  "new_event_sources": 0,
+  "already_existing_relationships": 0,
+  "new_relationships": 0,
+  "production_writes": 0
+}
