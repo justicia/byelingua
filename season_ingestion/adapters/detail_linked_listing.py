@@ -306,7 +306,6 @@ class DetailLinkedListingAdapter:
                 unique.append(item)
                 self.date_candidates_accepted += 1
             else:
-                self.events_outside_season += 1
                 self.date_candidates_rejected += 1
         credits = _credits(soup, page_url)
         events: list[CanonicalEvent] = []
