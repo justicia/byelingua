@@ -84,7 +84,8 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", output_dir: 
                         work_resolution.update(status="new_candidate", reason="resolved Composer with no operational Work match; candidate only")
                 else:
                     work_resolution = {"status": "review_required", "work_id": None, "reason": "composer unresolved; Work resolution deferred"}
-            row = {"event_key": event.event_key, "source_title": item["source_title"], **work_resolution, "composer": composer, "composer_candidate": item.get("composer_candidate", {}), "composer_resolution": composer_status, "source_programme_index": item["source_programme_index"], "original_programme_order": item["original_programme_order"], "provenance": item.get("provenance", {})}
+            work_entity = next((work for work in snapshot.entities.get("work", []) if work.get("id") == work_resolution.get("work_id")), {})
+            row = {"event_key": event.event_key, "source_title": item["source_title"], **work_resolution, "canonical_work_title": work_entity.get("canonical_name") or work_entity.get("title"), "composer": composer, "canonical_composer": composer_status.get("canonical_name"), "composer_candidate": item.get("composer_candidate", {}), "composer_resolution": composer_status, "source_programme_index": item["source_programme_index"], "original_programme_order": item["original_programme_order"], "provenance": item.get("provenance", {})}
             resolution_rows.append(row)
             if work_resolution["status"] in {"review_required", "new_candidate"}:
                 review_rows.append(row)

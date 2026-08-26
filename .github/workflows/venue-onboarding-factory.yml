@@ -20,6 +20,11 @@ on:
         default: dry-run
         type: choice
         options: [dry-run, apply-approved]
+      venue_ids:
+        description: Comma-separated venue IDs when scope is selected
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -40,8 +45,9 @@ jobs:
         env:
           SEASON: ${{ inputs.season }}
           SCOPE: ${{ inputs.scope }}
+          VENUE_IDS: ${{ inputs.venue_ids }}
         run: |
-          matrix=$(python -c "import json,os; from season_ingestion.venue_targets import load_targets,matrix_targets; print(json.dumps({'include':matrix_targets(load_targets(season=os.environ['SEASON'],scope=os.environ['SCOPE']))},ensure_ascii=False))")
+          matrix=$(python -c "import json,os; from season_ingestion.venue_targets import load_targets,matrix_targets; selected=[v.strip() for v in os.environ.get('VENUE_IDS','').split(',') if v.strip()]; print(json.dumps({'include':matrix_targets(load_targets(season=os.environ['SEASON'],scope=os.environ['SCOPE'],selected=selected))},ensure_ascii=False))")
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   onboard:
@@ -69,6 +75,7 @@ jobs:
           path: |
             onboarding-output/${{ matrix.venue_id }}/onboarding_status.json
             onboarding-output/${{ matrix.venue_id }}/source_structure.json
+            onboarding-output/${{ matrix.venue_id }}/safe_apply_preview.json
           if-no-files-found: error
 
   summarize:
