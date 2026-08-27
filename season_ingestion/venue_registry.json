@@ -59,6 +59,11 @@
       "page_season_pattern": "Stagione\\s+(20\\d{2}\\s*[/\\-]\\s*20\\d{2})",
       "performance_container_selector": "time[datetime], [data-date], [data-start]",
       "performance_date_selector": ":scope",
+      "detail_profile": "teatro_alla_scala",
+      "detail_type_selector": ".cnt__leaf",
+      "detail_composer_selector": ".cnt__subtitle",
+      "programme_section_selector": "section#programme",
+      "programme_row_selector": "table tbody tr",
       "season": "2026-27",
       "enabled": true
     },
