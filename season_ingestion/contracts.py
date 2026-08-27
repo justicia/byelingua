@@ -1,6 +1,9 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+from collections import defaultdict
+from datetime import date as date_type
+import re
 from typing import Any, Iterable, Mapping
 
 from .unicode_integrity import validate_unicode_integrity
@@ -8,6 +11,7 @@ from .unicode_integrity import validate_unicode_integrity
 
 ENTITY_KINDS = ("composer", "artist", "work", "character")
 STAGES = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging")
+_TIME_RE = re.compile(r"^(?:[01]\d|2[0-3]):[0-5]\d$")
 
 
 @dataclass(frozen=True)
@@ -62,6 +66,71 @@ def validate_canonical_event(event: Any) -> None:
             "conductor", "director", "orchestra", "chorus", "designer"
         }:
             raise ValueError("artistic team credit contaminated cast/character boundary")
+
+
+def schedule_integrity_report(events: Iterable[Any]) -> dict[str, int]:
+    """Validate deterministic schedule identity without resolving master data."""
+    rows = [event.to_dict() if hasattr(event, "to_dict") else dict(event) for event in events]
+    report = {key: 0 for key in (
+        "duplicate_event_identity", "duplicate_performance_slot", "null_timed_shadow_duplicates",
+        "ambiguous_same_day_occurrence", "year_inferred_without_production_evidence", "year_unverified",
+        "untraceable_source", "invalid_date", "invalid_time", "missing_venue", "missing_organization",
+    )}
+    event_keys: set[str] = set()
+    slots: set[tuple[str, str, str, str, str | None]] = set()
+    days: defaultdict[tuple[str, str, str, str], set[str | None]] = defaultdict(set)
+    for row in rows:
+        event_key = str(row.get("event_key") or "")
+        if event_key in event_keys:
+            report["duplicate_event_identity"] += 1
+        if event_key:
+            event_keys.add(event_key)
+        organization = str(row.get("organization") or "")
+        venue = str(row.get("venue") or "")
+        title = str(row.get("title") or row.get("production_title") or "")
+        event_date = row.get("date")
+        start_time = row.get("start_time")
+        if not organization:
+            report["missing_organization"] += 1
+        if not venue:
+            report["missing_venue"] += 1
+        if not str(row.get("source_url") or "").strip():
+            report["untraceable_source"] += 1
+        try:
+            date_type.fromisoformat(str(event_date))
+        except (TypeError, ValueError):
+            report["invalid_date"] += 1
+        if start_time is not None and not _TIME_RE.fullmatch(str(start_time)):
+            report["invalid_time"] += 1
+        slot = (organization, venue, title, str(event_date), start_time)
+        if slot in slots:
+            report["duplicate_performance_slot"] += 1
+        slots.add(slot)
+        days[(organization, venue, title, str(event_date))].add(start_time)
+        schedule = row.get("data_quality", {}).get("schedule", {}) if isinstance(row.get("data_quality"), dict) else {}
+        if schedule.get("year_status") == "YEAR_UNVERIFIED":
+            report["year_unverified"] += 1
+        if schedule.get("year_inferred_without_production_evidence"):
+            report["year_inferred_without_production_evidence"] += 1
+    for times in days.values():
+        if None in times and any(value is not None for value in times):
+            report["null_timed_shadow_duplicates"] += 1
+        if len({value for value in times if value is not None}) > 1:
+            continue
+        if len(times) > 1 and None not in times:
+            report["ambiguous_same_day_occurrence"] += 1
+    return report
+
+
+def validate_schedule_integrity(events: Iterable[Any]) -> dict[str, int]:
+    """Return contract counters and raise for malformed schedule fields."""
+    report = schedule_integrity_report(events)
+    hard_shape_failures = {key: value for key, value in report.items() if key in {
+        "invalid_date", "invalid_time", "missing_venue", "missing_organization"
+    } and value}
+    if hard_shape_failures:
+        raise ValueError(f"event schedule contract violation: {hard_shape_failures}")
+    return report
 
 
 def empty_global_snapshot(generated_at: str) -> GlobalEntitySnapshot:

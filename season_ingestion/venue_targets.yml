@@ -10,7 +10,7 @@ targets:
     official_homepage: https://www.opernhaus.ch/en/spielplan/oper-2627/
     schedule_source: https://www.opernhaus.ch/en/spielplan/oper-2627/
     enabled: true
-    onboarding_status: PENDING
+    onboarding_status: ONBOARDED_PRODUCTION
   - venue_id: bayerische_staatsoper
     organization: Bayerische Staatsoper
     venue: Nationaltheater
@@ -20,5 +20,44 @@ targets:
     season: 2026-27
     official_homepage: https://www.staatsoper.de/
     schedule_source: https://www.staatsoper.de/spielplan/{year_month}
+    enabled: true
+    onboarding_status: SOURCE_BLOCKED
+  - venue_id: teatro_alla_scala
+    organization: Teatro alla Scala
+    venue: Teatro alla Scala
+    city: Milan
+    country: Italy
+    timezone: Europe/Rome
+    season: 2026-27
+    official_homepage: https://www.teatroallascala.org/en/season/2026-2027/2026-2027-season.html
+    schedule_source: https://www.teatroallascala.org/en/calendar.html
+    source_status: DISCOVERY_PASS
+    structure_type: DETAIL_LINKED_LISTING
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: opera_roma
+    organization: Teatro dell'Opera di Roma
+    venue: Teatro dell'Opera di Roma
+    city: Rome
+    country: Italy
+    timezone: Europe/Rome
+    season: 2026-27
+    official_homepage: https://www.operaroma.it/stagione/
+    schedule_source: https://www.operaroma.it/genre/opera/
+    source_status: DISCOVERY_PASS
+    structure_type: DETAIL_LINKED_LISTING
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: theater_basel
+    organization: Theater Basel
+    venue: Theater Basel
+    city: Basel
+    country: Switzerland
+    timezone: Europe/Zurich
+    season: 2026-27
+    official_homepage: https://www.theater-basel.ch/en/season2627
+    schedule_source: https://www.theater-basel.ch/de/kalender?online=1
+    source_status: DISCOVERY_PASS
+    structure_type: DETAIL_LINKED_LISTING
     enabled: true
     onboarding_status: PENDING
