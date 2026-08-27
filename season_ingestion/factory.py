@@ -56,6 +56,19 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
     output_dir = output_root / venue_id
     try:
         summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", output_dir=output_dir, snapshot_path=snapshot_path)
+        required_artifacts = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary")
+        artifact_checks = {}
+        for artifact_name in required_artifacts:
+            artifact_path = output_dir / f"{artifact_name}.json"
+            try:
+                json.loads(artifact_path.read_text(encoding="utf-8"))
+                artifact_checks[artifact_name] = True
+            except (FileNotFoundError, OSError, ValueError):
+                artifact_checks[artifact_name] = False
+        summary["artifact_completeness"] = {
+            "files": artifact_checks,
+            "all_required_present_and_valid": all(artifact_checks.values()),
+        }
         status = classify_summary(summary)
     except (KeyError, ModuleNotFoundError, ValueError):
         summary = {"venue": venue_id, "season": target["season"], "source_capability": "ADAPTER_REQUIRED", "counts": {"writes": 0}, "passed": False, "failure_reason": "No verified reusable venue adapter is registered"}
