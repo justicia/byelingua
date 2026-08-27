@@ -131,7 +131,9 @@ def resolve_work(source_title: str, composer: dict[str, Any] | str | None, snaps
     composer_id = composer.get("entity_id") if isinstance(composer, dict) and composer.get("status") == "existing" else None
     candidates = []
     for row in snapshot.entities.get("work", []):
-        if composer_id and row.get("composer_id") and row.get("composer_id") != composer_id:
+        if composer_id is None:
+            continue
+        if row.get("composer_id") != composer_id:
             continue
         canonical_key = normalize_identity(str(row.get("canonical_name") or row.get("title") or ""))
         if normalized and normalized == canonical_key:
@@ -140,10 +142,26 @@ def resolve_work(source_title: str, composer: dict[str, Any] | str | None, snaps
         aliases = [alias.get("alias") for alias in snapshot.work_aliases if alias.get("work_id") == row.get("id")]
         if normalized and any(normalized == normalize_identity(str(alias or "")) for alias in aliases):
             candidates.append((row, "alias"))
-    if len(candidates) == 1:
-        row, method = candidates[0]
-        return {"status": "existing", "work_id": row.get("id"), "match_method": method, "reason": f"{method} global work match with resolved composer context"}
-    return {"status": "review_required", "work_id": None, "reason": "no unique global Work match; do not auto-create"}
+    if composer_id is None:
+        return {"status": "review_required", "work_id": None, "reason": "REVIEW_COMPOSER"}
+    eligible_statuses = {"verified", "resolved", "canonical"}
+    blocked_kinds = {"programme_container", "composite_programme", "production_title"}
+    eligible = [
+        (row, method) for row, method in candidates
+        if row.get("composer_id") == composer_id
+        and row.get("normalization_status") in eligible_statuses
+        and str(row.get("work_kind") or "work").casefold() not in blocked_kinds
+    ]
+    if len(eligible) == 1:
+        row, method = eligible[0]
+        return {"status": "existing", "work_id": row.get("id"), "match_method": method, "reason": f"{method} operational Work match with resolved Composer context"}
+    if len(eligible) > 1:
+        return {"status": "review_required", "work_id": None, "reason": "DUPLICATE_WORK_IDENTITY"}
+    if candidates and any(row.get("normalization_status") == "review_required" for row, _ in candidates):
+        return {"status": "review_required", "work_id": None, "reason": "LEGACY_REVIEW_WORK_MATCH"}
+    if candidates and any(str(row.get("work_kind") or "work").casefold() in blocked_kinds for row, _ in candidates):
+        return {"status": "review_required", "work_id": None, "reason": "REVIEW_PROGRAMME_CONTAINER"}
+    return {"status": "review_required", "work_id": None, "reason": "no operational Work match; do not auto-create"}
 
 
 def resolve_entity(kind: str, raw_name: str, snapshot: GlobalEntitySnapshot) -> dict[str, Any]:

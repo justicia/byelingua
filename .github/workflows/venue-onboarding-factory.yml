@@ -20,6 +20,11 @@ on:
         default: dry-run
         type: choice
         options: [dry-run, apply-approved]
+      venue_ids:
+        description: Comma-separated venue IDs when scope is selected
+        required: false
+        default: ''
+        type: string
 
 permissions:
   contents: read
@@ -40,8 +45,9 @@ jobs:
         env:
           SEASON: ${{ inputs.season }}
           SCOPE: ${{ inputs.scope }}
+          VENUE_IDS: ${{ inputs.venue_ids }}
         run: |
-          matrix=$(python -c "import json,os; from season_ingestion.venue_targets import load_targets,matrix_targets; print(json.dumps({'include':matrix_targets(load_targets(season=os.environ['SEASON'],scope=os.environ['SCOPE']))},ensure_ascii=False))")
+          matrix=$(python -c "import json,os; from season_ingestion.venue_targets import load_targets,matrix_targets; selected=[v.strip() for v in os.environ.get('VENUE_IDS','').split(',') if v.strip()]; print(json.dumps({'include':matrix_targets(load_targets(season=os.environ['SEASON'],scope=os.environ['SCOPE'],selected=selected))},ensure_ascii=False))")
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
   onboard:
@@ -51,6 +57,9 @@ jobs:
       fail-fast: false
       matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
     runs-on: ubuntu-latest
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,7 +72,10 @@ jobs:
         if: always()
         with:
           name: onboarding-${{ matrix.venue_id }}
-          path: onboarding-output/
+          path: |
+            onboarding-output/${{ matrix.venue_id }}/onboarding_status.json
+            onboarding-output/${{ matrix.venue_id }}/source_structure.json
+            onboarding-output/${{ matrix.venue_id }}/safe_apply_preview.json
           if-no-files-found: error
 
   summarize:
@@ -79,10 +91,12 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: onboarding-output
-      - run: python jobs/aggregate_venue_onboarding.py --season "${{ inputs.season }}" --output-root onboarding-output
+      - run: PYTHONPATH=. python jobs/aggregate_venue_onboarding.py --season "${{ inputs.season }}" --output-root onboarding-output
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: venue-onboarding-factory-${{ inputs.season }}
-          path: onboarding-output/
+          path: |
+            onboarding-output/summary.json
+            onboarding-output/pilot_diagnostics.json
           if-no-files-found: error

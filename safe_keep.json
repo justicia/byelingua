@@ -1,0 +1,7 @@
+{
+  "classification": "SAFE_KEEP",
+  "scope": "current production events",
+  "count": 2036,
+  "basis": "passes deterministic schedule fields; excludes 45 duplicate semantic slots reserved for review",
+  "production_writes": 0
+}
