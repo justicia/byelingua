@@ -68,14 +68,44 @@ jobs:
       - run: pip install -r requirements-season-ingestion.txt
       - name: Run independent venue onboarding
         run: python jobs/run_venue_onboarding_target.py --venue-id "${{ matrix.venue_id }}" --season "${{ matrix.season }}" --output-root onboarding-output
+      - name: Validate complete venue artifact
+        env:
+          VENUE_OUTPUT: onboarding-output/${{ matrix.venue_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path(os.environ["VENUE_OUTPUT"])
+          required = (
+              "source_audit.json",
+              "raw.json",
+              "normalized.json",
+              "snapshot.json",
+              "resolution_staging.json",
+              "final_staging.json",
+              "summary.json",
+          )
+          failures = []
+          for name in required:
+              path = root / name
+              if not path.is_file():
+                  failures.append(f"{name}: missing")
+                  continue
+              try:
+                  json.loads(path.read_text(encoding="utf-8"))
+              except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+                  failures.append(f"{name}: invalid JSON ({exc})")
+          if failures:
+              raise SystemExit("Venue artifact contract failed: " + "; ".join(failures))
+          print(f"Validated {len(required)} required JSON artifacts in {root}")
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: onboarding-${{ matrix.venue_id }}
-          path: |
-            onboarding-output/${{ matrix.venue_id }}/onboarding_status.json
-            onboarding-output/${{ matrix.venue_id }}/source_structure.json
-            onboarding-output/${{ matrix.venue_id }}/safe_apply_preview.json
+          path: onboarding-output/${{ matrix.venue_id }}/
           if-no-files-found: error
 
   summarize:
