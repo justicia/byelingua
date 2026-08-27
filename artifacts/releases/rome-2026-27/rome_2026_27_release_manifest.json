@@ -2,7 +2,7 @@
   "schema_version": "v1",
   "release": "ROME 2026/27",
   "payload_path": "artifacts/releases/rome-2026-27/rome_2026_27_atomic_payload.json",
-  "payload_sha256": "7023d2e1f7717c76a3975ee976898a3e06ea8886a83ef5d7ce5c4a6b4c05aea7",
+  "payload_sha256": "859872fb87e8bf0173a71170dcf87144865f1cac3d1c3642c5ae84d3de15b580",
   "source": "opera_roma",
   "organization_name": "Teatro dell'Opera di Roma",
   "organization_slug": "teatro-dell-opera-di-roma",
