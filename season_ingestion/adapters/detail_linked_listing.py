@@ -164,6 +164,107 @@ def _detail_title(detail: BeautifulSoup, documents: list[dict[str, Any]], fallba
     return fallback
 
 
+def _canonical_event_type(label: str, page_url: str) -> str:
+    value = f"{label} {page_url}".casefold()
+    if any(token in value for token in ("children", "family", "kids", "school")):
+        return "children_family"
+    if "ballet" in value or "dance" in value:
+        return "ballet"
+    if "chamber" in value:
+        return "chamber_music"
+    if "recital" in value or "pianist" in value or "voice" in value:
+        return "recital"
+    if "concert" in value or "orchestra" in value or "musical-institutions" in value:
+        return "concert"
+    if "opera" in value:
+        return "opera"
+    return "other"
+
+
+def _first_table_line(node: Any) -> str:
+    if not node:
+        return ""
+    fragment = re.split(r"<br\s*/?>", str(node), maxsplit=1, flags=re.I)[0]
+    return _text(BeautifulSoup(fragment, "html.parser"))
+
+
+def _candidate(raw_name: str, page_url: str, source_field: str) -> dict[str, Any]:
+    return {
+        "raw_name": raw_name,
+        "normalized_name": raw_name,
+        "source_field": source_field,
+        "source_url": page_url,
+        "confidence": "official detail structured field",
+    }
+
+
+def _scala_programme(
+    detail: BeautifulSoup,
+    *,
+    title: str,
+    category: str,
+    composer: str | None,
+    page_url: str,
+    settings: dict[str, Any],
+) -> tuple[list[dict[str, Any]], bool]:
+    section_selector = settings.get("programme_section_selector", "section#programme")
+    row_selector = settings.get("programme_row_selector", "table tbody tr")
+    section = detail.select_one(section_selector)
+    if not section:
+        if category == "opera" and composer:
+            source_field = "detail.header.composer"
+            return ([{
+                "source_title": title,
+                "raw_title": title,
+                "composer": composer,
+                "composer_candidate": _candidate(composer, page_url, source_field),
+                "source_programme_index": 1,
+                "raw_programme_index": 1,
+                "original_programme_order": 1,
+                "resolution_status": "pending_global_resolution",
+                "provenance": {"source_url": page_url, "source_field": source_field},
+            }], False)
+        return [], False
+
+    rows: list[dict[str, Any]] = []
+    for index, row in enumerate(section.select(row_selector), start=1):
+        cells = row.find_all("td", recursive=False) or row.select("td")
+        if len(cells) < 2:
+            continue
+        first, second = cells[0], cells[1]
+        if category == "ballet":
+            source_title = _text(first)
+            row_composer = None
+            for strong in second.select("strong"):
+                tail = str(strong.next_sibling or "")
+                if "music" in tail.casefold():
+                    row_composer = _text(strong)
+                    break
+            if not row_composer:
+                match = re.search(r"([^,\n]+),\s*music\b", _text(second), re.I)
+                row_composer = match.group(1).strip() if match else None
+            source_field = f"detail.programme.row[{index}].music"
+        else:
+            row_composer = _text(first) or composer
+            source_title = _first_table_line(second)
+            source_field = f"detail.programme.row[{index}]"
+        if not source_title:
+            continue
+        item = {
+            "source_title": source_title,
+            "raw_title": source_title,
+            "composer": row_composer or None,
+            "composer_candidate": _candidate(row_composer, page_url, source_field) if row_composer else {},
+            "source_programme_index": index,
+            "raw_programme_index": index,
+            "original_programme_order": index,
+            "resolution_status": "pending_global_resolution",
+            "provenance": {"source_url": page_url, "source_field": source_field},
+        }
+        rows.append(item)
+    return rows, True
+
+
 class DetailLinkedListingAdapter:
     """Shared read-only parser for official listing pages with detail links."""
 
@@ -296,8 +397,31 @@ class DetailLinkedListingAdapter:
             raise OutOfSeasonDetail(page_url)
         title = _detail_title(soup, documents, fallback_title)
         production_year_hint = year_hint or self._production_year_hint(soup, title)
-        composer, composer_reason = _composer(soup, documents, title, page_url)
-        programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": {"raw_name": composer, "normalized_name": composer, "source_field": "detail.composer", "source_url": page_url, "confidence": "official composer label"} if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer" if composer else "detail.title"}}]
+        if self.settings.get("detail_profile") == "teatro_alla_scala":
+            source_type = _text(soup.select_one(self.settings.get("detail_type_selector", ".cnt__leaf")))
+            event_type = _canonical_event_type(source_type, page_url)
+            header_composer = _text(soup.select_one(self.settings.get("detail_composer_selector", ".cnt__subtitle"))) or None
+            programme, programme_section_present = _scala_programme(
+                soup, title=title, category=event_type, composer=header_composer,
+                page_url=page_url, settings=self.settings,
+            )
+            composer = header_composer
+            composer_reason = "official detail header composer" if header_composer else None
+            if programme:
+                programme_status = "PROGRAMME_EVIDENCE_FOUND"
+                programme_reason = "official structured detail programme"
+            elif programme_section_present:
+                programme_status = "PROGRAMME_SOURCE_AMBIGUOUS"
+                programme_reason = "official Programme section has no deterministic Work rows"
+            else:
+                programme_status = "NO_PROGRAMME_EVIDENCE"
+                programme_reason = "official detail page has no structured programme list"
+        else:
+            composer, composer_reason = _composer(soup, documents, title, page_url)
+            event_type = "performance"
+            programme_status = "PROGRAMME_EVIDENCE_FOUND" if composer else "DETAIL_PARSE_REVIEW"
+            programme_reason = composer_reason or "official detail title found without explicit composer label"
+            programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": _candidate(composer, page_url, "detail.composer") if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer" if composer else "detail.title"}}]
         occurrences: list[tuple[str, str | None]] = []
         for document in documents:
             start = document.get("startDate") or document.get("startTime")
@@ -355,7 +479,7 @@ class DetailLinkedListingAdapter:
         events: list[CanonicalEvent] = []
         for event_date, start_time in unique:
             source_event_id = hashlib.sha256(f"{page_url}|{event_date}|{start_time or ''}".encode()).hexdigest()[:24]
-            event = CanonicalEvent(source=self.settings.get("source_id", "detail_linked_listing"), source_event_id=source_event_id, source_url=page_url, organization=self.settings["organization"], venue=self.settings["venue"], city=self.settings["city"], country=self.settings["country"], timezone=self.settings["timezone"], title=title, date=event_date, start_time=start_time, end_time=None, room=None, event_type="performance", classification="performance", programme=programme, credits=credits, data_quality={"programme": {"status": "PROGRAMME_EVIDENCE_FOUND" if composer else "DETAIL_PARSE_REVIEW", "reason": composer_reason or "official detail title found without explicit composer label"}, "detail_enrichment": {"status": "complete", "source_url": page_url}}, raw={"listing_source_url": self.settings.get("listing_source"), "detail_source_url": page_url, "source_title": title})
+            event = CanonicalEvent(source=self.settings.get("source_id", "detail_linked_listing"), source_event_id=source_event_id, source_url=page_url, organization=self.settings["organization"], venue=self.settings["venue"], city=self.settings["city"], country=self.settings["country"], timezone=self.settings["timezone"], title=title, date=event_date, start_time=start_time, end_time=None, room=None, event_type=event_type, classification=event_type, programme=programme, credits=credits, data_quality={"programme": {"status": programme_status, "reason": programme_reason}, "detail_enrichment": {"status": "complete", "source_url": page_url, "source_type": source_type if self.settings.get("detail_profile") == "teatro_alla_scala" else None}}, raw={"listing_source_url": self.settings.get("listing_source"), "detail_source_url": page_url, "source_title": title, "source_event_type": source_type if self.settings.get("detail_profile") == "teatro_alla_scala" else None})
             event.validate()
             events.append(event)
         return events
