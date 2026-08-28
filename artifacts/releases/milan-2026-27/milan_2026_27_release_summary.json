@@ -11,19 +11,19 @@
   },
   "accounting": {
     "productions": 86,
-    "events": 191,
+    "events": 190,
     "date_min": "2026-09-06",
     "date_max": "2027-07-16",
-    "programme_evidence_events": 120,
+    "programme_evidence_events": 119,
     "expected_no_programme_events": 68,
     "programme_source_ambiguous_events": 3,
-    "event_classification_total": 191,
-    "programme_relationship_candidates_total": 163,
+    "event_classification_total": 190,
+    "programme_relationship_candidates_total": 162,
     "relationship_rows_safe": 43,
-    "relationship_rows_review": 120,
-    "unique_work_candidates_total": 58,
+    "relationship_rows_review": 119,
+    "unique_work_candidates_total": 57,
     "unique_work_safe_existing": 8,
-    "unique_work_review": 50,
+    "unique_work_review": 49,
     "unique_work_accounting_status": "PASS"
   },
   "production_preflight": {
@@ -37,15 +37,15 @@
     "safe_work_ids_missing": 0
   },
   "event_graph": {
-    "events_from_final_staging": 191,
-    "event_payload_rows": 191,
+    "events_from_final_staging": 190,
+    "event_payload_rows": 190,
     "event_source_rows": 191,
     "events_without_source": 0,
     "expected_no_programme_events": 68,
     "programme_source_ambiguous_events": 3
   },
   "safe_programme": {
-    "relationship_candidates_total": 163,
+    "relationship_candidates_total": 162,
     "safe_relationship_rows": 43,
     "safe_unique_work_ids": 8,
     "missing_work_ids": 0,
@@ -56,13 +56,13 @@
     "untraceable_relationship_source": 0
   },
   "review_backlog": {
-    "review_relationship_rows": 120,
+    "review_relationship_rows": 119,
     "review_composer": 0,
-    "review_work": 99,
+    "review_work": 98,
     "review_composer_and_work": 21,
     "programme_source_ambiguous_relationships": 0,
     "other_review": 0,
-    "review_taxonomy_total": 120,
+    "review_taxonomy_total": 119,
     "review_accounting_status": "PASS"
   },
   "programme_source_ambiguous_events": [
@@ -104,7 +104,7 @@
   "atomic_graph_preview": {
     "organizations_new": 1,
     "venues_new": 1,
-    "events_new": 191,
+    "events_new": 190,
     "event_sources_new": 191,
     "composers_new": 0,
     "works_new": 0,
@@ -122,5 +122,13 @@
   "production_writes": 0,
   "migrations": 0,
   "frontend": 0,
-  "vercel": 0
+  "vercel": 0,
+  "correction": {
+    "correction_type": "SAME_OCCURRENCE_MULTIPLE_OFFICIAL_DETAIL_PAGES",
+    "removed_event_key": "teatro_alla_scala:49268b89e681668b5249c7af",
+    "kept_event_key": "teatro_alla_scala:e313cca3d4435b9c1100783c",
+    "sources_preserved": 2,
+    "review_rows_removed": 1,
+    "writer_contract": "MULTI_SOURCE_EVENT_RPC_V2"
+  }
 }

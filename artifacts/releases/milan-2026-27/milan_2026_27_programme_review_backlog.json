@@ -53,21 +53,6 @@
     },
     {
       "review_category": "REVIEW_WORK",
-      "event_key": "teatro_alla_scala:49268b89e681668b5249c7af",
-      "source_event_id": "f4b4ee0f4f937a5ddd983b6f",
-      "event_title": "Otello - Opening Night (7 December)",
-      "event_date": "2026-12-07",
-      "source_programme_index": 1,
-      "original_programme_order": 1,
-      "source_composer": "Giuseppe Verdi",
-      "source_work_title": "Otello - Opening Night (7 December)",
-      "source_url": "https://www.teatroallascala.org/en/season/2026-2027/opera/otello-opening-night-7-december.html",
-      "composer_resolution_status": "existing",
-      "work_resolution_status": "new_candidate",
-      "explicit_review_reason": "resolved Composer with no operational Work match; candidate only"
-    },
-    {
-      "review_category": "REVIEW_WORK",
       "event_key": "teatro_alla_scala:5d59dbe8a6b05f6cc55bc12c",
       "source_event_id": "427cadabd7fe1e85808c7747",
       "event_title": "Mendelssohn and Bruch | String Octets",
@@ -1807,15 +1792,15 @@
       "explicit_review_reason": "resolved Composer with no operational Work match; candidate only"
     }
   ],
-  "review_relationship_rows": 120,
+  "review_relationship_rows": 119,
   "taxonomy_counts": {
     "REVIEW_COMPOSER": 0,
-    "REVIEW_WORK": 99,
+    "REVIEW_WORK": 98,
     "REVIEW_COMPOSER_AND_WORK": 21,
     "PROGRAMME_SOURCE_AMBIGUOUS": 0,
     "OTHER_EXPLICIT_REVIEW": 0
   },
-  "taxonomy_total": 120,
+  "taxonomy_total": 119,
   "programme_source_ambiguous_events": [
     {
       "event_key": "teatro_alla_scala:7fe89608646bbaacf27e7e5d",
