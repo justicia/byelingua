@@ -1,0 +1,126 @@
+{
+  "schema_version": "milan-frozen-atomic-release-summary-v1",
+  "source_binding": {
+    "venue": "Teatro alla Scala",
+    "season": "2026-27",
+    "git_sha": "cba1c20ba347ac7a0a75460c0ab9623196b50d3c",
+    "github_actions_run_id": 33084515797,
+    "artifact_id": 9651592874,
+    "artifact_digest": "sha256:62449653826cd02bef63c0d77717d0a2365512a22c80393d1527d42ce4cd4d8a",
+    "artifact_binding_status": "PASS"
+  },
+  "accounting": {
+    "productions": 86,
+    "events": 191,
+    "date_min": "2026-09-06",
+    "date_max": "2027-07-16",
+    "programme_evidence_events": 120,
+    "expected_no_programme_events": 68,
+    "programme_source_ambiguous_events": 3,
+    "event_classification_total": 191,
+    "programme_relationship_candidates_total": 163,
+    "relationship_rows_safe": 43,
+    "relationship_rows_review": 120,
+    "unique_work_candidates_total": 58,
+    "unique_work_safe_existing": 8,
+    "unique_work_review": 50,
+    "unique_work_accounting_status": "PASS"
+  },
+  "production_preflight": {
+    "existing_organization": 0,
+    "existing_venue": 0,
+    "existing_events": 0,
+    "organization_identity_conflict": 0,
+    "venue_identity_conflict": 0,
+    "safe_work_ids_requested": 8,
+    "safe_work_ids_existing": 8,
+    "safe_work_ids_missing": 0
+  },
+  "event_graph": {
+    "events_from_final_staging": 191,
+    "event_payload_rows": 191,
+    "event_source_rows": 191,
+    "events_without_source": 0,
+    "expected_no_programme_events": 68,
+    "programme_source_ambiguous_events": 3
+  },
+  "safe_programme": {
+    "relationship_candidates_total": 163,
+    "safe_relationship_rows": 43,
+    "safe_unique_work_ids": 8,
+    "missing_work_ids": 0,
+    "invalid_work_ids": 0,
+    "review_relationship_in_safe_payload": 0,
+    "duplicate_event_work": 0,
+    "programme_order_conflict": 0,
+    "untraceable_relationship_source": 0
+  },
+  "review_backlog": {
+    "review_relationship_rows": 120,
+    "review_composer": 0,
+    "review_work": 99,
+    "review_composer_and_work": 21,
+    "programme_source_ambiguous_relationships": 0,
+    "other_review": 0,
+    "review_taxonomy_total": 120,
+    "review_accounting_status": "PASS"
+  },
+  "programme_source_ambiguous_events": [
+    {
+      "event_key": "teatro_alla_scala:7fe89608646bbaacf27e7e5d",
+      "title": "Beethoven, Portrait Between Joy and Sorrow",
+      "date": "2027-05-17",
+      "source_url": "https://www.teatroallascala.org/en/season/2026-2027/concerts/invitation-to-la-scala/beethoven-portrait-between-joy-and-sorrow.html",
+      "review_reason": "official Programme section has no deterministic Work rows"
+    },
+    {
+      "event_key": "teatro_alla_scala:0f70f3d3d331e8d75c3c1099",
+      "title": "Mimì & Teo and… The Intolerant Vampire",
+      "date": "2027-06-06",
+      "source_url": "https://www.teatroallascala.org/en/season/2026-2027/great-performances-for-children-and-family/concerts-for-children/mimi-teo-and-the-intolerant-vampire.html",
+      "review_reason": "official Programme section has no deterministic Work rows"
+    },
+    {
+      "event_key": "teatro_alla_scala:9e7bdfd6918cad211f93ecc4",
+      "title": "Diana Damrau",
+      "date": "2027-06-13",
+      "source_url": "https://www.teatroallascala.org/en/season/2026-2027/concerts/voice-recital/diana-damrau.html",
+      "review_reason": "official Programme section has no deterministic Work rows"
+    }
+  ],
+  "schedule_hard_gates": {
+    "duplicate_event_identity": 0,
+    "duplicate_performance_slot": 0,
+    "null_timed_shadow_duplicates": 0,
+    "ambiguous_same_day_occurrence": 0,
+    "year_inferred_without_production_evidence": 0,
+    "year_unverified": 0,
+    "untraceable_source": 0,
+    "invalid_date": 0,
+    "invalid_time": 0,
+    "missing_venue": 0,
+    "missing_organization": 0
+  },
+  "atomic_graph_preview": {
+    "organizations_new": 1,
+    "venues_new": 1,
+    "events_new": 191,
+    "event_sources_new": 191,
+    "composers_new": 0,
+    "works_new": 0,
+    "event_programme_new": 43,
+    "artists_new": 0,
+    "event_credits_new": 0
+  },
+  "idempotency_preview": {
+    "new_organizations_on_rerun": 0,
+    "new_venues_on_rerun": 0,
+    "new_events_on_rerun": 0,
+    "new_event_sources_on_rerun": 0,
+    "new_programme_relationships_on_rerun": 0
+  },
+  "production_writes": 0,
+  "migrations": 0,
+  "frontend": 0,
+  "vercel": 0
+}
