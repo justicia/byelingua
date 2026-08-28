@@ -33,6 +33,16 @@ def test_artist_resolution_is_unicode_safe_and_new_artists_are_safe():
     assert fresh["artist_resolution"]["status"] == "SAFE_NEW_ARTIST"
 
 
+def test_artist_resolution_prefers_official_accent_preserving_exact_match():
+    existing = snapshot([
+        {"id": "plain", "artist_name": "Etienne Pluss"},
+        {"id": "accented", "artist_name": "Étienne Pluss"},
+    ])
+    result = resolve_credit({"artist_name": "Étienne Pluss", "source_role": "Set Design"}, work_id=None, snapshot=existing)
+    assert result["artist_resolution"]["status"] == "SAFE_EXISTING"
+    assert result["artist_resolution"]["artist_id"] == "accented"
+
+
 def test_known_zurich_artists_resolve_existing():
     s = snapshot([{"id": "armiliato", "artist_name": "Marco Armiliato"}, {"id": "beczala", "artist_name": "Piotr Beczała"}])
     assert resolve_credit({"artist_name": "Marco Armiliato", "source_role": "Musical Director"}, work_id=None, snapshot=s)["artist_resolution"]["status"] == "SAFE_EXISTING"
@@ -50,22 +60,47 @@ def test_voice_type_never_becomes_character():
 def test_explicit_cast_character_uses_performer_role():
     result = resolve_credit({"artist_name": "Jane Doe", "source_role": "Elisabeth", "credit_kind": "cast", "character": "Elisabeth"}, work_id="w1", snapshot=snapshot())
     assert result["canonical_role"] == "performer"
-    assert result["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"
+    assert result["resolution_status"] == "SAFE_UNRESOLVED_CHARACTER"
+    assert result["character_resolution"]["status"] == "REVIEW_CHARACTER_CONFLICT"
     assert result["resolution_status"] != "REVIEW_ROLE_UNKNOWN"
 
 
 def test_work_scoped_character_resolution_and_review():
-    s = snapshot(work_characters=[{"work_id": "w1", "canonical_name": "Elisabeth", "character_uid": "c1"}])
+    s = snapshot(work_characters=[{"id": "wc1", "work_id": "w1", "canonical_name": "Elisabeth", "character_uid": "c1"}])
     safe = resolve_credit({"artist_name": "Jane Doe", "source_role": "Singer", "character": "Elisabeth"}, work_id="w1", snapshot=s)
     assert safe["character_resolution"]["status"] == "SAFE_CHARACTER"
+    assert safe["character_resolution"]["character_id"] == "wc1"
+    assert safe["character_resolution"]["global_character_id"] == "c1"
     review = resolve_credit({"artist_name": "Jane Doe", "source_role": "Singer", "character": "Venus"}, work_id="w1", snapshot=s)
-    assert review["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"
+    assert review["resolution_status"] == "SAFE_UNRESOLVED_CHARACTER"
+    assert review["character_resolution"]["status"] == "REVIEW_CHARACTER_CONFLICT"
 
 
 def test_unlinked_work_character_never_becomes_safe_character():
-    s = snapshot(work_characters=[{"work_id": "w1", "canonical_name": "Elisabeth", "character_uid": None}])
+    s = snapshot(work_characters=[{"id": "wc1", "work_id": "w1", "canonical_name": "Elisabeth", "character_uid": None}])
     result = resolve_credit({"artist_name": "Jane Doe", "source_role": "Singer", "character": "Elisabeth"}, work_id="w1", snapshot=s)
-    assert result["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"
+    assert result["resolution_status"] == "SAFE_UNRESOLVED_CHARACTER"
+    assert result["character_resolution"]["status"] == "REVIEW_CHARACTER_CONFLICT"
+
+
+def test_unresolved_character_credit_is_safe_but_identity_stays_in_backlog():
+    event = SimpleNamespace(event_key="e1", credits=[
+        {"artist_name": "Jane Doe", "source_role": "Elisabeth", "credit_kind": "cast", "character": "Elisabeth"},
+    ])
+    staged = stage_credits([event], [{"event_key": "e1", "work_id": "w1"}], snapshot())
+    assert len(staged["safe_event_credits"]) == 1
+    assert len(staged["review_event_credits"]) == 0
+    assert len(staged["review_character_conflicts"]) == 1
+    assert staged["safe_event_credits"][0]["credit"]["source_character"] == "Elisabeth"
+
+
+def test_unresolved_dual_roles_for_one_artist_are_not_deduplicated():
+    event = SimpleNamespace(event_key="e1", credits=[
+        {"artist_name": "Jane Doe", "source_role": "First Lady", "credit_kind": "cast", "character": "First Lady"},
+        {"artist_name": "Jane Doe", "source_role": "Second Lady", "credit_kind": "cast", "character": "Second Lady"},
+    ])
+    staged = stage_credits([event], [{"event_key": "e1", "work_id": "w1"}], snapshot())
+    assert len(staged["safe_event_credits"]) == 2
 
 
 def test_credit_status_precedence_allows_safe_non_character_credits():
@@ -73,6 +108,12 @@ def test_credit_status_precedence_allows_safe_non_character_credits():
     for role in ("Musikalische Leitung", "Inszenierung", "Singer"):
         result = resolve_credit({"artist_name": "Marco Armiliato", "source_role": role}, work_id="w1", snapshot=s)
         assert result["resolution_status"] == "SAFE_ROLE"
+    assert canonical_role("Choreinstudierung") == "chorus_master"
+    assert canonical_role("Video") == "video_designer"
+    assert canonical_role("Statisten") == "extras"
+    assert canonical_role("Background actors") == "extras"
+    assert canonical_role("Ausstattung") == "production_designer"
+    assert canonical_role("Philharmonia Zürich") == "orchestra"
 
 
 def test_character_linkage_hard_blocks_jobs_and_allows_linked_characters():

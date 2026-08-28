@@ -16,7 +16,12 @@ ROLE_ALIASES = {
     "licht": "lighting_designer", "lichtgestaltung": "lighting_designer", "lighting": "lighting_designer", "lumières": "lighting_designer",
     "choreografie": "choreographer", "choreography": "choreographer", "chorégraphie": "choreographer",
     "dramaturgie": "dramaturg", "dramaturgy": "dramaturg",
-    "chorleitung": "chorus_master", "chorus master": "chorus_master", "chef des chœurs": "chorus_master",
+    "chorleitung": "chorus_master", "choreinstudierung": "chorus_master", "chorus master": "chorus_master", "chef des chœurs": "chorus_master",
+    "video": "video_designer", "video design": "video_designer",
+    "statisten": "extras", "statistenverein am opernhaus zürich": "extras", "background actors": "extras",
+    "stuntteam": "stunt_team",
+    "ausstattung": "production_designer",
+    "philharmonia zürich": "orchestra",
     "orchester": "orchestra", "orchestra": "orchestra", "chor": "choir", "choir": "choir", "chorus": "choir",
     "ensemble": "ensemble", "music group": "ensemble",
     "singer": "singer", "sänger": "singer", "cantante": "singer", "chanteur": "singer",
@@ -40,6 +45,15 @@ def _artist_resolution(name: str, snapshot: Any) -> dict[str, Any]:
     if not lookup:
         return {"status": "REVIEW_SOURCE_AMBIGUOUS", "artist_id": None}
     rows = snapshot.entities.get("artist", [])
+    # Prefer the official accent-preserving spelling when that exact canonical
+    # Artist already exists.  Only then fall back to accent-insensitive identity
+    # matching and aliases.
+    display_key = " ".join(name.casefold().split())
+    display_exact = [r for r in rows if " ".join(str(r.get("artist_name") or "").casefold().split()) == display_key]
+    if len(display_exact) == 1:
+        return {"status": "SAFE_EXISTING", "artist_id": display_exact[0].get("id"), "canonical_name": display_exact[0].get("artist_name"), "lookup_key": lookup}
+    if len(display_exact) > 1:
+        return {"status": "REVIEW_ARTIST_CONFLICT", "artist_id": None, "lookup_key": lookup, "candidate_ids": [r.get("id") for r in display_exact]}
     exact = [r for r in rows if normalize_identity(r.get("artist_name")) == lookup]
     aliases = [a for a in getattr(snapshot, "artist_aliases", []) if normalize_identity(a.get("alias")) == lookup]
     ids = {r.get("id") for r in exact} | {a.get("artist_id") for a in aliases}
@@ -57,17 +71,27 @@ def _character_resolution(raw: str | None, work_id: str | None, snapshot: Any) -
     if not work_id:
         return {"status": "REVIEW_CHARACTER_CONFLICT", "character_id": None, "character": raw}
     rows = [r for r in getattr(snapshot, "work_characters", []) if str(r.get("work_id")) == str(work_id)]
-    aliases = {str(a.get("character_id")): a for a in getattr(snapshot, "character_aliases", [])}
+    aliases: dict[str, set[str]] = {}
+    for alias in getattr(snapshot, "character_aliases", []):
+        aliases.setdefault(str(alias.get("character_id")), set()).add(normalize_identity(alias.get("alias")))
     matches = []
     for row in rows:
         # A work_character row without character_uid is only a staging candidate;
         # it must never be promoted to SAFE_CHARACTER by label alone.
         if not row.get("character_uid"):
             continue
-        if normalize_identity(row.get("canonical_name")) == normalize_identity(raw) or normalize_identity(aliases.get(str(row.get("character_uid")), {}).get("alias")) == normalize_identity(raw):
+        raw_key = normalize_identity(raw)
+        if normalize_identity(row.get("canonical_name")) == raw_key or raw_key in aliases.get(str(row.get("character_uid")), set()):
             matches.append(row)
     if len(matches) == 1:
-        return {"status": "SAFE_CHARACTER", "character_id": matches[0].get("character_uid"), "character": matches[0].get("canonical_name")}
+        return {
+            "status": "SAFE_CHARACTER",
+            # event_credits.character_id references work_characters.id.  Keep the
+            # global Character UID as provenance, never as the FK value.
+            "character_id": matches[0].get("id"),
+            "global_character_id": matches[0].get("character_uid"),
+            "character": matches[0].get("canonical_name"),
+        }
     return {"status": "REVIEW_CHARACTER_CONFLICT", "character_id": None, "character": raw}
 
 
@@ -84,7 +108,10 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
     if artist["status"].startswith("REVIEW"):
         status = artist["status"]
     elif character["status"].startswith("REVIEW"):
-        status = character["status"]
+        # A clear official cast assignment remains useful even when only its
+        # Character identity is unresolved.  Publish the Artist + performer
+        # credit with raw_character and keep the identity question in backlog.
+        status = "SAFE_UNRESOLVED_CHARACTER" if role == "performer" and source_character else character["status"]
     return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "artist_resolution": artist, "character_resolution": character, "credit_kind": raw.get("credit_kind") or ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
 
 
@@ -94,7 +121,8 @@ def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot
     safe, review, seen, deduped = [], [], set(), []
     for row in all_rows:
         credit = row["credit"]
-        key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), credit["character_resolution"].get("character_id"))
+        character_identity = credit["character_resolution"].get("character_id") or normalize_identity(credit.get("source_character"))
+        key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), character_identity)
         if key in seen:
             continue
         seen.add(key)
@@ -103,7 +131,7 @@ def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot
     artists = {r["credit"]["artist_resolution"]["canonical_name"]: r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_NEW_ARTIST"}
     statuses = [r["credit"]["artist_resolution"]["status"] for r in deduped]
     counts = {"credits_raw": len(all_rows), "credits_safe": len(safe), "credits_review": len(review), "role_safe": sum(bool(r["credit"].get("canonical_role")) for r in deduped), "role_review": sum(not bool(r["credit"].get("canonical_role")) for r in deduped), "artist_existing": sum(s == "SAFE_EXISTING" for s in statuses), "artist_new_safe": sum(s == "SAFE_NEW_ARTIST" for s in statuses), "artist_review": sum(s.startswith("REVIEW") for s in statuses), "artist_resolution_existing": sum(s == "SAFE_EXISTING" for s in statuses), "artist_resolution_new": sum(s == "SAFE_NEW_ARTIST" for s in statuses), "artist_resolution_conflict": sum(s == "REVIEW_ARTIST_CONFLICT" for s in statuses), "character_safe": sum(r["credit"]["character_resolution"]["status"] == "SAFE_CHARACTER" for r in deduped), "character_review": sum(r["credit"]["character_resolution"]["status"].startswith("REVIEW") for r in deduped)}
-    return {"safe_existing_artists": [r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING"], "safe_new_artists": list(artists.values()), "safe_cast_assignments": [r for r in safe if r["credit"].get("credit_kind") == "cast"], "safe_artistic_team": [r for r in safe if r["credit"].get("credit_kind") == "artistic_team"], "safe_ensembles": [r for r in safe if r["credit"].get("credit_kind") == "ensemble"], "review_artist_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ARTIST_CONFLICT"], "review_character_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_CHARACTER_CONFLICT"], "review_unknown_roles": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ROLE_UNKNOWN"], "review_source_ambiguous": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_SOURCE_AMBIGUOUS"], "safe_event_credits": safe, "review_event_credits": review, "counts": counts}
+    return {"safe_existing_artists": [r["credit"]["artist_resolution"] for r in safe if r["credit"]["artist_resolution"]["status"] == "SAFE_EXISTING"], "safe_new_artists": list(artists.values()), "safe_cast_assignments": [r for r in safe if r["credit"].get("credit_kind") == "cast"], "safe_artistic_team": [r for r in safe if r["credit"].get("credit_kind") == "artistic_team"], "safe_ensembles": [r for r in safe if r["credit"].get("credit_kind") == "ensemble"], "review_artist_conflicts": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ARTIST_CONFLICT"], "review_character_conflicts": [r for r in deduped if r["credit"]["character_resolution"]["status"] == "REVIEW_CHARACTER_CONFLICT"], "review_unknown_roles": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_ROLE_UNKNOWN"], "review_source_ambiguous": [r for r in review if r["credit"]["resolution_status"] == "REVIEW_SOURCE_AMBIGUOUS"], "safe_event_credits": safe, "review_event_credits": review, "counts": counts}
 
 
 def _stage_credits_legacy(events: list[Any], resolutions: list[dict[str, Any]], snapshot: Any) -> dict[str, Any]:
