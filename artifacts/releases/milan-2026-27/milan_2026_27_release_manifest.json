@@ -8,10 +8,10 @@
   "source_artifact_id": 9651592874,
   "source_artifact_digest": "sha256:62449653826cd02bef63c0d77717d0a2365512a22c80393d1527d42ce4cd4d8a",
   "payload_sha256": "ccae01de7291d785313fc14e75e54fc56f090238d83375ee383a17e0758be249",
-  "events": 191,
+  "events": 190,
   "event_sources": 191,
   "safe_programme_relationships": 43,
-  "review_programme_relationships": 120,
+  "review_programme_relationships": 119,
   "expected_no_programme_events": 68,
   "programme_source_ambiguous_events": 3,
   "unique_safe_work_ids": 8,
@@ -50,5 +50,15 @@
     "programme_order_conflict": 0,
     "review_relationship_in_safe_payload": 0,
     "untraceable_relationship_source": 0
-  }
+  },
+  "writer_contract": "MULTI_SOURCE_EVENT_RPC_V2",
+  "correction_type": "SAME_OCCURRENCE_MULTIPLE_OFFICIAL_DETAIL_PAGES",
+  "removed_event_key": "teatro_alla_scala:49268b89e681668b5249c7af",
+  "kept_event_key": "teatro_alla_scala:e313cca3d4435b9c1100783c",
+  "sources_preserved": 2,
+  "review_rows_removed": 1,
+  "event_count": 190,
+  "event_source_count": 191,
+  "programme_safe": 43,
+  "programme_review": 119
 }
