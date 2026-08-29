@@ -1,0 +1,25 @@
+{
+  "schema_version": "bayerische-staatsoper-official-pdf-enrichment-staging-v1",
+  "source_document": "JV_2627_Jahresvorschau_Einzelseiten.pdf",
+  "source_pdf_sha256": "b6fb6723ab8853e6e7c44a1838b6d20dfc293bf8e3b1901b54404070dc059b61",
+  "pages_read": 280,
+  "text_pages": 238,
+  "productions_found": 50,
+  "productions_matched": 46,
+  "productions_unmatched": 4,
+  "unmatched_production_keys": [
+    "death-in-venice",
+    "liberty",
+    "die-kreide-im-mund-des-wolfs",
+    "koma-il-combattimento"
+  ],
+  "events_covered": 220,
+  "cast_rows_extracted": 387,
+  "team_rows_extracted": 345,
+  "programme_rows_extracted": 50,
+  "safe_credit_candidate_rows": 1421,
+  "safe_candidate_events": 109,
+  "review_cast_rows_variant_unresolved": 76,
+  "artist_names_in_extraction": 388,
+  "production_writes": 0
+}
