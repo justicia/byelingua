@@ -1,34 +1,27 @@
-name: Manual season ingestion
+name: Cloud Season Ingestion Pipeline V1 (compatibility)
 
 on:
   workflow_dispatch:
     inputs:
       venue:
-        description: Venue adapter or runtime staging input
+        description: Verified official venue adapter
         required: true
         type: choice
         options:
-          - wiener_staatsoper
-          - operadeparis
-          - philharmonie_paris
           - teatro_real
-          - auditorio_nacional
+          - teatro_alla_scala
+          - opera_roma
       season:
         description: Season (September through August)
         required: true
         default: 2026-27
         type: string
-      staging_file:
-        description: Optional runtime JSONL path for venues without a committed adapter
-        required: false
-        default: ''
-        type: string
       mode:
-        description: Stage only, read-only reconciliation, or apply (unsupported)
+        description: Read-only cloud ingestion or official-source probe
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, preflight, apply]
+        options: [dry-run, probe]
 
 permissions:
   contents: read
@@ -36,7 +29,6 @@ permissions:
 jobs:
   ingest:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.mode == 'apply' && 'season-ingestion-production' || '' }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -44,26 +36,44 @@ jobs:
           python-version: '3.12'
           cache: pip
       - run: pip install -r requirements-season-ingestion.txt
-      - name: Ingest season
-        env:
-          SUPABASE_URL: ${{ (inputs.mode == 'preflight' || inputs.mode == 'apply') && secrets.SUPABASE_URL || '' }}
-          SUPABASE_READONLY_KEY: ${{ inputs.mode == 'preflight' && secrets.SUPABASE_READONLY_KEY || '' }}
-          SUPABASE_SECRET_KEY: ${{ inputs.mode == 'apply' && secrets.SUPABASE_SECRET_KEY || '' }}
+      - name: Probe official source
+        if: inputs.mode == 'probe'
         run: |
-          args=(--venue "${{ inputs.venue }}" --season "${{ inputs.season }}" --mode "${{ inputs.mode }}" --report-file reconciliation-report.json)
-          if [ -n "${{ inputs.staging_file }}" ]; then args+=(--staging-file "${{ inputs.staging_file }}"); fi
-          python jobs/sync_season.py "${args[@]}"
+          python jobs/probe_official_source.py \
+            --venue "${{ inputs.venue }}" \
+            --season "${{ inputs.season }}" \
+            --output source-probe-summary.json
+      - name: Run shared read-only cloud entrypoint
+        if: inputs.mode == 'dry-run'
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
+          INPUT_VENUE: ${{ inputs.venue }}
+          INPUT_SEASON: ${{ inputs.season }}
+          INPUT_MODE: ${{ inputs.mode }}
+        run: |
+          python -m season_ingestion.run \
+            --venue "${{ inputs.venue }}" \
+            --season "${{ inputs.season }}" \
+            --mode dry-run \
+            --output-dir season-ingestion-output
+      - name: Write Step Summary
+        if: always() && inputs.mode == 'dry-run'
+        env:
+          GITHUB_SHA: ${{ github.sha }}
+          INPUT_VENUE: ${{ inputs.venue }}
+          INPUT_SEASON: ${{ inputs.season }}
+          INPUT_MODE: ${{ inputs.mode }}
+        run: python jobs/notify_season_run.py --output-dir season-ingestion-output
+      - name: Materialize safe cloud artifacts
+        if: always() && inputs.mode == 'dry-run'
+        run: |
+          python jobs/prepare_cloud_artifacts.py \
+            --input-dir season-ingestion-output \
+            --output-dir cloud-artifacts
       - uses: actions/upload-artifact@v4
         if: always() && inputs.mode == 'dry-run'
         with:
-          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
-          path: season-ingestion-output/
+          name: work-character-catalog-summary
+          path: cloud-artifacts/
           if-no-files-found: error
-      - name: Upload preflight reconciliation report (including blocked or failed runs)
-        uses: actions/upload-artifact@v4
-        if: ${{ always() && inputs.mode == 'preflight' }}
-        with:
-          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-preflight
-          path: reconciliation-report.json
-          if-no-files-found: error
-          retention-days: 30

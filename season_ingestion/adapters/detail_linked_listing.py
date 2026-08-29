@@ -11,6 +11,7 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup
 
+from season_ingestion.credit_resolution import canonical_role
 from season_ingestion.schema import CanonicalEvent
 
 
@@ -168,20 +169,131 @@ def _composer(detail: BeautifulSoup, documents: list[dict[str, Any]], title: str
     return None, None
 
 
-def _credits(detail: BeautifulSoup, page_url: str) -> list[dict[str, Any]]:
+GENERIC_MONTHS = {
+    "jan": 1, "feb": 2, "mar": 3, "apr": 4, "may": 5, "jun": 6,
+    "jul": 7, "aug": 8, "sep": 9, "oct": 10, "nov": 11, "dec": 12,
+    "ene": 1, "abr": 4, "ago": 8, "dic": 12, "janv": 1, "févr": 2,
+    "avr": 4, "juil": 7, "sept": 9, "oct": 10, "déc": 12,
+}
+
+
+def _role_from_label(value: str) -> str | None:
+    normalized = " ".join(value.casefold().strip().split())
+    direct = next((role for label, role in ROLE_LABELS.items() if normalized == label or normalized.startswith(f"{label}:") or normalized.startswith(f"{label} -")), None)
+    return direct or canonical_role(value)
+
+
+def _split_credit_values(value: str, *, split_commas: bool = False) -> list[str]:
+    separators = r"\s*(?:/|;|\n|•|·)\s*"
+    values = [item.strip(" -–—:•·\u00a0") for item in re.split(separators, value or "") if item.strip()]
+    if split_commas:
+        values = [part.strip() for value in values for part in re.split(r"\s*,\s*", value) if part.strip()]
+    return values
+
+
+def _generic_assignment_applies(raw: str, event_date: str | None) -> tuple[str, bool]:
+    annotations = re.findall(r"\(([^()]*)\)", raw or "")
+    artist = re.sub(r"\s*\([^()]*\)\s*$", "", raw or "").strip(" /,\u00a0")
+    if not annotations or not event_date:
+        return artist, True
+    annotation = annotations[-1]
+    event = date.fromisoformat(event_date)
+    explicit_dates = set()
+    for value in re.findall(r"20\d{2}[-/.]\d{1,2}[-/.]\d{1,2}", annotation):
+        parts = re.split(r"[-/.]", value)
+        explicit_dates.add((int(parts[0]), int(parts[1]), int(parts[2])))
+    if explicit_dates:
+        return artist, (event.year, event.month, event.day) in explicit_dates
+    months = set()
+    for token in re.findall(r"[A-Za-zÀ-ÿ]{3,9}", annotation):
+        folded = token.casefold()
+        month = GENERIC_MONTHS.get(folded[:4]) or GENERIC_MONTHS.get(folded[:3])
+        if month:
+            months.add(month)
+    days = {int(value) for value in re.findall(r"(?<!\d)([0-3]?\d)(?!\d)", annotation) if 1 <= int(value) <= 31}
+    return artist, (not months or event.month in months) and (not days or event.day in days)
+
+
+def _credit_payload(artist: str, label: str, role: str, kind: str, page_url: str, field: str, *, character: str | None = None, raw_block: str | None = None) -> dict[str, Any]:
+    payload = {
+        "artist_name": artist,
+        "source_role": label,
+        "function": role,
+        "credit_kind": kind,
+        "source_url": page_url,
+        "source_field": field,
+        "raw_source_block": raw_block or artist,
+        "provenance": {"source_url": page_url, "source_field": field},
+    }
+    if character:
+        payload["character"] = character
+        payload["raw_character"] = character
+    return payload
+
+
+def _credits(detail: BeautifulSoup, page_url: str, event_date: str | None = None) -> list[dict[str, Any]]:
+    """Extract structured cast/team rows without relying on venue names.
+
+    A table header or definition-list label is a team role.  A two-cell row
+    whose first cell is marked ``dt`` (the common cast layout) is a character
+    assignment.  The detail page is fetched once and reused for every
+    occurrence; parenthetical dates narrow only the matching occurrence.
+    """
     rows: list[dict[str, Any]] = []
-    for node in detail.select("dt, .credit, [data-role='credit'], .cast, .artists"):
-        text = _text(node)
-        lowered = text.casefold()
-        role = next((canonical for label, canonical in ROLE_LABELS.items() if label in lowered), None)
-        if not role:
+
+    def add(payload: dict[str, Any]) -> None:
+        key = (payload["artist_name"].casefold(), payload["function"], str(payload.get("character") or "").casefold())
+        if payload["artist_name"].strip() and not any((row["artist_name"].casefold(), row["function"], str(row.get("character") or "").casefold()) == key for row in rows):
+            rows.append(payload)
+
+    for table in detail.select("table"):
+        for row in table.select("tr"):
+            cells = row.find_all(["th", "td"], recursive=False) or row.select("th, td")
+            if len(cells) < 2:
+                continue
+            header = row.find("th")
+            label_node = header or row.select_one("td.dt") or cells[0]
+            label = _text(label_node)
+            value = _text(cells[1])
+            if not label or not value:
+                continue
+            cast_row = header is None and bool(row.select_one("td.dt"))
+            if cast_row:
+                for assignment in _split_credit_values(value):
+                    artist, applies = _generic_assignment_applies(assignment, event_date)
+                    if applies and artist:
+                        add(_credit_payload(artist, label, "performer", "cast", page_url, "detail.cast.table", character=label, raw_block=value))
+                continue
+            role = _role_from_label(label)
+            if not role:
+                continue
+            kind = "ensemble" if role in {"orchestra", "choir", "chorus", "ensemble"} else "artistic_team"
+            for artist in _split_credit_values(value, split_commas=kind == "ensemble"):
+                add(_credit_payload(artist, label, role, kind, page_url, "detail.team.table", raw_block=value))
+
+    for node in detail.select("dt"):
+        label = _text(node)
+        role = _role_from_label(label)
+        sibling = node.find_next_sibling()
+        value = _text(sibling)
+        if not role or not value:
             continue
-        value = re.sub(r"^.*?(?:[:\-]|\b(?:conductor|direttore|regia|director|orchestra|chorus|coro)\b)\s*", "", text, flags=re.I).strip()
-        if not value or value.casefold() == lowered:
-            sibling = node.find_next_sibling()
-            value = _text(sibling)
-        if value:
-            rows.append({"artist_name": value, "source_role": text, "function": role, "credit_kind": "artistic_team" if role not in {"orchestra", "chorus"} else "ensemble", "source_url": page_url, "source_field": "detail.credit", "raw_source_block": text, "provenance": {"source_url": page_url, "source_field": "detail.credit"}})
+        kind = "ensemble" if role in {"orchestra", "choir", "chorus", "ensemble"} else "artistic_team"
+        for artist in _split_credit_values(value, split_commas=kind == "ensemble"):
+            add(_credit_payload(artist, label, role, kind, page_url, "detail.credit.definition_list", raw_block=value))
+
+    for node in detail.select(".credit, [data-role='credit'], .artists"):
+        text = _text(node)
+        if not text:
+            continue
+        match = re.match(r"^(.+?)\s*[:\-–—]\s*(.+)$", text)
+        label, value = (match.group(1).strip(), match.group(2).strip()) if match else (text, _text(node.find_next_sibling()))
+        role = _role_from_label(label)
+        if not role or not value:
+            continue
+        kind = "ensemble" if role in {"orchestra", "choir", "chorus", "ensemble"} else "artistic_team"
+        for artist in _split_credit_values(value, split_commas=kind == "ensemble"):
+            add(_credit_payload(artist, label, role, kind, page_url, "detail.credit", raw_block=text))
     return rows
 
 
@@ -608,7 +720,7 @@ class DetailLinkedListingAdapter:
                 self.date_candidates_accepted += 1
         events: list[CanonicalEvent] = []
         for event_date, start_time in unique:
-            credits = _scala_credits(soup, page_url, event_date) if self.settings.get("detail_profile") == "teatro_alla_scala" else _credits(soup, page_url)
+            credits = _scala_credits(soup, page_url, event_date) if self.settings.get("detail_profile") == "teatro_alla_scala" else _credits(soup, page_url, event_date)
             source_event_id = hashlib.sha256(f"{page_url}|{event_date}|{start_time or ''}".encode()).hexdigest()[:24]
             event = CanonicalEvent(source=self.settings.get("source_id", "detail_linked_listing"), source_event_id=source_event_id, source_url=page_url, organization=self.settings["organization"], venue=self.settings["venue"], city=self.settings["city"], country=self.settings["country"], timezone=self.settings["timezone"], title=title, date=event_date, start_time=start_time, end_time=None, room=None, event_type=event_type, classification=event_type, programme=programme, credits=credits, data_quality={"programme": {"status": programme_status, "reason": programme_reason}, "detail_enrichment": {"status": "complete", "source_url": page_url, "source_type": source_type if self.settings.get("detail_profile") == "teatro_alla_scala" else None}}, raw={"listing_source_url": self.settings.get("listing_source"), "detail_source_url": page_url, "source_title": title, "source_event_type": source_type if self.settings.get("detail_profile") == "teatro_alla_scala" else None})
             event.validate()

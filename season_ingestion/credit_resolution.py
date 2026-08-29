@@ -9,21 +9,31 @@ from .global_master import normalize_identity
 
 ROLE_ALIASES = {
     "musikalische leitung": "conductor", "dirigent": "conductor", "conductor": "conductor",
-    "musical direction": "conductor", "direction musicale": "conductor",
-    "regie": "stage_director", "inszenierung": "stage_director", "mise en scène": "stage_director", "stage direction": "stage_director",
-    "bühnenbild": "set_designer", "set design": "set_designer", "sets": "set_designer", "décors": "set_designer",
+    "musical direction": "conductor", "musical director": "conductor", "direction musicale": "conductor",
+    "direttore": "conductor", "direttore musicale": "conductor", "direzione musicale": "conductor",
+    "chef d'orchestre": "conductor", "chef d’orchestre": "conductor", "director musical": "conductor",
+    "dirección musical": "conductor", "dirección musical": "conductor",
+    "director": "stage_director", "stage director": "stage_director", "regie": "stage_director", "regiearbeit": "stage_director", "regía": "stage_director",
+    "regia": "stage_director", "inszenierung": "stage_director", "mise en scène": "stage_director", "stage direction": "stage_director",
+    "mise en scene": "stage_director", "metteur en scène": "stage_director", "metteur en scene": "stage_director",
+    "puesta en escena": "stage_director", "dirección de escena": "stage_director", "direzione scenica": "stage_director",
+    "bühnenbild": "set_designer", "set design": "set_designer", "sets": "set_designer", "décors": "set_designer", "decors": "set_designer",
+    "scenografia": "set_designer", "escenografía": "set_designer", "escenografia": "set_designer",
     "kostüme": "costume_designer", "kostümbild": "costume_designer", "costume design": "costume_designer", "costumes": "costume_designer",
-    "licht": "lighting_designer", "lichtgestaltung": "lighting_designer", "lighting": "lighting_designer", "lumières": "lighting_designer",
-    "choreografie": "choreographer", "choreography": "choreographer", "chorégraphie": "choreographer",
-    "dramaturgie": "dramaturg", "dramaturgy": "dramaturg",
+    "costumi": "costume_designer", "vestuario": "costume_designer",
+    "licht": "lighting_designer", "lichtgestaltung": "lighting_designer", "lighting": "lighting_designer", "lumières": "lighting_designer", "lumieres": "lighting_designer",
+    "luci": "lighting_designer", "iluminación": "lighting_designer", "iluminacion": "lighting_designer",
+    "choreografie": "choreographer", "choreography": "choreographer", "chorégraphie": "choreographer", "coreografia": "choreographer", "coreografía": "choreographer",
+    "dramaturgie": "dramaturg", "dramaturgy": "dramaturg", "dramaturgia": "dramaturg",
     "chorleitung": "chorus_master", "choreinstudierung": "chorus_master", "chorus master": "chorus_master", "chef des chœurs": "chorus_master",
     "video": "video_designer", "video design": "video_designer",
     "statisten": "extras", "statistenverein am opernhaus zürich": "extras", "background actors": "extras",
     "stuntteam": "stunt_team",
     "ausstattung": "production_designer",
     "philharmonia zürich": "orchestra",
-    "orchester": "orchestra", "orchestra": "orchestra", "chor": "choir", "choir": "choir", "chorus": "choir",
-    "ensemble": "ensemble", "music group": "ensemble",
+    "orchester": "orchestra", "orchestra": "orchestra", "orchestre": "orchestra", "orquesta": "orchestra", "orchestra sinfonica": "orchestra",
+    "chor": "choir", "choir": "choir", "chorus": "choir", "chœur": "choir", "choeur": "choir", "coro": "choir",
+    "ensemble": "ensemble", "music group": "ensemble", "grupo musical": "ensemble",
     "singer": "singer", "sänger": "singer", "cantante": "singer", "chanteur": "singer",
     "soloist": "soloist", "solist": "soloist", "actor": "actor", "schauspieler": "actor",
 }
@@ -37,6 +47,16 @@ def canonical_role(value: object) -> str | None:
         return "singer"
     if key in ROLE_ALIASES:
         return ROLE_ALIASES[key]
+    normalized = normalize_identity(key)
+    normalized_aliases = {normalize_identity(alias): role for alias, role in ROLE_ALIASES.items()}
+    if normalized in normalized_aliases:
+        return normalized_aliases[normalized]
+    # Official tables often add a parenthetical qualification or a language
+    # marker to an otherwise canonical label.  Match only complete role
+    # phrases, never an arbitrary person's name or free-form sentence.
+    for alias, role in normalized_aliases.items():
+        if alias and re.search(rf"(?:^|\s){re.escape(alias)}(?:$|\s|[:\-/])", normalized):
+            return role
     return None
 
 
@@ -100,7 +120,7 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
     role = canonical_role(source_role)
     artist_name = str(raw.get("artist_name") or raw.get("source_artist_name") or "").strip()
     artist = _artist_resolution(artist_name, snapshot)
-    source_character = raw.get("character") if source_role.casefold() not in VOICE_TYPES else None
+    source_character = raw.get("character") or raw.get("raw_character") if source_role.casefold() not in VOICE_TYPES else None
     if (raw.get("credit_kind") == "cast" or source_character is not None) and source_character:
         role = "performer"
     character = _character_resolution(source_character, work_id, snapshot)

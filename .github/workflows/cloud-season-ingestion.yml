@@ -4,27 +4,24 @@ on:
   workflow_dispatch:
     inputs:
       venue:
-        description: Venue adapter or runtime staging input
+        description: Verified official venue adapter
         required: true
         type: choice
         options:
-          - bayerische_staatsoper
-          - opernhaus_zurich
+          - teatro_real
+          - teatro_alla_scala
+          - opera_roma
       season:
         description: Season (September through August)
         required: true
         default: 2026-27
         type: string
       mode:
-        description: Read-only cloud staging; apply remains disabled in V1
+        description: Read-only cloud ingestion; production apply is a separate approved operation
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, apply, probe]
-      approved_run_id:
-        description: Required dry-run approval identity for apply
-        required: false
-        type: string
+        options: [dry-run, probe]
 
 permissions:
   contents: read
@@ -48,7 +45,11 @@ jobs:
         run: python jobs/check_season_ingestion_credentials.py --mode dry-run
       - name: Probe official source
         if: inputs.mode == 'probe'
-        run: python jobs/probe_official_source.py --output source-probe-summary.json
+        run: |
+          python jobs/probe_official_source.py \
+            --venue "${{ inputs.venue }}" \
+            --season "${{ inputs.season }}" \
+            --output source-probe-summary.json
       - name: Run shared cloud entrypoint
         if: inputs.mode == 'dry-run'
         env:
@@ -63,40 +64,24 @@ jobs:
             --season "${{ inputs.season }}" \
             --mode "${{ inputs.mode }}" \
             --output-dir season-ingestion-output
-      - name: Download approved dry-run artifact
-        if: inputs.mode == 'apply'
-        uses: actions/download-artifact@v4
-        with:
-          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-dry-run
-          path: approved-artifact
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: ${{ inputs.approved_run_id }}
-      - name: Run approved production graph
-        if: inputs.mode == 'apply'
-        env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
-        run: |
-          python jobs/apply_approved_season_run.py --approved-dir approved-artifact --output-dir season-ingestion-output --approved-run-id "${{ inputs.approved_run_id }}" --venue "${{ inputs.venue }}" --season "${{ inputs.season }}"
       - name: Write Cloud Run Status summary
-        if: always() && inputs.mode != 'probe'
+        if: always() && inputs.mode == 'dry-run'
         env:
           GITHUB_SHA: ${{ github.sha }}
           INPUT_VENUE: ${{ inputs.venue }}
           INPUT_SEASON: ${{ inputs.season }}
           INPUT_MODE: ${{ inputs.mode }}
         run: |
-          if [ "${{ inputs.mode }}" = "apply" ]; then python jobs/notify_apply_run.py --output-dir season-ingestion-output; else python jobs/notify_season_run.py --output-dir season-ingestion-output; fi
+          python jobs/notify_season_run.py --output-dir season-ingestion-output
+      - name: Materialize safe cloud artifacts
+        if: always() && inputs.mode == 'dry-run'
+        run: |
+          python jobs/prepare_cloud_artifacts.py \
+            --input-dir season-ingestion-output \
+            --output-dir cloud-artifacts
       - uses: actions/upload-artifact@v4
-        if: always() && inputs.mode != 'probe'
+        if: always() && inputs.mode == 'dry-run'
         with:
-          name: season-ingestion-${{ inputs.venue }}-${{ inputs.season }}-${{ inputs.mode }}
-          path: season-ingestion-output/
-          if-no-files-found: error
-      - uses: actions/upload-artifact@v4
-        if: always() && inputs.mode == 'probe'
-        with:
-          name: official-source-probe-${{ inputs.venue }}-${{ inputs.season }}
-          path: source-probe-summary.json
+          name: work-character-catalog-summary
+          path: cloud-artifacts/
           if-no-files-found: error

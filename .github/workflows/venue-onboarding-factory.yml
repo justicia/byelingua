@@ -15,11 +15,11 @@ on:
         type: choice
         options: [all-enabled, pending, selected]
       mode:
-        description: Dry-run only in V1; apply-approved is contract-only
+        description: Dry-run only; production apply is a separate approved operation
         required: true
         default: dry-run
         type: choice
-        options: [dry-run, apply-approved]
+        options: [dry-run]
       venue_ids:
         description: Comma-separated venue IDs when scope is selected
         required: false
@@ -101,11 +101,17 @@ jobs:
               raise SystemExit("Venue artifact contract failed: " + "; ".join(failures))
           print(f"Validated {len(required)} required JSON artifacts in {root}")
           PY
+      - name: Materialize safe venue summary
+        if: always()
+        run: |
+          python jobs/prepare_cloud_artifacts.py \
+            --input-dir "onboarding-output/${{ matrix.venue_id }}" \
+            --output-dir "cloud-artifacts/${{ matrix.venue_id }}"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: onboarding-${{ matrix.venue_id }}
-          path: onboarding-output/${{ matrix.venue_id }}/
+          name: work-character-catalog-summary-${{ matrix.venue_id }}
+          path: cloud-artifacts/${{ matrix.venue_id }}/
           if-no-files-found: error
 
   summarize:
@@ -120,13 +126,13 @@ jobs:
       - run: pip install -r requirements-season-ingestion.txt
       - uses: actions/download-artifact@v4
         with:
-          path: onboarding-output
-      - run: PYTHONPATH=. python jobs/aggregate_venue_onboarding.py --season "${{ inputs.season }}" --output-root onboarding-output
+          path: cloud-artifacts
+      - run: PYTHONPATH=. python jobs/aggregate_cloud_summaries.py --input-root cloud-artifacts --output-dir cloud-artifacts/aggregate
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: venue-onboarding-factory-${{ inputs.season }}
           path: |
-            onboarding-output/summary.json
-            onboarding-output/pilot_diagnostics.json
+            cloud-artifacts/aggregate/summary.json
+            cloud-artifacts/aggregate/pilot_diagnostics.json
           if-no-files-found: error
