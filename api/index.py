@@ -112,6 +112,18 @@ PUBLIC_ARTICLE_JSON_COLUMNS = {
 }
 
 
+class ArticleNotFoundError(ValueError):
+    """A requested article is not present in the public or authorized archive."""
+
+
+class ArticleAuthRequiredError(Exception):
+    """A requested private article needs a valid signed-in reader."""
+
+
+class ArticleTranslationNotAvailableError(ValueError):
+    """The requested target-language translation cannot be provided."""
+
+
 def public_article_from_row(row):
     """Restore the legacy API shape while Supabase remains the source of truth."""
     raw_data = dict(row.get("raw_data") or {})
@@ -156,6 +168,47 @@ def load_public_articles():
         params={"published": "eq.true", "select": "*", "order": "published_at.desc"},
     ) or []
     return [public_article_from_row(row) for row in rows]
+
+
+def get_article(identifier, headers, private=False):
+    """Read one article by its persistent id; browser-local state is never authoritative."""
+    identifier = str(identifier or "").strip()
+    if not identifier:
+        raise ArticleNotFoundError("Article not found.")
+    public_rows = supabase_service(
+        "GET", "/rest/v1/public_articles",
+        params={"id": f"eq.{identifier}", "published": "eq.true", "select": "*", "limit": "1"},
+    ) or []
+    if public_rows:
+        return {"article": public_article_from_row(public_rows[0]), "scope": "public"}
+
+    if not str(headers.get("Authorization") or "").startswith("Bearer "):
+        if private:
+            raise ArticleAuthRequiredError("Please sign in to open this article.")
+        raise ArticleNotFoundError("Article not found.")
+    try:
+        user = authenticated_user(headers)
+    except PermissionError as error:
+        raise ArticleAuthRequiredError(str(error)) from error
+    private_rows = supabase_service(
+        "GET", "/rest/v1/user_articles",
+        params={"id": f"eq.{identifier}", "user_id": f"eq.{user['id']}", "select": "*", "limit": "1"},
+    ) or []
+    if not private_rows:
+        raise ArticleNotFoundError("Article not found.")
+    row = dict(private_rows[0])
+    language = str(row.get("language") or "zh")
+    content = row.get("result") or row.get("content") or ""
+    title = row.get("title") or ""
+    article = {
+        **row,
+        "id": row.get("id") or identifier,
+        "contents": row.get("contents") or {language: content},
+        "titles": row.get("titles") or {language: title},
+        "source": row.get("source") or "",
+        "published": row.get("published_at") or "",
+    }
+    return {"article": article, "scope": "private"}
 
 
 def save_public_articles(articles):
@@ -684,12 +737,12 @@ def translate_wechat_article(identifier, language):
     """Start one background translation from the archived Chinese source."""
     language = str(language or "").lower()
     if language not in PUBLIC_WECHAT_LANGUAGES:
-        raise ValueError("Only English, Spanish, German and French are available here.")
+        raise ArticleTranslationNotAvailableError("Only English, Spanish, German and French are available here.")
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     articles = archive.get("articles", [])
     item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
     if not is_wechat_article(item):
-        raise ValueError("WeChat article not found.")
+        raise ArticleNotFoundError("WeChat article not found.")
     translations = dict(item.get("translations") or item.get("contents") or {})
     titles = dict(item.get("translated_titles") or item.get("titles") or {})
     if translations.get(language) and titles.get(language):
@@ -727,12 +780,12 @@ def poll_wechat_translation(identifier, language):
     """Poll a background response and persist its result once completed."""
     language = str(language or "").lower()
     if language not in PUBLIC_WECHAT_LANGUAGES:
-        raise ValueError("Only English, Spanish, German and French are available here.")
+        raise ArticleTranslationNotAvailableError("Only English, Spanish, German and French are available here.")
     archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
     articles = archive.get("articles", [])
     item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
     if not is_wechat_article(item):
-        raise ValueError("WeChat article not found.")
+        raise ArticleNotFoundError("WeChat article not found.")
     translations = dict(item.get("translations") or item.get("contents") or {})
     titles = dict(item.get("translated_titles") or item.get("titles") or {})
     if translations.get(language) and titles.get(language):
@@ -1883,13 +1936,23 @@ def generate_invite_code(user_id):
 
 def _schedule_city(value):
     """Return a stable city label for the current venue catalogue."""
-    text = str(value or "").lower()
+    text = normalize_search_key(value)
     if "paris" in text:
         return "Paris"
     if "wien" in text or "vienna" in text:
         return "Vienna"
     if "berlin" in text:
         return "Berlin"
+    if "madrid" in text:
+        return "Madrid"
+    if "rome" in text or "roma" in text:
+        return "Rome"
+    if "milan" in text or "milano" in text:
+        return "Milan"
+    if "zurich" in text:
+        return "Zürich"
+    if "basel" in text:
+        return "Basel"
     return value or "Other"
 
 
@@ -1898,7 +1961,7 @@ def _event_city(event, venue_cities=None):
     city = event.get("city") or event.get("location_city")
     if not city and venue_cities:
         city = venue_cities.get(str(event.get("venue") or "").strip().casefold())
-    return str(city or "").strip()
+    return _schedule_city(str(city or "").strip()) if city else ""
 
 
 CANONICAL_EVENT_TYPES = (
@@ -1910,6 +1973,15 @@ EVENT_TYPE_LABELS = {
     "concert": "Concert", "chamber_music": "Chamber Music",
     "recital": "Recital", "children_family": "Children & Family",
     "matinee": "Matinee", "other": "Other",
+}
+SCHEDULE_COUNTRY_NAMES = {
+    "cn": "China", "de": "Germany", "fr": "France", "es": "Spain",
+    "it": "Italy", "gb": "United Kingdom", "us": "United States",
+    "at": "Austria", "ch": "Switzerland", "pt": "Portugal",
+}
+SCHEDULE_CITY_COUNTRY_CODES = {
+    "Madrid": "es", "Rome": "it", "Milan": "it", "Paris": "fr",
+    "Vienna": "at", "Zürich": "ch", "Basel": "ch",
 }
 
 
@@ -2022,10 +2094,18 @@ def schedule_options():
         "GET", "/rest/v1/organizations",
         params={"select": "id,name", "order": "name"},
     ) or []
-    venues = supabase_service(
-        "GET", "/rest/v1/venues",
-        params={"select": "id,name,city,organization_id", "order": "name"},
-    ) or []
+    try:
+        venues = supabase_service(
+            "GET", "/rest/v1/venues",
+            params={"select": "id,name,city,country_code,organization_id", "order": "name"},
+        ) or []
+    except ValueError:
+        # Keep the read path compatible with older deployments while the
+        # canonical venue country field is being rolled out.
+        venues = supabase_service(
+            "GET", "/rest/v1/venues",
+            params={"select": "id,name,city,organization_id", "order": "name"},
+        ) or []
     org_by_id = {row["id"]: row for row in organizations}
     # Keep location suggestions grounded in venues represented by current events.
     # If the catalog lookup is unavailable, retain the venue-directory fallback.
@@ -2043,8 +2123,11 @@ def schedule_options():
         if active_pairs and pair not in active_pairs:
             continue
         cities.add(city)
+        country_code = SCHEDULE_CITY_COUNTRY_CODES.get(city) or str(venue.get("country_code") or "").lower()
         venue_rows.append({
             "id": venue.get("id"), "name": venue.get("name"), "city": city,
+            "country_code": country_code,
+            "country": SCHEDULE_COUNTRY_NAMES.get(country_code, ""),
             "organization_id": venue.get("organization_id"),
             "organization": org.get("name", ""),
         })
@@ -2762,6 +2845,7 @@ class handler(BaseHTTPRequestHandler):
         try:
             data = json.loads(self.rfile.read(int(self.headers.get("Content-Length","0"))).decode("utf-8")); action = data.get("action","get_public")
             if action == "get_public": self.send_json(200, public_payload()); return
+            if action == "get_article": self.send_json(200, get_article(data.get("id", ""), self.headers, private=data.get("scope") == "private")); return
             if action == "translate_wechat":
                 self.send_json(200, translate_wechat_article(str(data.get("id","")), data.get("language",""))); return
             if action == "poll_wechat_translation":
@@ -2864,6 +2948,9 @@ class handler(BaseHTTPRequestHandler):
             elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
         except ManualBriefRateLimitError as error: self.send_json(429, {"error":str(error), **error.status})
+        except ArticleNotFoundError as error: self.send_json(404, {"error_code":"ARTICLE_NOT_FOUND", "error":str(error)})
+        except ArticleAuthRequiredError as error: self.send_json(401, {"error_code":"AUTH_REQUIRED", "error":str(error)})
+        except ArticleTranslationNotAvailableError as error: self.send_json(400, {"error_code":"TRANSLATION_NOT_AVAILABLE", "error":str(error)})
         except PermissionError as error: self.send_json(401, {"error_code":"permission_denied", "error":str(error)})
         except requests.RequestException as error: self.send_json(502, {"error_code":"network_error", "error":"Upstream request failed."})
         except ValueError as error: self.send_json(400, {"error_code":"invalid_request", "error":str(error)})
