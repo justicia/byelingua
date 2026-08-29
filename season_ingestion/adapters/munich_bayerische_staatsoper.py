@@ -127,11 +127,18 @@ class MunichBayerischeStaatsoperAdapter:
         last_error = None
         for attempt in range(3):
             try:
-                request = Request(url, headers={
-                    "User-Agent": "Mozilla/5.0 (compatible; ByelinguaSeasonIngestion/1.0; +https://github.com/justicia/byelingua)",
+                headers = {
+                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36",
                     "Accept": "text/html,application/xhtml+xml",
                     "Accept-Language": "de-DE,de;q=0.9,en;q=0.8",
-                })
+                }
+                if url.endswith("/calendar.ajax"):
+                    headers.update({
+                        "Accept": "text/html, */*; q=0.01",
+                        "X-Requested-With": "XMLHttpRequest",
+                        "Referer": url.removesuffix("/calendar.ajax"),
+                    })
+                request = Request(url, headers=headers)
                 with urlopen(request, timeout=60) as response:
                     return response.read().decode("utf-8")
             except HTTPError as exc:
