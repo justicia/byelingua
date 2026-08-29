@@ -3,8 +3,8 @@
   "venues": {
     "bayerische_staatsoper": {
       "adapter": "season_ingestion.adapters.munich_bayerische_staatsoper:MunichBayerischeStaatsoperAdapter",
-      "source": "https://www.staatsoper.de/spielplan/{year_month}",
-      "fallback_source": "https://www.staatsoper.de/en/schedule/{year_month}",
+      "source": "https://www.staatsoper.de/spielplan/{year_month}/calendar.ajax",
+      "fallback_source": "https://www.staatsoper.de/en/schedule/{year_month}/calendar.ajax",
       "organization": "Bayerische Staatsoper",
       "venue": "Nationaltheater",
       "city": "Munich",
@@ -15,8 +15,8 @@
     },
     "munich_bayerische_staatsoper": {
       "adapter": "season_ingestion.adapters.munich_bayerische_staatsoper:MunichBayerischeStaatsoperAdapter",
-      "source": "https://www.staatsoper.de/spielplan/{year_month}",
-      "fallback_source": "https://www.staatsoper.de/en/schedule/{year_month}",
+      "source": "https://www.staatsoper.de/spielplan/{year_month}/calendar.ajax",
+      "fallback_source": "https://www.staatsoper.de/en/schedule/{year_month}/calendar.ajax",
       "organization": "Bayerische Staatsoper",
       "venue": "Nationaltheater",
       "city": "Munich",

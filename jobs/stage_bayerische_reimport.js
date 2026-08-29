@@ -18,23 +18,39 @@ const TEAM_ROLES = new Map([
   ["regie", "stage_director"],
   ["nach einer produktion von", "stage_director"],
   ["szenische einrichtung", "stage_director"],
+  ["mitarbeit inszenierung", "stage_director"],
+  ["co-regie", "stage_director"],
+  ["regiemitarbeit", "stage_director"],
+  ["inszenierung und video-konzept", "stage_director"],
+  ["inszenierung und bühne", "stage_director"],
+  ["inszenierung, bühne, kostüme, licht", "production_designer"],
   ["bühne", "set_designer"],
   ["bühnenbild", "set_designer"],
+  ["mitarbeit bühnenbild", "set_designer"],
   ["kostüme", "costume_designer"],
   ["bühne und kostüme", "production_designer"],
+  ["bühne und kostüm", "production_designer"],
+  ["bühne und licht", "production_designer"],
   ["ausstattung", "production_designer"],
   ["licht", "lighting_designer"],
   ["lichtdesign", "lighting_designer"],
   ["chor", "chorus_master"],
+  ["chöre", "chorus_master"],
   ["chorleitung", "chorus_master"],
   ["dramaturgie", "dramaturg"],
   ["choreographie", "choreographer"],
   ["choreografie", "choreographer"],
+  ["choreographische mitarbeit", "choreographer"],
   ["video", "video_designer"],
+  ["videodesign und lichtassistenz", "video_designer"],
+  ["sounddesign", "sound_designer"],
+  ["konzeptionelle mitarbeit", "dramaturg"],
 ]);
 const ENSEMBLE_ROLES = new Map([
   ["Bayerisches Staatsorchester", "orchestra"],
   ["Bayerischer Staatsopernchor", "choir"],
+  ["Bayerischer Staatsopernchor und Zusatzchor der Bayerischen Staatsoper", "choir"],
+  ["Extrachor der Bayerischen Staatsoper", "choir"],
   ["Kinderchor der Bayerischen Staatsoper", "choir"],
 ]);
 
@@ -42,14 +58,27 @@ function fetchOfficialHtml(url) {
   const python = process.env.BYELINGUA_PYTHON_PATH || "python";
   const script = [
     "import sys",
+    "import time",
+    "from urllib.error import HTTPError",
     "from urllib.request import Request, urlopen",
-    "request = Request(sys.argv[1], headers={",
-    "  'User-Agent': 'Mozilla/5.0 (compatible; ByelinguaSeasonIngestion/1.0; +https://github.com/justicia/byelingua)',",
+    "url = sys.argv[1]",
+    "headers = {",
+    "  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36',",
     "  'Accept': 'text/html,application/xhtml+xml',",
     "  'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',",
-    "})",
-    "with urlopen(request, timeout=60) as response:",
-    "  sys.stdout.buffer.write(response.read())",
+    "}",
+    "if url.endswith('/calendar.ajax'):",
+    "  headers.update({'Accept': 'text/html, */*; q=0.01', 'X-Requested-With': 'XMLHttpRequest', 'Referer': url[:-len('/calendar.ajax')]})",
+    "for attempt in range(3):",
+    "  try:",
+    "    request = Request(url, headers=headers)",
+    "    with urlopen(request, timeout=60) as response:",
+    "      sys.stdout.buffer.write(response.read())",
+    "    break",
+    "  except HTTPError as error:",
+    "    if error.code not in {403, 429, 500, 502, 503, 504} or attempt == 2:",
+    "      raise",
+    "    time.sleep(attempt + 1)",
   ].join("\n");
   return execFileSync(python, ["-c", script, url], { encoding: "utf8", maxBuffer: 20 * 1024 * 1024, timeout: 90000 });
 }
@@ -88,7 +117,8 @@ function titleFromSlug(slug) {
 
 function parseCalendarLink(link) {
   if (!/\|\s*Nationaltheater(?:\s|[A-ZÄÖÜ]|$)/.test(link.text)) return null;
-  const match = link.href.match(OCCURRENCE_RE);
+  const href = new URL(link.href, BASE_URL).href;
+  const match = href.match(OCCURRENCE_RE);
   if (!match) return null;
   const [, slug, date, hour, minute, occurrenceId] = match;
   const typeMatch = link.text.match(/\b(Oper|Ballett|Konzert|Extra|Kind&Co)\s*$/i);
@@ -96,7 +126,7 @@ function parseCalendarLink(link) {
   return {
     source: SOURCE,
     source_event_id: occurrenceId,
-    source_url: link.href,
+    source_url: href,
     occurrence_id: occurrenceId,
     slug,
     title: titleFromSlug(slug),
@@ -184,11 +214,98 @@ function parseCredits(lines, occurrence) {
   return credits;
 }
 
+function dedupeCredits(credits) {
+  const unique = new Map();
+  for (const credit of credits || []) {
+    const key = [credit.artist_name, credit.role, credit.character || ""]
+      .map((value) => String(value || "").normalize("NFKC").toLocaleLowerCase("de-DE").trim())
+      .join("|");
+    if (!unique.has(key)) unique.set(key, credit);
+  }
+  return [...unique.values()];
+}
+
+function splitArtistNames(value) {
+  const artistName = String(value || "").replace(/\s+/g, " ").trim();
+  const parts = artistName.split(/(?<=\p{Ll})(?=\p{Lu})/u).map((part) => part.trim()).filter(Boolean);
+  return parts.length > 1 && parts.every((part) => part.includes(" ")) ? parts : [artistName];
+}
+
+function normalizeCreditRows(credit) {
+  const sourceEnsembleRole = ENSEMBLE_ROLES.get(String(credit.source_role || "").trim());
+  const artistEnsembleRole = ENSEMBLE_ROLES.get(String(credit.artist_name || "").trim());
+  if (sourceEnsembleRole && artistEnsembleRole && credit.source_role !== credit.artist_name) {
+    return [
+      { ...credit, artist_name: credit.source_role, role: sourceEnsembleRole, credit_kind: "ensemble", character: undefined, raw_character: undefined },
+      { ...credit, source_role: credit.artist_name, role: artistEnsembleRole, credit_kind: "ensemble", character: undefined, raw_character: undefined },
+    ];
+  }
+  if (artistEnsembleRole) {
+    return [{ ...credit, role: artistEnsembleRole, credit_kind: "ensemble", character: undefined, raw_character: undefined }];
+  }
+  const teamRole = TEAM_ROLES.get(normalizedLabel(credit.source_role || ""));
+  if (teamRole) {
+    return splitArtistNames(credit.artist_name).map((artistName) => ({
+      ...credit,
+      artist_name: artistName,
+      role: teamRole,
+      credit_kind: "artistic_team",
+      character: undefined,
+      raw_character: undefined,
+    }));
+  }
+  return splitArtistNames(credit.artist_name).map((artistName) => ({ ...credit, artist_name: artistName }));
+}
+
+function composerFromCalendar(text, title) {
+  if (!text || !title) return null;
+  const venue = String(text).match(/\|\s*Nationaltheater(.*?)(?:\bPreise\b|\bPrices\b|\bAbo-Serie\b|mehr anzeigen|show more)/i);
+  if (!venue) return null;
+  const segment = venue[1].replace(/\s+/g, " ").trim();
+  const index = segment.toLocaleLowerCase("de-DE").indexOf(String(title).toLocaleLowerCase("de-DE"));
+  if (index < 0) return null;
+  const composer = segment.slice(index + String(title).length).replace(/\s+/g, " ").trim();
+  return composer && composer.length <= 100 ? composer : null;
+}
+
+function normalizeEvents(events) {
+  const prepared = events.map((event) => {
+    const programme = event.programme?.[0] || {};
+    const composer = programme.composer || (event.event_type === "opera" ? composerFromCalendar(event.calendar_text, event.title) : null);
+    return {
+      ...event,
+      programme: event.title ? [{ ...programme, source_title: event.title, composer, order: 1 }] : [],
+      credits: dedupeCredits((event.credits || []).flatMap(normalizeCreditRows)),
+    };
+  });
+  const preferredBySlug = new Map();
+  for (const event of prepared) {
+    const programme = event.programme && event.programme[0];
+    if (!programme || !programme.composer) continue;
+    const score = (event.event_type === "opera" ? 4 : 0) + (event.title !== titleFromSlug(event.slug) ? 2 : 0);
+    const current = preferredBySlug.get(event.slug);
+    if (!current || score > current.score) {
+      preferredBySlug.set(event.slug, { title: event.title, composer: programme.composer, score });
+    }
+  }
+  return prepared.map((event) => {
+    const preferred = preferredBySlug.get(event.slug);
+    const title = preferred ? preferred.title : event.title;
+    const composer = preferred ? preferred.composer : event.programme?.[0]?.composer || null;
+    return {
+      ...event,
+      title,
+      programme: title ? [{ ...(event.programme?.[0] || {}), source_title: title, composer, order: 1 }] : [],
+      credits: event.credits,
+    };
+  });
+}
+
 async function discoverCalendar(page, season) {
   const occurrences = [];
   const sourceFailures = [];
   for (const month of monthRange(season)) {
-    const url = `${BASE_URL}/spielplan/${month}`;
+    const url = `${BASE_URL}/spielplan/${month}/calendar.ajax`;
     try {
       await page.setContent(fetchOfficialHtml(url), { waitUntil: "domcontentloaded", timeout: 60000 });
       const links = await page.locator('a[href*="/stuecke/"]').evaluateAll((nodes) =>
@@ -269,7 +386,7 @@ async function main() {
     const discovery = await discoverCalendar(calendarPage, season);
     await calendarPage.close();
     const selected = requestedLimit > 0 ? discovery.occurrences.slice(0, requestedLimit) : discovery.occurrences;
-    const events = await mapLimit(selected, 3, (event) => inspectOccurrence(context, event));
+    const events = normalizeEvents(await mapLimit(selected, 3, (event) => inspectOccurrence(context, event)));
     const summary = {
       schema_version: "bayerische-staatsoper-readonly-staging-v1",
       generated_at: new Date().toISOString(),
@@ -299,7 +416,7 @@ async function main() {
   }
 }
 
-module.exports = { castSlice, detailHeader, parseCalendarLink, parseCredits };
+module.exports = { castSlice, composerFromCalendar, dedupeCredits, detailHeader, normalizeCreditRows, normalizeEvents, parseCalendarLink, parseCredits, splitArtistNames };
 
 if (require.main === module) {
   main().catch((error) => {
