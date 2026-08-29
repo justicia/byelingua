@@ -79,6 +79,28 @@ class TeatroAllaScalaDetailProgrammeTests(unittest.TestCase):
         self.assertEqual(event.programme[0]["source_title"], "The Magic Flute")
         self.assertNotIn("canonical_work_title", event.programme[0])
 
+    def test_official_team_and_date_specific_cast_are_staged_per_occurrence(self):
+        html = """<div class='cnt__leaf'>Opera</div><h1 class='cnt__title'>Don Giovanni</h1>
+        <div class='cnt__subtitle'>Wolfgang Amadeus Mozart</div>
+        <time datetime='2027-02-03T20:00:00+01:00'>one</time><time datetime='2027-02-23T20:00:00+01:00'>two</time>
+        <table><tbody><tr><th>Conductor</th><td>THOMAS GUGGEIS</td></tr><tr><th>Lights</th><td>ROBERT CARSEN, PETER VAN PRAET</td></tr></tbody></table>
+        <section id='cast'><h2>Cast</h2><table><tbody>
+        <tr><td class='dt'>Don Giovanni</td><td>Luca Micheletti (3, 6, 9 Feb.) / Davide Luciano (23, 28 Feb.)</td></tr>
+        <tr><td class='dt'>Commendatore</td><td>Gianluca Buratto</td></tr>
+        </tbody></table></section><p>Orchestra and Chorus of Teatro alla Scala</p>"""
+        events = parse(html, "https://www.teatroallascala.org/en/season/2026-2027/opera/don-giovanni.html")
+        first = {credit["artist_name"]: credit for credit in events[0].credits}
+        second = {credit["artist_name"]: credit for credit in events[1].credits}
+        self.assertIn("Luca Micheletti", first)
+        self.assertNotIn("Davide Luciano", first)
+        self.assertIn("Davide Luciano", second)
+        self.assertNotIn("Luca Micheletti", second)
+        self.assertEqual(first["Luca Micheletti"]["character"], "Don Giovanni")
+        self.assertEqual(first["THOMAS GUGGEIS"]["function"], "conductor")
+        self.assertEqual(first["ROBERT CARSEN"]["function"], "lighting_designer")
+        self.assertIn("Teatro alla Scala Orchestra", first)
+        self.assertIn("Teatro alla Scala Chorus", first)
+
 
 if __name__ == "__main__":
     unittest.main()

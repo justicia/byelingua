@@ -23,6 +23,11 @@ HTML = '''<html><body><h1>Oktober 2026</h1>
 ENGLISH_HTML = '''<html><body>
 <a href="/productions/zauberfloete">3. December 2026.12.26 Thursday Thu 07:00 pm | NationaltheaterDIE ZAUBERFLÖTE Wolfgang Amadeus Mozart Prices</a>
 </body></html>'''
+AUTHORITATIVE_OCCURRENCE_HTML = '''<html><body>
+<a href="/stuecke/carmen/2027-07-09-1900-16339">9.7.27 Freitag 19.00 Uhr | Nationaltheater CARMEN Georges Bizet Preise mehr anzeigen</a>
+<a href="/stuecke/carmen/2027-07-28-1930-16340">28.7.27 Mittwoch 19.30 Uhr | Nationaltheater CARMEN Georges Bizet Preise mehr anzeigen</a>
+<a href="/stuecke/workshop/2027-07-28-1000-99999">28.7.27 Mittwoch 10.00 Uhr | Salon Luitpold WORKSHOP Preise</a>
+</body></html>'''
 ZURICH_DETAIL_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Rachmaninow – Die drei Opern","startDate":"2026-11-01T18:00","endDate":"2026-11-01T21:20","url":"https://www.opernhaus.ch/en/spielplan/calendar/rachmaninov-die-drei-opern/2026-2027/","description":"Sergei Rachmaninoff\\n\\nThree one-act operas","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Gianandrea Noseda","description":"Musikalische Leitung"},{"@type":"Person","name":"Elena Stikhina","description":"Soprano"}]}</script>'''
 ZURICH_NO_PROGRAMME_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Opernhaus für alle","startDate":"2027-07-02T19:00","endDate":"2027-07-02T21:00","url":"https://www.opernhaus.ch/en/spielplan/calendar/opernhaus-fuer-alle/2026-2027/","description":"","location":{"name":"Main Stage"}}</script>'''
 ZURICH_MULTI_WORK_HTML = '''<script type="application/ld+json">{"@type":"Event","name":"Requiem pour Ophélie","startDate":"2027-05-04T19:00","endDate":"2027-05-04T20:40","url":"https://www.opernhaus.ch/en/spielplan/calendar/requiem-pour-ophelie/2026-2027/","description":"Works by Hector Berlioz, Ambroise Thomas and Gabriel Fauré","location":{"name":"Main Stage"},"performer":[{"@type":"Person","name":"Raphaël Pichon","description":"Musikalische Leitung"},{"@type":"MusicGroup","name":"Orchestra of the Zurich Opera House","description":"Orchester"}]}</script>'''
@@ -43,6 +48,13 @@ class SeasonIngestionPipelineV1Tests(unittest.TestCase):
         events = parse_calendar(ENGLISH_HTML, "https://www.staatsoper.de/en/schedule/2026-12", settings, season_start="2026-09-01", season_end="2027-08-31")
         self.assertEqual(len(events), 1)
         self.assertEqual(events[0].start_time, "19:00")
+
+    def test_munich_occurrence_url_is_authoritative_and_venue_is_exact(self):
+        settings = {"organization": "Bayerische Staatsoper", "venue": "Nationaltheater", "city": "Munich", "country": "Germany", "timezone": "Europe/Berlin"}
+        events = parse_calendar(AUTHORITATIVE_OCCURRENCE_HTML, "https://www.staatsoper.de/spielplan/2027-07", settings, season_start="2026-09-01", season_end="2027-08-31")
+        self.assertEqual([(event.date, event.start_time) for event in events], [("2027-07-09", "19:00"), ("2027-07-28", "19:30")])
+        self.assertTrue(all(event.title == "CARMEN" for event in events))
+        self.assertTrue(all("/stuecke/carmen/2027-07-" in event.source_url for event in events))
 
     def test_zurich_detail_jsonld_preserves_order_and_provenance(self):
         settings = {"organization": "Opernhaus Zürich", "venue": "Opernhaus Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "official_source": "https://www.opernhaus.ch/en/spielplan/oper-2627/"}
