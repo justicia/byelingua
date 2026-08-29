@@ -162,6 +162,15 @@ def _composer(detail: BeautifulSoup, documents: list[dict[str, Any]], title: str
             if value and value.casefold() != title.casefold():
                 return value, "official detail composer label"
     for document in documents:
+        structured = document.get("composer")
+        if isinstance(structured, dict):
+            structured = structured.get("name")
+        elif isinstance(structured, list):
+            structured = next((item.get("name") if isinstance(item, dict) else str(item) for item in structured if item), None)
+        if structured:
+            value = re.sub(r"\s+", " ", str(structured)).strip()
+            if value and value.casefold() != title.casefold():
+                return value, "official detail JSON-LD composer"
         description = str(document.get("description") or "")
         match = re.search(rf"{labels}\s*[:\-]?\s*([^|;\n]+)", description, re.I)
         if match:
@@ -568,7 +577,7 @@ class DetailLinkedListingAdapter:
                     break
                 context_node = context_node.parent
             years = [int(match.group(1)) for match in re.finditer(r"(?<![/-])(20\d{2})(?![/-])", context)]
-            if years:
+            if years and self.settings.get("allow_listing_year_hint", True):
                 self.detail_year_hints[absolute] = max(years)
             if absolute not in urls:
                 urls.append(absolute)
@@ -590,7 +599,8 @@ class DetailLinkedListingAdapter:
         for match in matches:
             value = "".join(match) if isinstance(match, tuple) else str(match)
             digits = re.sub(r"[^0-9]", "", value)
-            if digits in {wanted, start_year + full_end}:
+            short_season = start_year[-2:] + full_end[-2:]
+            if digits in {wanted, start_year + full_end, short_season}:
                 return True
         return False
 
