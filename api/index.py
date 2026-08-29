@@ -1948,8 +1948,13 @@ _PRODUCTION_CREDIT_ROLE_KEYS = (
 
 def _serialize_event_credit(row):
     role = str(row.get("role") or "").strip().rstrip("/").strip()
+    # `raw_character` preserves source evidence for review, but it is also used
+    # by source adapters for a raw team-function label.  Never let that label
+    # turn a normalized team credit back into Cast in the public detail API.
     character = ((row.get("work_characters") or {}).get("canonical_name")
-                 or row.get("raw_character") or row.get("character"))
+                 or row.get("character"))
+    if not character and role.casefold() in {"performer", "singer"}:
+        character = row.get("raw_character")
     role_key = normalize_search_key(role)
     is_production_credit = any(marker in role_key for marker in _PRODUCTION_CREDIT_ROLE_KEYS)
     if is_production_credit:
