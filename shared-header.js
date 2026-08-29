@@ -1,4 +1,25 @@
 (function(){
+  const overlayState={count:0,overflow:'',position:'',top:'',width:'',scrollY:0};
+  window.ByelinguaOverlay=window.ByelinguaOverlay||{
+    lock(){
+      if(overlayState.count++>0)return;
+      overlayState.overflow=document.body.style.overflow;
+      overlayState.position=document.body.style.position;
+      overlayState.top=document.body.style.top;
+      overlayState.width=document.body.style.width;
+      overlayState.scrollY=window.scrollY;
+      document.body.style.overflow='hidden';
+    },
+    unlock(){
+      if(!overlayState.count)return;
+      if(--overlayState.count>0)return;
+      document.body.style.overflow=overlayState.overflow;
+      document.body.style.position=overlayState.position;
+      document.body.style.top=overlayState.top;
+      document.body.style.width=overlayState.width;
+      window.scrollTo(0,overlayState.scrollY);
+    }
+  };
   const styleId='byelingua-shared-header-style';
   if(!document.getElementById(styleId)){
     const style=document.createElement('style');style.id=styleId;style.textContent=`
@@ -13,5 +34,5 @@
       .byelingua-compact-account{color:#68716b;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:700px){.byelingua-compact-inner{min-height:48px;gap:8px}.byelingua-compact-tagline{display:none}.byelingua-compact-brand{font-size:22px}.byelingua-compact-actions button{min-height:36px;padding:5px 7px}.schedule-site-header.byelingua-compact-header .schedule-identity{width:auto}.schedule-site-header.byelingua-compact-header .schedule-tagline{display:none}}
     `;document.head.append(style)
   }
-  window.ByelinguaHeader={mount:function(target,options){if(!target)return;options=options||{};const i18n=window.ByelinguaI18n;target.classList.add('byelingua-compact-header');target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span><span class="byelingua-compact-spacer"></span><div class="byelingua-compact-actions"><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account></button><button id="logoutButton" type="button" data-shared-signout></button><button type="button" data-shared-language="zh">中文</button><button type="button" data-shared-language="en">English</button></div></div>';const render=()=>{const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');target.querySelector('[data-shared-account]').textContent=language==='en'?'User Center':'用户中心';target.querySelector('[data-shared-signout]').textContent=language==='en'?'Sign out':'退出登录';target.querySelectorAll('[data-shared-language]').forEach(button=>button.classList.toggle('active',button.dataset.sharedLanguage===language));document.documentElement.lang=language==='en'?'en-GB':'zh-CN'};target.querySelectorAll('[data-shared-language]').forEach(button=>button.onclick=()=>{localStorage.setItem('byelinguaUiLanguage',button.dataset.sharedLanguage);window.dispatchEvent(new CustomEvent('byelingua-language-change',{detail:button.dataset.sharedLanguage}));render()});target.querySelector('[data-shared-account]').onclick=()=>location.href='/account.html';target.querySelector('[data-shared-signout]').onclick=async()=>{try{const cfg=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_auth_config'})}).then(r=>r.json());if(window.supabase){const client=window.supabase.createClient(cfg.url,cfg.publishable_key);await client.auth.signOut()}}finally{location.href='/'}};render();window.addEventListener('byelingua-language-change',render);return target}};
+  window.ByelinguaHeader={mount:function(target,options){if(!target)return;options=options||{};const i18n=window.ByelinguaI18n;target.classList.add('byelingua-compact-header');target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span><span class="byelingua-compact-spacer"></span><div class="byelingua-compact-actions"><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account></button><button id="logoutButton" type="button" data-shared-signout></button><button type="button" data-shared-language="zh">中文</button><button type="button" data-shared-language="en">English</button></div></div>';const syncHeight=()=>document.documentElement.style.setProperty('--byelingua-header-height',`${target.getBoundingClientRect().height}px`);const render=()=>{const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');target.querySelector('[data-shared-account]').textContent=language==='en'?'User Center':'用户中心';target.querySelector('[data-shared-signout]').textContent=language==='en'?'Sign out':'退出登录';target.querySelectorAll('[data-shared-language]').forEach(button=>button.classList.toggle('active',button.dataset.sharedLanguage===language));document.documentElement.lang=language==='en'?'en-GB':'zh-CN';syncHeight()};target.querySelectorAll('[data-shared-language]').forEach(button=>button.onclick=()=>{localStorage.setItem('byelinguaUiLanguage',button.dataset.sharedLanguage);window.dispatchEvent(new CustomEvent('byelingua-language-change',{detail:button.dataset.sharedLanguage}));render()});target.querySelector('[data-shared-account]').onclick=()=>location.href='/account.html';target.querySelector('[data-shared-signout]').onclick=async()=>{try{const cfg=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_auth_config'})}).then(r=>r.json());if(window.supabase){const client=window.supabase.createClient(cfg.url,cfg.publishable_key);await client.auth.signOut()}}finally{location.href='/'}};render();if(window.ResizeObserver)new ResizeObserver(syncHeight).observe(target);window.addEventListener('byelingua-language-change',render);return target}};
 })();
