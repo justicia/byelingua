@@ -317,7 +317,7 @@ document.addEventListener('click',event=>{if(event.target.closest('.entity-condi
 const _presentationRoleMap={"direction musicale":"Conductor","mise en scène":"Stage Director","mise en scene":"Stage Director","lumières":"Lighting","lumieres":"Lighting","décors":"Sets","decors":"Sets","costumes":"Costumes","chorégraphe":"Choreography","choregraphe":"Choreography","chef des chœurs":"Chorus Master","chef des choeurs":"Chorus Master"};
 const _roleLabel=value=>_presentationRoleMap[String(value||'').toLowerCase()]||formattedRole(value);
 renderPresentationCredits=function(event){
- const credits=event.credits||[], opera=['opera','operetta'].includes(normalizedUi(event.event_type));
+ const credits=event.credits||[], opera=['opera','operetta','opera_en_concert'].includes(normalizedUi(event.event_type))||credits.some(x=>x.character);
  if(!opera){const rows=credits.map(x=>`<li>${artistLink(x)} · ${escapeHtml(_roleLabel(x.role||'Artist'))}</li>`).join('');return `<h4>Artists / Artistic Team</h4><ul>${rows||'<li class="hint">暂无 artists</li>'}</ul>`}
  const assigned=new Set(credits.filter(x=>x.character).map(x=>String(x.character)));
  const skeleton=(event.work_character_skeleton||[]).filter(x=>x.canonical_name&&!assigned.has(String(x.canonical_name))).map(x=>`<li><span>${escapeHtml(x.canonical_name)}</span><strong>—</strong></li>`).join('');
