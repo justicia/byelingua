@@ -5,10 +5,20 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import _event_city, _profile_digest_enabled, backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import _event_city, _profile_digest_enabled, _serialize_event_credit, backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
+    def test_team_raw_label_does_not_become_cast_character(self):
+        credit = _serialize_event_credit({
+            "role": "Konzeptionelle Mitarbeit",
+            "character": None,
+            "raw_character": "Konzeptionelle Mitarbeit",
+            "artists": {"artist_name": "Yvonne Gebauer"},
+        })
+        self.assertIsNone(credit["character"])
+        self.assertEqual(credit["role_type"], "artistic_team")
+
     def test_digest_flag_prefers_canonical_and_falls_back_to_legacy(self):
         self.assertTrue(_profile_digest_enabled({"email_digest_enabled":True,"email_subscription_enabled":False}))
         self.assertFalse(_profile_digest_enabled({"email_digest_enabled":False,"email_subscription_enabled":True}))
