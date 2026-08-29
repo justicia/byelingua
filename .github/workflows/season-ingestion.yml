@@ -9,6 +9,9 @@ on:
         type: choice
         options:
           - teatro_real
+          - operadeparis
+          - philharmonie_paris
+          - auditorio_nacional
           - teatro_alla_scala
           - opera_roma
       season:

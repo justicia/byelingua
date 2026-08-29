@@ -46,10 +46,10 @@ targets:
     season: 2026-27
     official_homepage: https://www.operadeparis.fr/programmation/saison-26-27
     schedule_source: https://www.operadeparis.fr/programmation/saison-26-27
-    source_status: SOURCE_CONTRACT_BLOCKED
-    blocking_reason: official performance discovery endpoint and stable occurrence fixture are not yet committed
-    enabled: false
-    onboarding_status: SOURCE_CONTRACT_BLOCKED
+    source_status: DISCOVERY_PASS
+    structure_type: DETAIL_LINKED_LISTING
+    enabled: true
+    onboarding_status: TARGET_REGISTERED
   - venue_id: philharmonie_paris
     organization: Philharmonie de Paris
     venue: Philharmonie de Paris
@@ -59,10 +59,10 @@ targets:
     season: 2026-27
     official_homepage: https://philharmoniedeparis.fr/fr/agenda
     schedule_source: https://philharmoniedeparis.fr/fr/agenda
-    source_status: SOURCE_CONTRACT_BLOCKED
-    blocking_reason: official agenda filter/pagination and stable per-performance identity fixture are not yet committed
-    enabled: false
-    onboarding_status: SOURCE_CONTRACT_BLOCKED
+    source_status: DISCOVERY_PASS
+    structure_type: DETAIL_LINKED_LISTING
+    enabled: true
+    onboarding_status: TARGET_REGISTERED
   - venue_id: auditorio_nacional
     organization: Auditorio Nacional de Música
     venue: Auditorio Nacional
@@ -72,10 +72,10 @@ targets:
     season: 2026-27
     official_homepage: https://auditorionacional.inaem.gob.es/es/programacion
     schedule_source: https://auditorionacional.inaem.gob.es/es/programacion
-    source_status: SOURCE_CONTRACT_BLOCKED
-    blocking_reason: official detail parser exists, but complete discovery identity and date-level join fixture are not yet committed
-    enabled: false
-    onboarding_status: SOURCE_CONTRACT_BLOCKED
+    source_status: DISCOVERY_PASS
+    structure_type: PAGINATED_DISCOVERY_PLUS_DETAIL
+    enabled: true
+    onboarding_status: TARGET_REGISTERED
   - venue_id: teatro_alla_scala
     organization: Teatro alla Scala
     venue: Teatro alla Scala
