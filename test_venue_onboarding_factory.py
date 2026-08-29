@@ -7,11 +7,11 @@ from season_ingestion.generic_adapters import select_generic_adapter
 from season_ingestion.venue_targets import load_targets, matrix_targets
 
 
-def test_target_queue_has_two_canonical_targets():
+def test_target_queue_contains_only_final_wave_non_frozen_targets():
     targets = load_targets()
-    assert {target["venue_id"] for target in targets} == {"opernhaus_zurich", "bayerische_staatsoper"}
+    assert {target["venue_id"] for target in targets} == {"teatro_real", "teatro_alla_scala", "opera_roma"}
     assert "munich_bayerische_staatsoper" not in {target["venue_id"] for target in targets}
-    assert len(matrix_targets(targets)) == 2
+    assert len(matrix_targets(targets)) == 3
 
 
 def test_duplicate_canonical_target_is_rejected(tmp_path):

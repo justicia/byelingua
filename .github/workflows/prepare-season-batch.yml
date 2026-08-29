@@ -1,4 +1,4 @@
-name: Prepare season batch
+name: Cloud Season Ingestion Pipeline V1 (batch compatibility)
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ on:
         default: 2026-27
         type: string
       venues:
-        description: all or a comma-separated configured venue list
+        description: all or a comma-separated legacy venue list
         required: true
         default: all
         type: string
@@ -34,11 +34,17 @@ jobs:
           INPUT_SEASON: ${{ inputs.season }}
           INPUT_VENUES: ${{ inputs.venues }}
         run: python jobs/prepare_season_batch.py --season "$INPUT_SEASON" --venues "$INPUT_VENUES"
-      - name: Upload staging and aggregate report
+      - name: Materialize safe batch summary
+        if: always()
+        run: |
+          python jobs/prepare_batch_cloud_artifacts.py \
+            --input-dir season-batch-output \
+            --output-dir cloud-artifacts
+      - name: Upload aggregate report only
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: season-batch-${{ inputs.season }}
-          path: season-batch-output/
+          path: cloud-artifacts/
           if-no-files-found: error
           retention-days: 30

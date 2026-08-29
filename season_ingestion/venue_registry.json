@@ -39,6 +39,24 @@
       "season": "2026-27",
       "enabled": true
     },
+    "teatro_real": {
+      "venue_id": "teatro_real",
+      "adapter": "season_ingestion.adapters.teatro_real:TeatroRealAdapter",
+      "source_id": "teatro_real",
+      "official_source": "https://www.teatroreal.es/en/calendario",
+      "calendar_url": "https://www.teatroreal.es/en/calendario",
+      "organization": "Teatro Real",
+      "venue": "Teatro Real",
+      "city": "Madrid",
+      "country": "Spain",
+      "timezone": "Europe/Madrid",
+      "season_start_month": 9,
+      "season_end_month": 7,
+      "season_bounds": {"2026-27": {"season_start": "2026-09-01", "season_end": "2027-07-31"}},
+      "detail_enrichment": true,
+      "source_status": "DISCOVERY_PASS",
+      "enabled": true
+    },
     "teatro_alla_scala": {
       "venue_id": "teatro_alla_scala",
       "adapter": "season_ingestion.adapters.detail_linked_listing:DetailLinkedListingAdapter",

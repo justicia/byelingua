@@ -26,13 +26,15 @@ HTML = """
 """
 
 
-def test_teatro_real_remains_disabled_and_preflight_report_is_always_uploaded():
+def test_teatro_real_cloud_entrypoint_is_registered_and_read_only():
     root = Path(__file__).parent
-    config = json.loads((root / "config/venues.json").read_text())
+    registry = json.loads((root / "season_ingestion/venue_registry.json").read_text())
     workflow = (root / ".github/workflows/season-ingestion.yml").read_text()
-    assert config["venues"]["teatro_real"]["enabled"] is False
-    assert "always() && inputs.mode == 'preflight'" in workflow
-    assert "path: reconciliation-report.json" in workflow
+    assert registry["venues"]["teatro_real"]["enabled"] is True
+    assert "always() && inputs.mode == 'dry-run'" in workflow
+    assert "path: cloud-artifacts/" in workflow
+    assert "SUPABASE_SECRET_KEY" not in workflow
+    assert "staging_file" not in workflow
     assert "if-no-files-found: error" in workflow
 
 
