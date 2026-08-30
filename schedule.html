@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Byelingua · Schedule Builder</title>
+<title>Byelingua · Performance Search</title>
 <style>
 :root{--ink:#17201b;--muted:#68716b;--paper:#f5f2e9;--card:#fffdf8;--forest:#214d3a;--soft:#e8eee9;--line:#d7d7ce}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif}main{width:min(1120px,calc(100% - 28px));margin:auto;padding:12px 0 60px}a{color:var(--forest)}h1,h2,h3{font-family:Georgia,serif}.top{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line);padding:12px 0 16px}.schedule-identity{flex:1;min-width:0}.schedule-brand{display:inline-block;color:var(--forest);font:500 clamp(34px,4vw,50px)/.95 Georgia,"Times New Roman",serif;letter-spacing:-.035em;text-decoration:none}.schedule-tagline{margin:8px 0 10px;color:var(--muted);font-size:11px;letter-spacing:.08em}.schedule-header-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.language-switch{display:flex;gap:3px}.language-switch button{border:1px solid #b7c9bd;background:transparent;color:var(--forest);border-radius:4px;padding:6px 8px;font-size:11px}.language-switch button.active{background:var(--forest);color:#fff}.schedule-account{display:flex;gap:7px;align-items:center}.schedule-account-label{max-width:180px;color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.schedule-page-title{margin:0;color:var(--forest)}.schedule-page-description{margin:3px 0 0}.panel,.event,.schedule-item{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:16px;margin-top:16px}.filters{display:grid;grid-template-columns:170px 170px 1fr;gap:12px;align-items:end}.field label{display:block;font-weight:700;font-size:12px;margin-bottom:4px}.field input,.field select,.location-search{width:100%;padding:9px;border:1px solid #c8cdc5;border-radius:5px;background:#fff}.choices{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}.choice{display:inline-flex;gap:5px;align-items:center;border:1px solid #c8cdc5;border-radius:4px;padding:6px 9px;background:#fff}.choice.selected{border-color:var(--forest);background:var(--soft)}button{font:inherit;cursor:pointer;border:1px solid var(--forest);border-radius:5px;padding:8px 12px;background:var(--forest);color:#fff;font-weight:700}button.secondary{background:transparent;color:var(--forest);border-color:#aebbb2}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px}.hint,.meta{color:var(--muted);font-size:12px}.event{display:grid;grid-template-columns:24px 120px 1fr auto;gap:10px;align-items:start}.event h3{margin:0 0 3px;font-size:18px;color:var(--forest)}.event .actions{display:flex;gap:6px;flex-wrap:wrap}.event .actions button{font-size:12px;padding:6px 9px}.details{margin-top:8px;border-top:1px solid var(--line);padding-top:8px}.details h4{margin:8px 0 3px}.details ul{margin:3px 0;padding-left:20px}.schedule-grid{display:grid;gap:8px}.schedule-item{margin:0;display:grid;grid-template-columns:130px 1fr;gap:12px}.schedule-item h3{margin:0;color:var(--forest);font-size:17px}.status{min-height:20px;margin-top:8px;color:var(--muted)}.error{color:#9e3737}.location-autocomplete{position:relative}.location-suggestions{position:absolute;left:0;right:0;top:100%;z-index:8;margin-top:4px;padding:4px;background:var(--card);border:1px solid var(--line);border-radius:5px;box-shadow:0 8px 24px #10201822;max-height:220px;overflow:auto}.location-suggestion{display:flex;width:100%;justify-content:space-between;gap:8px;padding:8px 9px;border:0;border-bottom:1px solid var(--line);background:transparent;color:var(--ink);text-align:left;font-weight:500}.location-suggestion:last-child{border-bottom:0}.location-suggestion:hover,.location-suggestion:focus-visible{background:var(--soft)}.location-suggestion small{color:var(--muted);font-size:11px}@media(max-width:760px){.filters{grid-template-columns:1fr 1fr}.filters .wide{grid-column:1/-1}.event{grid-template-columns:24px 1fr}.event>.date{grid-column:2}.event>.actions{grid-column:2}.schedule-item{grid-template-columns:1fr}.top{align-items:flex-start;gap:10px;flex-direction:column}.schedule-header-actions{width:100%;justify-content:space-between}.schedule-account-label{display:none}.schedule-brand{font-size:39px}}
 </style><style>.cast-list{list-style:none;padding:0!important}.cast-list li{display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);align-items:start;gap:16px;padding:7px 0;border-bottom:1px solid var(--line)}.cast-list li>span,.cast-list li>strong{min-width:0;text-align:left}.cast-list .artist-link{display:inline;text-align:left;white-space:normal;overflow-wrap:break-word;line-height:1.35}.team-group h5{margin:10px 0 2px;font-size:13px;color:var(--forest)}.team-group ul{margin-top:0}@media(max-width:420px){.cast-list li{grid-template-columns:1fr;gap:2px}}</style></head><body><main>
-<div class="top"><div><a href="/">← Byelingua</a><h1>Schedule Builder</h1><div class="hint">选择日期、地点和演出，生成个人演出时间表。</div></div><button id="generate" disabled>Generate Schedule</button></div>
+<div class="top"><div><a href="/">← Byelingua</a><h1>Performance Search</h1><div class="hint">Find performances by date, city, venue, organization, artist or work.</div></div><button id="generate" disabled>Generate Schedule</button></div>
 <section class="panel"><div class="filters"><div class="field"><label for="dateFrom">Date from</label><input id="dateFrom" type="date" required></div><div class="field"><label for="dateTo">Date to</label><input id="dateTo" type="date" required></div><div class="field wide"><label for="eventType">Event type（可选）</label><select id="eventType"><option value="">全部类型</option></select></div></div>
 <div class="field" style="margin-top:13px"><label for="locationSearch">地点搜索</label><input id="locationSearch" class="location-search" placeholder="例如 Vienna、Paris、Berlin"></div>
 <div><strong>城市</strong><div id="cities" class="choices"></div></div><div style="margin-top:10px"><strong>机构</strong><div id="organizations" class="choices"></div></div><div style="margin-top:10px"><strong>场馆</strong><div id="venues" class="choices"></div></div>
@@ -210,7 +210,7 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   if(scheduleGenerate){document.body.appendChild(scheduleGenerate);scheduleGenerate.hidden=true;scheduleGenerate.style.display='none'}
   top.classList.remove('top');
   ByelinguaHeader.mount(top);
-  const heading=document.createElement('div');heading.className='schedule-page-heading';heading.innerHTML='<h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div>';top.after(heading);
+  const heading=document.createElement('div');heading.className='schedule-page-heading';heading.innerHTML='<div class="section-kicker">Schedule</div><h1 class="schedule-page-title">Performance Search</h1><div class="hint schedule-page-description">Find performances by date, city, venue, organization, artist or work.</div>';top.after(heading);
   const languageButtons=[...top.querySelectorAll('[data-shared-language]')];
   if(scheduleGenerate&&typeof generate==='function')scheduleGenerate.onclick=generate;
   let uiLanguage=localStorage.getItem('byelinguaUiLanguage')||'zh';
@@ -348,5 +348,235 @@ renderPresentationCredits=function(event){
   document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(artistDrawer.classList.contains('open'))closeArtist();else if(!eventPane.hidden)closeEvent();else if(rightColumn.classList.contains('mobile-open'))closeSchedule()});
   document.addEventListener('click',event=>{if(!mobile())return;if(artistDrawer.classList.contains('open')&&!artistDrawer.contains(event.target))closeArtist()});
   document.addEventListener('click',event=>{if(event.target.closest('#search,#entitySearchButton'))eventPage=1},{capture:true});
+})();
+</script><script>
+// Phase 1 performance search: filters, results, and detail use three semantic columns.
+(function(){
+  const phaseLayout=document.querySelector('.schedule-builder-layout'),phaseLeft=document.querySelector('.schedule-left-column'),phaseDetail=document.getElementById('persistentEventDetail'),phaseSchedule=document.getElementById('liveSchedulePanel'),phaseEvents=document.querySelector('#events')?.closest('.panel');
+  if(!phaseLayout||!phaseLeft||!phaseDetail||!phaseSchedule||!phaseEvents)return;
+  const phaseCenter=document.createElement('section');phaseCenter.className='phase1-results-column';phaseCenter.setAttribute('aria-label','Performances');
+  phaseCenter.appendChild(phaseEvents);phaseCenter.appendChild(phaseSchedule);
+  phaseLayout.classList.remove('has-event-pane');phaseLayout.classList.add('phase1-three-column');phaseLayout.append(phaseLeft,phaseCenter,phaseDetail);
+  phaseLeft.setAttribute('aria-label','Performance filters');
+
+  const detailTitle=phaseDetail.querySelector('[data-persistent-title]'),detailMeta=phaseDetail.querySelector('[data-persistent-meta]'),detailBody=phaseDetail.querySelector('[data-persistent-body]'),detailClose=phaseDetail.querySelector('[data-close-persistent]');
+  const isNarrow=()=>window.matchMedia('(max-width:1100px)').matches;
+  function emptyDetail(){
+    phaseDetail.dataset.phase1Empty='true';
+    detailTitle.textContent='Event Detail';detailMeta.textContent='';detailBody.innerHTML='<div class="phase1-detail-empty">Select a performance to view details.</div>';
+    phaseDetail.hidden=isNarrow();
+  }
+  emptyDetail();
+  let phaseDetailWasNarrow=false,phaseTabletDetailLocked=false;
+  const basePhaseRenderDetail=renderPersistentEvent;
+  renderPersistentEvent=async function(id){
+    phaseDetail.dataset.phase1Empty='false';phaseDetail.hidden=false;phaseDetailWasNarrow=isNarrow();
+    if(window.matchMedia('(min-width:761px) and (max-width:768px)').matches&&!phaseTabletDetailLocked){window.ByelinguaOverlay?.lock();phaseTabletDetailLocked=true}
+    await basePhaseRenderDetail(id);
+    const event=details.get(String(id))?.event||details.get(String(id));
+    if(!event)return;
+    detailMeta.insertAdjacentHTML('beforeend',` · ${escapeHtml(event.event_type||'Performance')}`);
+    if(!detailBody.querySelector('[data-reviews-placeholder]'))detailBody.insertAdjacentHTML('beforeend','<section class="phase1-reviews-placeholder" data-reviews-placeholder><h4>Reviews</h4><p class="hint">No reviews yet.</p></section>');
+    phaseDetail.hidden=false;refreshProtectedLabels();
+  };
+  showDetail=renderPersistentEvent;
+  detailClose.addEventListener('click',()=>{activeEventId=null;if(phaseTabletDetailLocked){window.ByelinguaOverlay?.unlock();phaseTabletDetailLocked=false}phaseDetailWasNarrow=false;emptyDetail()});
+  window.addEventListener('resize',()=>{if(!activeEventId)emptyDetail()});
+
+  function signedIn(){return Boolean(eventAccessToken||storedEventAccessToken())}
+  function requireSignIn(message){
+    const dialog=document.getElementById('scheduleAuthDialog');
+    const status=document.getElementById('scheduleAuthStatus');
+    if(status)status.textContent=message||'Sign in required to save performances.';
+    if(dialog&&!dialog.open)dialog.showModal();
+  }
+  function refreshProtectedLabels(){
+    const authenticated=signedIn();
+    document.querySelectorAll('#events [data-add]').forEach(button=>{if(!authenticated)button.textContent='Sign in to save'});
+    document.querySelectorAll('#events [data-event]').forEach(input=>{if(!authenticated){input.checked=false;input.disabled=true}});
+    const toggle=phaseDetail.querySelector('[data-persistent-toggle]');if(toggle&&!authenticated)toggle.textContent='Sign in to save';
+    const generate=phaseSchedule.querySelector('[data-generate-live]');if(generate)generate.textContent=authenticated?'Generate Schedule':'Sign in to generate';
+    phaseSchedule.querySelectorAll('[data-timeline-intent]').forEach(input=>{input.disabled=!authenticated});
+  }
+  const basePhaseRenderEvents=renderEvents;
+  renderEvents=function(){basePhaseRenderEvents();refreshProtectedLabels()};
+  refreshProtectedLabels();
+  document.addEventListener('click',event=>{
+    if(signedIn())return;
+    const target=event.target.closest('#generate,[data-generate-live],[data-add],[data-event],[data-persistent-toggle],[data-timeline-intent],[data-live-remove]');
+    if(!target)return;
+    event.preventDefault();event.stopImmediatePropagation();requireSignIn(target.matches('[data-generate-live],#generate')?'Sign in to generate a schedule.':'Sign in to save or add performances.');
+  },true);
+  document.addEventListener('change',event=>{
+    if(signedIn())return;
+    const target=event.target.closest('[data-event],[data-timeline-intent]');
+    if(!target)return;
+    event.preventDefault();event.stopImmediatePropagation();requireSignIn('Sign in to save or add performances.');
+  },true);
+  const filterToggle=document.createElement('button');filterToggle.type='button';filterToggle.className='phase1-filter-trigger';filterToggle.textContent='Filters';filterToggle.setAttribute('aria-expanded','false');
+  const filterClose=document.createElement('button');filterClose.type='button';filterClose.className='phase1-filter-close';filterClose.textContent='×';filterClose.setAttribute('aria-label','Close filters');
+  phaseLeft.prepend(filterClose);phaseLayout.before(filterToggle);
+  let filtersOpen=false;
+  function closeFilters(){if(!filtersOpen)return;filtersOpen=false;phaseLeft.classList.remove('phase1-filter-open');filterToggle.setAttribute('aria-expanded','false');window.ByelinguaOverlay?.unlock()}
+  function openFilters(){if(filtersOpen)return;filtersOpen=true;phaseLeft.classList.add('phase1-filter-open');filterToggle.setAttribute('aria-expanded','true');window.ByelinguaOverlay?.lock()}
+  filterToggle.onclick=()=>filtersOpen?closeFilters():openFilters();filterClose.onclick=closeFilters;
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&filtersOpen)closeFilters()});
+  const phaseStyle=document.createElement('style');phaseStyle.textContent=`
+    .phase1-three-column{width:calc(100% - 28px);max-width:none;display:grid!important;grid-template-columns:minmax(240px,260px) minmax(0,1fr) minmax(380px,440px);gap:16px;align-items:start}
+    .phase1-three-column>.schedule-left-column{min-width:0;max-height:calc(100dvh - var(--byelingua-header-height,0px) - 28px);overflow-y:auto;position:sticky;top:calc(var(--byelingua-header-height,0px) + 14px)}
+    .phase1-three-column .schedule-search-workspace{grid-template-columns:1fr!important}
+    .phase1-three-column .filters{grid-template-columns:1fr!important}
+    .phase1-three-column>.schedule-left-column>.panel,.phase1-three-column .schedule-search-workspace>.panel{margin-top:0;margin-bottom:12px}
+    .phase1-results-column{min-width:0;max-height:calc(100dvh - var(--byelingua-header-height,0px) - 28px);overflow-y:auto;display:grid;gap:16px;align-content:start}
+    .phase1-results-column>.panel{margin-top:0}
+    .phase1-results-column>.my-schedule-panel{position:static;top:auto;min-width:0;max-width:none;width:auto;height:auto;max-height:380px}
+    .phase1-three-column>.persistent-event-pane{min-width:0;position:sticky;top:calc(var(--byelingua-header-height,0px) + 14px);height:calc(100dvh - var(--byelingua-header-height,0px) - 28px);max-height:none}
+    .phase1-detail-empty{padding:22px 0;color:var(--muted);font-size:13px}
+    .phase1-reviews-placeholder{margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}
+    .phase1-filter-trigger,.phase1-filter-close{display:none}
+    @media(max-width:1100px){
+      .phase1-three-column{grid-template-columns:minmax(220px,280px) minmax(0,1fr)}
+      .phase1-three-column>.persistent-event-pane{position:fixed;top:var(--byelingua-header-height,0px);right:0;bottom:0;width:min(440px,calc(100vw - 24px));height:auto;z-index:39;box-shadow:-10px 0 35px #10201833}
+      .phase1-three-column>.persistent-event-pane[data-phase1-empty="true"]{display:none!important}
+    }
+    @media(max-width:768px){
+      .phase1-filter-trigger{display:block;position:sticky;top:calc(var(--byelingua-header-height,0px) + 8px);z-index:24;margin:10px 12px 0;min-height:42px}
+      .phase1-three-column{width:100%;display:block!important}
+      .phase1-three-column>.schedule-left-column{position:fixed;top:var(--byelingua-header-height,0px);bottom:0;left:0;width:min(320px,calc(100vw - 34px));max-height:none;padding:12px;background:var(--paper);box-shadow:12px 0 32px #10201833;z-index:39;transform:translateX(-105%);transition:transform .18s ease;overflow-y:auto}
+      .phase1-three-column>.schedule-left-column.phase1-filter-open{transform:translateX(0)}
+      .phase1-filter-close{display:block;margin:0 0 8px auto;border:0;background:transparent;color:var(--forest);font-size:28px;line-height:1;padding:2px 7px}
+      .phase1-results-column{width:calc(100% - 24px);max-height:none;margin:16px auto 0;overflow:visible}
+      .phase1-results-column>.my-schedule-panel{max-height:none}
+      .phase1-three-column>.persistent-event-pane{top:var(--byelingua-header-height,0px);right:0;bottom:0;left:0;width:100vw;height:auto;border-radius:0}
+      .phase1-results-column .event{grid-template-columns:24px minmax(0,1fr)}
+      .phase1-results-column .event>.date{grid-column:2;grid-row:1}
+      .phase1-results-column .event>div:not(.date):not(.actions){grid-column:2;grid-row:2;min-width:0}
+      .phase1-results-column .event>.actions{grid-column:2;grid-row:3}
+    }
+  `;document.head.appendChild(phaseStyle);
+  phaseLayout.classList.add('phase1-search-ready');
+})();
+</script><script>
+// Phase 1 final visual refinement: presentation only; search, auth and schedule state stay unchanged.
+(function(){
+  const layout=document.querySelector('.phase1-three-column'),rail=document.querySelector('.phase1-three-column>.schedule-left-column'),detail=document.getElementById('persistentEventDetail');
+  if(!layout||!rail||!detail)return;
+  document.title='Byelingua · Performance Search';
+
+  const filterPanel=rail.querySelector('#dateFrom')?.closest('.panel');
+  const entityPanel=rail.querySelector('#workCondition')?.closest('.panel');
+  if(filterPanel){
+    filterPanel.classList.add('phase1-filter-main');
+    const addHeading=(label,before)=>{if(!before||before.previousElementSibling?.matches('.phase1-filter-section-heading'))return;const heading=document.createElement('div');heading.className='phase1-filter-section-heading';heading.textContent=label;before.before(heading)};
+    const dateGrid=filterPanel.querySelector('.filters');
+    const typeField=filterPanel.querySelector('#eventType')?.closest('.field');
+    if(dateGrid){dateGrid.classList.add('phase1-date-grid');addHeading('DATES',dateGrid)}
+    const locationField=filterPanel.querySelector('#locationSearch')?.closest('.field');
+    if(locationField)addHeading('LOCATION',locationField);
+    if(typeField){
+      typeField.remove();
+      const typeSection=document.createElement('div');typeSection.className='phase1-filter-type';
+      typeSection.append(Object.assign(document.createElement('div'),{className:'phase1-filter-section-heading',textContent:'TYPE'}),typeField);
+      filterPanel.querySelector('#filterStatus')?.before(typeSection);
+    }
+    const cityChoices=filterPanel.querySelector('#cities')?.parentElement;
+  }
+  if(entityPanel){
+    entityPanel.classList.add('phase1-filter-entity');
+    const title=entityPanel.querySelector('h2');if(title)title.textContent='ENTITY';
+  }
+
+  const detailHeader=detail.querySelector('.persistent-event-header'),detailMeta=detail.querySelector('[data-persistent-meta]'),detailTitle=detail.querySelector('[data-persistent-title]');
+  if(detailHeader&&detailMeta){
+    const headerMain=detailHeader.querySelector(':scope>div');
+    let headerActions=detailHeader.querySelector('[data-phase1-header-actions]');
+    if(!headerActions){headerActions=document.createElement('div');headerActions.dataset.phase1HeaderActions='';headerActions.className='phase1-detail-header-actions';headerMain?.appendChild(headerActions)}
+    const baseRender=renderPersistentEvent;
+    renderPersistentEvent=async function(id){
+      await baseRender(id);
+      const event=currentDetailEvent(id);if(!event)return;
+      const organization=event.organization_name||event.organization||'';
+      const venue=event.venue_name||event.venue||'';
+      const place=[venue,event.room,event.city].filter(Boolean).join(' · ');
+      detailMeta.innerHTML=`<span class="phase1-detail-date">${escapeHtml(formatEventDate(event))}</span><span class="phase1-detail-organization">${escapeHtml(organization)}</span><span class="phase1-detail-place">${escapeHtml(place)}</span><span class="phase1-detail-kind">${escapeHtml(event.event_type||'Performance')}${eventSourceLink(event)?` · ${eventSourceLink(event)}`:''}</span>`;
+      const save=detail.querySelector('[data-persistent-toggle]');if(save)headerActions.appendChild(save);
+      if(detailTitle)detailTitle.textContent=event.title||'Event Detail';
+    };
+    showDetail=renderPersistentEvent;
+  }
+
+  const visualStyle=document.createElement('style');visualStyle.textContent=`
+    body:has(.phase1-three-column) main{width:min(1320px,calc(100% - 32px))}
+    .schedule-page-heading{width:min(1320px,calc(100% - 32px));margin:20px auto 14px}
+    .schedule-page-heading .section-kicker{margin-bottom:5px}
+    .schedule-page-heading h1{font-size:clamp(28px,3vw,38px);letter-spacing:-.02em}
+    .phase1-three-column,.phase1-three-column.has-event-pane{width:100%;grid-template-columns:250px minmax(500px,1fr) 380px;gap:16px}
+    .phase1-three-column>.schedule-left-column{padding:16px 18px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius-md)}
+    .phase1-three-column>.schedule-left-column>.panel,.phase1-three-column .schedule-search-workspace>.panel{margin:0 0 18px;padding:0 0 18px;background:transparent;border:0;border-radius:0;border-bottom:1px solid var(--line)}
+    .phase1-three-column .schedule-search-workspace{display:contents}
+    .phase1-three-column .phase1-filter-main{padding-top:0}
+    .phase1-filter-section-heading{margin:0 0 9px;color:var(--forest);font-size:10px;font-weight:800;letter-spacing:.14em}
+    .phase1-filter-main .phase1-date-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:end}
+    .phase1-filter-main .field label{font-size:11px}
+    .phase1-filter-main .field input,.phase1-filter-main .field select,.phase1-filter-main .location-search{padding:8px 9px}
+    .phase1-filter-main>.field{margin-top:0!important}
+    .phase1-filter-main>.phase1-filter-section-heading~div[style]{margin-top:10px!important}
+    .phase1-filter-main .choices{gap:5px;margin-top:6px}
+    .phase1-filter-main .choice{padding:5px 7px;font-size:12px}
+    .phase1-filter-type{padding-top:14px}
+    .phase1-filter-entity h2{margin:0 0 5px!important;font:800 10px/1.2 var(--font-body)!important;letter-spacing:.14em;color:var(--forest)}
+    .phase1-filter-entity>.hint{margin-bottom:12px;line-height:1.45}
+    .phase1-filter-entity .entity-condition-grid{gap:11px;margin-top:0}
+    .phase1-filter-entity .entity-condition-grid .field{display:grid;gap:4px}
+    .phase1-filter-entity .entity-condition-grid .field label{margin:0;font-size:11px}
+    .phase1-results-column{gap:0;padding-bottom:24px}
+    .phase1-results-column>#events.panel{padding:0;background:transparent;border:0;border-radius:0}
+    .phase1-results-column>#events.panel>.toolbar{margin:0;padding:0 0 12px;border-bottom:2px solid var(--forest)}
+    .phase1-results-column .event{grid-template-columns:18px minmax(132px,150px) minmax(0,1fr) auto;gap:14px;align-items:center;margin:0;padding:15px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+    .phase1-results-column .event:last-child{border-bottom:0}
+    .phase1-results-column .event .date{color:var(--forest);font-size:12px;line-height:1.4;white-space:nowrap}
+    .phase1-results-column .event-title-link{width:100%;font-size:16px;line-height:1.3;white-space:normal}
+    .phase1-results-column .event .meta{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.4}
+    .phase1-results-column .event .actions{justify-self:end;justify-content:flex-end;align-items:center}
+    .phase1-results-column .event .actions button{min-height:34px;padding:5px 8px}
+    .event-pagination{padding:14px 0 0}
+    .persistent-event-pane{border-radius:var(--radius-md)}
+    .persistent-event-header{padding:18px 18px 14px;align-items:flex-start}
+    .persistent-event-header h2{font-size:25px;line-height:1.2}
+    .persistent-event-header [data-persistent-meta]{display:grid;gap:2px;margin-top:7px;line-height:1.45}
+    .phase1-detail-date{color:var(--ink);font-weight:700}
+    .phase1-detail-organization,.phase1-detail-place{color:var(--muted)}
+    .phase1-detail-kind{color:var(--muted);font-size:11px;text-transform:lowercase}
+    .phase1-detail-header-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+    .phase1-detail-header-actions button{min-height:34px;padding:5px 9px;font-size:12px}
+    .persistent-event-body{padding:14px 18px 22px}
+    .persistent-event-body .details h4{margin:16px 0 6px;padding-top:12px;border-top:1px solid var(--line);font-size:12px;letter-spacing:.04em}
+    .persistent-event-body .details h4:first-child{margin-top:0;padding-top:0;border-top:0}
+    .persistent-event-body .details ul{margin:4px 0;padding-left:18px}
+    .persistent-event-body .detail-actions{display:none}
+    .phase1-reviews-placeholder{margin-top:16px!important;padding-top:12px!important}
+    @media(max-width:1199px) and (min-width:769px){
+      body:has(.phase1-three-column) main{width:min(1120px,calc(100% - 28px))}
+      .phase1-three-column,.phase1-three-column.has-event-pane{grid-template-columns:250px minmax(500px,1fr)}
+      .phase1-three-column>.persistent-event-pane{position:fixed;top:var(--byelingua-header-height,0px);right:0;bottom:0;width:min(440px,calc(100vw - 24px));height:auto;z-index:39;box-shadow:-10px 0 35px #10201833}
+    }
+    @media(max-width:768px){
+      body:has(.phase1-three-column) main{width:100%}
+      .schedule-page-heading{width:calc(100% - 24px);margin:16px auto 10px}
+      .phase1-three-column{grid-template-columns:1fr}
+      .phase1-three-column>.schedule-left-column{border:0;border-radius:0;padding:12px;background:var(--paper)}
+      .phase1-three-column .event{grid-template-columns:18px minmax(0,1fr);gap:10px;padding:14px 0}
+      .phase1-three-column .event>.date{grid-column:2;grid-row:1}
+      .phase1-three-column .event>div:not(.date):not(.actions){grid-column:2;grid-row:2}
+      .phase1-three-column .event>.actions{grid-column:2;grid-row:3;justify-self:start}
+      .phase1-results-column{padding-bottom:76px}
+      .persistent-event-pane{border-radius:0}
+      .mobile-schedule-trigger{height:50px;min-height:50px;bottom:calc(8px + env(safe-area-inset-bottom));background:var(--card);color:var(--muted);border:1px solid var(--line);box-shadow:0 4px 18px #10201822}
+      .mobile-schedule-trigger.has-selection{background:var(--forest);color:#fff;border-color:var(--forest)}
+    }
+  `;document.head.appendChild(visualStyle);
+  const baseScheduleRender=renderLiveSchedule;
+  renderLiveSchedule=function(){baseScheduleRender();mobileTrigger.classList.toggle('has-selection',selected_event_ids.size>0)};
+  renderLiveSchedule();
 })();
 </script></body></html>

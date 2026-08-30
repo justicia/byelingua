@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Byelingua · Reviews</title>
+  <link rel="stylesheet" href="/shared-ui.css">
+</head>
+<body class="phase1-page">
+  <header id="sharedHeader" aria-label="Byelingua header"></header>
+  <main>
+    <section class="home-section">
+      <div class="section-kicker">Editorial</div>
+      <h1>Reviews</h1>
+      <p class="hint">Curated reviews will appear here as the editorial dataset becomes available.</p>
+    </section>
+    <section class="phase1-empty-state" aria-labelledby="reviewsEmptyTitle">
+      <h2 id="reviewsEmptyTitle">No reviews yet</h2>
+      <p>Reviews are read-only in this phase. No writing or submission actions are exposed.</p>
+    </section>
+  </main>
+  <script src="/shared-i18n.js"></script>
+  <script src="/shared-header.js"></script>
+  <script>ByelinguaHeader.mount(document.getElementById('sharedHeader'));</script>
+</body>
+</html>
