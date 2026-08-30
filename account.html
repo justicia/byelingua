@@ -95,4 +95,34 @@ if(typeof schedules!=='undefined')renderSchedules();
   function applyDigestCopy(){const english=window.ByelinguaI18n.getUiLanguage()==='en';const label=document.querySelector('label[for="emailEnabled"]'),hints=document.querySelectorAll('.setting-row .hint'),email=document.getElementById('emailEnabled');if(label)label.textContent=english?'Daily email digest':'每日邮件摘要';if(hints[1])hints[1].textContent=english?'Receive at most one email per day when new articles are generated. No email is sent when there are no new articles.':'仅在生成新文章时发送，每天最多一封。没有新文章时不会发送邮件。';if(email&&typeof personal!=='undefined')email.checked=Boolean(digestEnabled())}
   applyDigestCopy();window.addEventListener('byelingua-language-change',applyDigestCopy);
 })();
+</script><script>
+// Phase 1 account shell: tabs only change presentation; existing API actions and IDs stay intact.
+(function(){
+  const main=document.querySelector('main.page');
+  if(!main||document.getElementById('accountTabs'))return;
+  document.body.classList.add('phase1-page');
+  const sections=[...main.querySelectorAll(':scope > .section')];
+  const ids=['accountProfileSection','accountReadingSection','accountSchedulesSection'];
+  sections.forEach((section,index)=>{section.id=ids[index];section.classList.add('account-tab-panel');section.dataset.accountPanel=index===0?'profile':index===1?'reading':'schedules'});
+  const invitations=document.createElement('section');
+  invitations.id='accountInvitationsSection';
+  invitations.className='section account-tab-panel';
+  invitations.dataset.accountPanel='invitations';
+  invitations.innerHTML='<h2>Invitations</h2><p class="hint">Manage the invitation codes available to your account.</p>';
+  invitations.innerHTML+='<p class="hint">Invitation codes remain available in the Profile tab.</p>';
+  main.appendChild(invitations);
+  const settings=document.createElement('section');
+  settings.id='accountSettingsSection';
+  settings.className='section account-tab-panel';
+  settings.dataset.accountPanel='settings';
+  settings.innerHTML='<h2>Settings</h2><p class="hint">Interface language is available in the shared header. News language and email delivery remain in Reading preferences.</p>';
+  main.appendChild(settings);
+  const tabs=document.createElement('nav');
+  tabs.id='accountTabs';tabs.className='account-tabs';tabs.setAttribute('aria-label','Account sections');
+  tabs.innerHTML=['Profile','Reading','Schedules','Invitations','Settings'].map((label,index)=>`<button type="button" data-account-tab="${['profile','reading','schedules','invitations','settings'][index]}" aria-selected="${index===0?'true':'false'}">${label}</button>`).join('');
+  main.querySelector('.page-head').after(tabs);
+  const setTab=tab=>{main.querySelectorAll('[data-account-panel]').forEach(panel=>{panel.hidden=panel.dataset.accountPanel!==tab});tabs.querySelectorAll('[data-account-tab]').forEach(button=>button.setAttribute('aria-selected',String(button.dataset.accountTab===tab)))};
+  tabs.querySelectorAll('[data-account-tab]').forEach(button=>button.onclick=()=>setTab(button.dataset.accountTab));
+  setTab('profile');
+})();
 </script></body></html>

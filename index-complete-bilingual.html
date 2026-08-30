@@ -96,4 +96,33 @@ $("runPublicButton").onclick=async()=>{$("adminStatus").textContent="正在处�
 $("backfillButton").onclick=async()=>{$("adminStatus").textContent="正在补全一篇旧文章的中英文标题和正文…";try{const data=await api({action:"backfill_bilingual"},{admin:true});$("adminStatus").textContent=data.processed?`补全成功，还剩 ${data.remaining} 篇。`:"所有旧文章都已具备中英文内容。";$("adminStatus").className="status success";await loadPublic()}catch(e){$("adminStatus").textContent=e.message;$("adminStatus").className="status error"}};
 $("preferredLanguage").onchange=async()=>{try{personal=await api({action:"save_my_language",language:$("preferredLanguage").value},{auth:true});$("feedLanguage").value=personal.profile.preferred_language;renderPersonal();renderArticles();$("personalStatus").textContent="内容语言已永久保存。";$("personalStatus").className="status success"}catch(e){$("personalStatus").textContent=e.message;$("personalStatus").className="status error"}};
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$(b.dataset.close).close());const languageObserver=new MutationObserver(records=>records.forEach(record=>record.addedNodes.forEach(node=>{if(node.nodeType===Node.ELEMENT_NODE)translateTree(node);else if(node.nodeType===Node.TEXT_NODE&&node.parentElement&&!node.parentElement.closest("script,style")){if(!originalText.has(node))originalText.set(node,node.nodeValue);node.nodeValue=translatedText(originalText.get(node))}})));languageObserver.observe(document.body,{childList:true,subtree:true});applyLanguage();loadPublic();initAuth();
+</script><script src="/shared-header.js"></script><script>
+// Phase 1 authenticated home modules use only existing user-owned relations and schedules.
+(function(){
+  const main=document.querySelector('.layout > main');
+  if(!main||document.getElementById('phase1HomeModules'))return;
+  const modules=document.createElement('section');modules.id='phase1HomeModules';modules.className='phase1-home-modules';modules.hidden=true;
+  modules.innerHTML='<section class="phase1-home-module"><div class="phase1-home-module-head"><div><div class="section-kicker">Your activity</div><h2>Saved Performances</h2></div><a class="phase1-home-link" href="/schedule.html">Open Performance Search</a></div><div class="phase1-home-items" data-saved-items></div></section><section class="phase1-home-module"><div class="phase1-home-module-head"><div><div class="section-kicker">Your plans</div><h2>My Schedules</h2></div><a class="phase1-home-link" href="/account.html#accountSchedulesSection">View all schedules</a></div><div class="phase1-home-items" data-schedule-items></div></section>';
+  document.getElementById('personalPanel')?.after(modules);
+  const savedItems=modules.querySelector('[data-saved-items]'),scheduleItems=modules.querySelector('[data-schedule-items]');let loadedFor='';
+  const statusLabel=value=>({interested:'Interested',optional:'Planning',must_go:'Going'}[value]||'Saved');
+  const eventRow=(event,relation)=>`<a class="phase1-home-item" href="/schedule.html?event_id=${encodeURIComponent(event.event_id||relation.event_key||'')}"><span><small class="hint">${esc(date(event.date||event.start_date))}</small></span><span><strong>${esc(event.title||event.work_title||'Untitled event')}</strong><small class="hint">${esc(event.venue||event.room||'')}${event.city?' · '+esc(event.city):''}</small></span><span class="phase1-home-item-status">${esc(statusLabel(relation.intent_status))}</span></a>`;
+  const scheduleRow=row=>`<a class="phase1-home-item" href="/schedule-editor.html?schedule_id=${encodeURIComponent(row.id||'')}"><span><small class="hint">${esc((row.cities||[]).join(' · ')||'Schedule')}</small></span><span><strong>${esc(row.title||'Untitled schedule')}</strong><small class="hint">${esc(date(row.start_date||row.end_date)||'')}${row.event_count!=null?' · '+esc(String(row.event_count))+' performances':''}</small></span><span class="phase1-home-item-status">${esc({draft:'Planning',planned:'Confirmed',completed:'Completed',archived:'Archived'}[row.status]||'Planning')}</span></a>`;
+  function renderModules(relations,schedules,eventsByKey){
+    const saved=(relations||[]).filter(row=>row.event_key&&['interested','optional','must_go'].includes(row.intent_status)).slice(0,5);
+    savedItems.innerHTML=saved.length?saved.map(row=>eventRow(eventsByKey.get(String(row.event_key))||{},row)).join(''):'<div class="phase1-home-empty">No saved performances yet.</div>';
+    const rows=(schedules||[]).slice(0,4);scheduleItems.innerHTML=rows.length?rows.map(scheduleRow).join(''):'<div class="phase1-home-empty">No schedules yet.</div>';
+  }
+  async function loadModules(){
+    if(!session){loadedFor='';modules.hidden=true;return}
+    const key=session.user?.id||session.access_token||'signed-in';if(key===loadedFor)return;loadedFor=key;modules.hidden=false;
+    try{
+      const [relationData,scheduleData]=await Promise.all([api({action:'get_event_relations'},{auth:true}),api({action:'list_schedules'},{auth:true})]);
+      const relations=(relationData.relations||[]).filter(row=>row.event_key).slice(0,5),eventsByKey=new Map();
+      await Promise.all(relations.map(async row=>{try{const result=await api({action:'schedule_event_detail',event_id:row.event_key},{auth:true});if(result.event)eventsByKey.set(String(row.event_key),result.event)}catch(_){}}));
+      renderModules(relations,scheduleData.schedules||[],eventsByKey);
+    }catch(error){savedItems.innerHTML=`<div class="phase1-home-empty">${esc(error.message||'Unable to load saved performances.')}</div>`;scheduleItems.innerHTML='<div class="phase1-home-empty">Unable to load schedules.</div>'}
+  }
+  const previousUpdateAccount=updateAccount;updateAccount=function(){previousUpdateAccount();loadModules()};loadModules();
+})();
 </script></body></html>

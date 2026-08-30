@@ -164,4 +164,33 @@ const byelinguaUpdateAccount=updateAccount;updateAccount=function(){byelinguaUpd
 const originalRenderArticlesForFeed=renderArticles;
 renderArticles=function(){originalRenderArticlesForFeed();const mine=active==='mine'&&!searchQuery;$('personalPanel').hidden=true;if(!mine||!session)return;const hasSubscriptions=(personal.subscriptions||[]).length>0;if(!hasSubscriptions&&!((personal.articles||[]).length)){const empty=document.createElement('div');empty.className='empty';empty.innerHTML='No personal subscriptions yet. <a href="/account.html">Manage subscriptions</a>';$('articles').replaceChildren(empty)}else if(hasSubscriptions&&!((personal.articles||[]).length)){const empty=document.createElement('div');empty.className='empty';empty.textContent='No articles from your subscriptions yet.';$('articles').replaceChildren(empty)}};
 if(active==='mine')renderArticles();
+</script><script src="/shared-header.js"></script><script>
+// Phase 1 authenticated home modules use only existing user-owned relations and schedules.
+(function(){
+  const main=document.querySelector('main.layout');
+  if(!main||document.getElementById('phase1HomeModules'))return;
+  const modules=document.createElement('section');modules.id='phase1HomeModules';modules.className='phase1-home-modules';modules.hidden=true;
+  modules.innerHTML='<section class="phase1-home-module"><div class="phase1-home-module-head"><div><div class="section-kicker">Your activity</div><h2>Saved Performances</h2></div><a class="phase1-home-link" href="/schedule.html">Open Performance Search</a></div><div class="phase1-home-items" data-saved-items></div></section><section class="phase1-home-module"><div class="phase1-home-module-head"><div><div class="section-kicker">Your plans</div><h2>My Schedules</h2></div><a class="phase1-home-link" href="/account.html#accountSchedulesSection">View all schedules</a></div><div class="phase1-home-items" data-schedule-items></div></section>';
+  document.getElementById('personalPanel')?.after(modules);
+  const savedItems=modules.querySelector('[data-saved-items]'),scheduleItems=modules.querySelector('[data-schedule-items]');let loadedFor='';
+  const statusLabel=value=>({interested:'Interested',optional:'Planning',must_go:'Going'}[value]||'Saved');
+  const eventRow=(event,relation)=>`<a class="phase1-home-item" href="/schedule.html?event_id=${encodeURIComponent(event.event_id||relation.event_key||'')}"><span><small class="hint">${esc(date(event.date||event.start_date))}</small></span><span><strong>${esc(event.title||event.work_title||'Untitled event')}</strong><small class="hint">${esc(event.venue||event.room||'')}${event.city?' · '+esc(event.city):''}</small></span><span class="phase1-home-item-status">${esc(statusLabel(relation.intent_status))}</span></a>`;
+  const scheduleRow=row=>`<a class="phase1-home-item" href="/schedule-editor.html?schedule_id=${encodeURIComponent(row.id||'')}"><span><small class="hint">${esc((row.cities||[]).join(' · ')||'Schedule')}</small></span><span><strong>${esc(row.title||'Untitled schedule')}</strong><small class="hint">${esc(date(row.start_date||row.end_date)||'')}${row.event_count!=null?' · '+esc(String(row.event_count))+' performances':''}</small></span><span class="phase1-home-item-status">${esc({draft:'Planning',planned:'Confirmed',completed:'Completed',archived:'Archived'}[row.status]||'Planning')}</span></a>`;
+  function renderModules(relations,schedules,eventsByKey){
+    const saved=(relations||[]).filter(row=>row.event_key&&['interested','optional','must_go'].includes(row.intent_status)).slice(0,5);
+    savedItems.innerHTML=saved.length?saved.map(row=>eventRow(eventsByKey.get(String(row.event_key))||{},row)).join(''):'<div class="phase1-home-empty">No saved performances yet.</div>';
+    const rows=(schedules||[]).slice(0,4);scheduleItems.innerHTML=rows.length?rows.map(scheduleRow).join(''):'<div class="phase1-home-empty">No schedules yet.</div>';
+  }
+  async function loadModules(){
+    if(!session){loadedFor='';modules.hidden=true;return}
+    const key=session.user?.id||session.access_token||'signed-in';if(key===loadedFor)return;loadedFor=key;modules.hidden=false;
+    try{
+      const [relationData,scheduleData]=await Promise.all([api({action:'get_event_relations'},{auth:true}),api({action:'list_schedules'},{auth:true})]);
+      const relations=(relationData.relations||[]).filter(row=>row.event_key).slice(0,5),eventsByKey=new Map();
+      await Promise.all(relations.map(async row=>{try{const result=await api({action:'schedule_event_detail',event_id:row.event_key},{auth:true});if(result.event)eventsByKey.set(String(row.event_key),result.event)}catch(_){}}));
+      renderModules(relations,scheduleData.schedules||[],eventsByKey);
+    }catch(error){savedItems.innerHTML=`<div class="phase1-home-empty">${esc(error.message||'Unable to load saved performances.')}</div>`;scheduleItems.innerHTML='<div class="phase1-home-empty">Unable to load schedules.</div>'}
+  }
+  const previousUpdateAccount=updateAccount;updateAccount=function(){previousUpdateAccount();loadModules()};loadModules();
+})();
 </script></body></html>
