@@ -188,6 +188,7 @@
       "performance_container_selector": "#date-2",
       "performance_date_selector": ".datelist li",
       "performance_time_selector": ".turno",
+      "detail_profile": "teatro_dell_opera_di_roma",
       "season": "2026-27",
       "enabled": true
     },

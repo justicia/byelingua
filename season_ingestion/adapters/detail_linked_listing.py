@@ -57,6 +57,16 @@ SCALA_PERFORMER_LABELS = {
 }
 SCALA_NON_CREDIT_LABELS = {"music", "after", "© the george balanchine trust"}
 SCALA_MONTHS = {name.casefold()[:3]: index for index, name in enumerate(month_name) if name}
+ROME_TEAM_ROLES = {
+    "direttore": "conductor",
+    "regia": "stage_director",
+    "maestro del coro": "chorus_master",
+    "scene": "set_designer",
+    "costumi": "costume_designer",
+    "luci": "lighting_designer",
+    "movimenti coreografici": "choreographer",
+    "drammaturgia": "dramaturg",
+}
 
 
 class OutOfSeasonDetail(Exception):
@@ -306,6 +316,114 @@ def _credits(detail: BeautifulSoup, page_url: str, event_date: str | None = None
     return rows
 
 
+def _rome_row_prefix(row: Any, first_strong: Any) -> str:
+    """Return the direct text before the first artist name in a Rome row."""
+    fragments: list[str] = []
+    for child in row.children:
+        if child is first_strong:
+            break
+        fragments.append(str(child))
+    return _text(BeautifulSoup("".join(fragments), "html.parser")).strip(" -–—:/")
+
+
+def _rome_assignment_applies(row: Any, event_date: str | None) -> bool:
+    """Apply Rome's trailing day-number cast annotations to one occurrence."""
+    if not event_date:
+        return True
+    strongs = row.find_all("strong")
+    if not strongs:
+        return True
+    after_last = False
+    fragments: list[str] = []
+    last_strong = strongs[-1]
+    for child in row.children:
+        if after_last:
+            fragments.append(str(child))
+        elif child is last_strong:
+            after_last = True
+    annotation = _text(BeautifulSoup("".join(fragments), "html.parser"))
+    days = {int(value) for value in re.findall(r"(?<!\d)([0-3]?\d)(?!\d)", annotation) if 1 <= int(value) <= 31}
+    return not days or date.fromisoformat(event_date).day in days
+
+
+def _rome_credits(detail: BeautifulSoup, page_url: str, event_date: str | None = None) -> list[dict[str, Any]]:
+    """Extract Teatro dell'Opera di Roma's ``.ruoli`` credit structure.
+
+    Rome renders team and cast rows as nested paragraphs rather than tables or
+    definition lists.  Labels and names are read from the official markup; no
+    individual artists are encoded in the adapter.
+    """
+    root = detail.select_one(".ruoli")
+    if not root:
+        return []
+    rows: list[dict[str, Any]] = []
+
+    def add(payload: dict[str, Any]) -> None:
+        key = (payload["artist_name"].casefold(), payload["function"], str(payload.get("character") or "").casefold())
+        if payload["artist_name"].strip() and not any((row["artist_name"].casefold(), row["function"], str(row.get("character") or "").casefold()) == key for row in rows):
+            rows.append(payload)
+
+    # The first two named roles are h4 + sibling .persone spans.
+    for heading in root.find_all("h4", recursive=False):
+        label = _text(heading)
+        role = ROME_TEAM_ROLES.get(label.casefold()) or _role_from_label(label)
+        if not role:
+            continue
+        sibling = heading.find_next_sibling()
+        while sibling and getattr(sibling, "name", None) not in {"h4", "p"}:
+            if getattr(sibling, "name", None) == "span" and "persone" in (sibling.get("class") or []):
+                for artist in _split_credit_values(_text(sibling)):
+                    add(_credit_payload(artist, label, role, "artistic_team", page_url, "detail.ruoli.heading", raw_block=_text(sibling)))
+                break
+            sibling = sibling.next_sibling
+
+    in_cast = False
+    # WordPress emits one malformed outer p containing the actual row p tags;
+    # only leaf paragraphs are credit rows.
+    paragraph_rows = [row for row in root.find_all("p") if not row.find("p")]
+    for row in paragraph_rows:
+        text = _text(row)
+        folded = text.casefold()
+        if "personaggi" in folded and ("interpret" in folded or "intepret" in folded):
+            in_cast = True
+            continue
+        if not text:
+            continue
+        strongs = row.find_all("strong")
+        if not strongs:
+            continue
+
+        label = _rome_row_prefix(row, strongs[0])
+
+        # A collective can be a single strong row containing both Orchestra
+        # and Coro.  Emit both canonical ensemble functions from that source.
+        collective_label = label or text
+        if re.match(r"^\s*(?:orchestra|coro|chorus|choir)\b", collective_label, re.I):
+            artist = _text(strongs[0])
+            if re.search(r"\borchestra\b", text, re.I):
+                add(_credit_payload(artist, text, "orchestra", "ensemble", page_url, "detail.ruoli.ensemble", raw_block=text))
+            if re.search(r"\b(?:coro|chorus|choir)\b", text, re.I):
+                add(_credit_payload(artist, text, "choir", "ensemble", page_url, "detail.ruoli.ensemble", raw_block=text))
+            continue
+
+        role = ROME_TEAM_ROLES.get(label.casefold()) or _role_from_label(label)
+        if role and not in_cast:
+            for strong in strongs:
+                add(_credit_payload(_text(strong), label, role, "artistic_team", page_url, "detail.ruoli.team", raw_block=text))
+            continue
+
+        # After the cast heading, the prefix is the character and every strong
+        # element is an artist alternative.  Trailing day numbers are official
+        # assignment annotations, not part of the character or artist name.
+        if in_cast and _rome_assignment_applies(row, event_date):
+            character = label
+            if character:
+                for strong in strongs:
+                    add(_credit_payload(_text(strong), character, "performer", "cast", page_url, "detail.ruoli.cast", character=character, raw_block=text))
+
+    return rows
+
+
 def _scala_assignment_applies(raw: str, event_date: str) -> tuple[str, bool]:
     annotations = re.findall(r"\(([^()]*)\)", raw)
     artist = re.sub(r"\s*\([^()]*\)\s*$", "", raw).strip(" /,\u00a0")
@@ -547,6 +665,9 @@ class DetailLinkedListingAdapter:
         self.ambiguous_same_day_occurrence = 0
         self.null_timed_shadow_duplicates = 0
         self.year_inferred_without_production_evidence = 0
+        self.allowed_detail_urls: set[str] | None = None
+        self.productions_discovered_before_scope = 0
+        self.detail_scope_filtered = 0
 
     @staticmethod
     def _fetch_url(url: str) -> str:
@@ -730,7 +851,13 @@ class DetailLinkedListingAdapter:
                 self.date_candidates_accepted += 1
         events: list[CanonicalEvent] = []
         for event_date, start_time in unique:
-            credits = _scala_credits(soup, page_url, event_date) if self.settings.get("detail_profile") == "teatro_alla_scala" else _credits(soup, page_url, event_date)
+            detail_profile = self.settings.get("detail_profile")
+            if detail_profile == "teatro_alla_scala":
+                credits = _scala_credits(soup, page_url, event_date)
+            elif detail_profile == "teatro_dell_opera_di_roma":
+                credits = _rome_credits(soup, page_url, event_date)
+            else:
+                credits = _credits(soup, page_url, event_date)
             source_event_id = hashlib.sha256(f"{page_url}|{event_date}|{start_time or ''}".encode()).hexdigest()[:24]
             event = CanonicalEvent(source=self.settings.get("source_id", "detail_linked_listing"), source_event_id=source_event_id, source_url=page_url, organization=self.settings["organization"], venue=self.settings["venue"], city=self.settings["city"], country=self.settings["country"], timezone=self.settings["timezone"], title=title, date=event_date, start_time=start_time, end_time=None, room=None, event_type=event_type, classification=event_type, programme=programme, credits=credits, data_quality={"programme": {"status": programme_status, "reason": programme_reason}, "detail_enrichment": {"status": "complete", "source_url": page_url, "source_type": source_type if self.settings.get("detail_profile") == "teatro_alla_scala" else None}}, raw={"listing_source_url": self.settings.get("listing_source"), "detail_source_url": page_url, "source_title": title, "source_event_type": source_type if self.settings.get("detail_profile") == "teatro_alla_scala" else None})
             event.validate()
@@ -752,6 +879,12 @@ class DetailLinkedListingAdapter:
             self.last_errors.append({"url": listing_url, "error": f"{type(exc).__name__}: {exc}"})
             return []
         detail_urls = self._listing_urls(listing_page, listing_url)
+        self.productions_discovered_before_scope = len(detail_urls)
+        if self.allowed_detail_urls is not None:
+            allowed = {str(url).rstrip("/") for url in self.allowed_detail_urls}
+            before_filter = len(detail_urls)
+            detail_urls = [url for url in detail_urls if url.rstrip("/") in allowed]
+            self.detail_scope_filtered = before_filter - len(detail_urls)
         self.productions_discovered = len(detail_urls)
         self.requested_months.extend(detail_urls)
         self.detail_pages_requested.extend(detail_urls)
