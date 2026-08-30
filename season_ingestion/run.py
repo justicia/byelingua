@@ -12,10 +12,11 @@ def main() -> int:
     parser.add_argument("--venue", required=True)
     parser.add_argument("--season", required=True)
     parser.add_argument("--mode", choices=("dry-run", "apply"), default="dry-run")
+    parser.add_argument("--scope", choices=("full-season", "existing-production"), default="full-season")
     parser.add_argument("--output-dir", type=Path, default=Path("season-ingestion-output"))
     parser.add_argument("--snapshot", type=Path)
     args = parser.parse_args()
-    summary = run_pipeline(venue=args.venue, season=args.season, mode=args.mode, output_dir=args.output_dir, snapshot_path=args.snapshot)
+    summary = run_pipeline(venue=args.venue, season=args.season, mode=args.mode, scope=args.scope, output_dir=args.output_dir, snapshot_path=args.snapshot)
     print(f"GLOBAL_MASTER_PREFLIGHT={summary.get('global_master_preflight', 'FAIL')}")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
     return 0 if summary["passed"] else 2

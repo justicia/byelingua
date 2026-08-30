@@ -16,6 +16,7 @@ def main() -> int:
         "venue": os.getenv("INPUT_VENUE", "unknown"),
         "season": os.getenv("INPUT_SEASON", "unknown"),
         "mode": os.getenv("INPUT_MODE", "dry-run"),
+        "scope": os.getenv("INPUT_SCOPE", "full-season"),
         "source_capability": "SOURCE_UNSUPPORTED",
         "global_master_preflight": "FAIL",
         "counts": {"events_discovered": 0, "review_items": 0, "writes": 0},

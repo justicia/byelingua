@@ -25,6 +25,12 @@ on:
         default: dry-run
         type: choice
         options: [dry-run, probe]
+      scope:
+        description: Full season discovery or read-only existing-production closeout
+        required: true
+        default: full-season
+        type: choice
+        options: [full-season, existing-production]
 
 permissions:
   contents: read
@@ -61,11 +67,13 @@ jobs:
           INPUT_VENUE: ${{ inputs.venue }}
           INPUT_SEASON: ${{ inputs.season }}
           INPUT_MODE: ${{ inputs.mode }}
+          INPUT_SCOPE: ${{ inputs.scope }}
         run: |
           python -m season_ingestion.run \
             --venue "${{ inputs.venue }}" \
             --season "${{ inputs.season }}" \
             --mode "${{ inputs.mode }}" \
+            --scope "${{ inputs.scope }}" \
             --output-dir season-ingestion-output
       - name: Write Cloud Run Status summary
         if: always() && inputs.mode == 'dry-run'
@@ -74,6 +82,7 @@ jobs:
           INPUT_VENUE: ${{ inputs.venue }}
           INPUT_SEASON: ${{ inputs.season }}
           INPUT_MODE: ${{ inputs.mode }}
+          INPUT_SCOPE: ${{ inputs.scope }}
         run: |
           python jobs/notify_season_run.py --output-dir season-ingestion-output
       - name: Materialize safe cloud artifacts
