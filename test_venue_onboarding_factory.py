@@ -7,11 +7,23 @@ from season_ingestion.generic_adapters import select_generic_adapter
 from season_ingestion.venue_targets import load_targets, matrix_targets
 
 
-def test_target_queue_has_two_canonical_targets():
+def test_target_queue_contains_existing_venues_and_wave_one_targets():
     targets = load_targets()
-    assert {target["venue_id"] for target in targets} == {"opernhaus_zurich", "bayerische_staatsoper"}
-    assert "munich_bayerische_staatsoper" not in {target["venue_id"] for target in targets}
-    assert len(matrix_targets(targets)) == 2
+    ids = {target["venue_id"] for target in targets}
+    assert {"wiener_staatsoper", "bayerische_staatsoper", "opernhaus_zurich"} <= ids
+    assert {
+        "wiener_musikverein", "wiener_konzerthaus", "theater_an_der_wien",
+        "theatre_champs_elysees", "maison_radio_france", "teatro_de_la_zarzuela",
+        "berliner_philharmonie", "staatsoper_unter_den_linden", "deutsche_oper_berlin",
+        "komische_oper_berlin", "elbphilharmonie", "hamburgische_staatsoper",
+        "tonhalle_zurich", "accademia_nazionale_santa_cecilia", "gran_teatre_del_liceu",
+        "palau_de_la_musica_catalana", "lauditori_barcelona", "concertgebouw",
+        "dutch_national_opera", "royal_opera_house", "barbican_centre",
+        "southbank_centre", "wigmore_hall", "la_monnaie_de_munt", "bozar",
+    } <= ids
+    assert len(ids) >= 25
+    assert "munich_bayerische_staatsoper" not in ids
+    assert len(matrix_targets(targets)) == len(ids)
 
 
 def test_duplicate_canonical_target_is_rejected(tmp_path):

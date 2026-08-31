@@ -9,6 +9,7 @@ GENERIC_ADAPTERS = {
     "STRUCTURED_HTML_LISTING": "generic_calendar_html",
     "MONTH_CALENDAR_HTML": "generic_calendar_html",
     "DETAIL_LINKED_LISTING": "generic_calendar_html",
+    "EUROPE_OFFICIAL_EVENT": "europe_venue",
 }
 
 
