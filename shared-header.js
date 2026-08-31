@@ -51,29 +51,10 @@
       document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;document.querySelector('.my-schedule-panel.mobile-open')?.classList.remove('mobile-open');const pane=document.getElementById('persistentEventDetail');if(pane&&!pane.hidden){pane.querySelector('[data-close-persistent]')?.click()}const artist=document.getElementById('artistSidePanel');if(artist?.classList.contains('open'))artist.querySelector('.artist-drawer-close')?.click();document.body.style.overflow=''});
     }
 
-    // Credit presentation is determined by credit facts, never by event_type.
-    // This fixes Zürich rows that are currently typed `other` but still carry role/character credits.
-    if(typeof renderPresentationCredits==='function'){
-      renderPresentationCredits=function(event){
-        const esc=window.escapeHtml||((value)=>String(value??''));
-        const credits=event.credits||[];
-        const roleKey=value=>String(value||'').toLowerCase().trim().replace(/[\s-]+/g,'_');
-        const ensembleRoles=new Set(['orchestra','ensemble','choir','chorus']);
-        const roleLabel=value=>typeof _roleLabel==='function'?_roleLabel(value):(typeof formattedRole==='function'?formattedRole(value):String(value||''));
-        const person=x=>typeof artistLink==='function'?artistLink(x):esc(x.artist_name||'');
-
-        const castRows=credits.filter(x=>String(x.character||'').trim());
-        const teamRows=credits.filter(x=>!String(x.character||'').trim()&&!ensembleRoles.has(roleKey(x.role)));
-        const ensembleRows=credits.filter(x=>!String(x.character||'').trim()&&ensembleRoles.has(roleKey(x.role)));
-
-        const cast=castRows.map(x=>`<li><span>${esc(x.character)}</span><strong>${person(x)}</strong></li>`).join('');
-        const grouped=new Map();
-        teamRows.forEach(x=>{const label=roleLabel(x.role||'Artistic Team');if(!grouped.has(label))grouped.set(label,[]);grouped.get(label).push(x)});
-        const team=[...grouped].map(([label,rows])=>`<div class="team-group"><h5>${esc(label)}</h5><ul>${rows.map(x=>`<li>${person(x)}</li>`).join('')}</ul></div>`).join('');
-        const ensembles=ensembleRows.map(x=>`<li>${person(x)}</li>`).join('');
-
-        return `<h4>Cast</h4><ul class="cast-list">${cast||'<li class="hint">暂无 cast</li>'}</ul><h4>Artistic Team</h4>${team||'<div class="hint">暂无 artistic team</div>'}<h4>Ensembles</h4><ul>${ensembles||'<li class="hint">暂无 ensembles</li>'}</ul>`;
-      };
+    // One global credit renderer for every venue, organization and Event Detail surface.
+    // The authoritative implementation lives in shared-i18n.js / ByelinguaCredits.
+    if(window.ByelinguaCredits?.install){
+      window.ByelinguaCredits.install();
       if(typeof activeEventId!=='undefined'&&activeEventId&&typeof showDetail==='function')showDetail(activeEventId);
     }
 
