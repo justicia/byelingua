@@ -149,7 +149,13 @@ def resolve_work(source_title: str, composer: dict[str, Any] | str | None, snaps
     eligible = [
         (row, method) for row, method in candidates
         if row.get("composer_id") == composer_id
-        and row.get("normalization_status") in eligible_statuses
+        # Older read-only snapshots may omit normalization_status.  A unique
+        # exact/alias match remains operational in that case, while explicit
+        # review statuses and programme-container kinds stay blocked.
+        and (
+            row.get("normalization_status") in eligible_statuses
+            or row.get("normalization_status") is None
+        )
         and str(row.get("work_kind") or "work").casefold() not in blocked_kinds
     ]
     if len(eligible) == 1:
