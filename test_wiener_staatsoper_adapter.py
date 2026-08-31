@@ -1,4 +1,6 @@
 import re
+import json
+from pathlib import Path
 from urllib.parse import urlparse
 
 from season_ingestion.adapters.wiener_staatsoper import WienerStaatsoperAdapter, parse_calendar
@@ -8,6 +10,22 @@ SETTINGS = {
     "country": "Austria", "timezone": "Europe/Vienna",
     "calendar_url": "https://www.wiener-staatsoper.at/en/calendar/{year}/{month}/",
 }
+
+
+def test_canonical_venue_city_is_vienna_and_metadata_is_preserved():
+    config = json.loads((Path(__file__).parent / "config" / "venues.json").read_text(encoding="utf-8"))
+    venue = config["venues"]["wiener_staatsoper"]
+    assert venue["organization"] == "Wiener Staatsoper"
+    assert venue["venue"] == "Wiener Staatsoper"
+    assert venue["city"] == "Vienna"
+    assert venue["country"] == "Austria"
+
+
+def test_city_metadata_does_not_change_event_key():
+    first = parse_calendar(HTML, "https://example/calendar", SETTINGS)[0]
+    changed_settings = {**SETTINGS, "city": "Vienna"}
+    second = parse_calendar(HTML, "https://example/calendar", changed_settings)[0]
+    assert first.event_key == second.event_key
 
 HTML = '''
 <div class="sticky-date" data-event="event-7"><span class="production-time">19:00 - 22:15</span></div>

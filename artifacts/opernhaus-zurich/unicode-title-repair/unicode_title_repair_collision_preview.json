@@ -1,0 +1,384 @@
+{
+  "schema_version": "opernhaus-zurich-unicode-title-repair-collision-preview-v1",
+  "mode": "read-only-preview",
+  "production_apply": false,
+  "proposed_event_field_changes": [
+    {
+      "event_id": "00e351ff-2b86-4e65-b13f-a3bd0cf9bec8",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "7f5892ad-9666-459a-873b-f0d9823200a4",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "61e9adb7-933c-4fbb-a400-4ea47a4b225c",
+      "current_title": "Tannh�user",
+      "proposed_title": "Tannhäuser",
+      "current_original_title": "Tannh�user",
+      "proposed_original_title": "Tannhäuser"
+    },
+    {
+      "event_id": "858eda70-82d2-4c85-bef3-62616ebaab70",
+      "current_title": "Tannh�user",
+      "proposed_title": "Tannhäuser",
+      "current_original_title": "Tannh�user",
+      "proposed_original_title": "Tannhäuser"
+    },
+    {
+      "event_id": "077a2be8-95be-4e00-a90a-98ce9869c51e",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "2167f219-92f5-4efe-bc7c-b134621d3575",
+      "current_title": "Tannh�user",
+      "proposed_title": "Tannhäuser",
+      "current_original_title": "Tannh�user",
+      "proposed_original_title": "Tannhäuser"
+    },
+    {
+      "event_id": "8c3d8324-9960-4169-bc29-31efb847178d",
+      "current_title": "Tannh�user",
+      "proposed_title": "Tannhäuser",
+      "current_original_title": "Tannh�user",
+      "proposed_original_title": "Tannhäuser"
+    },
+    {
+      "event_id": "b9817a3b-c7e5-4741-ac1a-e0b6403fe766",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "6e23f8e3-0e7f-4814-a64a-fbfc79a6f27b",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "bd5e3389-e0ed-4252-b25c-aa12ece477f0",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "de656220-f9e2-4fbf-b918-8296cd294b81",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "38df7e30-b066-414d-beb1-4eac95532ba9",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "2cd3e1f4-d960-444c-bcb9-1032c0b9ff9f",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "ad6f1cc3-0cbf-4f2f-bb65-065020331824",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "11696c2c-755d-47cb-83c4-c14b196b7000",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "7d803f92-d9f4-41ed-8591-52e5bf1cd640",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "0f5c859b-8d01-4509-8d45-d361ac884959",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "4ff08bcf-2f65-4c54-97e2-be710b331a86",
+      "current_title": "Rachmaninow � Die drei Opern",
+      "proposed_title": "Rachmaninow – Die drei Opern",
+      "current_original_title": "Rachmaninow � Die drei Opern",
+      "proposed_original_title": "Rachmaninow – Die drei Opern"
+    },
+    {
+      "event_id": "9c45ade7-7841-492f-a673-d3dca1e3be51",
+      "current_title": "Die Walk�re",
+      "proposed_title": "Die Walküre",
+      "current_original_title": "Die Walk�re",
+      "proposed_original_title": "Die Walküre"
+    },
+    {
+      "event_id": "32d22247-d356-463a-bf74-3548d2ce1256",
+      "current_title": "Die Walk�re",
+      "proposed_title": "Die Walküre",
+      "current_original_title": "Die Walk�re",
+      "proposed_original_title": "Die Walküre"
+    },
+    {
+      "event_id": "2f8beb5c-1727-49ac-8b68-7555930810d6",
+      "current_title": "Die Walk�re",
+      "proposed_title": "Die Walküre",
+      "current_original_title": "Die Walk�re",
+      "proposed_original_title": "Die Walküre"
+    },
+    {
+      "event_id": "baccdd81-3d66-4d95-8678-7a7139a3bc22",
+      "current_title": "Die Walk�re",
+      "proposed_title": "Die Walküre",
+      "current_original_title": "Die Walk�re",
+      "proposed_original_title": "Die Walküre"
+    },
+    {
+      "event_id": "3e028a53-8725-4fd2-8114-df0099942cd5",
+      "current_title": "Rom�o et Juliette",
+      "proposed_title": "Roméo et Juliette",
+      "current_original_title": "Rom�o et Juliette",
+      "proposed_original_title": "Roméo et Juliette"
+    },
+    {
+      "event_id": "dd1be030-d4f1-423a-a3c1-d3b44a098c7a",
+      "current_title": "Rom�o et Juliette",
+      "proposed_title": "Roméo et Juliette",
+      "current_original_title": "Rom�o et Juliette",
+      "proposed_original_title": "Roméo et Juliette"
+    },
+    {
+      "event_id": "4ed44bfd-58f4-4afc-af26-83f7c217f3c5",
+      "current_title": "Rom�o et Juliette",
+      "proposed_title": "Roméo et Juliette",
+      "current_original_title": "Rom�o et Juliette",
+      "proposed_original_title": "Roméo et Juliette"
+    },
+    {
+      "event_id": "8b0a53e1-6a45-401f-8fe9-81b5cfe23a0b",
+      "current_title": "Rom�o et Juliette",
+      "proposed_title": "Roméo et Juliette",
+      "current_original_title": "Rom�o et Juliette",
+      "proposed_original_title": "Roméo et Juliette"
+    },
+    {
+      "event_id": "4b783d8f-3def-43be-ac53-0e7510230672",
+      "current_title": "Rom�o et Juliette",
+      "proposed_title": "Roméo et Juliette",
+      "current_original_title": "Rom�o et Juliette",
+      "proposed_original_title": "Roméo et Juliette"
+    },
+    {
+      "event_id": "ffd398cf-0572-4ae7-be23-d592ef1091a0",
+      "current_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel Paris «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel Paris «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "23d476d0-ac9d-4abc-a95f-bdcc77a305be",
+      "current_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel Paris «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel Paris «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "30610f87-14b0-4c0e-8cc5-e1adc28162c3",
+      "current_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel Paris «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel Paris «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "cfb69ebc-ce7b-40b5-bb13-aeef4f8c517e",
+      "current_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel Paris «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel Paris �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel Paris «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "e3e1384d-9879-4ce9-9259-5639a9a9889a",
+      "current_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel New York «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel New York «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "d1a1c0ef-ce3b-4efb-8b00-ccdca27ff10b",
+      "current_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel New York «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel New York «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "26fda027-421b-4ecf-b40b-c9d309237695",
+      "current_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel New York «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel New York «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "999079db-f68a-46a7-9f09-71adc9fa7054",
+      "current_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_title": "Gastspiel New York «Der Ring des Nibelungen»",
+      "current_original_title": "Gastspiel New York �Der Ring des Nibelungen�",
+      "proposed_original_title": "Gastspiel New York «Der Ring des Nibelungen»"
+    },
+    {
+      "event_id": "f25612c9-dfaf-43aa-a30e-dcf76ae636fd",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "cbf80917-d173-4407-b6f3-03cfb4bba440",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "75148688-c165-45b9-bcae-ad95a8be684c",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "f515c566-08b6-4eb5-907a-e1945f90fe6f",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "5290640c-65b3-4d41-aada-cb232131d88a",
+      "current_title": "Die Zauberfl�te",
+      "proposed_title": "Die Zauberflöte",
+      "current_original_title": "Die Zauberfl�te",
+      "proposed_original_title": "Die Zauberflöte"
+    },
+    {
+      "event_id": "26619da7-57cf-48ce-b3bc-ebe01b030575",
+      "current_title": "Requiem pour Oph�lie",
+      "proposed_title": "Requiem pour Ophélie",
+      "current_original_title": "Requiem pour Oph�lie",
+      "proposed_original_title": "Requiem pour Ophélie"
+    },
+    {
+      "event_id": "e92da046-d89e-420d-b1db-2ba6147b29e2",
+      "current_title": "Requiem pour Oph�lie",
+      "proposed_title": "Requiem pour Ophélie",
+      "current_original_title": "Requiem pour Oph�lie",
+      "proposed_original_title": "Requiem pour Ophélie"
+    },
+    {
+      "event_id": "a254e07b-2317-4a73-9c71-85a100e3c562",
+      "current_title": "Requiem pour Oph�lie",
+      "proposed_title": "Requiem pour Ophélie",
+      "current_original_title": "Requiem pour Oph�lie",
+      "proposed_original_title": "Requiem pour Ophélie"
+    },
+    {
+      "event_id": "9ce4201e-bd4d-4c21-ac0a-e3d8c47a3982",
+      "current_title": "La boh�me",
+      "proposed_title": "La bohème",
+      "current_original_title": "La boh�me",
+      "proposed_original_title": "La bohème"
+    },
+    {
+      "event_id": "e55e24de-a934-454f-92fc-42ddb72391e0",
+      "current_title": "La boh�me",
+      "proposed_title": "La bohème",
+      "current_original_title": "La boh�me",
+      "proposed_original_title": "La bohème"
+    },
+    {
+      "event_id": "f99ed3b3-9f85-43eb-9553-d3cc376379dc",
+      "current_title": "La boh�me",
+      "proposed_title": "La bohème",
+      "current_original_title": "La boh�me",
+      "proposed_original_title": "La bohème"
+    },
+    {
+      "event_id": "0231d27f-0d50-4fd7-bc14-7881dcde72b1",
+      "current_title": "Opernhaus f�r alle",
+      "proposed_title": "Opernhaus für alle",
+      "current_original_title": "Opernhaus f�r alle",
+      "proposed_original_title": "Opernhaus für alle"
+    },
+    {
+      "event_id": "33cc69f3-87b6-48ee-b4f7-e80f15ca558a",
+      "current_title": "Opernhaus f�r alle",
+      "proposed_title": "Opernhaus für alle",
+      "current_original_title": "Opernhaus f�r alle",
+      "proposed_original_title": "Opernhaus für alle"
+    },
+    {
+      "event_id": "88cc6bd9-9551-4c06-8241-e40e1347d7e4",
+      "current_title": "La boh�me",
+      "proposed_title": "La bohème",
+      "current_original_title": "La boh�me",
+      "proposed_original_title": "La bohème"
+    },
+    {
+      "event_id": "25d80608-140b-42c0-aba4-3af5340dd4cd",
+      "current_title": "Opernhaus f�r alle",
+      "proposed_title": "Opernhaus für alle",
+      "current_original_title": "Opernhaus f�r alle",
+      "proposed_original_title": "Opernhaus für alle"
+    },
+    {
+      "event_id": "c02149dd-8728-48ba-a50f-c935178f2e72",
+      "current_title": "La boh�me",
+      "proposed_title": "La bohème",
+      "current_original_title": "La boh�me",
+      "proposed_original_title": "La bohème"
+    },
+    {
+      "event_id": "530cd581-1a1e-4b2f-a538-806b4ea58d0d",
+      "current_title": "La boh�me",
+      "proposed_title": "La bohème",
+      "current_original_title": "La boh�me",
+      "proposed_original_title": "La bohème"
+    }
+  ],
+  "gates": {
+    "duplicate_event_identity_after": 0,
+    "duplicate_performance_slot_after": 0,
+    "semantic_duplicate_groups_after": 0,
+    "null_timed_shadow_duplicates_after": 0,
+    "ambiguous_same_day_occurrence_after": 0
+  },
+  "relationship_preservation": {
+    "event_programme_delta": 0,
+    "event_sources_delta": 0,
+    "event_credits_delta": 0
+  },
+  "production_writes": 0
+}

@@ -1,0 +1,7 @@
+{
+  "venue_id": "wiener_staatsoper",
+  "source_status": "FROZEN",
+  "structure_type": "STRUCTURED_HTML_LISTING",
+  "confidence": "HIGH",
+  "source": "https://www.wiener-staatsoper.at/en/calendar/{year}/{month}/"
+}

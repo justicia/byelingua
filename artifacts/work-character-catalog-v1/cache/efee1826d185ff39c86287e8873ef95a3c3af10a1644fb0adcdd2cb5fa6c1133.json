@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Ariadne auf Naxos Richard Strauss"
+    },
+    "search": [],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ariadne+auf+Naxos+Richard+Strauss&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:58:19Z",
+    "raw_evidence_sha256": "da01e67ea5a693ecc8c0defdf63c3f3d9615eb4982379de202b362b94c0d2b3f",
+    "cache_hit": false
+  }
+}

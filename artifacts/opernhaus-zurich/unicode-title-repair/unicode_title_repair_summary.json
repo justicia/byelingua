@@ -1,0 +1,95 @@
+{
+  "schema_version": "opernhaus-zurich-unicode-title-repair-summary-v1",
+  "mode": "read-only-preview",
+  "production_writes": 0,
+  "baseline": {
+    "events_total": 196,
+    "date_min": "2026-09-20",
+    "date_max": "2027-07-11",
+    "events_with_programme": 108,
+    "events_without_programme": 88,
+    "programme_rows": 108,
+    "source_rows": 196,
+    "credit_rows": 1299
+  },
+  "unicode_defect": {
+    "before": 52,
+    "both_corrupted": 52,
+    "title_only_corrupted": 0,
+    "original_title_only_corrupted": 0
+  },
+  "source_evidence": {
+    "affected_events_with_source": 52,
+    "affected_events_without_source": 0,
+    "clean_title_from_existing_artifact": 0,
+    "clean_title_from_official_source": 52,
+    "source_unresolved": 0,
+    "official_detail_pages": 10
+  },
+  "classification": {
+    "safe_title_fix": 52,
+    "title_review": 0,
+    "total": 52
+  },
+  "post_fix_preview": {
+    "events_total": 196,
+    "unicode_replacement_events_after": 0,
+    "event_key_changes": 0
+  },
+  "schedule_hard_gates": {
+    "duplicate_event_identity_after": 0,
+    "duplicate_performance_slot_after": 0,
+    "semantic_duplicate_groups_after": 0,
+    "null_timed_shadow_duplicates_after": 0,
+    "ambiguous_same_day_occurrence_after": 0,
+    "invalid_date": 0,
+    "invalid_time": 0,
+    "untraceable_source": 0
+  },
+  "relationship_preservation": {
+    "event_programme_delta": 0,
+    "event_sources_delta": 0,
+    "event_credits_delta": 0
+  },
+  "programme_credit_gates": {
+    "duplicate_event_work": 0,
+    "invalid_work_refs": 0,
+    "malformed_artist_refs": 0,
+    "duplicate_exact_credit_groups": 0,
+    "trailing_slash_credit_rows": 0
+  },
+  "recurrence": {
+    "unicode_root_cause": "LEGACY_ARTIFACT_CORRUPTION",
+    "parser_or_normalizer_fix_required": "NO",
+    "basis": [
+      "All 52 production defects are backed by clean official Opernhaus Zürich detail-page titles.",
+      "The current adapter decodes UTF-8 strictly and its text normalizer does not synthesize U+FFFD.",
+      "The Unicode integrity validator is fail-closed for U+FFFD; no current recurrence was demonstrated."
+    ]
+  },
+  "no_write_contract": {
+    "events_modified": 0,
+    "events_deleted": 0,
+    "events_created": 0,
+    "event_programme_modified": 0,
+    "event_sources_modified": 0,
+    "event_credits_modified": 0,
+    "works_modified": 0,
+    "artists_modified": 0,
+    "characters_modified": 0,
+    "migrations": 0,
+    "frontend": 0,
+    "vercel": 0
+  },
+  "files_changed": 0,
+  "tests": {
+    "scope": "test_unicode_integrity.py test_event_schedule_integrity_contract.py test_season_ingestion_pipeline_v1.py",
+    "passed": 31,
+    "failed": 2,
+    "skipped": 1,
+    "known_failures": [
+      "SeasonIngestionPipelineV1Tests.test_shared_composer_resolver_matches_canonical_and_aliases",
+      "SeasonIngestionPipelineV1Tests.test_work_resolver_deduplicates_canonical_name_and_title"
+    ]
+  }
+}

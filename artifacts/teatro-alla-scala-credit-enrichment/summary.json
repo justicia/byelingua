@@ -1,0 +1,18 @@
+{
+  "schema_version": "teatro-alla-scala-credit-enrichment-summary-v1",
+  "season": "2026-27",
+  "production_writes": 0,
+  "official_pages_discovered": 86,
+  "official_pages_checked": 86,
+  "source_failures": 0,
+  "events_total": 191,
+  "events_with_credits": 181,
+  "credits_total": 1590,
+  "cast_rows": 576,
+  "performer_rows_without_character": 90,
+  "conductor_rows": 152,
+  "director_rows": 120,
+  "orchestra_chorus_rows": 163,
+  "other_team_rows": 489,
+  "errors": []
+}

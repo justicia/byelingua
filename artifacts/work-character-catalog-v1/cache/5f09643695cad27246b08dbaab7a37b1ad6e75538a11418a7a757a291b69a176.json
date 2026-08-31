@@ -1,0 +1,14 @@
+{
+  "payload": [
+    "Ballett-Gala 2027",
+    [],
+    [],
+    []
+  ],
+  "evidence": {
+    "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Ballett-Gala+2027&limit=5&namespace=0&format=json",
+    "retrieved_at": "2026-08-25T11:58:22Z",
+    "raw_evidence_sha256": "cdd00516fdfc92704ff9f239c800d693c71acacb9d0d25e0e3b6c45312021ef3",
+    "cache_hit": false
+  }
+}

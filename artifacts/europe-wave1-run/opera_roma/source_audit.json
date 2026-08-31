@@ -1,0 +1,46 @@
+{
+  "venue": "opera_roma",
+  "season": "2026-27",
+  "scope": "full-season",
+  "official_source": "https://www.operaroma.it/stagione/",
+  "official_fallback_source": null,
+  "source_strategy": "official listing -> official detail links -> performance-level detail extraction",
+  "requested_months": [
+    "https://www.operaroma.it/wp-admin/admin-ajax.php?action=stagione&lang=it&viewtype=panoramica&location=tutti&genre=opera&mesi=tutti&season=2026-2027"
+  ],
+  "successful_months": [],
+  "failed_months": [
+    "https://www.operaroma.it/wp-admin/admin-ajax.php?action=stagione&lang=it&viewtype=panoramica&location=tutti&genre=opera&mesi=tutti&season=2026-2027"
+  ],
+  "source_pages": {},
+  "adapter_errors": [
+    {
+      "url": "https://www.operaroma.it/wp-admin/admin-ajax.php?action=stagione&lang=it&viewtype=panoramica&location=tutti&genre=opera&mesi=tutti&season=2026-2027",
+      "error": "ConnectionError: HTTPSConnectionPool(host='www.operaroma.it', port=443): Max retries exceeded with url: /wp-admin/admin-ajax.php?action=stagione&lang=it&viewtype=panoramica&location=tutti&genre=opera&mesi=tutti&season=2026-2027 (Caused by NewConnectionError(\"HTTPSConnection(host='www.operaroma.it', port=443): Failed to establish a new connection: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions\"))"
+    }
+  ],
+  "events": 0,
+  "events_after_scope": 0,
+  "existing_records_loaded": 0,
+  "existing_events_matched": null,
+  "listing_pages_requested": 1,
+  "listing_pages_successful": 0,
+  "listing_pages_failed": 1,
+  "detail_pages_requested": 0,
+  "detail_pages_successful": 0,
+  "detail_pages_failed": 0,
+  "detail_urls_discovered_before_scope": 0,
+  "detail_urls_filtered_by_scope": 0,
+  "productions_discovered": 0,
+  "detail_pages_out_of_season_skipped": 0,
+  "date_candidates_found": 0,
+  "date_candidates_accepted": 0,
+  "date_candidates_rejected": 0,
+  "date_year_unverified": 0,
+  "events_outside_season": 0,
+  "duplicate_performance_slot": 0,
+  "ambiguous_same_day_occurrence": 0,
+  "null_timed_shadow_duplicates": 0,
+  "year_inferred_without_production_evidence": 0,
+  "source_capability": "SOURCE_PARTIAL"
+}

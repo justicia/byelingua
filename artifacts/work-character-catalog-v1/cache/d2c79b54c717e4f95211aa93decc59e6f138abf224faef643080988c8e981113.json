@@ -1,0 +1,32 @@
+{
+  "payload": [
+    "Arabella",
+    [
+      "Arabella",
+      "Arabella Advisors",
+      "Arabella Stanton",
+      "Arabella Weir",
+      "Arabella Huntington"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "https://en.wikipedia.org/wiki/Arabella",
+      "https://en.wikipedia.org/wiki/Arabella_Advisors",
+      "https://en.wikipedia.org/wiki/Arabella_Stanton",
+      "https://en.wikipedia.org/wiki/Arabella_Weir",
+      "https://en.wikipedia.org/wiki/Arabella_Huntington"
+    ]
+  ],
+  "evidence": {
+    "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Arabella&limit=5&namespace=0&format=json",
+    "retrieved_at": "2026-08-25T11:58:18Z",
+    "raw_evidence_sha256": "67b3b5819c5c98a17704a7be08544526bb2b9d156aac8cf4d8ef9a1f20d4122f",
+    "cache_hit": false
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "payload": [
+    "Adriana Lecouvreur",
+    [
+      "Adriana Lecouvreur",
+      "Adriana Lecouvreur (film)"
+    ],
+    [
+      "",
+      ""
+    ],
+    [
+      "https://en.wikipedia.org/wiki/Adriana_Lecouvreur",
+      "https://en.wikipedia.org/wiki/Adriana_Lecouvreur_(film)"
+    ]
+  ],
+  "evidence": {
+    "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Adriana+Lecouvreur&limit=5&namespace=0&format=json",
+    "retrieved_at": "2026-08-25T11:57:54Z",
+    "raw_evidence_sha256": "741f464314b93b0ea9f5a55f8036546e32bf34bf66a8a7ef0def3611555cd4e5",
+    "cache_hit": false
+  }
+}

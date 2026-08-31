@@ -1,0 +1,7 @@
+{
+  "venue_id": "bayerische_staatsoper",
+  "source_status": "FROZEN",
+  "structure_type": "STRUCTURED_HTML_LISTING",
+  "confidence": "HIGH",
+  "source": "https://www.staatsoper.de/spielplan/{year_month}"
+}

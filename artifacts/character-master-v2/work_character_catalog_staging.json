@@ -1,0 +1,754 @@
+{
+  "schema_version": "character-work-catalog-v2",
+  "source": "Phase 1 historical staging plus authoritative catalog evidence",
+  "database_writes": 0,
+  "works_total": 65,
+  "catalogs": [
+    {
+      "work_id": "10f5309c-7ec8-48d7-8350-9f27f39a6d73",
+      "work_title": "Adriana Lecouvreur",
+      "composer": "Francesco Cilèa",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "f7dad73d-91fe-4e8c-8e7f-86615b286900",
+      "work_title": "Andrea Chénier",
+      "composer": "Umberto Giordano",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "414c32ba-9e40-4260-ab4c-c1fb84993ee5",
+      "work_title": "Arabella",
+      "composer": "Richard Strauss",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "38ac1e96-7b0d-4601-9338-f69022c0dc0f",
+      "work_title": "Ariadne auf Naxos",
+      "composer": "Richard Strauss",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "0b255758-7f63-4253-9d47-b094f9f36843",
+      "work_title": "Ballett-Gala 2027",
+      "composer": "Jerome Robbins,\n        \n    \n\n    \n        \n            Justin Peck",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "69e72a89-ecca-4725-b8d1-936adfe1a024",
+      "work_title": "Bluebeard’s Castle",
+      "composer": "Béla Bartók",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "7462644c-2cb5-429b-85a2-c2ea9735f48d",
+      "work_title": "Bodas de Sangre",
+      "composer": "Manuel Busto",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "e7484cde-f5e2-4718-985d-ccf5bc5d0428",
+      "work_title": "Carmen",
+      "composer": "Georges Bizet",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "4004b276-2974-4d28-9307-0b67330d8a84",
+      "work_title": "Così fan tutte",
+      "composer": "Wolfgang Amadeus Mozart",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "72413b78-c83c-4131-ac0c-d2452ae71131",
+      "work_title": "Der Rosenkavalier",
+      "composer": "Richard Strauss",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "b37e7330-a724-4f70-adc8-6bb25f19f700",
+      "work_title": "Der fliegende Holländer",
+      "composer": "Richard Wagner",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "6b0a1285-f351-4459-aa47-18821fca3551",
+      "work_title": "Die Entführung aus dem Serail",
+      "composer": "Wolfgang Amadeus Mozart",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+      "work_title": "Die Fledermaus",
+      "composer": "Johann Strauß",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "1a063e71-a8ab-4d4d-b45d-55f07897849c",
+      "work_title": "Die Meistersinger von Nürnberg",
+      "composer": "Richard Wagner",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "work_title": "Die Zauberflöte",
+      "composer": "Wolfgang Amadeus Mozart",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "bd5a5d7a-2cf0-46d5-9bef-cba832820604",
+      "work_title": "Die tote Stadt",
+      "composer": "Erich Wolfgang Korngold",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "1419cf39-79a3-408c-b757-ab0188fb9963",
+      "work_title": "Don Carlo",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "fa281687-2e16-4e10-958b-9f6de14d61bc",
+      "work_title": "Don Carlos",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "bcafbec4-3252-4856-a10c-557fef25c529",
+      "work_title": "Don Giovanni",
+      "composer": "Wolfgang Amadeus Mozart",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "57a2b93d-d540-4fd4-8f56-045dcade9c06",
+      "work_title": "Eine florentinische Tragödie/ Bluebeard's Castle",
+      "composer": "Alexander von Zemlinsky,\n        \n    \n\n    \n        \n            Béla Bartók",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "98019d57-67ef-43b0-8e2a-c1de4bf21ee9",
+      "work_title": "Fedora",
+      "composer": "Umberto Giordano",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "235a807b-cb7a-4f5a-b205-a85e9b30c939",
+      "work_title": "Fidelio",
+      "composer": "Ludwig van Beethoven",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "dec2711a-a794-4f3a-bec2-f9fce0212965",
+      "work_title": "He who loves beauty",
+      "composer": "Benjamin Britten, Henry Purcell, John Dowland",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "3f49869d-a77e-4e87-a7e6-d6a469ee51e3",
+      "work_title": "I Capuleti e i Montecchi",
+      "composer": "Vincenzo Bellini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "98b6ff5a-9462-4359-9183-6991ed83ef7f",
+      "work_title": "Il Barbiere di Siviglia",
+      "composer": "Gioachino Rossini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "34614acb-087a-4603-a4e2-8b57ae786a32",
+      "work_title": "Katia Kabanová",
+      "composer": "Leoš Janáček",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+      "work_title": "L'Elisir d'amore",
+      "composer": "Gaetano Donizetti",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "ac2f36b9-67ea-4d31-a832-cf30f4ba7b3b",
+      "work_title": "L'Orfeo",
+      "composer": "Claudio Monteverdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "5fc01cf2-8e65-4536-9d94-1fc59fa630e1",
+      "work_title": "La Bohème",
+      "composer": "Giacomo Puccini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "51a41546-6a5a-4646-bc0a-aea226e4856d",
+      "work_title": "La Damnation de Faust",
+      "composer": "Hector Berlioz",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "ef92b402-6305-4b37-9e3f-afa72f451ca7",
+      "work_title": "La Fille du régiment",
+      "composer": "Gaetano Donizetti",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "27c95ae0-c9c6-4ef6-ba7a-39cfdc7c9e58",
+      "work_title": "La Gioconda",
+      "composer": "Amilcare Ponchielli",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "85e9f27f-0ff6-4c2e-b56b-7fb88b5e1c4c",
+      "work_title": "La Pasión Según San Mateo",
+      "composer": "Johann Sebastian Bach",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "ae7c773a-8caf-4854-8a21-49b396647378",
+      "work_title": "La Traviata",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "work_title": "La clemenza di Tito",
+      "composer": "Wolfgang Amadeus Mozart",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "work_title": "Le nozze di Figaro",
+      "composer": "Wolfgang Amadeus Mozart",
+      "original_language": "it",
+      "evidence_status": "CATALOG_READY",
+      "evidence_sources": [
+        {
+          "url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "publisher": "The Metropolitan Opera",
+          "type": "official_character_guide"
+        }
+      ],
+      "canonical_roles": [
+        {
+          "canonical_name": "Il Conte Almaviva",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:il-conte-almaviva",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "La Contessa Almaviva",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:la-contessa-almaviva",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Figaro",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:figaro",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Susanna",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:susanna",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Cherubino",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:cherubino",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Marcellina",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:marcellina",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Bartolo",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:bartolo",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Basilio",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:basilio",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Don Curzio",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:don-curzio",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Barbarina",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:barbarina",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Antonio",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:antonio",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.metopera.org/globalassets/discover/education/educator-guides/figaro/figaro.pdf",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "work_id": "3994ea46-0294-43f0-a30d-c863794b1ff4",
+      "work_title": "Les Pêcheurs de perles",
+      "composer": "Georges Bizet",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "3178deaa-5718-4979-a481-a1901b139a3b",
+      "work_title": "Living Legacies",
+      "composer": "George Balanchine,\n        \n    \n\n    \n        \n            Christopher Wheeldon,\n        \n    \n\n    \n        \n            Frederick Ashton",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "811833db-6a33-475c-a708-96e5e220b168",
+      "work_title": "Luisa Miller",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "6e955d97-e5c2-4583-8851-d534f04a8b73",
+      "work_title": "Lulu",
+      "composer": "Alban Berg",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "7f552f18-d0bf-4ad7-bb2c-812ae1e05821",
+      "work_title": "Macbeth",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "2746a542-69dc-4047-856d-6f2162bdcd46",
+      "work_title": "Madama Butterfly",
+      "composer": "Giacomo Puccini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "work_title": "Manon Lescaut",
+      "composer": "Giacomo Puccini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "695d1331-48c5-4b74-90b2-88d38558d0fa",
+      "work_title": "Messiah",
+      "composer": "Georg Friedrich Händel",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "62792d47-7e4c-4b8d-8e59-1d8dfa51f6ed",
+      "work_title": "Mitridate",
+      "composer": "Nicola Antonio Porpora",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "c6dc24d2-cb1c-4674-b294-f806d8c66292",
+      "work_title": "Nijinsky",
+      "composer": "John Neumeier",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "7b1d7bb8-59b5-4300-876b-d4a5486f0e7a",
+      "work_title": "Norma",
+      "composer": "Vincenzo Bellini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "7be33830-dd30-4e23-be4f-c77b04dbd7ab",
+      "work_title": "Onegin",
+      "composer": "John Cranko",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "f5ea6d04-fb33-435a-9b4b-125dba1866b7",
+      "work_title": "Otello",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "bc9d6a6f-6ad0-417a-a64c-d3813c56030e",
+      "work_title": "Parsifal",
+      "composer": "Richard Wagner",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "42f5cb1e-83a4-4635-9e33-e5fad59777f7",
+      "work_title": "Richard The First, King of England",
+      "composer": "Georg Friedrich Händel",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "377ad19d-99be-43ab-8c3d-460f3f1edc75",
+      "work_title": "Salome",
+      "composer": "Richard Strauss",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "8b994ce5-e556-47fd-a373-f62ebe882b35",
+      "work_title": "San Giovanni Battista",
+      "composer": "Alessandro Stradella",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "374a46a9-f717-4e47-b54b-4ee82ff5dd16",
+      "work_title": "Simon Boccanegra",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "6bfd89ff-098e-49e0-a289-f43652962ec5",
+      "work_title": "Swan Lake",
+      "composer": "Rudolf Nurejew",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "8a8d9b81-329e-45c9-9ac7-3665898bd139",
+      "work_title": "Tannhäuser",
+      "composer": "Richard Wagner",
+      "original_language": "de",
+      "evidence_status": "CATALOG_READY",
+      "evidence_sources": [
+        {
+          "url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "publisher": "Bayerische Staatsoper",
+          "type": "official_production_cast"
+        }
+      ],
+      "canonical_roles": [
+        {
+          "canonical_name": "Hermann, Landgraf von Thüringen",
+          "proposed_identity_key": "richard-wagner:tannhauser:hermann-landgraf-von-thuringen",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Tannhäuser",
+          "proposed_identity_key": "richard-wagner:tannhauser:tannhauser",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Wolfram von Eschenbach",
+          "proposed_identity_key": "richard-wagner:tannhauser:wolfram-von-eschenbach",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Walther von der Vogelweide",
+          "proposed_identity_key": "richard-wagner:tannhauser:walther-von-der-vogelweide",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Biterolf",
+          "proposed_identity_key": "richard-wagner:tannhauser:biterolf",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Heinrich der Schreiber",
+          "proposed_identity_key": "richard-wagner:tannhauser:heinrich-der-schreiber",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Reinmar von Zweter",
+          "proposed_identity_key": "richard-wagner:tannhauser:reinmar-von-zweter",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Elisabeth, Nichte des Landgrafen",
+          "proposed_identity_key": "richard-wagner:tannhauser:elisabeth-nichte-des-landgrafen",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Venus",
+          "proposed_identity_key": "richard-wagner:tannhauser:venus",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        },
+        {
+          "canonical_name": "Ein junger Hirt",
+          "proposed_identity_key": "richard-wagner:tannhauser:ein-junger-hirt",
+          "source_path": "official_catalog",
+          "evidence_url": "https://www.staatsoper.de/stuecke/tannhaeuser",
+          "confidence": "high"
+        }
+      ]
+    },
+    {
+      "work_id": "9ea85708-76c0-4d64-a69f-c6f84f039157",
+      "work_title": "The Bartered Bride",
+      "composer": "Bedřich Smetana",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "4b245901-dd06-4e24-8bf6-0a58b882c794",
+      "work_title": "The Queen of Spades",
+      "composer": "Pjotr I. Tschaikowski",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "work_title": "Tosca",
+      "composer": "Giacomo Puccini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "21a7c9de-c36a-4237-b90b-0968380f39ed",
+      "work_title": "Tristan und Isolde",
+      "composer": "Richard Wagner",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "d4cf1544-ad65-46ad-a302-9dca09b8a552",
+      "work_title": "Turandot",
+      "composer": "Giacomo Puccini",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "73e51cd4-2d41-44ea-868a-c0b8fa3dcee1",
+      "work_title": "Un ballo in maschera",
+      "composer": "Giuseppe Verdi",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "8d5f29ac-0658-4815-8c0d-7cc30d78653a",
+      "work_title": "Visionary Dances",
+      "composer": "Justin Peck,\n        \n    \n\n    \n        \n            Wayne McGregor,\n        \n    \n\n    \n        \n            Twyla Tharp",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "34151afa-505c-4f03-b190-9774d6b81630",
+      "work_title": "Werther",
+      "composer": "Jules Massenet",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    },
+    {
+      "work_id": "f33e784d-75b7-4bf9-b626-cf2985bade21",
+      "work_title": "Woolf Works",
+      "composer": "Wayne McGregor",
+      "original_language": null,
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "evidence_sources": [],
+      "canonical_roles": []
+    }
+  ]
+}

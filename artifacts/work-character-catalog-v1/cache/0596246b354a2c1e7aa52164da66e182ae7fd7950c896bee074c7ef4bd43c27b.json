@@ -1,0 +1,32 @@
+{
+  "payload": [
+    "Andrea Chénier",
+    [
+      "Andrea Chénier",
+      "Andrea Chénier discography",
+      "Andrea Chénier (film)",
+      "André Chénier",
+      "Stefano Andrea Renier"
+    ],
+    [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    [
+      "https://en.wikipedia.org/wiki/Andrea_Ch%C3%A9nier",
+      "https://en.wikipedia.org/wiki/Andrea_Ch%C3%A9nier_discography",
+      "https://en.wikipedia.org/wiki/Andrea_Ch%C3%A9nier_(film)",
+      "https://en.wikipedia.org/wiki/Andr%C3%A9_Ch%C3%A9nier",
+      "https://en.wikipedia.org/wiki/Stefano_Andrea_Renier"
+    ]
+  ],
+  "evidence": {
+    "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Andrea+Ch%C3%A9nier&limit=5&namespace=0&format=json",
+    "retrieved_at": "2026-08-25T11:57:55Z",
+    "raw_evidence_sha256": "dad9a5022d3d01c88b4875ec710317793042bf0f40105c92015724ea28d1f93c",
+    "cache_hit": false
+  }
+}

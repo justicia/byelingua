@@ -1,0 +1,765 @@
+{
+  "schema_version": "opera-paris-safe-venue-apply-preview-v1",
+  "mode": "read-only-preview",
+  "organization": {
+    "id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd",
+    "name": "Opéra national de Paris",
+    "slug": "opera-national-de-paris"
+  },
+  "operations": {
+    "step_1_create_safe_new_venues": [
+      {
+        "new_key": "new:athenee_theatre_louis_jouvet",
+        "name": "Athénée Théâtre Louis-Jouvet",
+        "city": "Paris",
+        "organization_id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd"
+      },
+      {
+        "new_key": "new:lencre_cayenne",
+        "name": "l’EnCRe",
+        "city": "Cayenne",
+        "organization_id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd"
+      },
+      {
+        "new_key": "new:auditorium_ecole_de_danse_nanterre",
+        "name": "Auditorium de l’École de Danse à Nanterre",
+        "city": "Nanterre",
+        "organization_id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd"
+      },
+      {
+        "new_key": "new:abbatiale_saint_robert",
+        "name": "Abbatiale Saint-Robert",
+        "city": "La Chaise-Dieu",
+        "organization_id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd"
+      },
+      {
+        "new_key": "new:opera_berlioz_montpellier",
+        "name": "Opéra Berlioz",
+        "city": "Montpellier",
+        "organization_id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd"
+      }
+    ],
+    "step_2_update_explicit_event_uuid_sets": [
+      {
+        "event_id": "f1c8018c-1389-42d1-8d35-3d710ad8f3ae",
+        "from_venue_id": "86956349-1ef8-48a4-8513-9ae753ea063c",
+        "to_venue_key": "new:abbatiale_saint_robert",
+        "proposed_room": null
+      },
+      {
+        "event_id": "5fe3e064-7e4f-46ff-874c-16714aae3215",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "e06e4554-5291-43f2-99c7-dcea68b79634",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "2db381f4-5465-4081-a1f7-d6a42310f8bb",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "259a4a95-b64a-4cb7-8859-55e813d701c5",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "dfb46d93-fa2b-4281-bc30-1befe9e8334a",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "0961942e-3d1e-418c-9947-455f7d185b26",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "7d6df22e-18d2-4c9f-97c3-75d7dfbf18fd",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "fb224ac4-2991-4921-a828-2ce16a2e1090",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "69676660-d97e-461c-84cf-51b1c48667b3",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "f283afc6-009b-4f73-9aef-d99d651e35c9",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "6c407ee5-7e61-4796-9858-5f784992516f",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "066ce903-5450-40de-8979-c3823ce2b9c2",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "96f76ba9-e969-4e7f-9dc3-2a4c6e61fb6c",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "960212df-61c1-46fc-867d-f73536e5cfbb",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "ef8da45a-2673-4c4f-a4cb-bc4571ab5a6f",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "1a7d1685-3d47-4e2c-beeb-34be7ed66926",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "3c2a8bc5-2cc3-44a5-ba39-39f8ee5e4da5",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "dd2f5b85-4b40-4ea2-8057-08c48f1b0161",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "3bd11b2e-f265-4b43-a466-f9c840d74eb6",
+        "from_venue_id": "c4d96a7b-5ecf-46e2-93ee-be13ca3b6f50",
+        "to_venue_key": "new:lencre_cayenne",
+        "proposed_room": null
+      },
+      {
+        "event_id": "89e50477-e7f7-4e26-841f-324f098ed8a3",
+        "from_venue_id": "c4d96a7b-5ecf-46e2-93ee-be13ca3b6f50",
+        "to_venue_key": "new:lencre_cayenne",
+        "proposed_room": null
+      },
+      {
+        "event_id": "918ad862-e879-406f-b825-fcd7223225bf",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "9005df27-25e1-4719-9b66-a7fdfca9c7f3",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "a91bcb16-9e3f-4e03-baec-7c42885b84e9",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "ab711a65-2e15-4ce5-9cdc-b8bcd526813b",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "9b597f37-013a-42ea-b1f7-63d296c4f39b",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "1c631a17-c5aa-452a-9f75-5a39b71ae0fc",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "7536bb07-148f-42ab-b5b1-077114770028",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "af9d1322-1938-498a-8a51-82ac247101b1",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "0a92a6ed-c075-42c2-9104-77a06962293a",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "b9e0fd0d-904a-44c6-b4ec-0d4d7f462abc",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "cf5a8b3d-9939-43a6-832d-6ece0635d7a7",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "43815c8c-2d0a-4e5c-a325-1ed5628a985f",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "f77b56e4-804d-4512-9298-1866d915b8fc",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "0d185a17-ac97-4e06-ab00-270722ce7946",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "e13108b7-864b-4d48-901b-d29f8d7bb43e",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "22cfca48-462c-4db2-894b-2933565b24cd",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "1c34d4bc-4da5-44f7-96c0-4a7d11cdb784",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "6b3caaec-d171-46a0-8434-b4d7c2c00baf",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "51d7a9f0-baae-43b0-a296-0ec7056b423c",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "73b69264-0d82-47cb-96bb-30a69e8f353e",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "1e915ce2-b7fc-4751-a93f-6b500ce05161",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "89943531-1466-49df-a29b-a27bed783bf8",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "328ee3fd-f4cc-4319-a228-5e392f640a31",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "cfa1f6db-b80e-45d4-9805-10d419f273b0",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "be98b185-6f75-4776-b760-d104617c618d",
+        "from_venue_id": "07815149-33ce-4321-b654-01412a3bf633",
+        "to_venue_key": "new:auditorium_ecole_de_danse_nanterre",
+        "proposed_room": null
+      },
+      {
+        "event_id": "59be90f0-e675-48f6-8a87-d37a49219542",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "158c4d9b-d281-4480-98cc-d91f421d9e58",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "b06a91f6-fd26-44f7-97d0-c6e9812e842d",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "e1346c76-a1f1-4d59-940d-4878a4077acf",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "a8324f36-de03-4da7-a692-9ed00b1d7cf4",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "f8fba67f-fa42-4ba6-83e7-98a16273f4cd",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "85d949e8-1888-48ce-835b-83a56f1b8090",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "80ef7dd7-841b-4a3d-8582-9dede251aa6d",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "27fa09ac-cd44-4c59-8208-6560f2c7840d",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "64851181-1d6a-4eae-8adb-c982dc1ba566",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "5158131b-c674-4c54-8211-ca7517bd9c37",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "d74a96b1-a684-4f8c-b222-6d091835744d",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "901dfb06-d8e9-49a0-aa90-581be72074c5",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "54ea0304-0f25-4631-aa04-56071a5613c8",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "81a3b7d3-6ef1-45ae-9e52-bf182d2b3bfc",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "f4f0ffc8-8f07-4158-bc44-561fe6c6f5e3",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "9ef560cd-84ce-4d1a-836f-f944495867d2",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "8e286816-f08d-44e0-a34f-ef35bd94cf3b",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "1324b2c2-2c0b-4282-aa5c-c36a734e5876",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "26528f1f-37d8-4566-a403-0101eebe83f7",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "37fc8701-127f-47cf-8833-96f2755ca5ae",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "e7d8ca4d-2404-4337-8531-ab962b1bf055",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "48fb9379-5fd8-4ad2-b5b2-aacfe134e2f9",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "17a7ab5b-8267-4e2d-8288-dbcab388152c",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "91f93315-03bc-4e7c-87bc-618cb0443ec6",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "29958cca-4081-4529-adba-8b2e19e2b075",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "13073628-824c-4143-835f-f0cb35714e14",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "aa20206e-96de-49bd-9667-e236f0db9d01",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "6f1f312f-48ea-496d-8e6f-1fbe4493dda2",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "a8285570-7463-49a9-ae22-5328bcf1dcc3",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "b94de31b-cf75-424f-8631-e683a6e3a4f4",
+        "from_venue_id": "fc600373-5169-4a94-bc0a-92d19e47c1cc",
+        "to_venue_key": "new:athenee_theatre_louis_jouvet",
+        "proposed_room": null
+      },
+      {
+        "event_id": "882061a2-875c-44a1-9089-fae677307155",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "fba3fec2-97fa-41ce-b181-272c87015e6a",
+        "from_venue_id": "f6edfbd1-38d4-4edc-8580-8220a0ef854e",
+        "to_venue_key": "4a7b5602-1558-42fd-baab-4420cebdeb6e",
+        "proposed_room": null
+      },
+      {
+        "event_id": "1c191da5-7c70-489d-85e4-3fc88a2f131d",
+        "from_venue_id": "c4d96a7b-5ecf-46e2-93ee-be13ca3b6f50",
+        "to_venue_key": "new:lencre_cayenne",
+        "proposed_room": null
+      },
+      {
+        "event_id": "24074907-df31-4b68-945d-7fc1895cc01a",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "e407c552-a9a1-4050-af27-dc80c5ce8eff",
+        "from_venue_id": "c4d96a7b-5ecf-46e2-93ee-be13ca3b6f50",
+        "to_venue_key": "new:lencre_cayenne",
+        "proposed_room": null
+      },
+      {
+        "event_id": "441241c3-6743-439d-b76f-7c2ec79bf1cb",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "0352ad1a-46e5-4cd6-8df8-e3c285e20f02",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "8efffcad-c092-4323-bde2-30e97f7116b9",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "aecbf47c-00be-42a2-8229-7841f5d2b3ea",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "fac4e9f8-68a7-44a7-b4d9-c8ebb947d785",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "9ec49c34-9214-492a-bbd6-c2e9283932f7",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "675a315f-0962-4886-aa11-d4283398eb70",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "683c7077-ca3b-4d18-a0af-e9ffb583a440",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "08a683d4-2aba-4ed4-be35-d824a2efba09",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "195dea17-07dd-452c-af48-f98a3b089bd0",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "36489d1b-be62-47e9-bd46-ee01dad0ef0f",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "db27a549-c10d-4945-b38e-4d264625f0f1",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "1aaca7d4-08f1-4418-a5fd-f1f91f3e9ecc",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "44fade15-0dd1-47b6-8229-9c622305df3f",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "405d3a1a-f8fa-4f32-af4e-0158a13389d4",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "b59c87e1-d9c0-402c-b815-48f79eec1fa7",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "a229b251-4703-4774-8865-c11ad7ab8336",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "0b4c2bbf-d15a-46e7-944d-0fb0f2bde3e3",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "4b3b9ead-d851-478f-b787-5b01311ee6c1",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "b813828c-2b31-426a-a722-75e2bf1ea42e",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "5ee5db5c-f1ec-4847-b9ba-69ecbc20db4e",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "6cffb44e-5fd4-4ca8-b2d7-72535a412914",
+        "from_venue_id": "8cea12ae-be77-4a54-9f09-c6f57fbb6339",
+        "to_venue_key": "4de4f9a1-6922-4380-a8d1-aa2b845495e4",
+        "proposed_room": "Grand Foyer"
+      },
+      {
+        "event_id": "5fe332a1-6b59-4f40-8485-57377f3ecc3e",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "6373e5e8-99f9-4c44-bb86-c8bebdec8088",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "4b35b46b-3bd3-4972-b5ab-41d5685d8f9b",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "3976575f-f421-4d78-9086-6aebba5d5f1c",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "b57b689b-f67f-4e9d-b652-73bbf4a802f0",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "d33bb1df-55c8-4448-bab9-572755f279e0",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "455b1faf-cbee-45f7-8098-fa049e170cb1",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "2bfeb4d0-02b5-48df-b086-95829790ffae",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "b3de11d0-5efb-4daa-8490-9ad2e176013a",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "25b6b2f9-4dda-4fb3-a302-985f6bb07dd7",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "9643031b-e947-4ef4-99e3-750a53af688d",
+        "from_venue_id": "6eca9d08-e122-459a-89f2-5e89cf60eb43",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Studio Bastille"
+      },
+      {
+        "event_id": "e546cab6-a13a-4957-b107-631d85d9ac01",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "c97087a4-b002-42f3-be41-4eb94bb1ae4c",
+        "from_venue_id": "ac569497-7803-449f-b712-cc230f816e9b",
+        "to_venue_key": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+        "proposed_room": "Amphithéâtre Olivier Messiaen"
+      },
+      {
+        "event_id": "f9b5fb6d-3496-426d-9963-aa1cc08424d4",
+        "from_venue_id": "1cb6a32e-549d-451e-b1dd-33fb72294393",
+        "to_venue_key": "new:opera_berlioz_montpellier",
+        "proposed_room": null
+      }
+    ]
+  },
+  "counts": {
+    "events_total": 506,
+      "already_correct": 388,
+      "safe_venue_remap": 15,
+    "safe_venue_and_room_normalization": 103,
+    "safe_venue_metadata_fix": 0,
+    "venue_review": 0,
+    "classified_events": 506,
+    "unclassified_events": 0,
+    "city_null_events_before": 82,
+    "city_null_events_after_preview": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Bluebeard’s Castle Béla Bartók"
+    },
+    "search": [],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Bluebeard%E2%80%99s+Castle+B%C3%A9la+Bart%C3%B3k&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:58:22Z",
+    "raw_evidence_sha256": "68b163562e24dccd07430c4d0b5840769d4430dda4ecbfe5cead2fc304a3b621",
+    "cache_hit": false
+  }
+}

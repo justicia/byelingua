@@ -1,0 +1,133 @@
+{
+  "schema_version": "opera-paris-physical-venue-master-staging-v1",
+  "organization": {
+    "id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd",
+    "name": "Opéra national de Paris",
+    "slug": "opera-national-de-paris"
+  },
+  "venue_organization_semantics": "venues.organization_id is retained as the presenting/source namespace; this read-only staging reuses existing canonical global venue identities where verified and proposes only explicit physical-venue candidates.",
+  "physical_venues": [
+    {
+      "candidate_key": "palais_garnier",
+      "official_canonical_name": "Palais Garnier",
+      "city": "Paris",
+      "venue_id": "4de4f9a1-6922-4380-a8d1-aa2b845495e4",
+      "status": "EXISTING_CANONICAL_VENUE",
+      "new_venue_required": false,
+      "event_count": 201,
+      "source_rooms": [
+        "Grand Foyer"
+      ],
+      "evidence_url": "https://www.operadeparis.fr/entreprises/locations-despace-et-tournages"
+    },
+    {
+      "candidate_key": "opera_bastille",
+      "official_canonical_name": "Opéra Bastille",
+      "city": "Paris",
+      "venue_id": "e216d228-3e94-44a9-a8f7-7980bbb2481a",
+      "status": "EXISTING_CANONICAL_VENUE",
+      "new_venue_required": false,
+      "event_count": 289,
+      "source_rooms": [
+        "Amphithéâtre Olivier Messiaen",
+        "Studio Bastille"
+      ],
+      "evidence_url": "https://www.operadeparis.fr/infos-pratiques/preparer-votre-venue/opera-bastille"
+    },
+    {
+      "candidate_key": "athenee_theatre_louis_jouvet",
+      "official_canonical_name": "Athénée Théâtre Louis-Jouvet",
+      "city": "Paris",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 7,
+      "source_rooms": [],
+      "evidence_url": "https://www.athenee-theatre.com/infosPratiques/acces_horaires.htm"
+    },
+    {
+      "candidate_key": "lencre_cayenne",
+      "official_canonical_name": "l’EnCRe",
+      "city": "Cayenne",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 4,
+      "source_rooms": [],
+      "evidence_url": "https://troisfleuves.fr/lencre/"
+    },
+    {
+      "candidate_key": "auditorium_ecole_de_danse_nanterre",
+      "official_canonical_name": "Auditorium de l’École de Danse à Nanterre",
+      "city": "Nanterre",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 1,
+      "source_rooms": [],
+      "evidence_url": "https://www.operadeparis.fr/saison-26-27/jeune-public/a-lecole-de-danse"
+    },
+    {
+      "candidate_key": "abbatiale_saint_robert",
+      "official_canonical_name": "Abbatiale Saint-Robert",
+      "city": "La Chaise-Dieu",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 1,
+      "source_rooms": [],
+      "evidence_url": "https://www.chaise-dieu.com/nous-connaitre/nos-lieux/abbatiale-saint-robert-de-la-chaise-dieu/"
+    },
+    {
+      "candidate_key": "opera_berlioz_montpellier",
+      "official_canonical_name": "Opéra Berlioz",
+      "city": "Montpellier",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 1,
+      "source_rooms": [],
+      "evidence_url": "https://www.operadeparis.fr/saison-26-27/concert-et-recital/concert-de-lorchestre-de-lopera-national-de-paris"
+    },
+    {
+      "candidate_key": "maison_de_la_radio_et_de_la_musique",
+      "official_canonical_name": "Maison de la Radio et de la Musique / Auditorium de Radio France",
+      "city": "Paris",
+      "venue_id": "4a7b5602-1558-42fd-baab-4420cebdeb6e",
+      "status": "EXISTING_GLOBAL_CANONICAL_VENUE",
+      "new_venue_required": false,
+      "event_count": 1,
+      "source_rooms": [],
+      "evidence_url": "https://www.radiofrance.com/venir-radio-france?page=1"
+    },
+    {
+      "candidate_key": "philharmonie_de_paris",
+      "official_canonical_name": "Philharmonie de Paris",
+      "city": "Paris",
+      "venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+      "status": "EXISTING_GLOBAL_CANONICAL_VENUE",
+      "new_venue_required": false,
+      "event_count": 1,
+      "source_rooms": [],
+      "evidence_url": "https://philharmoniedeparis.fr/fr/informations-pratiques/comment-venir"
+    }
+  ],
+  "current_venue_adjudication": [
+    {"current_venue_id":"4de4f9a1-6922-4380-a8d1-aa2b845495e4","current_name":"Palais Garnier","current_city":"Paris","canonical_physical_venue":"Palais Garnier","canonical_city":"Paris","canonical_room_if_applicable":null,"action":"KEEP","legacy_unused_venue_candidate":false},
+    {"current_venue_id":"e216d228-3e94-44a9-a8f7-7980bbb2481a","current_name":"Opéra Bastille","current_city":"Paris","canonical_physical_venue":"Opéra Bastille","canonical_city":"Paris","canonical_room_if_applicable":null,"action":"KEEP","legacy_unused_venue_candidate":false},
+    {"current_venue_id":"ac569497-7803-449f-b712-cc230f816e9b","current_name":"Amphithéâtre Olivier Messiaen","current_city":null,"canonical_physical_venue":"Opéra Bastille","canonical_city":"Paris","canonical_room_if_applicable":"Amphithéâtre Olivier Messiaen","action":"CONVERT_TO_ROOM_MAPPING","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"6eca9d08-e122-459a-89f2-5e89cf60eb43","current_name":"Studio Bastille","current_city":"Paris","canonical_physical_venue":"Opéra Bastille","canonical_city":"Paris","canonical_room_if_applicable":"Studio Bastille","action":"CONVERT_TO_ROOM_MAPPING","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"fc600373-5169-4a94-bc0a-92d19e47c1cc","current_name":"Athénée Théâtre Louis-Jouvet et La Source Vive - Printemps des Mélèzes","current_city":null,"canonical_physical_venue":"Athénée Théâtre Louis-Jouvet","canonical_city":"Paris","canonical_room_if_applicable":null,"action":"CREATE_NEW_GLOBAL","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"c4d96a7b-5ecf-46e2-93ee-be13ca3b6f50","current_name":"Les Trois Fleuves – l’EnCRe Cayenne","current_city":null,"canonical_physical_venue":"l’EnCRe","canonical_city":"Cayenne","canonical_room_if_applicable":null,"action":"CREATE_NEW_GLOBAL","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"07815149-33ce-4321-b654-01412a3bf633","current_name":"Auditorium de l’Ecole de Danse à Nanterre","current_city":null,"canonical_physical_venue":"Auditorium de l’École de Danse à Nanterre","canonical_city":"Nanterre","canonical_room_if_applicable":null,"action":"CREATE_NEW_GLOBAL","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"86956349-1ef8-48a4-8513-9ae753ea063c","current_name":"Festival de La Chaise-Dieu - Abbatiale Saint-Robert","current_city":null,"canonical_physical_venue":"Abbatiale Saint-Robert","canonical_city":"La Chaise-Dieu","canonical_room_if_applicable":null,"action":"CREATE_NEW_GLOBAL","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"1cb6a32e-549d-451e-b1dd-33fb72294393","current_name":"Festival Radio France Occitanie Montpellier","current_city":null,"canonical_physical_venue":"Opéra Berlioz","canonical_city":"Montpellier","canonical_room_if_applicable":null,"action":"CREATE_NEW_GLOBAL","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"8cea12ae-be77-4a54-9f09-c6f57fbb6339","current_name":"Grand Foyer","current_city":null,"canonical_physical_venue":"Palais Garnier","canonical_city":"Paris","canonical_room_if_applicable":"Grand Foyer","action":"CONVERT_TO_ROOM_MAPPING","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"f6edfbd1-38d4-4edc-8580-8220a0ef854e","current_name":"Maison de la radio et de la Musique","current_city":null,"canonical_physical_venue":"Maison de la Radio et de la Musique / Auditorium de Radio France","canonical_city":"Paris","canonical_room_if_applicable":null,"action":"REMAP_TO_EXISTING_GLOBAL","legacy_unused_venue_candidate":true},
+    {"current_venue_id":"3830f0b1-e3ad-4526-93da-b82a69f99ad8","current_name":"Philharmonie de Paris","current_city":"Paris","canonical_physical_venue":"Philharmonie de Paris","canonical_city":"Paris","canonical_room_if_applicable":null,"action":"KEEP","legacy_unused_venue_candidate":false}
+  ],
+  "legacy_unused_venue_candidate_count": 9,
+  "new_venue_candidate_count": 5,
+  "safe_new_venues": 5,
+  "venue_review_candidates": 0
+}

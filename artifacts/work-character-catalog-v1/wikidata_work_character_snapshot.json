@@ -1,0 +1,2089 @@
+{
+  "schema_version": "wikidata-work-character-snapshot-v1",
+  "works": [
+    {
+      "work_id": "10f5309c-7ec8-48d7-8350-9f27f39a6d73",
+      "composer_id": null,
+      "composer": "Francesco Cilèa",
+      "canonical_work_title": "Adriana Lecouvreur",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_WORK_QID_REVIEW",
+      "characters": []
+    },
+    {
+      "work_id": "f7dad73d-91fe-4e8c-8e7f-86615b286900",
+      "composer_id": null,
+      "composer": "Umberto Giordano",
+      "canonical_work_title": "Andrea Chénier",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_WORK_QID_REVIEW",
+      "characters": []
+    },
+    {
+      "work_id": "414c32ba-9e40-4260-ab4c-c1fb84993ee5",
+      "composer_id": null,
+      "composer": "Richard Strauss",
+      "canonical_work_title": "Arabella",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_WORK_QID_REVIEW",
+      "characters": []
+    },
+    {
+      "work_id": "38ac1e96-7b0d-4601-9338-f69022c0dc0f",
+      "composer_id": null,
+      "composer": "Richard Strauss",
+      "canonical_work_title": "Ariadne auf Naxos",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_WORK_QID_REVIEW",
+      "characters": []
+    },
+    {
+      "work_id": "0b255758-7f63-4253-9d47-b094f9f36843",
+      "composer_id": null,
+      "composer": "Jerome Robbins,\n        \n    \n\n    \n        \n            Justin Peck",
+      "canonical_work_title": "Ballett-Gala 2027",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "69e72a89-ecca-4725-b8d1-936adfe1a024",
+      "composer_id": null,
+      "composer": "Béla Bartók",
+      "canonical_work_title": "Bluebeard’s Castle",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "7462644c-2cb5-429b-85a2-c2ea9735f48d",
+      "composer_id": null,
+      "composer": "Manuel Busto",
+      "canonical_work_title": "Bodas de Sangre",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "e7484cde-f5e2-4718-985d-ccf5bc5d0428",
+      "composer_id": null,
+      "composer": "Georges Bizet",
+      "canonical_work_title": "Carmen",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "4004b276-2974-4d28-9307-0b67330d8a84",
+      "composer_id": null,
+      "composer": "Wolfgang Amadeus Mozart",
+      "canonical_work_title": "Così fan tutte",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "72413b78-c83c-4131-ac0c-d2452ae71131",
+      "composer_id": null,
+      "composer": "Richard Strauss",
+      "canonical_work_title": "Der Rosenkavalier",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "b37e7330-a724-4f70-adc8-6bb25f19f700",
+      "composer_id": null,
+      "composer": "Richard Wagner",
+      "canonical_work_title": "Der fliegende Holländer",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "6b0a1285-f351-4459-aa47-18821fca3551",
+      "composer_id": null,
+      "composer": "Wolfgang Amadeus Mozart",
+      "canonical_work_title": "Die Entführung aus dem Serail",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "93072805-d1ae-472c-a7c9-3a2237962b97",
+      "composer_id": null,
+      "composer": "Johann Strauß",
+      "canonical_work_title": "Die Fledermaus",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "1a063e71-a8ab-4d4d-b45d-55f07897849c",
+      "composer_id": null,
+      "composer": "Richard Wagner",
+      "canonical_work_title": "Die Meistersinger von Nürnberg",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "a4333e3e-56c3-46ae-9910-d62f4e838ca1",
+      "composer_id": null,
+      "composer": "Wolfgang Amadeus Mozart",
+      "canonical_work_title": "Die Zauberflöte",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "bd5a5d7a-2cf0-46d5-9bef-cba832820604",
+      "composer_id": null,
+      "composer": "Erich Wolfgang Korngold",
+      "canonical_work_title": "Die tote Stadt",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "1419cf39-79a3-408c-b757-ab0188fb9963",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Don Carlo",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "fa281687-2e16-4e10-958b-9f6de14d61bc",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Don Carlos",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "bcafbec4-3252-4856-a10c-557fef25c529",
+      "composer_id": null,
+      "composer": "Wolfgang Amadeus Mozart",
+      "canonical_work_title": "Don Giovanni",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "57a2b93d-d540-4fd4-8f56-045dcade9c06",
+      "composer_id": null,
+      "composer": "Alexander von Zemlinsky,\n        \n    \n\n    \n        \n            Béla Bartók",
+      "canonical_work_title": "Eine florentinische Tragödie/ Bluebeard's Castle",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "98019d57-67ef-43b0-8e2a-c1de4bf21ee9",
+      "composer_id": null,
+      "composer": "Umberto Giordano",
+      "canonical_work_title": "Fedora",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "235a807b-cb7a-4f5a-b205-a85e9b30c939",
+      "composer_id": null,
+      "composer": "Ludwig van Beethoven",
+      "canonical_work_title": "Fidelio",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "dec2711a-a794-4f3a-bec2-f9fce0212965",
+      "composer_id": null,
+      "composer": "Benjamin Britten, Henry Purcell, John Dowland",
+      "canonical_work_title": "He who loves beauty",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "3f49869d-a77e-4e87-a7e6-d6a469ee51e3",
+      "composer_id": null,
+      "composer": "Vincenzo Bellini",
+      "canonical_work_title": "I Capuleti e i Montecchi",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "98b6ff5a-9462-4359-9183-6991ed83ef7f",
+      "composer_id": null,
+      "composer": "Gioachino Rossini",
+      "canonical_work_title": "Il Barbiere di Siviglia",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "34614acb-087a-4603-a4e2-8b57ae786a32",
+      "composer_id": null,
+      "composer": "Leoš Janáček",
+      "canonical_work_title": "Katia Kabanová",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "184e5141-64ff-47df-b222-86104fae4ff5",
+      "composer_id": null,
+      "composer": "Gaetano Donizetti",
+      "canonical_work_title": "L'Elisir d'amore",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "ac2f36b9-67ea-4d31-a832-cf30f4ba7b3b",
+      "composer_id": null,
+      "composer": "Claudio Monteverdi",
+      "canonical_work_title": "L'Orfeo",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "5fc01cf2-8e65-4536-9d94-1fc59fa630e1",
+      "composer_id": null,
+      "composer": "Giacomo Puccini",
+      "canonical_work_title": "La Bohème",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "51a41546-6a5a-4646-bc0a-aea226e4856d",
+      "composer_id": null,
+      "composer": "Hector Berlioz",
+      "canonical_work_title": "La Damnation de Faust",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "ef92b402-6305-4b37-9e3f-afa72f451ca7",
+      "composer_id": null,
+      "composer": "Gaetano Donizetti",
+      "canonical_work_title": "La Fille du régiment",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "27c95ae0-c9c6-4ef6-ba7a-39cfdc7c9e58",
+      "composer_id": null,
+      "composer": "Amilcare Ponchielli",
+      "canonical_work_title": "La Gioconda",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "85e9f27f-0ff6-4c2e-b56b-7fb88b5e1c4c",
+      "composer_id": null,
+      "composer": "Johann Sebastian Bach",
+      "canonical_work_title": "La Pasión Según San Mateo",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "ae7c773a-8caf-4854-8a21-49b396647378",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "La Traviata",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "76a85b56-256e-4ea4-bff2-569c36a2b591",
+      "composer_id": null,
+      "composer": "Wolfgang Amadeus Mozart",
+      "canonical_work_title": "La clemenza di Tito",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "7040b2c9-c5fa-4564-955b-bc1f02cfd6aa",
+      "composer_id": null,
+      "composer": "Wolfgang Amadeus Mozart",
+      "canonical_work_title": "Le nozze di Figaro",
+      "original_language": "it",
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_READY",
+      "characters": [
+        {
+          "canonical_name": "Il Conte Almaviva",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:il-conte-almaviva",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "La Contessa Almaviva",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:la-contessa-almaviva",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Figaro",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:figaro",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Susanna",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:susanna",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Cherubino",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:cherubino",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Marcellina",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:marcellina",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Bartolo",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:bartolo",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Basilio",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:basilio",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Don Curzio",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:don-curzio",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Barbarina",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:barbarina",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Antonio",
+          "proposed_identity_key": "wolfgang-amadeus-mozart:le-nozze-di-figaro:antonio",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        }
+      ]
+    },
+    {
+      "work_id": "3994ea46-0294-43f0-a30d-c863794b1ff4",
+      "composer_id": null,
+      "composer": "Georges Bizet",
+      "canonical_work_title": "Les Pêcheurs de perles",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "3178deaa-5718-4979-a481-a1901b139a3b",
+      "composer_id": null,
+      "composer": "George Balanchine,\n        \n    \n\n    \n        \n            Christopher Wheeldon,\n        \n    \n\n    \n        \n            Frederick Ashton",
+      "canonical_work_title": "Living Legacies",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "811833db-6a33-475c-a708-96e5e220b168",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Luisa Miller",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "6e955d97-e5c2-4583-8851-d534f04a8b73",
+      "composer_id": null,
+      "composer": "Alban Berg",
+      "canonical_work_title": "Lulu",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "7f552f18-d0bf-4ad7-bb2c-812ae1e05821",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Macbeth",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "2746a542-69dc-4047-856d-6f2162bdcd46",
+      "composer_id": null,
+      "composer": "Giacomo Puccini",
+      "canonical_work_title": "Madama Butterfly",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "3e854127-e1f0-48e0-848d-45ed3f8d80b9",
+      "composer_id": null,
+      "composer": "Giacomo Puccini",
+      "canonical_work_title": "Manon Lescaut",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "695d1331-48c5-4b74-90b2-88d38558d0fa",
+      "composer_id": null,
+      "composer": "Georg Friedrich Händel",
+      "canonical_work_title": "Messiah",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "62792d47-7e4c-4b8d-8e59-1d8dfa51f6ed",
+      "composer_id": null,
+      "composer": "Nicola Antonio Porpora",
+      "canonical_work_title": "Mitridate",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "c6dc24d2-cb1c-4674-b294-f806d8c66292",
+      "composer_id": null,
+      "composer": "John Neumeier",
+      "canonical_work_title": "Nijinsky",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "7b1d7bb8-59b5-4300-876b-d4a5486f0e7a",
+      "composer_id": null,
+      "composer": "Vincenzo Bellini",
+      "canonical_work_title": "Norma",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "7be33830-dd30-4e23-be4f-c77b04dbd7ab",
+      "composer_id": null,
+      "composer": "John Cranko",
+      "canonical_work_title": "Onegin",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "f5ea6d04-fb33-435a-9b4b-125dba1866b7",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Otello",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "bc9d6a6f-6ad0-417a-a64c-d3813c56030e",
+      "composer_id": null,
+      "composer": "Richard Wagner",
+      "canonical_work_title": "Parsifal",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "42f5cb1e-83a4-4635-9e33-e5fad59777f7",
+      "composer_id": null,
+      "composer": "Georg Friedrich Händel",
+      "canonical_work_title": "Richard The First, King of England",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "377ad19d-99be-43ab-8c3d-460f3f1edc75",
+      "composer_id": null,
+      "composer": "Richard Strauss",
+      "canonical_work_title": "Salome",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "8b994ce5-e556-47fd-a373-f62ebe882b35",
+      "composer_id": null,
+      "composer": "Alessandro Stradella",
+      "canonical_work_title": "San Giovanni Battista",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "374a46a9-f717-4e47-b54b-4ee82ff5dd16",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Simon Boccanegra",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "6bfd89ff-098e-49e0-a289-f43652962ec5",
+      "composer_id": null,
+      "composer": "Rudolf Nurejew",
+      "canonical_work_title": "Swan Lake",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "8a8d9b81-329e-45c9-9ac7-3665898bd139",
+      "composer_id": null,
+      "composer": "Richard Wagner",
+      "canonical_work_title": "Tannhäuser",
+      "original_language": "de",
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_READY",
+      "characters": [
+        {
+          "canonical_name": "Hermann, Landgraf von Thüringen",
+          "proposed_identity_key": "richard-wagner:tannhauser:hermann-landgraf-von-thuringen",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Tannhäuser",
+          "proposed_identity_key": "richard-wagner:tannhauser:tannhauser",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Wolfram von Eschenbach",
+          "proposed_identity_key": "richard-wagner:tannhauser:wolfram-von-eschenbach",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Walther von der Vogelweide",
+          "proposed_identity_key": "richard-wagner:tannhauser:walther-von-der-vogelweide",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Biterolf",
+          "proposed_identity_key": "richard-wagner:tannhauser:biterolf",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Heinrich der Schreiber",
+          "proposed_identity_key": "richard-wagner:tannhauser:heinrich-der-schreiber",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Reinmar von Zweter",
+          "proposed_identity_key": "richard-wagner:tannhauser:reinmar-von-zweter",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Elisabeth, Nichte des Landgrafen",
+          "proposed_identity_key": "richard-wagner:tannhauser:elisabeth-nichte-des-landgrafen",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Venus",
+          "proposed_identity_key": "richard-wagner:tannhauser:venus",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        },
+        {
+          "canonical_name": "Ein junger Hirt",
+          "proposed_identity_key": "richard-wagner:tannhauser:ein-junger-hirt",
+          "wikidata_qid": null,
+          "aliases": {},
+          "source_labels": [],
+          "voice_type": null,
+          "evidence_sources": [
+            "prior_approved_catalog"
+          ],
+          "confidence": "candidate",
+          "resolution_status": "CANDIDATE_REVIEW"
+        }
+      ]
+    },
+    {
+      "work_id": "9ea85708-76c0-4d64-a69f-c6f84f039157",
+      "composer_id": null,
+      "composer": "Bedřich Smetana",
+      "canonical_work_title": "The Bartered Bride",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "4b245901-dd06-4e24-8bf6-0a58b882c794",
+      "composer_id": null,
+      "composer": "Pjotr I. Tschaikowski",
+      "canonical_work_title": "The Queen of Spades",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "c4551c69-40aa-41d6-8d8b-8f4caa9b372f",
+      "composer_id": null,
+      "composer": "Giacomo Puccini",
+      "canonical_work_title": "Tosca",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "21a7c9de-c36a-4237-b90b-0968380f39ed",
+      "composer_id": null,
+      "composer": "Richard Wagner",
+      "canonical_work_title": "Tristan und Isolde",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "d4cf1544-ad65-46ad-a302-9dca09b8a552",
+      "composer_id": null,
+      "composer": "Giacomo Puccini",
+      "canonical_work_title": "Turandot",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "73e51cd4-2d41-44ea-868a-c0b8fa3dcee1",
+      "composer_id": null,
+      "composer": "Giuseppe Verdi",
+      "canonical_work_title": "Un ballo in maschera",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "8d5f29ac-0658-4815-8c0d-7cc30d78653a",
+      "composer_id": null,
+      "composer": "Justin Peck,\n        \n    \n\n    \n        \n            Wayne McGregor,\n        \n    \n\n    \n        \n            Twyla Tharp",
+      "canonical_work_title": "Visionary Dances",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "34151afa-505c-4f03-b190-9774d6b81630",
+      "composer_id": null,
+      "composer": "Jules Massenet",
+      "canonical_work_title": "Werther",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    },
+    {
+      "work_id": "f33e784d-75b7-4bf9-b626-cf2985bade21",
+      "composer_id": null,
+      "composer": "Wayne McGregor",
+      "canonical_work_title": "Woolf Works",
+      "original_language": null,
+      "external_ids": {
+        "wikidata": null
+      },
+      "evidence_status": "CATALOG_SOURCE_MISSING",
+      "characters": []
+    }
+  ],
+  "evidence": [
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Francesco+Cil%C3%A8a&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:54Z",
+      "raw_evidence_sha256": "2b9ffa6852cbe7787b563eee865d459867762b5db4155f5de7154b006d438b49",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Adriana+Lecouvreur+Francesco+Cil%C3%A8a&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:54Z",
+      "raw_evidence_sha256": "118247fba0437912bf2db8893afd9158358ef98d724ab6e9b52a707b2e77eb5c",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Adriana+Lecouvreur&limit=5&namespace=0&format=json",
+      "retrieved_at": "2026-08-25T11:57:54Z",
+      "raw_evidence_sha256": "741f464314b93b0ea9f5a55f8036546e32bf34bf66a8a7ef0def3611555cd4e5",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=parse&page=Adriana+Lecouvreur&prop=text%7Cwikitext&format=json&disableeditsection=1",
+      "retrieved_at": "2026-08-25T11:57:55Z",
+      "raw_evidence_sha256": "2088b5a6a88c3bd1db2fc67eeed1736ed0f0a5c252b75a6fa1a1c2c9529aaa94",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Umberto+Giordano&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:55Z",
+      "raw_evidence_sha256": "70f11933b48dce1dedbc539a4f5abc6969f720c4d76b170baee1ba36484f84e5",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Andrea+Ch%C3%A9nier+Umberto+Giordano&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:55Z",
+      "raw_evidence_sha256": "cf72100b9202c070b040e8c2a90a2c316317379e48c1f6b0ac1cb5c3bad34b50",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Andrea+Ch%C3%A9nier&limit=5&namespace=0&format=json",
+      "retrieved_at": "2026-08-25T11:57:55Z",
+      "raw_evidence_sha256": "dad9a5022d3d01c88b4875ec710317793042bf0f40105c92015724ea28d1f93c",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=parse&page=Andrea+Ch%C3%A9nier&prop=text%7Cwikitext&format=json&disableeditsection=1",
+      "retrieved_at": "2026-08-25T11:57:56Z",
+      "raw_evidence_sha256": "e9f6d4c21189dc88775afb68bbe5388d08276ef9be452d45665130fcd0eb613a",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Strauss&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:56Z",
+      "raw_evidence_sha256": "67829b340cd78f010fc2d1d4e015160aa4a56e6e7fb6fa10a1dec871e988d77f",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Arabella+Richard+Strauss&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:56Z",
+      "raw_evidence_sha256": "d30ba3beca3fa51090d906f63ecf90b2cb6284703eb979cbdea84a42dd937548",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Arabella&limit=5&namespace=0&format=json",
+      "retrieved_at": "2026-08-25T11:58:18Z",
+      "raw_evidence_sha256": "67b3b5819c5c98a17704a7be08544526bb2b9d156aac8cf4d8ef9a1f20d4122f",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=parse&page=Arabella&prop=text%7Cwikitext&format=json&disableeditsection=1",
+      "retrieved_at": "2026-08-25T11:58:19Z",
+      "raw_evidence_sha256": "fb33a2b019c4ffaacfc048294b6407ec69cf22031fe78f13008b2b551502a7d1",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Strauss&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:56Z",
+      "raw_evidence_sha256": "67829b340cd78f010fc2d1d4e015160aa4a56e6e7fb6fa10a1dec871e988d77f",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ariadne+auf+Naxos+Richard+Strauss&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:58:19Z",
+      "raw_evidence_sha256": "da01e67ea5a693ecc8c0defdf63c3f3d9615eb4982379de202b362b94c0d2b3f",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Ariadne+auf+Naxos&limit=5&namespace=0&format=json",
+      "retrieved_at": "2026-08-25T11:58:20Z",
+      "raw_evidence_sha256": "d3488fa9e33d7288442ee87efb1887ddb7bbd18340ace14d9f6d4cc4963f4605",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=parse&page=Ariadne+auf+Naxos&prop=text%7Cwikitext&format=json&disableeditsection=1",
+      "retrieved_at": "2026-08-25T11:58:21Z",
+      "raw_evidence_sha256": "d2268ad08751c42a82648fbb341f4e00cea726cbdce3c88cd60a908ddfc16675",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Jerome+Robbins%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Justin+Peck&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:58:21Z",
+      "raw_evidence_sha256": "105d05155712be9147e5de0926cf5a43aa4b313d9a0442fdccbe29d52c8ab320",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ballett-Gala+2027+Jerome+Robbins%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Justin+Peck&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:58:21Z",
+      "raw_evidence_sha256": "78ed283c19e8402b5996160b82646ee31481bad6f443e222441cfdc3216f5886",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Ballett-Gala+2027&limit=5&namespace=0&format=json",
+      "retrieved_at": "2026-08-25T11:58:22Z",
+      "raw_evidence_sha256": "cdd00516fdfc92704ff9f239c800d693c71acacb9d0d25e0e3b6c45312021ef3",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=B%C3%A9la+Bart%C3%B3k&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:58:22Z",
+      "raw_evidence_sha256": "13e777e5aa9f8523d40ad18f9bcec4c8f31bfa9d97b8e53ebf4521ba0d719ce9",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Bluebeard%E2%80%99s+Castle+B%C3%A9la+Bart%C3%B3k&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:58:22Z",
+      "raw_evidence_sha256": "68b163562e24dccd07430c4d0b5840769d4430dda4ecbfe5cead2fc304a3b621",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Bluebeard%E2%80%99s+Castle&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Manuel+Busto&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Bodas+de+Sangre+Manuel+Busto&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Bodas+de+Sangre&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Georges+Bizet&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Carmen+Georges+Bizet&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Carmen&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Cos%C3%AC+fan+tutte+Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Cos%C3%AC+fan+tutte&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Strauss&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:56Z",
+      "raw_evidence_sha256": "67829b340cd78f010fc2d1d4e015160aa4a56e6e7fb6fa10a1dec871e988d77f",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Der+Rosenkavalier+Richard+Strauss&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Der+Rosenkavalier&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Der+fliegende+Holl%C3%A4nder+Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Der+fliegende+Holl%C3%A4nder&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Die+Entf%C3%BChrung+aus+dem+Serail+Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Die+Entf%C3%BChrung+aus+dem+Serail&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Johann+Strau%C3%9F&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Die+Fledermaus+Johann+Strau%C3%9F&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Die+Fledermaus&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Die+Meistersinger+von+N%C3%BCrnberg+Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Die+Meistersinger+von+N%C3%BCrnberg&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Die+Zauberfl%C3%B6te+Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Die+Zauberfl%C3%B6te&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Erich+Wolfgang+Korngold&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Die+tote+Stadt+Erich+Wolfgang+Korngold&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Die+tote+Stadt&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Don+Carlo+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Don+Carlo&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Don+Carlos+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Don+Carlos&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Don+Giovanni+Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Don+Giovanni&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Alexander+von+Zemlinsky%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++B%C3%A9la+Bart%C3%B3k&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Eine+florentinische+Trag%C3%B6die%2F+Bluebeard%27s+Castle+Alexander+von+Zemlinsky%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++B%C3%A9la+Bart%C3%B3k&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Eine+florentinische+Trag%C3%B6die%2F+Bluebeard%27s+Castle&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Umberto+Giordano&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:55Z",
+      "raw_evidence_sha256": "70f11933b48dce1dedbc539a4f5abc6969f720c4d76b170baee1ba36484f84e5",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Fedora+Umberto+Giordano&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Fedora&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ludwig+van+Beethoven&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Fidelio+Ludwig+van+Beethoven&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Fidelio&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Benjamin+Britten%2C+Henry+Purcell%2C+John+Dowland&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=He+who+loves+beauty+Benjamin+Britten%2C+Henry+Purcell%2C+John+Dowland&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=He+who+loves+beauty&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Vincenzo+Bellini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=I+Capuleti+e+i+Montecchi+Vincenzo+Bellini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=I+Capuleti+e+i+Montecchi&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Gioachino+Rossini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Il+Barbiere+di+Siviglia+Gioachino+Rossini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Il+Barbiere+di+Siviglia&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Leo%C5%A1+Jan%C3%A1%C4%8Dek&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Katia+Kabanov%C3%A1+Leo%C5%A1+Jan%C3%A1%C4%8Dek&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Katia+Kabanov%C3%A1&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Gaetano+Donizetti&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=L%27Elisir+d%27amore+Gaetano+Donizetti&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=L%27Elisir+d%27amore&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Claudio+Monteverdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=L%27Orfeo+Claudio+Monteverdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=L%27Orfeo&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+Boh%C3%A8me+Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+Boh%C3%A8me&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Hector+Berlioz&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+Damnation+de+Faust+Hector+Berlioz&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+Damnation+de+Faust&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Gaetano+Donizetti&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+Fille+du+r%C3%A9giment+Gaetano+Donizetti&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+Fille+du+r%C3%A9giment&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Amilcare+Ponchielli&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+Gioconda+Amilcare+Ponchielli&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+Gioconda&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Johann+Sebastian+Bach&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+Pasi%C3%B3n+Seg%C3%BAn+San+Mateo+Johann+Sebastian+Bach&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+Pasi%C3%B3n+Seg%C3%BAn+San+Mateo&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+Traviata+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+Traviata&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=La+clemenza+di+Tito+Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=La+clemenza+di+Tito&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Le+nozze+di+Figaro+Wolfgang+Amadeus+Mozart&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source": "prior_approved_catalog",
+      "used": true
+    },
+    {
+      "source_url": "https://it.wikipedia.org/w/api.php?action=opensearch&search=Le+nozze+di+Figaro&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Georges+Bizet&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Les+P%C3%AAcheurs+de+perles+Georges+Bizet&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Les+P%C3%AAcheurs+de+perles&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=George+Balanchine%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Christopher+Wheeldon%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Frederick+Ashton&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Living+Legacies+George+Balanchine%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Christopher+Wheeldon%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Frederick+Ashton&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Living+Legacies&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Luisa+Miller+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Luisa+Miller&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Alban+Berg&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Lulu+Alban+Berg&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Lulu&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Macbeth+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Macbeth&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Madama+Butterfly+Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Madama+Butterfly&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Manon+Lescaut+Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Manon+Lescaut&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Georg+Friedrich+H%C3%A4ndel&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Messiah+Georg+Friedrich+H%C3%A4ndel&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Messiah&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Nicola+Antonio+Porpora&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Mitridate+Nicola+Antonio+Porpora&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Mitridate&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=John+Neumeier&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Nijinsky+John+Neumeier&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Nijinsky&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Vincenzo+Bellini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Norma+Vincenzo+Bellini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Norma&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=John+Cranko&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Onegin+John+Cranko&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Onegin&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Otello+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Otello&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Parsifal+Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Parsifal&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Georg+Friedrich+H%C3%A4ndel&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+The+First%2C+King+of+England+Georg+Friedrich+H%C3%A4ndel&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Richard+The+First%2C+King+of+England&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Strauss&language=en&format=json&limit=10",
+      "retrieved_at": "2026-08-25T11:57:56Z",
+      "raw_evidence_sha256": "67829b340cd78f010fc2d1d4e015160aa4a56e6e7fb6fa10a1dec871e988d77f",
+      "cache_hit": false
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Salome+Richard+Strauss&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Salome&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Alessandro+Stradella&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=San+Giovanni+Battista+Alessandro+Stradella&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=San+Giovanni+Battista&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Simon+Boccanegra+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Simon+Boccanegra&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Rudolf+Nurejew&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Swan+Lake+Rudolf+Nurejew&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Swan+Lake&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Tannh%C3%A4user+Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source": "prior_approved_catalog",
+      "used": true
+    },
+    {
+      "source_url": "https://de.wikipedia.org/w/api.php?action=opensearch&search=Tannh%C3%A4user&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Bed%C5%99ich+Smetana&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=The+Bartered+Bride+Bed%C5%99ich+Smetana&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=The+Bartered+Bride&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Pjotr+I.+Tschaikowski&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=The+Queen+of+Spades+Pjotr+I.+Tschaikowski&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=The+Queen+of+Spades&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Tosca+Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Tosca&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Tristan+und+Isolde+Richard+Wagner&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Tristan+und+Isolde&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Turandot+Giacomo+Puccini&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Turandot&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Un+ballo+in+maschera+Giuseppe+Verdi&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Un+ballo+in+maschera&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Justin+Peck%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Wayne+McGregor%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Twyla+Tharp&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Visionary+Dances+Justin+Peck%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Wayne+McGregor%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Twyla+Tharp&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Visionary+Dances&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Jules+Massenet&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Werther+Jules+Massenet&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Werther&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Wayne+McGregor&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Woolf+Works+Wayne+McGregor&language=en&format=json&limit=10",
+      "cache_hit": false,
+      "offline": true
+    },
+    {
+      "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Woolf+Works&limit=5&namespace=0&format=json",
+      "cache_hit": false,
+      "offline": true
+    }
+  ]
+}

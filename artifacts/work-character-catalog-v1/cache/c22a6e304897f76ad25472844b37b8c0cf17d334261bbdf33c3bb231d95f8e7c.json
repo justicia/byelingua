@@ -1,0 +1,69 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Francesco Cilèa"
+    },
+    "search": [
+      {
+        "id": "Q250952",
+        "title": "Q250952",
+        "pageid": 243582,
+        "concepturi": "http://www.wikidata.org/entity/Q250952",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q250952",
+        "display": {
+          "label": {
+            "value": "Francesco Cilea",
+            "language": "en"
+          },
+          "description": {
+            "value": "Italian composer (1866-1950)",
+            "language": "en"
+          }
+        },
+        "label": "Francesco Cilea",
+        "description": "Italian composer (1866-1950)",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Francesco Cilea"
+        }
+      },
+      {
+        "id": "Q52802656",
+        "title": "Q52802656",
+        "pageid": 53607152,
+        "concepturi": "http://www.wikidata.org/entity/Q52802656",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q52802656",
+        "display": {
+          "label": {
+            "value": "Istituto comprensivo Francesco Cilea",
+            "language": "en"
+          },
+          "description": {
+            "value": "grouping of schools in Roma (Italy)",
+            "language": "en"
+          }
+        },
+        "label": "Istituto comprensivo Francesco Cilea",
+        "description": "grouping of schools in Roma (Italy)",
+        "match": {
+          "type": "label",
+          "language": "tr",
+          "text": "Francesco Cilea Enstitüsü"
+        },
+        "aliases": [
+          "Francesco Cilea Enstitüsü"
+        ]
+      }
+    ],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Francesco+Cil%C3%A8a&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:57:54Z",
+    "raw_evidence_sha256": "2b9ffa6852cbe7787b563eee865d459867762b5db4155f5de7154b006d438b49",
+    "cache_hit": false
+  }
+}

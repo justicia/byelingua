@@ -1,0 +1,236 @@
+{
+  "venue_id": "southbank_centre",
+  "season": "2026-27",
+  "status": "SOURCE_PARTIAL",
+  "production_writes": 0,
+  "blocker": "official source HTTPS fetch blocked by the execution environment",
+  "next_technical_fix": "Run this venue in a network-enabled cloud runner and rerun it",
+  "summary": {
+    "generated_at": "2026-08-31T10:26:41.773057+00:00",
+    "venue": "southbank_centre",
+    "season": "2026-27",
+    "mode": "dry-run",
+    "scope": "full-season",
+    "source_fingerprint": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "source_capability": "SOURCE_PARTIAL",
+    "source_strategy": "official listing -> official detail links -> performance-level detail extraction",
+    "adapter_errors": [
+      {
+        "url": "https://www.southbankcentre.co.uk/whats-on/classical-music",
+        "error": "ConnectionError: HTTPSConnectionPool(host='www.southbankcentre.co.uk', port=443): Max retries exceeded with url: /whats-on/classical-music (Caused by NewConnectionError(\"HTTPSConnection(host='www.southbankcentre.co.uk', port=443): Failed to establish a new connection: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions\"))"
+      }
+    ],
+    "months": {
+      "requested": 1,
+      "successful": 0,
+      "failed": 1
+    },
+    "global_master_preflight": "FAIL",
+    "snapshot_loaded": false,
+    "snapshot_hash": "e645a9d4b61d98703adb9b745febddd6b9c36aadb6b327b4351a690dba9f3f15",
+    "global_master_error": {
+      "code": "GLOBAL_MASTER_UNAVAILABLE",
+      "message": "Global Master unavailable"
+    },
+    "snapshot_health": {
+      "preflight_status": "FAIL",
+      "global_master_loaded": false,
+      "project_target_verified": false,
+      "composers_count": 0,
+      "composer_aliases_count": 0,
+      "works_count": 0,
+      "work_aliases_count": 0,
+      "loaded_at": "2026-08-31T10:26:41.773057+00:00",
+      "query_errors": 1,
+      "error_code": "GLOBAL_MASTER_UNAVAILABLE",
+      "error_message": "Global Master unavailable"
+    },
+    "snapshot_counts": {
+      "composer": 0,
+      "artist": 0,
+      "work": 0,
+      "character": 0,
+      "composer_aliases": 0,
+      "work_aliases": 0
+    },
+    "event_type_distribution": {},
+    "programme_source_evidence": {
+      "programme_evidence_events": 0,
+      "expected_no_programme_events": 0,
+      "programme_source_ambiguous_events": 0,
+      "detail_parse_review_events": 0
+    },
+    "existing_production": {
+      "records_loaded": 0,
+      "events_scoped": 0,
+      "events_matched": null,
+      "unmatched_existing": 0,
+      "unmatched_staged": 0,
+      "ambiguous": 0
+    },
+    "counts": {
+      "events": 0,
+      "events_discovered": 0,
+      "normalized": 0,
+      "works_existing": 0,
+      "works_review": 0,
+      "review_items": 0,
+      "writes": 0,
+      "credits_raw": 0,
+      "credits_safe": 0,
+      "credits_review": 0,
+      "safe_events": 0,
+      "safe_programme_relationships": 0,
+      "review_programme_relationships": 0
+    },
+    "detail_enrichment": {
+      "listing_pages_requested": 1,
+      "listing_pages_successful": 0,
+      "detail_pages_requested": 0,
+      "detail_pages_successful": 0,
+      "detail_pages_failed": 0,
+      "events_with_programme_evidence": 0,
+      "events_without_programme_evidence": 0,
+      "programme_source_ambiguous_events": 0,
+      "detail_parse_review": 0,
+      "programme_items": 0,
+      "work_candidates": 0,
+      "single_work_events": 0,
+      "multi_work_events": 0,
+      "work_parse_review": 0,
+      "composer_candidates": 0,
+      "composer_evidence_present": 0,
+      "composer_missing_source_evidence": 0,
+      "composer_parse_review": 0,
+      "credits_total": 0,
+      "raw_credit_rows": 0,
+      "credit_parse_success": 0,
+      "credit_parse_review": 0,
+      "artist_candidates": 0,
+      "character_candidates": 0,
+      "composer_resolution": {
+        "exact": 0,
+        "alias": 0,
+        "normalized": 0,
+        "new_candidate": 0,
+        "review": 0,
+        "not_run": 0
+      },
+      "work_resolution": {
+        "existing_exact": 0,
+        "existing_alias": 0,
+        "existing_normalized": 0,
+        "legacy_existing": 0,
+        "new_candidate": 0,
+        "review": 0,
+        "not_run": 0,
+        "no_programme_evidence": 0
+      },
+      "programme_occurrences": 0,
+      "unique_work_candidates": 0,
+      "unique_work_safe_existing": 0,
+      "unique_work_new_candidate": 0,
+      "unique_work_review": 0
+    },
+    "composer_trace": {
+      "first_20_distinct": [],
+      "frequency_top_20_distinct": []
+    },
+    "credit_resolution": {
+      "safe_event_credits": [],
+      "review_event_credits": [],
+      "counts": {
+        "credits_raw": 0,
+        "credits_safe": 0,
+        "credits_review": 0
+      }
+    },
+    "gates": {
+      "events_gt_zero": false,
+      "traceable_urls": true,
+      "duplicate_event_identity": true,
+      "duplicate_performance_slot": true,
+      "null_timed_shadow_duplicates": true,
+      "ambiguous_same_day_occurrence": true,
+      "year_inferred_without_production_evidence": true,
+      "year_unverified": true,
+      "artist_boundary_high": true,
+      "programme_credit_contamination": true,
+      "source_order_missing": true,
+      "untraceable": true,
+      "review_items_in_safe_subset": true,
+      "production_writes": true,
+      "source_fetch_failures": false,
+      "global_master_loaded": false,
+      "existing_event_match": true,
+      "credit_extraction": true
+    },
+    "passed": false,
+    "productions_discovered": 0,
+    "detail_pages_out_of_season_skipped": 0,
+    "date_candidates_found": 0,
+    "date_candidates_accepted": 0,
+    "date_candidates_rejected": 0,
+    "date_year_unverified": 0,
+    "events_outside_season": 0,
+    "duplicate_performance_slot": 0,
+    "ambiguous_same_day_occurrence": 0,
+    "null_timed_shadow_duplicates": 0,
+    "year_inferred_without_production_evidence": 0,
+    "date_min": null,
+    "date_max": null,
+    "request_counts": {
+      "listing_requested": 1,
+      "listing_succeeded": 0,
+      "listing_failed": 1,
+      "detail_requested": 0,
+      "detail_succeeded": 0,
+      "detail_failed": 0
+    },
+    "catalog_status_counts": {
+      "source_pass": 0,
+      "source_partial": 1,
+      "source_blocked": 0,
+      "review": 0,
+      "safe": 0
+    },
+    "staging_classification_counts": {
+      "safe_programme_relationships": 0,
+      "review_programme_relationships": 0,
+      "safe_event_credits": 0,
+      "review_event_credits": 0
+    },
+    "invariants": {
+      "events_gt_zero": false,
+      "traceable_urls": true,
+      "duplicate_event_identity": true,
+      "duplicate_performance_slot": true,
+      "null_timed_shadow_duplicates": true,
+      "ambiguous_same_day_occurrence": true,
+      "year_inferred_without_production_evidence": true,
+      "year_unverified": true,
+      "untraceable": true,
+      "production_writes": true,
+      "source_fetch_failures": false,
+      "global_master_loaded": false
+    },
+    "incremental": {
+      "source_changed": true,
+      "previous_source_hash": null,
+      "current_source_hash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "action": "PROCESS"
+    },
+    "artifact_completeness": {
+      "files": {
+        "source_audit": true,
+        "raw": true,
+        "normalized": true,
+        "snapshot": true,
+        "resolution_staging": true,
+        "final_staging": true,
+        "summary": true
+      },
+      "all_required_present_and_valid": true
+    }
+  }
+}

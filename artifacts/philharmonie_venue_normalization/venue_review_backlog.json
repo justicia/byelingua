@@ -1,0 +1,6 @@
+{
+  "schema_version": "philharmonie-venue-review-backlog-v1",
+  "review_events": [],
+  "venue_review_candidates": [],
+  "notes": "No unresolved room labels; all 268 events have deterministic physical-venue classification."
+}

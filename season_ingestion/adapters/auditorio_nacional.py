@@ -6,6 +6,7 @@ each discovery row is an occurrence even when its detail URL is shared.
 """
 from __future__ import annotations
 
+import hashlib
 import re
 import warnings
 from collections import Counter
@@ -17,12 +18,19 @@ from urllib.parse import urljoin
 import requests
 from bs4 import BeautifulSoup, Tag
 
+from season_ingestion.schema import CanonicalEvent
+
 
 SOURCE = "auditorio_nacional"
 BASE_URL = "https://auditorionacional.inaem.gob.es"
 DISCOVERY_URL = f"{BASE_URL}/es/programacion"
 PAGE_SIZE = 12
 USER_AGENT = "ByelinguaAuditorioParser/1.0 (read-only dry run)"
+
+ROOM_PATTERNS = (
+    ("Sala Sinfónica", "SALA_SINFONICA"),
+    ("Sala de Cámara", "SALA_DE_CAMARA"),
+)
 
 
 def clean(value: str | None) -> str:
@@ -43,8 +51,39 @@ def _lines(node: Tag) -> list[str]:
     return lines
 
 
-def page_url(offset: int) -> str:
-    return f"{DISCOVERY_URL}?b_start:int={offset}"
+def _room_match(value: str) -> tuple[str, str] | None:
+    folded = clean(value).casefold()
+    for raw, normalized in ROOM_PATTERNS:
+        if raw.casefold() in folded:
+            return raw, normalized
+    return None
+
+
+def resolve_detail_room(info: list[dict], blocks: list[dict]) -> dict:
+    """Resolve room from explicit detail-page evidence only."""
+    evidence: list[dict] = []
+    for item in info:
+        text = clean(" ".join((item.get("raw_label", ""), item.get("raw_text", ""))))
+        match = _room_match(text)
+        if match:
+            evidence.append({"room_raw": match[0], "normalized_room": match[1], "method": "detail_info", "raw_text": text})
+    for block in blocks:
+        text = clean(block.get("raw_text", ""))
+        match = _room_match(text)
+        if match:
+            evidence.append({"room_raw": match[0], "normalized_room": match[1], "method": "detail_content", "raw_text": text})
+    normalized = {item["normalized_room"] for item in evidence}
+    if len(normalized) == 1:
+        selected = evidence[0]
+        return {"room_raw": selected["room_raw"], "normalized_room": selected["normalized_room"], "status": "DETAIL_ROOM_VERIFIED", "evidence": evidence}
+    if len(normalized) > 1:
+        return {"room_raw": None, "normalized_room": "CONFLICTING_SOURCE_EVIDENCE", "status": "REVIEW_LOCATION", "evidence": evidence}
+    return {"room_raw": None, "normalized_room": "ROOM_NOT_STATED", "status": "REVIEW_LOCATION", "evidence": []}
+
+
+def page_url(offset: int, discovery_url: str = DISCOVERY_URL) -> str:
+    separator = "&" if "?" in discovery_url else "?"
+    return f"{discovery_url}{separator}b_start:int={offset}"
 
 
 def parse_discovery_page(html: str, discovery_url: str, *, offset: int) -> list[dict]:
@@ -115,6 +154,7 @@ def parse_detail_page(html: str, detail_url: str) -> dict:
         "raw_artist_lines": raw_artist_lines,
         "raw_programme_lines": raw_programme_lines,
         "raw_info": info,
+        "room_resolution": resolve_detail_room(info, blocks),
     }
 
 
@@ -137,6 +177,7 @@ def discover(
     *,
     season_start: str = "2026-09-01",
     season_end: str = "2027-08-31",
+    discovery_url: str = DISCOVERY_URL,
 ) -> tuple[list[dict], list[dict]]:
     """Fetch all HTML pagination pages and retain occurrences in the season."""
     first = datetime.fromisoformat(season_start).date()
@@ -145,7 +186,7 @@ def discover(
     page_records: list[dict] = []
     offset = 0
     while True:
-        url = page_url(offset)
+        url = page_url(offset, discovery_url)
         html = fetch(url)
         rows = parse_discovery_page(html, url, offset=offset)
         page_records.append({"discovery_url": url, "offset": offset,
@@ -182,6 +223,7 @@ def attach_details(
                 "detail_url": url, "raw_detail_title": None,
                 "raw_content_blocks": [], "raw_artist_lines": [],
                 "raw_programme_lines": [], "raw_info": [],
+                "room_resolution": {"room_raw": None, "normalized_room": "ROOM_NOT_STATED", "status": "REVIEW_LOCATION", "evidence": []},
                 "raw_fetch_error": f"{type(exc).__name__}: {exc}",
             }
             return url, failure, {"source_url": url, "error": failure["raw_fetch_error"]}
@@ -198,8 +240,37 @@ def attach_details(
     for occurrence in occurrences:
         row = dict(occurrence)
         row.update(cache[row["source_url"]])
+        row["raw_listing_venue"] = row.get("raw_venue")
+        resolution = row.get("room_resolution") or {}
+        row["official_room_raw"] = resolution.get("room_raw")
+        row["normalized_room"] = resolution.get("normalized_room", "ROOM_NOT_STATED")
+        row["room_resolution_status"] = resolution.get("status", "REVIEW_LOCATION")
+        row["room_evidence"] = resolution.get("evidence", [])
+        row["raw_venue"] = row.get("official_room_raw")
         result.append(row)
-    return result, errors
+    return deduplicate_occurrences(result), errors
+
+
+def deduplicate_occurrences(occurrences: Iterable[dict]) -> list[dict]:
+    """Treat room disagreement as an attribute conflict, never a new event."""
+    selected: dict[tuple[str, str, str], dict] = {}
+    for occurrence in occurrences:
+        key = (occurrence.get("source_url", ""), occurrence.get("raw_datetime", ""), occurrence.get("raw_title", ""))
+        current = selected.get(key)
+        if current is None:
+            selected[key] = dict(occurrence)
+            continue
+        current_room = current.get("normalized_room")
+        new_room = occurrence.get("normalized_room")
+        if current_room == "ROOM_NOT_STATED" and new_room not in {None, "ROOM_NOT_STATED"}:
+            selected[key] = dict(occurrence)
+        elif current_room != new_room and new_room not in {None, "ROOM_NOT_STATED"}:
+            current["official_room_raw"] = None
+            current["normalized_room"] = "CONFLICTING_SOURCE_EVIDENCE"
+            current["room_resolution_status"] = "REVIEW_LOCATION"
+            current["room_evidence"] = list(current.get("room_evidence") or []) + list(occurrence.get("room_evidence") or [])
+            current["raw_venue"] = None
+    return list(selected.values())
 
 
 def summarize(occurrences: list[dict], pages: list[dict], errors: list[dict]) -> dict:
@@ -209,10 +280,7 @@ def summarize(occurrences: list[dict], pages: list[dict], errors: list[dict]) ->
             parsed_dates.append(datetime.fromisoformat(row["raw_datetime"]))
         except ValueError:
             pass
-    duplicate_keys = [
-        (row["source_url"], row["raw_datetime"], row["raw_title"], row["raw_venue"])
-        for row in occurrences
-    ]
+    duplicate_keys = [(row["source_url"], row["raw_datetime"], row["raw_title"]) for row in occurrences]
     counts = Counter(duplicate_keys)
     detail_counts = Counter(row["source_url"] for row in occurrences)
     # Coverage is reported at detail-page level.  Occurrences are intentionally
@@ -249,3 +317,195 @@ def summarize(occurrences: list[dict], pages: list[dict], errors: list[dict]) ->
         "database_writes": 0,
         "detail_fetch_errors": errors,
     }
+
+
+_VOICE_ROLES = {
+    "soprano", "mezzosoprano", "mezzo-soprano", "contralto", "tenor",
+    "barítono", "baritono", "baritone", "bajo", "bass", "solista",
+    "narrador", "narradora", "violín", "violin", "viola", "violonchelo",
+    "violoncello", "contrabajo", "piano", "órgano", "organo", "guitarra",
+}
+_TEAM_ROLES = {
+    "director": "conductor", "directora": "conductor", "dirección": "conductor",
+    "direccion": "conductor", "maestro": "conductor", "regia": "stage_director",
+    "escena": "stage_director", "director de escena": "stage_director",
+    "solista": "performer",
+}
+
+
+def _auditorio_credits(lines: Iterable[str], detail_url: str) -> list[dict]:
+    """Turn explicit detail-page role suffixes into reviewable credit rows."""
+    result: list[dict] = []
+    for raw in lines:
+        text = clean(raw)
+        if not text:
+            continue
+        match = re.match(r"^(.*?)[,;]\s*([^,;]+)$", text)
+        if match:
+            artist, raw_role = (clean(value) for value in match.groups())
+            normalized = raw_role.casefold()
+            function = _TEAM_ROLES.get(normalized)
+            if function is None and normalized in _VOICE_ROLES:
+                function = "performer"
+            if function is None:
+                function = "artist"
+        else:
+            artist, raw_role = text, "ensemble"
+            function = "ensemble"
+        kind = "cast" if function == "performer" else "ensemble" if function == "ensemble" else "artistic_team"
+        result.append({
+            "artist_name": artist,
+            "source_role": raw_role,
+            "function": function,
+            "credit_kind": kind,
+            "source_url": detail_url,
+            "source_field": "official.detail.raw_artist_lines",
+            "raw_source_block": text,
+            "provenance": {"source_url": detail_url, "source_field": "official.detail.raw_artist_lines"},
+        })
+    return result
+
+
+def _auditorio_programme(lines: Iterable[str], title: str, detail_url: str) -> tuple[list[dict], str]:
+    values = [clean(line) for line in lines if clean(line)]
+    if not values:
+        return ([{
+            "source_title": title,
+            "raw_title": title,
+            "composer": None,
+            "source_programme_index": 1,
+            "raw_programme_index": 1,
+            "original_programme_order": 1,
+            "resolution_status": "review_required",
+            "provenance": {"source_url": detail_url, "source_field": "official.detail.title"},
+        }], "NO_PROGRAMME_EVIDENCE")
+    return ([{
+        "source_title": value,
+        "raw_title": value,
+        "composer": None,
+        "source_programme_index": index,
+        "raw_programme_index": index,
+        "original_programme_order": index,
+        "resolution_status": "pending_global_resolution",
+        "provenance": {"source_url": detail_url, "source_field": "official.detail.programme"},
+    } for index, value in enumerate(values, start=1)], "PROGRAMME_EVIDENCE_FOUND")
+
+
+class AuditorioNacionalAdapter:
+    """Canonical-event adapter over the official paginated Auditorio site.
+
+    Discovery rows remain occurrence-level.  A reused detail page is fetched
+    once, but its official date/time rows produce separate canonical events.
+    """
+
+    def __init__(self, settings: dict, fetch: Callable[[str], str] | None = None):
+        self.settings = settings
+        self._fetch = fetch or _fetch_url
+        self.last_errors: list[dict[str, str]] = []
+        self.requested_months: list[str] = []
+        self.successful_months: list[str] = []
+        self.failed_months: list[str] = []
+        self.source_pages: dict[str, str] = {}
+        self.listing_pages_requested: list[str] = []
+        self.listing_pages_successful: list[str] = []
+        self.listing_pages_failed: list[str] = []
+        self.detail_pages_requested: list[str] = []
+        self.detail_pages_successful: list[str] = []
+        self.detail_pages_failed: list[str] = []
+        self.productions_discovered = 0
+        self.detail_pages_out_of_season_skipped = 0
+        self.date_candidates_found = 0
+        self.date_candidates_accepted = 0
+        self.date_candidates_rejected = 0
+        self.date_year_unverified = 0
+        self.events_outside_season = 0
+        self.duplicate_performance_slot = 0
+        self.ambiguous_same_day_occurrence = 0
+        self.null_timed_shadow_duplicates = 0
+        self.year_inferred_without_production_evidence = 0
+
+    def ingest(self, season: str) -> list[CanonicalEvent]:
+        from season_ingestion.season import resolve_season_bounds
+
+        start, end = resolve_season_bounds(season, self.settings)
+        discovery_url = self.settings.get("discovery_source") or self.settings.get("official_source", DISCOVERY_URL)
+        try:
+            occurrences, pages = discover(self._fetch, season_start=start, season_end=end, discovery_url=discovery_url)
+        except Exception as exc:
+            self.requested_months.append(discovery_url)
+            self.listing_pages_requested.append(discovery_url)
+            self.failed_months.append(discovery_url)
+            self.listing_pages_failed.append(discovery_url)
+            self.last_errors.append({"url": discovery_url, "error": f"{type(exc).__name__}: {exc}"})
+            return []
+        for page in pages:
+            url = page["discovery_url"]
+            self.requested_months.append(url)
+            self.listing_pages_requested.append(url)
+            self.successful_months.append(url)
+            self.listing_pages_successful.append(url)
+            self.source_pages[url] = url
+        self.productions_discovered = len({row["source_url"] for row in occurrences})
+        self.date_candidates_found = len(occurrences)
+        enriched, errors = attach_details(occurrences, self._fetch, max_workers=int(self.settings.get("detail_workers", 8)))
+        detail_urls = list(dict.fromkeys(row["source_url"] for row in occurrences))
+        self.detail_pages_requested.extend(detail_urls)
+        self.detail_pages_successful.extend(url for url in detail_urls if url not in {item["source_url"] for item in errors})
+        self.detail_pages_failed.extend(item["source_url"] for item in errors)
+        self.requested_months.extend(detail_urls)
+        self.successful_months.extend(self.detail_pages_successful)
+        self.failed_months.extend(self.detail_pages_failed)
+        self.source_pages.update({url: url for url in self.detail_pages_successful})
+        self.last_errors.extend(errors)
+
+        events: list[CanonicalEvent] = []
+        slots: set[tuple[str, str, str, str | None]] = set()
+        for row in enriched:
+            try:
+                parsed = datetime.fromisoformat(str(row["raw_datetime"]))
+            except (KeyError, TypeError, ValueError):
+                self.date_candidates_rejected += 1
+                continue
+            event_date, start_time = parsed.date().isoformat(), parsed.strftime("%H:%M")
+            title = clean(row.get("raw_detail_title") or row.get("raw_title")) or "Auditorio Nacional event"
+            room = row.get("official_room_raw") if row.get("room_resolution_status") == "DETAIL_ROOM_VERIFIED" else None
+            programme, programme_status = _auditorio_programme(row.get("raw_programme_lines") or [], title, row["source_url"])
+            slot = (title, event_date, start_time, room)
+            if slot in slots:
+                self.duplicate_performance_slot += 1
+            slots.add(slot)
+            source_event_id = hashlib.sha256(f"{row['source_url']}|{row['raw_datetime']}|{title}".encode("utf-8")).hexdigest()[:24]
+            event = CanonicalEvent(
+                source=self.settings.get("source_id", SOURCE),
+                source_event_id=source_event_id,
+                source_url=row["source_url"],
+                organization=self.settings["organization"],
+                venue=self.settings["venue"],
+                city=self.settings["city"],
+                country=self.settings["country"],
+                timezone=self.settings["timezone"],
+                title=title,
+                date=event_date,
+                start_time=start_time,
+                end_time=None,
+                room=room,
+                event_type="performance",
+                classification="performance",
+                programme=programme,
+                credits=_auditorio_credits(row.get("raw_artist_lines") or [], row["source_url"]),
+                data_quality={
+                    "programme": {"status": programme_status, "reason": "official Auditorio detail page"},
+                    "room": row.get("room_resolution") or {},
+                    "detail_enrichment": {"status": "complete", "source_url": row["source_url"]},
+                },
+                raw={
+                    "listing_source_url": row.get("discovery_url"),
+                    "detail_source_url": row["source_url"],
+                    "source_occurrence": row.get("source_occurrence"),
+                    "raw_datetime": row.get("raw_datetime"),
+                },
+            )
+            event.validate()
+            events.append(event)
+            self.date_candidates_accepted += 1
+        return sorted({event.event_key: event for event in events}.values(), key=lambda event: (event.date, event.start_time or "", event.event_key))

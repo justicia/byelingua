@@ -1,0 +1,1851 @@
+{
+  "schema_version": "philharmonie-safe-venue-apply-preview-v1",
+  "mode": "read-only-preview",
+  "organization": {
+    "id": "eceaaed3-b119-48f1-b638-f7351669fe31",
+    "name": "Philharmonie de Paris",
+    "slug": "philharmonie-de-paris"
+  },
+  "operations": {
+    "step_1_create_safe_new_venues": [
+      {
+        "new_key": "cite_de_la_musique",
+        "name": "Cité de la musique",
+        "city": "Paris",
+        "organization_id": "eceaaed3-b119-48f1-b638-f7351669fe31"
+      },
+      {
+        "new_key": "grande_halle_de_la_villette",
+        "name": "Grande Halle de La Villette",
+        "city": "Paris",
+        "organization_id": "eceaaed3-b119-48f1-b638-f7351669fe31"
+      },
+      {
+        "new_key": "cnsmdp",
+        "name": "Conservatoire national supérieur de musique et de danse de Paris",
+        "city": "Paris",
+        "organization_id": "eceaaed3-b119-48f1-b638-f7351669fe31"
+      },
+      {
+        "new_key": "fondation_fiminco",
+        "name": "Fondation Fiminco",
+        "city": "Romainville",
+        "organization_id": "eceaaed3-b119-48f1-b638-f7351669fe31"
+      }
+    ],
+    "step_2_update_explicit_event_uuid_sets": [
+      {
+        "event_id": "ca3f8fb8-9646-4734-93d6-5d50e7838f7e",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "e4e9c26a-4ccc-411b-ad8a-7aa3f41a2f33",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "a322b558-638c-4c0b-a68c-f3c5bdc6eb26",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "1cceb3af-4cdc-4fb3-8adf-0e402e2372d4",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "bcb7fdc1-e5fe-4361-9ba7-c378dd692bf0",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "872473b5-7720-4147-9ee3-862faa01d9e5",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "31576f2e-b4be-4736-827f-7bac532c1437",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "87f9445d-1b94-4fb2-a21f-d7aa4149a63b",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "df384566-0ce9-4360-bde9-503f2a7c1975",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "f93b76b9-c7df-4324-b33c-785798e7d832",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "a46193a0-a47d-407d-a4d7-b07ee209c6a1",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "9c564325-7bd2-4441-8130-2f50e991fb98",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d73b59e4-0555-4057-94d2-1629da21db75",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "0a046d7c-87dc-4f06-a0b0-79e69101b259",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:fondation_fiminco"
+      },
+      {
+        "event_id": "b8160afc-7188-4190-9461-d52c9a9b8472",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:fondation_fiminco"
+      },
+      {
+        "event_id": "20429487-95e2-48c4-a926-32cf56663898",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "eca3f262-0407-4bbd-a802-ecef3bf99145",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "9fcc6a8c-f8ed-4db9-a43c-41267c2084aa",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "04c9be4a-2e20-4cf2-8fe5-1851ef63e01b",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "5948f6fe-03af-449b-9aef-1c3a1638eb53",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "2ec65377-0e55-4d6f-82fc-361d277673e9",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "5668b652-cc9f-4c41-bdec-b62fa1208833",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "27eeacfc-f519-4364-a192-ddae55709547",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "0242dd7b-1e78-4f2c-8eec-a98b46472164",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "d8719476-dab3-4cfc-a3d7-8a62d0813267",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "47231812-95f6-4c32-9733-5e1c29b04cc0",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "d1519381-e729-48d2-b430-f21f51f10cea",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d6e01a67-8568-47d5-9aca-f2f45779ace4",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "82cd5535-1002-40c1-8a45-d4594ae8be9c",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "f7951e03-f545-47b8-b9be-1229eaf4486e",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "89cca537-9f35-4cc8-bd52-d40fa85a444a",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "f5bb3c99-5dfd-4e72-95e9-adae2e85e09a",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d6310cf3-e871-4a1c-93c9-23b004d53905",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "cd051db3-0131-4e70-a53e-e2286b9758f8",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d9982e62-af86-4cb2-85d9-77988ce7b120",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "c36b823b-9a3d-4fd2-954c-f61f299efd53",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "364db3aa-6731-4951-97a2-732bda096e45",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "3af1e8dd-203c-4e13-ab8c-734cb156f392",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "09990888-2fc4-4586-865f-ee6483a0b54b",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "8894ecc1-5069-4db8-8e00-70fed476bec4",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "6a5ef75e-ee2f-46ea-875f-51ba39596ccb",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "c8f7f377-0d85-4c50-b9d0-9e832a965c57",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "e6ffa0ca-980e-4a14-92cf-f9fd715c0ffb",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "75bb4143-f6e0-49e1-b1c7-22c47df7e4c2",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "79282197-8b67-43a7-9d9b-6d8b6c1030a6",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "f3a82dec-e95e-4e63-a330-11be046a42f9",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "e41bb534-ed11-4bf4-88b6-2b7030cd44b4",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "ea595264-7d5e-467e-80c2-284437a22be5",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "b8e77213-dbea-4475-b07b-55b852a6d853",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d6ab34c3-669a-484c-bc19-e1e03c839c94",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "4492ff81-0e25-4eeb-adc0-c9ee9e34409d",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cnsmdp"
+      },
+      {
+        "event_id": "0883f987-781f-4ff1-970d-37c98010776d",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "523f2db5-95ed-48a9-bcde-63090c6da293",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cnsmdp"
+      },
+      {
+        "event_id": "931fa49c-ca18-4705-8ea8-b3dcde24d86e",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "766f6d88-3765-4a7f-b7db-2e793bc2e44e",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cnsmdp"
+      },
+      {
+        "event_id": "50551b83-418f-44d4-a909-af67ebc73126",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "47f5aa59-0cf8-4db5-8b74-732b0b17c4c3",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "8fc27c89-b99d-456a-82d2-97250c714205",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "1b1c55b0-a425-4fbc-8388-8025494d6d35",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "a1c790c5-2e35-48a7-a50f-36a78af21514",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "0f126fe0-3cef-4b33-80ac-d8c61423d517",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "cc3b64dc-b5fd-4af7-aa63-dcfecded3fbe",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "7f075525-2eaf-42a3-ad3a-c406a78661f7",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "9352a9a2-e020-4a70-bba4-2b27d5ef0c18",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d3964ca2-c3cc-4b3f-868f-3e5d520a128f",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "4f39e9c7-8a5d-4e98-88d3-ffb7264678e0",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "bb679704-177c-4694-b444-343ee45648d1",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "f3b80e75-7c5d-4d8e-89fd-fa2c24795788",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "57d9a470-034b-4501-8f8d-da1dbaa6d1e8",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "e3e5efbc-a424-4631-94de-e05ff2655a9f",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "44e014c4-0e9a-47e9-a4ff-833d5cbe1d62",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "236f4af8-5a69-45f7-91ed-5662218d94b3",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "6be32f12-9ff4-4287-9812-1613acc5c3ce",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "e6d847db-c231-4c54-8c51-2020e1fb5a43",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "f01d6059-1bd3-4f1a-9426-83d23ea6dc68",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:grande_halle_de_la_villette"
+      },
+      {
+        "event_id": "d34901f0-bc21-4d95-8d3c-bf12489a3296",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "34d093a7-18a2-49f2-9341-0a7dcf0255b8",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "e5045f7e-8e0e-468d-be36-248139ddba04",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "1f0e85a6-ca39-4436-bf89-24a7ad8339cd",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "2509da7d-e0e0-4f07-801f-aec7754c1d2e",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "e338941b-40c0-448b-a0f2-b14332d9b152",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "350b4123-e3d0-40e9-850e-325a4ff1ab9c",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "2624d675-de1b-4321-bd16-7113a40b227b",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "f97c2064-851c-4891-a032-5f233637af1e",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "8929da80-2c4b-45dd-aa41-ea5564ad733f",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "e9f44f79-56db-431b-8b01-64d715f5d215",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "d6d941a0-5187-47d1-9819-daa4d9dd0ae9",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "7aa37013-abe8-493c-9d56-2072af3202ec",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "30793a39-3236-402d-bf5d-2bbe26122fb9",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      },
+      {
+        "event_id": "1616a7e6-80d5-468b-9f9d-cd4d5cbfc075",
+        "from_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+        "to_venue_key": "new:cite_de_la_musique"
+      }
+    ],
+    "step_3_normalize_explicit_room_values": [
+      {
+        "event_id": "f12a7694-2e54-45cb-8b21-7dc754dc4be4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f4010c15-4250-494a-bf19-7c408fef693a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5659b658-7ba2-46fd-91a1-e2285dcd74b4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "90e91c00-137c-4e79-8b10-7169f0bd4429",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "178b0370-c84e-4397-8424-8dd9696221db",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "19b0a569-db4a-43f6-b8d7-1650d6cb5f55",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ca3f8fb8-9646-4734-93d6-5d50e7838f7e",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "e4e9c26a-4ccc-411b-ad8a-7aa3f41a2f33",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "2a5c1611-b131-4e8d-a6e4-9f92de262a6f",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "3ea86cd7-a32e-4f0d-ba7a-4df841417c62",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a322b558-638c-4c0b-a68c-f3c5bdc6eb26",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "c84d79c4-0e4a-4aa7-a9a6-c02803337591",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "7e7c7996-9eb7-4e96-94e1-bf6fe91bfafd",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1cceb3af-4cdc-4fb3-8adf-0e402e2372d4",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "e9d3b2c3-62b2-48a6-904a-113a266455c7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "b57435e9-f252-4b38-8e64-3d4c251e1e21",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "bcb7fdc1-e5fe-4361-9ba7-c378dd692bf0",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "94a65f1b-86ed-42a4-8ec1-97d1df857e29",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "4db2b9a1-3415-4734-8251-8bc60fd04ec7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f63e4020-a2a5-408b-bff7-0b6de23b9e75",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "7094f6bb-cfe5-4d12-b740-41eafa84b4f4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ffb8165c-f4e4-4955-97a5-94271ab9e4f1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "fe0a206b-ac63-4dfc-8bb7-851b7f2ac7e7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "fa5a6bf9-ff54-4b72-a4a4-4a168e42a091",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "4160338d-f4a0-448b-93d1-a3f48766c448",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5fe0ab08-2b22-4dd2-93c6-fc54f87098f4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "872473b5-7720-4147-9ee3-862faa01d9e5",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "31576f2e-b4be-4736-827f-7bac532c1437",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "c51c9b0f-3f24-45d1-b051-6a0b2bb37196",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "75a8712f-8058-4c9f-a0d7-f314808ca782",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "87f9445d-1b94-4fb2-a21f-d7aa4149a63b",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "84b42a48-fed0-4db0-938a-f314f006ee1b",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "55f22091-516e-45e8-beec-b2d6f5c4c3db",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "56bea449-db19-44cc-b9c9-ea299702663d",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0d58539c-6e1e-4813-9140-8e8e428852c9",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "dc955d36-c891-474f-a9a1-ece095effb25",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0865d984-2929-47d8-9a57-9ce122d65efe",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "c9277b1b-b6ed-4ed2-864b-1c239ad9f436",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "67a5d273-dd57-4a5e-8555-c33de358790a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f3373ebb-b982-455a-bd85-dc57f4ef5872",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ca2ff390-ffbe-43a6-ba26-1274717d4afa",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "47089b44-8e97-4047-8afd-5ac9b25ac9cd",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "df384566-0ce9-4360-bde9-503f2a7c1975",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "6599b4b1-d79f-4239-84a3-3af1ee24fb30",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "335dfe4c-5435-497d-8899-32601d2b1490",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9924c178-4ffc-4676-8040-1d5a3b4ba957",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f93b76b9-c7df-4324-b33c-785798e7d832",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "a46193a0-a47d-407d-a4d7-b07ee209c6a1",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "005cbe0a-875b-4115-bda6-b4d8bb68dd21",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "925943ed-4053-44cb-aa11-7adcc8f04601",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9c564325-7bd2-4441-8130-2f50e991fb98",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "d73b59e4-0555-4057-94d2-1629da21db75",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "ff770bd6-6ae8-4db4-8a1d-09211dd6dd37",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "c2eac1bb-ee2f-4478-8be6-731bc272444c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "4a576656-e794-4005-979c-edd1c70e09a4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "c6721dd8-5cca-4e61-b234-d80b0bc6a2d0",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0a046d7c-87dc-4f06-a0b0-79e69101b259",
+        "current_room": "Fondation Fiminco",
+        "proposed_room": null
+      },
+      {
+        "event_id": "5e4cafac-01e9-4eae-b2e5-290bf517b50c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "4385db0a-ec61-49ae-ba8b-dd853b18a069",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "b8160afc-7188-4190-9461-d52c9a9b8472",
+        "current_room": "Fondation Fiminco",
+        "proposed_room": null
+      },
+      {
+        "event_id": "20429487-95e2-48c4-a926-32cf56663898",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "22b2fad2-7153-4ba6-91b6-30a6df3868e5",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "eca3f262-0407-4bbd-a802-ecef3bf99145",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "cdd05d83-af40-49d2-b7b2-8c4699d47e3e",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9fcc6a8c-f8ed-4db9-a43c-41267c2084aa",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "2b2e5b38-b266-4ec2-8ea6-de5447470cb6",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "04c9be4a-2e20-4cf2-8fe5-1851ef63e01b",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "5948f6fe-03af-449b-9aef-1c3a1638eb53",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "2ec65377-0e55-4d6f-82fc-361d277673e9",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "5033f221-648c-4f3d-a8c2-e7eafbfb76d4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5668b652-cc9f-4c41-bdec-b62fa1208833",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "cd135d96-42d4-4a13-851d-b6b4e3d55544",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "27eeacfc-f519-4364-a192-ddae55709547",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "0242dd7b-1e78-4f2c-8eec-a98b46472164",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "d8719476-dab3-4cfc-a3d7-8a62d0813267",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "47231812-95f6-4c32-9733-5e1c29b04cc0",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "9d3df7f7-3b47-46ca-b8b5-0cff2a448808",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "48416348-0262-491d-82a1-a83301104ec6",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9835277e-f327-4ccc-b2f1-306c86f29b55",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1063f4f4-e42a-41e7-bb13-7d2e5b77225a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d1519381-e729-48d2-b430-f21f51f10cea",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "83ab7154-d71d-462b-a0e6-c1347f649528",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d6e01a67-8568-47d5-9aca-f2f45779ace4",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "ae04c19c-ae1c-4dff-b307-404221cec3d3",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ad280ea3-ab22-441b-b8ef-ab4b96737864",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0d9c4e80-670d-43f0-98b1-9f39b855449e",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5d6f0789-15fd-41ce-95d8-1e191002ccfd",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "8b947a5b-9bfd-49d3-b08b-8aaca94f296d",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0fdd6e10-a9ea-4a9d-9851-d0313bffd5d7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "82cd5535-1002-40c1-8a45-d4594ae8be9c",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "ace71f50-7db1-40c7-a0ad-c63fed75007e",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "05d8375c-14cb-4210-986c-1b92df905f29",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f7951e03-f545-47b8-b9be-1229eaf4486e",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "0eedb437-4e3c-494c-b8b5-99882a46b219",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ff3d2146-2985-48aa-8bfa-7dc908253e85",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5211d194-dcf3-499e-87c5-d42f9a4ad9bf",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "06332cd6-d38f-4cce-af0b-95232bcb97cf",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9ad8183d-d7a0-44d5-8aae-ac1331de7978",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "89cca537-9f35-4cc8-bd52-d40fa85a444a",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "b210de80-23a7-4980-9cd5-ebdb662c916e",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9ec02063-5f97-4c78-ab84-d59d994779a9",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f5bb3c99-5dfd-4e72-95e9-adae2e85e09a",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "d6310cf3-e871-4a1c-93c9-23b004d53905",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "cd051db3-0131-4e70-a53e-e2286b9758f8",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "d9982e62-af86-4cb2-85d9-77988ce7b120",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "c36b823b-9a3d-4fd2-954c-f61f299efd53",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "4d297e6c-e9ff-4739-a354-e7433f494fe4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a7fbc5f1-4a3f-49dd-bcd1-fdd65ab3978c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "3aa99dcb-dd41-4f4c-af81-1b0893d91324",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d31c9004-d71c-438f-9843-b20dfd493343",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "09aa5067-67a4-4652-a661-bf6606f21cfe",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5b6e1a09-de1e-445e-b224-ea5130cc82cf",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "ea93f417-3115-45fc-afe0-76b74df7f11d",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a3e781b4-51ee-4517-b219-13ecef6b1678",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "35c6dc68-6e56-4225-8870-44adf2e1b66a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "30aba3b4-5ee0-438f-906f-0a78c9e37114",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "8f1b4859-2c5f-4d40-9ff8-8c4c03aa8ca6",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "c8747a09-4e1d-4d17-804b-1bfd8a6e0c52",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "364db3aa-6731-4951-97a2-732bda096e45",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "8017d403-5354-4e55-a1a9-9abc65a8251c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "3af1e8dd-203c-4e13-ab8c-734cb156f392",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "54f1f95a-69b3-480a-a80c-9ae06dd53d7c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "55f12ac4-58ad-4887-8a74-8f3b6193d084",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d391141e-4a9a-4bb9-ae2c-6ce13eb0ba4f",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "106f8f10-13fc-42c0-aaa8-5cd61a043987",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "dbaf4a1d-9404-499b-be6e-bb6182073fb8",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a3ea8227-e1e9-49da-b56b-530aeb35d598",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1ef84d48-9c37-4255-adf5-e26e7c4de606",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "6f904929-ffd2-4821-b1b2-f677fba36d26",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "38d6ae0c-4513-406d-a084-35a9d58c7962",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "7edafe3f-a6da-45b9-9ba1-464a8ecccfb3",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "09990888-2fc4-4586-865f-ee6483a0b54b",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "36a719d1-9110-426b-a4d1-b987d5b5ac1a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "8c97c517-d1ec-44a3-a5c0-5d4aaef89e19",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "514989b9-0d04-4a33-908c-6ffb5c129826",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "8894ecc1-5069-4db8-8e00-70fed476bec4",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "fb6036e3-9963-4d3d-8c60-bf39732c5222",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "6a5ef75e-ee2f-46ea-875f-51ba39596ccb",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "ea9af35b-0780-4159-8a02-f095f68ba32d",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9311347d-bbdd-4fe8-85d9-21f30667c5a3",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "c8f7f377-0d85-4c50-b9d0-9e832a965c57",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "1ddd31ac-ca10-4db9-a5dd-09549b8f6dc4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f50fb72f-4f4f-42bc-93ee-b9c262919904",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5b0edf2e-b1ff-478a-a267-58f5f7fbdc15",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "e6ffa0ca-980e-4a14-92cf-f9fd715c0ffb",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "6ada2a04-9448-4a09-9ed5-9c85301e8389",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ac89096a-f71e-44ba-81cd-6ae052be0242",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "75bb4143-f6e0-49e1-b1c7-22c47df7e4c2",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "df7caac7-a77a-48ae-b6d7-517bc838129f",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "36a4a60d-720d-4e8f-9a21-e3e54a367243",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "79282197-8b67-43a7-9d9b-6d8b6c1030a6",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "937af9b3-b34c-4608-a2b2-d6b386ba2d95",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "f3a82dec-e95e-4e63-a330-11be046a42f9",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "861db09a-ab47-4616-8c59-d16c01f1ce16",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "db6513cd-8313-4156-b9a1-04b81fb1e255",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "e41bb534-ed11-4bf4-88b6-2b7030cd44b4",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "ea595264-7d5e-467e-80c2-284437a22be5",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "7ef2ed70-9abd-4a1d-8f04-62c2d8098028",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "b8e77213-dbea-4475-b07b-55b852a6d853",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "346e6896-702b-4877-8e0e-bf3b762f2b69",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d6ab34c3-669a-484c-bc19-e1e03c839c94",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "3844a94b-0dcb-4a40-b4a2-019786413264",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "e4fdcd80-3cac-4c85-8ea4-22fe414db9d1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "4492ff81-0e25-4eeb-adc0-c9ee9e34409d",
+        "current_room": "CNSMDP - Salle Rémy Pflimlin",
+        "proposed_room": "Salle Rémy Pflimlin"
+      },
+      {
+        "event_id": "8fb047c7-76a2-46bc-8ec1-0772ef8a85d2",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "c877d7ee-2442-49aa-8af9-8518b5340387",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0883f987-781f-4ff1-970d-37c98010776d",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "523f2db5-95ed-48a9-bcde-63090c6da293",
+        "current_room": "CNSMDP - Salle Rémy Pflimlin",
+        "proposed_room": "Salle Rémy Pflimlin"
+      },
+      {
+        "event_id": "f3d69749-144f-4b3f-a039-8593ee610f75",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "39fbb95e-7593-4e39-94b9-e9de236c2709",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "931fa49c-ca18-4705-8ea8-b3dcde24d86e",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "766f6d88-3765-4a7f-b7db-2e793bc2e44e",
+        "current_room": "CNSMDP - Salle Rémy Pflimlin",
+        "proposed_room": "Salle Rémy Pflimlin"
+      },
+      {
+        "event_id": "5ef69b90-b471-497d-8b64-86d1b911b099",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1a4e8104-3223-4ed7-a26c-d16b074972c4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9d475ff4-9e58-442a-8e6b-cccb90b4c715",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "30fd0945-2881-47a2-a004-241eb1162b7e",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9e0b5415-c9ec-4f66-8e53-72beaf32e881",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "29e19aa1-8a39-473d-b6b5-223324e245d1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "33a9cb63-3fe6-448d-9a11-e4f4827f008d",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a75e34cb-6b1e-4089-95c9-370ffbd4639d",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "2868f3b3-0558-4c7f-881f-86e0d32878ea",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "294b19cc-7158-483d-a0a5-d60c915c3550",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "50551b83-418f-44d4-a909-af67ebc73126",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "5222e090-d5b1-4d97-a22e-c1aa3412e7da",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d700f769-e4d9-4ab7-bb71-b3bb4ca36f3f",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "47f5aa59-0cf8-4db5-8b74-732b0b17c4c3",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "8fc27c89-b99d-456a-82d2-97250c714205",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "db50fbb5-9ffd-42e4-adf7-59044c892034",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1b1c55b0-a425-4fbc-8388-8025494d6d35",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "a1c790c5-2e35-48a7-a50f-36a78af21514",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "fcac4c7b-ec88-452a-a4af-f54d3e47d6ab",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ea66b65a-7351-4cf3-9bba-b3e6f4a7e87c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "0f126fe0-3cef-4b33-80ac-d8c61423d517",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "d19a26b9-5860-4635-98b1-ef7ca8fa5cd1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a6998150-41b6-4e8b-bc87-ddcf5c3b312f",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d063d67a-616e-4c3b-a7ef-9c85aea9f27b",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a619bf2c-cd4c-4bd4-96e1-f579520cbec7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "cc3b64dc-b5fd-4af7-aa63-dcfecded3fbe",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "7509d743-d38d-4ac1-a7b5-74b6e4ac3c99",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "6c2493fd-bbdc-491b-8743-b08954713d7c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "27ce665f-dc56-4255-aae8-3b73af9a80b7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "7f075525-2eaf-42a3-ad3a-c406a78661f7",
+        "current_room": "Musée de la musique - Cité de la musique",
+        "proposed_room": "Musée de la musique"
+      },
+      {
+        "event_id": "ba807541-08d2-4b91-97a4-caaabf8344bc",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "375349cd-4316-4455-8fc1-4c90e353939a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9352a9a2-e020-4a70-bba4-2b27d5ef0c18",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "d3964ca2-c3cc-4b3f-868f-3e5d520a128f",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "3079bfca-e254-4036-9b28-2a83f69b13e8",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "a5c3ab1a-71a4-4959-8e4d-52f1b965d0df",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "3c9b2f70-9edc-4b78-ac89-f3914cffdc5f",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "8cde4998-f687-4e2e-8a96-3e2f420ab70c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "18755919-b574-4233-9dec-f8921f34d1b6",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "4f39e9c7-8a5d-4e98-88d3-ffb7264678e0",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "bb679704-177c-4694-b444-343ee45648d1",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "f3b80e75-7c5d-4d8e-89fd-fa2c24795788",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "57d9a470-034b-4501-8f8d-da1dbaa6d1e8",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "e3e5efbc-a424-4631-94de-e05ff2655a9f",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "44e014c4-0e9a-47e9-a4ff-833d5cbe1d62",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "51ae856a-f6d3-4df2-89c2-aef8cfe4fe8a",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "236f4af8-5a69-45f7-91ed-5662218d94b3",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "6be32f12-9ff4-4287-9812-1613acc5c3ce",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "95732277-23cc-4795-bf50-a250df2dbc78",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "e6d847db-c231-4c54-8c51-2020e1fb5a43",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "f01d6059-1bd3-4f1a-9426-83d23ea6dc68",
+        "current_room": "Grande Halle de La Villette",
+        "proposed_room": null
+      },
+      {
+        "event_id": "01bea1ed-2d00-4af7-80f8-106631110b77",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d34901f0-bc21-4d95-8d3c-bf12489a3296",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "a0bc70f5-0108-4038-a5bf-e15d591b68c0",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "02805e93-eee8-45ff-8aaf-dfc4c2f51917",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "737a9a12-2bb4-47b9-bde4-725ad6a2ea55",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9b0d58d4-3204-4602-b5dd-d35e903418d3",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "74396861-5208-4538-83a8-300ccb2732f0",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "27b7bb67-2bf2-46e5-b635-f6f4ff44f151",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "20eebea8-c18e-4e82-ad78-2e772443a165",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "34d093a7-18a2-49f2-9341-0a7dcf0255b8",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "e5045f7e-8e0e-468d-be36-248139ddba04",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "1f0e85a6-ca39-4436-bf89-24a7ad8339cd",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "bd6c59bd-ace3-473b-903a-530641cff2c7",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f20f76a6-271e-4fa5-b082-59b149ff6ded",
+        "current_room": "Le Studio - Philharmonie",
+        "proposed_room": "Le Studio"
+      },
+      {
+        "event_id": "21e92929-5043-4859-bbb6-49addcb545fa",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "2509da7d-e0e0-4f07-801f-aec7754c1d2e",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "e338941b-40c0-448b-a0f2-b14332d9b152",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "f7d8954a-dcf9-41e6-9608-21c4ef3f05ee",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "f5c7c770-fd88-4fa6-9a18-d493492b7555",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "39c655e3-fbff-4fc3-ac90-e20e7a97cbf6",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "5a7c2d97-c38a-46ba-b70c-e514e20614b3",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "e86ffee6-a97f-4ced-bb8c-471b5ebf31f1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "350b4123-e3d0-40e9-850e-325a4ff1ab9c",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "f1597ef0-91ea-46e2-b45e-8277315e4741",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1719f324-3a67-4e46-9825-9986438c8663",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "2624d675-de1b-4321-bd16-7113a40b227b",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "f97c2064-851c-4891-a032-5f233637af1e",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "8929da80-2c4b-45dd-aa41-ea5564ad733f",
+        "current_room": "Amphithéâtre - Cité de la musique",
+        "proposed_room": "Amphithéâtre"
+      },
+      {
+        "event_id": "9bf03cbb-0ca6-408b-b788-0a539b9b0287",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "e9f44f79-56db-431b-8b01-64d715f5d215",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "1c8d74a9-7049-4089-ad4f-9e7369ff9b7e",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "d6d941a0-5187-47d1-9819-daa4d9dd0ae9",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "df8e782a-8665-4f93-9038-0d2188f296c4",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "ef13297e-0296-41f8-8606-c34237d1b506",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "901af59c-44d0-47cf-bdfe-dabbd1e39584",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "60149b06-55e6-46bb-90bd-a1832fd1ceb1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "9b07b6ad-7644-480c-9a55-11473ff70ef1",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "aad588ff-57e1-4aca-b2e3-2874db96147b",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "38755ac2-66e5-468f-a1a2-f2fac9843d5c",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "8f2e48b9-68a4-4656-a3c0-06616fd32cbe",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "7aa37013-abe8-493c-9d56-2072af3202ec",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "30793a39-3236-402d-bf5d-2bbe26122fb9",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "d220ad7d-d145-4104-999a-c9b5d627573b",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      },
+      {
+        "event_id": "1616a7e6-80d5-468b-9f9d-cd4d5cbfc075",
+        "current_room": "Salle des concerts - Cité de la musique",
+        "proposed_room": "Salle des concerts"
+      },
+      {
+        "event_id": "0128530e-4f34-4752-9e8e-ef2532e304c3",
+        "current_room": "Grande salle Pierre Boulez - Philharmonie",
+        "proposed_room": "Grande salle Pierre Boulez"
+      }
+    ]
+  },
+  "expected_distribution": {
+    "philharmonie_de_paris": 178,
+    "cite_de_la_musique": 73,
+    "grande_halle_de_la_villette": 12,
+    "cnsmdp": 3,
+    "fondation_fiminco": 2,
+    "review": 0
+  },
+  "hard_gates": {
+    "duplicate_event_identity_after": 0,
+    "duplicate_performance_slot_after": 0,
+    "null_timed_shadow_duplicates_after": 0,
+    "ambiguous_same_day_occurrence_after": 0,
+    "event_key_changes": 0,
+    "classified_events": 268,
+    "unclassified_events": 0,
+    "new_venue_identity_unresolved": 0,
+    "review_event_in_safe_update": 0
+  },
+  "production_writes": 0
+}

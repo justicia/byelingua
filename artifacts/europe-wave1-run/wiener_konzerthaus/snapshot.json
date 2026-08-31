@@ -1,0 +1,28 @@
+{
+  "generated_at": "2026-08-31T10:26:39.902536+00:00",
+  "source": "read-only-empty-fallback",
+  "freshness_seconds": 0,
+  "entities": {
+    "composer": [],
+    "artist": [],
+    "work": [],
+    "character": []
+  },
+  "composer_aliases": [],
+  "work_aliases": [],
+  "artist_aliases": [],
+  "character_aliases": [],
+  "work_characters": [],
+  "health": {
+    "preflight_status": "FAIL",
+    "global_master_loaded": false,
+    "project_target_verified": false,
+    "composers_count": 0,
+    "composer_aliases_count": 0,
+    "works_count": 0,
+    "work_aliases_count": 0,
+    "loaded_at": "2026-08-31T10:26:39.902536+00:00",
+    "query_errors": 1,
+    "error_code": "GLOBAL_MASTER_UNAVAILABLE"
+  }
+}
