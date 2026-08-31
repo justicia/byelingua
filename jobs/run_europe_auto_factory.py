@@ -19,6 +19,46 @@ from season_ingestion.incremental import load_source_state, save_source_state, s
 from season_ingestion.venue_targets import load_targets
 
 
+def _isolated_failure_result(target: dict, output_root: Path, exc: Exception) -> dict:
+    """Turn an unexpected venue exception into one isolated batch blocker."""
+    venue_id = str(target["venue_id"])
+    output_dir = output_root / venue_id
+    summary_path = output_dir / "summary.json"
+    try:
+        summary = json.loads(summary_path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, OSError, ValueError):
+        summary = {}
+    if not isinstance(summary, dict):
+        summary = {}
+    summary.update({
+        "venue": venue_id,
+        "season": target["season"],
+        "source_capability": "FAILED",
+        "passed": False,
+        "failure_reason": str(exc)[:300],
+        "factory_exception": type(exc).__name__,
+    })
+    if "duplicate safe event credit identity" in str(exc).casefold():
+        blocker = "SAFE production graph staging rejected duplicate event credit identity"
+        next_fix = "Deduplicate safe event credit identities before payload validation, then rerun this venue"
+    else:
+        blocker = str(exc)[:300]
+        next_fix = "Inspect the isolated factory exception and rerun this venue"
+    result = {
+        "venue_id": venue_id,
+        "season": target["season"],
+        "status": "FAILED",
+        "production_writes": 0,
+        "blocker": blocker,
+        "next_technical_fix": next_fix,
+        "summary": summary,
+    }
+    output_dir.mkdir(parents=True, exist_ok=True)
+    summary_path.write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output_dir / "onboarding_status.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return result
+
+
 def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path) -> dict:
     targets = load_targets(season=season, scope=scope, selected=selected)
     previous = load_source_state(state_path)
@@ -26,12 +66,16 @@ def run_factory(*, season: str, scope: str, selected: list[str], output_root: Pa
     results = []
     for target in targets:
         key = state_key(str(target["venue_id"]), season)
-        results.append(run_target(
-            target,
-            output_root,
-            scope="full-season",
-            previous_source_hash=previous.get(key),
-        ))
+        try:
+            result = run_target(
+                target,
+                output_root,
+                scope="full-season",
+                previous_source_hash=previous.get(key),
+            )
+        except Exception as exc:
+            result = _isolated_failure_result(target, output_root, exc)
+        results.append(result)
         summary = results[-1].get("summary") or {}
         if summary.get("source_capability") == "SOURCE_PASS" and summary.get("source_fingerprint"):
             entries[key] = summary["source_fingerprint"]
