@@ -33,6 +33,7 @@ jobs:
       FACTORY_SEASON: ${{ inputs.season || '2026-27' }}
       FACTORY_SCOPE: ${{ inputs.scope || 'all-enabled' }}
       FACTORY_VENUE_IDS: ${{ inputs.venue_ids || '' }}
+      BYELINGUA_HERMES_ACQUIRE_COMMAND: python jobs/hermes_acquire_worker.py
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_READONLY_KEY: ${{ secrets.SUPABASE_READONLY_KEY }}
     steps:
