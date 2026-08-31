@@ -114,3 +114,40 @@ def test_pipeline_uses_hermes_fallback_before_shared_normalization(monkeypatch, 
     assert summary["hermes_fallback"]["status"] == "PASS"
     assert summary["counts"]["events"] == 1
     assert summary["counts"]["writes"] == 0
+
+
+def test_pipeline_replays_validated_hermes_artifact_without_refetch(monkeypatch, tmp_path):
+    config = {
+        "official_source": "https://official.example/season",
+        "source_id": "berlin",
+        "organization": "Staatsoper Unter den Linden",
+        "venue": "Staatsoper Unter den Linden",
+        "city": "Berlin",
+        "country": "Germany",
+        "timezone": "Europe/Berlin",
+        "source_contract": {"schema_version": "official-source-contract-v2", "writes": False},
+    }
+
+    class Adapter:
+        last_errors = []
+
+        def ingest(self, season):
+            raise AssertionError("validated Hermes artifact replay must not refetch the source")
+
+    artifact = tmp_path / "hermes-source-facts.json"
+    artifact.write_text(json.dumps(_facts(), ensure_ascii=False), encoding="utf-8")
+    monkeypatch.setattr(pipeline, "load_registry", lambda: {"venues": {"berlin": config}})
+    monkeypatch.setattr(pipeline, "load_adapter", lambda venue: Adapter())
+    monkeypatch.setattr(pipeline, "load_global_snapshot", lambda path=None: pipeline.empty_global_snapshot("2026-01-01T00:00:00+00:00"))
+
+    summary = pipeline.run_pipeline(
+        venue="berlin",
+        season="2026-27",
+        output_dir=tmp_path / "output",
+        hermes_source_facts_path=artifact,
+    )
+    assert summary["source_capability"] == "SOURCE_PASS"
+    assert summary["hermes_fallback"]["status"] == "PASS"
+    assert summary["hermes_fallback"]["acquisition_mode"] == "validated_source_facts_artifact"
+    assert summary["counts"]["events"] == 1
+    assert summary["counts"]["writes"] == 0

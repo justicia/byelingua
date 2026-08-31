@@ -97,11 +97,11 @@ def classify_summary(summary: dict[str, Any]) -> str:
     return "REVIEW_REQUIRED" if summary.get("counts", {}).get("review_items", 0) else "FAILED"
 
 
-def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path | None = None, scope: str = "full-season", previous_source_hash: str | None = None) -> dict[str, Any]:
+def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path | None = None, scope: str = "full-season", previous_source_hash: str | None = None, hermes_source_facts_path: Path | None = None) -> dict[str, Any]:
     venue_id = target["venue_id"]
     output_dir = output_root / venue_id
     try:
-        summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", scope=scope, output_dir=output_dir, snapshot_path=snapshot_path)
+        summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", scope=scope, output_dir=output_dir, snapshot_path=snapshot_path, hermes_source_facts_path=hermes_source_facts_path)
         summary["incremental"] = compare_source_fingerprint(previous_source_hash, summary.get("source_fingerprint"))
         required_artifacts = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary")
         artifact_checks = {}
