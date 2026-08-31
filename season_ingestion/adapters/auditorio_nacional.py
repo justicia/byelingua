@@ -474,7 +474,7 @@ class AuditorioNacionalAdapter:
             if slot in slots:
                 self.duplicate_performance_slot += 1
             slots.add(slot)
-            source_event_id = hashlib.sha256(f"{row['source_url']}|{row['raw_datetime']}|{title}".encode("utf-8")).hexdigest()[:24]
+            source_event_id = hashlib.sha256(f"{row['source_url']}|{row['raw_datetime']}".encode("utf-8")).hexdigest()[:24]
             event = CanonicalEvent(
                 source=self.settings.get("source_id", SOURCE),
                 source_event_id=source_event_id,
