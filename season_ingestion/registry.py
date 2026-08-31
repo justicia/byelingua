@@ -15,6 +15,12 @@ def load_registry(path: Path = REGISTRY_PATH) -> dict[str, Any]:
         raise ValueError("unsupported venue registry schema")
     if not isinstance(payload.get("venues"), dict) or not payload["venues"]:
         raise ValueError("venue registry must contain venues")
+    for venue_id, config in payload["venues"].items():
+        if not isinstance(config, dict) or not config.get("adapter") or not config.get("official_source"):
+            raise ValueError(f"venue registry entry is incomplete: {venue_id}")
+        contract = config.get("source_contract")
+        if not isinstance(contract, dict) or contract.get("schema_version") != "official-source-contract-v2" or contract.get("writes") is not False:
+            raise ValueError(f"venue registry source contract is missing or write-enabled: {venue_id}")
     return payload
 
 
