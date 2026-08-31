@@ -14,4 +14,36 @@
     `;document.head.append(style)
   }
   window.ByelinguaHeader={mount:function(target,options){if(!target)return;options=options||{};const i18n=window.ByelinguaI18n;target.classList.add('byelingua-compact-header');target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span><span class="byelingua-compact-spacer"></span><div class="byelingua-compact-actions"><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account></button><button id="logoutButton" type="button" data-shared-signout></button><button type="button" data-shared-language="zh">中文</button><button type="button" data-shared-language="en">English</button></div></div>';const render=()=>{const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');target.querySelector('[data-shared-account]').textContent=language==='en'?'User Center':'用户中心';target.querySelector('[data-shared-signout]').textContent=language==='en'?'Sign out':'退出登录';target.querySelectorAll('[data-shared-language]').forEach(button=>button.classList.toggle('active',button.dataset.sharedLanguage===language));document.documentElement.lang=language==='en'?'en-GB':'zh-CN'};target.querySelectorAll('[data-shared-language]').forEach(button=>button.onclick=()=>{localStorage.setItem('byelinguaUiLanguage',button.dataset.sharedLanguage);window.dispatchEvent(new CustomEvent('byelingua-language-change',{detail:button.dataset.sharedLanguage}));render()});target.querySelector('[data-shared-account]').onclick=()=>location.href='/account.html';target.querySelector('[data-shared-signout]').onclick=async()=>{try{const cfg=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_auth_config'})}).then(r=>r.json());if(window.supabase){const client=window.supabase.createClient(cfg.url,cfg.publishable_key);await client.auth.signOut()}}finally{location.href='/'}};render();window.addEventListener('byelingua-language-change',render);return target}};
+
+  // Schedule-only main-branch hotfix: keep long result sets on a compact paginator.
+  window.addEventListener('load',()=>{
+    if(!document.getElementById('eventPagination')||typeof renderEventPagination!=='function')return;
+    renderEventPagination=function(){
+      const totalPages=Math.max(1,Math.ceil(events.length/eventPageSize));
+      eventPage=Math.min(Math.max(1,eventPage),totalPages);
+      if(events.length<=eventPageSize){eventPagination.innerHTML='';return}
+      const pages=[];
+      if(totalPages<=7){
+        for(let page=1;page<=totalPages;page++)pages.push(page);
+      }else if(eventPage<=3){
+        pages.push(1,2,3,'ellipsis',totalPages);
+      }else if(eventPage>=totalPages-2){
+        pages.push(1,'ellipsis',totalPages-2,totalPages-1,totalPages);
+      }else{
+        pages.push(1,'ellipsis',eventPage-1,eventPage,eventPage+1,'ellipsis',totalPages);
+      }
+      const pageHtml=pages.map(page=>page==='ellipsis'
+        ?'<span class="pagination-ellipsis" aria-hidden="true">…</span>'
+        :`<button type="button" class="secondary ${eventPage===page?'active':''}" data-page-number="${page}" ${eventPage===page?'aria-current="page"':''}>${page}</button>`
+      ).join('');
+      eventPagination.innerHTML=`<button type="button" class="secondary" data-page-prev ${eventPage===1?'disabled':''}>Previous</button>${pageHtml}<button type="button" class="secondary" data-page-next ${eventPage===totalPages?'disabled':''}>Next</button>`;
+      eventPagination.querySelector('[data-page-prev]')?.addEventListener('click',()=>{eventPage--;renderEvents()});
+      eventPagination.querySelector('[data-page-next]')?.addEventListener('click',()=>{eventPage++;renderEvents()});
+      eventPagination.querySelectorAll('[data-page-number]').forEach(button=>button.addEventListener('click',()=>{eventPage=Number(button.dataset.pageNumber);renderEvents()}));
+    };
+    const compactStyle=document.createElement('style');
+    compactStyle.textContent='.event-pagination .pagination-ellipsis{display:inline-flex;align-items:center;justify-content:center;min-width:24px;color:#68716b}';
+    document.head.appendChild(compactStyle);
+    renderEventPagination();
+  });
 })();
