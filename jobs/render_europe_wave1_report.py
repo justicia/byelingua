@@ -18,25 +18,39 @@ WAVE1_VENUES = {
 }
 
 
+def _classification(item: dict) -> str:
+    summary = item.get("summary") or {}
+    source = summary.get("source_capability")
+    counts = summary.get("counts") or {}
+    events = int(counts.get("events", counts.get("events_discovered", 0)) or 0)
+    if item.get("status") == "FAILED" or source in {"SOURCE_BLOCKED", "SOURCE_UNSUPPORTED", "ADAPTER_REQUIRED", "FAILED"} or events <= 0:
+        return "BLOCKED"
+    if item.get("status") == "READY_FOR_APPROVAL" and source == "SOURCE_PASS":
+        return "PASS"
+    return "PARTIAL"
+
+
 def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
     venues = summary.get("venues") or []
-    ready = [item for item in venues if item.get("status") == "READY_FOR_APPROVAL"]
-    blocked = [item for item in venues if item.get("status") != "READY_FOR_APPROVAL"]
-    new_ready = sum(item.get("venue_id") in WAVE1_VENUES for item in ready)
+    classifications = [{"venue": item.get("venue_id"), "status": _classification(item)} for item in venues]
+    accepted = [item for item in venues if _classification(item) in {"PASS", "PARTIAL"}]
+    blocked = [item for item in venues if _classification(item) == "BLOCKED"]
+    new_ready = sum(item.get("venue_id") in WAVE1_VENUES for item in accepted)
     events = programme = credits = 0
-    for item in ready:
+    for item in accepted:
         counts = (item.get("summary") or {}).get("counts") or {}
         events += int(counts.get("events", counts.get("events_discovered", 0)) or 0)
         programme += int(counts.get("safe_programme_relationships", 0) or 0)
         credits += int(counts.get("credits_safe", 0) or 0)
     return {
         "VENUES_ATTEMPTED": len(venues),
-        "VENUES_PRODUCTION_READY": len(ready),
+        "VENUES_PRODUCTION_READY": len(accepted),
         "VENUES_BLOCKED": len(blocked),
         "TOTAL_PRODUCTION_VENUES": existing_production_venues + new_ready,
         "TOTAL_EVENTS": events,
         "TOTAL_PROGRAMME_RELATIONSHIPS": programme,
         "TOTAL_CREDITS": credits,
+        "classifications": classifications,
         "blocked": [{"venue": item.get("venue_id"), "blocker": item.get("blocker") or (item.get("summary") or {}).get("failure_reason"), "next technical fix": item.get("next_technical_fix") or "Rerun the isolated venue after the blocker is fixed"} for item in blocked],
     }
 

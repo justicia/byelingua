@@ -117,9 +117,12 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
             "all_required_present_and_valid": all(artifact_checks.values()),
         }
         status = classify_summary(summary)
-    except (KeyError, ModuleNotFoundError, ValueError):
-        summary = {"venue": venue_id, "season": target["season"], "source_capability": "ADAPTER_REQUIRED", "counts": {"writes": 0}, "passed": False, "failure_reason": "No verified reusable venue adapter is registered"}
+    except (KeyError, ModuleNotFoundError) as exc:
+        summary = {"venue": venue_id, "season": target["season"], "source_capability": "ADAPTER_REQUIRED", "counts": {"writes": 0}, "passed": False, "failure_reason": str(exc)[:300], "factory_exception": type(exc).__name__}
         status = "ADAPTER_REQUIRED"
+    except ValueError as exc:
+        summary = {"venue": venue_id, "season": target["season"], "source_capability": "FAILED", "counts": {"writes": 0}, "passed": False, "failure_reason": str(exc)[:300], "factory_exception": type(exc).__name__}
+        status = "FAILED"
     except Exception as exc:
         summary = {"venue": venue_id, "season": target["season"], "source_capability": "FAILED", "counts": {"writes": 0}, "passed": False, "failure_reason": str(exc)[:300]}
         status = "FAILED"
