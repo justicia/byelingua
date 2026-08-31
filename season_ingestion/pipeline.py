@@ -17,7 +17,7 @@ from .registry import load_adapter, load_registry
 from .credit_resolution import stage_credits
 from .incremental import source_fingerprint
 from .supabase import ExistingRecord, fetch_existing_sources
-from .hermes_acquisition import HermesAcquisitionError, acquire_events, eligible_for_fallback
+from .hermes_acquisition import HermesAcquisitionError, acquire_events, eligible_for_fallback, facts_to_events
 
 
 def _composer_trace(programme_rows: list[dict[str, Any]], snapshot: Any) -> dict[str, list[dict[str, Any]]]:
@@ -110,7 +110,7 @@ def match_existing_events(events: list[Any], existing: list[ExistingRecord]) -> 
     }
 
 
-def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str = "full-season", output_dir: Path = Path("season-ingestion-output"), snapshot_path: Path | None = None) -> dict[str, Any]:
+def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str = "full-season", output_dir: Path = Path("season-ingestion-output"), snapshot_path: Path | None = None, hermes_source_facts_path: Path | None = None) -> dict[str, Any]:
     if mode not in {"dry-run", "apply"}:
         raise ValueError("mode must be dry-run or apply")
     if mode == "apply":
@@ -132,29 +132,45 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
         )
         adapter.allowed_detail_urls = {record.source_url for record in existing_records if record.source_url}
     force_hermes = os.getenv("BYELINGUA_FORCE_HERMES_FALLBACK", "").casefold() in {"1", "true", "yes"}
-    events = [] if force_hermes else adapter.ingest(season)
     hermes_fallback: dict[str, Any] = {"attempted": False, "status": "NOT_ATTEMPTED"}
-    if eligible_for_fallback(events=events, adapter=adapter, force=force_hermes) and os.getenv("BYELINGUA_HERMES_ACQUIRE_COMMAND"):
-        try:
-            facts, hermes_events = acquire_events(
-                venue=venue,
-                season=season,
-                config=config,
-                reason="forced_validation" if force_hermes else "deterministic_source_failure",
-            )
-            events = hermes_events
-            hermes_fallback = {
-                "attempted": True,
-                "status": "PASS",
-                "source_type": facts["source_type"],
-                "official_source_url": facts["official_source_url"],
-                "source_contract": facts["source_contract"],
-                "events": len(events),
-            }
-        except HermesAcquisitionError as exc:
-            hermes_fallback = {"attempted": True, "status": "BLOCKED", "error": str(exc)[:300]}
-    elif eligible_for_fallback(events=events, adapter=adapter, force=force_hermes):
-        hermes_fallback = {"attempted": False, "status": "NOT_CONFIGURED"}
+    if hermes_source_facts_path is not None:
+        facts = json.loads(hermes_source_facts_path.read_text(encoding="utf-8"))
+        if facts.get("venue_id") != venue or facts.get("season") != season:
+            raise ValueError("Hermes source-facts artifact venue/season does not match the requested target")
+        events = facts_to_events(facts, venue=venue, config=config)
+        hermes_fallback = {
+            "attempted": True,
+            "status": "PASS",
+            "acquisition_mode": "validated_source_facts_artifact",
+            "source_type": facts["source_type"],
+            "official_source_url": facts["official_source_url"],
+            "source_contract": facts["source_contract"],
+            "events": len(events),
+        }
+    else:
+        events = [] if force_hermes else adapter.ingest(season)
+        if eligible_for_fallback(events=events, adapter=adapter, force=force_hermes) and os.getenv("BYELINGUA_HERMES_ACQUIRE_COMMAND"):
+            try:
+                facts, hermes_events = acquire_events(
+                    venue=venue,
+                    season=season,
+                    config=config,
+                    reason="forced_validation" if force_hermes else "deterministic_source_failure",
+                )
+                events = hermes_events
+                hermes_fallback = {
+                    "attempted": True,
+                    "status": "PASS",
+                    "acquisition_mode": "worker_subprocess",
+                    "source_type": facts["source_type"],
+                    "official_source_url": facts["official_source_url"],
+                    "source_contract": facts["source_contract"],
+                    "events": len(events),
+                }
+            except HermesAcquisitionError as exc:
+                hermes_fallback = {"attempted": True, "status": "BLOCKED", "error": str(exc)[:300]}
+        elif eligible_for_fallback(events=events, adapter=adapter, force=force_hermes):
+            hermes_fallback = {"attempted": False, "status": "NOT_CONFIGURED"}
     scoped_events = list(events)
     source_hash = source_fingerprint(scoped_events)
     if scope == "existing-production":
