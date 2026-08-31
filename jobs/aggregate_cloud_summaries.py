@@ -28,6 +28,12 @@ def _safe_venue(summary: dict[str, Any]) -> dict[str, Any]:
         "venue": summary.get("venue"),
         "season": summary.get("season"),
         "source_capability": summary.get("source_capability"),
+        "scope": summary.get("scope", "full-season"),
+        "source_fingerprint": summary.get("source_fingerprint"),
+        "incremental": {
+            key: summary.get("incremental", {}).get(key)
+            for key in ("source_changed", "action")
+        },
         "snapshot_loaded": bool(summary.get("snapshot_loaded")),
         "counts": {
             key: _int(counts.get(key))
@@ -77,11 +83,20 @@ def build_safe_batch(input_root: Path, *, season: str | None = None) -> tuple[di
         diagnostic = _safe_pilot_diagnostics(_read(diagnostic_path))
         diagnostics.extend(diagnostic.get("rows", []))
     selected_season = season or next((item.get("season") for item in venues if item.get("season")), None)
+    source_changed = sum(item.get("incremental", {}).get("source_changed") is True for item in venues)
+    noop = sum(item.get("incremental", {}).get("action") == "NOOP" for item in venues)
+    review_backlog = sum(item.get("counts", {}).get("review_items", 0) for item in venues)
     batch = {
         "schema_version": "cloud-season-ingestion-safe-batch-summary-v1",
         "git_sha": os.getenv("GITHUB_SHA", "unknown"),
         "season": selected_season,
+        "operating_mode": "FULL_SEASON",
+        "existing_production_closeout": "DIAGNOSTIC_ONLY",
+        "safe_auto_apply": "DISABLED_FIRST_VALIDATION",
         "targets": len(venues),
+        "source_changed_venues": source_changed,
+        "noop_venues": noop,
+        "review_backlog": review_backlog,
         "venues": venues,
         "production_writes": 0,
     }

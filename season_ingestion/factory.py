@@ -9,6 +9,7 @@ from typing import Any
 from .pipeline import run_pipeline
 from .venue_targets import matrix_targets
 from .notifications import build_approval_manifest
+from .incremental import compare_source_fingerprint
 
 
 TERMINAL_STATES = {"READY_FOR_APPROVAL", "REVIEW_REQUIRED", "SOURCE_BLOCKED", "SOURCE_PARTIAL", "ADAPTER_REQUIRED", "FAILED"}
@@ -51,11 +52,12 @@ def classify_summary(summary: dict[str, Any]) -> str:
     return "REVIEW_REQUIRED" if summary.get("counts", {}).get("review_items", 0) else "FAILED"
 
 
-def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path | None = None) -> dict[str, Any]:
+def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path | None = None, scope: str = "full-season", previous_source_hash: str | None = None) -> dict[str, Any]:
     venue_id = target["venue_id"]
     output_dir = output_root / venue_id
     try:
-        summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", output_dir=output_dir, snapshot_path=snapshot_path)
+        summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", scope=scope, output_dir=output_dir, snapshot_path=snapshot_path)
+        summary["incremental"] = compare_source_fingerprint(previous_source_hash, summary.get("source_fingerprint"))
         required_artifacts = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary")
         artifact_checks = {}
         for artifact_name in required_artifacts:
@@ -76,8 +78,14 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
     except Exception as exc:
         summary = {"venue": venue_id, "season": target["season"], "source_capability": "FAILED", "counts": {"writes": 0}, "passed": False, "failure_reason": str(exc)[:300]}
         status = "FAILED"
+    summary.setdefault("scope", scope)
+    summary.setdefault("incremental", compare_source_fingerprint(previous_source_hash, summary.get("source_fingerprint")))
     result = {"venue_id": venue_id, "season": target["season"], "status": status, "production_writes": 0, "summary": summary}
     output_dir.mkdir(parents=True, exist_ok=True)
+    # The pipeline writes its detailed summary before returning.  Persist the
+    # incremental decision in that same runner-local summary without exposing
+    # raw source pages or staging in the safe artifact pack.
+    (output_dir / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     _write_safe_apply_preview(output_dir, summary, venue_id=venue_id, season=target["season"])
     structure_type = target.get("structure_type") or ("JSON_LD" if venue_id == "opernhaus_zurich" else "STRUCTURED_HTML_LISTING")
     (output_dir / "source_structure.json").write_text(json.dumps({"venue_id": venue_id, "source_status": target.get("source_status", "UNVERIFIED"), "structure_type": structure_type, "confidence": "HIGH", "source": target.get("schedule_source")}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

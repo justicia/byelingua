@@ -44,6 +44,11 @@ def _safe_summary(summary: dict[str, Any], output_dir: Path) -> dict[str, Any]:
         "scope": summary.get("scope"),
         "source_capability": summary.get("source_capability"),
         "source_strategy": summary.get("source_strategy"),
+        "source_fingerprint": summary.get("source_fingerprint"),
+        "incremental": {
+            key: summary.get("incremental", {}).get(key)
+            for key in ("source_changed", "action")
+        },
         "snapshot_loaded": bool(summary.get("snapshot_loaded", health.get("global_master_loaded", False))),
         "snapshot_hash": snapshot_hash,
         "global_master_preflight": summary.get("global_master_preflight"),
