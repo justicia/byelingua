@@ -53,7 +53,7 @@ try{
     picker.hidden=!selfService&&!Object.keys(languageNames).some(language=>contents[language]);
     picker.querySelectorAll("button").forEach(button=>button.classList.toggle("active",button.dataset.language===selected));
     const english=article.uiLanguage==="en";
-    document.getElementById("back").textContent=english?"← Back to home":"← 返回首页";
+    const back=document.getElementById("back");if(back)back.textContent=english?"← Back to home":"← 返回首页";
     document.getElementById("languageLabel").textContent=english?"Translation":"译文语言";
     picker.setAttribute("aria-label",english?"Translation language":"译文语言");
     document.getElementById("note").textContent=english?"Translated by Byelingua. Refer to the original for accuracy.":"翻译内容由 Byelingua 生成，请以原文为准。";
