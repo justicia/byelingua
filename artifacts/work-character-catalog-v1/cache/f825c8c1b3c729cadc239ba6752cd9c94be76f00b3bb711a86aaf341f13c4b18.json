@@ -1,0 +1,258 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Béla Bartók"
+    },
+    "search": [
+      {
+        "id": "Q83326",
+        "title": "Q83326",
+        "pageid": 85723,
+        "concepturi": "http://www.wikidata.org/entity/Q83326",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q83326",
+        "display": {
+          "label": {
+            "value": "Béla Bartók",
+            "language": "en"
+          },
+          "description": {
+            "value": "Hungarian composer and pianist (1881–1945)",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók",
+        "description": "Hungarian composer and pianist (1881–1945)",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók"
+        }
+      },
+      {
+        "id": "Q23459464",
+        "title": "Q23459464",
+        "pageid": 25467915,
+        "concepturi": "http://www.wikidata.org/entity/Q23459464",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q23459464",
+        "display": {
+          "label": {
+            "value": "Béla Bartók",
+            "language": "en"
+          },
+          "description": {
+            "value": "artwork by Imre Varga in Paris, France",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók",
+        "description": "artwork by Imre Varga in Paris, France",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók"
+        }
+      },
+      {
+        "id": "Q791022",
+        "title": "Q791022",
+        "pageid": 744036,
+        "concepturi": "http://www.wikidata.org/entity/Q791022",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q791022",
+        "display": {
+          "label": {
+            "value": "Béla Bartók",
+            "language": "en"
+          },
+          "description": {
+            "value": "school director (1855-1888)",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók",
+        "description": "school director (1855-1888)",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók"
+        }
+      },
+      {
+        "id": "Q17260763",
+        "title": "Q17260763",
+        "pageid": 18857996,
+        "concepturi": "http://www.wikidata.org/entity/Q17260763",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q17260763",
+        "display": {
+          "label": {
+            "value": "Béla Bartók",
+            "language": "en"
+          },
+          "description": {
+            "value": "Hungarian engineer",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók",
+        "description": "Hungarian engineer",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók"
+        }
+      },
+      {
+        "id": "Q791024",
+        "title": "Q791024",
+        "pageid": 744038,
+        "concepturi": "http://www.wikidata.org/entity/Q791024",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q791024",
+        "display": {
+          "label": {
+            "value": "Béla Bartók Conservatory, Budapest",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók Conservatory, Budapest",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók Conservatory, Budapest"
+        }
+      },
+      {
+        "id": "Q19703205",
+        "title": "Q19703205",
+        "pageid": 21303857,
+        "concepturi": "http://www.wikidata.org/entity/Q19703205",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q19703205",
+        "display": {
+          "label": {
+            "value": "Bartók Béla – Pásztory Ditta Award",
+            "language": "en"
+          }
+        },
+        "label": "Bartók Béla – Pásztory Ditta Award",
+        "match": {
+          "type": "alias",
+          "language": "en",
+          "text": "Béla Bartók - Ditta Pásztory Award"
+        },
+        "aliases": [
+          "Béla Bartók - Ditta Pásztory Award"
+        ]
+      },
+      {
+        "id": "Q58312959",
+        "title": "Q58312959",
+        "pageid": 58226999,
+        "concepturi": "http://www.wikidata.org/entity/Q58312959",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q58312959",
+        "display": {
+          "label": {
+            "value": "Béla Bartók",
+            "language": "en"
+          },
+          "description": {
+            "value": "statue in Mosonmagyaróvár, Hungary",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók",
+        "description": "statue in Mosonmagyaróvár, Hungary",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók"
+        }
+      },
+      {
+        "id": "Q83789036",
+        "title": "Q83789036",
+        "pageid": 83099767,
+        "concepturi": "http://www.wikidata.org/entity/Q83789036",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q83789036",
+        "display": {
+          "label": {
+            "value": "Bartok",
+            "language": "en"
+          },
+          "description": {
+            "value": "1964 film",
+            "language": "en"
+          }
+        },
+        "label": "Bartok",
+        "description": "1964 film",
+        "match": {
+          "type": "alias",
+          "language": "en",
+          "text": "Bela Bartók"
+        },
+        "aliases": [
+          "Bela Bartók"
+        ]
+      },
+      {
+        "id": "Q791027",
+        "title": "Q791027",
+        "pageid": 744041,
+        "concepturi": "http://www.wikidata.org/entity/Q791027",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q791027",
+        "display": {
+          "label": {
+            "value": "Béla Bartók Avenue",
+            "language": "en"
+          },
+          "description": {
+            "value": "street in Budapest",
+            "language": "en"
+          }
+        },
+        "label": "Béla Bartók Avenue",
+        "description": "street in Budapest",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Béla Bartók Avenue"
+        }
+      },
+      {
+        "id": "Q1229050",
+        "title": "Q1229050",
+        "pageid": 1170347,
+        "concepturi": "http://www.wikidata.org/entity/Q1229050",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q1229050",
+        "display": {
+          "label": {
+            "value": "Bela Bartok Male Choir",
+            "language": "en"
+          }
+        },
+        "label": "Bela Bartok Male Choir",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Bela Bartok Male Choir"
+        }
+      }
+    ],
+    "search-continue": 10,
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=B%C3%A9la+Bart%C3%B3k&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:58:22Z",
+    "raw_evidence_sha256": "13e777e5aa9f8523d40ad18f9bcec4c8f31bfa9d97b8e53ebf4521ba0d719ce9",
+    "cache_hit": false
+  }
+}

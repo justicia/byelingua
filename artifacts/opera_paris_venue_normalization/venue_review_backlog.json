@@ -1,0 +1,11 @@
+{
+  "schema_version": "opera-paris-venue-review-backlog-v1",
+  "organization": {
+    "id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd",
+    "name": "Opéra national de Paris",
+    "slug": "opera-national-de-paris"
+  },
+  "mode": "read-only",
+  "review_candidates": [],
+  "count": 0
+}

@@ -1,0 +1,131 @@
+{
+  "generated_at": "2026-08-26T15:33:03.638914+00:00",
+  "venue": "opera_roma",
+  "season": "2026-27",
+  "mode": "dry-run",
+  "source_capability": "SOURCE_PARTIAL",
+  "months": {
+    "requested": 1,
+    "successful": 0,
+    "failed": 1
+  },
+  "global_master_preflight": "FAIL",
+  "global_master_error": {
+    "code": "GLOBAL_MASTER_UNAVAILABLE",
+    "message": "Global Master unavailable"
+  },
+  "snapshot_health": {
+    "preflight_status": "FAIL",
+    "global_master_loaded": false,
+    "project_target_verified": false,
+    "composers_count": 0,
+    "composer_aliases_count": 0,
+    "works_count": 0,
+    "work_aliases_count": 0,
+    "loaded_at": "2026-08-26T15:33:03.638914+00:00",
+    "query_errors": 1,
+    "error_code": "GLOBAL_MASTER_UNAVAILABLE",
+    "error_message": "Global Master unavailable"
+  },
+  "snapshot_counts": {
+    "composer": 0,
+    "artist": 0,
+    "work": 0,
+    "character": 0,
+    "composer_aliases": 0,
+    "work_aliases": 0
+  },
+  "counts": {
+    "events": 0,
+    "events_discovered": 0,
+    "normalized": 0,
+    "works_existing": 0,
+    "works_review": 0,
+    "review_items": 0,
+    "writes": 0,
+    "credits_raw": 0,
+    "credits_safe": 0,
+    "credits_review": 0,
+    "safe_events": 0,
+    "safe_programme_relationships": 0,
+    "review_programme_relationships": 0
+  },
+  "detail_enrichment": {
+    "listing_pages_requested": 1,
+    "listing_pages_successful": 0,
+    "detail_pages_requested": 0,
+    "detail_pages_successful": 0,
+    "detail_pages_failed": 0,
+    "events_with_programme_evidence": 0,
+    "events_without_programme_evidence": 0,
+    "detail_parse_review": 0,
+    "programme_items": 0,
+    "composer_candidates": 0,
+    "credits_total": 0,
+    "artist_candidates": 0,
+    "character_candidates": 0,
+    "composer_resolution": {
+      "exact": 0,
+      "alias": 0,
+      "normalized": 0,
+      "new_candidate": 0,
+      "review": 0,
+      "not_run": 0
+    },
+    "work_resolution": {
+      "existing_exact": 0,
+      "existing_alias": 0,
+      "existing_normalized": 0,
+      "legacy_existing": 0,
+      "new_candidate": 0,
+      "review": 0,
+      "not_run": 0,
+      "no_programme_evidence": 0
+    },
+    "programme_occurrences": 0,
+    "unique_work_candidates": 0,
+    "unique_work_safe_existing": 0,
+    "unique_work_new_candidate": 0,
+    "unique_work_review": 0
+  },
+  "composer_trace": {
+    "first_20_distinct": [],
+    "frequency_top_20_distinct": []
+  },
+  "credit_resolution": {
+    "safe_event_credits": [],
+    "review_event_credits": [],
+    "counts": {
+      "credits_raw": 0,
+      "credits_safe": 0,
+      "credits_review": 0
+    }
+  },
+  "gates": {
+    "events_gt_zero": false,
+    "traceable_urls": true,
+    "duplicate_event_identity": true,
+    "artist_boundary_high": true,
+    "programme_credit_contamination": true,
+    "source_order_missing": true,
+    "untraceable": true,
+    "review_items_in_safe_subset": true,
+    "production_writes": true,
+    "source_fetch_failures": false,
+    "global_master_loaded": false
+  },
+  "passed": false,
+  "productions_discovered": 0,
+  "detail_pages_out_of_season_skipped": 0,
+  "date_candidates_found": 0,
+  "date_candidates_accepted": 0,
+  "date_candidates_rejected": 0,
+  "date_year_unverified": 0,
+  "events_outside_season": 0,
+  "duplicate_performance_slot": 0,
+  "ambiguous_same_day_occurrence": 0,
+  "null_timed_shadow_duplicates": 0,
+  "year_inferred_without_production_evidence": 0,
+  "date_min": null,
+  "date_max": null
+}

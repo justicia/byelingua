@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Andrea Chénier Umberto Giordano"
+    },
+    "search": [],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Andrea+Ch%C3%A9nier+Umberto+Giordano&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:57:55Z",
+    "raw_evidence_sha256": "cf72100b9202c070b040e8c2a90a2c316317379e48c1f6b0ac1cb5c3bad34b50",
+    "cache_hit": false
+  }
+}

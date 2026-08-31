@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Arabella Richard Strauss"
+    },
+    "search": [],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Arabella+Richard+Strauss&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:57:56Z",
+    "raw_evidence_sha256": "d30ba3beca3fa51090d906f63ecf90b2cb6284703eb979cbdea84a42dd937548",
+    "cache_hit": false
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "schema_version": "venue-safe-apply-preview-v1",
+  "venue_id": "concertgebouw",
+  "season": "2026-27",
+  "git_commit": "unknown",
+  "source_run_id": "local",
+  "events": [],
+  "work_relationships": [],
+  "counts": {
+    "safe_events": 0,
+    "safe_programme_relationships": 0,
+    "review_rows_in_safe_subset": 0,
+    "missing_composer_id": 0,
+    "missing_work_id": 0,
+    "untraceable_source": 0,
+    "events_outside_season": 0,
+    "duplicate_event_identity": 0,
+    "duplicate_event_work": 0,
+    "duplicate_performance_slot": 0,
+    "ambiguous_same_day_occurrence": 0,
+    "null_timed_shadow_duplicates": 0,
+    "year_inferred_without_production_evidence": 0,
+    "legacy_review_work_used": 0,
+    "duplicate_work_used": 0
+  }
+}

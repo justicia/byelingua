@@ -1,0 +1,32 @@
+{
+  "schema_version": "opernhaus-zurich-credit-enrichment-summary-v1",
+  "season": "2026-27",
+  "official_pages_discovered": 34,
+  "official_pages_checked": 34,
+  "source_failures": 0,
+  "events_total": 188,
+  "events_with_credits": 177,
+  "credits_total": 3767,
+  "programme_evidence_events": 167,
+  "role_counts": {
+    "choir": 195,
+    "choreographer": 56,
+    "chorus_master": 144,
+    "conductor": 175,
+    "costume_designer": 130,
+    "dramaturg": 178,
+    "ensemble": 2,
+    "extras": 98,
+    "lighting_designer": 158,
+    "orchestra": 169,
+    "performer": 2130,
+    "production_designer": 25,
+    "set_designer": 106,
+    "singer": 6,
+    "stage_director": 145,
+    "stunt_team": 8,
+    "video_designer": 42
+  },
+  "errors": [],
+  "production_writes": 0
+}

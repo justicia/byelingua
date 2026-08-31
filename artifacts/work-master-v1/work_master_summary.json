@@ -1,0 +1,20 @@
+{
+  "works_total": 3235,
+  "works_with_composer": 1553,
+  "works_missing_composer": 1682,
+  "safe_existing": 1279,
+  "safe_canonical_fix": 5,
+  "safe_alias_add": 0,
+  "safe_composer_link": 0,
+  "duplicate_candidates": 31,
+  "review_identity": 238,
+  "review_composer": 1593,
+  "review_composite": 89,
+  "legacy_backlog": 1951,
+  "unicode_issues": 10,
+  "translated_canonical_titles": 0,
+  "hard_conflicts": 171,
+  "database_writes": 0,
+  "migrations": 0,
+  "vercel": 0
+}

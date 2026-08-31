@@ -1,15 +1,954 @@
 [
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-06-22","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-06-23","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-06-25","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-06-26","start_time":"18:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-06-27","start_time":"16:30","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-06-30","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"Il trovatore","source_url":"https://www.operaroma.it/stagione/","date":"2027-07-01","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"La rondine","source_url":"https://www.operaroma.it/stagione/","date":"2027-09-18","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"La rondine","source_url":"https://www.operaroma.it/stagione/","date":"2027-09-19","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"La rondine","source_url":"https://www.operaroma.it/stagione/","date":"2027-09-21","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"La rondine","source_url":"https://www.operaroma.it/stagione/","date":"2027-09-22","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"La rondine","source_url":"https://www.operaroma.it/stagione/","date":"2027-09-23","start_time":"20:00","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"},
-  {"production_title":"La rondine","source_url":"https://www.operaroma.it/stagione/","date":"2027-09-26","start_time":"16:30","year_evidence":"official production/listing evidence","occurrence_source":".datelist li"}
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-11-24",
+    "start_time": "11:00",
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-11-25",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-11-26",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "The Rake’s Progress (La carriera di un libertino)",
+    "source_url": "https://www.operaroma.it/spettacoli/the-rakes-progress-la-carriera-di-un-libertino/",
+    "date": "2026-11-27",
+    "start_time": "19:00",
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-11-28",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "The Rake’s Progress (La carriera di un libertino)",
+    "source_url": "https://www.operaroma.it/spettacoli/the-rakes-progress-la-carriera-di-un-libertino/",
+    "date": "2026-11-29",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-11-29",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "The Rake’s Progress (La carriera di un libertino)",
+    "source_url": "https://www.operaroma.it/spettacoli/the-rakes-progress-la-carriera-di-un-libertino/",
+    "date": "2026-12-01",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-12-01",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-12-02",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "The Rake’s Progress (La carriera di un libertino)",
+    "source_url": "https://www.operaroma.it/spettacoli/the-rakes-progress-la-carriera-di-un-libertino/",
+    "date": "2026-12-03",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lo schiaccianoci",
+    "source_url": "https://www.operaroma.it/spettacoli/lo-schiaccianoci-10/",
+    "date": "2026-12-03",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "The Rake’s Progress (La carriera di un libertino)",
+    "source_url": "https://www.operaroma.it/spettacoli/the-rakes-progress-la-carriera-di-un-libertino/",
+    "date": "2026-12-05",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-17",
+    "start_time": "20:00",
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-18",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Peter Pan",
+    "source_url": "https://www.operaroma.it/spettacoli/peter-pan/",
+    "date": "2026-12-18",
+    "start_time": "20:00",
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-19",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Peter Pan",
+    "source_url": "https://www.operaroma.it/spettacoli/peter-pan/",
+    "date": "2026-12-20",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-20",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Peter Pan",
+    "source_url": "https://www.operaroma.it/spettacoli/peter-pan/",
+    "date": "2026-12-21",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Peter Pan",
+    "source_url": "https://www.operaroma.it/spettacoli/peter-pan/",
+    "date": "2026-12-22",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-22",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Peter Pan",
+    "source_url": "https://www.operaroma.it/spettacoli/peter-pan/",
+    "date": "2026-12-23",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-23",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-24",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-27",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-29",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-30",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il lago dei cigni",
+    "source_url": "https://www.operaroma.it/spettacoli/il-lago-dei-cigni-7/",
+    "date": "2026-12-31",
+    "start_time": null,
+    "year_evidence": "season-bound explicit/official source",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-17",
+    "start_time": "19:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-19",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-20",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-21",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-23",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-24",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Andrea ChÃ©nier",
+    "source_url": "https://www.operaroma.it/spettacoli/andrea-chenier-3/",
+    "date": "2027-01-26",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Terza Sinfonia di Mahler",
+    "source_url": "https://www.operaroma.it/spettacoli/terza-sinfonia-di-mahler/",
+    "date": "2027-02-04",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Terza Sinfonia di Mahler",
+    "source_url": "https://www.operaroma.it/spettacoli/terza-sinfonia-di-mahler/",
+    "date": "2027-02-05",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Terza Sinfonia di Mahler",
+    "source_url": "https://www.operaroma.it/spettacoli/terza-sinfonia-di-mahler/",
+    "date": "2027-02-06",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Terza Sinfonia di Mahler",
+    "source_url": "https://www.operaroma.it/spettacoli/terza-sinfonia-di-mahler/",
+    "date": "2027-02-07",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Terza Sinfonia di Mahler",
+    "source_url": "https://www.operaroma.it/spettacoli/terza-sinfonia-di-mahler/",
+    "date": "2027-02-09",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Terza Sinfonia di Mahler",
+    "source_url": "https://www.operaroma.it/spettacoli/terza-sinfonia-di-mahler/",
+    "date": "2027-02-10",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-21",
+    "start_time": "19:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-23",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-24",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-25",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-26",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-27",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Lucia di Lammermoor",
+    "source_url": "https://www.operaroma.it/spettacoli/lucia-di-lammermoor-2/",
+    "date": "2027-02-28",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Concerto di Pasqua",
+    "source_url": "https://www.operaroma.it/spettacoli/concerto-di-pasqua/",
+    "date": "2027-03-03",
+    "start_time": "18:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-13",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-14",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-16",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-17",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Orchestra Nazionale Barocca dei Conservatori",
+    "source_url": "https://www.operaroma.it/spettacoli/orchestra-nazionale-barocca-dei-conservatori/",
+    "date": "2027-03-18",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-19",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-20",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "I due Foscari",
+    "source_url": "https://www.operaroma.it/spettacoli/i-due-foscari/",
+    "date": "2027-03-21",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "MOTUS Blanc / McGregor / Ekman",
+    "source_url": "https://www.operaroma.it/spettacoli/motusblanc-mcgregor-ekman/",
+    "date": "2027-03-31",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "MOTUS Blanc / McGregor / Ekman",
+    "source_url": "https://www.operaroma.it/spettacoli/motusblanc-mcgregor-ekman/",
+    "date": "2027-04-01",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "MOTUS Blanc / McGregor / Ekman",
+    "source_url": "https://www.operaroma.it/spettacoli/motusblanc-mcgregor-ekman/",
+    "date": "2027-04-02",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "MOTUS Blanc / McGregor / Ekman",
+    "source_url": "https://www.operaroma.it/spettacoli/motusblanc-mcgregor-ekman/",
+    "date": "2027-04-03",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "MOTUS Blanc / McGregor / Ekman",
+    "source_url": "https://www.operaroma.it/spettacoli/motusblanc-mcgregor-ekman/",
+    "date": "2027-04-04",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "IphigÃ©nie en Tauride",
+    "source_url": "https://www.operaroma.it/spettacoli/iphigenie-en-tauride/",
+    "date": "2027-04-18",
+    "start_time": "19:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "IphigÃ©nie en Tauride",
+    "source_url": "https://www.operaroma.it/spettacoli/iphigenie-en-tauride/",
+    "date": "2027-04-20",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "ECHOES Bonachela / Eyal / Tortelli",
+    "source_url": "https://www.operaroma.it/spettacoli/echoesbonachela-eyal-tortelli/",
+    "date": "2027-04-20",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Piccinni e Gluck, una corona per due",
+    "source_url": "https://www.operaroma.it/spettacoli/piccinni-e-gluck-una-corona-per-due/",
+    "date": "2027-04-21",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "IphigÃ©nie en Tauride",
+    "source_url": "https://www.operaroma.it/spettacoli/iphigenie-en-tauride/",
+    "date": "2027-04-22",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "ECHOES Bonachela / Eyal / Tortelli",
+    "source_url": "https://www.operaroma.it/spettacoli/echoesbonachela-eyal-tortelli/",
+    "date": "2027-04-22",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "ECHOES Bonachela / Eyal / Tortelli",
+    "source_url": "https://www.operaroma.it/spettacoli/echoesbonachela-eyal-tortelli/",
+    "date": "2027-04-23",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "IphigÃ©nie en Tauride",
+    "source_url": "https://www.operaroma.it/spettacoli/iphigenie-en-tauride/",
+    "date": "2027-04-24",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "ECHOES Bonachela / Eyal / Tortelli",
+    "source_url": "https://www.operaroma.it/spettacoli/echoesbonachela-eyal-tortelli/",
+    "date": "2027-04-24",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "IphigÃ©nie en Tauride",
+    "source_url": "https://www.operaroma.it/spettacoli/iphigenie-en-tauride/",
+    "date": "2027-04-27",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Una Lady Macbeth del distretto di Mzensk",
+    "source_url": "https://www.operaroma.it/spettacoli/una-lady-macbeth-del-distretto-di-mzensk/",
+    "date": "2027-05-14",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Una Lady Macbeth del distretto di Mzensk",
+    "source_url": "https://www.operaroma.it/spettacoli/una-lady-macbeth-del-distretto-di-mzensk/",
+    "date": "2027-05-16",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Una Lady Macbeth del distretto di Mzensk",
+    "source_url": "https://www.operaroma.it/spettacoli/una-lady-macbeth-del-distretto-di-mzensk/",
+    "date": "2027-05-18",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Code: Unknown",
+    "source_url": "https://www.operaroma.it/spettacoli/code-unknown/",
+    "date": "2027-05-19",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Una Lady Macbeth del distretto di Mzensk",
+    "source_url": "https://www.operaroma.it/spettacoli/una-lady-macbeth-del-distretto-di-mzensk/",
+    "date": "2027-05-20",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Code: Unknown",
+    "source_url": "https://www.operaroma.it/spettacoli/code-unknown/",
+    "date": "2027-05-21",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Una Lady Macbeth del distretto di Mzensk",
+    "source_url": "https://www.operaroma.it/spettacoli/una-lady-macbeth-del-distretto-di-mzensk/",
+    "date": "2027-05-22",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Code: Unknown",
+    "source_url": "https://www.operaroma.it/spettacoli/code-unknown/",
+    "date": "2027-05-23",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "È ancora troppo presto",
+    "source_url": "https://www.operaroma.it/spettacoli/e-ancora-troppo-presto/",
+    "date": "2027-05-23",
+    "start_time": "18:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Code: Unknown",
+    "source_url": "https://www.operaroma.it/spettacoli/code-unknown/",
+    "date": "2027-05-25",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Code: Unknown",
+    "source_url": "https://www.operaroma.it/spettacoli/code-unknown/",
+    "date": "2027-05-26",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il barbiere di Siviglia Bartoli / Capuano",
+    "source_url": "https://www.operaroma.it/spettacoli/il-barbiere-di-sivigliabartoli-capuano/",
+    "date": "2027-05-27",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-04",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-05",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-06",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-08",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-09",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-10",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Don Chisciotte",
+    "source_url": "https://www.operaroma.it/spettacoli/don-chisciotte-5/",
+    "date": "2027-06-11",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-06-22",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-06-23",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-06-25",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-06-26",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-06-27",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Alessandro Barbero San Francesco un santo scomodo",
+    "source_url": "https://www.operaroma.it/spettacoli/alessandro-barberosan-francesco-un-santo-scomodo/",
+    "date": "2027-06-29",
+    "start_time": "21:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-06-30",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il trovatore",
+    "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+    "date": "2027-07-01",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La rondine",
+    "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+    "date": "2027-09-18",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La rondine",
+    "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+    "date": "2027-09-19",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La rondine",
+    "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+    "date": "2027-09-21",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La rondine",
+    "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+    "date": "2027-09-22",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La rondine",
+    "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+    "date": "2027-09-23",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La rondine",
+    "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+    "date": "2027-09-26",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La Cenerentola",
+    "source_url": "https://www.operaroma.it/spettacoli/la-cenerentola-3/",
+    "date": "2027-10-01",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La Cenerentola",
+    "source_url": "https://www.operaroma.it/spettacoli/la-cenerentola-3/",
+    "date": "2027-10-03",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La Cenerentola",
+    "source_url": "https://www.operaroma.it/spettacoli/la-cenerentola-3/",
+    "date": "2027-10-05",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-06",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La Cenerentola",
+    "source_url": "https://www.operaroma.it/spettacoli/la-cenerentola-3/",
+    "date": "2027-10-07",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-07",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-08",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-09",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "La Cenerentola",
+    "source_url": "https://www.operaroma.it/spettacoli/la-cenerentola-3/",
+    "date": "2027-10-10",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-10",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-12",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Raymonda",
+    "source_url": "https://www.operaroma.it/spettacoli/raymonda/",
+    "date": "2027-10-13",
+    "start_time": null,
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  },
+  {
+    "production_title": "Il castello del Principe BarbablÃ¹ Netrebko / NÃ¡nÃ¡si",
+    "source_url": "https://www.operaroma.it/spettacoli/il-castello-del-principe-barbablunetrebko-nanasi/",
+    "date": "2027-12-04",
+    "start_time": "20:00",
+    "year_evidence": "official production/listing context",
+    "occurrence_source": "official detail performance row"
+  }
 ]

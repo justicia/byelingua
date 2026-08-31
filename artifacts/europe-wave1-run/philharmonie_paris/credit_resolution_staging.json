@@ -1,0 +1,9 @@
+{
+  "safe_event_credits": [],
+  "review_event_credits": [],
+  "counts": {
+    "credits_raw": 0,
+    "credits_safe": 0,
+    "credits_review": 0
+  }
+}

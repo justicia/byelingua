@@ -1,0 +1,86 @@
+{
+  "schema_version": "opera-paris-venue-closeout-summary-v1",
+  "mode": "read-only-staging",
+  "organization": {
+    "id": "76a2c0ac-221e-4c27-9614-f6be6f4cf3dd",
+    "name": "Opéra national de Paris",
+    "slug": "opera-national-de-paris"
+  },
+  "baseline": {
+    "events_total": 506,
+    "date_min": "2026-08-28",
+    "date_max": "2027-07-15",
+    "events_with_programme": 191,
+    "events_without_programme": 315,
+    "programme_rows": 231,
+    "events_with_source": 506,
+    "events_without_source": 0,
+    "credits_rows": 6350
+  },
+  "schedule": {
+    "duplicate_event_identity": 0,
+    "duplicate_performance_slot": 0,
+    "semantic_duplicate_groups": 0,
+    "null_timed_shadow_duplicates": 0,
+    "ambiguous_same_day_occurrence": 0,
+    "untraceable_source": 0
+  },
+  "venue": {
+      "current_venue_distribution": {
+      "Festival de La Chaise-Dieu - Abbatiale Saint-Robert": 1,
+      "Amphithéâtre Olivier Messiaen": 66,
+      "Palais Garnier": 200,
+      "Opéra Bastille": 187,
+      "Studio Bastille": 36,
+      "Les Trois Fleuves – l’EnCRe Cayenne": 4,
+      "Philharmonie de Paris": 1,
+      "Auditorium de l’Ecole de Danse à Nanterre": 1,
+      "Athénée Théâtre Louis-Jouvet et La Source Vive - Printemps des Mélèzes": 7,
+      "Maison de la radio et de la Musique": 1,
+      "Grand Foyer": 1,
+      "Festival Radio France Occitanie Montpellier": 1
+    },
+    "proposed_physical_venue_distribution": {
+      "Abbatiale Saint-Robert": 1,
+      "Opéra Bastille": 289,
+      "Palais Garnier": 201,
+      "l’EnCRe": 4,
+      "Philharmonie de Paris": 1,
+      "Auditorium de l’École de Danse à Nanterre": 1,
+      "Athénée Théâtre Louis-Jouvet": 7,
+      "Maison de la Radio et de la Musique / Auditorium de Radio France": 1,
+      "Opéra Berlioz": 1
+    },
+    "existing_global_venues_reused": 4,
+    "safe_new_global_venues": 5,
+    "room_of_existing_venue": 3,
+    "venue_review_candidates": 0,
+    "city_null_events_before": 82,
+    "city_null_events_after_preview": 0
+  },
+  "event_classification": {
+    "already_correct": 388,
+    "safe_venue_remap": 15,
+    "safe_venue_and_room_normalization": 103,
+    "safe_venue_metadata_fix": 0,
+    "venue_review": 0,
+    "classified_events": 506,
+    "unclassified_events": 0
+  },
+  "collisions_after_preview": {
+    "duplicate_event_identity_after": 0,
+    "duplicate_performance_slot_after": 0,
+    "null_timed_shadow_duplicates_after": 0,
+    "ambiguous_same_day_occurrence_after": 0
+  },
+  "relationship_preservation": {
+    "event_key_changes": 0,
+    "event_programme_delta": 0,
+    "event_sources_delta": 0,
+    "event_credits_delta": 0
+  },
+  "production_writes": 0,
+  "migrations": 0,
+  "frontend": 0,
+  "vercel": 0
+}

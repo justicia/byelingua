@@ -1,0 +1,496 @@
+{
+  "schema_version": "v1",
+  "release": "ROME 2026/27 SAFE PRODUCTION RELEASE",
+  "source": "opera_roma",
+  "organization": {
+    "name": "Teatro dell'Opera di Roma",
+    "slug": "teatro-dell-opera-di-roma"
+  },
+  "venue": {
+    "name": "Teatro Costanzi",
+    "city": "Rome",
+    "country_code": "IT"
+  },
+  "identity_evidence": "Official Opera di Roma detail pages: season 2026/2027 and Dove Teatro Costanzi",
+  "events": [
+    {
+      "event_key": "opera_roma:il-trovatore-2027-06-22-2000",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-06-22:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-06-22",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:il-trovatore-2027-06-23-2000",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-06-23:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-06-23",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:il-trovatore-2027-06-25-2000",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-06-25:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-06-25",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:il-trovatore-2027-06-26-1800",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-06-26:18:00",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-06-26",
+      "start_time": "18:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:il-trovatore-2027-06-27-1630",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-06-27:16:30",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-06-27",
+      "start_time": "16:30",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:il-trovatore-2027-06-30-2000",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-06-30:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-06-30",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:il-trovatore-2027-07-01-2000",
+      "source": "opera_roma",
+      "source_event_id": "il-trovatore:2027-07-01:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "Il trovatore",
+      "date": "2027-07-01",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "Il trovatore",
+      "raw": {
+        "source_title": "Il trovatore",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/il-trovatore-3/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+      "composer_id": "b75ade14-9776-424c-8229-d32d98861611",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:la-rondine-2027-09-18-2000",
+      "source": "opera_roma",
+      "source_event_id": "la-rondine:2027-09-18:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "La rondine",
+      "date": "2027-09-18",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "La rondine",
+      "raw": {
+        "source_title": "La rondine",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+      "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:la-rondine-2027-09-19-1630",
+      "source": "opera_roma",
+      "source_event_id": "la-rondine:2027-09-19:16:30",
+      "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "La rondine",
+      "date": "2027-09-19",
+      "start_time": "16:30",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "La rondine",
+      "raw": {
+        "source_title": "La rondine",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+      "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:la-rondine-2027-09-21-2000",
+      "source": "opera_roma",
+      "source_event_id": "la-rondine:2027-09-21:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "La rondine",
+      "date": "2027-09-21",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "La rondine",
+      "raw": {
+        "source_title": "La rondine",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+      "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:la-rondine-2027-09-22-2000",
+      "source": "opera_roma",
+      "source_event_id": "la-rondine:2027-09-22:20:00",
+      "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "La rondine",
+      "date": "2027-09-22",
+      "start_time": "20:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "La rondine",
+      "raw": {
+        "source_title": "La rondine",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+      "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:la-rondine-2027-09-23-1800",
+      "source": "opera_roma",
+      "source_event_id": "la-rondine:2027-09-23:18:00",
+      "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "La rondine",
+      "date": "2027-09-23",
+      "start_time": "18:00",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "La rondine",
+      "raw": {
+        "source_title": "La rondine",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+      "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "programme_order": 1
+    },
+    {
+      "event_key": "opera_roma:la-rondine-2027-09-26-1630",
+      "source": "opera_roma",
+      "source_event_id": "la-rondine:2027-09-26:16:30",
+      "source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+      "organization": "Teatro dell'Opera di Roma",
+      "venue": "Teatro Costanzi",
+      "city": "Rome",
+      "country": "Italy",
+      "timezone": "Europe/Rome",
+      "title": "La rondine",
+      "date": "2027-09-26",
+      "start_time": "16:30",
+      "end_time": null,
+      "room": null,
+      "event_type": "performance",
+      "classification": "performance",
+      "original_title": "La rondine",
+      "raw": {
+        "source_title": "La rondine",
+        "detail_source_url": "https://www.operaroma.it/spettacoli/la-rondine/",
+        "season": "2026-27",
+        "occurrence_source": "official detail performance row",
+        "year_evidence": "official production/listing evidence"
+      },
+      "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+      "composer_id": "149b4efc-877f-4884-ab7e-4c79f97e10bb",
+      "programme_order": 1
+    }
+  ],
+  "relationships": {
+    "safe_existing": [
+      {
+        "event_key": "opera_roma:il-trovatore-2027-06-22-2000",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:il-trovatore-2027-06-23-2000",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:il-trovatore-2027-06-25-2000",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:il-trovatore-2027-06-26-1800",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:il-trovatore-2027-06-27-1630",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:il-trovatore-2027-06-30-2000",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:il-trovatore-2027-07-01-2000",
+        "work_id": "3ffd90ba-5393-48c8-9fdb-e5c7043d203d",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:la-rondine-2027-09-18-2000",
+        "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:la-rondine-2027-09-19-1630",
+        "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:la-rondine-2027-09-21-2000",
+        "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:la-rondine-2027-09-22-2000",
+        "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:la-rondine-2027-09-23-1800",
+        "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+        "order": 1
+      },
+      {
+        "event_key": "opera_roma:la-rondine-2027-09-26-1630",
+        "work_id": "146036ca-40eb-48d7-b8f8-b61322c77989",
+        "order": 1
+      }
+    ],
+    "safe_new": [],
+    "review": []
+  },
+  "composer": {
+    "safe": [],
+    "review": []
+  },
+  "work": {
+    "safe": [],
+    "review": []
+  },
+  "preflight": {
+    "requested_events": 13,
+    "already_existing_events": 0,
+    "new_events": 13,
+    "already_existing_event_sources": 0,
+    "new_event_sources": 13,
+    "already_existing_relationships": 0,
+    "new_relationships": 13
+  },
+  "hard_gates": {
+    "duplicate_event_identity": 0,
+    "duplicate_performance_slot": 0,
+    "null_timed_shadow_duplicates": 0,
+    "ambiguous_same_day_occurrence": 0,
+    "year_unverified": 0,
+    "untraceable_source": 0,
+    "missing_composer_id": 0,
+    "missing_work_id": 0,
+    "production_event_collision": 0,
+    "duplicate_event_work": 0,
+    "review_rows_in_safe_subset": 0
+  },
+  "production_writes": 0
+}

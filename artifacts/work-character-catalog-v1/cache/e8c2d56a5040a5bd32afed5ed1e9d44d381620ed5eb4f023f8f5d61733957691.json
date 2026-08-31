@@ -1,0 +1,91 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Umberto Giordano"
+    },
+    "search": [
+      {
+        "id": "Q294826",
+        "title": "Q294826",
+        "pageid": 284782,
+        "concepturi": "http://www.wikidata.org/entity/Q294826",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q294826",
+        "display": {
+          "label": {
+            "value": "Umberto Giordano",
+            "language": "en"
+          },
+          "description": {
+            "value": "Italian opera composer (1867–1948)",
+            "language": "en"
+          }
+        },
+        "label": "Umberto Giordano",
+        "description": "Italian opera composer (1867–1948)",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Umberto Giordano"
+        }
+      },
+      {
+        "id": "Q52787158",
+        "title": "Q52787158",
+        "pageid": 53592103,
+        "concepturi": "http://www.wikidata.org/entity/Q52787158",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q52787158",
+        "display": {
+          "label": {
+            "value": "Umberto Giordano",
+            "language": "en"
+          },
+          "description": {
+            "value": "kindergarten in Palermo, Palermo, Sicily, Italy",
+            "language": "en"
+          }
+        },
+        "label": "Umberto Giordano",
+        "description": "kindergarten in Palermo, Palermo, Sicily, Italy",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Umberto Giordano"
+        }
+      },
+      {
+        "id": "Q65577583",
+        "title": "Q65577583",
+        "pageid": 65207407,
+        "concepturi": "http://www.wikidata.org/entity/Q65577583",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q65577583",
+        "display": {
+          "label": {
+            "value": "Umberto Giordano square",
+            "language": "en"
+          },
+          "description": {
+            "value": "square in Foggia historic city centre, Italy",
+            "language": "en"
+          }
+        },
+        "label": "Umberto Giordano square",
+        "description": "square in Foggia historic city centre, Italy",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Umberto Giordano square"
+        }
+      }
+    ],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Umberto+Giordano&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:57:55Z",
+    "raw_evidence_sha256": "70f11933b48dce1dedbc539a4f5abc6969f720c4d76b170baee1ba36484f84e5",
+    "cache_hit": false
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "VENUES_ATTEMPTED": 34,
+  "VENUES_PRODUCTION_READY": 0,
+  "VENUES_BLOCKED": 34,
+  "TOTAL_PRODUCTION_VENUES": 9,
+  "TOTAL_EVENTS": 0,
+  "TOTAL_PROGRAMME_RELATIONSHIPS": 0,
+  "TOTAL_CREDITS": 0,
+  "blocked": [
+    {
+      "venue": "opernhaus_zurich",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "bayerische_staatsoper",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "teatro_real",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "operadeparis",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "philharmonie_paris",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "auditorio_nacional",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "teatro_alla_scala",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "opera_roma",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "wiener_staatsoper",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "wiener_musikverein",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "wiener_konzerthaus",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "theater_an_der_wien",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "theatre_champs_elysees",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "maison_radio_france",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "teatro_de_la_zarzuela",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "berliner_philharmonie",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "staatsoper_unter_den_linden",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "deutsche_oper_berlin",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "komische_oper_berlin",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "elbphilharmonie",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "hamburgische_staatsoper",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "tonhalle_zurich",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "accademia_nazionale_santa_cecilia",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "gran_teatre_del_liceu",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "palau_de_la_musica_catalana",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "lauditori_barcelona",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "concertgebouw",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "dutch_national_opera",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "royal_opera_house",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "barbican_centre",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "southbank_centre",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "wigmore_hall",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "la_monnaie_de_munt",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    },
+    {
+      "venue": "bozar",
+      "blocker": "official source HTTPS fetch blocked by the execution environment",
+      "next technical fix": "Run this venue in a network-enabled cloud runner and rerun it"
+    }
+  ]
+}

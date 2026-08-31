@@ -1,0 +1,62 @@
+{
+  "schema_version": "philharmonie-venue-normalization-staging-v1",
+  "production_writes": 0,
+  "venues_inserted": 0,
+  "venues_updated": 0,
+  "events_modified": 0,
+  "event_programme_modified": 0,
+  "event_sources_modified": 0,
+  "event_credits_modified": 0,
+  "works_modified": 0,
+  "migrations": 0,
+  "frontend": 0,
+  "vercel": 0,
+  "baseline": {
+    "events_total": 268,
+    "organization_id": "eceaaed3-b119-48f1-b638-f7351669fe31",
+    "current_venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8"
+  },
+  "current_room_distribution": {
+    "Grande salle Pierre Boulez - Philharmonie": 171,
+    "Salle des concerts - Cité de la musique": 51,
+    "Le Studio - Philharmonie": 7,
+    "Amphithéâtre - Cité de la musique": 21,
+    "Fondation Fiminco": 2,
+    "Grande Halle de La Villette": 12,
+    "CNSMDP - Salle Rémy Pflimlin": 3,
+    "Musée de la musique - Cité de la musique": 1
+  },
+  "classification_counts": {
+    "PHILHARMONIE_EXISTING": 178,
+    "CITE_DE_LA_MUSIQUE_NEW": 73,
+    "GRANDE_HALLE_NEW": 12,
+    "CNSMDP_NEW": 3,
+    "FONDATION_FIMINCO_NEW": 2,
+    "VENUE_REVIEW": 0,
+    "classified_events": 268,
+    "unclassified_events": 0
+  },
+  "operations": {
+    "already_correct": 0,
+    "safe_venue_remap": 90,
+    "safe_room_normalization": 268,
+    "review_events": 0
+  },
+  "collision_preview": {
+    "duplicate_event_identity_after": 0,
+    "duplicate_performance_slot_after": 0,
+    "null_timed_shadow_duplicates_after": 0,
+    "ambiguous_same_day_occurrence_after": 0,
+    "event_key_changes": 0
+  },
+  "relationship_preservation": {
+    "event_programme_delta": 0,
+    "event_sources_delta": 0,
+    "event_credits_delta": 0
+  },
+  "backlog": {
+    "programme_backlog": 41,
+    "global_work_backlog": 10,
+    "credit_backlog": 0
+  }
+}

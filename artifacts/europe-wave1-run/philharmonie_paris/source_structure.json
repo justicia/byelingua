@@ -1,0 +1,7 @@
+{
+  "venue_id": "philharmonie_paris",
+  "source_status": "DISCOVERY_PASS",
+  "structure_type": "DETAIL_LINKED_LISTING",
+  "confidence": "HIGH",
+  "source": "https://philharmoniedeparis.fr/fr/agenda"
+}

@@ -1,0 +1,26 @@
+{
+  "payload": [
+    "Ariadne auf Naxos",
+    [
+      "Ariadne auf Naxos",
+      "Ariadne auf Naxos (Benda)",
+      "Ariadne auf Naxos discography"
+    ],
+    [
+      "",
+      "",
+      ""
+    ],
+    [
+      "https://en.wikipedia.org/wiki/Ariadne_auf_Naxos",
+      "https://en.wikipedia.org/wiki/Ariadne_auf_Naxos_(Benda)",
+      "https://en.wikipedia.org/wiki/Ariadne_auf_Naxos_discography"
+    ]
+  ],
+  "evidence": {
+    "source_url": "https://en.wikipedia.org/w/api.php?action=opensearch&search=Ariadne+auf+Naxos&limit=5&namespace=0&format=json",
+    "retrieved_at": "2026-08-25T11:58:20Z",
+    "raw_evidence_sha256": "d3488fa9e33d7288442ee87efb1887ddb7bbd18340ace14d9f6d4cc4963f4605",
+    "cache_hit": false
+  }
+}

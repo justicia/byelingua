@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Adriana Lecouvreur Francesco Cilèa"
+    },
+    "search": [],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Adriana+Lecouvreur+Francesco+Cil%C3%A8a&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:57:54Z",
+    "raw_evidence_sha256": "118247fba0437912bf2db8893afd9158358ef98d724ab6e9b52a707b2e77eb5c",
+    "cache_hit": false
+  }
+}

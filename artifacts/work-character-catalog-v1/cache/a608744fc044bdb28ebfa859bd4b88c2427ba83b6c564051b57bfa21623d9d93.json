@@ -1,0 +1,15 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Ballett-Gala 2027 Jerome Robbins,\n        \n    \n\n    \n        \n            Justin Peck"
+    },
+    "search": [],
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Ballett-Gala+2027+Jerome+Robbins%2C%0A++++++++%0A++++%0A%0A++++%0A++++++++%0A++++++++++++Justin+Peck&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:58:21Z",
+    "raw_evidence_sha256": "78ed283c19e8402b5996160b82646ee31481bad6f443e222441cfdc3216f5886",
+    "cache_hit": false
+  }
+}

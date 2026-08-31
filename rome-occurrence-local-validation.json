@@ -1,0 +1,26 @@
+{
+  "branch": "venue-expansion-v1",
+  "commit": "902f70b274564d980e8def6ae73e1b4c05040e9d",
+  "orphaned_run": 32984598088,
+  "replacement_run": 32985373334,
+  "replacement_status": "queued",
+  "replacement_jobs": 0,
+  "github_actions_status": "GITHUB_ACTIONS_ACCOUNT_QUEUE_BLOCKED",
+  "focused_tests": {
+    "passed": 4,
+    "failed": 3,
+    "total": 7,
+    "failure_class": "listing fixture parent traversal runtime error"
+  },
+  "local_rome_dry_run": {
+    "mode": "dry-run",
+    "global_master_preflight": "FAIL",
+    "source_capability": "SOURCE_PARTIAL",
+    "events_discovered": 0,
+    "production_writes": 0,
+    "migrations": 0,
+    "vercel": 0
+  },
+  "occurrence_validation": "BLOCKED",
+  "production_apply_authorized": false
+}

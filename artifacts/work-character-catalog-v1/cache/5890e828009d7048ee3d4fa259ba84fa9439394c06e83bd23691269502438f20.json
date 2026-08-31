@@ -1,0 +1,268 @@
+{
+  "payload": {
+    "searchinfo": {
+      "search": "Richard Strauss"
+    },
+    "search": [
+      {
+        "id": "Q13894",
+        "title": "Q13894",
+        "pageid": 15854,
+        "concepturi": "http://www.wikidata.org/entity/Q13894",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q13894",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "German composer and orchestra director (1864–1949)",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "German composer and orchestra director (1864–1949)",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q105610809",
+        "title": "Q105610809",
+        "pageid": 100975893,
+        "concepturi": "http://www.wikidata.org/entity/Q105610809",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q105610809",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "holocaust victim, b. 1910-08-14",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "holocaust victim, b. 1910-08-14",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q105459463",
+        "title": "Q105459463",
+        "pageid": 100832407,
+        "concepturi": "http://www.wikidata.org/entity/Q105459463",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q105459463",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "holocaust victim, b. 1926-10-26",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "holocaust victim, b. 1926-10-26",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q105610808",
+        "title": "Q105610808",
+        "pageid": 100975892,
+        "concepturi": "http://www.wikidata.org/entity/Q105610808",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q105610808",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "holocaust victim, b. 1872-04-19",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "holocaust victim, b. 1872-04-19",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q105459461",
+        "title": "Q105459461",
+        "pageid": 100832405,
+        "concepturi": "http://www.wikidata.org/entity/Q105459461",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q105459461",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "holocaust victim, b. 1875-10-28",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "holocaust victim, b. 1875-10-28",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q657167",
+        "title": "Q657167",
+        "pageid": 618525,
+        "concepturi": "http://www.wikidata.org/entity/Q657167",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q657167",
+        "display": {
+          "label": {
+            "value": "University of Music and Theatre Munich",
+            "language": "en"
+          },
+          "description": {
+            "value": "institution of higher education in Munich, Germany",
+            "language": "en"
+          }
+        },
+        "label": "University of Music and Theatre Munich",
+        "description": "institution of higher education in Munich, Germany",
+        "match": {
+          "type": "alias",
+          "language": "en",
+          "text": "Richard Strauss Conservatory"
+        },
+        "aliases": [
+          "Richard Strauss Conservatory"
+        ]
+      },
+      {
+        "id": "Q60240250",
+        "title": "Q60240250",
+        "pageid": 60117366,
+        "concepturi": "http://www.wikidata.org/entity/Q60240250",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q60240250",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "Dutch photographer (1900-1955)",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "Dutch photographer (1900-1955)",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q83669845",
+        "title": "Q83669845",
+        "pageid": 82979910,
+        "concepturi": "http://www.wikidata.org/entity/Q83669845",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q83669845",
+        "display": {
+          "label": {
+            "value": "Rosa 'Richard Strauß'",
+            "language": "en"
+          },
+          "description": {
+            "value": "rose cultivar",
+            "language": "en"
+          }
+        },
+        "label": "Rosa 'Richard Strauß'",
+        "description": "rose cultivar",
+        "match": {
+          "type": "alias",
+          "language": "en",
+          "text": "Richard Strauß"
+        },
+        "aliases": [
+          "Richard Strauß"
+        ]
+      },
+      {
+        "id": "Q94897389",
+        "title": "Q94897389",
+        "pageid": 93838662,
+        "concepturi": "http://www.wikidata.org/entity/Q94897389",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q94897389",
+        "display": {
+          "label": {
+            "value": "Richard Strauss",
+            "language": "en"
+          },
+          "description": {
+            "value": "b. 1927 d. 2007",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauss",
+        "description": "b. 1927 d. 2007",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauss"
+        }
+      },
+      {
+        "id": "Q58334645",
+        "title": "Q58334645",
+        "pageid": 58248778,
+        "concepturi": "http://www.wikidata.org/entity/Q58334645",
+        "repository": "wikidata",
+        "url": "//www.wikidata.org/wiki/Q58334645",
+        "display": {
+          "label": {
+            "value": "Richard Strauß",
+            "language": "en"
+          }
+        },
+        "label": "Richard Strauß",
+        "match": {
+          "type": "label",
+          "language": "en",
+          "text": "Richard Strauß"
+        }
+      }
+    ],
+    "search-continue": 10,
+    "success": 1
+  },
+  "evidence": {
+    "source_url": "https://www.wikidata.org/w/api.php?action=wbsearchentities&search=Richard+Strauss&language=en&format=json&limit=10",
+    "retrieved_at": "2026-08-25T11:57:56Z",
+    "raw_evidence_sha256": "67829b340cd78f010fc2d1d4e015160aa4a56e6e7fb6fa10a1dec871e988d77f",
+    "cache_hit": false
+  }
+}

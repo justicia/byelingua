@@ -1,0 +1,16 @@
+{
+  "schema_version": "bayerische-staatsoper-readonly-staging-v1",
+  "generated_at": "2026-08-29T14:15:12.202Z",
+  "season": "2026-27",
+  "production_writes": 0,
+  "months_checked": 12,
+  "official_occurrences": 239,
+  "detail_pages_checked": 239,
+  "detail_pages_loaded": 239,
+  "events_with_cast_section": 114,
+  "credits_total": 1603,
+  "cast_rows": 859,
+  "team_rows": 576,
+  "ensemble_rows": 168,
+  "source_failures": 0
+}

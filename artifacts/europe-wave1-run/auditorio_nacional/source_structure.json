@@ -1,0 +1,7 @@
+{
+  "venue_id": "auditorio_nacional",
+  "source_status": "DISCOVERY_PASS",
+  "structure_type": "PAGINATED_DISCOVERY_PLUS_DETAIL",
+  "confidence": "HIGH",
+  "source": "https://auditorionacional.inaem.gob.es/es/programacion"
+}

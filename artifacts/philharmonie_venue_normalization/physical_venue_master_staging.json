@@ -1,0 +1,93 @@
+{
+  "schema_version": "philharmonie-physical-venue-master-staging-v1",
+  "organization": {
+    "id": "eceaaed3-b119-48f1-b638-f7351669fe31",
+    "name": "Philharmonie de Paris",
+    "slug": "philharmonie-de-paris"
+  },
+  "current_venue": {
+    "id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+    "name": "Philharmonie de Paris",
+    "city": "Paris",
+    "status": "EXISTING_CANONICAL_VENUE"
+  },
+  "venue_organization_semantics": "venues.organization_id is the presenting/source organization namespace used by the current schema and ingestion graph; new physical venues are staged under the Philharmonie de Paris organization.",
+  "physical_venues": [
+    {
+      "candidate_key": "philharmonie_de_paris",
+      "official_canonical_name": "Philharmonie de Paris",
+      "city": "Paris",
+      "address": "221 avenue Jean-Jaurès, 75019 Paris",
+      "venue_id": "3830f0b1-e3ad-4526-93da-b82a69f99ad8",
+      "status": "EXISTING_CANONICAL_VENUE",
+      "new_venue_required": false,
+      "event_count": 178,
+      "source_rooms": [
+        "Grande salle Pierre Boulez - Philharmonie",
+        "Le Studio - Philharmonie"
+      ],
+      "evidence_url": "https://philharmoniedeparis.fr/fr/informations-pratiques/comment-venir"
+    },
+    {
+      "candidate_key": "cite_de_la_musique",
+      "official_canonical_name": "Cité de la musique",
+      "city": "Paris",
+      "address": "221 avenue Jean-Jaurès, 75019 Paris",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 73,
+      "source_rooms": [
+        "Salle des concerts - Cité de la musique",
+        "Amphithéâtre - Cité de la musique",
+        "Musée de la musique - Cité de la musique"
+      ],
+      "evidence_url": "https://philharmoniedeparis.fr/fr/decouvrir/cite-de-la-musique"
+    },
+    {
+      "candidate_key": "grande_halle_de_la_villette",
+      "official_canonical_name": "Grande Halle de La Villette",
+      "city": "Paris",
+      "address": "211 avenue Jean-Jaurès, 75019 Paris",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 12,
+      "source_rooms": [
+        "Grande Halle de La Villette"
+      ],
+      "evidence_url": "https://www.lavillette.com/grande-halle/"
+    },
+    {
+      "candidate_key": "cnsmdp",
+      "official_canonical_name": "Conservatoire national supérieur de musique et de danse de Paris",
+      "city": "Paris",
+      "address": "209 avenue Jean-Jaurès, 75019 Paris",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 3,
+      "source_rooms": [
+        "CNSMDP - Salle Rémy Pflimlin"
+      ],
+      "evidence_url": "https://www.conservatoiredeparis.fr/fr/phototheque/location-despaces"
+    },
+    {
+      "candidate_key": "fondation_fiminco",
+      "official_canonical_name": "Fondation Fiminco",
+      "city": "Romainville",
+      "address": "43 rue de la Commune de Paris, 93230 Romainville",
+      "venue_id": null,
+      "status": "SAFE_NEW_CANONICAL_VENUE",
+      "new_venue_required": true,
+      "event_count": 2,
+      "source_rooms": [
+        "Fondation Fiminco"
+      ],
+      "evidence_url": "https://www.fondationfiminco.com/nous-contacter.html"
+    }
+  ],
+  "new_venue_candidate_count": 4,
+  "safe_new_venues": 4,
+  "venue_review_candidates": 0
+}

@@ -1,0 +1,7 @@
+{
+  "venue_id": "teatro_real",
+  "source_status": "DISCOVERY_PASS",
+  "structure_type": "OFFICIAL_CALENDAR_PLUS_DETAIL",
+  "confidence": "HIGH",
+  "source": "https://www.teatroreal.es/en/calendario"
+}
