@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import hashlib
+import os
 import re
 from collections import Counter, defaultdict
 from datetime import datetime, timezone
@@ -16,6 +17,7 @@ from .registry import load_adapter, load_registry
 from .credit_resolution import stage_credits
 from .incremental import source_fingerprint
 from .supabase import ExistingRecord, fetch_existing_sources
+from .hermes_acquisition import HermesAcquisitionError, acquire_events, eligible_for_fallback
 
 
 def _composer_trace(programme_rows: list[dict[str, Any]], snapshot: Any) -> dict[str, list[dict[str, Any]]]:
@@ -129,7 +131,30 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
             apply_mode=False,
         )
         adapter.allowed_detail_urls = {record.source_url for record in existing_records if record.source_url}
-    events = adapter.ingest(season)
+    force_hermes = os.getenv("BYELINGUA_FORCE_HERMES_FALLBACK", "").casefold() in {"1", "true", "yes"}
+    events = [] if force_hermes else adapter.ingest(season)
+    hermes_fallback: dict[str, Any] = {"attempted": False, "status": "NOT_ATTEMPTED"}
+    if eligible_for_fallback(events=events, adapter=adapter, force=force_hermes) and os.getenv("BYELINGUA_HERMES_ACQUIRE_COMMAND"):
+        try:
+            facts, hermes_events = acquire_events(
+                venue=venue,
+                season=season,
+                config=config,
+                reason="forced_validation" if force_hermes else "deterministic_source_failure",
+            )
+            events = hermes_events
+            hermes_fallback = {
+                "attempted": True,
+                "status": "PASS",
+                "source_type": facts["source_type"],
+                "official_source_url": facts["official_source_url"],
+                "source_contract": facts["source_contract"],
+                "events": len(events),
+            }
+        except HermesAcquisitionError as exc:
+            hermes_fallback = {"attempted": True, "status": "BLOCKED", "error": str(exc)[:300]}
+    elif eligible_for_fallback(events=events, adapter=adapter, force=force_hermes):
+        hermes_fallback = {"attempted": False, "status": "NOT_CONFIGURED"}
     scoped_events = list(events)
     source_hash = source_fingerprint(scoped_events)
     if scope == "existing-production":
@@ -205,13 +230,18 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
     snapshot_counts = {kind: len(snapshot.entities.get(kind, [])) for kind in ("composer", "artist", "work", "character")}
     snapshot_counts["composer_aliases"] = len(getattr(snapshot, "composer_aliases", []))
     snapshot_counts["work_aliases"] = len(getattr(snapshot, "work_aliases", []))
-    gates = {"events_gt_zero": len(events) > 0, "traceable_urls": all(bool(event.source_url) for event in events), "duplicate_event_identity": duplicate_event_identity == 0, "duplicate_performance_slot": schedule_contract["duplicate_performance_slot"] == 0, "null_timed_shadow_duplicates": schedule_contract["null_timed_shadow_duplicates"] == 0, "ambiguous_same_day_occurrence": schedule_contract["ambiguous_same_day_occurrence"] == 0, "year_inferred_without_production_evidence": schedule_contract["year_inferred_without_production_evidence"] == 0, "year_unverified": schedule_contract["year_unverified"] == 0, "artist_boundary_high": all(not (credit.get("artist_name") or "").casefold().endswith((" soprano", " tenor", " baritone", " bass")) for credit in credits), "programme_credit_contamination": all(credit.get("credit_kind") not in {"cast", "character"} or credit.get("function") not in {"conductor", "director", "orchestra", "chorus", "designer"} for credit in credits), "source_order_missing": all(item.get("original_programme_order") == item.get("source_programme_index") for item in programme_rows), "untraceable": not untraceable, "review_items_in_safe_subset": 0 == 0, "production_writes": 0 == 0, "source_fetch_failures": len(adapter.last_errors) == 0, "global_master_loaded": global_master_loaded, "existing_event_match": scope != "existing-production" or (existing_match["matched_count"] == len(existing_records) == len(events)), "credit_extraction": scope != "existing-production" or len(credits) > 0}
+    gates = {"events_gt_zero": len(events) > 0, "traceable_urls": all(bool(event.source_url) for event in events), "duplicate_event_identity": duplicate_event_identity == 0, "duplicate_performance_slot": schedule_contract["duplicate_performance_slot"] == 0, "null_timed_shadow_duplicates": schedule_contract["null_timed_shadow_duplicates"] == 0, "ambiguous_same_day_occurrence": schedule_contract["ambiguous_same_day_occurrence"] == 0, "year_inferred_without_production_evidence": schedule_contract["year_inferred_without_production_evidence"] == 0, "year_unverified": schedule_contract["year_unverified"] == 0, "artist_boundary_high": all(not (credit.get("artist_name") or "").casefold().endswith((" soprano", " tenor", " baritone", " bass")) for credit in credits), "programme_credit_contamination": all(credit.get("credit_kind") not in {"cast", "character"} or credit.get("function") not in {"conductor", "director", "orchestra", "chorus", "designer"} for credit in credits), "source_order_missing": all(item.get("original_programme_order") == item.get("source_programme_index") for item in programme_rows), "untraceable": not untraceable, "review_items_in_safe_subset": 0 == 0, "production_writes": 0 == 0, "source_fetch_failures": len(adapter.last_errors) == 0 or hermes_fallback["status"] == "PASS", "global_master_loaded": global_master_loaded, "existing_event_match": scope != "existing-production" or (existing_match["matched_count"] == len(existing_records) == len(events)), "credit_extraction": scope != "existing-production" or len(credits) > 0}
     requested_months = getattr(adapter, "requested_months", [])
     successful_months = getattr(adapter, "successful_months", [])
     failed_months = getattr(adapter, "failed_months", [])
     source_audit = {"venue": venue, "season": season, "scope": scope, "official_source": config["official_source"], "official_fallback_source": config.get("fallback_source"), "source_strategy": "official listing -> official detail links -> performance-level detail extraction", "requested_months": requested_months, "successful_months": successful_months, "failed_months": failed_months, "source_pages": getattr(adapter, "source_pages", {}), "adapter_errors": adapter.last_errors, "events": len(events), "events_after_scope": len(scoped_events), "existing_records_loaded": len(existing_records), "existing_events_matched": existing_match["matched_count"], "listing_pages_requested": len(getattr(adapter, "listing_pages_requested", [])), "listing_pages_successful": len(getattr(adapter, "listing_pages_successful", [])), "listing_pages_failed": len(getattr(adapter, "listing_pages_failed", [])), "detail_pages_requested": len(getattr(adapter, "detail_pages_requested", requested_months)), "detail_pages_successful": len(getattr(adapter, "detail_pages_successful", successful_months)), "detail_pages_failed": len(getattr(adapter, "detail_pages_failed", failed_months)), "detail_urls_discovered_before_scope": getattr(adapter, "productions_discovered_before_scope", getattr(adapter, "productions_discovered", 0)), "detail_urls_filtered_by_scope": getattr(adapter, "detail_scope_filtered", 0)}
+    source_audit["hermes_fallback"] = hermes_fallback
+    if hermes_fallback["status"] == "PASS":
+        source_audit["source_strategy"] = "deterministic official source -> Hermes Browser Automation fallback -> shared canonical normalization"
     source_audit.update({key: getattr(adapter, key, 0) for key in ("productions_discovered", "detail_pages_out_of_season_skipped", "date_candidates_found", "date_candidates_accepted", "date_candidates_rejected", "date_year_unverified", "events_outside_season", "duplicate_performance_slot", "ambiguous_same_day_occurrence", "null_timed_shadow_duplicates", "year_inferred_without_production_evidence")})
-    if failed_months:
+    if hermes_fallback["status"] == "PASS":
+        source_capability = "SOURCE_PASS"
+    elif failed_months:
         source_capability = "SOURCE_BLOCKED" if not events and adapter.last_errors and all("403" in item.get("error", "") for item in adapter.last_errors) else "SOURCE_PARTIAL"
     elif not successful_months or not events:
         source_capability = "SOURCE_UNSUPPORTED"
@@ -232,6 +262,8 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
     event_dates = [event.date for event in events]
     snapshot_hash = hashlib.sha256(json.dumps(snapshot.__dict__, ensure_ascii=False, sort_keys=True, default=str).encode("utf-8")).hexdigest()
     summary = {"generated_at": generated_at, "venue": venue, "season": season, "mode": mode, "scope": scope, "source_fingerprint": source_hash, "source_capability": source_capability, "source_strategy": "official listing -> official detail links -> performance-level detail extraction", "adapter_errors": adapter.last_errors, "months": {"requested": len(requested_months), "successful": len(successful_months), "failed": len(failed_months)}, "global_master_preflight": "PASS" if global_master_loaded else "FAIL", "snapshot_loaded": global_master_loaded, "snapshot_hash": snapshot_hash, "global_master_error": global_master_error, "snapshot_health": snapshot_health, "snapshot_counts": snapshot_counts, "event_type_distribution": event_type_distribution, "programme_source_evidence": programme_source_evidence, "existing_production": {"records_loaded": len(existing_records), "events_scoped": len(scoped_events), "events_matched": existing_match["matched_count"], "unmatched_existing": len(existing_match["unmatched_existing"]), "unmatched_staged": len(existing_match["unmatched_staged"]), "ambiguous": len(existing_match["ambiguous"])}, "counts": {"events": len(events), "events_discovered": len(events), "normalized": len(events), "works_existing": work_counts["existing_exact"], "works_review": work_counts["review"], "review_items": len(review_rows), "writes": 0, **credit_staging.get("counts", {})}, "detail_enrichment": {"listing_pages_requested": source_audit["listing_pages_requested"], "listing_pages_successful": source_audit["listing_pages_successful"], "detail_pages_requested": source_audit["detail_pages_requested"], "detail_pages_successful": source_audit["detail_pages_successful"], "detail_pages_failed": source_audit["detail_pages_failed"], "events_with_programme_evidence": programme_source_evidence["programme_evidence_events"], "events_without_programme_evidence": no_programme_evidence, "programme_source_ambiguous_events": programme_source_evidence["programme_source_ambiguous_events"], "detail_parse_review": detail_parse_review, "programme_items": len(programme_rows), "work_candidates": len(programme_rows), "single_work_events": sum(len(event.programme) == 1 for event in events), "multi_work_events": sum(len(event.programme) > 1 for event in events), "work_parse_review": programme_source_evidence["programme_source_ambiguous_events"], "composer_candidates": sum(bool(item.get("composer_candidate")) for item in programme_rows), "composer_evidence_present": sum(bool(item.get("composer")) for item in programme_rows), "composer_missing_source_evidence": sum(not item.get("composer") for item in programme_rows), "composer_parse_review": sum(not item.get("composer") for item in programme_rows), "credits_total": len(credits), "raw_credit_rows": credit_staging.get("counts", {}).get("credits_raw", len(credits)), "credit_parse_success": credit_staging.get("counts", {}).get("credits_safe", 0), "credit_parse_review": credit_staging.get("counts", {}).get("credits_review", 0), "artist_candidates": len([c for c in credits if c.get("artist_name")]), "character_candidates": len([c for c in credits if c.get("character")]), "composer_resolution": composer_counts, "work_resolution": work_counts}, "composer_trace": _composer_trace(resolution_rows, snapshot), "credit_resolution": credit_staging, "gates": gates, "passed": all(gates.values())}
+    summary["hermes_fallback"] = hermes_fallback
+    summary["source_strategy"] = source_audit["source_strategy"]
     summary.update({
         "productions_discovered": source_audit["productions_discovered"],
         "detail_pages_out_of_season_skipped": source_audit["detail_pages_out_of_season_skipped"],
