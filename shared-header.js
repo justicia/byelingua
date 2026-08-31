@@ -51,25 +51,27 @@
       document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;document.querySelector('.my-schedule-panel.mobile-open')?.classList.remove('mobile-open');const pane=document.getElementById('persistentEventDetail');if(pane&&!pane.hidden){pane.querySelector('[data-close-persistent]')?.click()}const artist=document.getElementById('artistSidePanel');if(artist?.classList.contains('open'))artist.querySelector('.artist-drawer-close')?.click();document.body.style.overflow=''});
     }
 
-    // Opera presentation: explicit character credits are Cast; production roles are Artistic Team; ensembles stay separate.
+    // Credit presentation is determined by credit facts, never by event_type.
+    // This fixes Zürich rows that are currently typed `other` but still carry role/character credits.
     if(typeof renderPresentationCredits==='function'){
       renderPresentationCredits=function(event){
         const esc=window.escapeHtml||((value)=>String(value??''));
-        const credits=event.credits||[],opera=['opera','operetta'].includes(String(event.event_type||'').toLowerCase());
-        const roleKey=value=>String(value||'').toLowerCase().replace(/[\s-]+/g,'_');
+        const credits=event.credits||[];
+        const roleKey=value=>String(value||'').toLowerCase().trim().replace(/[\s-]+/g,'_');
         const ensembleRoles=new Set(['orchestra','ensemble','choir','chorus']);
         const roleLabel=value=>typeof _roleLabel==='function'?_roleLabel(value):(typeof formattedRole==='function'?formattedRole(value):String(value||''));
         const person=x=>typeof artistLink==='function'?artistLink(x):esc(x.artist_name||'');
-        if(!opera){
-          const artists=credits.filter(x=>!ensembleRoles.has(roleKey(x.role))).map(x=>`<li>${person(x)} · ${esc(roleLabel(x.role||'Artist'))}</li>`).join('');
-          const ensembles=credits.filter(x=>ensembleRoles.has(roleKey(x.role))).map(x=>`<li>${person(x)}</li>`).join('');
-          return `<h4>Artists / Artistic Team</h4><ul>${artists||'<li class="hint">暂无 artists</li>'}</ul><h4>Ensembles</h4><ul>${ensembles||'<li class="hint">暂无 ensembles</li>'}</ul>`;
-        }
-        const cast=credits.filter(x=>x.character).map(x=>`<li><span>${esc(x.character)}</span><strong>${person(x)}</strong></li>`).join('');
+
+        const castRows=credits.filter(x=>String(x.character||'').trim());
+        const teamRows=credits.filter(x=>!String(x.character||'').trim()&&!ensembleRoles.has(roleKey(x.role)));
+        const ensembleRows=credits.filter(x=>!String(x.character||'').trim()&&ensembleRoles.has(roleKey(x.role)));
+
+        const cast=castRows.map(x=>`<li><span>${esc(x.character)}</span><strong>${person(x)}</strong></li>`).join('');
         const grouped=new Map();
-        credits.filter(x=>!x.character&&!ensembleRoles.has(roleKey(x.role))).forEach(x=>{const label=roleLabel(x.role||'Artistic Team');if(!grouped.has(label))grouped.set(label,[]);grouped.get(label).push(x)});
+        teamRows.forEach(x=>{const label=roleLabel(x.role||'Artistic Team');if(!grouped.has(label))grouped.set(label,[]);grouped.get(label).push(x)});
         const team=[...grouped].map(([label,rows])=>`<div class="team-group"><h5>${esc(label)}</h5><ul>${rows.map(x=>`<li>${person(x)}</li>`).join('')}</ul></div>`).join('');
-        const ensembles=credits.filter(x=>!x.character&&ensembleRoles.has(roleKey(x.role))).map(x=>`<li>${person(x)}</li>`).join('');
+        const ensembles=ensembleRows.map(x=>`<li>${person(x)}</li>`).join('');
+
         return `<h4>Cast</h4><ul class="cast-list">${cast||'<li class="hint">暂无 cast</li>'}</ul><h4>Artistic Team</h4>${team||'<div class="hint">暂无 artistic team</div>'}<h4>Ensembles</h4><ul>${ensembles||'<li class="hint">暂无 ensembles</li>'}</ul>`;
       };
       if(typeof activeEventId!=='undefined'&&activeEventId&&typeof showDetail==='function')showDetail(activeEventId);
