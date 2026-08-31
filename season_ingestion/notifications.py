@@ -27,6 +27,10 @@ def systemic_blockers(summary: dict) -> list[str]:
     for name in ("duplicate_event_identity", "untraceable", "source_order_missing"):
         if gates.get(name) is False:
             blockers.append(name.upper())
+    if summary.get("scope") == "existing-production" and gates.get("existing_event_match") is False:
+        blockers.append("EXISTING_EVENT_MATCH_FAILED")
+    if summary.get("scope") == "existing-production" and gates.get("credit_extraction") is False:
+        blockers.append("CREDIT_EXTRACTION_EMPTY")
     if (summary.get("counts") or {}).get("writes", 0) != 0:
         blockers.append("PRODUCTION_WRITES_NONZERO")
     return list(dict.fromkeys(blockers))
@@ -91,6 +95,7 @@ def render_github_summary(summary: dict, *, status: str, manifest: dict | None =
     venue = summary.get("venue", "unknown")
     season = summary.get("season", "unknown")
     mode = summary.get("mode", "unknown")
+    scope = summary.get("scope", "full-season")
     run_id = os.getenv("GITHUB_RUN_ID", "local")
     production_writes = counts.get("writes", 0)
     approval_status = manifest.get("status") if manifest else ("BLOCKED" if status.startswith("DRY_RUN_") else "N/A")
@@ -100,6 +105,7 @@ def render_github_summary(summary: dict, *, status: str, manifest: dict | None =
         f"- **Venue:** {venue}",
         f"- **Season:** {season}",
         f"- **Mode:** {mode}",
+        f"- **Scope:** {scope}",
         f"- **Run ID:** {run_id}",
         f"- **Status:** {status}",
         f"- **Source capability:** {summary.get('source_capability', 'UNKNOWN')}",
