@@ -106,6 +106,12 @@ jobs:
           if target:
               Path(target).write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
+      - name: Render compact Wave 1 launch report
+        if: always()
+        run: |
+          python jobs/render_europe_wave1_report.py \
+            --summary onboarding-output/factory_summary.json \
+            --output cloud-artifacts/aggregate/europe-wave1-report.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -113,4 +119,5 @@ jobs:
           path: |
             cloud-artifacts/**/summary.json
             cloud-artifacts/**/pilot_diagnostics.json
+            cloud-artifacts/aggregate/europe-wave1-report.json
           if-no-files-found: error

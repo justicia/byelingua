@@ -9,9 +9,9 @@ targets:
     season: 2026-27
     official_homepage: https://www.opernhaus.ch/en/spielplan/oper-2627/
     schedule_source: https://www.opernhaus.ch/en/spielplan/oper-2627/
-    enabled: false
+    enabled: true
     source_status: FROZEN
-    onboarding_status: FROZEN
+    onboarding_status: ACTIVE
   - venue_id: bayerische_staatsoper
     organization: Bayerische Staatsoper
     venue: Nationaltheater
@@ -21,9 +21,9 @@ targets:
     season: 2026-27
     official_homepage: https://www.staatsoper.de/
     schedule_source: https://www.staatsoper.de/spielplan/{year_month}
-    enabled: false
+    enabled: true
     source_status: FROZEN
-    onboarding_status: FROZEN
+    onboarding_status: ACTIVE
   - venue_id: teatro_real
     organization: Teatro Real
     venue: Teatro Real
@@ -115,3 +115,315 @@ targets:
     enabled: false
     source_status: OUT_OF_SCOPE_FINAL_WAVE
     onboarding_status: OUT_OF_SCOPE
+  - venue_id: wiener_staatsoper
+    organization: Wiener Staatsoper
+    venue: Wiener Staatsoper
+    city: Vienna
+    country: Austria
+    timezone: Europe/Vienna
+    season: 2026-27
+    official_homepage: https://www.wiener-staatsoper.at/en/calendar/
+    schedule_source: https://www.wiener-staatsoper.at/en/calendar/{year}/{month}/
+    source_status: FROZEN
+    enabled: true
+    onboarding_status: ACTIVE
+  - venue_id: wiener_musikverein
+    organization: Wiener Musikverein
+    venue: Musikverein Wien
+    city: Vienna
+    country: Austria
+    timezone: Europe/Vienna
+    season: 2026-27
+    official_homepage: https://musikverein.at/2026-27
+    schedule_source: https://musikverein.at/2026-27
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: wiener_konzerthaus
+    organization: Wiener Konzerthaus
+    venue: Wiener Konzerthaus
+    city: Vienna
+    country: Austria
+    timezone: Europe/Vienna
+    season: 2026-27
+    official_homepage: https://konzerthaus.at/programm
+    schedule_source: https://konzerthaus.at/programm
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: theater_an_der_wien
+    organization: MusikTheater an der Wien
+    venue: Theater an der Wien
+    city: Vienna
+    country: Austria
+    timezone: Europe/Vienna
+    season: 2026-27
+    official_homepage: https://www.theater-wien.at/en/events/season2026-27
+    schedule_source: https://www.theater-wien.at/en/events/season2026-27
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: theatre_champs_elysees
+    organization: Théâtre des Champs-Élysées
+    venue: Théâtre des Champs-Élysées
+    city: Paris
+    country: France
+    timezone: Europe/Paris
+    season: 2026-27
+    official_homepage: https://www.theatrechampselysees.fr/
+    schedule_source: https://www.theatrechampselysees.fr/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: maison_radio_france
+    organization: Radio France
+    venue: Maison de la Radio et de la Musique
+    city: Paris
+    country: France
+    timezone: Europe/Paris
+    season: 2026-27
+    official_homepage: https://billetterie.maisondelaradioetdelamusique.fr/list/events?lang=fr
+    schedule_source: https://billetterie.maisondelaradioetdelamusique.fr/list/events?lang=fr
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: teatro_de_la_zarzuela
+    organization: Teatro de la Zarzuela
+    venue: Teatro de la Zarzuela
+    city: Madrid
+    country: Spain
+    timezone: Europe/Madrid
+    season: 2026-27
+    official_homepage: https://teatrodelazarzuela.inaem.gob.es/es/
+    schedule_source: https://teatrodelazarzuela.inaem.gob.es/es/programacion
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: berliner_philharmonie
+    organization: Berliner Philharmoniker
+    venue: Philharmonie Berlin
+    city: Berlin
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://www.berliner-philharmoniker.de/en/concerts/calendar/
+    schedule_source: https://www.berliner-philharmoniker.de/en/concerts/calendar/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: staatsoper_unter_den_linden
+    organization: Staatsoper Unter den Linden
+    venue: Staatsoper Unter den Linden
+    city: Berlin
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://www.staatsoper-berlin.de/en/programme/season-preview/
+    schedule_source: https://www.staatsoper-berlin.de/en/spielplan/2026-27/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: deutsche_oper_berlin
+    organization: Deutsche Oper Berlin
+    venue: Deutsche Oper Berlin
+    city: Berlin
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://deutscheoperberlin.de/
+    schedule_source: https://deutscheoperberlin.de/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: komische_oper_berlin
+    organization: Komische Oper Berlin
+    venue: Komische Oper Berlin
+    city: Berlin
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://www.komische-oper-berlin.de/en/what/season-2026-27/
+    schedule_source: https://www.komische-oper-berlin.de/en/what/season-2026-27/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: elbphilharmonie
+    organization: Elbphilharmonie
+    venue: Elbphilharmonie
+    city: Hamburg
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://www.elbphilharmonie.de/en/season
+    schedule_source: https://www.elbphilharmonie.de/en/season
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: hamburgische_staatsoper
+    organization: Hamburgische Staatsoper
+    venue: Hamburgische Staatsoper
+    city: Hamburg
+    country: Germany
+    timezone: Europe/Berlin
+    season: 2026-27
+    official_homepage: https://www.die-hamburgische-staatsoper.de/en/
+    schedule_source: https://www.die-hamburgische-staatsoper.de/en/spielplan
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: tonhalle_zurich
+    organization: Tonhalle-Gesellschaft Zürich
+    venue: Tonhalle Zürich
+    city: Zürich
+    country: Switzerland
+    timezone: Europe/Zurich
+    season: 2026-27
+    official_homepage: https://www.tonhalle.ch/en/
+    schedule_source: https://www.tonhalle.ch/en/programm/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: accademia_nazionale_santa_cecilia
+    organization: Accademia Nazionale di Santa Cecilia
+    venue: Auditorium Parco della Musica Ennio Morricone
+    city: Rome
+    country: Italy
+    timezone: Europe/Rome
+    season: 2026-27
+    official_homepage: https://www.santacecilia.it/en/
+    schedule_source: https://www.santacecilia.it/en/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: gran_teatre_del_liceu
+    organization: Gran Teatre del Liceu
+    venue: Gran Teatre del Liceu
+    city: Barcelona
+    country: Spain
+    timezone: Europe/Madrid
+    season: 2026-27
+    official_homepage: https://liceubarcelona.cat/en/newseason
+    schedule_source: https://liceubarcelona.cat/en/newseason
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: palau_de_la_musica_catalana
+    organization: Palau de la Música Catalana
+    venue: Palau de la Música Catalana
+    city: Barcelona
+    country: Spain
+    timezone: Europe/Madrid
+    season: 2026-27
+    official_homepage: https://www.palaumusica.cat/es/temporada-2026-2027_1466030
+    schedule_source: https://www.palaumusica.cat/es/temporada-2026-2027_1466030
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: lauditori_barcelona
+    organization: L'Auditori de Barcelona
+    venue: L'Auditori
+    city: Barcelona
+    country: Spain
+    timezone: Europe/Madrid
+    season: 2026-27
+    official_homepage: https://www.auditori.cat/en/lauditori-season-2026-2027/
+    schedule_source: https://www.auditori.cat/en/lauditori-season-2026-2027/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: concertgebouw
+    organization: Concertgebouw
+    venue: Concertgebouw
+    city: Amsterdam
+    country: Netherlands
+    timezone: Europe/Amsterdam
+    season: 2026-27
+    official_homepage: https://www.concertgebouw.nl/en/
+    schedule_source: https://www.concertgebouw.nl/en/
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: dutch_national_opera
+    organization: Dutch National Opera
+    venue: Dutch National Opera & Ballet
+    city: Amsterdam
+    country: Netherlands
+    timezone: Europe/Amsterdam
+    season: 2026-27
+    official_homepage: https://www.operaballet.nl/en/program/season-26-27/opera
+    schedule_source: https://www.operaballet.nl/en/program/season-26-27/opera
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: royal_opera_house
+    organization: Royal Opera House
+    venue: Royal Opera House
+    city: London
+    country: United Kingdom
+    timezone: Europe/London
+    season: 2026-27
+    official_homepage: https://www.rbo.org.uk/whats-on/royal-opera-house
+    schedule_source: https://www.rbo.org.uk/whats-on/royal-opera-house
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: barbican_centre
+    organization: Barbican Centre
+    venue: Barbican Hall
+    city: London
+    country: United Kingdom
+    timezone: Europe/London
+    season: 2026-27
+    official_homepage: https://www.barbican.org.uk/whats-on/classical-music
+    schedule_source: https://www.barbican.org.uk/whats-on/classical-music
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: southbank_centre
+    organization: Southbank Centre
+    venue: Southbank Centre
+    city: London
+    country: United Kingdom
+    timezone: Europe/London
+    season: 2026-27
+    official_homepage: https://www.southbankcentre.co.uk/whats-on/classical-music
+    schedule_source: https://www.southbankcentre.co.uk/whats-on/classical-music
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: wigmore_hall
+    organization: Wigmore Hall
+    venue: Wigmore Hall
+    city: London
+    country: United Kingdom
+    timezone: Europe/London
+    season: 2026-27
+    official_homepage: https://wigmore-hall.org.uk/whats-on
+    schedule_source: https://wigmore-hall.org.uk/whats-on
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: la_monnaie_de_munt
+    organization: La Monnaie / De Munt
+    venue: La Monnaie
+    city: Brussels
+    country: Belgium
+    timezone: Europe/Brussels
+    season: 2026-27
+    official_homepage: https://www.lamonnaiedemunt.be/en/season/1760?c=1
+    schedule_source: https://www.lamonnaiedemunt.be/en/season/1760?c=1
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
+  - venue_id: bozar
+    organization: BOZAR
+    venue: BOZAR
+    city: Brussels
+    country: Belgium
+    timezone: Europe/Brussels
+    season: 2026-27
+    official_homepage: https://www.bozar.be/en/season-26-27
+    schedule_source: https://www.bozar.be/en/season-26-27
+    source_status: TARGET_REGISTERED
+    enabled: true
+    onboarding_status: PENDING
