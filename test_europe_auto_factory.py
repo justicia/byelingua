@@ -129,3 +129,38 @@ def test_factory_runner_uses_full_season_and_persists_only_successful_source_has
     assert calls[0][1]["previous_source_hash"] == "old-hash"
     assert load_source_state(state_path)[state_key("opera_roma", "2026-27")] == "rome-hash"
     assert batch["production_writes"] == 0
+
+
+def test_factory_isolates_unexpected_venue_exception_and_continues(tmp_path, monkeypatch):
+    targets = [
+        {"venue_id": "good_venue", "season": "2026-27", "enabled": True},
+        {"venue_id": "broken_venue", "season": "2026-27", "enabled": True},
+    ]
+
+    def fake_run_target(target, output_root, **kwargs):
+        if target["venue_id"] == "broken_venue":
+            raise ValueError("duplicate safe event credit identity")
+        return {
+            "venue_id": target["venue_id"],
+            "season": target["season"],
+            "status": "READY_FOR_APPROVAL",
+            "production_writes": 0,
+            "summary": {"source_capability": "SOURCE_PASS", "source_fingerprint": "good-hash", "counts": {}},
+        }
+
+    monkeypatch.setattr(run_europe_auto_factory, "load_targets", lambda **kwargs: targets)
+    monkeypatch.setattr(run_europe_auto_factory, "run_target", fake_run_target)
+    batch = run_europe_auto_factory.run_factory(
+        season="2026-27",
+        scope="all-enabled",
+        selected=[],
+        output_root=tmp_path / "output",
+        state_path=tmp_path / "state.json",
+    )
+
+    assert [venue["venue_id"] for venue in batch["venues"]] == ["good_venue", "broken_venue"]
+    assert batch["venues_production_ready"] == 1
+    assert batch["venues_blocked"] == 1
+    broken = batch["venues"][1]
+    assert broken["blocker"] == "SAFE production graph staging rejected duplicate event credit identity"
+    assert (tmp_path / "output" / "broken_venue" / "summary.json").exists()
