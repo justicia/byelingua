@@ -10,9 +10,54 @@ from .pipeline import run_pipeline
 from .venue_targets import matrix_targets
 from .notifications import build_approval_manifest
 from .incremental import compare_source_fingerprint
+from .production_graph import build_payload
+from .registry import load_registry
 
 
 TERMINAL_STATES = {"READY_FOR_APPROVAL", "REVIEW_REQUIRED", "SOURCE_BLOCKED", "SOURCE_PARTIAL", "ADAPTER_REQUIRED", "FAILED"}
+
+
+def _blocker(summary: dict[str, Any], status: str) -> tuple[str | None, str | None]:
+    """Return one actionable blocker and the next technical fix."""
+    if status == "READY_FOR_APPROVAL":
+        return None, None
+    errors = summary.get("source_audit", {}).get("adapter_errors") or summary.get("adapter_errors") or []
+    if summary.get("source_capability") in {"SOURCE_BLOCKED", "SOURCE_PARTIAL", "SOURCE_UNSUPPORTED"}:
+        first = errors[0] if errors else {}
+        error_text = str(first.get("error") or "")
+        if any(token in error_text.casefold() for token in ("socket", "winerror 10013", "failed to establish a new connection")):
+            return "official source HTTPS fetch blocked by the execution environment", "Run this venue in a network-enabled cloud runner and rerun it"
+        return str(first.get("error") or summary.get("failure_reason") or summary.get("source_capability")), "Repair the official source discovery/detail contract, then rerun this venue"
+    if summary.get("global_master_preflight") == "FAIL":
+        return "global master preflight unavailable", "Provide verified read-only Global Master credentials and rerun this venue"
+    if summary.get("counts", {}).get("review_items", 0):
+        return "canonical programme resolution has review items", "Resolve affected Composer/Work mappings in shared Global Master staging and rerun this venue"
+    return str(summary.get("failure_reason") or "venue did not pass the factory gates"), "Inspect the first failing factory gate and rerun only this venue"
+
+
+def _write_production_graph_staging(output_dir: Path, summary: dict[str, Any], *, venue_id: str) -> None:
+    """Freeze the SAFE graph payload consumed by the approved apply job."""
+    if summary.get("source_capability") != "SOURCE_PASS" or summary.get("global_master_preflight") != "PASS":
+        return
+    final_path, snapshot_path = output_dir / "final_staging.json", output_dir / "snapshot.json"
+    if not final_path.exists() or not snapshot_path.exists():
+        return
+    final = json.loads(final_path.read_text(encoding="utf-8"))
+    snapshot = json.loads(snapshot_path.read_text(encoding="utf-8"))
+    resolutions = final.get("resolution") or []
+    safe_rows = [row for row in resolutions if row.get("status") == "existing" and row.get("work_id") and (row.get("composer_resolution") or {}).get("status") == "existing"]
+    composer_ids = {row["composer_resolution"].get("entity_id") for row in safe_rows}
+    work_ids = {row.get("work_id") for row in safe_rows}
+    composers = [row for row in snapshot.get("entities", {}).get("composer", []) if row.get("id") in composer_ids]
+    works = [row for row in snapshot.get("entities", {}).get("work", []) if row.get("id") in work_ids]
+    relationships = [{"event_key": row["event_key"], "work_id": row["work_id"], "order": row.get("original_programme_order") or row.get("source_programme_index") or 1, "source_url": (row.get("provenance") or {}).get("source_url")} for row in safe_rows]
+    staging = {"composer": {"safe": composers}, "work": {"safe": works}, "relationships": {"safe_existing": relationships, "safe_new": []}, "credit_resolution": final.get("credit_resolution") or {}}
+    config = load_registry()["venues"].get(venue_id) or {}
+    payload = build_payload(final.get("events", []), staging, organization={"name": config.get("organization"), "slug": venue_id}, venue={"name": config.get("venue"), "city": config.get("city"), "country_code": config.get("country")})
+    payload["release"] = {"venue_id": venue_id, "season": summary.get("season"), "source_fingerprint": summary.get("source_fingerprint"), "final_staging_sha256": hashlib.sha256(final_path.read_bytes()).hexdigest()}
+    path = output_dir / "production_graph_staging.json"
+    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    summary["production_graph_staging_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def _write_safe_apply_preview(output_dir: Path, summary: dict[str, Any], *, venue_id: str, season: str) -> None:
@@ -80,7 +125,8 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
         status = "FAILED"
     summary.setdefault("scope", scope)
     summary.setdefault("incremental", compare_source_fingerprint(previous_source_hash, summary.get("source_fingerprint")))
-    result = {"venue_id": venue_id, "season": target["season"], "status": status, "production_writes": 0, "summary": summary}
+    blocker, next_fix = _blocker(summary, status)
+    result = {"venue_id": venue_id, "season": target["season"], "status": status, "production_writes": 0, "blocker": blocker, "next_technical_fix": next_fix, "summary": summary}
     output_dir.mkdir(parents=True, exist_ok=True)
     # The pipeline writes its detailed summary before returning.  Persist the
     # incremental decision in that same runner-local summary without exposing
@@ -90,8 +136,10 @@ def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path
     structure_type = target.get("structure_type") or ("JSON_LD" if venue_id == "opernhaus_zurich" else "STRUCTURED_HTML_LISTING")
     (output_dir / "source_structure.json").write_text(json.dumps({"venue_id": venue_id, "source_status": target.get("source_status", "UNVERIFIED"), "structure_type": structure_type, "confidence": "HIGH", "source": target.get("schedule_source")}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     if status == "READY_FOR_APPROVAL" and (output_dir / "final_staging.json").exists():
+        _write_production_graph_staging(output_dir, summary, venue_id=venue_id)
         manifest = build_approval_manifest(summary, output_dir / "final_staging.json", run_id=str(summary.get("run_id", "local")), commit=str(summary.get("git_commit", "unknown")))
         (output_dir / "approval_manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output_dir / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (output_dir / "onboarding_status.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return result
 
@@ -103,8 +151,9 @@ def build_batch_summary(results: list[dict[str, Any]], *, season: str, batch_run
         if key in counts:
             counts[key] += 1
     statuses = [item["status"] for item in results]
-    batch_status = "COMPLETED_WITH_BLOCKED_TARGETS" if counts["source_blocked"] and counts["failed"] == 0 else "FAILED" if counts["failed"] else "SUCCESS"
-    return {"schema_version": "venue-onboarding-batch-summary-v1", "batch_run_id": batch_run_id, "season": season, "git_commit": git_commit, "targets": len(results), **counts, "batch_status": batch_status, "failure_isolation": "PASS" if "READY_FOR_APPROVAL" in statuses and "SOURCE_BLOCKED" in statuses else "NOT_APPLICABLE", "venues": results}
+    blocked = sum(1 for status in statuses if status != "READY_FOR_APPROVAL")
+    batch_status = "COMPLETED_WITH_BLOCKED_TARGETS" if blocked else "SUCCESS"
+    return {"schema_version": "venue-onboarding-batch-summary-v1", "batch_run_id": batch_run_id, "season": season, "git_commit": git_commit, "targets": len(results), "venues_attempted": len(results), "venues_production_ready": counts["ready_for_approval"], "venues_blocked": blocked, **counts, "batch_status": batch_status, "failure_isolation": "PASS" if blocked < len(results) else "NOT_APPLICABLE", "venues": results}
 
 
 def build_batch_approval_manifest(summary: dict[str, Any]) -> dict[str, Any]:
