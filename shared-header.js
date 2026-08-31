@@ -26,6 +26,21 @@
       window.scrollTo(0,overlayState.scrollY);
     }
   };
+  window.ByelinguaEventDetail=window.ByelinguaEventDetail||{
+    render(event,options){
+      const e=event||{},labels=options?.labels||{},escape=options?.escape||function(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))};
+      const label=(key,fallback)=>escape(labels[key]||fallback),source=e.source_url||e.detail_url||e.original_url||'';
+      const programme=(e.programme||[]).map(item=>`<li>${escape([item.composer,item.work_title||item.title].filter(Boolean).join(' · '))}</li>`).join('')||`<li class="hint">${label('noProgramme','No programme listed.')}</li>`;
+      const roleLabel=(value,roleLabels={})=>{const canonical=String(value||'Artist').replace(/[_-]+/g,' ').replace(/\s+/g,' ').trim(),mapped=roleLabels[canonical.toLowerCase()];return mapped||canonical.replace(/\b\w/g,char=>char.toUpperCase())};
+      const ensembleRole=value=>/orchestra|orchester|choir|chorus|ensemble|music group|band|chœur|choeur/i.test(String(value||''));
+      const credits=e.credits||[],cast=credits.filter(item=>item.character),ensemble=credits.filter(item=>!item.character&&ensembleRole(item.role)),groups=new Map();
+      credits.filter(item=>!item.character&&!ensembleRole(item.role)).forEach(item=>{const role=roleLabel(item.role,options?.roleLabels);if(!groups.has(role))groups.set(role,[]);groups.get(role).push(item.artist_name||'')});
+      const artist=item=>escape(item.artist_name||''),castHtml=cast.map(item=>`<li><span>${escape(item.character)}</span><strong>${artist(item)}</strong></li>`).join('')||`<li class="hint">${label('noCast','No cast listed.')}</li>`;
+      const teamHtml=[...groups].map(([role,names])=>`<div class="team-group"><h5>${escape(role)}</h5><ul>${names.map(name=>`<li>${escape(name)}</li>`).join('')}</ul></div>`).join('')||`<div class="hint">${label('noTeam','No artistic team listed.')}</div>`;
+      const ensembleHtml=ensemble.map(item=>`<li>${artist(item)}${item.role?` · ${escape(roleLabel(item.role,options?.roleLabels))}`:''}</li>`).join('')||`<li class="hint">${label('noEnsembles','No ensembles listed.')}</li>`;
+      return `<section class="planner-detail-sections"><h4>${label('programme','Programme')}</h4><ul>${programme}</ul><h4>${label('cast','Cast')}</h4><ul class="cast-list">${castHtml}</ul><h4>${label('team','Artistic Team')}</h4>${teamHtml}<h4>${label('ensembles','Ensembles')}</h4><ul>${ensembleHtml}</ul>${source?`<p><a href="${escape(source)}" target="_blank" rel="noopener noreferrer">${label('officialSource','Official source')} ↗</a></p>`:''}<section class="phase1-reviews-placeholder" data-reviews-placeholder><h4>${label('reviews','Reviews')}</h4><p class="hint">${label('noReviews','No reviews yet.')}</p></section></section>`;
+    }
+  };
   const tokenPresent=()=>{
     try{
       for(let i=0;i<localStorage.length;i++){
