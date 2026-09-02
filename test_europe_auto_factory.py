@@ -101,15 +101,16 @@ def test_factory_reuses_berlin_hermes_facts_path(tmp_path, monkeypatch):
     calls = []
     monkeypatch.setattr(run_europe_auto_factory, "load_targets", lambda **kwargs: [{"venue_id": "staatsoper_unter_den_linden", "season": "2026-27", "enabled": True}])
     monkeypatch.setattr(run_europe_auto_factory, "_find_hermes_facts", lambda *args: Path("artifacts/hermes-berlin-source-facts.json"))
-    monkeypatch.setattr(run_europe_auto_factory, "run_target", lambda target, output_root, **kwargs: calls.append(kwargs) or {"venue_id": target["venue_id"], "season": target["season"], "status": "FAILED", "production_writes": 0, "summary": {}})
+    monkeypatch.setattr(run_europe_auto_factory, "_run_venue_child", lambda target, output_root, facts_path, timeout: calls.append(facts_path) or {"venue_id": target["venue_id"], "season": target["season"], "status": "FAILED", "production_writes": 0, "summary": {}})
     run_europe_auto_factory.run_factory(season="2026-27", scope="selected", selected=["staatsoper_unter_den_linden"], output_root=tmp_path / "out", state_path=tmp_path / "state.json")
-    assert calls[0]["hermes_source_facts_path"] == Path("artifacts/hermes-berlin-source-facts.json")
+    assert calls[0] == Path("artifacts/hermes-berlin-source-facts.json")
 
 
 def test_factory_runner_uses_full_season_and_persists_only_successful_source_hash(tmp_path, monkeypatch):
     calls = []
 
-    def fake_run_target(target, output_root, **kwargs):
+    def fake_run_child(target, output_root, facts_path, timeout):
+        kwargs = {"scope": "full-season", "previous_source_hash": "old-hash"}
         calls.append((target["venue_id"], kwargs))
         return {
             "venue_id": target["venue_id"],
@@ -123,7 +124,7 @@ def test_factory_runner_uses_full_season_and_persists_only_successful_source_has
             },
         }
 
-    monkeypatch.setattr(run_europe_auto_factory, "run_target", fake_run_target)
+    monkeypatch.setattr(run_europe_auto_factory, "_run_venue_child", fake_run_child)
     state_path = tmp_path / "state.json"
     save_source_state(state_path, {state_key("opera_roma", "2026-27"): "old-hash"})
     batch = run_europe_auto_factory.run_factory(
@@ -146,7 +147,7 @@ def test_factory_isolates_unexpected_venue_exception_and_continues(tmp_path, mon
         {"venue_id": "broken_venue", "season": "2026-27", "enabled": True},
     ]
 
-    def fake_run_target(target, output_root, **kwargs):
+    def fake_run_child(target, output_root, facts_path, timeout):
         if target["venue_id"] == "broken_venue":
             raise ValueError("duplicate safe event credit identity")
         return {
@@ -158,7 +159,7 @@ def test_factory_isolates_unexpected_venue_exception_and_continues(tmp_path, mon
         }
 
     monkeypatch.setattr(run_europe_auto_factory, "load_targets", lambda **kwargs: targets)
-    monkeypatch.setattr(run_europe_auto_factory, "run_target", fake_run_target)
+    monkeypatch.setattr(run_europe_auto_factory, "_run_venue_child", fake_run_child)
     batch = run_europe_auto_factory.run_factory(
         season="2026-27",
         scope="all-enabled",
@@ -173,3 +174,25 @@ def test_factory_isolates_unexpected_venue_exception_and_continues(tmp_path, mon
     broken = batch["venues"][1]
     assert broken["blocker"] == "SAFE production graph staging rejected duplicate event credit identity"
     assert (tmp_path / "output" / "broken_venue" / "summary.json").exists()
+
+
+def test_factory_resume_skips_valid_completed_and_checkpoints_each_venue(tmp_path, monkeypatch):
+    targets = [
+        {"venue_id": "completed", "season": "2026-27", "enabled": True},
+        {"venue_id": "pending", "season": "2026-27", "enabled": True},
+    ]
+    resume_root = tmp_path / "resume"
+    completed_dir = resume_root / "completed"
+    completed_dir.mkdir(parents=True)
+    for name in ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary"):
+        (completed_dir / f"{name}.json").write_text("{}", encoding="utf-8")
+    (completed_dir / "onboarding_status.json").write_text(json.dumps({"venue_id": "completed", "status": "REVIEW_REQUIRED", "production_writes": 0, "summary": {"source_capability": "SOURCE_PASS", "counts": {"events": 1}}}), encoding="utf-8")
+    calls = []
+    monkeypatch.setattr(run_europe_auto_factory, "load_targets", lambda **kwargs: targets)
+    monkeypatch.setattr(run_europe_auto_factory, "_run_venue_child", lambda target, output_root, facts_path, timeout: calls.append(target["venue_id"]) or {"venue_id": target["venue_id"], "season": target["season"], "status": "FAILED", "production_writes": 0, "summary": {"source_capability": "FAILED", "counts": {"events": 0}}})
+    batch = run_europe_auto_factory.run_factory(season="2026-27", scope="selected", selected=["completed", "pending"], output_root=tmp_path / "output", state_path=tmp_path / "state.json", resume_root=resume_root)
+    assert calls == ["pending"]
+    assert batch["venues_reused"] == 1
+    assert json.loads((tmp_path / "output" / "factory_progress.json").read_text(encoding="utf-8"))["completed_venues"] == ["completed", "pending"]
+    assert not (tmp_path / "output" / "factory_summary.partial.json").exists()
+    assert (tmp_path / "output" / "europe-wave1-report.json").exists()

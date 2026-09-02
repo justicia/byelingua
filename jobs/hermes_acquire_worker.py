@@ -16,10 +16,12 @@ from __future__ import annotations
 
 import json
 import os
+import signal
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 from pathlib import Path
 from typing import Any, Callable
 from datetime import date
@@ -28,7 +30,9 @@ from urllib.parse import urlparse
 
 SOURCE_FACTS_SCHEMA_VERSION = "hermes-source-facts-v1"
 DEFAULT_MODEL = "gpt-5.6-luna"
-DEFAULT_TIMEOUT_SECONDS = 900
+DEFAULT_TOTAL_TIMEOUT_SECONDS = 900
+DEFAULT_FIRST_ATTEMPT_TIMEOUT_SECONDS = 840
+DEFAULT_PROCESS_MARGIN_SECONDS = 30
 MAX_INLINE_PROMPT_CHARS = 6000
 
 # This is the one JSON contract shared by the worker and the acquisition
@@ -45,6 +49,42 @@ SOURCE_FACTS_SCHEMA: dict[str, Any] = {
 
 class WorkerError(RuntimeError):
     """A single actionable worker failure."""
+
+
+def timeout_config_from_env() -> dict[str, int]:
+    values = {
+        "total": os.getenv("BYELINGUA_HERMES_TOTAL_TIMEOUT_SECONDS", str(DEFAULT_TOTAL_TIMEOUT_SECONDS)),
+        "first_attempt": os.getenv("BYELINGUA_HERMES_FIRST_ATTEMPT_TIMEOUT_SECONDS", str(DEFAULT_FIRST_ATTEMPT_TIMEOUT_SECONDS)),
+        "margin": os.getenv("BYELINGUA_HERMES_PROCESS_MARGIN_SECONDS", str(DEFAULT_PROCESS_MARGIN_SECONDS)),
+    }
+    try:
+        config = {key: int(value) for key, value in values.items()}
+    except (TypeError, ValueError) as exc:
+        raise WorkerError("Hermes timeout configuration must contain integers") from exc
+    if any(value <= 0 for value in config.values()):
+        raise WorkerError("Hermes timeout configuration values must be positive")
+    if config["first_attempt"] > config["total"]:
+        raise WorkerError("Hermes first-attempt timeout must not exceed total timeout")
+    return config
+
+
+def _terminate_process_tree(process: subprocess.Popen[Any]) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], capture_output=True, check=False)
+    else:
+        try:
+            os.killpg(process.pid, signal.SIGTERM)
+        except ProcessLookupError:
+            return
+        try:
+            process.wait(timeout=2)
+        except subprocess.TimeoutExpired:
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
 
 
 def _log(message: str) -> None:
@@ -223,6 +263,8 @@ def _parse_and_validate(raw: str, validator: Callable[[Any], Any]) -> dict[str, 
         raise WorkerError(f"source-facts contract validation failed: {exc}") from exc
     if verdict is False:
         raise WorkerError("source-facts contract validation failed")
+    if not value.get("events"):
+        raise WorkerError("source-facts contract validation failed: events must be non-empty")
     return value
 
 
@@ -253,19 +295,24 @@ def _run_hermes(prompt: str, *, timeout_seconds: int) -> str:
                 handle.write(prompt)
             command = [hermes, "chat", "--oneshot", "--query-file", str(query_file)]
 
-        completed = subprocess.run(
+        process = subprocess.Popen(
             command,
             cwd=Path(__file__).resolve().parents[1],
             env=child_env,
-            capture_output=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
             encoding="utf-8",
             errors="replace",
-            timeout=timeout_seconds,
-            check=False,
+            start_new_session=os.name != "nt",
+            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
         )
-    except subprocess.TimeoutExpired as exc:
-        raise WorkerError(f"Hermes timed out after {timeout_seconds}s") from exc
+        try:
+            stdout, stderr = process.communicate(timeout=timeout_seconds)
+        except subprocess.TimeoutExpired as exc:
+            _terminate_process_tree(process)
+            process.communicate()
+            raise WorkerError(f"Hermes timed out after {timeout_seconds}s") from exc
     except OSError as exc:
         raise WorkerError(f"Hermes invocation failed: {exc}") from exc
     finally:
@@ -275,13 +322,13 @@ def _run_hermes(prompt: str, *, timeout_seconds: int) -> str:
             except OSError:
                 _log("could not remove temporary query file")
 
-    if completed.returncode != 0:
-        detail = (completed.stderr or "").strip().splitlines()
+    if process.returncode != 0:
+        detail = (stderr or "").strip().splitlines()
         suffix = f": {detail[-1][:300]}" if detail else ""
-        raise WorkerError(f"Hermes exited with code {completed.returncode}{suffix}")
-    if completed.stderr.strip():
+        raise WorkerError(f"Hermes exited with code {process.returncode}{suffix}")
+    if stderr.strip():
         _log("Hermes emitted diagnostics on stderr")
-    return completed.stdout
+    return stdout
 
 
 def main() -> int:
@@ -290,11 +337,13 @@ def main() -> int:
         validator = validate_source_facts
         schema_text = json.dumps(SOURCE_FACTS_SCHEMA, ensure_ascii=False, sort_keys=True)
         prompt = build_prompt(request, schema_text)
-        timeout_seconds = int(os.getenv("BYELINGUA_HERMES_TIMEOUT_SECONDS", DEFAULT_TIMEOUT_SECONDS))
+        timeout_config = timeout_config_from_env()
+        deadline = time.monotonic() + timeout_config["total"]
 
         _log("invoking Hermes (attempt 1)")
         try:
-            output = _run_hermes(prompt, timeout_seconds=timeout_seconds)
+            remaining = max(1, int(deadline - time.monotonic()))
+            output = _run_hermes(prompt, timeout_seconds=min(timeout_config["first_attempt"], remaining))
             facts = _parse_and_validate(output, validator)
         except WorkerError as first_error:
             # A correction retry is only for Hermes' malformed/invalid output.
@@ -311,9 +360,12 @@ def main() -> int:
                 "Correct it now. Return the complete valid source-facts JSON only; "
                 "do not omit required fields and do not add explanation."
             )
+            remaining = int(deadline - time.monotonic())
+            if remaining <= 0:
+                raise WorkerError("Hermes total acquisition budget exhausted")
             _log("retrying once with JSON correction prompt")
             facts = _parse_and_validate(
-                _run_hermes(correction, timeout_seconds=timeout_seconds), validator
+                _run_hermes(correction, timeout_seconds=remaining), validator
             )
 
         sys.stdout.write(json.dumps(facts, ensure_ascii=False, separators=(",", ":")) + "\n")

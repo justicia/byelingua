@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-
+from jobs import hermes_acquire_worker as worker
 from season_ingestion import hermes_acquisition as acquisition
 from season_ingestion import pipeline
 from season_ingestion.schema import CanonicalEvent
@@ -65,17 +65,20 @@ def test_acquisition_subprocess_contract_is_read_only(monkeypatch):
     facts = _facts()
     seen = {}
 
-    class Completed:
+    class FakeProcess:
+        pid = 123
         returncode = 0
-        stdout = json.dumps(facts, ensure_ascii=False)
-        stderr = ""
+        def communicate(self, input_text=None, timeout=None):
+            seen["input"] = json.loads(input_text)
+            return json.dumps(facts, ensure_ascii=False), ""
+        def poll(self):
+            return self.returncode
 
-    def fake_run(command, **kwargs):
+    def fake_popen(command, **kwargs):
         seen["command"] = command
-        seen["input"] = json.loads(kwargs["input"])
-        return Completed()
+        return FakeProcess()
 
-    monkeypatch.setattr(acquisition.subprocess, "run", fake_run)
+    monkeypatch.setattr(acquisition.subprocess, "Popen", fake_popen)
     result = acquisition.acquire_source_facts({"venue_id": "berlin"}, command="python jobs/hermes_acquire_worker.py")
     assert result == facts
     assert seen["command"] == ["python", "jobs/hermes_acquire_worker.py"]
@@ -171,15 +174,60 @@ def test_empty_hermes_facts_are_rejected(monkeypatch):
     facts = _facts()
     facts["events"] = []
 
-    class Completed:
+    class FakeProcess:
+        pid = 123
         returncode = 0
-        stdout = json.dumps(facts)
-        stderr = ""
+        def communicate(self, input_text=None, timeout=None):
+            return json.dumps(facts), ""
+        def poll(self):
+            return self.returncode
 
-    monkeypatch.setattr(acquisition.subprocess, "run", lambda *args, **kwargs: Completed())
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
     try:
         acquisition.acquire_source_facts({"venue_id": "berlin"}, command="python jobs/hermes_acquire_worker.py")
     except acquisition.HermesAcquisitionError as exc:
         assert "events must be non-empty" in str(exc)
     else:
         raise AssertionError("empty Hermes facts unexpectedly passed")
+
+
+def test_invalid_timeout_configuration_fails_preflight(monkeypatch):
+    monkeypatch.setenv("BYELINGUA_HERMES_TOTAL_TIMEOUT_SECONDS", "10")
+    monkeypatch.setenv("BYELINGUA_HERMES_FIRST_ATTEMPT_TIMEOUT_SECONDS", "11")
+    try:
+        worker.timeout_config_from_env()
+    except worker.WorkerError as exc:
+        assert "must not exceed total" in str(exc)
+    else:
+        raise AssertionError("invalid timeout configuration unexpectedly passed")
+
+
+def test_outer_timeout_uses_worker_budget_plus_margin(monkeypatch):
+    seen = {}
+
+    class FakeProcess:
+        returncode = 0
+        pid = 123
+        def communicate(self, input_text=None, timeout=None):
+            seen["timeout"] = timeout
+            return json.dumps(_facts()), ""
+        def poll(self):
+            return self.returncode
+
+    monkeypatch.setenv("BYELINGUA_HERMES_TOTAL_TIMEOUT_SECONDS", "100")
+    monkeypatch.setenv("BYELINGUA_HERMES_FIRST_ATTEMPT_TIMEOUT_SECONDS", "80")
+    monkeypatch.setenv("BYELINGUA_HERMES_PROCESS_MARGIN_SECONDS", "10")
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    acquisition.acquire_source_facts({"venue_id": "berlin", "official_source_url": "https://official.example/season"}, command="python jobs/hermes_acquire_worker.py")
+    assert seen["timeout"] == 110
+
+
+def test_invalid_programme_provenance_is_rejected():
+    facts = _facts()
+    facts["events"][0]["programme"][0]["provenance"] = "invalid"
+    try:
+        worker.validate_source_facts(facts)
+    except ValueError as exc:
+        assert str(exc) == "programme provenance must be an object"
+    else:
+        raise AssertionError("invalid programme provenance unexpectedly passed")

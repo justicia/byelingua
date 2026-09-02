@@ -38,12 +38,16 @@ def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
     review = [item for item in venues if _classification(item) == "PARTIAL" or item.get("status") == "REVIEW_REQUIRED"]
     blocked = [item for item in venues if _classification(item) == "BLOCKED"]
     new_ready = sum(item.get("venue_id") in WAVE1_VENUES for item in ready)
-    events = programme = credits = 0
+    events = programme = credits = safe_programme = review_programme = safe_credits = review_credits = 0
     for item in accepted:
         counts = (item.get("summary") or {}).get("counts") or {}
         events += int(counts.get("events", counts.get("events_discovered", 0)) or 0)
-        programme += int(counts.get("safe_programme_relationships", 0) or 0)
-        credits += int(counts.get("credits_safe", 0) or 0)
+        safe_programme += int(counts.get("safe_programme_relationships", 0) or 0)
+        review_programme += int(counts.get("review_programme_relationships", 0) or 0)
+        safe_credits += int(counts.get("credits_safe", 0) or 0)
+        review_credits += int(counts.get("credits_review", 0) or 0)
+    programme = safe_programme + review_programme
+    credits = safe_credits + review_credits
     return {
         "VENUES_ATTEMPTED": len(venues),
         "VENUES_PRODUCTION_READY": len(ready),
@@ -53,6 +57,10 @@ def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
         "TOTAL_EVENTS": events,
         "TOTAL_PROGRAMME_RELATIONSHIPS": programme,
         "TOTAL_CREDITS": credits,
+        "TOTAL_SAFE_PROGRAMME_RELATIONSHIPS": safe_programme,
+        "TOTAL_REVIEW_PROGRAMME_RELATIONSHIPS": review_programme,
+        "TOTAL_SAFE_CREDITS": safe_credits,
+        "TOTAL_REVIEW_CREDITS": review_credits,
         "classifications": classifications,
         "blocked": [{"venue": item.get("venue_id"), "blocker": item.get("blocker") or (item.get("summary") or {}).get("failure_reason"), "next technical fix": item.get("next_technical_fix") or "Rerun the isolated venue after the blocker is fixed"} for item in blocked],
     }
