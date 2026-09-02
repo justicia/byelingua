@@ -122,18 +122,15 @@ def _programme(document: dict[str, Any], title: str, source_url: str) -> list[di
         })
     if rows:
         return rows
-    composer = _as_name(document.get("composer"))
-    return [{
-        "source_title": _clean_title(title),
-        "raw_title": title,
-        "composer": composer,
-        "composer_candidate": {"raw_name": composer, "source_url": source_url, "source_field": "jsonld.composer"} if composer else {},
-        "source_programme_index": 1,
-        "raw_programme_index": 1,
-        "original_programme_order": 1,
-        "resolution_status": "pending_global_resolution",
-        "provenance": {"source_url": source_url, "source_field": "jsonld.composer" if composer else "jsonld.name"},
-    }]
+    return []
+
+
+GENERIC_EVENT_TITLES = {"season", "what's on", "classical music", "programme", "calendar", "events"}
+
+
+def _generic_event_title(value: str) -> bool:
+    normalized = re.sub(r"\s+", " ", value.casefold()).strip()
+    return normalized in GENERIC_EVENT_TITLES or normalized.startswith("season 20") or normalized.startswith("what's on") or "classical music |" in normalized
 
 
 def _credits(document: dict[str, Any], source_url: str) -> list[dict[str, Any]]:
@@ -248,6 +245,9 @@ class EuropeVenueAdapter:
             title = _clean_title(_as_name(document.get("name")) or page_url.rstrip("/").rsplit("/", 1)[-1] or "Official event")
             source_url = str(document.get("url") or page_url)
             source_url = urljoin(page_url, source_url)
+            if _generic_event_title(title):
+                self.date_candidates_rejected += 1
+                continue
             source_identity = str(document.get("@id") or document.get("url") or f"{title}|{index}")
             source_event_id = hashlib.sha256(f"{source_url}|{source_identity}|{start_raw}".encode("utf-8")).hexdigest()[:24]
             location = document.get("location") if isinstance(document.get("location"), dict) else {}
@@ -270,7 +270,7 @@ class EuropeVenueAdapter:
                 classification=self.settings.get("default_event_type", "performance"),
                 programme=_programme(document, title, source_url),
                 credits=_credits(document, source_url),
-                data_quality={"schedule": {"year_status": "YEAR_EXPLICIT", "source_field": "jsonld.startDate"}, "programme": {"status": "PROGRAMME_EVIDENCE_FOUND" if document.get("workPerformed") or document.get("work") or document.get("composer") else "DETAIL_PARSE_REVIEW", "reason": "official source Event JSON-LD"}},
+                data_quality={"schedule": {"year_status": "YEAR_EXPLICIT", "source_field": "jsonld.startDate"}, "programme": {"status": "PROGRAMME_EVIDENCE_FOUND" if document.get("workPerformed") or document.get("work") else "NO_PROGRAMME_EVIDENCE", "reason": "official source Event JSON-LD"}},
                 raw={"source_title": title, "source_occurrence": {"startDate": start_raw, "source_identity": source_identity}, "source_url": source_url, "listing_source_url": page_url if not detail else self.settings.get("listing_source", page_url), "source_document_type": "jsonld.event" if documents else "html.time"},
             )
             event.validate()

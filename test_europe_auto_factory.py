@@ -13,6 +13,9 @@ from season_ingestion.incremental import (
 )
 from season_ingestion.schema import CanonicalEvent
 from season_ingestion.venue_targets import load_targets
+from season_ingestion.factory import build_batch_summary
+from jobs.render_europe_wave1_report import build_report
+from season_ingestion.adapters.europe_venue import _generic_event_title
 from jobs import run_europe_auto_factory
 
 
@@ -155,7 +158,7 @@ def test_factory_isolates_unexpected_venue_exception_and_continues(tmp_path, mon
             "season": target["season"],
             "status": "READY_FOR_APPROVAL",
             "production_writes": 0,
-            "summary": {"source_capability": "SOURCE_PASS", "source_fingerprint": "good-hash", "counts": {}},
+            "summary": {"source_capability": "SOURCE_PASS", "source_fingerprint": "good-hash", "counts": {"events": 1}},
         }
 
     monkeypatch.setattr(run_europe_auto_factory, "load_targets", lambda **kwargs: targets)
@@ -184,7 +187,9 @@ def test_factory_resume_skips_valid_completed_and_checkpoints_each_venue(tmp_pat
     resume_root = tmp_path / "resume"
     completed_dir = resume_root / "completed"
     completed_dir.mkdir(parents=True)
-    for name in ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary"):
+    (completed_dir / "normalized.json").write_text(json.dumps([{"source_url": "https://official.example/event/1", "title": "A real event", "date": "2026-10-01", "start_time": "20:00", "programme": []}]), encoding="utf-8")
+    (completed_dir / "summary.json").write_text(json.dumps({"source_capability": "SOURCE_PASS", "counts": {"events": 1}, "months": {"successful": 1}, "duplicate_performance_slot": 0}), encoding="utf-8")
+    for name in ("source_audit", "raw", "snapshot", "resolution_staging", "final_staging"):
         (completed_dir / f"{name}.json").write_text("{}", encoding="utf-8")
     (completed_dir / "onboarding_status.json").write_text(json.dumps({"venue_id": "completed", "status": "REVIEW_REQUIRED", "production_writes": 0, "summary": {"source_capability": "SOURCE_PASS", "counts": {"events": 1}}}), encoding="utf-8")
     calls = []
@@ -196,3 +201,32 @@ def test_factory_resume_skips_valid_completed_and_checkpoints_each_venue(tmp_pat
     assert json.loads((tmp_path / "output" / "factory_progress.json").read_text(encoding="utf-8"))["completed_venues"] == ["completed", "pending"]
     assert not (tmp_path / "output" / "factory_summary.partial.json").exists()
     assert (tmp_path / "output" / "europe-wave1-report.json").exists()
+
+
+def test_review_result_is_reused_only_when_occurrence_quality_passes(tmp_path):
+    source_dir = tmp_path / "resume" / "venue"
+    source_dir.mkdir(parents=True)
+    event = {"source_url": "https://official.example/category", "title": "What's on – Classical music | Venue", "date": "2026-10-01", "start_time": "20:00", "programme": [{"provenance": {"source_field": "jsonld.name"}}]}
+    for name, payload in {
+        "source_audit": {}, "raw": [], "normalized": [event], "snapshot": {}, "resolution_staging": [], "final_staging": {},
+        "summary": {"source_capability": "SOURCE_PASS", "counts": {"events": 1}, "months": {"successful": 1}, "duplicate_performance_slot": 0},
+    }.items():
+        (source_dir / f"{name}.json").write_text(json.dumps(payload), encoding="utf-8")
+    status = {"venue_id": "venue", "status": "REVIEW_REQUIRED", "production_writes": 0}
+    (source_dir / "onboarding_status.json").write_text(json.dumps(status), encoding="utf-8")
+    assert run_europe_auto_factory._reusable_result(tmp_path / "resume", "venue", tmp_path / "out") is None
+
+
+def test_generic_page_title_is_rejected_as_event():
+    assert _generic_event_title("What's on – Classical music | Barbican") is True
+    assert _generic_event_title("Season 2026-27") is True
+    assert _generic_event_title("La Traviata") is False
+
+
+def test_factory_and_report_classifications_are_mutually_exclusive():
+    results = [{"venue_id": "ready", "status": "READY_FOR_APPROVAL", "summary": {"source_capability": "SOURCE_PASS", "counts": {"events": 1}}}, {"venue_id": "review", "status": "SOURCE_PARTIAL", "summary": {"source_capability": "SOURCE_PARTIAL", "counts": {"events": 2}}}, {"venue_id": "blocked", "status": "FAILED", "summary": {"source_capability": "FAILED", "counts": {"events": 0}}}]
+    batch = build_batch_summary(results, season="2026-27", batch_run_id="test", git_commit="test")
+    report = build_report({"venues": results})
+    assert (batch["venues_production_ready"], batch["venues_review_required"], batch["venues_blocked"]) == (report["VENUES_PRODUCTION_READY"], report["VENUES_REVIEW_REQUIRED"], report["VENUES_BLOCKED"])
+    assert sum((report["VENUES_PRODUCTION_READY"], report["VENUES_REVIEW_REQUIRED"], report["VENUES_BLOCKED"])) == report["VENUES_ATTEMPTED"]
+    assert batch["production_writes"] == 0

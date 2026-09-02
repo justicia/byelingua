@@ -92,6 +92,46 @@ def _find_hermes_facts(venue_id: str, season: str, output_root: Path) -> Path | 
     return next((path for path in candidates if path.exists()), None)
 
 
+_GENERIC_EVENT_MARKERS = ("season 20", "what's on", "classical music", "programme", "calendar", "events")
+_DERIVED_PROGRAMME_FIELDS = {"jsonld.name", "event.name", "og:title", "html.title", "page.heading", "listing-card.title", "event.title"}
+
+
+def _quality_reuse_reasons(source_dir: Path, status: dict) -> list[str]:
+    """Return concrete reasons a prior result is not safe to reuse."""
+    if status.get("production_writes", 0) != 0:
+        return ["production_writes is non-zero"]
+    summary = json.loads((source_dir / "summary.json").read_text(encoding="utf-8"))
+    events = json.loads((source_dir / "normalized.json").read_text(encoding="utf-8"))
+    if not isinstance(events, list) or not events:
+        return ["events are empty"]
+    reasons: list[str] = []
+    urls = {str(event.get("source_url") or "") for event in events}
+    if any(not url for url in urls):
+        reasons.append("an event has no traceable source URL")
+    if len(events) > 1 and len(urls) == 1:
+        reasons.append("multiple events reuse one category URL")
+    if any(not event.get("title") or any(marker in str(event.get("title")).casefold() for marker in _GENERIC_EVENT_MARKERS) for event in events):
+        reasons.append("generic page title was staged as an event")
+    if any(not event.get("date") for event in events):
+        reasons.append("an event has no explicit date")
+    missing_time = sum(not event.get("start_time") for event in events)
+    if missing_time / len(events) > 0.2:
+        reasons.append("missing start-time rate exceeds 20 percent")
+    if summary.get("duplicate_performance_slot", 0):
+        reasons.append("duplicate performance slots are present")
+    for event in events:
+        for item in event.get("programme") or []:
+            field = str((item.get("provenance") or {}).get("source_field") or "").casefold()
+            if field in _DERIVED_PROGRAMME_FIELDS or field.endswith(".name"):
+                reasons.append("Programme was derived from a title field")
+                break
+        if reasons and reasons[-1] == "Programme was derived from a title field":
+            break
+    if not summary.get("months", {}).get("successful") and summary.get("source_capability") != "SOURCE_PASS":
+        reasons.append("declared season coverage is not credible")
+    return list(dict.fromkeys(reasons))
+
+
 def _reusable_result(resume_root: Path | None, venue_id: str, output_root: Path) -> dict | None:
     if resume_root is None:
         return None
@@ -103,6 +143,8 @@ def _reusable_result(resume_root: Path | None, venue_id: str, output_root: Path)
             return None
         for name in required:
             json.loads((source_dir / f"{name}.json").read_text(encoding="utf-8"))
+        if _quality_reuse_reasons(source_dir, status):
+            return None
     except (FileNotFoundError, OSError, ValueError, TypeError):
         return None
     destination = output_root / venue_id

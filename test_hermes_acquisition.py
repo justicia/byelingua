@@ -5,6 +5,7 @@ from jobs import hermes_acquire_worker as worker
 from season_ingestion import hermes_acquisition as acquisition
 from season_ingestion import pipeline
 from season_ingestion.schema import CanonicalEvent
+from season_ingestion.adapters.europe_venue import _programme
 
 
 def _facts() -> dict:
@@ -202,6 +203,13 @@ def test_invalid_timeout_configuration_fails_preflight(monkeypatch):
         raise AssertionError("invalid timeout configuration unexpectedly passed")
 
 
+def test_production_timeout_defaults_are_browser_scale(monkeypatch):
+    for name in ("BYELINGUA_HERMES_TOTAL_TIMEOUT_SECONDS", "BYELINGUA_HERMES_FIRST_ATTEMPT_TIMEOUT_SECONDS", "BYELINGUA_HERMES_PROCESS_MARGIN_SECONDS"):
+        monkeypatch.delenv(name, raising=False)
+    config = worker.timeout_config_from_env()
+    assert config == {"total": 1200, "first_attempt": 900, "margin": 60}
+
+
 def test_outer_timeout_uses_worker_budget_plus_margin(monkeypatch):
     seen = {}
 
@@ -231,3 +239,35 @@ def test_invalid_programme_provenance_is_rejected():
         assert str(exc) == "programme provenance must be an object"
     else:
         raise AssertionError("invalid programme provenance unexpectedly passed")
+
+
+def test_jsonld_name_cannot_create_programme():
+    assert _programme({"name": "Listing title"}, "Listing title", "https://official.example/event") == []
+
+
+def test_missing_programme_does_not_block_event():
+    facts = _facts()
+    facts["events"][0]["programme"] = []
+    config = {"source_id": "berlin", "organization": "Org", "venue": "Venue", "city": "Berlin", "country": "Germany", "timezone": "Europe/Berlin"}
+    events = acquisition.facts_to_events(facts, venue="berlin", config=config)
+    assert len(events) == 1
+    assert events[0].programme == []
+
+
+def test_successful_source_facts_are_persisted_atomically(tmp_path):
+    path = acquisition.persist_source_facts(_facts(), root=tmp_path / "facts")
+    assert path.name == "berlin-2026-27.json"
+    assert json.loads(path.read_text(encoding="utf-8"))["schema_version"] == "hermes-source-facts-v1"
+    assert not list(path.parent.glob(".*.tmp"))
+
+
+def test_failed_source_facts_are_not_persisted(tmp_path):
+    facts = _facts()
+    facts["events"] = []
+    try:
+        acquisition.persist_source_facts(facts, root=tmp_path / "facts")
+    except (ValueError, acquisition.HermesAcquisitionError):
+        pass
+    else:
+        raise AssertionError("invalid source facts unexpectedly persisted")
+    assert not (tmp_path / "facts" / "berlin-2026-27.json").exists()
