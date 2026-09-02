@@ -153,10 +153,21 @@ def build_batch_summary(results: list[dict[str, Any]], *, season: str, batch_run
         key = result["status"].lower()
         if key in counts:
             counts[key] += 1
-    statuses = [item["status"] for item in results]
-    blocked = sum(1 for status in statuses if status != "READY_FOR_APPROVAL")
+    def classification(item: dict[str, Any]) -> str:
+        summary = item.get("summary") or {}
+        source = summary.get("source_capability")
+        event_count = int((summary.get("counts") or {}).get("events", 0) or 0)
+        if item.get("status") == "FAILED" or source in {"SOURCE_BLOCKED", "SOURCE_UNSUPPORTED", "ADAPTER_REQUIRED", "FAILED"} or event_count <= 0:
+            return "BLOCKED"
+        if item.get("status") == "READY_FOR_APPROVAL" and source == "SOURCE_PASS":
+            return "READY_FOR_APPROVAL"
+        return "REVIEW_REQUIRED"
+
+    ready = sum(classification(item) == "READY_FOR_APPROVAL" for item in results)
+    review = sum(classification(item) == "REVIEW_REQUIRED" for item in results)
+    blocked = len(results) - ready - review
     batch_status = "COMPLETED_WITH_BLOCKED_TARGETS" if blocked else "SUCCESS"
-    return {"schema_version": "venue-onboarding-batch-summary-v1", "batch_run_id": batch_run_id, "season": season, "git_commit": git_commit, "targets": len(results), "venues_attempted": len(results), "venues_production_ready": counts["ready_for_approval"], "venues_blocked": blocked, **counts, "batch_status": batch_status, "failure_isolation": "PASS" if blocked < len(results) else "NOT_APPLICABLE", "venues": results}
+    return {"schema_version": "venue-onboarding-batch-summary-v1", "batch_run_id": batch_run_id, "season": season, "git_commit": git_commit, "targets": len(results), "venues_attempted": len(results), "venues_production_ready": ready, "venues_review_required": review, "venues_blocked": blocked, "production_writes": 0, **counts, "batch_status": batch_status, "failure_isolation": "PASS" if blocked < len(results) else "NOT_APPLICABLE", "venues": results}
 
 
 def build_batch_approval_manifest(summary: dict[str, Any]) -> dict[str, Any]:

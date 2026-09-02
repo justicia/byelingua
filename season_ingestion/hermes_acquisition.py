@@ -11,6 +11,7 @@ import json
 import os
 import shlex
 import subprocess
+import tempfile
 from pathlib import Path
 from typing import Any
 
@@ -103,6 +104,21 @@ def acquire_source_facts(request: dict[str, Any], *, command: str | None = None)
     if not facts["events"]:
         raise HermesAcquisitionError("Hermes source-facts validation failed: events must be non-empty")
     return facts
+
+
+def persist_source_facts(facts: dict[str, Any], *, root: Path = Path("artifacts/hermes-source-facts")) -> Path:
+    """Atomically persist only validated, non-empty source facts."""
+    validate_source_facts(facts)
+    if not facts["events"]:
+        raise HermesAcquisitionError("Hermes source-facts validation failed: events must be non-empty")
+    path = root / f"{facts['venue_id']}-{facts['season']}.json"
+    root.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=root, prefix=f".{path.name}.", delete=False) as handle:
+        temporary = Path(handle.name)
+        json.dump(facts, handle, ensure_ascii=False, indent=2)
+        handle.write("\n")
+    os.replace(temporary, path)
+    return path
 
 
 def facts_to_events(facts: dict[str, Any], *, venue: str, config: dict[str, Any]) -> list[CanonicalEvent]:
