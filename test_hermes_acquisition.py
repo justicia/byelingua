@@ -271,3 +271,22 @@ def test_failed_source_facts_are_not_persisted(tmp_path):
     else:
         raise AssertionError("invalid source facts unexpectedly persisted")
     assert not (tmp_path / "facts" / "berlin-2026-27.json").exists()
+
+
+def test_unsafe_source_facts_path_is_rejected(tmp_path):
+    facts = _facts()
+    facts["venue_id"] = "../escape"
+    try:
+        acquisition.persist_source_facts(facts, root=tmp_path / "facts")
+    except acquisition.HermesAcquisitionError as exc:
+        assert "unsafe artifact path component" in str(exc)
+    else:
+        raise AssertionError("unsafe source-facts path unexpectedly accepted")
+
+
+def test_untrusted_programme_source_field_is_removed():
+    facts = _facts()
+    facts["events"][0]["programme"][0]["provenance"]["source_field"] = "llm.output"
+    config = {"source_id": "berlin", "organization": "Org", "venue": "Venue", "city": "Berlin", "country": "Germany", "timezone": "Europe/Berlin"}
+    event = pipeline.sanitize_programme_evidence(acquisition.facts_to_events(facts, venue="berlin", config=config))[0]
+    assert event.programme == []

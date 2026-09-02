@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import shlex
 import subprocess
 import tempfile
@@ -111,7 +112,11 @@ def persist_source_facts(facts: dict[str, Any], *, root: Path = Path("artifacts/
     validate_source_facts(facts)
     if not facts["events"]:
         raise HermesAcquisitionError("Hermes source-facts validation failed: events must be non-empty")
-    path = root / f"{facts['venue_id']}-{facts['season']}.json"
+    venue_id = str(facts["venue_id"])
+    season = str(facts["season"])
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]*", venue_id) or not re.fullmatch(r"[0-9]{4}-[0-9]{2}", season):
+        raise HermesAcquisitionError("Hermes source-facts validation failed: unsafe artifact path component")
+    path = root / f"{venue_id}-{season}.json"
     root.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile("w", encoding="utf-8", dir=root, prefix=f".{path.name}.", delete=False) as handle:
         temporary = Path(handle.name)

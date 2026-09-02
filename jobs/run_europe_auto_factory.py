@@ -105,6 +105,17 @@ def _quality_reuse_reasons(source_dir: Path, status: dict) -> list[str]:
     if not isinstance(events, list) or not events:
         return ["events are empty"]
     reasons: list[str] = []
+    if summary.get("passed") is not True:
+        reasons.append("summary did not pass all validation gates")
+    gates = summary.get("gates") or {}
+    if any(value is not True for value in gates.values()):
+        reasons.append("summary contains a failed validation gate")
+    completeness = summary.get("artifact_completeness") or {}
+    if completeness and completeness.get("all_required_present_and_valid") is not True:
+        reasons.append("artifact completeness check failed")
+    status_summary = status.get("summary") or {}
+    if status_summary and status_summary.get("source_capability") != summary.get("source_capability"):
+        reasons.append("onboarding status and summary disagree")
     urls = {str(event.get("source_url") or "") for event in events}
     if any(not url for url in urls):
         reasons.append("an event has no traceable source URL")

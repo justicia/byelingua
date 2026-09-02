@@ -22,6 +22,7 @@ from .hermes_acquisition import HermesAcquisitionError, acquire_events, eligible
 
 
 DERIVED_PROGRAMME_SOURCE_FIELDS = {"jsonld.name", "event.name", "og:title", "html.title", "page.heading", "listing-card.title", "event.title"}
+ALLOWED_PROGRAMME_SOURCE_FIELDS = {"official.detail.music", "jsonld.work", "jsonld.workperformed", "official.programme", "official.program", "official.repertoire", "official.works", "official.music"}
 
 
 def sanitize_programme_evidence(events: list[Any]) -> list[Any]:
@@ -31,7 +32,7 @@ def sanitize_programme_evidence(events: list[Any]) -> list[Any]:
         kept = []
         for item in event.programme:
             field = str((item.get("provenance") or {}).get("source_field") or "").casefold()
-            if field in DERIVED_PROGRAMME_SOURCE_FIELDS or field.endswith(".name"):
+            if field in DERIVED_PROGRAMME_SOURCE_FIELDS or field.endswith(".name") or (field and field not in ALLOWED_PROGRAMME_SOURCE_FIELDS):
                 continue
             kept.append(item)
         quality = dict(event.data_quality)
