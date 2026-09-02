@@ -31,3 +31,10 @@ def test_wave1_report_accepts_partial_event_ingestion_without_perfect_resolution
     assert report["VENUES_REVIEW_REQUIRED"] == 1
     assert report["VENUES_BLOCKED"] == 0
     assert report["TOTAL_EVENTS"] == 119
+
+
+def test_blocked_review_status_is_counted_once_as_blocked():
+    report = build_report({"venues": [{"venue_id": "broken", "status": "REVIEW_REQUIRED", "summary": {"source_capability": "SOURCE_UNSUPPORTED", "counts": {"events": 0}}}]})
+    assert report["VENUES_ATTEMPTED"] == 1
+    assert report["VENUES_REVIEW_REQUIRED"] == 0
+    assert report["VENUES_BLOCKED"] == 1

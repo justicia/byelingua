@@ -34,8 +34,8 @@ def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
     venues = summary.get("venues") or []
     classifications = [{"venue": item.get("venue_id"), "status": _classification(item)} for item in venues]
     accepted = [item for item in venues if _classification(item) in {"PASS", "PARTIAL"}]
-    ready = [item for item in venues if item.get("status") == "READY_FOR_APPROVAL" and (item.get("summary") or {}).get("source_capability") == "SOURCE_PASS"]
-    review = [item for item in venues if _classification(item) == "PARTIAL" or item.get("status") == "REVIEW_REQUIRED"]
+    ready = [item for item in venues if _classification(item) == "PASS"]
+    review = [item for item in venues if _classification(item) == "PARTIAL"]
     blocked = [item for item in venues if _classification(item) == "BLOCKED"]
     new_ready = sum(item.get("venue_id") in WAVE1_VENUES for item in ready)
     events = programme = credits = safe_programme = review_programme = safe_credits = review_credits = 0
@@ -56,6 +56,7 @@ def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
         "TOTAL_PRODUCTION_VENUES": existing_production_venues + new_ready,
         "TOTAL_EVENTS": events,
         "TOTAL_PROGRAMME_RELATIONSHIPS": programme,
+        "TOTAL_EXPLICIT_PROGRAMME_RELATIONSHIPS": programme,
         "TOTAL_CREDITS": credits,
         "TOTAL_SAFE_PROGRAMME_RELATIONSHIPS": safe_programme,
         "TOTAL_REVIEW_PROGRAMME_RELATIONSHIPS": review_programme,
