@@ -27,6 +27,7 @@ def test_wave1_report_accepts_partial_event_ingestion_without_perfect_resolution
             "summary": {"source_capability": "SOURCE_PASS", "counts": {"events": 119, "review_items": 119}},
         }]
     })
-    assert report["VENUES_PRODUCTION_READY"] == 1
+    assert report["VENUES_PRODUCTION_READY"] == 0
+    assert report["VENUES_REVIEW_REQUIRED"] == 1
     assert report["VENUES_BLOCKED"] == 0
     assert report["TOTAL_EVENTS"] == 119

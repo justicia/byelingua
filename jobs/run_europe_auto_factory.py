@@ -59,7 +59,19 @@ def _isolated_failure_result(target: dict, output_root: Path, exc: Exception) ->
     return result
 
 
-def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path) -> dict:
+def _find_hermes_facts(venue_id: str, season: str, output_root: Path) -> Path | None:
+    candidates = [
+        Path("artifacts") / f"hermes-{venue_id}-source-facts.json",
+        Path("artifacts") / "hermes-source-facts" / f"{venue_id}-{season}.json",
+        output_root / venue_id / "hermes_source_facts.json",
+    ]
+    if venue_id == "staatsoper_unter_den_linden":
+        candidates.insert(0, Path("artifacts/hermes-berlin-source-facts.json"))
+    candidates.extend(Path("artifacts").glob(f"*/{venue_id}/hermes_source_facts.json"))
+    return next((path for path in candidates if path.exists()), None)
+
+
+def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path, hermes_source_facts_root: Path | None = None) -> dict:
     targets = load_targets(season=season, scope=scope, selected=selected)
     previous = load_source_state(state_path)
     entries = dict(previous)
@@ -67,11 +79,18 @@ def run_factory(*, season: str, scope: str, selected: list[str], output_root: Pa
     for target in targets:
         key = state_key(str(target["venue_id"]), season)
         try:
+            facts_path = None
+            if hermes_source_facts_root is not None:
+                candidate = hermes_source_facts_root / f"{target['venue_id']}-{season}.json"
+                if candidate.exists():
+                    facts_path = candidate
+            facts_path = facts_path or _find_hermes_facts(str(target["venue_id"]), season, output_root)
             result = run_target(
                 target,
                 output_root,
                 scope="full-season",
                 previous_source_hash=previous.get(key),
+                hermes_source_facts_path=facts_path,
             )
         except Exception as exc:
             result = _isolated_failure_result(target, output_root, exc)
@@ -101,6 +120,7 @@ def main() -> int:
     parser.add_argument("--venue-ids", default="")
     parser.add_argument("--output-root", type=Path, default=Path("onboarding-output"))
     parser.add_argument("--state-path", type=Path, default=Path(".factory-state/source-hashes.json"))
+    parser.add_argument("--hermes-source-facts-root", type=Path)
     args = parser.parse_args()
     selected = [value.strip() for value in args.venue_ids.split(",") if value.strip()]
     batch = run_factory(
@@ -109,6 +129,7 @@ def main() -> int:
         selected=selected,
         output_root=args.output_root,
         state_path=args.state_path,
+        hermes_source_facts_root=args.hermes_source_facts_root,
     )
     print(json.dumps(batch, ensure_ascii=False))
     return 0 if batch.get("batch_status") != "FAILED" else 2
