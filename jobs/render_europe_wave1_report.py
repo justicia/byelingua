@@ -34,8 +34,10 @@ def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
     venues = summary.get("venues") or []
     classifications = [{"venue": item.get("venue_id"), "status": _classification(item)} for item in venues]
     accepted = [item for item in venues if _classification(item) in {"PASS", "PARTIAL"}]
+    ready = [item for item in venues if item.get("status") == "READY_FOR_APPROVAL" and (item.get("summary") or {}).get("source_capability") == "SOURCE_PASS"]
+    review = [item for item in venues if _classification(item) == "PARTIAL" or item.get("status") == "REVIEW_REQUIRED"]
     blocked = [item for item in venues if _classification(item) == "BLOCKED"]
-    new_ready = sum(item.get("venue_id") in WAVE1_VENUES for item in accepted)
+    new_ready = sum(item.get("venue_id") in WAVE1_VENUES for item in ready)
     events = programme = credits = 0
     for item in accepted:
         counts = (item.get("summary") or {}).get("counts") or {}
@@ -44,7 +46,8 @@ def build_report(summary: dict, *, existing_production_venues: int = 9) -> dict:
         credits += int(counts.get("credits_safe", 0) or 0)
     return {
         "VENUES_ATTEMPTED": len(venues),
-        "VENUES_PRODUCTION_READY": len(accepted),
+        "VENUES_PRODUCTION_READY": len(ready),
+        "VENUES_REVIEW_REQUIRED": len(review),
         "VENUES_BLOCKED": len(blocked),
         "TOTAL_PRODUCTION_VENUES": existing_production_venues + new_ready,
         "TOTAL_EVENTS": events,

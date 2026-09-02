@@ -97,6 +97,15 @@ def test_factory_workflow_has_schedule_and_safe_upload_only():
     assert "cloud-artifacts/**/pilot_diagnostics.json" in workflow
 
 
+def test_factory_reuses_berlin_hermes_facts_path(tmp_path, monkeypatch):
+    calls = []
+    monkeypatch.setattr(run_europe_auto_factory, "load_targets", lambda **kwargs: [{"venue_id": "staatsoper_unter_den_linden", "season": "2026-27", "enabled": True}])
+    monkeypatch.setattr(run_europe_auto_factory, "_find_hermes_facts", lambda *args: Path("artifacts/hermes-berlin-source-facts.json"))
+    monkeypatch.setattr(run_europe_auto_factory, "run_target", lambda target, output_root, **kwargs: calls.append(kwargs) or {"venue_id": target["venue_id"], "season": target["season"], "status": "FAILED", "production_writes": 0, "summary": {}})
+    run_europe_auto_factory.run_factory(season="2026-27", scope="selected", selected=["staatsoper_unter_den_linden"], output_root=tmp_path / "out", state_path=tmp_path / "state.json")
+    assert calls[0]["hermes_source_facts_path"] == Path("artifacts/hermes-berlin-source-facts.json")
+
+
 def test_factory_runner_uses_full_season_and_persists_only_successful_source_hash(tmp_path, monkeypatch):
     calls = []
 

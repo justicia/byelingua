@@ -26,8 +26,8 @@ class HermesAcquisitionError(RuntimeError):
 
 
 def eligible_for_fallback(*, events: list[Any], adapter: Any, force: bool = False) -> bool:
-    """Return true only for an empty result caused by source acquisition."""
-    return bool(force or (not events and getattr(adapter, "last_errors", None)))
+    """Return true when deterministic acquisition produced no usable events."""
+    return bool(force or not events)
 
 
 def build_request(*, venue: str, season: str, config: dict[str, Any], reason: str) -> dict[str, Any]:
@@ -92,6 +92,8 @@ def acquire_source_facts(request: dict[str, Any], *, command: str | None = None)
         validate_source_facts(facts)
     except Exception as exc:
         raise HermesAcquisitionError(f"Hermes source-facts validation failed: {exc}") from exc
+    if not facts["events"]:
+        raise HermesAcquisitionError("Hermes source-facts validation failed: events must be non-empty")
     return facts
 
 

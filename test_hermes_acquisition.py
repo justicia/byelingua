@@ -151,3 +151,35 @@ def test_pipeline_replays_validated_hermes_artifact_without_refetch(monkeypatch,
     assert summary["hermes_fallback"]["acquisition_mode"] == "validated_source_facts_artifact"
     assert summary["counts"]["events"] == 1
     assert summary["counts"]["writes"] == 0
+
+
+def test_empty_deterministic_result_without_errors_is_eligible_for_hermes():
+    class Adapter:
+        last_errors = []
+
+    assert acquisition.eligible_for_fallback(events=[], adapter=Adapter()) is True
+
+
+def test_nonempty_deterministic_result_is_not_eligible_for_hermes():
+    class Adapter:
+        last_errors = [{"error": "stale warning"}]
+
+    assert acquisition.eligible_for_fallback(events=[object()], adapter=Adapter()) is False
+
+
+def test_empty_hermes_facts_are_rejected(monkeypatch):
+    facts = _facts()
+    facts["events"] = []
+
+    class Completed:
+        returncode = 0
+        stdout = json.dumps(facts)
+        stderr = ""
+
+    monkeypatch.setattr(acquisition.subprocess, "run", lambda *args, **kwargs: Completed())
+    try:
+        acquisition.acquire_source_facts({"venue_id": "berlin"}, command="python jobs/hermes_acquire_worker.py")
+    except acquisition.HermesAcquisitionError as exc:
+        assert "events must be non-empty" in str(exc)
+    else:
+        raise AssertionError("empty Hermes facts unexpectedly passed")

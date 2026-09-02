@@ -793,9 +793,9 @@ class DetailLinkedListingAdapter:
         else:
             composer, composer_reason = _composer(soup, documents, title, page_url)
             event_type = "performance"
-            programme_status = "PROGRAMME_EVIDENCE_FOUND" if composer else "DETAIL_PARSE_REVIEW"
-            programme_reason = composer_reason or "official detail title found without explicit composer label"
-            programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": _candidate(composer, page_url, "detail.composer") if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer" if composer else "detail.title"}}]
+            programme_status = "PROGRAMME_EVIDENCE_FOUND" if composer else "NO_PROGRAMME_EVIDENCE"
+            programme_reason = composer_reason or "official detail page has no explicit performed Work or programme item"
+            programme = [{"source_title": title, "raw_title": title, "composer": composer, "composer_candidate": _candidate(composer, page_url, "detail.composer") if composer else {}, "source_programme_index": 1, "raw_programme_index": 1, "original_programme_order": 1, "resolution_status": "pending_global_resolution", "provenance": {"source_url": page_url, "source_field": "detail.composer"}}] if composer else []
         occurrences: list[tuple[str, str | None]] = []
         for document in documents:
             start = document.get("startDate") or document.get("startTime")
