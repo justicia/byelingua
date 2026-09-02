@@ -9,7 +9,10 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import shutil
+import subprocess
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -17,6 +20,24 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from season_ingestion.factory import build_batch_summary, run_target
 from season_ingestion.incremental import load_source_state, save_source_state, state_key
 from season_ingestion.venue_targets import load_targets
+from jobs.hermes_acquire_worker import WorkerError, timeout_config_from_env
+
+
+def _atomic_json_write(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp")
+    temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(temporary, path)
+
+
+def _terminate_process_tree(process: subprocess.Popen) -> None:
+    if process.poll() is not None:
+        return
+    if os.name == "nt":
+        subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], capture_output=True, check=False)
+    else:
+        import signal
+        os.killpg(process.pid, signal.SIGTERM)
 
 
 def _isolated_failure_result(target: dict, output_root: Path, exc: Exception) -> dict:
@@ -71,45 +92,131 @@ def _find_hermes_facts(venue_id: str, season: str, output_root: Path) -> Path | 
     return next((path for path in candidates if path.exists()), None)
 
 
-def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path, hermes_source_facts_root: Path | None = None) -> dict:
+def _reusable_result(resume_root: Path | None, venue_id: str, output_root: Path) -> dict | None:
+    if resume_root is None:
+        return None
+    source_dir = resume_root / venue_id
+    required = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary", "onboarding_status")
+    try:
+        status = json.loads((source_dir / "onboarding_status.json").read_text(encoding="utf-8"))
+        if status.get("status") not in {"READY_FOR_APPROVAL", "REVIEW_REQUIRED", "SOURCE_BLOCKED", "SOURCE_PARTIAL", "ADAPTER_REQUIRED", "FAILED"}:
+            return None
+        for name in required:
+            json.loads((source_dir / f"{name}.json").read_text(encoding="utf-8"))
+    except (FileNotFoundError, OSError, ValueError, TypeError):
+        return None
+    destination = output_root / venue_id
+    if destination.exists():
+        shutil.rmtree(destination)
+    shutil.copytree(source_dir, destination)
+    status["reused"] = True
+    _atomic_json_write(destination / "onboarding_status.json", status)
+    return status
+
+
+def _venue_timeout_seconds() -> int:
+    try:
+        config = timeout_config_from_env()
+    except WorkerError as exc:
+        raise RuntimeError(str(exc)) from exc
+    configured = os.getenv("BYELINGUA_FACTORY_VENUE_TIMEOUT_SECONDS")
+    try:
+        value = int(configured) if configured else config["total"] + config["margin"] + 60
+    except ValueError as exc:
+        raise RuntimeError("factory venue timeout must be an integer") from exc
+    minimum = config["total"] + config["margin"]
+    if value <= minimum:
+        raise RuntimeError("factory venue timeout must exceed Hermes total timeout plus process margin")
+    return value
+
+
+def _run_venue_child(target: dict, output_root: Path, facts_path: Path | None, timeout_seconds: int) -> dict:
+    command = [sys.executable, str(Path(__file__).with_name("run_venue_onboarding_target.py")), "--venue-id", str(target["venue_id"]), "--season", str(target["season"]), "--output-root", str(output_root)]
+    if facts_path is not None:
+        command.extend(["--hermes-source-facts", str(facts_path)])
+    started = time.monotonic()
+    print(f"venue_start={target['venue_id']}", file=sys.stderr, flush=True)
+    process = subprocess.Popen(command, cwd=Path(__file__).resolve().parents[1], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, encoding="utf-8", errors="replace", start_new_session=os.name != "nt", creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0))
+    try:
+        _, child_stderr = process.communicate(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        _terminate_process_tree(process)
+        process.communicate()
+        result = _isolated_failure_result(target, output_root, RuntimeError("HERMES_ACQUISITION_TIMEOUT"))
+        result["blocker"] = "HERMES_ACQUISITION_TIMEOUT"
+        result["next_technical_fix"] = "Inspect the official source or Hermes browser acquisition and rerun this venue with a bounded timeout"
+    else:
+        try:
+            result = json.loads((output_root / str(target["venue_id"]) / "onboarding_status.json").read_text(encoding="utf-8"))
+        except (FileNotFoundError, OSError, ValueError):
+            result = _isolated_failure_result(target, output_root, RuntimeError("venue child did not write onboarding_status.json"))
+        if child_stderr.strip():
+            print(f"venue_child_diagnostics={target['venue_id']}", file=sys.stderr, flush=True)
+    summary = result.get("summary") or {}
+    print(" ".join((f"venue_end={target['venue_id']}", f"elapsed_seconds={time.monotonic() - started:.1f}", f"deterministic_events={(summary.get('source_audit') or {}).get('events', 0)}", f"hermes_attempted={(summary.get('hermes_fallback') or {}).get('attempted', False)}", f"hermes_reused={(summary.get('hermes_fallback') or {}).get('acquisition_mode') == 'validated_source_facts_artifact'}", f"status={result.get('status')}", f"blocker={result.get('blocker') or ''}")), file=sys.stderr, flush=True)
+    return result
+
+
+def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path, hermes_source_facts_root: Path | None = None, resume_root: Path | None = None) -> dict:
     targets = load_targets(season=season, scope=scope, selected=selected)
+    if scope == "selected" and len(targets) != len(selected):
+        raise RuntimeError(f"selected venue count mismatch: expected {len(selected)}, loaded {len(targets)}")
+    venue_timeout = _venue_timeout_seconds()
     previous = load_source_state(state_path)
     entries = dict(previous)
-    results = []
+    results: list[dict] = []
+    expected = [str(target["venue_id"]) for target in targets]
+
+    def checkpoint(current: str | None) -> None:
+        completed = [item["venue_id"] for item in results]
+        failed = [item["venue_id"] for item in results if item.get("status") != "READY_FOR_APPROVAL"]
+        progress = {"season": season, "expected_venues": expected, "completed_venues": completed, "failed_venues": failed, "pending_venues": [venue for venue in expected if venue not in completed], "current_venue": current, "updated_at": time.time(), "production_writes": 0}
+        partial = build_batch_summary(results, season=season, batch_run_id=os.getenv("GITHUB_RUN_ID", "local"), git_commit=os.getenv("GITHUB_SHA", "unknown"))
+        partial.update({"checkpoint_complete": len(completed) == len(expected), "production_writes": 0})
+        _atomic_json_write(output_root / "factory_progress.json", progress)
+        _atomic_json_write(output_root / "factory_summary.partial.json", partial)
+        save_source_state(state_path, entries)
+
     for target in targets:
-        key = state_key(str(target["venue_id"]), season)
+        venue_id = str(target["venue_id"])
+        checkpoint(venue_id)
+        reused = _reusable_result(resume_root, venue_id, output_root)
+        if reused is not None:
+            print(f"venue_end={venue_id} elapsed_seconds=0 deterministic_events={(reused.get('summary') or {}).get('counts', {}).get('events', 0)} hermes_attempted=False hermes_reused=True status={reused.get('status')} blocker=", file=sys.stderr, flush=True)
+            results.append(reused)
+            summary = reused.get("summary") or {}
+            if summary.get("source_capability") == "SOURCE_PASS" and summary.get("source_fingerprint"):
+                entries[state_key(venue_id, season)] = summary["source_fingerprint"]
+            checkpoint(None)
+            continue
+        facts_path = None
+        if hermes_source_facts_root is not None:
+            candidate = hermes_source_facts_root / f"{venue_id}-{season}.json"
+            if candidate.exists():
+                facts_path = candidate
+        facts_path = facts_path or _find_hermes_facts(venue_id, season, output_root)
         try:
-            facts_path = None
-            if hermes_source_facts_root is not None:
-                candidate = hermes_source_facts_root / f"{target['venue_id']}-{season}.json"
-                if candidate.exists():
-                    facts_path = candidate
-            facts_path = facts_path or _find_hermes_facts(str(target["venue_id"]), season, output_root)
-            result = run_target(
-                target,
-                output_root,
-                scope="full-season",
-                previous_source_hash=previous.get(key),
-                hermes_source_facts_path=facts_path,
-            )
+            result = _run_venue_child(target, output_root, facts_path, venue_timeout)
         except Exception as exc:
             result = _isolated_failure_result(target, output_root, exc)
         results.append(result)
-        summary = results[-1].get("summary") or {}
+        summary = result.get("summary") or {}
         if summary.get("source_capability") == "SOURCE_PASS" and summary.get("source_fingerprint"):
-            entries[key] = summary["source_fingerprint"]
-    save_source_state(state_path, entries)
-    batch = build_batch_summary(
-        results,
-        season=season,
-        batch_run_id=os.getenv("GITHUB_RUN_ID", "local"),
-        git_commit=os.getenv("GITHUB_SHA", "unknown"),
-    )
-    batch["operating_mode"] = "FULL_SEASON"
-    batch["existing_production_closeout"] = "DIAGNOSTIC_ONLY"
-    batch["production_writes"] = 0
-    output_root.mkdir(parents=True, exist_ok=True)
-    (output_root / "factory_summary.json").write_text(json.dumps(batch, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+            entries[state_key(venue_id, season)] = summary["source_fingerprint"]
+        checkpoint(None)
+    batch = build_batch_summary(results, season=season, batch_run_id=os.getenv("GITHUB_RUN_ID", "local"), git_commit=os.getenv("GITHUB_SHA", "unknown"))
+    batch.update({"operating_mode": "FULL_SEASON", "existing_production_closeout": "DIAGNOSTIC_ONLY", "production_writes": 0, "venues_reused": sum(bool(item.get("reused")) for item in results), "venues_newly_attempted": sum(not bool(item.get("reused")) for item in results), "hermes_attempted": sum(bool((item.get("summary") or {}).get("hermes_fallback", {}).get("attempted")) for item in results), "hermes_reused": sum((item.get("summary") or {}).get("hermes_fallback", {}).get("acquisition_mode") == "validated_source_facts_artifact" for item in results)})
+    _atomic_json_write(output_root / "factory_summary.json", batch)
+    from jobs.render_europe_wave1_report import build_report
+    _atomic_json_write(output_root / "europe-wave1-report.json", build_report(batch))
+    progress = json.loads((output_root / "factory_progress.json").read_text(encoding="utf-8"))
+    progress["current_venue"] = None
+    progress["updated_at"] = time.time()
+    progress["production_writes"] = 0
+    _atomic_json_write(output_root / "factory_progress.json", progress)
+    partial = output_root / "factory_summary.partial.json"
+    if partial.exists():
+        partial.unlink()
     return batch
 
 
@@ -121,6 +228,7 @@ def main() -> int:
     parser.add_argument("--output-root", type=Path, default=Path("onboarding-output"))
     parser.add_argument("--state-path", type=Path, default=Path(".factory-state/source-hashes.json"))
     parser.add_argument("--hermes-source-facts-root", type=Path)
+    parser.add_argument("--resume-root", type=Path)
     args = parser.parse_args()
     selected = [value.strip() for value in args.venue_ids.split(",") if value.strip()]
     batch = run_factory(
@@ -130,6 +238,7 @@ def main() -> int:
         output_root=args.output_root,
         state_path=args.state_path,
         hermes_source_facts_root=args.hermes_source_facts_root,
+        resume_root=args.resume_root,
     )
     print(json.dumps(batch, ensure_ascii=False))
     return 0 if batch.get("batch_status") != "FAILED" else 2

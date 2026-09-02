@@ -14,11 +14,8 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
-from jobs.hermes_acquire_worker import validate_source_facts
+from jobs.hermes_acquire_worker import _terminate_process_tree, timeout_config_from_env, validate_source_facts
 from .schema import CanonicalEvent
-
-
-DEFAULT_TIMEOUT_SECONDS = 900
 
 
 class HermesAcquisitionError(RuntimeError):
@@ -63,29 +60,40 @@ def acquire_source_facts(request: dict[str, Any], *, command: str | None = None)
     """Invoke the configured worker and validate its stdout contract."""
     command = command if command is not None else os.environ.get("BYELINGUA_HERMES_ACQUIRE_COMMAND", "")
     tokens = _command_tokens(command)
-    timeout_seconds = int(os.getenv("BYELINGUA_HERMES_TIMEOUT_SECONDS", DEFAULT_TIMEOUT_SECONDS))
     try:
-        completed = subprocess.run(
+        timeout_config = timeout_config_from_env()
+    except Exception as exc:
+        raise HermesAcquisitionError(str(exc)) from exc
+    timeout_seconds = timeout_config["total"] + timeout_config["margin"]
+    try:
+        process = subprocess.Popen(
             tokens,
             cwd=Path(__file__).resolve().parents[1],
-            input=json.dumps(request, ensure_ascii=False),
-            capture_output=True,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
             text=True,
             encoding="utf-8",
             errors="replace",
-            timeout=timeout_seconds,
-            check=False,
+            start_new_session=os.name != "nt",
+            creationflags=getattr(subprocess, "CREATE_NEW_PROCESS_GROUP", 0),
         )
+        try:
+            stdout, stderr = process.communicate(json.dumps(request, ensure_ascii=False), timeout=timeout_seconds)
+        except subprocess.TimeoutExpired as exc:
+            _terminate_process_tree(process)
+            process.communicate()
+            raise HermesAcquisitionError(f"Hermes worker timed out after {timeout_seconds}s") from exc
     except subprocess.TimeoutExpired as exc:
         raise HermesAcquisitionError(f"Hermes worker timed out after {timeout_seconds}s") from exc
     except OSError as exc:
         raise HermesAcquisitionError(f"Hermes worker could not start: {exc}") from exc
-    if completed.returncode != 0:
-        detail = (completed.stderr or "").strip().splitlines()
+    if process.returncode != 0:
+        detail = (stderr or "").strip().splitlines()
         suffix = f": {detail[-1][:300]}" if detail else ""
-        raise HermesAcquisitionError(f"Hermes worker exited with code {completed.returncode}{suffix}")
+        raise HermesAcquisitionError(f"Hermes worker exited with code {process.returncode}{suffix}")
     try:
-        facts = json.loads(completed.stdout)
+        facts = json.loads(stdout)
     except json.JSONDecodeError as exc:
         raise HermesAcquisitionError(f"Hermes worker stdout is malformed JSON: {exc.msg}") from exc
     try:
