@@ -258,7 +258,13 @@ def run_factory(*, season: str, scope: str, selected: list[str], output_root: Pa
             entries[state_key(venue_id, season)] = summary["source_fingerprint"]
         checkpoint(None)
     batch = build_batch_summary(results, season=season, batch_run_id=os.getenv("GITHUB_RUN_ID", "local"), git_commit=os.getenv("GITHUB_SHA", "unknown"))
-    batch.update({"operating_mode": "FULL_SEASON", "existing_production_closeout": "DIAGNOSTIC_ONLY", "production_writes": 0, "venues_reused": sum(bool(item.get("reused")) for item in results), "venues_newly_attempted": sum(not bool(item.get("reused")) for item in results), "hermes_attempted": sum(bool((item.get("summary") or {}).get("hermes_fallback", {}).get("attempted")) for item in results), "hermes_reused": sum((item.get("summary") or {}).get("hermes_fallback", {}).get("acquisition_mode") == "validated_source_facts_artifact" for item in results)})
+    hermes = [(item.get("summary") or {}).get("hermes_fallback", {}) for item in results]
+    hermes_attempted = sum(bool(item.get("attempted")) for item in hermes)
+    hermes_reused = sum(item.get("acquisition_mode") == "validated_source_facts_artifact" for item in hermes)
+    hermes_new = sum(item.get("status") == "PASS" and item.get("acquisition_mode") == "worker_subprocess" for item in hermes)
+    hermes_failed = sum(bool(item.get("attempted")) and item.get("status") not in {"PASS", "NOT_ATTEMPTED"} and item.get("acquisition_mode") != "validated_source_facts_artifact" for item in hermes)
+    hermes_timed_out = sum("timeout" in str(item.get("error", "")).casefold() for item in hermes)
+    batch.update({"operating_mode": "FULL_SEASON", "existing_production_closeout": "DIAGNOSTIC_ONLY", "production_writes": 0, "venues_reused": sum(bool(item.get("reused")) for item in results), "venues_newly_attempted": sum(not bool(item.get("reused")) for item in results), "hermes_attempted": hermes_attempted, "hermes_new_facts_succeeded": hermes_new, "hermes_reused": hermes_reused, "hermes_failed": hermes_failed, "hermes_timed_out": hermes_timed_out})
     _atomic_json_write(output_root / "factory_summary.json", batch)
     from jobs.render_europe_wave1_report import build_report
     _atomic_json_write(output_root / "europe-wave1-report.json", build_report(batch))
