@@ -10,6 +10,8 @@ import secrets
 import unicodedata
 import uuid
 import base64
+import copy
+import time
 from difflib import SequenceMatcher
 from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
@@ -37,6 +39,38 @@ SESSION.headers.update({
     "User-Agent":"Mozilla/5.0 (compatible; Byelingua/3.0)",
     "Accept-Language":"en-US,en;q=0.8"
 })
+
+
+# Warm Vercel instances may serve repeated public reads. Keep this cache
+# bounded and limited to public, low-volatility reads.
+READ_CACHE = {}
+READ_CACHE_MAX_ENTRIES = 128
+
+
+def _read_cache_key(path, params):
+    return path, json.dumps(params or {}, sort_keys=True, ensure_ascii=False, default=str)
+
+
+def _cached_supabase_get(path, params=None, ttl=60):
+    key = _read_cache_key(path, params)
+    now = time.monotonic()
+    cached = READ_CACHE.get(key)
+    if cached and cached[0] > now:
+        return copy.deepcopy(cached[1])
+    rows = supabase_service("GET", path, params=params) or []
+    if len(READ_CACHE) >= READ_CACHE_MAX_ENTRIES:
+        READ_CACHE.pop(next(iter(READ_CACHE)))
+    READ_CACHE[key] = (now + ttl, copy.deepcopy(rows))
+    return rows
+
+
+def _invalidate_read_cache(*paths):
+    if not paths:
+        READ_CACHE.clear()
+        return
+    for key in list(READ_CACHE):
+        if key[0] in paths:
+            READ_CACHE.pop(key, None)
 
 
 def normalize_search_key(value):
@@ -74,8 +108,31 @@ def search_match_score(query, *values):
 def event_keys_for_internal_ids(internal_ids):
     if not internal_ids:
         return {}
-    rows = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(internal_ids)})", "select": "id,event_key", "limit": "5000"}) or []
-    return {str(row.get("id")): str(row.get("event_key")) for row in rows if row.get("id") and row.get("event_key")}
+    result = {}
+    unique_ids = list(dict.fromkeys(str(value) for value in internal_ids if value))
+    for start in range(0, len(unique_ids), 100):
+        batch = unique_ids[start:start + 100]
+        rows = _cached_supabase_get(
+            "/rest/v1/events",
+            {"id": f"in.({','.join(batch)})", "select": "id,event_key", "limit": "100"},
+            ttl=300,
+        )
+        result.update({str(row.get("id")): str(row.get("event_key")) for row in rows if row.get("id") and row.get("event_key")})
+    return result
+
+
+def event_rows_for_keys(event_keys, select, *, batch_size=50, ttl=300):
+    """Fetch event metadata in bounded requests while retaining completeness."""
+    result = []
+    unique_keys = list(dict.fromkeys(str(value) for value in event_keys if value))
+    for start in range(0, len(unique_keys), batch_size):
+        batch = unique_keys[start:start + batch_size]
+        result.extend(_cached_supabase_get(
+            "/rest/v1/events",
+            {"event_key": f"in.({','.join(batch)})", "select": select, "limit": str(batch_size)},
+            ttl=ttl,
+        ))
+    return result
 
 PARIS_TIMEZONE = ZoneInfo("Europe/Paris")
 
@@ -111,6 +168,38 @@ PUBLIC_ARTICLE_JSON_COLUMNS = {
     "translation_jobs",
 }
 
+PUBLIC_ARTICLE_LIST_SELECT = (
+    "id,canonical_url,url,kind,source,country,original_title,title,language,mode,"
+    "category,author,author_label,cover,published,published_at,processed_at,"
+    "metadata_updated_at,updated_at,title_zh:titles->>zh,title_en:titles->>en,"
+    "translated_title_zh:translated_titles->>zh,translated_title_en:translated_titles->>en,"
+    "summary_zh:summaries->>zh,summary_en:summaries->>en"
+)
+PUBLIC_ARTICLE_ARTIST_CONTEXT_SELECT = (
+    "id,title,source,published_at,canonical_url,url,result,"
+    "raw_title:raw_data->>title,raw_original_title:raw_data->>original_title,"
+    "raw_source_title:raw_data->>source_title,raw_summary:raw_data->>summary,"
+    "raw_description:raw_data->>description,raw_result:raw_data->>result,"
+    "raw_content:raw_data->>content"
+)
+PUBLIC_ARTICLE_DETAIL_SELECT = ",".join(PUBLIC_ARTICLE_COLUMNS)
+EVENT_CATALOG_LIST_SELECT = (
+    "event_id,title,date,start_time,organization,venue,work_title,composer,"
+    "event_type,source_url,ticket_url"
+)
+EVENT_CHARACTER_CATALOG_SELECT = (
+    "event_id,title,date,start_time,organization,venue,work_title,composer,"
+    "character_id,canonical_name,raw_character,artist_name,role,character"
+)
+
+
+class ArticleNotFoundError(ValueError):
+    """A requested article is not present in the allowed scope."""
+
+
+class ArticleTranslationNotAvailableError(ValueError):
+    """The requested translation is not available."""
+
 
 def public_article_from_row(row):
     """Restore the legacy API shape while Supabase remains the source of truth."""
@@ -120,6 +209,31 @@ def public_article_from_row(row):
         if key not in {"raw_data", "created_at"} and value is not None:
             article[key] = value
     article["published"] = row.get("published_at") or raw_data.get("published") or ""
+    return article
+
+
+def public_article_list_from_row(row):
+    """Map the lightweight list projection without reintroducing body fields."""
+    article = {key: row[key] for key in (
+        "id", "canonical_url", "url", "kind", "source", "country", "original_title",
+        "title", "language", "mode", "category", "author", "author_label", "cover",
+        "published", "published_at", "processed_at", "metadata_updated_at", "updated_at",
+    ) if row.get(key) is not None}
+    titles = {}
+    excerpts = {}
+    for language in ("zh", "en"):
+        title = row.get(f"title_{language}") or row.get(f"translated_title_{language}")
+        if title:
+            titles[language] = title
+        summary = row.get(f"summary_{language}")
+        if summary:
+            excerpts[language] = str(summary)
+    if titles:
+        article["titles"] = titles
+    if excerpts:
+        article["excerpts"] = excerpts
+    article["available_languages"] = sorted(set(titles) | set(excerpts))
+    article["published"] = row.get("published_at") or ""
     return article
 
 
@@ -153,9 +267,44 @@ def load_public_articles():
     rows = supabase_service(
         "GET",
         "/rest/v1/public_articles",
-        params={"published": "eq.true", "select": "*", "order": "published_at.desc"},
+        params={"published": "eq.true", "select": PUBLIC_ARTICLE_DETAIL_SELECT, "order": "published_at.desc"},
     ) or []
     return [public_article_from_row(row) for row in rows]
+
+
+def load_public_article_list():
+    try:
+        rows = _cached_supabase_get(
+            "/rest/v1/public_articles",
+            {"published": "eq.true", "select": PUBLIC_ARTICLE_LIST_SELECT, "order": "published_at.desc", "limit": str(MAX_ARTICLES)},
+            ttl=120,
+        )
+    except ValueError:
+        # Compatibility for older deployments: scalar-only fallback, never * or result.
+        fallback_select = (
+            "id,canonical_url,url,kind,source,country,original_title,title,language,mode,"
+            "category,author,author_label,cover,published,published_at,processed_at,updated_at"
+        )
+        rows = _cached_supabase_get(
+            "/rest/v1/public_articles",
+            {"published": "eq.true", "select": fallback_select, "order": "published_at.desc", "limit": str(MAX_ARTICLES)},
+            ttl=120,
+        )
+    return [public_article_list_from_row(row) for row in rows]
+
+
+def get_article(identifier):
+    """Read a complete published public article for an explicit detail request."""
+    identifier = str(identifier or "").strip()
+    if not identifier:
+        raise ArticleNotFoundError("Article not found.")
+    rows = supabase_service(
+        "GET", "/rest/v1/public_articles",
+        params={"id": f"eq.{identifier}", "published": "eq.true", "select": PUBLIC_ARTICLE_DETAIL_SELECT, "limit": "1"},
+    ) or []
+    if not rows:
+        raise ArticleNotFoundError("Article not found.")
+    return {"article": public_article_from_row(rows[0]), "scope": "public"}
 
 
 def save_public_articles(articles):
@@ -184,6 +333,7 @@ def save_public_articles(articles):
                 params={"id": f"eq.{row['id']}"},
                 prefer="return=minimal",
             )
+    _invalidate_read_cache("/rest/v1/public_articles")
 
 
 def load_blob_json(pathname, default):
@@ -302,6 +452,9 @@ def save_scheduled_state(value):
 
 
 def load_config():
+    cached = READ_CACHE.get(("config", ""))
+    if cached and cached[0] > time.monotonic():
+        return copy.deepcopy(cached[1])
     config = load_app_state(
         "config",
         json.loads(json.dumps(DEFAULT_CONFIG)),
@@ -324,12 +477,13 @@ def load_config():
 
         config["version"] = 3
         save_app_state("config", config)
-
+    READ_CACHE[("config", "")] = (time.monotonic() + 300, copy.deepcopy(config))
     return config
 
 
 def save_config(config):
     save_app_state("config", config)
+    READ_CACHE.pop(("config", ""), None)
 
 
 def canonical_url(base, href=""):
@@ -1115,7 +1269,7 @@ def set_public_subscription_enabled(identifier, enabled):
 
 def public_payload():
     config = load_config()
-    articles = load_public_articles()
+    articles = load_public_article_list()
 
     return {
         "target_language": config.get("target_language", "zh"),
@@ -2018,21 +2172,12 @@ def canonical_work_title(value):
 
 
 def schedule_options():
-    organizations = supabase_service(
-        "GET", "/rest/v1/organizations",
-        params={"select": "id,name", "order": "name"},
-    ) or []
-    venues = supabase_service(
-        "GET", "/rest/v1/venues",
-        params={"select": "id,name,city,organization_id", "order": "name"},
-    ) or []
+    organizations = _cached_supabase_get("/rest/v1/organizations", {"select": "id,name", "order": "name"}, ttl=600)
+    venues = _cached_supabase_get("/rest/v1/venues", {"select": "id,name,city,organization_id", "order": "name"}, ttl=600)
     org_by_id = {row["id"]: row for row in organizations}
     # Keep location suggestions grounded in venues represented by current events.
     # If the catalog lookup is unavailable, retain the venue-directory fallback.
-    catalog_rows = supabase_service(
-        "GET", "/rest/v1/event_catalog_v1",
-        params={"select": "organization,venue", "limit": "5000"},
-    ) or []
+    catalog_rows = _cached_supabase_get("/rest/v1/event_catalog_v1", {"select": "organization,venue", "limit": "5000"}, ttl=600)
     active_pairs = {(str(row.get("organization") or "").strip().casefold(), str(row.get("venue") or "").strip().casefold()) for row in catalog_rows}
     venue_rows = []
     cities = set()
@@ -2062,7 +2207,7 @@ def schedule_events(data):
     if date_from > date_to:
         raise ValueError("开始日期不能晚于结束日期。")
     params = {
-        "select": "*",
+        "select": EVENT_CATALOG_LIST_SELECT,
         "order": "date.asc,start_time.asc", "limit": "1000",
     }
     raw_organizations = data.get("organizations", [])
@@ -2078,26 +2223,26 @@ def schedule_events(data):
     # One `and` expression keeps both date bounds in a single query parameter.
     params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
-    rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
+    rows = _cached_supabase_get("/rest/v1/event_catalog_v1", params, ttl=60)
     artist_event_keys = None
     artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
     if artist_query:
-        all_artists = supabase_service("GET", "/rest/v1/artists", params={"select":"id,artist_name", "limit":"5000"}) or []
+        all_artists = _cached_supabase_get("/rest/v1/artists", {"select":"id,artist_name", "limit":"5000"}, ttl=600)
         artists = [row for row in all_artists if search_match_score(artist_query, row.get("artist_name")) >= 0.60]
         artist_ids = [str(row.get("id")) for row in artists if row.get("id")]
         if artist_ids:
-            credits = supabase_service("GET", "/rest/v1/event_credits", params={"artist_id":f"in.({','.join(artist_ids)})", "select":"event_id", "limit":"5000"}) or []
+            credits = _cached_supabase_get("/rest/v1/event_credits", {"artist_id":f"in.({','.join(artist_ids)})", "select":"event_id", "limit":"5000"}, ttl=60)
             internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
-            event_rows = supabase_service("GET", "/rest/v1/events", params={"id":f"in.({','.join(internal_ids)})", "select":"id,event_key", "limit":"5000"}) if internal_ids else []
-            artist_event_keys = {str(row.get("event_key")) for row in (event_rows or []) if row.get("event_key")}
+            event_rows = []
+            for start in range(0, len(internal_ids), 100):
+                batch = internal_ids[start:start + 100]
+                event_rows.extend(_cached_supabase_get("/rest/v1/events", {"id":f"in.({','.join(batch)})", "select":"id,event_key", "limit":"100"}, ttl=300))
+            artist_event_keys = {str(row.get("event_key")) for row in event_rows if row.get("event_key")}
         else:
             artist_event_keys = set()
     venue_cities = {}
     if any(not (row.get("city") or row.get("location_city")) for row in rows):
-        venue_rows = supabase_service(
-            "GET", "/rest/v1/venues",
-            params={"select": "name,city", "limit": "5000"},
-        ) or []
+        venue_rows = _cached_supabase_get("/rest/v1/venues", {"select": "name,city", "limit": "5000"}, ttl=600)
         venue_cities = {
             str(venue.get("name") or "").strip().casefold(): venue.get("city")
             for venue in venue_rows if venue.get("name") and venue.get("city")
@@ -2146,10 +2291,7 @@ def schedule_events(data):
     event_keys = [str(row.get("event_id")) for row in unique if row.get("event_id")]
     for start in range(0, len(event_keys), 50):
         key_batch = event_keys[start:start + 50]
-        room_rows = supabase_service(
-            "GET", "/rest/v1/events",
-            params={"event_key": f"in.({','.join(key_batch)})", "select": "event_key,room", "limit": "50"},
-        ) or []
+        room_rows = event_rows_for_keys(key_batch, "event_key,room", batch_size=50, ttl=300)
         rooms_by_key.update({str(row.get("event_key")): row.get("room") for row in room_rows})
     for row in unique:
         row["room"] = rooms_by_key.get(str(row.get("event_id")))
@@ -2157,10 +2299,11 @@ def schedule_events(data):
 
 
 def schedule_event_detail(event_id):
-    catalog = supabase_service(
-        "GET", "/rest/v1/event_catalog_v1",
-        params={"event_id": f"eq.{event_id}", "limit": "1"},
-    ) or []
+    catalog = _cached_supabase_get(
+        "/rest/v1/event_catalog_v1",
+        {"event_id": f"eq.{event_id}", "select": EVENT_CATALOG_LIST_SELECT, "limit": "1"},
+        ttl=60,
+    )
     if not catalog:
         raise ValueError("找不到这场演出。")
     event = catalog[0]
@@ -2178,14 +2321,16 @@ def schedule_event_detail(event_id):
         return {"event": {**event, "programme": [], "credits": []}}
     internal_id = base[0]["id"]
     event["room"] = base[0].get("room")
-    programme = supabase_service(
-        "GET", "/rest/v1/event_programme",
-        params={"event_id": f"eq.{internal_id}", "select": '"order",works(id,title,composer)', "order": '"order"'},
-    ) or []
-    credits = supabase_service(
-        "GET", "/rest/v1/event_credits",
-        params={"event_id": f"eq.{internal_id}", "select": "artist_id,role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
-    ) or []
+    programme = _cached_supabase_get(
+        "/rest/v1/event_programme",
+        {"event_id": f"eq.{internal_id}", "select": '"order",works(id,title,composer)', "order": '"order"'},
+        ttl=60,
+    )
+    credits = _cached_supabase_get(
+        "/rest/v1/event_credits",
+        {"event_id": f"eq.{internal_id}", "select": "artist_id,role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
+        ttl=60,
+    )
     event["programme"] = normalized_programme(event, programme)
     event["credits"] = [_serialize_event_credit(row) for row in credits]
     work_ids = list(dict.fromkeys(str((row.get("works") or {}).get("id")) for row in programme if (row.get("works") or {}).get("id")))
@@ -2206,13 +2351,12 @@ def user_event_relations(headers, event_keys=None):
     rows = supabase_service("GET", "/rest/v1/user_event_relations", params={"user_id": f"eq.{user['id']}", "select": "id,event_id,intent_status,is_planned,attendance_status,ticket_status,created_at,updated_at", "limit": "5000"}) or []
     if event_keys is None:
         event_ids = [str(row.get("event_id")) for row in rows if row.get("event_id")]
-        events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(event_ids)})", "select": "id,event_key", "limit": "5000"}) if event_ids else []
-        id_to_key = {str(row["id"]): row.get("event_key") for row in (events or [])}
+        id_to_key = event_keys_for_internal_ids(event_ids)
         return {"relations": [{**row, "intent_status": "optional" if row.get("intent_status") == "maybe_go" else row.get("intent_status"), "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows]}
     keys = [str(key).strip() for key in event_keys if str(key).strip()]
     if not keys:
         return {"relations": []}
-    events = supabase_service("GET", "/rest/v1/events", params={"event_key": f"in.({','.join(keys)})", "select": "id,event_key", "limit": "5000"}) or []
+    events = event_rows_for_keys(keys, "id,event_key", batch_size=100, ttl=300)
     id_to_key = {str(row["id"]): row.get("event_key") for row in events}
     return {"relations": [{**row, "intent_status": "optional" if row.get("intent_status") == "maybe_go" else row.get("intent_status"), "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows if str(row.get("event_id")) in id_to_key]}
 
@@ -2245,10 +2389,13 @@ def _schedule_events_payload(schedule_id):
     if not rows:
         return []
     ids = [str(row["event_id"]) for row in rows]
-    events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(ids)})", "select": "id,event_key", "limit": "5000"}) or []
+    events = []
+    for start in range(0, len(ids), 100):
+        batch = ids[start:start + 100]
+        events.extend(_cached_supabase_get("/rest/v1/events", {"id": f"in.({','.join(batch)})", "select": "id,event_key", "limit": "100"}, ttl=300))
     key_by_id = {str(row["id"]): row.get("event_key") for row in events}
     keys = [key for key in key_by_id.values() if key]
-    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "limit": "5000"}) if keys else []
+    catalog = _cached_supabase_get("/rest/v1/event_catalog_v1", {"event_id": f"in.({','.join(keys)})", "select": EVENT_CATALOG_LIST_SELECT, "limit": str(len(keys))}, ttl=60) if keys else []
     event_by_key = {str(row.get("event_id")): row for row in (catalog or [])}
     return [{**row, "event_key": key_by_id.get(str(row["event_id"])), "event": event_by_key.get(key_by_id.get(str(row["event_id"])), {})} for row in rows]
 
@@ -2517,11 +2664,11 @@ def character_events(data):
     if not date_from or not date_to:
         raise ValueError("请选择开始和结束日期。")
     params = {
-        "select": "*", "character_id": f"eq.{character_id}",
+        "select": EVENT_CHARACTER_CATALOG_SELECT, "character_id": f"eq.{character_id}",
         "and": f"(date.gte.{date_from},date.lte.{date_to})",
         "order": "date.asc,start_time.asc", "limit": "1000",
     }
-    rows = supabase_service("GET", "/rest/v1/event_character_catalog_v1", params=params) or []
+    rows = _cached_supabase_get("/rest/v1/event_character_catalog_v1", params, ttl=60)
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).casefold() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
@@ -2542,10 +2689,7 @@ def character_events(data):
 
 
 def artist_options(query=""):
-    rows = supabase_service(
-        "GET", "/rest/v1/artists",
-        params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"},
-    ) or []
+    rows = _cached_supabase_get("/rest/v1/artists", {"select": "id,artist_name", "order": "artist_name", "limit": "5000"}, ttl=600)
     ranked = sorted(rows, key=lambda row: search_match_score(query, row.get("artist_name")), reverse=True)
     return {"artists": [
         {"id": row.get("id"), "artist_name": row.get("artist_name")}
@@ -2563,20 +2707,22 @@ def artist_events(data):
     date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
     if not date_from or not date_to:
         raise ValueError("请选择开始和结束日期。")
-    credits = supabase_service(
-        "GET", "/rest/v1/event_credits",
-        params={"artist_id": f"eq.{artist_id}", "select": "event_id,artist_id,role,character,raw_character,artists(artist_name)", "limit": "5000"},
-    ) or []
+    credits = _cached_supabase_get(
+        "/rest/v1/event_credits",
+        {"artist_id": f"eq.{artist_id}", "select": "event_id,artist_id,role,character,raw_character,artists(artist_name)", "limit": "5000"},
+        ttl=60,
+    )
     event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
     if not event_ids:
         return {"events": []}
     event_key_by_internal_id = event_keys_for_internal_ids(event_ids)
     event_keys = list(event_key_by_internal_id.values())
     print(f"[artist_events] artist_id={artist_id} event_credits={len(credits)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
-    catalog = supabase_service(
-        "GET", "/rest/v1/event_catalog_v1",
-        params={"event_id": f"in.({','.join(event_keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"},
-    ) or []
+    catalog = _cached_supabase_get(
+        "/rest/v1/event_catalog_v1",
+        {"event_id": f"in.({','.join(event_keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": "1000"},
+        ttl=60,
+    )
     by_event = {}
     for row in credits:
         by_event.setdefault(str(row.get("event_id")), []).append(row)
@@ -2606,20 +2752,21 @@ def artist_context(data):
     artist_id = str(data.get("artist_id") or "").strip()
     if not artist_id:
         raise ValueError("请选择一位艺术家。")
-    artist_rows = supabase_service("GET", "/rest/v1/artists", params={"id": f"eq.{artist_id}", "select": "id,artist_name", "limit": "1"}) or []
+    artist_rows = _cached_supabase_get("/rest/v1/artists", {"id": f"eq.{artist_id}", "select": "id,artist_name", "limit": "1"}, ttl=600)
     if not artist_rows:
         raise ValueError("找不到该艺术家。")
-    credit_rows = supabase_service(
-        "GET", "/rest/v1/event_credits",
-        params={"artist_id": f"eq.{artist_id}", "select": "event_id,role,character,raw_character", "limit": "5000"},
-    ) or []
+    credit_rows = _cached_supabase_get(
+        "/rest/v1/event_credits",
+        {"artist_id": f"eq.{artist_id}", "select": "event_id,role,character,raw_character", "limit": "5000"},
+        ttl=60,
+    )
     event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credit_rows if row.get("event_id")))
     performances = []
     if event_ids:
         event_key_by_internal_id = event_keys_for_internal_ids(event_ids)
         event_keys = list(event_key_by_internal_id.values())
         print(f"[artist_context] artist_id={artist_id} event_credits={len(credit_rows)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
-        catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(event_keys)})", "order": "date.asc,start_time.asc", "limit": "2000"}) or []
+        catalog = _cached_supabase_get("/rest/v1/event_catalog_v1", {"event_id": f"in.({','.join(event_keys)})", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": "2000"}, ttl=60)
         by_event = {str(row.get("event_id")): row for row in credit_rows}
         for event in catalog:
             internal_id = next((key for key, value in event_key_by_internal_id.items() if value == str(event.get("event_id"))), "")
@@ -2637,16 +2784,19 @@ def artist_context(data):
                 "character": credit.get("character") or credit.get("raw_character"),
             })
     roles = sorted({str(row.get("role")) for row in credit_rows if row.get("role")})
-    articles = supabase_service("GET", "/rest/v1/public_articles", params={"select": "id,title,source,published_at,canonical_url,url,raw_data", "order": "published_at.desc", "limit": "200"}) or []
+    articles = _cached_supabase_get(
+        "/rest/v1/public_articles",
+        {"select": PUBLIC_ARTICLE_ARTIST_CONTEXT_SELECT, "order": "published_at.desc", "limit": str(MAX_ARTICLES)},
+        ttl=120,
+    )
     name = str(artist_rows[0].get("artist_name") or "")
     needle = normalize_search_key(name)
     news = []
     for article in articles:
-        raw = article.get("raw_data") if isinstance(article.get("raw_data"), dict) else {}
-        title = str(article.get("title") or raw.get("title") or "")
-        original_title = str(raw.get("original_title") or raw.get("source_title") or "")
-        summary = str(raw.get("summary") or raw.get("description") or "")
-        content = str(raw.get("result") or raw.get("content") or article.get("result") or "")
+        title = str(article.get("title") or article.get("raw_title") or "")
+        original_title = str(article.get("raw_original_title") or article.get("raw_source_title") or "")
+        summary = str(article.get("raw_summary") or article.get("raw_description") or "")
+        content = str(article.get("raw_result") or article.get("raw_content") or article.get("result") or "")
         score = search_match_score(name, title, original_title) * 1.2
         score = max(score, search_match_score(name, summary, content))
         if needle and score < 0.60:
@@ -2659,22 +2809,22 @@ def artist_context(data):
 
 
 def entity_options(query="", work_id=""):
-    works = supabase_service("GET", "/rest/v1/works", params={"select": "id,title,composer", "order": "title", "limit": "2000"}) or []
+    works = _cached_supabase_get("/rest/v1/works", {"select": "id,title,composer", "order": "title", "limit": "2000"}, ttl=600)
     try:
-        work_aliases = supabase_service("GET", "/rest/v1/work_aliases", params={"select": "work_id,alias", "limit": "10000"}) or []
+        work_aliases = _cached_supabase_get("/rest/v1/work_aliases", {"select": "work_id,alias", "limit": "10000"}, ttl=600)
     except Exception:
         work_aliases = []
     aliases_by_work = {}
     for row in work_aliases:
         aliases_by_work.setdefault(str(row.get("work_id")), []).append(row.get("alias"))
-    characters = supabase_service("GET", "/rest/v1/work_characters", params={"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}) or []
-    aliases = supabase_service("GET", "/rest/v1/character_aliases", params={"select": "character_id,alias", "limit": "10000"}) or []
-    artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "order": "artist_name", "limit": "5000"}) or []
+    characters = _cached_supabase_get("/rest/v1/work_characters", {"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}, ttl=600)
+    aliases = _cached_supabase_get("/rest/v1/character_aliases", {"select": "character_id,alias", "limit": "10000"}, ttl=600)
+    artists = _cached_supabase_get("/rest/v1/artists", {"select": "id,artist_name", "order": "artist_name", "limit": "5000"}, ttl=600)
     work_by_id = {str(row.get("id")): row for row in works}
     aliases_by_character = {}
     for row in aliases:
         aliases_by_character.setdefault(str(row.get("character_id")), []).append(row.get("alias"))
-    role_rows = supabase_service("GET", "/rest/v1/event_credits", params={"select": "artist_id,role", "limit": "10000"}) or []
+    role_rows = _cached_supabase_get("/rest/v1/event_credits", {"select": "artist_id,role", "limit": "10000"}, ttl=60)
     roles_by_artist = {}
     for row in role_rows:
         if row.get("artist_id") and row.get("role"):
@@ -2702,22 +2852,22 @@ def work_events(data):
     work_ids = [str(value) for value in data.get("work_ids", []) if value]
     if not work_id and data.get("composer_query"):
         composer_query = str(data.get("composer_query") or "").strip()
-        matches = supabase_service("GET", "/rest/v1/works", params={"composer": f"ilike.*{composer_query}*", "select": "id", "limit": "2000"}) or []
+        matches = _cached_supabase_get("/rest/v1/works", {"composer": f"ilike.*{composer_query}*", "select": "id", "limit": "2000"}, ttl=600)
         work_ids = [str(row.get("id")) for row in matches if row.get("id")]
     if not work_id and not work_ids:
         raise ValueError("请选择一部作品。")
     date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
     programme_params = {"work_id": f"eq.{work_id}" if work_id else f"in.({','.join(work_ids)})", "select": "event_id", "limit": "5000"}
-    rows = supabase_service("GET", "/rest/v1/event_programme", params=programme_params) or []
+    rows = _cached_supabase_get("/rest/v1/event_programme", programme_params, ttl=60)
     internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in rows if row.get("event_id")))
     if not internal_ids:
         return {"events": []}
-    event_rows = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(internal_ids)})", "select": "id,event_key", "limit": "5000"}) or []
-    keys = [str(row.get("event_key")) for row in event_rows if row.get("event_key")]
+    event_rows = event_keys_for_internal_ids(internal_ids)
+    keys = list(event_rows.values())
     if not keys:
         return {"events": []}
     payload = dict(data); payload["date_from"], payload["date_to"] = date_from, date_to
-    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"}) or []
+    catalog = _cached_supabase_get("/rest/v1/event_catalog_v1", {"event_id": f"in.({','.join(keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": "1000"}, ttl=60)
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
@@ -2753,18 +2903,24 @@ def combined_entity_events(data):
 
 
 class handler(BaseHTTPRequestHandler):
-    def send_json(self, status, payload):
+    def send_json(self, status, payload, cache_control="no-store"):
         body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
-        self.send_response(status); self.send_header("Content-Type","application/json; charset=utf-8"); self.send_header("Cache-Control","no-store"); self.send_header("Content-Length",str(len(body))); self.end_headers(); self.wfile.write(body)
+        self.send_response(status); self.send_header("Content-Type","application/json; charset=utf-8"); self.send_header("Cache-Control",cache_control); self.send_header("Content-Length",str(len(body))); self.end_headers(); self.wfile.write(body)
 
     def do_GET(self):
-        try: self.send_json(200, public_payload())
+        try: self.send_json(200, public_payload(), "public, s-maxage=120, stale-while-revalidate=60")
         except Exception as error: self.send_json(500, {"error":str(error)})
 
     def do_POST(self):
         try:
             data = json.loads(self.rfile.read(int(self.headers.get("Content-Length","0"))).decode("utf-8")); action = data.get("action","get_public")
-            if action == "get_public": self.send_json(200, public_payload()); return
+            if action == "get_public": self.send_json(200, public_payload(), "public, s-maxage=120, stale-while-revalidate=60"); return
+            if action == "get_article":
+                scope = str(data.get("scope") or "").strip().lower()
+                if scope == "private": raise ValueError("Private article detail is not supported.")
+                result = get_article(data.get("id"))
+                self.send_json(200, result)
+                return
             if action == "translate_wechat":
                 self.send_json(200, translate_wechat_article(str(data.get("id","")), data.get("language",""))); return
             if action == "poll_wechat_translation":
@@ -2867,6 +3023,8 @@ class handler(BaseHTTPRequestHandler):
             elif action == "backfill_bilingual": self.send_json(200, backfill_bilingual_article())
             else: self.send_json(400, {"error":"未知操作。"})
         except ManualBriefRateLimitError as error: self.send_json(429, {"error":str(error), **error.status})
+        except ArticleNotFoundError: self.send_json(404, {"error_code":"ARTICLE_NOT_FOUND", "error":"Article not found."})
+        except ArticleTranslationNotAvailableError: self.send_json(404, {"error_code":"TRANSLATION_NOT_AVAILABLE", "error":"Translation not available."})
         except PermissionError as error: self.send_json(401, {"error_code":"permission_denied", "error":str(error)})
         except requests.RequestException as error: self.send_json(502, {"error_code":"network_error", "error":"Upstream request failed."})
         except ValueError as error: self.send_json(400, {"error_code":"invalid_request", "error":str(error)})

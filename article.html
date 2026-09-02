@@ -12,55 +12,30 @@
 <header id="sharedHeader" class="topbar"></header><script src="/shared-i18n.js"></script><script src="/shared-header.js"></script><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>ByelinguaHeader.mount(document.getElementById('sharedHeader'));</script>
 <main class="page" id="page"><article class="article"><div class="eyebrow"><span id="source"></span><span>·</span><time id="date"></time></div><div class="labels" id="labels"></div><h1 id="title"></h1><nav class="language-picker" id="languagePicker" aria-label="译文语言"><span id="languageLabel">译文语言</span></nav><div class="content" id="content"></div><footer class="footer"><span class="note" id="note">翻译内容由 Byelingua 生成，请以原文为准。</span><a class="original" id="original" target="_blank" rel="noopener noreferrer">查看微信原文 →</a></footer></article></main>
 <script>
-const languageNames={en:"English",es:"Español",de:"Deutsch",fr:"Français"};
-const params=new URLSearchParams(location.search),key=params.get("key"),raw=key?localStorage.getItem(key):null;
+const languageNames={zh:"中文",en:"English",es:"Español",de:"Deutsch",fr:"Français"};
+const params=new URLSearchParams(location.search),articleId=params.get("id"),legacyKey=params.get("key");
+function authToken(){for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i)||"";if(!key.startsWith("sb-")||!key.endsWith("-auth-token"))continue;try{const value=JSON.parse(localStorage.getItem(key)||"{}");if(value.access_token)return value.access_token}catch(_){}}return ""}
 function valueFor(values,code,fallback=""){return values?.[code]||fallback}
-try{
-  if(!raw)throw new Error();
-  const article=JSON.parse(raw),titles=article.titles||{},contents=article.contents||{},originalTitle=valueFor(titles,"zh",article.title),originalContent=valueFor(contents,"zh",article.language==="zh"?article.content:""),selfService=article.kind==="wechat"&&article.country==="cn"&&article.uiLanguage==="en";
-  const available=Object.keys(languageNames).filter(code=>contents[code]);
-  const requestedLanguage=window.ByelinguaI18n.getUiLanguage();
-  let selected=available.includes(requestedLanguage)?requestedLanguage:(available.includes(article.language)?article.language:(available[0]||"zh"));
-  document.getElementById("source").textContent=article.source||"";
-  document.getElementById("date").textContent=article.date||"";
-  document.getElementById("original").href=article.url||"#";
-  if(article.category){const categoryNames={"评论":"Review","歌剧":"Opera","音乐会":"Concert","访谈":"Interview","新闻":"News"},tag=document.createElement("span");tag.className="tag";tag.textContent=article.uiLanguage==="en"?(categoryNames[article.category]||article.category):article.category;document.getElementById("labels").append(tag)}
-  const picker=document.getElementById("languagePicker");
-  Object.entries(languageNames).forEach(([code,name])=>{const button=document.createElement("button");button.type="button";button.textContent=name;button.dataset.language=code;button.disabled=!selfService&&!contents[code];button.title=button.disabled?"该语言译文尚未生成 / Translation not available":"";button.onclick=()=>selectLanguage(code,button);picker.append(button)});
-  async function selectLanguage(code,button){
-    if(contents[code]){render(code);return}
-    button.disabled=true;button.textContent=`${languageNames[code]}…`;
-    try{
-      let result=await request({action:"translate_wechat",id:article.id,language:code});
-      for(let attempt=0;attempt<150&&result.status!=="completed";attempt++){
-        if(!["queued","in_progress"].includes(result.status))throw new Error(result.error||"Translation did not complete.");
-        button.textContent=`${languageNames[code]} · ${result.status==="queued"?"Queued":"Translating"}…`;
-        await new Promise(resolve=>setTimeout(resolve,2000));
-        result=await request({action:"poll_wechat_translation",id:article.id,language:code});
-      }
-      if(result.status!=="completed")throw new Error("Translation is still running. Please try again shortly.");
-      Object.assign(contents,result.article.contents||result.article.translations||{});Object.assign(titles,result.article.titles||result.article.translated_titles||{});article.contents=contents;article.titles=titles;localStorage.setItem(key,JSON.stringify(article));render(code)
-    }catch(error){alert(error.message)}finally{button.disabled=false;button.textContent=languageNames[code]}}
-  async function request(payload){const response=await fetch("/api",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)}),result=await response.json();if(!response.ok)throw new Error(result.error||"Request failed");return result}
-  function render(code){
-    selected=contents[code]?code:(available[0]||"zh");
-    const translated=selected!=="zh";
-    const title=valueFor(titles,selected,translated?article.title:originalTitle),content=valueFor(contents,selected,article.content||originalContent);
-    document.documentElement.lang=selected;
-    document.title=`${title} · Byelingua`;
-    document.getElementById("title").textContent=title;
-    document.getElementById("content").textContent=content;
-    picker.hidden=!selfService&&!Object.keys(languageNames).some(language=>contents[language]);
-    picker.querySelectorAll("button").forEach(button=>button.classList.toggle("active",button.dataset.language===selected));
-    const english=article.uiLanguage==="en";
-    const back=document.getElementById("back");if(back)back.textContent=english?"← Back to home":"← 返回首页";
-    document.getElementById("languageLabel").textContent=english?"Translation":"译文语言";
-    picker.setAttribute("aria-label",english?"Translation language":"译文语言");
-    document.getElementById("note").textContent=english?"Translated by Byelingua. Refer to the original for accuracy.":"翻译内容由 Byelingua 生成，请以原文为准。";
-    document.getElementById("original").textContent=english?"View original":"查看原文";
-  }
-  render(selected);
-}catch(error){document.getElementById("page").innerHTML='<div class="error"><h1>文章无法打开</h1><p>请返回首页后重新点击“阅读全文”。</p></div>'}
+function displayError(code){const english=window.ByelinguaI18n.getUiLanguage()==="en",copy={ARTICLE_NOT_FOUND:english?["Article not found","This article is no longer available."]:["文章不存在","找不到这篇文章。"],AUTH_REQUIRED:english?["Sign-in required","Please sign in to open this article."]:["需要登录","请先登录后打开这篇文章。"],TRANSLATION_NOT_AVAILABLE:english?["Translation not available","This translation is not available."]:["译文不可用","暂时没有该目标语言译文。"],API_ERROR:english?["Article service error","Article service is temporarily unavailable."]:["文章服务错误","文章服务暂时不可用。"],NETWORK_ERROR:english?["Network error","Please check your connection and try again."]:["网络错误","请检查网络连接后重试。"]}[code]||[english?"Unable to open article":"文章无法打开",english?"Please try again later.":"请稍后重试。"];document.getElementById("page").innerHTML=`<div class="error"><h1>${copy[0]}</h1><p>${copy[1]}</p></div>`}
+async function request(payload,includeAuth=false){const headers={"Content-Type":"application/json"};if(includeAuth){const token=authToken();if(token)headers.Authorization=`Bearer ${token}`;else{const error=new Error("Authentication required.");error.code="AUTH_REQUIRED";throw error}}let response,result;try{response=await fetch("/api",{method:"POST",headers,body:JSON.stringify(payload)});result=await response.json()}catch(error){error.code="NETWORK_ERROR";throw error}if(!response.ok){const error=new Error(result.error||"Request failed"),serverCode=result.error_code||({404:"ARTICLE_NOT_FOUND",401:"AUTH_REQUIRED"}[response.status]||"");error.code=["ARTICLE_NOT_FOUND","AUTH_REQUIRED","TRANSLATION_NOT_AVAILABLE"].includes(serverCode)?serverCode:"API_ERROR";throw error}return result}
+async function loadArticle(){
+  let article,legacyPath=false;
+  if(articleId){const result=await request({action:"get_article",id:articleId});article=result.article}
+  else if(legacyKey){const raw=localStorage.getItem(legacyKey);if(!raw){const error=new Error("Article not found.");error.code="ARTICLE_NOT_FOUND";throw error}article=JSON.parse(raw);legacyPath=true}
+  else{const error=new Error("Article not found.");error.code="ARTICLE_NOT_FOUND";throw error}
+  const titles=article.titles||article.translated_titles||{},contents=article.contents||article.translations||{};
+  if(article.result&&!Object.keys(contents).length)contents[article.language||"zh"]=article.result;
+  const originalTitle=valueFor(titles,"zh",article.original_title||article.title),originalContent=valueFor(contents,"zh",article.language==="zh"?article.content||article.result:"");
+  const isWechat=article.kind==="wechat"&&article.country==="cn",registered=Boolean(authToken()),selfService=legacyPath&&isWechat&&article.uiLanguage==="en",allowOnDemand=legacyPath?selfService:registered;let available=Object.keys(languageNames).filter(code=>contents[code]);
+  let selected=available.includes(window.ByelinguaI18n.getUiLanguage())?window.ByelinguaI18n.getUiLanguage():(available.includes(article.language)?article.language:(available[0]||"zh"));
+  document.getElementById("source").textContent=article.source||article.author_label||"";document.getElementById("date").textContent=article.published||article.date||article.published_at||"";document.getElementById("original").href=article.url||article.canonical_url||"#";
+  if(article.category){const categoryNames={"评论":"Review","歌剧":"Opera","音乐会":"Concert","访谈":"Interview","新闻":"News"},tag=document.createElement("span");tag.className="tag";tag.textContent=window.ByelinguaI18n.getUiLanguage()==="en"?(categoryNames[article.category]||article.category):article.category;document.getElementById("labels").append(tag)}
+  const picker=document.getElementById("languagePicker");Object.entries(languageNames).forEach(([code,name])=>{const button=document.createElement("button");button.type="button";button.textContent=name;button.dataset.language=code;button.disabled=!contents[code]&&!allowOnDemand;button.title=button.disabled?"该语言译文尚未生成 / Translation not available":"";button.onclick=()=>selectLanguage(code,button);picker.append(button)});
+  async function selectLanguage(code,button){if(contents[code]){render(code);return}if(!allowOnDemand){displayError(registered?"TRANSLATION_NOT_AVAILABLE":"AUTH_REQUIRED");return}button.disabled=true;button.textContent=`${languageNames[code]}…`;try{let result=await request({action:"translate_wechat",id:article.id,language:code},true);for(let attempt=0;attempt<150&&result.status!=="completed";attempt++){if(!["queued","in_progress"].includes(result.status)){const error=new Error("Translation did not complete.");error.code="TRANSLATION_NOT_AVAILABLE";throw error}button.textContent=`${languageNames[code]} · ${result.status==="queued"?"Queued":"Translating"}…`;await new Promise(resolve=>setTimeout(resolve,2000));result=await request({action:"poll_wechat_translation",id:article.id,language:code},true)}if(result.status!=="completed"){const error=new Error("Translation is still running.");error.code="TRANSLATION_NOT_AVAILABLE";throw error}Object.assign(contents,result.article.contents||result.article.translations||{});Object.assign(titles,result.article.titles||result.article.translated_titles||{});available=Object.keys(languageNames).filter(language=>contents[language]);if(legacyKey)localStorage.setItem(legacyKey,JSON.stringify(article));render(code)}catch(error){displayError(error.code||"API_ERROR")}finally{button.disabled=false;button.textContent=languageNames[code]}}
+  function render(code){selected=contents[code]?code:(available.includes("zh")?"zh":available[0]||"zh");const translated=selected!=="zh",title=valueFor(titles,selected,translated?article.title:originalTitle),content=valueFor(contents,selected,article.content||article.result||originalContent);document.documentElement.lang=selected;document.title=`${title} · Byelingua`;document.getElementById("title").textContent=title;document.getElementById("content").textContent=content;picker.hidden=available.length<=1&&!allowOnDemand;picker.querySelectorAll("button").forEach(button=>{button.classList.toggle("active",button.dataset.language===selected);button.disabled=!contents[button.dataset.language]&&!allowOnDemand});const english=window.ByelinguaI18n.getUiLanguage()==="en";document.getElementById("languageLabel").textContent=english?"Translation":"译文语言";picker.setAttribute("aria-label",english?"Translation language":"译文语言");document.getElementById("note").textContent=english?"Translated by Byelingua. Refer to the original for accuracy.":"翻译内容由 Byelingua 生成，请以原文为准。";document.getElementById("original").textContent=english?"View original":"查看原文"}
+  render(selected)
+}
+loadArticle().catch(error=>displayError(error.code||"API_ERROR"));
 </script>
 </body>
 </html>
