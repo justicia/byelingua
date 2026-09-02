@@ -99,7 +99,7 @@ def _reusable_result(resume_root: Path | None, venue_id: str, output_root: Path)
     required = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary", "onboarding_status")
     try:
         status = json.loads((source_dir / "onboarding_status.json").read_text(encoding="utf-8"))
-        if status.get("status") not in {"READY_FOR_APPROVAL", "REVIEW_REQUIRED", "SOURCE_BLOCKED", "SOURCE_PARTIAL", "ADAPTER_REQUIRED", "FAILED"}:
+        if status.get("status") not in {"READY_FOR_APPROVAL", "REVIEW_REQUIRED"}:
             return None
         for name in required:
             json.loads((source_dir / f"{name}.json").read_text(encoding="utf-8"))
