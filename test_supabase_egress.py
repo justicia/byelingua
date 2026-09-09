@@ -27,9 +27,21 @@ class SupabaseEgressRegressionTests(unittest.TestCase):
             self.assertNotIn(f'"{field}"', block)
         for field in (
             "title_zh:titles->>zh", "title_en:titles->>en",
+            "title_fr:titles->>fr", "title_es:titles->>es",
+            "title_de:titles->>de", "title_it:titles->>it",
+            "title_pt:titles->>pt", "title_ja:titles->>ja",
             "translated_title_zh:translated_titles->>zh",
             "translated_title_en:translated_titles->>en",
+            "translated_title_fr:translated_titles->>fr",
+            "translated_title_es:translated_titles->>es",
+            "translated_title_de:translated_titles->>de",
+            "translated_title_it:translated_titles->>it",
+            "translated_title_pt:translated_titles->>pt",
+            "translated_title_ja:translated_titles->>ja",
             "summary_zh:summaries->>zh", "summary_en:summaries->>en",
+            "summary_fr:summaries->>fr", "summary_es:summaries->>es",
+            "summary_de:summaries->>de", "summary_it:summaries->>it",
+            "summary_pt:summaries->>pt", "summary_ja:summaries->>ja",
         ):
             self.assertIn(field, block)
 
@@ -133,6 +145,62 @@ class SupabaseEgressRegressionTests(unittest.TestCase):
         self.assertIn("article.content", ARTICLE)
         self.assertIn("article=JSON.parse(raw)", ARTICLE)
         self.assertNotIn("user_articles", ARTICLE)
+
+    def test_public_translation_supports_all_non_chinese_languages(self):
+        self.assertIn("PUBLIC_TRANSLATION_LANGUAGES = set(LANGUAGES) - {\"zh\"}", API)
+        for language in ("en", "fr", "es", "de", "it", "pt", "ja"):
+            self.assertIn(f'"{language}"', API.split("LANGUAGES =", 1)[1].split("\n", 1)[0])
+
+    def test_subscription_translation_uses_one_row_supabase_path(self):
+        start = API.index("def translate_public_article(")
+        end = API.index("def translate_wechat_article(", start)
+        block = API[start:end]
+        self.assertIn("_public_translation_row(identifier)", block)
+        self.assertIn("_patch_public_translation(identifier", block)
+        self.assertIn('"limit": "1"', API.split("def _public_translation_row", 1)[1].split("def _patch_public_translation", 1)[0])
+        self.assertNotIn("load_blob_json", block)
+        self.assertNotIn("save_blob_json", block)
+        self.assertNotIn("load_public_articles", block)
+        self.assertNotIn("is_wechat_article", block)
+        self.assertIn('"contents,translations,titles,translated_titles,summaries,translation_jobs,result"', API)
+
+    def test_subscription_languages_start_without_wechat_guard(self):
+        start = API.index("def translate_public_article(")
+        end = API.index("def translate_wechat_article(", start)
+        block = API[start:end]
+        for language in ("fr", "de", "es", "it", "pt", "ja"):
+            self.assertNotIn(f'language == "{language}"', block)
+        self.assertIn("contents.get(\"zh\") or translations.get(\"zh\") or item.get(\"result\")", block)
+        self.assertIn("titles.get(\"zh\") or translated_titles.get(\"zh\")", block)
+        self.assertNotIn("kind", block.split("def translate_public_article", 1)[1].split("def poll_public_article_translation", 1)[0])
+
+    def test_existing_translation_reuses_without_new_job(self):
+        start = API.index("def translate_public_article(")
+        end = API.index("def poll_public_article_translation(", start)
+        block = API[start:end]
+        self.assertIn("if contents.get(language) or translations.get(language):", block)
+        self.assertIn('"reused":True', block)
+        self.assertIn("def poll_public_article_translation", API)
+
+    def test_public_translation_persistence_is_targeted(self):
+        patch = API.split("def _patch_public_translation", 1)[1].split("def _public_translation_result", 1)[0]
+        self.assertIn('"PATCH", "/rest/v1/public_articles"', patch)
+        self.assertIn('"id": f"eq.{str(identifier or \'\').strip()}"', patch)
+        self.assertIn('"published": "eq.true"', patch)
+        for field in ("contents", "translations", "titles", "translated_titles", "summaries", "translation_jobs", "processed_at"):
+            self.assertIn(f'"{field}"', API)
+
+    def test_public_translation_actions_and_legacy_aliases_exist(self):
+        self.assertIn('action == "translate_public_article"', API)
+        self.assertIn('action == "poll_public_article_translation"', API)
+        self.assertIn("return translate_public_article(identifier, language)", API)
+        self.assertIn("return poll_public_article_translation(identifier, language)", API)
+
+    def test_article_page_exposes_all_languages_and_generic_actions(self):
+        for language in ("zh", "en", "fr", "es", "de", "it", "pt", "ja"):
+            self.assertIn(f'{language}:', ARTICLE)
+        self.assertIn('publicArticle?"translate_public_article":"translate_wechat"', ARTICLE)
+        self.assertIn('publicArticle?"poll_public_article_translation":"poll_wechat_translation"', ARTICLE)
 
 if __name__ == "__main__":
     unittest.main()
