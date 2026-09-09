@@ -172,8 +172,19 @@ PUBLIC_ARTICLE_LIST_SELECT = (
     "id,canonical_url,url,kind,source,country,original_title,title,language,mode,"
     "category,author,author_label,cover,published,published_at,processed_at,"
     "metadata_updated_at,updated_at,title_zh:titles->>zh,title_en:titles->>en,"
+    "title_fr:titles->>fr,title_es:titles->>es,title_de:titles->>de,"
+    "title_it:titles->>it,title_pt:titles->>pt,title_ja:titles->>ja,"
     "translated_title_zh:translated_titles->>zh,translated_title_en:translated_titles->>en,"
-    "summary_zh:summaries->>zh,summary_en:summaries->>en"
+    "translated_title_fr:translated_titles->>fr,translated_title_es:translated_titles->>es,"
+    "translated_title_de:translated_titles->>de,translated_title_it:translated_titles->>it,"
+    "translated_title_pt:translated_titles->>pt,translated_title_ja:translated_titles->>ja,"
+    "summary_zh:summaries->>zh,summary_en:summaries->>en,summary_fr:summaries->>fr,"
+    "summary_es:summaries->>es,summary_de:summaries->>de,summary_it:summaries->>it,"
+    "summary_pt:summaries->>pt,summary_ja:summaries->>ja"
+)
+PUBLIC_ARTICLE_TRANSLATION_SELECT = (
+    "id,kind,country,original_title,title,language,translation_instruction,"
+    "contents,translations,titles,translated_titles,summaries,translation_jobs,result"
 )
 PUBLIC_ARTICLE_ARTIST_CONTEXT_SELECT = (
     "id,title,source,published_at,canonical_url,url,result,"
@@ -221,7 +232,7 @@ def public_article_list_from_row(row):
     ) if row.get(key) is not None}
     titles = {}
     excerpts = {}
-    for language in ("zh", "en"):
+    for language in LANGUAGES:
         title = row.get(f"title_{language}") or row.get(f"translated_title_{language}")
         if title:
             titles[language] = title
@@ -819,7 +830,7 @@ def save_wechat_chinese(data):
     return import_wechat_article(chinese)
 
 
-PUBLIC_WECHAT_LANGUAGES = {"en", "es", "de", "fr"}
+PUBLIC_TRANSLATION_LANGUAGES = set(LANGUAGES) - {"zh"}
 
 
 def is_wechat_article(item):
@@ -834,26 +845,58 @@ def is_wechat_article(item):
         return False
 
 
-def translate_wechat_article(identifier, language):
-    """Start one background translation from the archived Chinese source."""
+def _public_translation_row(identifier):
+    rows = supabase_service(
+        "GET", "/rest/v1/public_articles",
+        params={
+            "id": f"eq.{str(identifier or '').strip()}",
+            "published": "eq.true",
+            "select": PUBLIC_ARTICLE_TRANSLATION_SELECT,
+            "limit": "1",
+        },
+    ) or []
+    if not rows:
+        raise ValueError("Public article not found.")
+    return rows[0]
+
+
+def _patch_public_translation(identifier, payload):
+    rows = supabase_service(
+        "PATCH", "/rest/v1/public_articles",
+        params={
+            "id": f"eq.{str(identifier or '').strip()}",
+            "published": "eq.true",
+            "select": PUBLIC_ARTICLE_TRANSLATION_SELECT,
+        },
+        payload=payload,
+    ) or []
+    return rows[0] if rows else None
+
+
+def _public_translation_result(row):
+    return {"article": public_article_from_row(row), "scope": "public"}
+
+
+def translate_public_article(identifier, language):
+    """Start one background translation from one stored public article."""
     language = str(language or "").lower()
-    if language not in PUBLIC_WECHAT_LANGUAGES:
-        raise ValueError("Only English, Spanish, German and French are available here.")
-    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    articles = archive.get("articles", [])
-    item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
-    if not is_wechat_article(item):
-        raise ValueError("WeChat article not found.")
-    translations = dict(item.get("translations") or item.get("contents") or {})
-    titles = dict(item.get("translated_titles") or item.get("titles") or {})
-    if translations.get(language) and titles.get(language):
-        return {"article":item,"reused":True,"status":"completed"}
+    if language not in PUBLIC_TRANSLATION_LANGUAGES:
+        raise ValueError("This public article language is not available.")
+    item = _public_translation_row(identifier)
+    contents = dict(item.get("contents") or {})
+    translations = dict(item.get("translations") or {})
+    titles = dict(item.get("titles") or {})
+    translated_titles = dict(item.get("translated_titles") or {})
+    if contents.get(language) or translations.get(language):
+        return {**_public_translation_result(item), "reused":True, "status":"completed"}
     jobs = dict(item.get("translation_jobs") or {})
     existing_job = jobs.get(language) or {}
     if existing_job.get("response_id") and existing_job.get("status") in {"queued","in_progress"}:
-        return {"article":item,"reused":True,"status":existing_job["status"]}
-    chinese = str(translations.get("zh") or item.get("result") or "").strip()
-    chinese_title = str(titles.get("zh") or item.get("original_title") or item.get("title") or "").strip()
+        return {**_public_translation_result(item), "reused":True, "status":existing_job["status"]}
+    chinese = str(contents.get("zh") or translations.get("zh") or item.get("result") or "").strip()
+    chinese_title = str(
+        titles.get("zh") or translated_titles.get("zh") or item.get("original_title") or item.get("title") or ""
+    ).strip()
     if not chinese or not chinese_title:
         raise ValueError("This article has no archived Chinese source to translate.")
     language_name = LANGUAGES[language]
@@ -872,25 +915,25 @@ Chinese article:
     # which owns JSON validation and persistence.
     client_status = "in_progress" if response.status == "completed" else response.status
     jobs[language] = {"response_id":response.id,"status":client_status,"created_at":now}
-    item.update({"translation_jobs":jobs,"processed_at":now})
-    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
-    return {"article":item,"reused":False,"status":client_status}
+    jobs[language]["status"] = client_status
+    updated = _patch_public_translation(identifier, {"translation_jobs":jobs,"processed_at":now}) or {
+        **item, "translation_jobs":jobs, "processed_at":now
+    }
+    return {**_public_translation_result(updated), "reused":False, "status":client_status}
 
 
-def poll_wechat_translation(identifier, language):
-    """Poll a background response and persist its result once completed."""
+def poll_public_article_translation(identifier, language):
+    """Poll a public article translation and persist its result once completed."""
     language = str(language or "").lower()
-    if language not in PUBLIC_WECHAT_LANGUAGES:
-        raise ValueError("Only English, Spanish, German and French are available here.")
-    archive = load_blob_json("byelingua/articles.json", {"updated_at":"","articles":[]})
-    articles = archive.get("articles", [])
-    item = next((article for article in articles if str(article.get("id")) == str(identifier)), None)
-    if not is_wechat_article(item):
-        raise ValueError("WeChat article not found.")
-    translations = dict(item.get("translations") or item.get("contents") or {})
-    titles = dict(item.get("translated_titles") or item.get("titles") or {})
-    if translations.get(language) and titles.get(language):
-        return {"article":item,"status":"completed"}
+    if language not in PUBLIC_TRANSLATION_LANGUAGES:
+        raise ValueError("This public article language is not available.")
+    item = _public_translation_row(identifier)
+    contents = dict(item.get("contents") or {})
+    translations = dict(item.get("translations") or {})
+    titles = dict(item.get("titles") or {})
+    translated_titles = dict(item.get("translated_titles") or {})
+    if contents.get(language) or translations.get(language):
+        return {**_public_translation_result(item), "status":"completed"}
     jobs = dict(item.get("translation_jobs") or {})
     job = dict(jobs.get(language) or {})
     response_id = str(job.get("response_id") or "")
@@ -902,12 +945,18 @@ def poll_wechat_translation(identifier, language):
     jobs[language] = job
     item["translation_jobs"] = jobs
     if status in {"queued","in_progress"}:
-        return {"article":item,"status":status}
+        now = datetime.now(timezone.utc).isoformat()
+        updated = _patch_public_translation(identifier, {"translation_jobs":jobs,"processed_at":now}) or {
+            **item, "translation_jobs":jobs, "processed_at":now
+        }
+        return {**_public_translation_result(updated), "status":status}
     if status != "completed":
         job["error"] = "The translation did not complete. Please try again."
         now = datetime.now(timezone.utc).isoformat()
-        save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
-        return {"article":item,"status":status,"error":job["error"]}
+        updated = _patch_public_translation(identifier, {"translation_jobs":jobs,"processed_at":now}) or {
+            **item, "translation_jobs":jobs, "processed_at":now
+        }
+        return {**_public_translation_result(updated), "status":status,"error":job["error"]}
     try:
         payload = json.loads(response.output_text.removeprefix("```json").removesuffix("```").strip())
         translated_title = str(payload.get("title") or "").strip()
@@ -918,17 +967,39 @@ def poll_wechat_translation(identifier, language):
     if not translated_title or not summary or not content:
         job.update({"status":"failed","error":"The completed translation returned an incomplete result. Please try again."})
         now = datetime.now(timezone.utc).isoformat()
-        save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
-        return {"article":item,"status":"failed","error":job["error"]}
+        updated = _patch_public_translation(identifier, {"translation_jobs":jobs,"processed_at":now}) or {
+            **item, "translation_jobs":jobs, "processed_at":now
+        }
+        return {**_public_translation_result(updated), "status":"failed","error":job["error"]}
     translations[language] = content
+    contents[language] = content
     titles[language] = translated_title
+    translated_titles[language] = translated_title
     summaries = dict(item.get("summaries") or {})
     summaries[language] = summary
     now = datetime.now(timezone.utc).isoformat()
     job["completed_at"] = now
-    item.update({"translations":translations,"contents":dict(translations),"translated_titles":titles,"titles":dict(titles),"summaries":summaries,"translation_jobs":jobs,"processed_at":now})
-    save_blob_json("byelingua/articles.json", {"updated_at":now,"articles":articles})
-    return {"article":item,"status":"completed"}
+    payload = {
+        "translations":translations,
+        "contents":contents,
+        "translated_titles":translated_titles,
+        "titles":titles,
+        "summaries":summaries,
+        "translation_jobs":jobs,
+        "processed_at":now,
+    }
+    updated = _patch_public_translation(identifier, payload) or {**item, **payload}
+    return {**_public_translation_result(updated), "status":"completed"}
+
+
+def translate_wechat_article(identifier, language):
+    """Backward-compatible alias for the generic public translation action."""
+    return translate_public_article(identifier, language)
+
+
+def poll_wechat_translation(identifier, language):
+    """Backward-compatible alias for the generic public translation action."""
+    return poll_public_article_translation(identifier, language)
 
 
 def update_article_metadata(identifier, data):
@@ -2925,6 +2996,10 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, translate_wechat_article(str(data.get("id","")), data.get("language",""))); return
             if action == "poll_wechat_translation":
                 self.send_json(200, poll_wechat_translation(str(data.get("id","")), data.get("language",""))); return
+            if action == "translate_public_article":
+                self.send_json(200, translate_public_article(str(data.get("id","")), data.get("language",""))); return
+            if action == "poll_public_article_translation":
+                self.send_json(200, poll_public_article_translation(str(data.get("id","")), data.get("language",""))); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
             if action == "get_news_source_options":
