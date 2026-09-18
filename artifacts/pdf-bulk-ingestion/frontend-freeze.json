@@ -12,6 +12,6 @@
   "event_detail_renderer": "ByelinguaCredits.render",
   "programme_cast_artistic_team_contract": "PASS",
   "ingestion_frontend_mutations": 0,
-  "deployment_status": "BLOCKED_PENDING_VERCEL_AUTH",
+  "deployment_status": "PASS",
   "freeze_status": "PASS"
 }
