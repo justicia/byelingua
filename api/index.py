@@ -1992,6 +1992,7 @@ _INSTRUMENT_LABELS = {
 _ENSEMBLE_LABELS = {
     "orchestra": "Orchestra", "orchester": "Orchestra", "orchestre": "Orchestra", "orquestra": "Orchestra",
     "ensemble": "Ensemble", "choir": "Chorus", "chorus": "Chorus", "coro": "Chorus", "chor": "Chorus", "choeur": "Chorus",
+    "quartet": "Quartet", "quatuor": "Quartet", "quartett": "Quartet", "band": "Band",
 }
 _TEAM_FUNCTION_LABELS = {
     "conductor": "conductor", "musical direction": "conductor", "direction musicale": "conductor",
@@ -2023,6 +2024,9 @@ def _credit_semantics(role, character):
     if ensemble_type:
         return {"credit_type": "ensemble", "normalized_function": key.replace(" ", "_"),
                 "instrument": None, "voice_type": None, "ensemble_type": ensemble_type}
+    if key in {"performer", "singer", "soloist", "musician", "vocalist", "instrumentalist"}:
+        return {"credit_type": "performer", "normalized_function": key,
+                "instrument": None, "voice_type": None, "ensemble_type": None}
     function = _TEAM_FUNCTION_LABELS.get(key, key.replace(" ", "_") or "performer")
     return {"credit_type": "artistic_team", "normalized_function": function,
             "instrument": None, "voice_type": None, "ensemble_type": None}
