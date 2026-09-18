@@ -94,7 +94,84 @@
     },true);
   }
 
+  // Global Event Credit Presentation contract.
+  // Classification is based only on canonical credit facts, never venue or organization metadata.
+  function normalizeCreditRole(value){
+    return String(value||'').trim().toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g,'').replace(/ß/g,'ss').replace(/œ/g,'oe').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'');
+  }
+  function creditCharacter(row){return String(row&&((row.character||row.character_role)||'')).trim()}
+  function creditRoleValue(row){return row&&((row.normalized_function||row.artistic_function||row.display_role||row.role)||'')}
+  function creditType(row){return normalizeCreditRole(row&&((row.credit_type||row.role_type)||''))}
+  function isEnsembleRole(value){return creditType(typeof value==='object'?value:{credit_type:value})==='ensemble'}
+  function groupCredits(credits){
+    const rows=Array.isArray(credits)?credits:[];
+    return {
+      cast:rows.filter(row=>creditType(row)==='cast'||(!creditType(row)&&creditCharacter(row))),
+      performers:rows.filter(row=>creditType(row)==='performer'),
+      artisticTeam:rows.filter(row=>creditType(row)==='artistic_team'),
+      ensembles:rows.filter(row=>creditType(row)==='ensemble')
+    };
+  }
+  const creditRoleLabels={
+    conductor:{en:'Conductor',zh:'指挥'},
+    musical_direction:{en:'Conductor',zh:'指挥'},
+    direction_musicale:{en:'Conductor',zh:'指挥'},
+    stage_director:{en:'Stage Director',zh:'舞台导演'},
+    director:{en:'Director',zh:'导演'},
+    lighting:{en:'Lighting',zh:'灯光'},
+    lighting_designer:{en:'Lighting',zh:'灯光'},
+    costumes:{en:'Costumes',zh:'服装'},
+    costume_designer:{en:'Costumes',zh:'服装'},
+    costume_design:{en:'Costume Design',zh:'服装设计'},
+    set_design:{en:'Set Design',zh:'舞美设计'},
+    sets:{en:'Set Design',zh:'舞美设计'},
+    set_designer:{en:'Set Design',zh:'舞美设计'},
+    scenography:{en:'Scenography',zh:'舞美设计'},
+    chorus_master:{en:'Chorus Master',zh:'合唱指挥'},
+    choir_master:{en:'Choir Master',zh:'合唱指挥'},
+    dramaturgy:{en:'Dramaturgy',zh:'戏剧构作'},
+    dramaturg:{en:'Dramaturg',zh:'戏剧构作'},
+    performer:{en:'Performer',zh:'表演者'},
+    singer:{en:'Singer',zh:'歌手'},
+    soloist:{en:'Soloist',zh:'独奏/独唱'},
+    choreography:{en:'Choreography',zh:'编舞'},
+    choreographer:{en:'Choreographer',zh:'编舞'},
+    video_design:{en:'Video Design',zh:'视频设计'}
+  };
+  function humanizeCreditRole(value){return String(value||'Artist').replace(/[_-]+/g,' ').replace(/\b\w/g,ch=>ch.toUpperCase())}
+  function creditRoleLabel(value,language){
+    const lang=valid(language)||getUiLanguage(),raw=typeof value==='object'?creditRoleValue(value):value,key=normalizeCreditRole(raw),label=creditRoleLabels[key];
+    return label?label[lang]:humanizeCreditRole(raw);
+  }
+  function escapeCreditHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+  function renderCredits(event,options){
+    const opts=options||{},lang=valid(opts.language)||getUiLanguage(),groups=groupCredits(event&&event.credits),esc=opts.escape||escapeCreditHtml;
+    const artist=typeof opts.artistRenderer==='function'?opts.artistRenderer:(row=>esc(row&&row.artist_name||''));
+    const labels=lang==='zh'?{cast:'演员',performers:'演奏家 / 独奏家',team:'主创团队',ensembles:'乐团与合唱团'}:{cast:'Cast',performers:'Performers / Soloists',team:'Artistic Team',ensembles:'Ensembles'};
+    const cast=groups.cast.map(row=>`<li>${artist(row)}${creditCharacter(row)?` — ${esc(creditCharacter(row))}`:''}</li>`).join('');
+    const performers=groups.performers.map(row=>{const kind=row.instrument||row.voice_type||'';return `<li>${kind?`${esc(kind)} — `:''}${artist(row)}</li>`}).join('');
+    const teamMap=new Map();
+    groups.artisticTeam.forEach(row=>{const label=creditRoleLabel(row,lang);if(!teamMap.has(label))teamMap.set(label,[]);teamMap.get(label).push(row)});
+    const team=[...teamMap].map(([label,rows])=>`<div class="team-group"><h5>${esc(label)}</h5><ul>${rows.map(row=>`<li>${artist(row)}</li>`).join('')}</ul></div>`).join('');
+    const ensembles=groups.ensembles.map(row=>`<li>${row.ensemble_type?`${esc(row.ensemble_type)} — `:''}${artist(row)}</li>`).join('');
+    return [cast&&`<h4>${labels.cast}</h4><ul class="cast-list credit-list">${cast}</ul>`,performers&&`<h4>${labels.performers}</h4><ul class="credit-list">${performers}</ul>`,team&&`<h4>${labels.team}</h4>${team}`,ensembles&&`<h4>${labels.ensembles}</h4><ul class="credit-list">${ensembles}</ul>`].filter(Boolean).join('');
+  }
+  function installGlobalCreditRenderer(){
+    if(typeof window.renderPresentationCredits==='function'){
+      window.renderPresentationCredits=function(event){
+        return renderCredits(event,{language:getUiLanguage(),escape:window.escapeHtml||escapeCreditHtml,artistRenderer:typeof window.artistLink==='function'?row=>window.artistLink(row):undefined});
+      };
+    }
+    if(typeof window.credits==='function'){
+      window.credits=function(event){
+        return renderCredits(event,{language:getUiLanguage(),escape:typeof window.esc==='function'?window.esc:escapeCreditHtml});
+      };
+    }
+  }
+
   window.ByelinguaI18n={getUiLanguage,setUiLanguage,t,formatDate,formatTime,formatDateRange,formatEventCount,formatScheduleStatus,formatIntent,formatEventType,localizeApiError,normalizeLocationKey,locationSearchKeys,locationMatches,canonicalizeLocationInput};
+  window.ByelinguaCredits={render:renderCredits,normalizeRole:normalizeCreditRole,isEnsembleRole,group:groupCredits,roleLabel:creditRoleLabel,install:installGlobalCreditRenderer};
   document.documentElement.lang=getUiLanguage()==='en'?'en-GB':'zh-CN';
   installScheduleLocationAliasBridge();
+  window.addEventListener('load',installGlobalCreditRenderer);
 })();
