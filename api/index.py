@@ -38,6 +38,19 @@ SESSION.headers.update({
     "Accept-Language":"en-US,en;q=0.8"
 })
 
+# Keep Schedule Builder reads aligned with the live event_catalog_v1 view.
+# Work/composer data is resolved through event_programme -> works; it is not
+# a column on event_catalog_v1.
+EVENT_CATALOG_SELECT = (
+    "event_id,source,source_event_id,source_url,organization,venue,room,date,"
+    "start_time,end_time,timezone,event_type,title,original_title,status,"
+    "ticket_url,fetched_at,source_updated_at,review_status"
+)
+EVENT_CHARACTER_CATALOG_SELECT = (
+    "event_id,title,date,start_time,organization,venue,work_title,composer,"
+    "character_id,canonical_name,raw_character,artist_name,role,character"
+)
+
 
 def normalize_search_key(value):
     """Stable accent-insensitive key; display/canonical values are never changed."""
@@ -1893,11 +1906,23 @@ def _schedule_city(value):
     return value or "Other"
 
 
+def _event_label_city(venue=None, organization=None):
+    """Derive a known city from venue/organization labels when no city column exists."""
+    values = [value for value in (venue, organization) if value]
+    for value in values:
+        candidate = _schedule_city(value)
+        if candidate != value or candidate in {"Paris", "Vienna", "Berlin"}:
+            return candidate
+    return _schedule_city(values[0]) if values else ""
+
+
 def _event_city(event, venue_cities=None):
     """Return explicit city data, optionally enriched from the venue directory."""
     city = event.get("city") or event.get("location_city")
     if not city and venue_cities:
         city = venue_cities.get(str(event.get("venue") or "").strip().casefold())
+    if not city:
+        city = _event_label_city(event.get("venue"), event.get("organization"))
     return str(city or "").strip()
 
 
@@ -1945,6 +1970,63 @@ _PRODUCTION_CREDIT_ROLE_KEYS = (
     "orchestra", "dramaturg", "video", "assistant director",
 )
 
+_VOICE_TYPE_LABELS = {
+    "soprano": "Soprano", "mezzo soprano": "Mezzo-soprano", "mezzosoprano": "Mezzo-soprano",
+    "mezzo-soprano": "Mezzo-soprano", "alto": "Alto", "contralto": "Contralto", "tenor": "Tenor",
+    "baritone": "Baritone", "baritono": "Baritone", "bass": "Bass", "bajo": "Bass",
+    "bass baritone": "Bass-baritone", "bass-baritone": "Bass-baritone", "bajo baritono": "Bass-baritone",
+}
+_INSTRUMENT_LABELS = {
+    "violin": "Violin", "violín": "Violin", "violino": "Violin", "violin i": "Violin I",
+    "violin ii": "Violin II", "violin iii": "Violin III", "viola": "Viola", "cello": "Cello",
+    "violoncello": "Cello", "violonchelo": "Cello", "double bass": "Double bass",
+    "contrabass": "Double bass", "contrabajo": "Double bass", "piano": "Piano",
+    "harpsichord": "Harpsichord", "clave": "Harpsichord", "organ": "Organ", "órgano": "Organ",
+    "horn": "Horn", "trompa": "Horn", "trumpet": "Trumpet", "trompeta": "Trumpet",
+    "trombone": "Trombone", "trombón": "Trombone", "flute": "Flute", "flauta": "Flute",
+    "clarinet": "Clarinet", "clarinete": "Clarinet", "oboe": "Oboe", "bassoon": "Bassoon",
+    "fagot": "Bassoon", "tiorba": "Theorbo", "lute": "Lute", "laud": "Lute", "guitar": "Guitar",
+    "guitarra": "Guitar", "saxophone": "Saxophone", "saxofón": "Saxophone", "percussion": "Percussion",
+    "percusión": "Percussion",
+}
+_ENSEMBLE_LABELS = {
+    "orchestra": "Orchestra", "orchester": "Orchestra", "orchestre": "Orchestra", "orquestra": "Orchestra",
+    "ensemble": "Ensemble", "choir": "Chorus", "chorus": "Chorus", "coro": "Chorus", "chor": "Chorus", "choeur": "Chorus",
+}
+_TEAM_FUNCTION_LABELS = {
+    "conductor": "conductor", "musical direction": "conductor", "direction musicale": "conductor",
+    "stage director": "stage_director", "director": "stage_director", "lighting": "lighting",
+    "lighting designer": "lighting", "costume": "costumes", "costumes": "costumes", "costume designer": "costumes",
+    "set design": "set_design", "set designer": "set_design", "sets": "set_design", "scenography": "scenography",
+    "choreographer": "choreographer", "choreography": "choreographer", "chorus master": "chorus_master",
+    "choir master": "chorus_master", "dramaturgy": "dramaturgy", "dramaturg": "dramaturg", "video": "video_design",
+    "video design": "video_design",
+}
+
+
+def _credit_semantics(role, character):
+    """Return structured detail semantics while preserving the raw role text."""
+    raw = str(role or "").strip()
+    key = " ".join(normalize_search_key(raw).replace("_", " ").split())
+    if character:
+        return {"credit_type": "cast", "normalized_function": "performer", "instrument": None,
+                "voice_type": None, "ensemble_type": None}
+    voice_type = _VOICE_TYPE_LABELS.get(key)
+    if voice_type:
+        return {"credit_type": "performer", "normalized_function": key.replace(" ", "-"),
+                "instrument": None, "voice_type": voice_type, "ensemble_type": None}
+    instrument = _INSTRUMENT_LABELS.get(key)
+    if instrument:
+        return {"credit_type": "performer", "normalized_function": key.replace(" ", "_"),
+                "instrument": instrument, "voice_type": None, "ensemble_type": None}
+    ensemble_type = _ENSEMBLE_LABELS.get(key)
+    if ensemble_type:
+        return {"credit_type": "ensemble", "normalized_function": key.replace(" ", "_"),
+                "instrument": None, "voice_type": None, "ensemble_type": ensemble_type}
+    function = _TEAM_FUNCTION_LABELS.get(key, key.replace(" ", "_") or "performer")
+    return {"credit_type": "artistic_team", "normalized_function": function,
+            "instrument": None, "voice_type": None, "ensemble_type": None}
+
 
 def _serialize_event_credit(row):
     role = str(row.get("role") or "").strip().rstrip("/").strip()
@@ -1959,14 +2041,20 @@ def _serialize_event_credit(row):
     is_production_credit = any(marker in role_key for marker in _PRODUCTION_CREDIT_ROLE_KEYS)
     if is_production_credit:
         character = None
+    semantics = _credit_semantics(role, character)
     return {
         "artist_id": row.get("artist_id"),
         "artist_name": (row.get("artists") or {}).get("artist_name"),
         "role": role,
         "raw_role_label": row.get("role"),
-        "role_type": "artistic_team" if not character else "cast",
+        "role_type": semantics["credit_type"],
+        "credit_type": semantics["credit_type"],
         "character_role": character,
-        "artistic_function": role if not character else None,
+        "artistic_function": semantics["normalized_function"] if semantics["credit_type"] == "artistic_team" else None,
+        "normalized_function": semantics["normalized_function"],
+        "instrument": semantics["instrument"],
+        "voice_type": semantics["voice_type"],
+        "ensemble_type": semantics["ensemble_type"],
         "character": character,
     }
 
@@ -2067,7 +2155,7 @@ def schedule_events(data):
     if date_from > date_to:
         raise ValueError("开始日期不能晚于结束日期。")
     params = {
-        "select": "*",
+        "select": EVENT_CATALOG_SELECT,
         "order": "date.asc,start_time.asc", "limit": "1000",
     }
     raw_organizations = data.get("organizations", [])
@@ -2113,9 +2201,7 @@ def schedule_events(data):
     filtered = []
     for row in rows:
         row["source_title"] = row.get("title")
-        row["title"] = canonical_work_title(row.get("work_title") or row.get("title"))
-        if row.get("work_title"):
-            row["work_title"] = canonical_work_title(row.get("work_title"))
+        row["title"] = canonical_work_title(row.get("title"))
         row["raw_event_type"] = row.get("event_type")
         row["event_type"] = canonical_event_type(row.get("event_type"))
         if event_type and row["event_type"] != event_type:
@@ -2131,7 +2217,7 @@ def schedule_events(data):
         if venues and str(row.get("venue", "")).lower() not in venues:
             continue
         keyword = data.get("work_query") or data.get("query")
-        if keyword and not artist_match and search_match_score(keyword, row.get("title"), row.get("work_title"), row.get("composer"), row.get("organization"), row.get("venue"), row.get("artist_name")) < 0.60:
+        if keyword and not artist_match and search_match_score(keyword, row.get("title"), row.get("organization"), row.get("venue")) < 0.60:
             continue
         filtered.append(row)
     unique = []
@@ -2164,17 +2250,26 @@ def schedule_events(data):
 def schedule_event_detail(event_id):
     catalog = supabase_service(
         "GET", "/rest/v1/event_catalog_v1",
-        params={"event_id": f"eq.{event_id}", "limit": "1"},
+        params={"event_id": f"eq.{event_id}", "select": EVENT_CATALOG_SELECT, "limit": "1"},
     ) or []
     if not catalog:
         raise ValueError("找不到这场演出。")
     event = catalog[0]
     event["source_title"] = event.get("title")
-    event["title"] = canonical_work_title(event.get("work_title") or event.get("title"))
-    if event.get("work_title"):
-        event["work_title"] = canonical_work_title(event.get("work_title"))
+    event["title"] = canonical_work_title(event.get("title"))
     event["raw_event_type"] = event.get("event_type")
     event["event_type"] = canonical_event_type(event.get("event_type"))
+    if not (event.get("city") or event.get("location_city")):
+        venue_name = str(event.get("venue") or "").strip()
+        venue_rows = supabase_service(
+            "GET", "/rest/v1/venues",
+            params={"name": f"eq.{venue_name}", "select": "name,city", "limit": "1"},
+        ) if venue_name else []
+        venue_cities = {
+            str(row.get("name") or "").strip().casefold(): row.get("city")
+            for row in (venue_rows or []) if row.get("name") and row.get("city")
+        }
+        event["city"] = _event_city(event, venue_cities)
     base = supabase_service(
         "GET", "/rest/v1/events",
         params={"event_key": f"eq.{event_id}", "select": "id,room", "limit": "1"},
@@ -2253,7 +2348,7 @@ def _schedule_events_payload(schedule_id):
     events = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(ids)})", "select": "id,event_key", "limit": "5000"}) or []
     key_by_id = {str(row["id"]): row.get("event_key") for row in events}
     keys = [key for key in key_by_id.values() if key]
-    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "limit": "5000"}) if keys else []
+    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "select": EVENT_CATALOG_SELECT, "limit": "5000"}) if keys else []
     event_by_key = {str(row.get("event_id")): row for row in (catalog or [])}
     return [{**row, "event_key": key_by_id.get(str(row["event_id"])), "event": event_by_key.get(key_by_id.get(str(row["event_id"])), {})} for row in rows]
 
@@ -2522,7 +2617,7 @@ def character_events(data):
     if not date_from or not date_to:
         raise ValueError("请选择开始和结束日期。")
     params = {
-        "select": "*", "character_id": f"eq.{character_id}",
+        "select": EVENT_CHARACTER_CATALOG_SELECT, "character_id": f"eq.{character_id}",
         "and": f"(date.gte.{date_from},date.lte.{date_to})",
         "order": "date.asc,start_time.asc", "limit": "1000",
     }
@@ -2535,7 +2630,7 @@ def character_events(data):
     for row in rows:
         if event_type and row.get("event_type") and canonical_event_type(row.get("event_type")) != event_type:
             continue
-        if cities and _schedule_city(row.get("venue") or row.get("organization")).casefold() not in cities:
+        if cities and _event_label_city(row.get("venue"), row.get("organization")).casefold() not in cities:
             continue
         if organizations and str(row.get("organization", "")).casefold() not in organizations:
             continue
@@ -2580,7 +2675,7 @@ def artist_events(data):
     print(f"[artist_events] artist_id={artist_id} event_credits={len(credits)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
     catalog = supabase_service(
         "GET", "/rest/v1/event_catalog_v1",
-        params={"event_id": f"in.({','.join(event_keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"},
+        params={"event_id": f"in.({','.join(event_keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "select": EVENT_CATALOG_SELECT, "order": "date.asc,start_time.asc", "limit": "1000"},
     ) or []
     by_event = {}
     for row in credits:
@@ -2592,7 +2687,7 @@ def artist_events(data):
     for event in catalog:
         if event_type and canonical_event_type(event.get("event_type")) != event_type:
             continue
-        if cities and _schedule_city(event.get("venue") or event.get("organization")).casefold() not in cities:
+        if cities and _event_label_city(event.get("venue"), event.get("organization")).casefold() not in cities:
             continue
         if venues and str(event.get("venue", "")).casefold() not in venues:
             continue
@@ -2624,7 +2719,7 @@ def artist_context(data):
         event_key_by_internal_id = event_keys_for_internal_ids(event_ids)
         event_keys = list(event_key_by_internal_id.values())
         print(f"[artist_context] artist_id={artist_id} event_credits={len(credit_rows)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
-        catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(event_keys)})", "order": "date.asc,start_time.asc", "limit": "2000"}) or []
+        catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(event_keys)})", "select": EVENT_CATALOG_SELECT, "order": "date.asc,start_time.asc", "limit": "2000"}) or []
         by_event = {str(row.get("event_id")): row for row in credit_rows}
         for event in catalog:
             internal_id = next((key for key, value in event_key_by_internal_id.items() if value == str(event.get("event_id"))), "")
@@ -2633,11 +2728,11 @@ def artist_context(data):
                 "event_id": event.get("event_id"),
                 "date": event.get("date"), "start_time": event.get("start_time"),
                 "start_datetime": f"{event.get('date') or ''}T{event.get('start_time') or '00:00:00'}",
-                "work_title": event.get("work_title") or event.get("title"),
-                "composer": event.get("composer"),
+                "work_title": event.get("title"),
+                "composer": None,
                 "title": event.get("title"),
                 "organization_name": event.get("organization"), "venue_name": event.get("venue"),
-                "city": _schedule_city(event.get("venue") or event.get("organization")),
+                "city": _event_label_city(event.get("venue"), event.get("organization")),
                 "role": credit.get("role"),
                 "character": credit.get("character") or credit.get("raw_character"),
             })
@@ -2722,11 +2817,11 @@ def work_events(data):
     if not keys:
         return {"events": []}
     payload = dict(data); payload["date_from"], payload["date_to"] = date_from, date_to
-    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "order": "date.asc,start_time.asc", "limit": "1000"}) or []
+    catalog = supabase_service("GET", "/rest/v1/event_catalog_v1", params={"event_id": f"in.({','.join(keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "select": EVENT_CATALOG_SELECT, "order": "date.asc,start_time.asc", "limit": "1000"}) or []
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
-    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _schedule_city(row.get("venue") or row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues)]}
+    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _event_label_city(row.get("venue"), row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues)]}
 
 
 def combined_entity_events(data):
