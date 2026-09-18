@@ -1,0 +1,18 @@
+{
+  "schema_version": "frontend-freeze-v1",
+  "restored_frontend_commit": "b2123ce993f6a0ee6bad5ab590b2c649fee2a1bf",
+  "frozen_frontend_commit": "1d7591dba2df428152b35ccb4a0b98e65c934efa",
+  "accepted_files": [
+    "schedule.html",
+    "schedule-editor.html",
+    "shared-i18n.js",
+    "shared-header.js"
+  ],
+  "restore_source": "repository_history",
+  "semantic_match": "PASS",
+  "event_detail_renderer": "ByelinguaCredits.render",
+  "programme_cast_artistic_team_contract": "PASS",
+  "ingestion_frontend_mutations": 0,
+  "deployment_status": "BLOCKED_PENDING_VERCEL_AUTH",
+  "freeze_status": "PASS"
+}
