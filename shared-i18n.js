@@ -154,7 +154,7 @@
     groups.artisticTeam.forEach(row=>{const label=creditRoleLabel(row,lang);if(!teamMap.has(label))teamMap.set(label,[]);teamMap.get(label).push(row)});
     const team=[...teamMap].map(([label,rows])=>`<div class="team-group"><h5>${esc(label)}</h5><ul>${rows.map(row=>`<li>${artist(row)}</li>`).join('')}</ul></div>`).join('');
     const ensembles=groups.ensembles.map(row=>`<li>${row.ensemble_type?`${esc(row.ensemble_type)} — `:''}${artist(row)}</li>`).join('');
-    return [cast&&`<h4>${labels.cast}</h4><ul class="cast-list credit-list">${cast}</ul>`,performers&&`<h4>${labels.performers}</h4><ul class="credit-list">${performers}</ul>`,team&&`<h4>${labels.team}</h4>${team}`,ensembles&&`<h4>${labels.ensembles}</h4><ul class="credit-list">${ensembles}</ul>`].filter(Boolean).join('');
+    return [cast&&`<h4>${labels.cast}</h4><ul class="cast-list credit-list">${cast}</ul>`,performers&&`<h4>${labels.performers}</h4><ul class="credit-list">${performers}</ul>`,ensembles&&`<h4>${labels.ensembles}</h4><ul class="credit-list">${ensembles}</ul>`,team&&`<h4>${labels.team}</h4>${team}`].filter(Boolean).join('');
   }
   function installGlobalCreditRenderer(){
     if(typeof window.renderPresentationCredits==='function'){
