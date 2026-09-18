@@ -5,8 +5,7 @@
   "accepted_files": [
     "schedule.html",
     "schedule-editor.html",
-    "shared-i18n.js",
-    "shared-header.js"
+    "shared-i18n.js"
   ],
   "restore_source": "repository_history",
   "semantic_match": "PASS",
