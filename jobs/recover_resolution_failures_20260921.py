@@ -128,6 +128,9 @@ def group_payloads(events: dict[str, dict], programmes: list[tuple[str, dict]], 
     for venue, row in programmes:
         title = row.get("source_title") or ""
         composer = row.get("canonical_composer") or ""
+        reason = row.get("reason") or ""
+        if row.get("status") == "existing" or reason.startswith(("unique existing", "exact operational")):
+            continue
         if not row.get("work_id") and (composer, title) in SAFE_WORKS:
             event = events.get(row.get("event_key")); comp = comp_by_name.get(normalize_identity(composer))
             if not event or not comp or (event["source"], event["source_event_id"]) not in event_sources:
@@ -141,8 +144,17 @@ def group_payloads(events: dict[str, dict], programmes: list[tuple[str, dict]], 
                 payload["relationships"].append(rel); stats["programme"]["attempted"] += 1
             stats["taxonomy_programme"]["WORK_NOT_IN_CANONICAL_DB"] += 1
         elif not row.get("work_id"):
-            reason = "WORK_COMPOSER_MISMATCH" if (composer, title) in REJECTED_WORKS else "OTHER_EXPLICIT_REASON"
-            stats["taxonomy_programme"][reason] += 1
+            if (composer, title) in REJECTED_WORKS:
+                taxonomy_reason = "WORK_COMPOSER_MISMATCH"
+            elif reason in {"AMBIGUOUS_PRODUCTION_TITLE"}:
+                taxonomy_reason = "SOURCE_TITLE_AMBIGUOUS"
+            elif reason in {"MATCHED_PRODUCTION_HAS_NO_CANONICAL_COMPOSER", "composer unresolved; Work resolution deferred"}:
+                taxonomy_reason = "COMPOSER_ALIAS_MISSING"
+            elif reason == "NEW_PRODUCTION_REQUIRES_AUTHORITY_VERIFICATION":
+                taxonomy_reason = "WORK_NOT_IN_CANONICAL_DB"
+            else:
+                taxonomy_reason = "OTHER_EXPLICIT_REASON"
+            stats["taxonomy_programme"][taxonomy_reason] += 1
     for venue, row in credits:
         credit = row.get("credit") or {}; status = credit.get("resolution_status")
         if status == "REVIEW_ROLE_UNKNOWN" and credit.get("source_role") == "performer" and credit.get("artist_resolution", {}).get("status") in {"SAFE_EXISTING", "SAFE_NEW_ARTIST"}:
@@ -155,7 +167,7 @@ def group_payloads(events: dict[str, dict], programmes: list[tuple[str, dict]], 
             row_payload = {"event_key": event["event_key"], "artist_id": artist.get("artist_id"), "artist_identity_key": identity, "artist_name": artist.get("canonical_name") or credit.get("source_artist_name"), "role": "performer", "instrument": credit.get("instrument"), "voice_type": credit.get("voice_type"), "character_id": None, "character": None, "raw_character": None, "source_url": credit.get("source_url"), "source_field": credit.get("source_field")}
             if not any((c.get("event_key"), c.get("artist_id") or c.get("artist_identity_key"), c.get("role")) == (row_payload["event_key"], row_payload.get("artist_id") or identity, "performer") for c in payload["event_credits"]):
                 payload["event_credits"].append(row_payload); stats["credits"]["attempted"] += 1
-            stats["taxonomy_cast"]["ARTIST_ALIAS_MISSING" if artist.get("status") == "SAFE_NEW_ARTIST" else "NORMALIZATION_FAILURE"] += 1
+            stats["taxonomy_cast"]["ROLE_PARSE_FAILURE"] += 1
         elif status == "REVIEW_ARTIST_CONFLICT":
             stats["taxonomy_cast"]["PERSON_ROLE_AMBIGUOUS"] += 1
     for p in payloads.values():
