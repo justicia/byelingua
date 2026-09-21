@@ -2223,6 +2223,20 @@ def _schedule_venue_names_for_cities(cities):
     return names, city_by_venue
 
 
+def _schedule_in_filter(values):
+    """Build a PostgREST ``in`` filter that safely quotes labelled values."""
+    encoded = []
+    for value in values:
+        text = str(value or "").strip()
+        if not text:
+            continue
+        if all(char.isalnum() or char in "-_.:" for char in text):
+            encoded.append(text)
+        else:
+            encoded.append('"' + text.replace('"', '\\"') + '"')
+    return "in.({})".format(",".join(encoded))
+
+
 def _schedule_catalog_params(data, *, event_keys=None, page_size=None, offset=None):
     date_from = str(data.get("date_from") or "")
     date_to = str(data.get("date_to") or "")
@@ -2244,13 +2258,13 @@ def _schedule_catalog_params(data, *, event_keys=None, page_size=None, offset=No
     if len(requested_organizations) == 1:
         params["organization"] = f"eq.{requested_organizations[0]}"
     elif requested_organizations:
-        params["organization"] = "in.(" + ",".join(requested_organizations) + ")"
+        params["organization"] = _schedule_in_filter(requested_organizations)
     requested_venues = {str(x).strip() for x in (data.get("venues") or []) if str(x).strip()}
     city_names, _ = _schedule_venue_names_for_cities(data.get("cities") or [])
     if city_names is not None:
         requested_venues = requested_venues & city_names if requested_venues else city_names
     if requested_venues:
-        params["venue"] = "in.(" + ",".join(sorted(requested_venues)) + ")"
+        params["venue"] = _schedule_in_filter(sorted(requested_venues))
     elif data.get("cities"):
         # A selected city with no known venues must return no rows; using an
         # impossible value preserves exact count semantics without a 1000-row
@@ -2263,7 +2277,7 @@ def _schedule_catalog_params(data, *, event_keys=None, page_size=None, offset=No
         if not event_keys:
             params["event_id"] = "eq.__byelingua_no_matching_event__"
         else:
-            params["event_id"] = "in.({})".format(",".join(sorted(set(event_keys))))
+            params["event_id"] = _schedule_in_filter(sorted(set(event_keys)))
     keyword = str(data.get("work_query") or "").strip()
     if keyword:
         safe_keyword = keyword.replace("*", "").replace(",", " ").strip()
