@@ -111,6 +111,10 @@ class ScheduleBuilderSchemaTests(unittest.TestCase):
         self.assertEqual(len(result["events"]), 1)
         self.assertEqual(result["events"][0]["title"], "Paris Concert")
         self.assertEqual(result["events"][0]["city"], "Paris")
+        self.assertEqual(result["items"], result["events"])
+        self.assertEqual(result["total"], 1)
+        self.assertEqual(result["page"], 1)
+        self.assertEqual(result["page_size"], 15)
         self.assertEqual(self.catalog_calls()[0][2]["select"], schedule_api.EVENT_CATALOG_SELECT)
 
     def test_work_search_uses_event_programme_and_catalog_title(self):

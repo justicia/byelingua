@@ -116,6 +116,14 @@ class ScheduleFrontendTests(unittest.TestCase):
         self.assertIn("event.work_character_skeleton", (ROOT / "schedule.html").read_text(encoding="utf-8"))
         self.assertIn("<strong>—</strong>", (ROOT / "schedule.html").read_text(encoding="utf-8"))
 
+    def test_schedule_uses_server_total_and_page_contract(self):
+        self.assertIn("page:eventPage,page_size:eventPageSize", self.schedule)
+        self.assertIn("eventTotal=Number.isFinite(Number(d.total))?Number(d.total):events.length", self.schedule)
+        self.assertIn("Math.ceil(eventTotal/eventPageSize)", self.schedule)
+        self.assertIn("runEntitySearch({keepPage:true})", self.schedule)
+        self.assertIn("persistent-event-body{flex:1;min-height:0;overflow-y:auto}", self.schedule)
+        self.assertNotIn("const visible=events.slice((eventPage-1)*eventPageSize,eventPage*eventPageSize)", self.schedule.split("// Final server-pagination controller.", 1)[-1])
+
 
 if __name__ == "__main__":
     unittest.main()
