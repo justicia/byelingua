@@ -35,7 +35,8 @@ ROLE_ALIASES = {
     "chor": "choir", "choir": "choir", "chorus": "choir", "chœur": "choir", "choeur": "choir", "coro": "choir",
     "ensemble": "ensemble", "music group": "ensemble", "grupo musical": "ensemble",
     "singer": "singer", "sänger": "singer", "cantante": "singer", "chanteur": "singer",
-    "soloist": "soloist", "solist": "soloist", "actor": "actor", "schauspieler": "actor",
+    "soloist": "soloist", "solist": "soloist", "performer": "performer",
+    "actor": "actor", "schauspieler": "actor",
 }
 VOICE_TYPE_ALIASES = {
     "soprano": "SOPRANO", "sopran": "SOPRANO", "soprano lirico": "SOPRANO",
