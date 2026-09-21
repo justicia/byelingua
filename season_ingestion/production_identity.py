@@ -69,7 +69,7 @@ def _count_sentinel(*, base_url: str, key: str, sentinel: ProductionSentinel, fe
     )
     try:
         with fetcher(request, timeout=45) as response:
-            if getattr(response, "status", 200) != 200:
+            if getattr(response, "status", 200) not in {200, 206}:
                 raise RuntimeError(f"HTTP {getattr(response, 'status', 'unknown')}")
             content_range = ""
             headers = getattr(response, "headers", None)
