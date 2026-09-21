@@ -2024,7 +2024,9 @@ def _credit_semantics(role, character):
     if ensemble_type:
         return {"credit_type": "ensemble", "normalized_function": key.replace(" ", "_"),
                 "instrument": None, "voice_type": None, "ensemble_type": ensemble_type}
-    if key in {"performer", "singer", "soloist", "musician", "vocalist", "instrumentalist"}:
+    if (key in {"performer", "singer", "soloist", "musician", "vocalist", "instrumentalist",
+                "pianist", "accompanist", "concertmaster"}
+            or key.startswith(("solist ", "soloist ", "performer ", "singer ", "vocalist "))):
         return {"credit_type": "performer", "normalized_function": key,
                 "instrument": None, "voice_type": None, "ensemble_type": None}
     function = _TEAM_FUNCTION_LABELS.get(key, key.replace(" ", "_") or "performer")
