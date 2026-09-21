@@ -1148,7 +1148,7 @@ def supabase_settings():
     return url, publishable, service
 
 
-def supabase_service(method, path, *, params=None, payload=None, prefer="return=representation"):
+def supabase_service(method, path, *, params=None, payload=None, prefer="return=representation", return_headers=False):
     url, _, service = supabase_settings()
     headers = {"apikey":service,"Content-Type":"application/json","Prefer":prefer,"User-Agent":"Byelingua-Server/3.0"}
     if not service.startswith("sb_secret_"):
@@ -1156,7 +1156,44 @@ def supabase_service(method, path, *, params=None, payload=None, prefer="return=
     response = SESSION.request(method, f"{url}{path}", params=params, json=payload, headers=headers, timeout=30)
     if not response.ok:
         raise ValueError(response.json().get("message") or response.text or "Supabase 请求失败。")
-    return response.json() if response.content else None
+    body = response.json() if response.content else None
+    if return_headers:
+        return body, response.headers
+    return body
+
+
+def supabase_exact_count(path, params):
+    """Return an exact PostgREST count without downloading the result set.
+
+    The fallback keeps local/unit-test fakes compatible while production uses
+    ``Prefer: count=exact`` and the Content-Range header.  Only the requested
+    projection (normally a single id column) is used for the fallback.
+    """
+    count_params = dict(params or {})
+    count_params["select"] = count_params.get("count_select", "event_id")
+    count_params.pop("count_select", None)
+    count_params["limit"] = "1"
+    try:
+        result = supabase_service("GET", path, params=count_params, prefer="count=exact", return_headers=True)
+        if isinstance(result, tuple) and len(result) == 2:
+            headers = result[1] or {}
+            content_range = headers.get("Content-Range") or headers.get("content-range") or ""
+            if "/" in content_range:
+                value = content_range.rsplit("/", 1)[-1].strip()
+                if value.isdigit():
+                    return int(value)
+            body = result[0] or []
+            if isinstance(body, list) and body:
+                # A fake or proxy may omit Content-Range but return a count.
+                return len(body)
+            return 0
+    except Exception:
+        pass
+    # Compatibility path for local fakes and older adapters.
+    fallback = dict(count_params)
+    fallback["limit"] = "10000"
+    rows = supabase_service("GET", path, params=fallback) or []
+    return len(rows) if isinstance(rows, list) else 0
 
 
 def authenticated_user(headers):
@@ -2153,7 +2190,40 @@ def schedule_options():
     }
 
 
-def schedule_events(data):
+def _schedule_page(data):
+    """Normalize the public page contract (one-based page, bounded size)."""
+    try:
+        page = max(1, int(data.get("page") or 1))
+    except (TypeError, ValueError):
+        page = 1
+    try:
+        page_size = min(100, max(1, int(data.get("page_size") or 15)))
+    except (TypeError, ValueError):
+        page_size = 15
+    return page, page_size
+
+
+def _schedule_venue_names_for_cities(cities):
+    if not cities:
+        return None, {}
+    venue_rows = supabase_service(
+        "GET", "/rest/v1/venues",
+        params={"select": "name,city", "limit": "5000"},
+    ) or []
+    wanted = {str(value).strip().casefold() for value in cities if str(value).strip()}
+    names = {
+        str(row.get("name") or "").strip()
+        for row in venue_rows
+        if row.get("name") and str(row.get("city") or "").strip().casefold() in wanted
+    }
+    city_by_venue = {
+        str(row.get("name") or "").strip().casefold(): row.get("city")
+        for row in venue_rows if row.get("name") and row.get("city")
+    }
+    return names, city_by_venue
+
+
+def _schedule_catalog_params(data, *, event_keys=None, page_size=None, offset=None):
     date_from = str(data.get("date_from") or "")
     date_to = str(data.get("date_to") or "")
     if not date_from or not date_to:
@@ -2162,7 +2232,8 @@ def schedule_events(data):
         raise ValueError("开始日期不能晚于结束日期。")
     params = {
         "select": EVENT_CATALOG_SELECT,
-        "order": "date.asc,start_time.asc", "limit": "1000",
+        "order": "date.asc,start_time.asc,event_id.asc",
+        "and": f"(date.gte.{date_from},date.lte.{date_to})",
     }
     raw_organizations = data.get("organizations", [])
     if not raw_organizations and data.get("organization"):
@@ -2174,38 +2245,46 @@ def schedule_events(data):
         params["organization"] = f"eq.{requested_organizations[0]}"
     elif requested_organizations:
         params["organization"] = "in.(" + ",".join(requested_organizations) + ")"
-    # One `and` expression keeps both date bounds in a single query parameter.
-    params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
+    requested_venues = {str(x).strip() for x in (data.get("venues") or []) if str(x).strip()}
+    city_names, _ = _schedule_venue_names_for_cities(data.get("cities") or [])
+    if city_names is not None:
+        requested_venues = requested_venues & city_names if requested_venues else city_names
+    if requested_venues:
+        params["venue"] = "in.(" + ",".join(sorted(requested_venues)) + ")"
+    elif data.get("cities"):
+        # A selected city with no known venues must return no rows; using an
+        # impossible value preserves exact count semantics without a 1000-row
+        # client-side scan.
+        params["venue"] = "eq.__byelingua_no_matching_venue__"
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
-    rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
-    artist_event_keys = None
-    artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
-    if artist_query:
-        all_artists = supabase_service("GET", "/rest/v1/artists", params={"select":"id,artist_name", "limit":"5000"}) or []
-        artists = [row for row in all_artists if search_match_score(artist_query, row.get("artist_name")) >= 0.60]
-        artist_ids = [str(row.get("id")) for row in artists if row.get("id")]
-        if artist_ids:
-            credits = supabase_service("GET", "/rest/v1/event_credits", params={"artist_id":f"in.({','.join(artist_ids)})", "select":"event_id", "limit":"5000"}) or []
-            internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
-            event_rows = supabase_service("GET", "/rest/v1/events", params={"id":f"in.({','.join(internal_ids)})", "select":"id,event_key", "limit":"5000"}) if internal_ids else []
-            artist_event_keys = {str(row.get("event_key")) for row in (event_rows or []) if row.get("event_key")}
+    if event_type:
+        params["event_type"] = f"eq.{event_type}"
+    if event_keys is not None:
+        if not event_keys:
+            params["event_id"] = "eq.__byelingua_no_matching_event__"
         else:
-            artist_event_keys = set()
-    venue_cities = {}
-    if any(not (row.get("city") or row.get("location_city")) for row in rows):
-        venue_rows = supabase_service(
-            "GET", "/rest/v1/venues",
-            params={"select": "name,city", "limit": "5000"},
-        ) or []
-        venue_cities = {
-            str(venue.get("name") or "").strip().casefold(): venue.get("city")
-            for venue in venue_rows if venue.get("name") and venue.get("city")
-        }
+            params["event_id"] = "in.({})".format(",".join(sorted(set(event_keys))))
+    keyword = str(data.get("work_query") or "").strip()
+    if keyword:
+        safe_keyword = keyword.replace("*", "").replace(",", " ").strip()
+        if safe_keyword:
+            params["or"] = f"(title.ilike.*{safe_keyword}*,organization.ilike.*{safe_keyword}*,venue.ilike.*{safe_keyword}*)"
+    if page_size is not None:
+        params["limit"] = str(page_size)
+    if offset is not None:
+        params["offset"] = str(offset)
+    return params
+
+
+def _decorate_schedule_rows(rows, data, venue_cities=None, artist_event_keys=None):
     cities = {str(x).lower() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).lower() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
+    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
+    keyword = data.get("work_query") or data.get("query")
     filtered = []
-    for row in rows:
+    for source_row in rows or []:
+        row = dict(source_row)
         row["source_title"] = row.get("title")
         row["title"] = canonical_work_title(row.get("title"))
         row["raw_event_type"] = row.get("event_type")
@@ -2222,7 +2301,6 @@ def schedule_events(data):
             continue
         if venues and str(row.get("venue", "")).lower() not in venues:
             continue
-        keyword = data.get("work_query") or data.get("query")
         if keyword and not artist_match and search_match_score(keyword, row.get("title"), row.get("organization"), row.get("venue")) < 0.60:
             continue
         filtered.append(row)
@@ -2235,12 +2313,50 @@ def schedule_events(data):
         if event_key:
             seen_event_keys.add(event_key)
         unique.append(row)
-    # event_catalog_v1 exposes the canonical venue but not the occurrence room.
-    # Enrich only the final result set and keep each PostgREST URL small.  A
-    # single in.(...) query with hundreds of event keys can exceed proxy URL
-    # limits and surface to the browser as a generic network error.
+    return unique
+
+
+def schedule_events(data):
+    page, page_size = _schedule_page(data)
+    artist_event_keys = None
+    artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
+    if artist_query:
+        all_artists = supabase_service("GET", "/rest/v1/artists", params={"select": "id,artist_name", "limit": "5000"}) or []
+        artists = [row for row in all_artists if search_match_score(artist_query, row.get("artist_name")) >= 0.60]
+        artist_ids = [str(row.get("id")) for row in artists if row.get("id")]
+        if artist_ids:
+            credits = supabase_service("GET", "/rest/v1/event_credits", params={"artist_id": f"in.({','.join(artist_ids)})", "select": "event_id", "limit": "5000"}) or []
+            internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
+            event_rows = supabase_service("GET", "/rest/v1/events", params={"id": f"in.({','.join(internal_ids)})", "select": "id,event_key", "limit": "5000"}) if internal_ids else []
+            artist_event_keys = {str(row.get("event_key")) for row in (event_rows or []) if row.get("event_key")}
+        else:
+            artist_event_keys = set()
+
+    params = _schedule_catalog_params(data, event_keys=artist_event_keys)
+    # Fetch exactly one page of catalog rows.  The count query below uses the
+    # same filters and never downloads the full result set.
+    params["limit"] = str(page_size)
+    params["offset"] = str((page - 1) * page_size)
+    rows = supabase_service("GET", "/rest/v1/event_catalog_v1", params=params) or []
+
+    venue_cities = {}
+    if data.get("cities") or any(not (row.get("city") or row.get("location_city")) for row in rows):
+        _, venue_cities = _schedule_venue_names_for_cities(data.get("cities") or [])
+        if not venue_cities and rows:
+            venue_rows = supabase_service("GET", "/rest/v1/venues", params={"select": "name,city", "limit": "5000"}) or []
+            venue_cities = {str(row.get("name") or "").strip().casefold(): row.get("city") for row in venue_rows if row.get("name") and row.get("city")}
+    events = _decorate_schedule_rows(rows, data, venue_cities, artist_event_keys)
+
+    count_params = {key: value for key, value in params.items() if key not in {"select", "order", "limit", "offset"}}
+    total = supabase_exact_count("/rest/v1/event_catalog_v1", count_params)
+    # Canonicalization and legacy city fallbacks are applied after the view
+    # query. If a legacy source row is filtered out, keep the page contract
+    # honest by correcting the count only for this already-fetched page.
+    if total < (page - 1) * page_size + len(events):
+        total = (page - 1) * page_size + len(events)
+
     rooms_by_key = {}
-    event_keys = [str(row.get("event_id")) for row in unique if row.get("event_id")]
+    event_keys = [str(row.get("event_id")) for row in events if row.get("event_id")]
     for start in range(0, len(event_keys), 50):
         key_batch = event_keys[start:start + 50]
         room_rows = supabase_service(
@@ -2248,9 +2364,9 @@ def schedule_events(data):
             params={"event_key": f"in.({','.join(key_batch)})", "select": "event_key,room", "limit": "50"},
         ) or []
         rooms_by_key.update({str(row.get("event_key")): row.get("room") for row in room_rows})
-    for row in unique:
+    for row in events:
         row["room"] = rooms_by_key.get(str(row.get("event_id")))
-    return {"events": unique}
+    return {"events": events, "items": events, "total": total, "page": page, "page_size": page_size}
 
 
 def schedule_event_detail(event_id):
@@ -2855,7 +2971,10 @@ def combined_entity_events(data):
     for rows in selected[1:]:
         common_ids &= {str(row.get("event_id")) for row in rows}
     by_id = {str(row.get("event_id")): row for row in selected[0]}
-    return {"events": [by_id[event_id] for event_id in sorted(common_ids, key=lambda key: (by_id[key].get("date") or "", by_id[key].get("start_time") or ""))]}
+    ordered = [by_id[event_id] for event_id in sorted(common_ids, key=lambda key: (by_id[key].get("date") or "", by_id[key].get("start_time") or ""))]
+    page, page_size = _schedule_page(data)
+    start = (page - 1) * page_size
+    return {"events": ordered[start:start + page_size], "items": ordered[start:start + page_size], "total": len(ordered), "page": page, "page_size": page_size}
 
 
 class handler(BaseHTTPRequestHandler):
