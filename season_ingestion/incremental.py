@@ -23,7 +23,7 @@ _PROGRAMME_FIELDS = (
 )
 _CREDIT_FIELDS = (
     "artist_name", "character", "function", "source_role", "credit_kind",
-    "voice_type", "source_url", "source_field", "source_event_id",
+    "voice_type", "instrument", "source_instrument", "source_url", "source_field", "source_event_id",
 )
 _PROVENANCE_FIELDS = ("source_url", "source_field", "source_event_id")
 

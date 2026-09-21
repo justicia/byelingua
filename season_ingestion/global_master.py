@@ -170,6 +170,59 @@ def resolve_work(source_title: str, composer: dict[str, Any] | str | None, snaps
     return {"status": "review_required", "work_id": None, "reason": "no operational Work match; do not auto-create"}
 
 
+def resolve_existing_production_title(source_title: str, snapshot: GlobalEntitySnapshot) -> dict[str, Any]:
+    """Resolve an opera/ballet production title only when it is globally unique.
+
+    Season calendars often name the production but omit the composer.  That is
+    sufficient to reuse one existing canonical Work/Production only when the
+    normalized title or alias identifies exactly one eligible row.  Ambiguous
+    titles never create or select a production automatically.
+    """
+    normalized = normalize_identity(source_title)
+    if not normalized:
+        return {"status": "review_required", "work_id": None, "reason": "EMPTY_PRODUCTION_TITLE"}
+    eligible_statuses = {"verified", "resolved", "canonical", None}
+    blocked_kinds = {"programme_container", "composite_programme", "production_title"}
+    matches: dict[str, tuple[dict[str, Any], str]] = {}
+    for row in snapshot.entities.get("work", []):
+        if row.get("normalization_status") not in eligible_statuses:
+            continue
+        if str(row.get("work_kind") or "work").casefold() in blocked_kinds:
+            continue
+        canonical = normalize_identity(str(row.get("canonical_name") or row.get("title") or ""))
+        if normalized == canonical:
+            matches[str(row.get("id"))] = (row, "production_title_exact")
+    for alias in snapshot.work_aliases:
+        if normalized != normalize_identity(str(alias.get("alias") or "")):
+            continue
+        row = next((item for item in snapshot.entities.get("work", []) if item.get("id") == alias.get("work_id")), None)
+        if not row or row.get("normalization_status") not in eligible_statuses:
+            continue
+        if str(row.get("work_kind") or "work").casefold() in blocked_kinds:
+            continue
+        matches.setdefault(str(row.get("id")), (row, "production_title_alias"))
+    if len(matches) == 1:
+        row, method = next(iter(matches.values()))
+        return {
+            "status": "existing",
+            "work_id": row.get("id"),
+            "match_method": method,
+            "reason": "unique existing Production/Work title match",
+        }
+    if len(matches) > 1:
+        return {
+            "status": "review_required",
+            "work_id": None,
+            "reason": "AMBIGUOUS_PRODUCTION_TITLE",
+            "candidate_ids": sorted(matches),
+        }
+    return {
+        "status": "review_required",
+        "work_id": None,
+        "reason": "NEW_PRODUCTION_REQUIRES_AUTHORITY_VERIFICATION",
+    }
+
+
 def resolve_entity(kind: str, raw_name: str, snapshot: GlobalEntitySnapshot) -> dict[str, Any]:
     """Shared read-only resolver surface for Composer/Artist/Work/Character."""
     if kind not in ENTITY_KINDS:

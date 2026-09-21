@@ -1,7 +1,7 @@
 import unittest
 
 from season_ingestion.contracts import GlobalEntitySnapshot
-from season_ingestion.global_master import resolve_work
+from season_ingestion.global_master import resolve_existing_production_title, resolve_work
 
 
 def snapshot(works, aliases=None):
@@ -42,6 +42,23 @@ class OperationalWorkResolverTests(unittest.TestCase):
     def test_programme_container_never_auto_matches(self):
         programme = resolve_work("Programme", self.composer, snapshot([{ "id": "w1", "title": "Programme", "composer_id": "c1", "normalization_status": "verified", "work_kind": "programme_container"}]))
         self.assertNotEqual(programme["status"], "existing")
+
+    def test_unique_existing_production_title_can_match_without_source_composer(self):
+        result = resolve_existing_production_title("Tosca", snapshot([
+            {"id": "w1", "title": "Tosca", "composer_id": "c1", "normalization_status": "verified", "work_kind": "opera"},
+        ]))
+        self.assertEqual((result["status"], result["work_id"]), ("existing", "w1"))
+
+    def test_ambiguous_production_title_never_auto_matches(self):
+        result = resolve_existing_production_title("Original", snapshot([
+            {"id": "w1", "title": "Original", "composer_id": "c1", "normalization_status": "verified", "work_kind": "opera"},
+            {"id": "w2", "title": "Original", "composer_id": "c2", "normalization_status": "verified", "work_kind": "ballet"},
+        ]))
+        self.assertEqual(result["reason"], "AMBIGUOUS_PRODUCTION_TITLE")
+
+    def test_missing_production_requires_authority_verification(self):
+        result = resolve_existing_production_title("Brand New Opera", snapshot([]))
+        self.assertEqual(result["reason"], "NEW_PRODUCTION_REQUIRES_AUTHORITY_VERIFICATION")
 
 
 if __name__ == "__main__":

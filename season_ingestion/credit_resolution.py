@@ -37,8 +37,44 @@ ROLE_ALIASES = {
     "singer": "singer", "sänger": "singer", "cantante": "singer", "chanteur": "singer",
     "soloist": "soloist", "solist": "soloist", "actor": "actor", "schauspieler": "actor",
 }
-VOICE_TYPES = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone"}
+VOICE_TYPE_ALIASES = {
+    "soprano": "SOPRANO", "sopran": "SOPRANO", "soprano lirico": "SOPRANO",
+    "mezzo soprano": "MEZZO_SOPRANO", "mezzosoprano": "MEZZO_SOPRANO", "mezzo-soprano": "MEZZO_SOPRANO", "mezzosopran": "MEZZO_SOPRANO",
+    "alto": "ALTO", "alt": "ALTO", "contralto": "CONTRALTO",
+    "tenor": "TENOR", "tenore": "TENOR", "tenorr": "TENOR",
+    "baritone": "BARITONE", "baritono": "BARITONE", "bariton": "BARITONE", "baryton": "BARITONE",
+    "bass": "BASS", "bajo": "BASS", "basso": "BASS",
+    "bass-baritone": "BASS_BARITONE", "bass baritone": "BASS_BARITONE", "bajo-baritono": "BASS_BARITONE", "bajo baritono": "BASS_BARITONE",
+}
+VOICE_TYPES = set(VOICE_TYPE_ALIASES)
+INSTRUMENT_ALIASES = {
+    "violin": "VIOLIN", "violín": "VIOLIN", "violino": "VIOLIN", "violine": "VIOLIN",
+    "violin i": "VIOLIN_I", "violín i": "VIOLIN_I", "violin 1": "VIOLIN_I", "violín 1": "VIOLIN_I", "violini i": "VIOLIN_I",
+    "violin ii": "VIOLIN_II", "violín ii": "VIOLIN_II", "violin 2": "VIOLIN_II", "violín 2": "VIOLIN_II", "violini ii": "VIOLIN_II",
+    "viola": "VIOLA", "viola da gamba": "VIOLA_DA_GAMBA",
+    "cello": "CELLO", "violoncello": "CELLO", "violonchelo": "CELLO", "violonchelista": "CELLO",
+    "double bass": "DOUBLE_BASS", "contrabass": "DOUBLE_BASS", "contrabajo": "DOUBLE_BASS", "kontrabass": "DOUBLE_BASS",
+    "piano": "PIANO", "pianoforte": "PIANO", "klavier": "PIANO",
+    "organ": "ORGAN", "órgano": "ORGAN", "organo": "ORGAN", "orgue": "ORGAN",
+    "harpsichord": "HARPSICHORD", "clave": "HARPSICHORD", "cembalo": "HARPSICHORD", "clavecín": "HARPSICHORD",
+    "flute": "FLUTE", "flauta": "FLUTE", "flöte": "FLUTE", "flauto": "FLUTE",
+    "oboe": "OBOE", "oboe d'amore": "OBOE_D_AMORE", "oboe d amore": "OBOE_D_AMORE",
+    "clarinet": "CLARINET", "clarinete": "CLARINET", "klarinette": "CLARINET",
+    "bassoon": "BASSOON", "fagot": "BASSOON", "fagott": "BASSOON",
+    "trumpet": "TRUMPET", "trompeta": "TRUMPET", "trompete": "TRUMPET",
+    "horn": "HORN", "trompa": "HORN", "corno": "HORN",
+    "trombone": "TROMBONE", "trombón": "TROMBONE", "posaune": "TROMBONE",
+    "guitar": "GUITAR", "guitarra": "GUITAR", "laúd": "LUTE", "laud": "LUTE", "lute": "LUTE",
+    "mandolin": "MANDOLIN", "mandolina": "MANDOLIN", "harp": "HARP", "arpa": "HARP",
+}
+INSTRUMENT_ROLES = set(INSTRUMENT_ALIASES.values())
 SAFE_ROLES = set(ROLE_ALIASES.values())
+TEAM_ROLES = {
+    "conductor", "stage_director", "set_designer", "costume_designer",
+    "lighting_designer", "choreographer", "dramaturg", "chorus_master",
+    "video_designer", "production_designer", "extras", "stunt_team",
+}
+ENSEMBLE_ROLES = {"orchestra", "choir", "ensemble"}
 
 
 def canonical_role(value: object) -> str | None:
@@ -51,6 +87,9 @@ def canonical_role(value: object) -> str | None:
     normalized_aliases = {normalize_identity(alias): role for alias, role in ROLE_ALIASES.items()}
     if normalized in normalized_aliases:
         return normalized_aliases[normalized]
+    instrument = canonical_instrument(key)
+    if instrument:
+        return instrument.casefold()
     # Official tables often add a parenthetical qualification or a language
     # marker to an otherwise canonical label.  Match only complete role
     # phrases, never an arbitrary person's name or free-form sentence.
@@ -58,6 +97,73 @@ def canonical_role(value: object) -> str | None:
         if alias and re.search(rf"(?:^|\s){re.escape(alias)}(?:$|\s|[:\-/])", normalized):
             return role
     return None
+
+
+def canonical_voice_type(value: object) -> str | None:
+    """Return a stable voice-type token while keeping the public role as singer."""
+    key = " ".join(str(value or "").casefold().strip().split())
+    if key in VOICE_TYPE_ALIASES:
+        return VOICE_TYPE_ALIASES[key]
+    normalized = normalize_identity(key)
+    for alias, token in VOICE_TYPE_ALIASES.items():
+        if normalize_identity(alias) == normalized:
+            return token
+    return None
+
+
+def canonical_instrument(value: object) -> str | None:
+    """Normalize source instrument labels without inventing section positions."""
+    key = " ".join(str(value or "").casefold().strip().split())
+    if not key:
+        return None
+    if key in INSTRUMENT_ALIASES:
+        return INSTRUMENT_ALIASES[key]
+    normalized = normalize_identity(key)
+    for alias, token in INSTRUMENT_ALIASES.items():
+        if normalize_identity(alias) == normalized:
+            return token
+    # Section positions are accepted only when the source explicitly carries
+    # the section marker or an ordinal, never from a bare "violin" label.
+    match = re.fullmatch(r"(?:violin|viol[ií]n|violini)\s*(?:section\s*)?(i{1,3}|[12])", key)
+    if match:
+        ordinal = match.group(1)
+        return {"1": "VIOLIN_I", "2": "VIOLIN_II", "i": "VIOLIN_I", "ii": "VIOLIN_II", "iii": "VIOLIN_III"}[ordinal]
+    return None
+
+
+def normalize_credit_row(raw: dict[str, Any]) -> dict[str, Any]:
+    """Normalize function, voice and instrument before credit identity is built."""
+    row = dict(raw)
+    source_role = str(row.get("source_role") or row.get("function") or row.get("role") or "").strip()
+    source_instrument = str(row.get("source_instrument") or row.get("instrument") or "").strip()
+    voice_type = canonical_voice_type(row.get("voice_type") or source_role)
+    instrument = canonical_instrument(source_instrument or source_role)
+    role = canonical_role(source_role)
+    if voice_type:
+        role = "singer"
+    elif instrument and (not role or role in {"soloist", "instrumentalist", "performer"}):
+        # Keep an explicit instrument visible to the existing frontend/API
+        # without changing the database schema.
+        role = instrument.casefold()
+    row.update({
+        "source_role": source_role,
+        "source_instrument": source_instrument or None,
+        "canonical_role": role,
+        "instrument": instrument,
+        "voice_type": voice_type,
+    })
+    return row
+
+
+def normalized_credit_kind(raw: dict[str, Any]) -> str:
+    """Keep source-supported team and ensemble credits out of cast."""
+    supplied = str(raw.get("credit_kind") or "").strip() or "cast"
+    role = normalize_credit_row(raw).get("canonical_role")
+    if supplied in {"cast", "character"} and role in TEAM_ROLES:
+        return "artistic_team"
+    if supplied in {"cast", "character"} and role in ENSEMBLE_ROLES:
+        return "ensemble"
+    return supplied
 
 
 def _artist_resolution(name: str, snapshot: Any) -> dict[str, Any]:
@@ -116,12 +222,14 @@ def _character_resolution(raw: str | None, work_id: str | None, snapshot: Any) -
 
 
 def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -> dict[str, Any]:
-    source_role = str(raw.get("source_role") or raw.get("function") or "").strip()
-    role = canonical_role(source_role)
+    normalized = normalize_credit_row(raw)
+    source_role = normalized["source_role"]
+    role = normalized["canonical_role"]
     artist_name = str(raw.get("artist_name") or raw.get("source_artist_name") or "").strip()
     artist = _artist_resolution(artist_name, snapshot)
-    source_character = raw.get("character") or raw.get("raw_character") if source_role.casefold() not in VOICE_TYPES else None
-    if (raw.get("credit_kind") == "cast" or source_character is not None) and source_character:
+    source_character = raw.get("character") or raw.get("raw_character") if not normalized.get("voice_type") else None
+    credit_kind = normalized_credit_kind(normalized)
+    if (credit_kind == "cast" or source_character is not None) and source_character:
         role = "performer"
     character = _character_resolution(source_character, work_id, snapshot)
     status = "SAFE_ROLE" if role else "REVIEW_ROLE_UNKNOWN"
@@ -132,7 +240,7 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
         # Character identity is unresolved.  Publish the Artist + performer
         # credit with raw_character and keep the identity question in backlog.
         status = "SAFE_UNRESOLVED_CHARACTER" if role == "performer" and source_character else character["status"]
-    return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "artist_resolution": artist, "character_resolution": character, "credit_kind": raw.get("credit_kind") or ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
+    return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "instrument": normalized.get("instrument"), "voice_type": normalized.get("voice_type"), "artist_resolution": artist, "character_resolution": character, "credit_kind": credit_kind if raw.get("credit_kind") else ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
 
 
 def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot: Any) -> dict[str, Any]:
@@ -142,7 +250,7 @@ def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot
     for row in all_rows:
         credit = row["credit"]
         character_identity = credit["character_resolution"].get("character_id") or normalize_identity(credit.get("source_character"))
-        key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), character_identity)
+        key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), character_identity, credit.get("instrument"), credit.get("voice_type"))
         if key in seen:
             continue
         seen.add(key)
@@ -163,7 +271,14 @@ def _stage_credits_legacy(events: list[Any], resolutions: list[dict[str, Any]], 
     safe, review, seen, deduped = [], [], set(), []
     for row in all_rows:
         credit = row["credit"]
-        key = (row["event_key"], credit["artist_resolution"].get("lookup_key"), credit.get("canonical_role"), credit["character_resolution"].get("character_id"))
+        key = (
+            row["event_key"],
+            credit["artist_resolution"].get("lookup_key"),
+            credit.get("canonical_role"),
+            credit["character_resolution"].get("character_id"),
+            credit.get("instrument"),
+            credit.get("voice_type"),
+        )
         if key in seen:
             continue
         seen.add(key)

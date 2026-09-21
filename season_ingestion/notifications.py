@@ -19,11 +19,21 @@ def final_staging_hash(path: Path) -> str:
 
 def systemic_blockers(summary: dict) -> list[str]:
     blockers = []
-    if summary.get("source_capability") in {"SOURCE_BLOCKED", "SOURCE_PARTIAL", "SOURCE_UNSUPPORTED"}:
+    source_capability = summary.get("source_capability")
+    counts = summary.get("counts") or {}
+    gates = summary.get("gates") or {}
+    partial_occurrences_are_valid = (
+        source_capability == "SOURCE_PARTIAL"
+        and int(counts.get("events_discovered", counts.get("events", 0)) or 0) > 0
+        and all(gates.get(name, True) is not False for name in (
+            "duplicate_event_identity", "duplicate_performance_slot", "null_timed_shadow_duplicates",
+            "untraceable", "source_order_missing", "year_unverified", "year_inferred_without_production_evidence",
+        ))
+    )
+    if source_capability in {"SOURCE_BLOCKED", "SOURCE_UNSUPPORTED"} or (source_capability == "SOURCE_PARTIAL" and not partial_occurrences_are_valid):
         blockers.append(str(summary["source_capability"]))
     if summary.get("global_master_preflight") != "PASS":
         blockers.append("GLOBAL_MASTER_UNAVAILABLE")
-    gates = summary.get("gates") or {}
     for name in ("duplicate_event_identity", "untraceable", "source_order_missing"):
         if gates.get(name) is False:
             blockers.append(name.upper())

@@ -440,6 +440,88 @@ def classify_page(page: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def segment_programme_records(source: Any) -> list[dict[str, Any]]:
+    """Build ordered programme records from classified source lines.
+
+    A composer candidate is context only; it is never emitted as a Work on its
+    own.  Inline ``Composer · Work`` forms become one record, and movement or
+    continuation lines are retained on the preceding Work so the canonical
+    resolver receives the complete source title.
+    """
+    if isinstance(source, dict):
+        lines = list(source.get("classified_lines") or classify_page(source).get("classified_lines") or [])
+    else:
+        lines = list(source or [])
+    prepared: list[dict[str, Any]] = []
+    for item in lines:
+        if isinstance(item, str):
+            value = item.strip()
+            fragments = inline_fragments(value)
+            if fragments:
+                classification = "work_candidate"
+            elif composer_signal(value) and not work_signal(value):
+                classification = "composer_candidate"
+            elif MOVEMENT_RE.match(value):
+                classification = "movement_candidate"
+            else:
+                classification = "work_candidate" if value else "unknown"
+            prepared.append({"raw_text": value, "classification": classification, "signals": [], "source_line": item})
+        elif isinstance(item, dict):
+            row = dict(item)
+            row["raw_text"] = str(row.get("raw_text") or row.get("text") or "").strip()
+            prepared.append(row)
+
+    records: list[dict[str, Any]] = []
+    pending_composer: str | None = None
+    ignored = {"annotation", "programme_heading", "section_heading", "status_notice", "artist_candidate", "role_candidate", "cast_candidate", "artistic_team_candidate", "composer_attribution", "unknown"}
+
+    def emit(title: str, composer: str | None, line: dict[str, Any], index: int) -> None:
+        clean_title = re.sub(r"\s+", " ", title.replace("\n", " ")).strip(" .")
+        if not clean_title:
+            return
+        records.append({
+            "title": clean_title,
+            "composer": composer,
+            "order": len(records) + 1,
+            "source_lines": [line.get("raw_text", "")],
+            "source_line_indexes": [index],
+        })
+
+    for index, line in enumerate(prepared):
+        value = line.get("raw_text", "")
+        classification = line.get("classification") or "unknown"
+        fragments = line.get("inline_composer_work") or inline_fragments(value)
+        if classification == "composer_candidate":
+            # Keep only the latest explicit composer context.  No record is
+            # emitted until a real Work line follows it.
+            pending_composer = value
+            continue
+        if classification in ignored:
+            continue
+        if fragments and fragments.get("raw_work_fragment"):
+            emit(fragments["raw_work_fragment"], fragments.get("raw_composer_fragment") or pending_composer, line, index)
+            pending_composer = None
+            continue
+        if classification in {"movement_candidate", "continuation_candidate"}:
+            if records and value:
+                records[-1]["title"] = f"{records[-1]['title']} — {value}"
+                records[-1]["source_lines"].append(value)
+                records[-1]["source_line_indexes"].append(index)
+            continue
+        if classification == "work_candidate":
+            # A second line without a work signal is a title continuation, not
+            # a new Work.  This prevents a line-broken title from becoming a
+            # false standalone programme item.
+            if records and pending_composer is None and not work_signal(value) and not fragments:
+                records[-1]["title"] = f"{records[-1]['title']} {value}".strip()
+                records[-1]["source_lines"].append(value)
+                records[-1]["source_line_indexes"].append(index)
+            else:
+                emit(value, pending_composer, line, index)
+            pending_composer = None
+    return records
+
+
 def classify_artifact(path: str | Path) -> list[dict[str, Any]]:
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     unique: dict[str, dict[str, Any]] = {}

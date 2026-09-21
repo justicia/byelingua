@@ -163,6 +163,8 @@ targets:
     source_status: TARGET_REGISTERED
     enabled: true
     onboarding_status: PENDING
+    requires_processing: true
+    processing_complete: false
   - venue_id: theatre_champs_elysees
     organization: Théâtre des Champs-Élysées
     venue: Théâtre des Champs-Élysées
@@ -187,6 +189,8 @@ targets:
     source_status: TARGET_REGISTERED
     enabled: true
     onboarding_status: PENDING
+    requires_processing: true
+    processing_complete: false
   - venue_id: teatro_de_la_zarzuela
     organization: Teatro de la Zarzuela
     venue: Teatro de la Zarzuela
@@ -319,6 +323,8 @@ targets:
     source_status: TARGET_REGISTERED
     enabled: true
     onboarding_status: PENDING
+    requires_processing: true
+    processing_complete: false
   - venue_id: lauditori_barcelona
     organization: L'Auditori de Barcelona
     venue: L'Auditori
@@ -363,10 +369,12 @@ targets:
     timezone: Europe/London
     season: 2026-27
     official_homepage: https://www.rbo.org.uk/whats-on/royal-opera-house
-    schedule_source: https://www.rbo.org.uk/whats-on/royal-opera-house
+    schedule_source: https://www.rbo.org.uk/api/events
     source_status: TARGET_REGISTERED
     enabled: true
     onboarding_status: PENDING
+    requires_processing: true
+    processing_complete: false
   - venue_id: barbican_centre
     organization: Barbican Centre
     venue: Barbican Hall

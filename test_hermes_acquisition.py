@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import pytest
 from jobs import hermes_acquire_worker as worker
 from season_ingestion import hermes_acquisition as acquisition
 from season_ingestion import pipeline
@@ -62,6 +63,51 @@ def test_source_facts_convert_without_canonical_ids():
     assert "artist_id" not in events[0].credits[0]
 
 
+def test_source_facts_reclassify_generic_cast_orchestra_without_changing_evidence():
+    facts = _facts()
+    facts["events"][0]["credits"][0].update({"source_role": "orchestra", "function": "orchestra", "credit_kind": "cast"})
+    config = {"source_id": "berlin", "organization": "Org", "venue": "Venue", "city": "City", "country": "Country", "timezone": "Europe/Berlin"}
+    credit = acquisition.facts_to_events(facts, venue="berlin", config=config)[0].credits[0]
+    assert credit["credit_kind"] == "ensemble"
+    assert credit["source_role"] == "orchestra"
+
+
+def test_build_request_preserves_listing_source_and_enables_pdf_fallback():
+    config = {
+        "official_source": "https://official.example/season",
+        "listing_source": "https://official.example/calendar",
+        "official_pdf_sources": ["https://official.example/season.pdf"],
+        "source_id": "venue",
+    }
+
+    request = acquisition.build_request(
+        venue="venue",
+        season="2026-27",
+        config=config,
+        reason="deterministic_source_failure",
+    )
+
+    assert request["official_source_url"] == config["official_source"]
+    assert request["listing_source_url"] == config["listing_source"]
+    assert request["official_pdf_sources"] == config["official_pdf_sources"]
+    assert request["official_pdf_fallback"]["enabled"] is True
+    assert request["official_pdf_fallback"]["do_not_invent_dates"] is True
+
+
+def test_build_request_falls_back_listing_url_when_no_separate_listing_exists():
+    config = {"official_source": "https://official.example/season"}
+
+    request = acquisition.build_request(
+        venue="venue",
+        season="2026-27",
+        config=config,
+        reason="deterministic_source_failure",
+    )
+
+    assert request["official_source_url"] == config["official_source"]
+    assert request["listing_source_url"] == config["official_source"]
+
+
 def test_acquisition_subprocess_contract_is_read_only(monkeypatch):
     facts = _facts()
     seen = {}
@@ -84,6 +130,223 @@ def test_acquisition_subprocess_contract_is_read_only(monkeypatch):
     assert result == facts
     assert seen["command"] == ["python", "jobs/hermes_acquire_worker.py"]
     assert seen["input"] == {"venue_id": "berlin"}
+
+
+def test_valid_json_succeeds_on_first_attempt(monkeypatch, tmp_path):
+    calls = []
+
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            calls.append(json.loads(input_text))
+            return json.dumps(_facts(), ensure_ascii=False), ""
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    metadata = {}
+    result = acquisition.acquire_source_facts(
+        {"venue_id": "lauditori_barcelona", "season": "2026-27"},
+        command="python jobs/hermes_acquire_worker.py",
+        artifact_dir=tmp_path,
+        metadata=metadata,
+    )
+
+    assert result == _facts()
+    assert len(calls) == 1
+    assert metadata == {"attempts": 1, "raw_output_saved": "NO"}
+
+
+def test_bridge_normalizes_missing_envelope_before_validation_without_retry(monkeypatch):
+    facts = _facts()
+    for field in ("venue_id", "source_id", "official_source_url", "source_contract"):
+        facts.pop(field)
+    calls = []
+
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            calls.append(json.loads(input_text))
+            return json.dumps(facts, ensure_ascii=False), ""
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    request = {
+        "venue_id": "lauditori_barcelona",
+        "season": "2026-27",
+        "source_id": "lauditori_barcelona",
+        "official_source_url": "https://www.auditori.cat/en/lauditori-season-2026-2027/",
+    }
+
+    result = acquisition.acquire_source_facts(request, command="python jobs/hermes_acquire_worker.py")
+
+    assert len(calls) == 1
+    assert result["venue_id"] == request["venue_id"]
+    assert result["source_id"] == request["source_id"]
+    assert result["official_source_url"] == request["official_source_url"]
+    assert result["source_contract"] == {"schema_version": worker.SOURCE_FACTS_SCHEMA_VERSION}
+
+
+def test_bridge_still_rejects_missing_factual_fields_after_envelope_normalization(monkeypatch):
+    facts = _facts()
+    facts["events"][0].pop("title")
+    for field in ("venue_id", "source_id", "official_source_url", "source_contract"):
+        facts.pop(field)
+
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            return json.dumps(facts, ensure_ascii=False), ""
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    with pytest.raises(acquisition.HermesAcquisitionError) as caught:
+        acquisition.acquire_source_facts(
+            {
+                "venue_id": "lauditori_barcelona",
+                "season": "2026-27",
+                "source_id": "lauditori_barcelona",
+                "official_source_url": "https://www.auditori.cat/en/lauditori-season-2026-2027/",
+            },
+            command="python jobs/hermes_acquire_worker.py",
+        )
+
+    assert "events[0] missing required fields: title" in str(caught.value)
+
+
+def test_fenced_json_is_recovered_without_rewriting_values(monkeypatch):
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            return f"```json\n{json.dumps(_facts(), ensure_ascii=False)}\n```", ""
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    result = acquisition.acquire_source_facts(
+        {"venue_id": "berlin"},
+        command="python jobs/hermes_acquire_worker.py",
+    )
+
+    assert result["events"][0]["title"] == "Die Zauberflöte"
+
+
+def test_malformed_first_attempt_retries_once_and_saves_raw_output(monkeypatch, tmp_path):
+    responses = ["not-json", json.dumps(_facts(), ensure_ascii=False)]
+    requests = []
+
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            requests.append(json.loads(input_text))
+            return responses.pop(0), "first-attempt diagnostic" if len(requests) == 1 else ""
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    metadata = {}
+    result = acquisition.acquire_source_facts(
+        {
+            "venue_id": "lauditori_barcelona",
+            "season": "2026-27",
+            "official_source_url": "https://official.example/lauditori",
+        },
+        command="python jobs/hermes_acquire_worker.py",
+        artifact_dir=tmp_path / "venue-artifact",
+        metadata=metadata,
+    )
+
+    assert result["events"][0]["title"] == "Die Zauberflöte"
+    assert len(requests) == 2
+    assert requests[1]["_hermes_retry"] is True
+    assert requests[1]["official_source_url"] == requests[0]["official_source_url"]
+    raw_artifact = tmp_path / "venue-artifact" / "hermes-attempt-1.json"
+    assert json.loads(raw_artifact.read_text(encoding="utf-8"))["raw_stdout"] == "not-json"
+    assert metadata == {"attempts": 2, "raw_output_saved": "YES"}
+
+
+def test_worker_malformed_error_on_stderr_also_retries(monkeypatch, tmp_path):
+    responses = [
+        (1, "", "hermes_worker_error: Hermes returned malformed JSON: Expecting value"),
+        (0, json.dumps(_facts(), ensure_ascii=False), ""),
+    ]
+    calls = []
+
+    class FakeProcess:
+        def __init__(self, returncode, stdout, stderr):
+            self.returncode = returncode
+            self.stdout = stdout
+            self.stderr = stderr
+
+        def communicate(self, input_text=None, timeout=None):
+            calls.append(json.loads(input_text))
+            return self.stdout, self.stderr
+
+    def fake_popen(*args, **kwargs):
+        return FakeProcess(*responses.pop(0))
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", fake_popen)
+    result = acquisition.acquire_source_facts(
+        {"venue_id": "lauditori_barcelona", "season": "2026-27"},
+        command="python jobs/hermes_acquire_worker.py",
+        artifact_dir=tmp_path,
+    )
+
+    assert result["events"]
+    assert len(calls) == 2
+    assert calls[1]["_hermes_retry"] is True
+    assert json.loads((tmp_path / "hermes-attempt-1.json").read_text(encoding="utf-8"))["raw_stderr"].startswith("hermes_worker_error")
+
+
+def test_malformed_both_attempts_are_classified_and_preserved(monkeypatch, tmp_path):
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            return "truncated {", "worker diagnostic"
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    with pytest.raises(acquisition.HermesAcquisitionError) as caught:
+        acquisition.acquire_source_facts(
+            {"venue_id": "tonhalle_zurich", "season": "2026-27"},
+            command="python jobs/hermes_acquire_worker.py",
+            artifact_dir=tmp_path / "venue-artifact",
+        )
+
+    error = caught.value
+    assert error.status == acquisition.HERMES_MALFORMED_OUTPUT
+    assert error.attempts == 2
+    assert error.raw_output_saved is True
+    assert len(error.raw_output_paths) == 2
+    for attempt in (1, 2):
+        artifact = json.loads((tmp_path / "venue-artifact" / f"hermes-attempt-{attempt}.json").read_text(encoding="utf-8"))
+        assert artifact["venue_id"] == "tonhalle_zurich"
+        assert artifact["season"] == "2026-27"
+        assert artifact["attempt"] == attempt
+        assert artifact["raw_stdout"] == "truncated {"
+        assert artifact["raw_stderr"] == "worker diagnostic"
+
+
+def test_structurally_invalid_source_facts_still_fail_validation_without_recovery(monkeypatch, tmp_path):
+    invalid = _facts()
+    invalid["events"][0]["programme"][0]["provenance"] = "invalid"
+    calls = []
+
+    class FakeProcess:
+        returncode = 0
+
+        def communicate(self, input_text=None, timeout=None):
+            calls.append(True)
+            return json.dumps(invalid, ensure_ascii=False), ""
+
+    monkeypatch.setattr(acquisition.subprocess, "Popen", lambda *args, **kwargs: FakeProcess())
+    with pytest.raises(acquisition.HermesAcquisitionError) as caught:
+        acquisition.acquire_source_facts(
+            {"venue_id": "lauditori_barcelona", "season": "2026-27"},
+            command="python jobs/hermes_acquire_worker.py",
+            artifact_dir=tmp_path,
+        )
+
+    assert caught.value.status == acquisition.HERMES_VALIDATION_FAILED
+    assert len(calls) == 1
+    assert "programme provenance must be an object" in str(caught.value)
 
 
 def test_pipeline_uses_hermes_fallback_before_shared_normalization(monkeypatch, tmp_path):

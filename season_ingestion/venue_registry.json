@@ -243,26 +243,26 @@
       "venue_id": "wiener_musikverein", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "wiener_musikverein",
       "official_source": "https://musikverein.at/2026-27", "listing_source": "https://musikverein.at/2026-27",
       "organization": "Wiener Musikverein", "venue": "Musikverein Wien", "city": "Vienna", "country": "Austria", "timezone": "Europe/Vienna", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/veranstaltung/", "/event/"], "detail_link_pattern": "musikverein\\.at/", "enabled": true,
+      "detail_path_prefixes": ["/veranstaltung/", "/event/"], "detail_link_pattern": "musikverein\\.at/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "wiener_konzerthaus": {
       "venue_id": "wiener_konzerthaus", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "wiener_konzerthaus",
       "official_source": "https://konzerthaus.at/programm", "listing_source": "https://konzerthaus.at/programm",
       "organization": "Wiener Konzerthaus", "venue": "Wiener Konzerthaus", "city": "Vienna", "country": "Austria", "timezone": "Europe/Vienna", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/concerthaus/", "/de/konzerte/", "/en/concerts/"], "detail_link_pattern": "konzerthaus\\.at/", "enabled": true,
+      "detail_path_prefixes": ["/concerthaus/", "/de/konzerte/", "/en/concerts/"], "detail_link_pattern": "konzerthaus\\.at/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_programme_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "theater_an_der_wien": {
       "venue_id": "theater_an_der_wien", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "theater_an_der_wien",
       "official_source": "https://www.theater-wien.at/en/events/season2026-27", "listing_source": "https://www.theater-wien.at/en/events/season2026-27",
       "organization": "MusikTheater an der Wien", "venue": "Theater an der Wien", "city": "Vienna", "country": "Austria", "timezone": "Europe/Vienna", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/events/", "/de/veranstaltungen/"], "detail_link_pattern": "theater-wien\\.at/", "enabled": true,
+      "detail_path_prefixes": ["/en/events/", "/de/veranstaltungen/"], "detail_link_pattern": "theater-wien\\.at/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "theatre_champs_elysees": {
       "venue_id": "theatre_champs_elysees", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "theatre_champs_elysees",
-      "official_source": "https://www.theatrechampselysees.fr/", "listing_source": "https://www.theatrechampselysees.fr/",
+      "official_source": "https://www.theatrechampselysees.fr/", "listing_source": "https://www.theatrechampselysees.fr/", "official_pdf_sources": ["https://www.calameo.com/read/003045515feb4b86d348d"],
       "organization": "Théâtre des Champs-Élysées", "venue": "Théâtre des Champs-Élysées", "city": "Paris", "country": "France", "timezone": "Europe/Paris", "season": "2026-27", "season_start_month": 9,
       "detail_path_prefixes": ["/spectacles/", "/evenements/", "/en/"], "detail_link_pattern": "theatrechampselysees\\.fr/", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_programme_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
@@ -271,42 +271,42 @@
       "venue_id": "maison_radio_france", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "maison_radio_france",
       "official_source": "https://billetterie.maisondelaradioetdelamusique.fr/list/events?lang=fr", "listing_source": "https://billetterie.maisondelaradioetdelamusique.fr/list/events?lang=fr",
       "organization": "Radio France", "venue": "Maison de la Radio et de la Musique", "city": "Paris", "country": "France", "timezone": "Europe/Paris", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/event/", "/list/"], "detail_link_pattern": "maisondelaradioetdelamusique\\.fr/", "enabled": true,
+      "detail_path_prefixes": ["/event/", "/list/"], "detail_link_pattern": "maisondelaradioetdelamusique\\.fr/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_ticketing_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "teatro_de_la_zarzuela": {
       "venue_id": "teatro_de_la_zarzuela", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "teatro_de_la_zarzuela",
       "official_source": "https://teatrodelazarzuela.inaem.gob.es/es/", "listing_source": "https://teatrodelazarzuela.inaem.gob.es/es/programacion",
       "organization": "Teatro de la Zarzuela", "venue": "Teatro de la Zarzuela", "city": "Madrid", "country": "Spain", "timezone": "Europe/Madrid", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/es/programacion/"], "detail_link_pattern": "teatrodelazarzuela\\.inaem\\.gob\\.es/", "enabled": true,
+      "detail_path_prefixes": ["/es/programacion/"], "detail_link_pattern": "teatrodelazarzuela\\.inaem\\.gob\\.es/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_calendar", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "berliner_philharmonie": {
       "venue_id": "berliner_philharmonie", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "berliner_philharmonie",
       "official_source": "https://www.berliner-philharmoniker.de/en/concerts/calendar/", "listing_source": "https://www.berliner-philharmoniker.de/en/concerts/calendar/",
       "organization": "Berliner Philharmoniker", "venue": "Philharmonie Berlin", "city": "Berlin", "country": "Germany", "timezone": "Europe/Berlin", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/concerts/"], "detail_link_pattern": "berliner-philharmoniker\\.de/", "enabled": true,
+      "detail_path_prefixes": ["/en/concerts/"], "detail_link_pattern": "berliner-philharmoniker\\.de/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_concert_calendar", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "staatsoper_unter_den_linden": {
       "venue_id": "staatsoper_unter_den_linden", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "staatsoper_unter_den_linden",
-      "official_source": "https://www.staatsoper-berlin.de/en/programme/season-preview/", "listing_source": "https://www.staatsoper-berlin.de/en/spielplan/2026-27/",
+      "official_source": "https://www.staatsoper-berlin.de/en/programme/season-preview/", "listing_source": "https://www.staatsoper-berlin.de/en/programme/operas/2026-2027/",
       "organization": "Staatsoper Unter den Linden", "venue": "Staatsoper Unter den Linden", "city": "Berlin", "country": "Germany", "timezone": "Europe/Berlin", "season": "2026-27", "season_start_month": 9,
       "detail_path_prefixes": ["/en/spielplan/", "/en/programme/"], "detail_link_pattern": "staatsoper-berlin\\.de/", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_programme", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "deutsche_oper_berlin": {
       "venue_id": "deutsche_oper_berlin", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "deutsche_oper_berlin",
-      "official_source": "https://deutscheoperberlin.de/", "listing_source": "https://deutscheoperberlin.de/",
+      "official_source": "https://deutscheoperberlin.de/", "listing_source": "https://deutscheoperberlin.de/", "official_pdf_sources": ["https://deutscheoperberlin.de/dox/download.php?filesize=107825&name=PK_Premieren%C3%BCbersicht.pdfmimetype%3Dpdf&url=https%3A%2F%2Fdox-file.culturebase.org%2F1%2F7%2F6%2Fd%2F8%2F176d8a4ae84172a43c5bdfa3e9f49f6f.pdf"],
       "organization": "Deutsche Oper Berlin", "venue": "Deutsche Oper Berlin", "city": "Berlin", "country": "Germany", "timezone": "Europe/Berlin", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/de_DE/kalender/", "/en/calendar/", "/de_DE/oper/"], "detail_link_pattern": "deutscheoperberlin\\.de/", "enabled": true,
+      "detail_path_prefixes": ["/de_DE/kalender/", "/en/calendar/", "/de_DE/oper/"], "detail_link_pattern": "deutscheoperberlin\\.de/", "source_family": "STRUCTURED_API", "capabilities": ["STRUCTURED_API", "PRODUCTION_PLUS_OCCURRENCES", "PDF_ENRICHMENT"], "strategy": "API occurrences with bounded production/detail enrichment", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "komische_oper_berlin": {
       "venue_id": "komische_oper_berlin", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "komische_oper_berlin",
-      "official_source": "https://www.komische-oper-berlin.de/en/what/season-2026-27/", "listing_source": "https://www.komische-oper-berlin.de/en/what/season-2026-27/",
+      "official_source": "https://www.komische-oper-berlin.de/en/what/season-2026-27/", "listing_source": "https://www.komische-oper-berlin.de/en/what/season-2026-27/", "official_pdf_sources": ["https://kob-6a25.kxcdn.com/download/12761/spielzeitheft_26-27_komische_oper_berlin.pdf"],
       "organization": "Komische Oper Berlin", "venue": "Komische Oper Berlin", "city": "Berlin", "country": "Germany", "timezone": "Europe/Berlin", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/what/", "/en/programm/"], "detail_link_pattern": "komische-oper-berlin\\.de/", "enabled": true,
+      "detail_path_prefixes": ["/en/what/", "/en/programm/"], "detail_link_pattern": "komische-oper-berlin\\.de/", "source_family": "PDF_FULL", "capabilities": ["PDF_FULL", "PRODUCTION_PLUS_OCCURRENCES"], "strategy": "official season PDF with deterministic calendar extraction", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_programme", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "elbphilharmonie": {
@@ -320,77 +320,77 @@
       "venue_id": "hamburgische_staatsoper", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "hamburgische_staatsoper",
       "official_source": "https://www.die-hamburgische-staatsoper.de/en/", "listing_source": "https://www.die-hamburgische-staatsoper.de/en/spielplan",
       "organization": "Hamburgische Staatsoper", "venue": "Hamburgische Staatsoper", "city": "Hamburg", "country": "Germany", "timezone": "Europe/Berlin", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/spielplan/", "/en/programm/"], "detail_link_pattern": "die-hamburgische-staatsoper\\.de/", "enabled": true,
+      "detail_path_prefixes": ["/en/spielplan/", "/en/programm/"], "detail_link_pattern": "die-hamburgische-staatsoper\\.de/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_programme", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "tonhalle_zurich": {
       "venue_id": "tonhalle_zurich", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "tonhalle_zurich",
-      "official_source": "https://www.tonhalle.ch/en/", "listing_source": "https://www.tonhalle.ch/en/programm/",
+      "official_source": "https://tonhalle-orchester.ch/en/concerts/saison-2026-27/", "listing_source": "https://tonhalle-orchester.ch/en/concerts/saison-2026-27/",
       "organization": "Tonhalle-Gesellschaft Zürich", "venue": "Tonhalle Zürich", "city": "Zürich", "country": "Switzerland", "timezone": "Europe/Zurich", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/concerts/", "/en/programm/"], "detail_link_pattern": "tonhalle\\.ch/", "enabled": true,
+      "detail_path_prefixes": ["/en/concerts/", "/en/programm/"], "detail_link_pattern": "tonhalle\\.ch/", "source_family": "PAGINATED_CALENDAR", "capabilities": ["PAGINATED_CALENDAR", "STRUCTURED_HTML"], "strategy": "bounded month/calendar occurrence acquisition with detail enrichment", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_programme_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "accademia_nazionale_santa_cecilia": {
       "venue_id": "accademia_nazionale_santa_cecilia", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "accademia_nazionale_santa_cecilia",
       "official_source": "https://www.santacecilia.it/en/", "listing_source": "https://www.santacecilia.it/en/",
       "organization": "Accademia Nazionale di Santa Cecilia", "venue": "Auditorium Parco della Musica Ennio Morricone", "city": "Rome", "country": "Italy", "timezone": "Europe/Rome", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/event/", "/en/concerti/"], "detail_link_pattern": "santacecilia\\.it/", "enabled": true,
+      "detail_path_prefixes": ["/en/event/", "/en/concerti/"], "detail_link_pattern": "santacecilia\\.it/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_concert_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "gran_teatre_del_liceu": {
       "venue_id": "gran_teatre_del_liceu", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "gran_teatre_del_liceu",
       "official_source": "https://liceubarcelona.cat/en/newseason", "listing_source": "https://liceubarcelona.cat/en/newseason",
       "organization": "Gran Teatre del Liceu", "venue": "Gran Teatre del Liceu", "city": "Barcelona", "country": "Spain", "timezone": "Europe/Madrid", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/season/", "/en/production/"], "detail_link_pattern": "liceu(?:barcelona)?\\.cat/", "enabled": true,
+      "detail_path_prefixes": ["/en/season/", "/en/production/"], "detail_link_pattern": "liceu(?:barcelona)?\\.cat/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_new_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "palau_de_la_musica_catalana": {
       "venue_id": "palau_de_la_musica_catalana", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "palau_de_la_musica_catalana",
       "official_source": "https://www.palaumusica.cat/es/temporada-2026-2027_1466030", "listing_source": "https://www.palaumusica.cat/es/temporada-2026-2027_1466030",
       "organization": "Palau de la Música Catalana", "venue": "Palau de la Música Catalana", "city": "Barcelona", "country": "Spain", "timezone": "Europe/Madrid", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/es/conciertos/", "/es/temporada/"], "detail_link_pattern": "palaumusica\\.cat/", "enabled": true,
+      "detail_path_prefixes": ["/es/conciertos/", "/es/temporada/"], "detail_link_pattern": "palaumusica\\.cat/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "lauditori_barcelona": {
-      "venue_id": "lauditori_barcelona", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "lauditori_barcelona",
+      "venue_id": "lauditori_barcelona", "adapter": "season_ingestion.adapters.lauditori_barcelona:LauditoriBarcelonaAdapter", "source_id": "lauditori_barcelona",
       "official_source": "https://www.auditori.cat/en/lauditori-season-2026-2027/", "listing_source": "https://www.auditori.cat/en/lauditori-season-2026-2027/",
       "organization": "L'Auditori de Barcelona", "venue": "L'Auditori", "city": "Barcelona", "country": "Spain", "timezone": "Europe/Madrid", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/concerts/", "/en/events/"], "detail_link_pattern": "auditori\\.cat/", "enabled": true,
+      "detail_path_prefixes": ["/en/concerts/", "/en/events/"], "detail_link_pattern": "auditori\\.cat/", "source_family": "STRUCTURED_HTML", "capabilities": ["STRUCTURED_HTML", "PRODUCTION_PLUS_OCCURRENCES"], "strategy": "official event cards with explicit multi-date expansion and bounded detail enrichment", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "concertgebouw": {
       "venue_id": "concertgebouw", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "concertgebouw",
       "official_source": "https://www.concertgebouw.nl/en/", "listing_source": "https://www.concertgebouw.nl/en/",
       "organization": "Concertgebouw", "venue": "Concertgebouw", "city": "Amsterdam", "country": "Netherlands", "timezone": "Europe/Amsterdam", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/concerts/", "/en/series/"], "detail_link_pattern": "concertgebouw\\.nl/", "enabled": true,
+      "detail_path_prefixes": ["/en/concerts/", "/en/series/"], "detail_link_pattern": "concertgebouw\\.nl/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_programme_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "dutch_national_opera": {
       "venue_id": "dutch_national_opera", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "dutch_national_opera",
-      "official_source": "https://www.operaballet.nl/en/program/season-26-27/opera", "listing_source": "https://www.operaballet.nl/en/program/season-26-27/opera",
+      "official_source": "https://www.operaballet.nl/en/program/season-26-27/opera", "listing_source": "https://www.operaballet.nl/en/program/season-26-27/opera", "official_pdf_sources": ["https://digitaalpubliceren.com/operaballet/21244/2/"],
       "organization": "Dutch National Opera", "venue": "Dutch National Opera & Ballet", "city": "Amsterdam", "country": "Netherlands", "timezone": "Europe/Amsterdam", "season": "2026-27", "season_start_month": 9,
       "detail_path_prefixes": ["/en/production/", "/en/program/"], "detail_link_pattern": "operaballet\\.nl/", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_programme", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "royal_opera_house": {
       "venue_id": "royal_opera_house", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "royal_opera_house",
-      "official_source": "https://www.rbo.org.uk/whats-on/royal-opera-house", "listing_source": "https://www.rbo.org.uk/whats-on/royal-opera-house",
+      "official_source": "https://www.rbo.org.uk/whats-on/royal-opera-house", "listing_source": "https://www.rbo.org.uk/api/events",
       "organization": "Royal Opera House", "venue": "Royal Opera House", "city": "London", "country": "United Kingdom", "timezone": "Europe/London", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/whats-on/royal-opera-house/", "/production/"], "detail_link_pattern": "rbo\\.org\\.uk/", "enabled": true,
+      "detail_path_prefixes": ["/whats-on/royal-opera-house/", "/production/"], "detail_link_pattern": "rbo\\.org\\.uk/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "barbican_centre": {
       "venue_id": "barbican_centre", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "barbican_centre",
       "official_source": "https://www.barbican.org.uk/whats-on/classical-music", "listing_source": "https://www.barbican.org.uk/whats-on/classical-music",
       "organization": "Barbican Centre", "venue": "Barbican Hall", "city": "London", "country": "United Kingdom", "timezone": "Europe/London", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/whats-on/classical-music/", "/whats-on/music/"], "detail_link_pattern": "barbican\\.org\\.uk/", "enabled": true,
+      "detail_path_prefixes": ["/whats-on/classical-music/", "/whats-on/music/"], "detail_link_pattern": "barbican\\.org\\.uk/", "source_family": "HYBRID", "occurrence_source_family": "STRUCTURED_HTML", "enrichment_source_families": ["PDF_ENRICHMENT"], "capabilities": ["PDF_ENRICHMENT", "STRUCTURED_HTML"], "strategy": "HTML occurrences with official PDF enrichment", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_classical_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "southbank_centre": {
       "venue_id": "southbank_centre", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "southbank_centre",
-      "official_source": "https://www.southbankcentre.co.uk/whats-on/classical-music", "listing_source": "https://www.southbankcentre.co.uk/whats-on/classical-music",
+      "official_source": "https://www.southbankcentre.co.uk/whats-on/classical-music", "listing_source": "https://www.southbankcentre.co.uk/whats-on/classical-music", "official_pdf_sources": ["https://bynder.southbankcentre.co.uk/asset/43cc3530-cfaa-40d2-ab91-7d032820272e/Forward-planner-Classical-Music-Autumn-Winter-2026-27.pdf"],
       "organization": "Southbank Centre", "venue": "Southbank Centre", "city": "London", "country": "United Kingdom", "timezone": "Europe/London", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/whats-on/", "/events/"], "detail_link_pattern": "southbankcentre\\.co\\.uk/", "enabled": true,
+      "detail_path_prefixes": ["/whats-on/", "/events/"], "detail_link_pattern": "southbankcentre\\.co\\.uk/", "source_family": "HYBRID", "occurrence_source_family": "STRUCTURED_HTML", "enrichment_source_families": ["PDF_ENRICHMENT"], "capabilities": ["HYBRID", "STRUCTURED_HTML", "PDF_ENRICHMENT"], "strategy": "HTML occurrences with official PDF programme/cast enrichment", "enabled": true,
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_programme_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "wigmore_hall": {
@@ -404,14 +404,14 @@
       "venue_id": "la_monnaie_de_munt", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "la_monnaie_de_munt",
       "official_source": "https://www.lamonnaiedemunt.be/en/season/1760?c=1", "listing_source": "https://www.lamonnaiedemunt.be/en/season/1760?c=1",
       "organization": "La Monnaie / De Munt", "venue": "La Monnaie", "city": "Brussels", "country": "Belgium", "timezone": "Europe/Brussels", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/programme/", "/en/season/"], "detail_link_pattern": "lamonnaiedemunt\\.be/", "enabled": true,
+      "detail_path_prefixes": ["/en/programme/", "/en/season/"], "detail_link_pattern": "lamonnaiedemunt\\.be/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_opera_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     },
     "bozar": {
       "venue_id": "bozar", "adapter": "season_ingestion.adapters.europe_venue:EuropeVenueAdapter", "source_id": "bozar",
       "official_source": "https://www.bozar.be/en/season-26-27", "listing_source": "https://www.bozar.be/en/season-26-27",
       "organization": "BOZAR", "venue": "BOZAR", "city": "Brussels", "country": "Belgium", "timezone": "Europe/Brussels", "season": "2026-27", "season_start_month": 9,
-      "detail_path_prefixes": ["/en/calendar/", "/en/activities/"], "detail_link_pattern": "bozar\\.be/", "enabled": true,
+      "detail_path_prefixes": ["/en/calendar/", "/en/activities/"], "detail_link_pattern": "bozar\\.be/", "enabled": true, "acceptance_group": "generic-v1-blind-test",
       "source_contract": {"schema_version": "official-source-contract-v2", "layers": ["official_season_listing", "official_event_jsonld_or_detail", "occurrence_local_date_time"], "writes": false}
     }
   }

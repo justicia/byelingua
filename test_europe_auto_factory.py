@@ -90,6 +90,42 @@ def test_full_season_is_the_factory_mode_and_existing_scope_is_not_selected():
     assert targets[0]["enabled"] is True
 
 
+def test_pending_scope_keeps_published_gaps_and_skips_explicitly_complete(tmp_path):
+    target_file = tmp_path / "targets.yml"
+    target_file.write_text(
+        """schema_version: venue-onboarding-targets-v1
+targets:
+  - venue_id: published_gap
+    season: 2026-27
+    enabled: true
+    onboarding_status: PUBLISHED
+    processing_complete: false
+  - venue_id: published_complete
+    season: 2026-27
+    enabled: true
+    onboarding_status: PUBLISHED
+    processing_complete: true
+  - venue_id: legacy_pending
+    season: 2026-27
+    enabled: true
+    onboarding_status: PENDING
+""",
+        encoding="utf-8",
+    )
+    pending = load_targets(target_file, season="2026-27", scope="pending")
+    assert [target["venue_id"] for target in pending] == ["published_gap", "legacy_pending"]
+
+
+def test_current_published_zero_enrichment_targets_remain_pending():
+    pending = {target["venue_id"] for target in load_targets(season="2026-27", scope="pending")}
+    assert {
+        "theater_an_der_wien",
+        "maison_radio_france",
+        "palau_de_la_musica_catalana",
+        "royal_opera_house",
+    } <= pending
+
+
 def test_factory_workflow_has_schedule_and_safe_upload_only():
     workflow = Path(".github/workflows/europe-auto-ingestion-factory.yml").read_text(encoding="utf-8")
     assert "schedule:" in workflow
