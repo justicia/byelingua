@@ -8,6 +8,28 @@ import yaml
 
 TARGETS_PATH = Path(__file__).with_name("venue_targets.yml")
 SCHEMA_VERSION = "venue-onboarding-targets-v1"
+_PENDING_ONBOARDING_STATUSES = {
+    "PENDING",
+    "TARGET_REGISTERED",
+    "PUBLISHED",
+    "PARTIALLY_PUBLISHED",
+    "REVIEW_REQUIRED",
+    "HUMAN_PDF_REQUIRED",
+}
+
+
+def target_requires_processing(target: dict[str, Any]) -> bool:
+    """Return whether a target still belongs in the one-click processing queue.
+
+    Production visibility is not a completion signal.  Explicit target state
+    wins when present; legacy targets retain the original onboarding-status
+    behavior until their processing state is recorded.
+    """
+    if target.get("processing_complete") is True:
+        return False
+    if target.get("requires_processing") is True:
+        return True
+    return str(target.get("onboarding_status") or "").strip().upper() in _PENDING_ONBOARDING_STATUSES
 
 
 def load_targets(path: Path = TARGETS_PATH, *, season: str | None = None, scope: str = "all-enabled", selected: list[str] | None = None) -> list[dict[str, Any]]:
@@ -28,7 +50,7 @@ def load_targets(path: Path = TARGETS_PATH, *, season: str | None = None, scope:
             continue
         if season and target.get("season") != season:
             continue
-        if scope == "pending" and target.get("onboarding_status") not in {"PENDING", "TARGET_REGISTERED"}:
+        if scope == "pending" and not target_requires_processing(target):
             continue
         if scope == "selected" and target.get("venue_id") not in set(selected or []):
             continue

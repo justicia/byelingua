@@ -30,6 +30,11 @@ from season_ingestion.hard_freeze import (
     validate_batch_manifest,
 )
 from season_ingestion.production_graph import apply_graph
+from season_ingestion.product_contract import (
+    BYELINGUA_PRODUCT_CONTRACT_VERSION,
+    assert_product_contract_compatibility,
+    declare_product_contract,
+)
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -129,6 +134,7 @@ def _load_previous(path: Path) -> dict[str, Any]:
 
 
 def run_batch(*, inputs: Iterable[Path], output_root: Path = DEFAULT_OUTPUT, publish: bool = False, season: str = "2026-27") -> dict[str, Any]:
+    assert_product_contract_compatibility(BYELINGUA_PRODUCT_CONTRACT_VERSION)
     pdfs = discover_pdfs(inputs)
     output_root.mkdir(parents=True, exist_ok=True)
     manifest_path = output_root / "batch-manifest.json"
@@ -200,6 +206,7 @@ def run_batch(*, inputs: Iterable[Path], output_root: Path = DEFAULT_OUTPUT, pub
     assert_frontend_unchanged(before_frontend, after_frontend)
     manifest["pdf_records"] = records
     manifest["season"] = season
+    declare_product_contract(manifest)
     manifest["frontend_freeze"] = "PASS"
     manifest["out_of_scope_mutations"] = 0
     manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

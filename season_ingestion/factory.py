@@ -10,7 +10,7 @@ from .pipeline import run_pipeline
 from .venue_targets import matrix_targets
 from .notifications import build_approval_manifest
 from .incremental import compare_source_fingerprint
-from .production_graph import build_payload
+from .production_graph import build_payload, normalize_graph_staging
 from .registry import load_registry
 
 
@@ -21,6 +21,11 @@ def _blocker(summary: dict[str, Any], status: str) -> tuple[str | None, str | No
     """Return one actionable blocker and the next technical fix."""
     if status == "READY_FOR_APPROVAL":
         return None, None
+    acquisition_status = summary.get("acquisition_status")
+    if acquisition_status == "ADAPTER_REQUIRED":
+        return "deterministic source was discovered but no reusable adapter produced credible occurrences", "Implement or configure the matching generic adapter family"
+    if acquisition_status == "HUMAN_PDF_REQUIRED":
+        return "automatic acquisition failed for a known official PDF", "Place the official PDF at the configured manual source path"
     errors = summary.get("source_audit", {}).get("adapter_errors") or summary.get("adapter_errors") or []
     if summary.get("source_capability") in {"SOURCE_BLOCKED", "SOURCE_PARTIAL", "SOURCE_UNSUPPORTED"}:
         first = errors[0] if errors else {}
@@ -35,9 +40,10 @@ def _blocker(summary: dict[str, Any], status: str) -> tuple[str | None, str | No
     return str(summary.get("failure_reason") or "venue did not pass the factory gates"), "Inspect the first failing factory gate and rerun only this venue"
 
 
-def _write_production_graph_staging(output_dir: Path, summary: dict[str, Any], *, venue_id: str) -> None:
+def _write_production_graph_staging(output_dir: Path, summary: dict[str, Any], *, venue_id: str, allow_partial: bool = False) -> None:
     """Freeze the SAFE graph payload consumed by the approved apply job."""
-    if summary.get("source_capability") != "SOURCE_PASS" or summary.get("global_master_preflight") != "PASS":
+    allowed_sources = {"SOURCE_PASS", "SOURCE_PARTIAL"} if allow_partial else {"SOURCE_PASS"}
+    if summary.get("source_capability") not in allowed_sources or summary.get("global_master_preflight") != "PASS":
         return
     final_path, snapshot_path = output_dir / "final_staging.json", output_dir / "snapshot.json"
     if not final_path.exists() or not snapshot_path.exists():
@@ -51,13 +57,25 @@ def _write_production_graph_staging(output_dir: Path, summary: dict[str, Any], *
     composers = [row for row in snapshot.get("entities", {}).get("composer", []) if row.get("id") in composer_ids]
     works = [row for row in snapshot.get("entities", {}).get("work", []) if row.get("id") in work_ids]
     relationships = [{"event_key": row["event_key"], "work_id": row["work_id"], "order": row.get("original_programme_order") or row.get("source_programme_index") or 1, "source_url": (row.get("provenance") or {}).get("source_url")} for row in safe_rows]
-    staging = {"composer": {"safe": composers}, "work": {"safe": works}, "relationships": {"safe_existing": relationships, "safe_new": []}, "credit_resolution": final.get("credit_resolution") or {}}
+    normalized_works, normalized_relationships, graph_contract = normalize_graph_staging({
+        "composer": {"safe": composers},
+        "work": {"safe": works},
+        "relationships": {"safe_existing": relationships, "safe_new": []},
+        "credit_resolution": final.get("credit_resolution") or {},
+    })
+    staging = {
+        "composer": {"safe": composers},
+        "work": {"safe": normalized_works},
+        "relationships": {"safe_existing": normalized_relationships, "safe_new": []},
+        "credit_resolution": final.get("credit_resolution") or {},
+    }
     config = load_registry()["venues"].get(venue_id) or {}
     payload = build_payload(final.get("events", []), staging, organization={"name": config.get("organization"), "slug": venue_id}, venue={"name": config.get("venue"), "city": config.get("city"), "country_code": config.get("country")})
     payload["release"] = {"venue_id": venue_id, "season": summary.get("season"), "source_fingerprint": summary.get("source_fingerprint"), "final_staging_sha256": hashlib.sha256(final_path.read_bytes()).hexdigest()}
     path = output_dir / "production_graph_staging.json"
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     summary["production_graph_staging_sha256"] = hashlib.sha256(path.read_bytes()).hexdigest()
+    summary["production_graph_contract"] = graph_contract
 
 
 def _write_safe_apply_preview(output_dir: Path, summary: dict[str, Any], *, venue_id: str, season: str) -> None:
@@ -83,6 +101,17 @@ def _write_safe_apply_preview(output_dir: Path, summary: dict[str, Any], *, venu
 
 
 def classify_summary(summary: dict[str, Any]) -> str:
+    acquisition_status = summary.get("acquisition_status")
+    if acquisition_status == "SOURCE_BLOCKED":
+        return "SOURCE_BLOCKED"
+    if acquisition_status == "SOURCE_PARTIAL":
+        return "SOURCE_PARTIAL"
+    if acquisition_status == "ADAPTER_REQUIRED":
+        return "ADAPTER_REQUIRED"
+    if acquisition_status == "HUMAN_PDF_REQUIRED":
+        return "SOURCE_PARTIAL"
+    if summary.get("canonical_status") == "REVIEW_REQUIRED":
+        return "REVIEW_REQUIRED"
     if summary.get("source_capability") == "SOURCE_BLOCKED":
         return "SOURCE_BLOCKED"
     if summary.get("source_capability") == "SOURCE_PARTIAL":
@@ -97,11 +126,11 @@ def classify_summary(summary: dict[str, Any]) -> str:
     return "REVIEW_REQUIRED" if summary.get("counts", {}).get("review_items", 0) else "FAILED"
 
 
-def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path | None = None, scope: str = "full-season", previous_source_hash: str | None = None, hermes_source_facts_path: Path | None = None) -> dict[str, Any]:
+def run_target(target: dict[str, Any], output_root: Path, *, snapshot_path: Path | None = None, scope: str = "full-season", previous_source_hash: str | None = None, hermes_source_facts_path: Path | None = None, existing_events: list[Any] | None = None, content_discovery: Any | None = None) -> dict[str, Any]:
     venue_id = target["venue_id"]
     output_dir = output_root / venue_id
     try:
-        summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", scope=scope, output_dir=output_dir, snapshot_path=snapshot_path, hermes_source_facts_path=hermes_source_facts_path)
+        summary = run_pipeline(venue=venue_id, season=target["season"], mode="dry-run", scope=scope, output_dir=output_dir, snapshot_path=snapshot_path, hermes_source_facts_path=hermes_source_facts_path, existing_events=existing_events, content_discovery=content_discovery)
         summary["incremental"] = compare_source_fingerprint(previous_source_hash, summary.get("source_fingerprint"))
         required_artifacts = ("source_audit", "raw", "normalized", "snapshot", "resolution_staging", "final_staging", "summary")
         artifact_checks = {}

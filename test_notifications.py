@@ -37,6 +37,17 @@ def test_source_blocked_not_eligible():
     assert classify_dry_run(summary('SOURCE_BLOCKED'))[1] is False
 
 
+def test_valid_partial_occurrences_remain_eligible_for_safe_publication():
+    partial = summary('SOURCE_PARTIAL')
+    assert classify_dry_run(partial) == ("DRY_RUN_SUCCESS", True, [])
+
+
+def test_partial_without_occurrences_remains_blocked():
+    partial = summary('SOURCE_PARTIAL')
+    partial["counts"]["events_discovered"] = 0
+    assert classify_dry_run(partial)[1] is False
+
+
 def test_manifest_hash_is_stable(tmp_path):
     p=tmp_path/'final_staging.json'; p.write_text('{"a":1}',encoding='utf-8')
     s=summary(); a=build_approval_manifest(s,p,run_id='1',commit='c',created_at='t'); b=build_approval_manifest(s,p,run_id='1',commit='c',created_at='t')

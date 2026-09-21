@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-from season_ingestion.credit_resolution import canonical_role, resolve_credit, stage_credits
+from season_ingestion.credit_resolution import canonical_role, normalized_credit_kind, resolve_credit, stage_credits
 from season_ingestion.character_linkage import classify_unlinked_character
 from season_ingestion.production_graph import build_payload
 
@@ -63,6 +63,18 @@ def test_explicit_cast_character_uses_performer_role():
     assert result["resolution_status"] == "SAFE_UNRESOLVED_CHARACTER"
     assert result["character_resolution"]["status"] == "REVIEW_CHARACTER_CONFLICT"
     assert result["resolution_status"] != "REVIEW_ROLE_UNKNOWN"
+
+
+def test_official_team_and_ensemble_rows_are_not_forced_into_cast_boundary():
+    assert normalized_credit_kind({"credit_kind": "cast", "function": "orchestra"}) == "ensemble"
+    assert normalized_credit_kind({"credit_kind": "cast", "function": "conductor"}) == "artistic_team"
+    result = resolve_credit(
+        {"artist_name": "New Generation Symphony Orchestra", "credit_kind": "cast", "source_role": "orchestra", "function": "orchestra"},
+        work_id=None,
+        snapshot=snapshot(),
+    )
+    assert result["credit_kind"] == "ensemble"
+    assert result["canonical_role"] == "orchestra"
 
 
 def test_work_scoped_character_resolution_and_review():

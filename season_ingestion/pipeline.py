@@ -13,16 +13,43 @@ from urllib.parse import urlsplit, urlunsplit
 
 from .contracts import STAGES, validate_canonical_event, validate_schedule_integrity
 from .contracts import empty_global_snapshot
-from .global_master import GlobalMasterError, load_global_snapshot, resolve_entity, resolve_work
+from .global_master import GlobalMasterError, load_global_snapshot, resolve_entity, resolve_work, resolve_existing_production_title
 from .registry import load_adapter, load_registry
 from .credit_resolution import stage_credits
+from .content_recovery import recover_missing_content
+from .event_policy import apply_publication_policy, event_requires_cast
 from .incremental import source_fingerprint
 from .supabase import ExistingRecord, fetch_existing_sources
 from .hermes_acquisition import HermesAcquisitionError, acquire_events, eligible_for_fallback, facts_to_events, persist_source_facts
+from .generic_adapters import (
+    build_capability_profile,
+    classify_acquisition_status,
+    classify_canonical_status,
+    classify_enrichment_status,
+    write_capability_profile,
+)
+from .product_contract import (
+    BYELINGUA_PRODUCT_CONTRACT_VERSION,
+    assert_product_contract_compatibility,
+    declare_product_contract,
+)
 
 
 DERIVED_PROGRAMME_SOURCE_FIELDS = {"jsonld.name", "event.name", "og:title", "html.title", "page.heading", "listing-card.title", "event.title"}
-ALLOWED_PROGRAMME_SOURCE_FIELDS = {"official.detail.music", "jsonld.work", "jsonld.workperformed", "official.programme", "official.program", "official.repertoire", "official.works", "official.music"}
+ALLOWED_PROGRAMME_SOURCE_FIELDS = {
+    "official.detail.music", "official.detail.programme", "official.repertoire",
+    "official.programme", "official.program", "official.works", "official.music",
+    "jsonld.work", "jsonld.workperformed", "jsonld.description",
+    "detail.composer", "detail.header.composer", "detail.programme", "detail.programme.row",
+}
+
+
+def _is_allowed_programme_source_field(field: str) -> bool:
+    if field in ALLOWED_PROGRAMME_SOURCE_FIELDS:
+        return True
+    return field.startswith((
+        "official.detail.music.", "official.detail.programme.", "detail.programme.row[",
+    ))
 
 
 def sanitize_programme_evidence(events: list[Any]) -> list[Any]:
@@ -32,12 +59,14 @@ def sanitize_programme_evidence(events: list[Any]) -> list[Any]:
         kept = []
         for item in event.programme:
             field = str((item.get("provenance") or {}).get("source_field") or "").casefold()
-            if field in DERIVED_PROGRAMME_SOURCE_FIELDS or field.endswith(".name") or (field and field not in ALLOWED_PROGRAMME_SOURCE_FIELDS):
+            if field in DERIVED_PROGRAMME_SOURCE_FIELDS or field.endswith(".name") or (field and not _is_allowed_programme_source_field(field)):
                 continue
             kept.append(item)
         quality = dict(event.data_quality)
         if not kept:
-            quality["programme"] = {"status": "NO_PROGRAMME_EVIDENCE", "reason": "no explicit official programme field"}
+            current = quality.get("programme") if isinstance(quality.get("programme"), dict) else {}
+            if current.get("status") not in {"PROGRAMME_SOURCE_UNREADABLE", "PROGRAMME_RESOLUTION_FAILED", "PROGRAMME_HUMAN_PDF_REQUIRED"}:
+                quality["programme"] = {"status": "NO_PROGRAMME_EVIDENCE", "reason": "no explicit official programme field"}
         sanitized.append(replace(event, programme=kept, data_quality=quality))
     return sanitized
 
@@ -132,15 +161,20 @@ def match_existing_events(events: list[Any], existing: list[ExistingRecord]) -> 
     }
 
 
-def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str = "full-season", output_dir: Path = Path("season-ingestion-output"), snapshot_path: Path | None = None, hermes_source_facts_path: Path | None = None) -> dict[str, Any]:
+def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str = "full-season", output_dir: Path = Path("season-ingestion-output"), snapshot_path: Path | None = None, hermes_source_facts_path: Path | None = None, config_override: dict[str, Any] | None = None, allow_hermes_fallback: bool = True, existing_events: list[CanonicalEvent] | None = None, content_discovery: Any | None = None, product_contract_version: int = BYELINGUA_PRODUCT_CONTRACT_VERSION) -> dict[str, Any]:
+    assert_product_contract_compatibility(product_contract_version)
     if mode not in {"dry-run", "apply"}:
         raise ValueError("mode must be dry-run or apply")
     if mode == "apply":
         raise RuntimeError("production apply is intentionally disabled in Season Ingestion Pipeline V1")
-    if scope not in {"full-season", "existing-production"}:
-        raise ValueError("scope must be full-season or existing-production")
-    config = load_registry()["venues"][venue]
-    adapter = load_adapter(venue)
+    if scope not in {"full-season", "existing-production", "production-gaps"}:
+        raise ValueError("scope must be full-season, existing-production, or production-gaps")
+    registry = load_registry()
+    config = dict(registry["venues"][venue])
+    if config_override:
+        config.update(config_override)
+        registry = {**registry, "venues": {**registry["venues"], venue: config}}
+    adapter = load_adapter(venue, registry=registry) if config_override else load_adapter(venue)
     existing_records: list[ExistingRecord] = []
     existing_match: dict[str, Any] = {"matched_count": None, "unmatched_staged": [], "unmatched_existing": [], "ambiguous": []}
     if scope == "existing-production":
@@ -155,7 +189,12 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
         adapter.allowed_detail_urls = {record.source_url for record in existing_records if record.source_url}
     force_hermes = os.getenv("BYELINGUA_FORCE_HERMES_FALLBACK", "").casefold() in {"1", "true", "yes"}
     hermes_fallback: dict[str, Any] = {"attempted": False, "status": "NOT_ATTEMPTED"}
-    if hermes_source_facts_path is not None:
+    if scope == "production-gaps":
+        if existing_events is None:
+            raise ValueError("production-gaps requires existing production events")
+        events = list(existing_events)
+        hermes_fallback = {"attempted": False, "status": "TARGETED_DISCOVERY_ONLY"}
+    elif hermes_source_facts_path is not None:
         facts = json.loads(hermes_source_facts_path.read_text(encoding="utf-8"))
         if facts.get("venue_id") != venue or facts.get("season") != season:
             raise ValueError("Hermes source-facts artifact venue/season does not match the requested target")
@@ -171,7 +210,7 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
         }
     else:
         events = [] if force_hermes else adapter.ingest(season)
-        if eligible_for_fallback(events=events, adapter=adapter, force=force_hermes) and os.getenv("BYELINGUA_HERMES_ACQUIRE_COMMAND"):
+        if allow_hermes_fallback and eligible_for_fallback(events=events, adapter=adapter, force=force_hermes) and os.getenv("BYELINGUA_HERMES_ACQUIRE_COMMAND"):
             try:
                 facts, hermes_events = acquire_events(
                     venue=venue,
@@ -193,9 +232,16 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
                 }
             except HermesAcquisitionError as exc:
                 hermes_fallback = {"attempted": True, "status": "BLOCKED", "error": str(exc)[:300]}
-        elif eligible_for_fallback(events=events, adapter=adapter, force=force_hermes):
+        elif allow_hermes_fallback and eligible_for_fallback(events=events, adapter=adapter, force=force_hermes):
             hermes_fallback = {"attempted": False, "status": "NOT_CONFIGURED"}
+    # Remove title-only transport evidence first, then make one bounded,
+    # generic pass over official detail URLs for the layers that are still
+    # missing.  This keeps occurrence acquisition independent from content
+    # recovery and gives the factory explicit terminal reasons for any gap.
     events = sanitize_programme_evidence(list(events))
+    recovery_result = recover_missing_content(events, adapter=adapter, config=config, season=season, discover=content_discovery)
+    events = sanitize_programme_evidence(recovery_result["events"])
+    events, publication_policy = apply_publication_policy(events)
     scoped_events = list(events)
     source_hash = source_fingerprint(scoped_events)
     if scope == "existing-production":
@@ -229,16 +275,46 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
     resolution_rows, review_rows = [], []
     work_cache: dict[tuple[str, str], dict[str, Any]] = {}
     composer_resolution = []
+    matched_event_types: dict[str, str] = {}
     for event in events:
-        for item in event.programme:
+        programme_items = list(event.programme)
+        if not programme_items and event.event_type in {"opera", "ballet", "unclassified_performance"}:
+            programme_items = [{
+                "source_title": event.title,
+                "source_programme_index": 1,
+                "original_programme_order": 1,
+                "production_title_evidence": True,
+                "provenance": {
+                    "source_url": event.source_url,
+                    "source_field": "official.production.title",
+                },
+            }]
+        for item in programme_items:
             composer = item.get("composer")
+            production_title_evidence = bool(item.get("production_title_evidence"))
             if not global_master_loaded:
                 composer_status = {"status": "not_run", "entity_id": None, "lookup_key": None, "reason": "RESOLUTION_NOT_RUN_GLOBAL_MASTER_UNAVAILABLE"}
+            elif production_title_evidence:
+                composer_status = {"status": "not_applicable", "entity_id": None, "reason": "composer inherited only after unique existing Production match"}
             else:
                 composer_status = resolve_entity("composer", composer, snapshot) if composer else {"status": "not_applicable", "entity_id": None, "reason": "programme item has no composer"}
-            composer_resolution.append(composer_status)
             if not global_master_loaded:
                 work_resolution = {"status": "not_run", "work_id": None, "reason": "RESOLUTION_NOT_RUN_GLOBAL_MASTER_UNAVAILABLE"}
+            elif production_title_evidence:
+                work_resolution = resolve_existing_production_title(item["source_title"], snapshot)
+                if work_resolution.get("status") == "existing":
+                    matched_work = next((work for work in snapshot.entities.get("work", []) if work.get("id") == work_resolution.get("work_id")), {})
+                    matched_composer = next((row for row in snapshot.entities.get("composer", []) if row.get("id") == matched_work.get("composer_id")), {})
+                    if matched_composer:
+                        composer_status = {
+                            "status": "existing",
+                            "entity_id": matched_composer.get("id"),
+                            "canonical_name": matched_composer.get("canonical_name"),
+                            "match_method": "production_work_composer",
+                            "reason": "Composer inherited from uniquely matched existing Production/Work",
+                        }
+                    else:
+                        work_resolution = {"status": "review_required", "work_id": None, "reason": "MATCHED_PRODUCTION_HAS_NO_CANONICAL_COMPOSER"}
             else:
                 if composer_status.get("status") == "existing":
                     key = (str(composer_status.get("entity_id")), " ".join(str(item["source_title"]).casefold().split()))
@@ -246,14 +322,36 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
                         work_cache[key] = resolve_work(item["source_title"], composer_status, snapshot)
                     work_resolution = dict(work_cache[key])
                     if work_resolution.get("status") == "review_required" and work_resolution.get("reason") == "no operational Work match; do not auto-create":
-                        work_resolution.update(status="new_candidate", reason="resolved Composer with no operational Work match; candidate only")
+                        evidence = item.get("authority_evidence") if isinstance(item.get("authority_evidence"), dict) else {}
+                        verified = evidence.get("verification_status") == "verified" and evidence.get("source_url")
+                        if verified:
+                            work_resolution.update(status="new_candidate", reason="authority-verified new Production/Work candidate")
+                        else:
+                            work_resolution.update(reason="NEW_PRODUCTION_REQUIRES_AUTHORITY_VERIFICATION")
                 else:
                     work_resolution = {"status": "review_required", "work_id": None, "reason": "composer unresolved; Work resolution deferred"}
+            composer_resolution.append(composer_status)
             work_entity = next((work for work in snapshot.entities.get("work", []) if work.get("id") == work_resolution.get("work_id")), {})
+            if production_title_evidence and work_resolution.get("status") == "existing":
+                work_kind = str(work_entity.get("work_kind") or "").casefold().replace("-", "_").replace(" ", "_")
+                type_map = {
+                    "opera": "opera", "operetta": "opera",
+                    "ballet": "ballet", "dance": "ballet",
+                    "concerto": "concerto", "recital": "recital",
+                    "concert": "concert", "symphony": "concert",
+                    "chamber_music": "chamber_music",
+                }
+                if work_kind in type_map:
+                    matched_event_types[event.event_key] = type_map[work_kind]
             row = {"event_key": event.event_key, "source_title": item["source_title"], **work_resolution, "canonical_work_title": work_entity.get("canonical_name") or work_entity.get("title"), "composer": composer, "canonical_composer": composer_status.get("canonical_name"), "composer_candidate": item.get("composer_candidate", {}), "composer_resolution": composer_status, "source_programme_index": item["source_programme_index"], "original_programme_order": item["original_programme_order"], "provenance": item.get("provenance", {})}
             resolution_rows.append(row)
             if work_resolution["status"] in {"review_required", "new_candidate"}:
                 review_rows.append(row)
+    if matched_event_types:
+        events = [
+            replace(event, event_type=matched_event_types.get(event.event_key, event.event_type))
+            for event in events
+        ]
     duplicate_event_identity = len(events) - len({event.event_key for event in events})
     programme_rows = [item for event in events for item in event.programme]
     credits = [credit for event in events for credit in event.credits]
@@ -273,16 +371,42 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
     snapshot_counts = {kind: len(snapshot.entities.get(kind, [])) for kind in ("composer", "artist", "work", "character")}
     snapshot_counts["composer_aliases"] = len(getattr(snapshot, "composer_aliases", []))
     snapshot_counts["work_aliases"] = len(getattr(snapshot, "work_aliases", []))
-    gates = {"events_gt_zero": len(events) > 0, "traceable_urls": all(bool(event.source_url) for event in events), "duplicate_event_identity": duplicate_event_identity == 0, "duplicate_performance_slot": schedule_contract["duplicate_performance_slot"] == 0, "null_timed_shadow_duplicates": schedule_contract["null_timed_shadow_duplicates"] == 0, "ambiguous_same_day_occurrence": schedule_contract["ambiguous_same_day_occurrence"] == 0, "year_inferred_without_production_evidence": schedule_contract["year_inferred_without_production_evidence"] == 0, "year_unverified": schedule_contract["year_unverified"] == 0, "acceptable_time_completeness": missing_start_time_rate <= 0.2, "artist_boundary_high": all(not (credit.get("artist_name") or "").casefold().endswith((" soprano", " tenor", " baritone", " bass")) for credit in credits), "programme_credit_contamination": all(credit.get("credit_kind") not in {"cast", "character"} or credit.get("function") not in {"conductor", "director", "orchestra", "chorus", "designer"} for credit in credits), "source_order_missing": all(item.get("original_programme_order") == item.get("source_programme_index") for item in programme_rows), "untraceable": not untraceable, "review_items_in_safe_subset": 0 == 0, "production_writes": 0 == 0, "source_fetch_failures": len(adapter.last_errors) == 0 or hermes_fallback["status"] == "PASS", "global_master_loaded": global_master_loaded, "existing_event_match": scope != "existing-production" or (existing_match["matched_count"] == len(existing_records) == len(events)), "credit_extraction": scope != "existing-production" or len(credits) > 0}
+    cast_required_events = [event for event in events if event_requires_cast(event)]
+    cast_present_keys = {event.event_key for event in cast_required_events if any(credit.get("credit_kind") in {"cast", "character"} for credit in event.credits)}
+    gates = {"events_gt_zero": len(events) > 0, "traceable_urls": all(bool(event.source_url) for event in events), "visitor_events_excluded": all(not str(event.event_type).casefold().endswith("tour") for event in events), "performance_type_classified": all(event.event_type != "unclassified_performance" for event in events), "required_cast_complete": len(cast_present_keys) == len(cast_required_events), "duplicate_event_identity": duplicate_event_identity == 0, "duplicate_performance_slot": schedule_contract["duplicate_performance_slot"] == 0, "null_timed_shadow_duplicates": schedule_contract["null_timed_shadow_duplicates"] == 0, "ambiguous_same_day_occurrence": schedule_contract["ambiguous_same_day_occurrence"] == 0, "year_inferred_without_production_evidence": schedule_contract["year_inferred_without_production_evidence"] == 0, "year_unverified": schedule_contract["year_unverified"] == 0, "acceptable_time_completeness": missing_start_time_rate <= 0.2 or bool(getattr(adapter, "source_time_optional", False)), "artist_boundary_high": all(not (credit.get("artist_name") or "").casefold().endswith((" soprano", " tenor", " baritone", " bass")) for credit in credits), "programme_credit_contamination": all(credit.get("credit_kind") not in {"cast", "character"} or credit.get("function") not in {"conductor", "director", "orchestra", "chorus", "designer"} for credit in credits), "source_order_missing": all(item.get("original_programme_order") == item.get("source_programme_index") for item in programme_rows), "untraceable": not untraceable, "review_items_in_safe_subset": 0 == 0, "production_writes": 0 == 0, "source_fetch_failures": len(adapter.last_errors) == 0 or hermes_fallback["status"] == "PASS", "global_master_loaded": global_master_loaded, "existing_event_match": scope != "existing-production" or (existing_match["matched_count"] == len(existing_records) == len(events)), "credit_extraction": scope != "existing-production" or len(credits) > 0}
+    if scope == "production-gaps":
+        # These are already-published occurrences.  Completeness recovery must
+        # not reject a valid production Event merely because its original
+        # source had an optional/missing time or because no new source-fact
+        # programme row was needed for an existing relationship.
+        gates.update({
+            "acceptable_time_completeness": True,
+            "existing_event_match": True,
+            "credit_extraction": True,
+        })
     requested_months = getattr(adapter, "requested_months", [])
     successful_months = getattr(adapter, "successful_months", [])
     failed_months = getattr(adapter, "failed_months", [])
-    source_audit = {"venue": venue, "season": season, "scope": scope, "official_source": config["official_source"], "official_fallback_source": config.get("fallback_source"), "source_strategy": "official listing -> official detail links -> performance-level detail extraction", "requested_months": requested_months, "successful_months": successful_months, "failed_months": failed_months, "source_pages": getattr(adapter, "source_pages", {}), "adapter_errors": adapter.last_errors, "events": len(events), "events_after_scope": len(scoped_events), "existing_records_loaded": len(existing_records), "existing_events_matched": existing_match["matched_count"], "listing_pages_requested": len(getattr(adapter, "listing_pages_requested", [])), "listing_pages_successful": len(getattr(adapter, "listing_pages_successful", [])), "listing_pages_failed": len(getattr(adapter, "listing_pages_failed", [])), "detail_pages_requested": len(getattr(adapter, "detail_pages_requested", requested_months)), "detail_pages_successful": len(getattr(adapter, "detail_pages_successful", successful_months)), "detail_pages_failed": len(getattr(adapter, "detail_pages_failed", failed_months)), "detail_urls_discovered_before_scope": getattr(adapter, "productions_discovered_before_scope", getattr(adapter, "productions_discovered", 0)), "detail_urls_filtered_by_scope": getattr(adapter, "detail_scope_filtered", 0)}
+    verified_existing_events = sum(
+        bool(
+            isinstance(event.raw, dict)
+            and event.raw.get("production_event_key")
+            and event.event_key == event.raw.get("production_event_key")
+            and event.raw.get("source_records")
+            and event.source_event_id
+            and event.source_url
+        )
+        for event in events
+    ) if scope == "production-gaps" else None
+    source_audit = {"venue": venue, "season": season, "scope": scope, "official_source": config["official_source"], "official_fallback_source": config.get("fallback_source"), "source_strategy": "official listing -> official detail links -> performance-level detail extraction -> generic content recovery", "requested_months": requested_months, "successful_months": successful_months, "failed_months": failed_months, "source_pages": getattr(adapter, "source_pages", {}), "adapter_errors": adapter.last_errors, "events": len(events), "events_after_scope": len(scoped_events), "existing_records_loaded": len(existing_records), "existing_events_matched": existing_match["matched_count"], "existing_events_verified": verified_existing_events, "listing_pages_requested": len(getattr(adapter, "listing_pages_requested", [])), "listing_pages_successful": len(getattr(adapter, "listing_pages_successful", [])), "listing_pages_failed": len(getattr(adapter, "listing_pages_failed", [])), "detail_pages_requested": len(getattr(adapter, "detail_pages_requested", requested_months)), "detail_pages_successful": len(getattr(adapter, "detail_pages_successful", successful_months)), "detail_pages_failed": len(getattr(adapter, "detail_pages_failed", failed_months)), "detail_urls_discovered_before_scope": getattr(adapter, "productions_discovered_before_scope", getattr(adapter, "productions_discovered", 0)), "detail_urls_filtered_by_scope": getattr(adapter, "detail_scope_filtered", 0), "content_recovery": recovery_result["report"], "publication_policy": publication_policy}
     source_audit["hermes_fallback"] = hermes_fallback
     if hermes_fallback["status"] == "PASS":
         source_audit["source_strategy"] = "deterministic official source -> Hermes Browser Automation fallback -> shared canonical normalization"
-    source_audit.update({key: getattr(adapter, key, 0) for key in ("productions_discovered", "detail_pages_out_of_season_skipped", "date_candidates_found", "date_candidates_accepted", "date_candidates_rejected", "date_year_unverified", "events_outside_season", "duplicate_performance_slot", "ambiguous_same_day_occurrence", "null_timed_shadow_duplicates", "year_inferred_without_production_evidence")})
-    if hermes_fallback["status"] == "PASS":
+    source_audit.update({key: getattr(adapter, key, 0) for key in ("productions_discovered", "detail_pages_out_of_season_skipped", "date_candidates_found", "date_candidates_accepted", "date_candidates_rejected", "date_year_unverified", "events_outside_season", "source_duplicates_collapsed", "duplicate_performance_slot", "ambiguous_same_day_occurrence", "null_timed_shadow_duplicates", "year_inferred_without_production_evidence")})
+    if scope == "production-gaps":
+        recovery_report = recovery_result["report"]
+        source_capability = "SOURCE_PASS" if not recovery_report.get("source_page_errors") and not recovery_report.get("discovery_failed") else "SOURCE_PARTIAL"
+    elif hermes_fallback["status"] == "PASS":
         source_capability = "SOURCE_PASS"
     elif failed_months:
         source_capability = "SOURCE_BLOCKED" if not events and adapter.last_errors and all("403" in item.get("error", "") for item in adapter.last_errors) else "SOURCE_PARTIAL"
@@ -304,8 +428,9 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
     reviewed_events = {row["event_key"] for row in resolution_rows if row.get("status") in {"review_required", "new_candidate"}}
     event_dates = [event.date for event in events]
     snapshot_hash = hashlib.sha256(json.dumps(snapshot.__dict__, ensure_ascii=False, sort_keys=True, default=str).encode("utf-8")).hexdigest()
-    summary = {"generated_at": generated_at, "venue": venue, "season": season, "mode": mode, "scope": scope, "source_fingerprint": source_hash, "source_capability": source_capability, "source_strategy": "official listing -> official detail links -> performance-level detail extraction", "adapter_errors": adapter.last_errors, "months": {"requested": len(requested_months), "successful": len(successful_months), "failed": len(failed_months)}, "global_master_preflight": "PASS" if global_master_loaded else "FAIL", "snapshot_loaded": global_master_loaded, "snapshot_hash": snapshot_hash, "global_master_error": global_master_error, "snapshot_health": snapshot_health, "snapshot_counts": snapshot_counts, "event_type_distribution": event_type_distribution, "programme_source_evidence": programme_source_evidence, "existing_production": {"records_loaded": len(existing_records), "events_scoped": len(scoped_events), "events_matched": existing_match["matched_count"], "unmatched_existing": len(existing_match["unmatched_existing"]), "unmatched_staged": len(existing_match["unmatched_staged"]), "ambiguous": len(existing_match["ambiguous"])}, "counts": {"events": len(events), "events_discovered": len(events), "normalized": len(events), "missing_start_time": missing_start_time, "missing_start_time_rate": missing_start_time_rate, "works_existing": work_counts["existing_exact"], "works_review": work_counts["review"], "review_items": len(review_rows), "writes": 0, **credit_staging.get("counts", {})}, "detail_enrichment": {"listing_pages_requested": source_audit["listing_pages_requested"], "listing_pages_successful": source_audit["listing_pages_successful"], "detail_pages_requested": source_audit["detail_pages_requested"], "detail_pages_successful": source_audit["detail_pages_successful"], "detail_pages_failed": source_audit["detail_pages_failed"], "events_with_programme_evidence": programme_source_evidence["programme_evidence_events"], "events_without_programme_evidence": no_programme_evidence, "programme_source_ambiguous_events": programme_source_evidence["programme_source_ambiguous_events"], "detail_parse_review": detail_parse_review, "programme_items": len(programme_rows), "work_candidates": len(programme_rows), "single_work_events": sum(len(event.programme) == 1 for event in events), "multi_work_events": sum(len(event.programme) > 1 for event in events), "work_parse_review": programme_source_evidence["programme_source_ambiguous_events"], "composer_candidates": sum(bool(item.get("composer_candidate")) for item in programme_rows), "composer_evidence_present": sum(bool(item.get("composer")) for item in programme_rows), "composer_missing_source_evidence": sum(not item.get("composer") for item in programme_rows), "composer_parse_review": sum(not item.get("composer") for item in programme_rows), "credits_total": len(credits), "raw_credit_rows": credit_staging.get("counts", {}).get("credits_raw", len(credits)), "credit_parse_success": credit_staging.get("counts", {}).get("credits_safe", 0), "credit_parse_review": credit_staging.get("counts", {}).get("credits_review", 0), "artist_candidates": len([c for c in credits if c.get("artist_name")]), "character_candidates": len([c for c in credits if c.get("character")]), "composer_resolution": composer_counts, "work_resolution": work_counts}, "composer_trace": _composer_trace(resolution_rows, snapshot), "credit_resolution": credit_staging, "gates": gates, "passed": all(gates.values())}
+    summary = {"generated_at": generated_at, "venue": venue, "season": season, "mode": mode, "scope": scope, "product_contract_version": product_contract_version, "source_fingerprint": source_hash, "source_capability": source_capability, "source_strategy": "official listing -> official detail links -> performance-level detail extraction", "adapter_errors": adapter.last_errors, "months": {"requested": len(requested_months), "successful": len(successful_months), "failed": len(failed_months)}, "global_master_preflight": "PASS" if global_master_loaded else "FAIL", "snapshot_loaded": global_master_loaded, "snapshot_hash": snapshot_hash, "global_master_error": global_master_error, "snapshot_health": snapshot_health, "snapshot_counts": snapshot_counts, "event_type_distribution": event_type_distribution, "programme_source_evidence": programme_source_evidence, "existing_production": {"records_loaded": len(existing_records), "events_scoped": len(scoped_events), "events_matched": existing_match["matched_count"], "unmatched_existing": len(existing_match["unmatched_existing"]), "unmatched_staged": len(existing_match["unmatched_staged"]), "ambiguous": len(existing_match["ambiguous"])}, "counts": {"events": len(events), "events_discovered": len(events), "normalized": len(events), "missing_start_time": missing_start_time, "missing_start_time_rate": missing_start_time_rate, "works_existing": work_counts["existing_exact"], "works_review": work_counts["review"], "review_items": len(review_rows), "writes": 0, **credit_staging.get("counts", {})}, "detail_enrichment": {"listing_pages_requested": source_audit["listing_pages_requested"], "listing_pages_successful": source_audit["listing_pages_successful"], "detail_pages_requested": source_audit["detail_pages_requested"], "detail_pages_successful": source_audit["detail_pages_successful"], "detail_pages_failed": source_audit["detail_pages_failed"], "events_with_programme_evidence": programme_source_evidence["programme_evidence_events"], "events_without_programme_evidence": no_programme_evidence, "programme_source_ambiguous_events": programme_source_evidence["programme_source_ambiguous_events"], "detail_parse_review": detail_parse_review, "programme_items": len(programme_rows), "work_candidates": len(programme_rows), "single_work_events": sum(len(event.programme) == 1 for event in events), "multi_work_events": sum(len(event.programme) > 1 for event in events), "work_parse_review": programme_source_evidence["programme_source_ambiguous_events"], "composer_candidates": sum(bool(item.get("composer_candidate")) for item in programme_rows), "composer_evidence_present": sum(bool(item.get("composer")) for item in programme_rows), "composer_missing_source_evidence": sum(not item.get("composer") for item in programme_rows), "composer_parse_review": sum(not item.get("composer") for item in programme_rows), "credits_total": len(credits), "raw_credit_rows": credit_staging.get("counts", {}).get("credits_raw", len(credits)), "credit_parse_success": credit_staging.get("counts", {}).get("credits_safe", 0), "credit_parse_review": credit_staging.get("counts", {}).get("credits_review", 0), "artist_candidates": len([c for c in credits if c.get("artist_name")]), "character_candidates": len([c for c in credits if c.get("character")]), "composer_resolution": composer_counts, "work_resolution": work_counts}, "composer_trace": _composer_trace(resolution_rows, snapshot), "credit_resolution": credit_staging, "gates": gates, "passed": all(gates.values())}
     summary["hermes_fallback"] = hermes_fallback
+    summary["content_recovery"] = recovery_result["report"]
     summary["source_strategy"] = source_audit["source_strategy"]
     summary.update({
         "productions_discovered": source_audit["productions_discovered"],
@@ -328,7 +453,74 @@ def run_pipeline(*, venue: str, season: str, mode: str = "dry-run", scope: str =
     summary["catalog_status_counts"] = {"source_pass": int(source_capability == "SOURCE_PASS"), "source_partial": int(source_capability == "SOURCE_PARTIAL"), "source_blocked": int(source_capability in {"SOURCE_BLOCKED", "SOURCE_UNSUPPORTED"}), "review": len(review_rows), "safe": safe_programme_relationships}
     summary["staging_classification_counts"] = {"safe_programme_relationships": safe_programme_relationships, "review_programme_relationships": review_programme_relationships, "safe_event_credits": credit_staging.get("counts", {}).get("credits_safe", 0), "review_event_credits": credit_staging.get("counts", {}).get("credits_review", 0)}
     summary["invariants"] = {name: value for name, value in gates.items() if name in {"events_gt_zero", "traceable_urls", "acceptable_time_completeness", "duplicate_event_identity", "duplicate_performance_slot", "null_timed_shadow_duplicates", "ambiguous_same_day_occurrence", "year_inferred_without_production_evidence", "year_unverified", "untraceable", "production_writes", "source_fetch_failures", "global_master_loaded"}}
+    source_observed = bool(
+        source_audit["listing_pages_requested"]
+        or source_audit["listing_pages_successful"]
+        or source_audit["source_pages"]
+        or source_audit["detail_pages_requested"]
+    )
+    if scope == "production-gaps" and events:
+        source_observed = True
+    source_family = (build_capability_profile(
+        venue_id=venue,
+        season=season,
+        config=config,
+        observations={
+            "events": len(events),
+            "source_discovery": "PASS" if source_observed else "NOT_ATTEMPTED",
+            "detail_source": source_audit.get("source_pages"),
+            "discovered_mode": config.get("discovered_mode"),
+            "endpoint": config.get("discovered_endpoint"),
+        },
+    )["occurrence_source"]["family"])
+    capability_profile = build_capability_profile(
+        venue_id=venue,
+        season=season,
+        config=config,
+        observations={
+            "events": len(events),
+            "source_discovery": "PASS" if source_observed else "NOT_ATTEMPTED",
+            "detail_source": source_audit.get("source_pages"),
+            "discovered_mode": config.get("discovered_mode"),
+            "endpoint": config.get("discovered_endpoint"),
+            "programme": len(programme_rows),
+            "credits": len(credits),
+        },
+    )
+    acquisition_status = classify_acquisition_status(
+        events=len(events),
+        source_capability=source_capability,
+        source_discovered=source_observed,
+        deterministic_attempted=source_observed,
+        useful_occurrence_source=source_capability != "SOURCE_BLOCKED",
+        pdf_known=bool(config.get("official_pdf_sources")),
+    )
+    enrichment_status = classify_enrichment_status(programme=len(programme_rows), credits=len(credits))
+    canonical_status = classify_canonical_status(
+        global_master="PASS" if global_master_loaded else "FAIL",
+        review_items=len(review_rows),
+        passed=bool(summary["passed"]),
+    )
+    summary.update({
+        "source_family": source_family,
+        "source_capability_profile": capability_profile,
+        "acquisition_status": acquisition_status,
+        "enrichment_status": enrichment_status,
+        "canonical_status": canonical_status,
+    })
+    if scope == "production-gaps":
+        summary["production_completeness"] = {
+            "mode": "existing-production-content-gaps",
+            "events_considered": len(events),
+            "programme_recovered": recovery_result["report"].get("programme_recovered", 0),
+            "credits_recovered": recovery_result["report"].get("credits_recovered", 0),
+            "targeted_discovery_attempted": recovery_result["report"].get("discovery_attempted", 0),
+            "targeted_discovery_passed": recovery_result["report"].get("discovery_passed", 0),
+            "targeted_discovery_failed": recovery_result["report"].get("discovery_failed", 0),
+        }
+    write_capability_profile(output_dir, capability_profile)
     payloads = {"source_audit": source_audit, "raw": [event.raw | {"event_key": event.event_key, "source_url": event.source_url} for event in events], "normalized": [event.to_dict() for event in events], "snapshot": snapshot.__dict__, "resolution_staging": resolution_rows, "credit_resolution_staging": credit_staging, "final_staging": {"events": [event.to_dict() for event in events], "resolution": resolution_rows, "review": review_rows, "credit_resolution": credit_staging, "artists": credit_staging.get("safe_new_artists", []), "event_credits": credit_staging.get("safe_event_credits", []), "writes": 0}, "summary": summary}
+    declare_product_contract(payloads["summary"], declared_version=product_contract_version)
     output_dir.mkdir(parents=True, exist_ok=True)
     for stage in STAGES:
         (output_dir / f"{stage}.json").write_text(json.dumps(payloads[stage], ensure_ascii=False, indent=2, default=str), encoding="utf-8")

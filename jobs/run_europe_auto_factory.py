@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from season_ingestion.factory import build_batch_summary, run_target
 from season_ingestion.incremental import load_source_state, save_source_state, state_key
-from season_ingestion.venue_targets import load_targets
+from season_ingestion.venue_targets import TARGETS_PATH, load_targets
 from jobs.hermes_acquire_worker import WorkerError, timeout_config_from_env
 
 
@@ -159,9 +159,13 @@ def _reusable_result(resume_root: Path | None, venue_id: str, output_root: Path)
     except (FileNotFoundError, OSError, ValueError, TypeError):
         return None
     destination = output_root / venue_id
-    if destination.exists():
-        shutil.rmtree(destination)
-    shutil.copytree(source_dir, destination)
+    # The operational factory may resume in place.  In that case the prior
+    # artifact directory is already the destination; do not delete it before
+    # attempting to copy it onto itself.
+    if source_dir.resolve() != destination.resolve():
+        if destination.exists():
+            shutil.rmtree(destination)
+        shutil.copytree(source_dir, destination)
     status["reused"] = True
     _atomic_json_write(destination / "onboarding_status.json", status)
     return status
@@ -210,8 +214,11 @@ def _run_venue_child(target: dict, output_root: Path, facts_path: Path | None, t
     return result
 
 
-def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path, hermes_source_facts_root: Path | None = None, resume_root: Path | None = None) -> dict:
-    targets = load_targets(season=season, scope=scope, selected=selected)
+def run_factory(*, season: str, scope: str, selected: list[str], output_root: Path, state_path: Path, hermes_source_facts_root: Path | None = None, resume_root: Path | None = None, target_path: Path | None = None) -> dict:
+    target_kwargs = {"season": season, "scope": scope, "selected": selected}
+    if target_path is not None:
+        target_kwargs["path"] = target_path
+    targets = load_targets(**target_kwargs)
     if scope == "selected" and len(targets) != len(selected):
         raise RuntimeError(f"selected venue count mismatch: expected {len(selected)}, loaded {len(targets)}")
     venue_timeout = _venue_timeout_seconds()
@@ -288,6 +295,7 @@ def main() -> int:
     parser.add_argument("--state-path", type=Path, default=Path(".factory-state/source-hashes.json"))
     parser.add_argument("--hermes-source-facts-root", type=Path)
     parser.add_argument("--resume-root", type=Path)
+    parser.add_argument("--target-file", type=Path)
     args = parser.parse_args()
     selected = [value.strip() for value in args.venue_ids.split(",") if value.strip()]
     batch = run_factory(
@@ -298,6 +306,7 @@ def main() -> int:
         state_path=args.state_path,
         hermes_source_facts_root=args.hermes_source_facts_root,
         resume_root=args.resume_root,
+        target_path=args.target_file,
     )
     print(json.dumps(batch, ensure_ascii=False))
     return 0 if batch.get("batch_status") != "FAILED" else 2
