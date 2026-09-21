@@ -1,7 +1,7 @@
 {
   "schema_version": "frontend-freeze-v1",
   "restored_frontend_commit": "b2123ce993f6a0ee6bad5ab590b2c649fee2a1bf",
-  "frozen_frontend_commit": "1d7591dba2df428152b35ccb4a0b98e65c934efa",
+  "frozen_frontend_commit": "2e657340b10ed2292a770014ed18f297aafad0b0",
   "accepted_files": [
     "schedule.html",
     "schedule-editor.html",
