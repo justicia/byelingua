@@ -17,7 +17,7 @@ from .global_master import normalize_identity
 
 
 ALLOWED_FACT_STATUSES = frozenset({"ALREADY_EXISTS", "WRITTEN", "RESOLUTION_FAILED", "UNMATCHED_EVENT"})
-FROZEN_FRONTEND_COMMIT = "2e657340b10ed2292a770014ed18f297aafad0b0"
+FROZEN_FRONTEND_COMMIT = "6afae3f40b04f12f225c700c654624fb314fafa8"
 
 
 class HardFreezeViolation(RuntimeError):
