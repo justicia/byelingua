@@ -1,0 +1,73 @@
+/* Schedule Builder page-only palette. */
+:root {
+  --ink: #2D2D2D !important;
+  --muted: #555555 !important;
+  --paper: #FAF9F6 !important;
+  --card: #FAF9F6 !important;
+  --forest: #800020 !important;
+  --soft: #F3D97F !important;
+  --line: rgba(212, 175, 55, 0.2) !important;
+}
+
+body {
+  background: #FAF9F6;
+  color: #2D2D2D;
+}
+
+a,
+.schedule-brand,
+.schedule-page-title,
+.event h3,
+.schedule-item h3,
+.team-group h5 {
+  color: #800020;
+}
+
+.language-switch button {
+  border-color: rgba(212, 175, 55, 0.2);
+  color: #800020;
+}
+
+.language-switch button.active,
+button {
+  background: #800020;
+  border-color: #800020;
+  color: #FAF9F6;
+}
+
+.field input,
+.field select,
+.location-search,
+.choice {
+  border-color: rgba(212, 175, 55, 0.2);
+  background: #FAF9F6;
+  color: #2D2D2D;
+}
+
+.choice.selected,
+.location-suggestion:hover,
+.location-suggestion:focus-visible {
+  border-color: #800020;
+  background: #F3D97F;
+}
+
+button.secondary {
+  background: transparent;
+  border-color: rgba(212, 175, 55, 0.2);
+  color: #800020;
+}
+
+.error {
+  color: #5E0017;
+}
+
+.location-suggestions,
+#artistSidePanel {
+  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.2) !important;
+}
+
+.location-suggestion {
+  background: transparent;
+  color: #2D2D2D;
+  border-bottom-color: rgba(212, 175, 55, 0.2);
+}
