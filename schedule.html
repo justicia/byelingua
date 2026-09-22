@@ -6,7 +6,8 @@
 </style><style>.cast-list{list-style:none;padding:0!important}.cast-list li{display:grid;grid-template-columns:minmax(0,42%) minmax(0,58%);align-items:start;gap:16px;padding:7px 0;border-bottom:1px solid var(--line)}.cast-list li>span,.cast-list li>strong{min-width:0;text-align:left}.cast-list .artist-link{display:inline;text-align:left;white-space:normal;overflow-wrap:break-word;line-height:1.35}.team-group h5{margin:10px 0 2px;font-size:13px;color:var(--forest)}.team-group ul{margin-top:0}@media(max-width:420px){.cast-list li{grid-template-columns:1fr;gap:2px}}</style></head><body><main>
 <div class="top"><div><a href="/">← Byelingua</a><h1>Performance Search</h1><div class="hint">Find performances by date, city, venue, organization, artist or work.</div></div><button id="generate" disabled>Generate Schedule</button></div>
 <section class="panel"><div class="filters"><div class="field"><label for="dateFrom">Date from</label><input id="dateFrom" type="date" required></div><div class="field"><label for="dateTo">Date to</label><input id="dateTo" type="date" required></div><div class="field wide"><label for="eventType">Event type（可选）</label><select id="eventType"><option value="">全部类型</option></select></div></div>
-<div class="field" style="margin-top:13px"><label for="locationSearch">地点搜索</label><input id="locationSearch" class="location-search" placeholder="例如 Vienna、Paris、Berlin"></div>
+<div class="field" style="margin-top:13px"><label for="locationSearch">Location / City</label><input id="locationSearch" class="location-search" placeholder="例如 Vienna、Paris、Berlin"></div>
+<div class="field venue-search-field"><label for="venueSearch">Venue / Hall</label><input id="venueSearch" class="location-search" autocomplete="off" placeholder="例如 Wigmore Hall、Royal Opera House"></div>
 <div><strong>城市</strong><div id="cities" class="choices"></div></div><div style="margin-top:10px"><strong>机构</strong><div id="organizations" class="choices"></div></div><div style="margin-top:10px"><strong>场馆</strong><div id="venues" class="choices"></div></div>
 <div id="filterStatus" class="status"></div><button id="search">Search events</button></section>
 <section class="panel"><h2 style="margin:0">Character Search</h2><div class="hint">按作品角色检索，不会把不同作品的同名角色合并。</div><div class="field" style="margin-top:10px"><label for="characterQuery">Character</label><input id="characterQuery" autocomplete="off" placeholder="例如 Rosina、Kundry、Wotan、Figaro"></div><div id="characterSuggestions" class="choices"></div><div id="characterStatus" class="status"></div><div id="characterEvents"></div></section>
@@ -578,5 +579,121 @@ renderPresentationCredits=function(event){
   const baseScheduleRender=renderLiveSchedule;
   renderLiveSchedule=function(){baseScheduleRender();mobileTrigger.classList.toggle('has-selection',selected_event_ids.size>0)};
   renderLiveSchedule();
+})();
+</script><script>
+// Final approved Schedule Builder composition: Discovery | Event Detail | My Schedule.
+(function(){
+  const layout=document.querySelector('.phase1-three-column');
+  const discovery=layout?.querySelector(':scope > .schedule-left-column');
+  const detail=document.getElementById('persistentEventDetail');
+  const schedule=document.getElementById('liveSchedulePanel');
+  const eventsPanel=document.getElementById('events')?.closest('.panel');
+  if(!layout||!discovery||!detail||!schedule||!eventsPanel)return;
+
+  const resultColumn=eventsPanel.parentElement;
+  if(resultColumn?.classList.contains('phase1-results-column')){
+    discovery.appendChild(eventsPanel);
+    resultColumn.remove();
+  }
+  layout.append(discovery,detail,schedule);
+  layout.classList.add('schedule-final-freeze');
+
+  // Keep venue search independent from city/institution selection and let the
+  // accent-insensitive server-side matcher handle direct hall-name searches.
+  const baseApi=api;
+  api=async payload=>baseApi({...payload,venue_query:document.getElementById('venueSearch')?.value.trim()||payload.venue_query||''});
+  const venueInput=document.getElementById('venueSearch');
+  const venueField=venueInput?.closest('.field');
+  if(venueInput&&venueField){
+    const suggestions=document.createElement('div');
+    suggestions.className='venue-suggestions location-suggestions';
+    suggestions.hidden=true;
+    venueField.appendChild(suggestions);
+    const normalize=value=>String(value||'').normalize('NFKD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+    const close=()=>{suggestions.hidden=true;suggestions.innerHTML=''};
+    const render=()=>{
+      const query=normalize(venueInput.value);
+      if(query.length<2){close();return}
+      const matches=(options.venues||[]).filter(row=>normalize(row.name).includes(query)||normalize(row.organization).includes(query)).slice(0,8);
+      suggestions.innerHTML=matches.map((row,index)=>`<button type="button" class="location-suggestion" data-venue-index="${index}"><span>${escapeHtml(row.name||'')}</span><small>${escapeHtml([row.organization,row.city].filter(Boolean).join(' · '))}</small></button>`).join('');
+      suggestions.hidden=!matches.length;
+      suggestions.querySelectorAll('[data-venue-index]').forEach((button,index)=>button.onclick=()=>{venueInput.value=matches[index].name||'';close()});
+    };
+    venueInput.addEventListener('input',render);
+    venueInput.addEventListener('focus',render);
+    document.addEventListener('click',event=>{if(!venueField.contains(event.target))close()});
+  }
+
+  const intentText=value=>window.ByelinguaI18n?.formatIntent?window.ByelinguaI18n.formatIntent(value,window.ByelinguaI18n.getUiLanguage()==='en'?'en':'zh'):{interested:'Interested',optional:'Optional',must_go:'Must attend'}[value]||value;
+  const intentState=value=>value==='maybe_go'?'optional':value;
+  renderIntentControls=function(eventId){
+    const header=detail.querySelector('.persistent-event-header');
+    if(!header)return;
+    let box=header.querySelector('[data-intent-controls]');
+    if(!box){box=document.createElement('div');box.dataset.intentControls='';box.className='intent-controls';header.querySelector(':scope > div')?.appendChild(box)}
+    const state=intentState(eventIntent(eventId));
+    box.innerHTML=['interested','optional','must_go'].map(value=>`<button type="button" class="secondary ${state===value?'active':''}" data-intent="${value}">${intentText(value)}</button>`).join('');
+    box.querySelectorAll('[data-intent]').forEach(button=>button.onclick=()=>{setEventIntent(eventId,button.dataset.intent);renderIntentControls(eventId);renderDateTimeline()});
+  };
+  timelineEventCard=function(event){
+    const state=intentState(eventIntent(event.event_id)),title=event.title||event.work_title||'Untitled event';
+    return `<article class="live-schedule-card timeline-event intent-${state}"><strong>${escapeHtml(title)}</strong>${timelineTimeLabel(event)?`<div>${escapeHtml(timelineTimeLabel(event))}</div>`:''}<div>${escapeHtml(formatEventLocation(event))}</div><select class="timeline-intent" data-timeline-intent="${escapeHtml(event.event_id)}" aria-label="Performance intention">${['interested','optional','must_go'].map(value=>`<option value="${value}" ${state===value?'selected':''}>${intentText(value)}</option>`).join('')}</select><div class="live-schedule-actions"><button type="button" class="secondary" data-live-detail="${escapeHtml(event.event_id)}">View details</button><button type="button" data-live-remove="${escapeHtml(event.event_id)}">Remove</button></div></article>`;
+  };
+  renderDateTimeline();
+
+  const finalStyle=document.createElement('style');
+  finalStyle.textContent=`
+    :root{--intent-interested:#214d3a;--intent-optional:#a87522;--intent-must:#7b2938}
+    body:has(.schedule-final-freeze) main{width:min(1440px,calc(100% - 32px))}
+    body:has(.schedule-final-freeze) .byelingua-compact-brand{font-family:Georgia,'Times New Roman',serif!important}
+    body:has(.schedule-final-freeze) h1,body:has(.schedule-final-freeze) h2,body:has(.schedule-final-freeze) h3,body:has(.schedule-final-freeze) h4,body:has(.schedule-final-freeze) h5,body:has(.schedule-final-freeze) h6{font-family:Georgia,'Times New Roman',serif!important}
+    .schedule-final-freeze{width:100%;grid-template-columns:minmax(410px,1.45fr) minmax(330px,1fr) minmax(320px,.95fr);gap:18px;align-items:start}
+    .schedule-final-freeze>.schedule-left-column{grid-column:1;grid-row:1;min-width:0;max-height:calc(100dvh - var(--byelingua-header-height,64px) - 28px);overflow-y:auto;position:sticky;top:calc(var(--byelingua-header-height,64px) + 14px);padding:16px 18px;background:var(--paper);border:1px solid var(--line);border-radius:var(--radius-md)}
+    .schedule-final-freeze>.persistent-event-pane{grid-column:2;grid-row:1;min-width:0;position:sticky;top:calc(var(--byelingua-header-height,64px) + 14px);height:calc(100dvh - var(--byelingua-header-height,64px) - 28px);max-height:none;display:flex;flex-direction:column;overflow:hidden}
+    .schedule-final-freeze>.my-schedule-panel{grid-column:3;grid-row:1;min-width:0;max-width:none;width:auto;position:sticky;top:calc(var(--byelingua-header-height,64px) + 14px);height:calc(100dvh - var(--byelingua-header-height,64px) - 28px);background:#fbf7ed;border-color:#d8cdbb}
+    .schedule-final-freeze>.schedule-left-column>#events.panel{padding:0;margin:0;background:transparent;border:0;border-radius:0}
+    .schedule-final-freeze>.schedule-left-column>#events.panel>.toolbar{padding:4px 0 12px;border-bottom:2px solid var(--forest)}
+    .schedule-final-freeze>.schedule-left-column .event{grid-template-columns:18px minmax(132px,150px) minmax(0,1fr) auto;gap:14px;align-items:center;margin:0;padding:15px 0;border:0;border-bottom:1px solid var(--line);border-radius:0;background:transparent}
+    .schedule-final-freeze>.schedule-left-column .event:last-of-type{border-bottom:0}
+    .schedule-final-freeze>.schedule-left-column .event .date{color:var(--forest);font-size:12px;line-height:1.4;white-space:nowrap}
+    .schedule-final-freeze>.schedule-left-column .event .event-title-link{width:100%;font-size:16px;line-height:1.3;white-space:normal;text-align:left;background:transparent;color:var(--forest);border:0;padding:0;min-height:0}
+    .schedule-final-freeze>.schedule-left-column .event .meta{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;line-height:1.4}
+    .schedule-final-freeze>.schedule-left-column .event .actions{justify-self:end;justify-content:flex-end;align-items:center}
+    .schedule-final-freeze>.schedule-left-column .venue-search-field{position:relative}
+    .schedule-final-freeze .venue-suggestions{z-index:20}
+    .persistent-event-header{position:sticky;top:0;z-index:3;background:var(--card);border-bottom:1px solid var(--line)}
+    .persistent-event-header .detail-close{flex:0 0 auto}
+    .persistent-event-body{min-height:0;overflow-y:auto;flex:1}
+    .intent-controls button.active[data-intent="interested"]{background:var(--intent-interested);border-color:var(--intent-interested);color:#fff}
+    .intent-controls button.active[data-intent="optional"]{background:var(--intent-optional);border-color:var(--intent-optional);color:#fff}
+    .intent-controls button.active[data-intent="must_go"]{background:var(--intent-must);border-color:var(--intent-must);color:#fff}
+    .timeline-event.intent-interested{border-inline-start:3px solid var(--intent-interested)}
+    .timeline-event.intent-optional{border-inline-start:3px solid var(--intent-optional)}
+    .timeline-event.intent-must_go{border-inline-start:3px solid var(--intent-must)}
+    .timeline-event.intent-interested .timeline-intent{border-color:var(--intent-interested)}
+    .timeline-event.intent-optional .timeline-intent{border-color:var(--intent-optional)}
+    .timeline-event.intent-must_go .timeline-intent{border-color:var(--intent-must)}
+    .my-schedule-header{background:#fbf7ed}
+    @media(max-width:1199px) and (min-width:769px){
+      body:has(.schedule-final-freeze) main{width:min(1120px,calc(100% - 28px))}
+      .schedule-final-freeze{grid-template-columns:minmax(320px,1.15fr) minmax(320px,.95fr)}
+      .schedule-final-freeze>.schedule-left-column{grid-column:1;grid-row:1}
+      .schedule-final-freeze>.my-schedule-panel{grid-column:2;grid-row:1}
+      .schedule-final-freeze>.persistent-event-pane{position:fixed;top:var(--byelingua-header-height,64px);right:0;bottom:0;width:min(440px,calc(100vw - 24px));height:auto;z-index:110;box-shadow:-10px 0 35px #10201833}
+    }
+    @media(max-width:768px){
+      body:has(.schedule-final-freeze) main{width:100%}
+      .schedule-final-freeze{display:block!important;width:100%}
+      .schedule-final-freeze>.schedule-left-column{position:static;max-height:none;overflow:visible;border:0;border-radius:0;padding:12px;background:var(--paper)}
+      .schedule-final-freeze>.persistent-event-pane{position:fixed;top:var(--byelingua-header-height,64px);right:0;bottom:0;left:0;width:100vw;height:auto;z-index:110;border-radius:0}
+      .schedule-final-freeze>.my-schedule-panel{display:none;position:fixed;top:var(--byelingua-header-height,64px);right:0;bottom:0;left:0;width:100vw;height:auto;z-index:109;border-radius:0}
+      .schedule-final-freeze>.my-schedule-panel.mobile-open{display:flex}
+      .schedule-final-freeze>.schedule-left-column .event{grid-template-columns:18px minmax(0,1fr);gap:10px;padding:14px 0}
+      .schedule-final-freeze>.schedule-left-column .event>.date{grid-column:2;grid-row:1}
+      .schedule-final-freeze>.schedule-left-column .event>div:not(.date):not(.actions){grid-column:2;grid-row:2}
+      .schedule-final-freeze>.schedule-left-column .event>.actions{grid-column:2;grid-row:3;justify-self:start}
+    }
+  `;
+  document.head.appendChild(finalStyle);
 })();
 </script></body></html>
