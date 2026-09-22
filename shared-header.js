@@ -161,7 +161,7 @@
     (legacy||document.body.firstElementChild)?.before(target);
     if(legacy)legacy.hidden=true;
     window.ByelinguaHeader.mount(target);
-    if(!['/','/index.html'].includes(location.pathname)&&!document.body.dataset.preserveLegacyReading)enhanceReadingHome();
+    enhanceReadingHome();
   }
   function enhanceReadingHome(){
     const main=document.querySelector('main.layout,.layout > main');
