@@ -2343,6 +2343,7 @@ def schedule_events(data):
     cities = {str(x).lower() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).lower() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
+    venue_query = str(data.get("venue_query") or "").strip()
     filtered = []
     for row in rows:
         row["source_title"] = row.get("title")
@@ -2362,6 +2363,8 @@ def schedule_events(data):
         if organizations and str(row.get("organization", "")).lower() not in organizations:
             continue
         if venues and str(row.get("venue", "")).lower() not in venues:
+            continue
+        if venue_query and search_match_score(venue_query, row.get("venue")) < 0.60:
             continue
         keyword = data.get("work_query") or data.get("query")
         if keyword and not artist_match and search_match_score(keyword, row.get("title"), row.get("work_title"), row.get("composer"), row.get("organization"), row.get("venue"), row.get("artist_name")) < 0.60:
@@ -2771,6 +2774,7 @@ def character_events(data):
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     organizations = {str(x).casefold() for x in data.get("organizations", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    venue_query = str(data.get("venue_query") or "").strip()
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     result = []
     for row in rows:
@@ -2781,6 +2785,8 @@ def character_events(data):
         if organizations and str(row.get("organization", "")).casefold() not in organizations:
             continue
         if venues and str(row.get("venue", "")).casefold() not in venues:
+            continue
+        if venue_query and search_match_score(venue_query, row.get("venue")) < 0.60:
             continue
         result.append(row)
     print(f"[character_events] character_id={character_id} events={len(result)}")
@@ -2829,6 +2835,7 @@ def artist_events(data):
         by_event.setdefault(str(row.get("event_id")), []).append(row)
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    venue_query = str(data.get("venue_query") or "").strip()
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
     result = []
     for event in catalog:
@@ -2837,6 +2844,8 @@ def artist_events(data):
         if cities and _schedule_city(event.get("venue") or event.get("organization")).casefold() not in cities:
             continue
         if venues and str(event.get("venue", "")).casefold() not in venues:
+            continue
+        if venue_query and search_match_score(venue_query, event.get("venue")) < 0.60:
             continue
         internal_id = next((key for key, value in event_key_by_internal_id.items() if value == str(event.get("event_id"))), "")
         credit = next((row for row in by_event.get(internal_id, []) if row.get("artist_id") == artist_id), by_event.get(internal_id, [{}])[0])
@@ -2995,8 +3004,9 @@ def work_events(data):
     )
     cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
     venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
+    venue_query = str(data.get("venue_query") or "").strip()
     event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
-    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _schedule_city(row.get("venue") or row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues)]}
+    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _schedule_city(row.get("venue") or row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues) and (not venue_query or search_match_score(venue_query, row.get("venue")) >= 0.60)]}
 
 
 def combined_entity_events(data):
