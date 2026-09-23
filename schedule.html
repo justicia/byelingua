@@ -378,7 +378,7 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
   setLabel('label[for="artistCondition"]',text('artist'));
   setLabel('#search',text('searchEvents'));
   setLabel('#entitySearchButton',text('search'));
-  setLabel('#events h2',text('events'));
+  setText(document.getElementById('events')?.closest('.panel')?.querySelector('h2'),text('events'));
   const locationInput=document.getElementById('locationSearch');
   if(locationInput)locationInput.placeholder=text('locationPlaceholder');
   const workInput=document.getElementById('workCondition');if(workInput)workInput.placeholder=text('workPlaceholder');
