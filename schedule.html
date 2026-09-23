@@ -354,6 +354,7 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
     .persistent-event-pane a,.persistent-event-pane .artist-link{ text-decoration:none }
     .source-link{ text-decoration:none }
     @media(max-width:760px){
+      .schedule-builder-layout .persistent-event-pane[hidden]~.my-schedule-panel.mobile-open{display:flex!important}
       .schedule-builder-layout .my-schedule-panel.mobile-open{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px)!important;bottom:auto!important;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)!important}
       .schedule-builder-layout.has-event-pane .persistent-event-pane{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px)!important;bottom:auto!important;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)!important}
       html body #artistSidePanel.open{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px)!important;bottom:auto!important;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)!important}
