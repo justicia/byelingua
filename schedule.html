@@ -346,6 +346,7 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
   stickyStyle.textContent=`
     :root{--schedule-header-height:52px}
     html{scroll-padding-top:calc(var(--schedule-header-height) + 12px)}
+    @media(min-width:761px){.schedule-builder-layout{min-height:calc(100vh - var(--schedule-header-height) + 24px)}}
     .schedule-builder-layout .my-schedule-panel{top:calc(var(--schedule-header-height) + 12px);height:calc(100vh - var(--schedule-header-height) - 24px)}
     .schedule-builder-layout.has-event-pane .persistent-event-pane{top:calc(var(--schedule-header-height) + 12px);height:calc(100vh - var(--schedule-header-height) - 24px)}
     #artistSidePanel{top:calc(var(--schedule-header-height) + 12px);height:calc(100vh - var(--schedule-header-height) - 24px)}
