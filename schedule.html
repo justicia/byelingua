@@ -209,7 +209,7 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   if(scheduleGenerate){document.body.appendChild(scheduleGenerate);scheduleGenerate.hidden=true;scheduleGenerate.style.display='none'}
   top.classList.remove('top');
   ByelinguaHeader.mount(top);
-  const heading=document.createElement('div');heading.className='schedule-page-heading';heading.innerHTML='<h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div>';top.after(heading);
+  const heading=document.createElement('div');heading.className='schedule-page-heading';heading.innerHTML='<h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div>';window.schedulePageHeading=heading;top.after(heading);
   const languageButtons=[...top.querySelectorAll('[data-shared-language]')];
   if(scheduleGenerate&&typeof generate==='function')scheduleGenerate.onclick=generate;
   let uiLanguage=localStorage.getItem('byelinguaUiLanguage')||'zh';
@@ -314,4 +314,147 @@ document.addEventListener('click',event=>{if(event.target.closest('.entity-condi
 </script><script>
 // Event Detail credit classification is owned by the shared global renderer.
 renderPresentationCredits=function(event){return window.ByelinguaCredits.render(event,{language:window.ByelinguaI18n.getUiLanguage(),escape:escapeHtml,artistRenderer:row=>artistLink(row)})};
+</script><script>
+// Schedule-only layout repair, sticky offsets, and bilingual UI copy.
+(function(){
+  const translations={
+    en:{scheduleBuilder:'Schedule Builder',description:'Choose dates, locations, and performances to build your personal schedule.',dateFrom:'Date from',dateTo:'Date to',eventType:'Event type (optional)',allTypes:'All types',locationSearch:'Location search',locationPlaceholder:'e.g. France, Austria, Paris, Vienna',cities:'Cities',organizations:'Organizations',venues:'Venues',workComposer:'Work / Composer',workPlaceholder:'Work / Composer',character:'Character',characterPlaceholder:'Character',artist:'Artist',artistPlaceholder:'Artist',search:'Search',searchEvents:'Search events',events:'Events',details:'Details',eventDetail:'Event Detail',mySchedule:'My Schedule',interested:'Interested',optional:'Optional',mustAttend:'Must attend',viewOriginal:'View original',programme:'Programme',performers:'Performers / Soloists',ensembles:'Ensembles',artisticTeam:'Artistic Team',conductor:'Conductor',addToSchedule:'Add to schedule',addedRemove:'Added / Remove',generateSchedule:'Generate Schedule',userCenter:'User Center',signOut:'Sign out',loading:'Loading…',loadingDetails:'Loading event details…',searching:'Searching…',noProgramme:'No programme listed.',noResults:'No events match your filters.',noLocationMatches:'No matching locations.',chooseDateLocation:'Choose a date and location first.',eventsAdded:'No events added yet.',closeSchedule:'Close schedule',closeDetail:'Close event detail',country:'Country',city:'City',relatedPerformances:'Related Performances',news:'News',noRelatedPerformances:'No related performances.',noRelatedNews:'No related news.',previous:'Previous',next:'Next',untitledEvent:'Untitled event',added:'Added',remove:'Remove',foundEvents:'Found {count}',noCast:'No performers or soloists listed.',noTeam:'No artistic team listed.',noEnsembles:'No ensembles listed.'},
+    zh:{scheduleBuilder:'行程规划',description:'选择日期、地点和演出，生成个人演出时间表。',dateFrom:'开始日期',dateTo:'结束日期',eventType:'演出类型（可选）',allTypes:'全部类型',locationSearch:'地点搜索',locationPlaceholder:'例如 France、Austria、Paris、Vienna',cities:'城市',organizations:'机构',venues:'场馆',workComposer:'作品／作曲家',workPlaceholder:'作品／作曲家',character:'角色',characterPlaceholder:'角色',artist:'艺术家',artistPlaceholder:'艺术家',search:'搜索',searchEvents:'搜索演出',events:'演出',details:'详情',eventDetail:'演出详情',mySchedule:'我的行程',interested:'感兴趣',optional:'可选',mustAttend:'必看',viewOriginal:'查看原文',programme:'曲目',performers:'表演者／独奏者',ensembles:'乐团',artisticTeam:'艺术团队',conductor:'指挥',addToSchedule:'加入清单',addedRemove:'已加入 / 移除',generateSchedule:'生成行程',userCenter:'用户中心',signOut:'退出登录',loading:'正在加载…',loadingDetails:'正在加载演出详情…',searching:'正在查询…',noProgramme:'暂无曲目信息。',noResults:'没有符合条件的演出。',noLocationMatches:'暂无匹配地点',chooseDateLocation:'请先选择日期和地点。',eventsAdded:'还没有加入演出。',closeSchedule:'关闭行程',closeDetail:'关闭演出详情',country:'国家',city:'城市',relatedPerformances:'相关演出',news:'新闻',noRelatedPerformances:'暂无相关演出',noRelatedNews:'暂无相关新闻',previous:'上一页',next:'下一页',untitledEvent:'未命名演出',added:'已加入',remove:'移除',foundEvents:'找到 {count}',noCast:'暂无表演者／独奏者信息',noTeam:'暂无艺术团队信息',noEnsembles:'暂无乐团信息'}
+  };
+  const english=()=>window.ByelinguaI18n.getUiLanguage()==='en';
+  const text=key=>translations[english()?'en':'zh'][key]||key;
+  const eventCount=count=>window.ByelinguaI18n.formatEventCount(count,english()?'en':'zh');
+  const isSelected=id=>selectionStore?.isSelected?selectionStore.isSelected(id):selected_event_ids.has(String(id));
+  const setText=(node,value)=>{if(node&&node.textContent!==value)node.textContent=value};
+
+  // Fold the entity filters into the existing location filter card after Venues.
+  const filterPanel=document.getElementById('dateFrom')?.closest('.panel');
+  const searchPanel=document.getElementById('entitySearchButton')?.closest('.panel');
+  const venueGroup=filterPanel?.querySelector('#venues')?.parentElement;
+  const conditionGrid=searchPanel?.querySelector('.entity-condition-grid');
+  if(filterPanel&&searchPanel&&venueGroup&&conditionGrid){
+    const conditionStatus=searchPanel.querySelector('#entityConditionStatus');
+    const conditionButton=searchPanel.querySelector('#entitySearchButton');
+    venueGroup.after(conditionGrid,conditionStatus,conditionButton);
+    searchPanel.remove();
+    const workspace=filterPanel.closest('.schedule-search-workspace');
+    if(workspace)workspace.replaceWith(filterPanel);
+  }
+
+  // Every Schedule sticky/fixed panel starts below the measured compact Header.
+  const stickyStyle=document.createElement('style');
+  stickyStyle.textContent=`
+    :root{--schedule-header-height:52px}
+    html{scroll-padding-top:calc(var(--schedule-header-height) + 12px)}
+    .schedule-builder-layout .my-schedule-panel{top:calc(var(--schedule-header-height) + 12px);height:calc(100vh - var(--schedule-header-height) - 24px)}
+    .schedule-builder-layout.has-event-pane .persistent-event-pane{top:calc(var(--schedule-header-height) + 12px);height:calc(100vh - var(--schedule-header-height) - 24px)}
+    #artistSidePanel{top:calc(var(--schedule-header-height) + 12px);height:calc(100vh - var(--schedule-header-height) - 24px)}
+    .schedule-reopen-trigger{top:calc(var(--schedule-header-height) + 12px)}
+    .persistent-event-pane a,.persistent-event-pane .artist-link{ text-decoration:none }
+    .source-link{ text-decoration:none }
+    @media(max-width:760px){
+      .schedule-builder-layout .my-schedule-panel{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px);bottom:auto;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)}
+      .schedule-builder-layout.has-event-pane .persistent-event-pane{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px);bottom:auto;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)}
+      #artistSidePanel{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px);height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)}
+    }
+  `;
+  document.head.appendChild(stickyStyle);
+  const header=document.querySelector('.byelingua-compact-header');
+  const updateHeaderOffset=()=>document.documentElement.style.setProperty('--schedule-header-height',`${Math.ceil(header?.getBoundingClientRect().height||52)}px`);
+  updateHeaderOffset();
+  if(header&&window.ResizeObserver)new ResizeObserver(updateHeaderOffset).observe(header);
+  window.addEventListener('resize',updateHeaderOffset,{passive:true});
+
+  // Keep UI labels local while leaving all event/source data untouched.
+  document.title=`Byelingua · ${text('scheduleBuilder')}`;
+  if(window.schedulePageHeading){setText(window.schedulePageHeading.querySelector('.schedule-page-title'),text('scheduleBuilder'));setText(window.schedulePageHeading.querySelector('.schedule-page-description'),text('description'))}
+  const setLabel=(selector,label)=>setText(document.querySelector(selector),label);
+  setLabel('label[for="dateFrom"]',text('dateFrom'));
+  setLabel('label[for="dateTo"]',text('dateTo'));
+  setLabel('label[for="eventType"]',text('eventType'));
+  setLabel('label[for="locationSearch"]',text('locationSearch'));
+  setLabel('label[for="workCondition"]',text('workComposer'));
+  setLabel('label[for="characterCondition"]',text('character'));
+  setLabel('label[for="artistCondition"]',text('artist'));
+  setLabel('#search',text('searchEvents'));
+  setLabel('#entitySearchButton',text('search'));
+  setLabel('#events h2',text('events'));
+  const locationInput=document.getElementById('locationSearch');
+  if(locationInput)locationInput.placeholder=text('locationPlaceholder');
+  const workInput=document.getElementById('workCondition');if(workInput)workInput.placeholder=text('workPlaceholder');
+  const characterInput=document.getElementById('characterCondition');if(characterInput)characterInput.placeholder=text('characterPlaceholder');
+  const artistInput=document.getElementById('artistCondition');if(artistInput)artistInput.placeholder=text('artistPlaceholder');
+  [['#cities', 'cities'],['#organizations','organizations'],['#venues','venues']].forEach(([selector,key])=>setText(document.querySelector(`${selector}`)?.parentElement?.querySelector('strong'),text(key)));
+  const eventTypeSelect=document.getElementById('eventType');
+  if(eventTypeSelect){[...eventTypeSelect.options].forEach(option=>{if(!option.value)setText(option,text('allTypes'));else setText(option,window.ByelinguaI18n.formatEventType(option.value,english()?'en':'zh'))})}
+  const authDialog=document.getElementById('scheduleAuthDialog');
+  if(authDialog){setText(authDialog.querySelector('.modal-head h2'),english()?'Sign in':'用户登录');setText(authDialog.querySelector('.modal-head .hint'),english()?'Use the same account as the Byelingua home page.':'使用与 Byelingua 首页相同的账户。');setText(authDialog.querySelector('label[for="scheduleAuthEmail"]'),english()?'Email':'邮箱');setText(authDialog.querySelector('label[for="scheduleAuthPassword"]'),english()?'Password':'密码');setText(authDialog.querySelector('#scheduleAuthSubmit'),english()?'Sign in':'登录');authDialog.querySelector('.close')?.setAttribute('aria-label',english()?'Close':'关闭')}
+
+  // The shared role formatter supplies English labels; translate those labels locally.
+  const baseRoleFormatter=formattedRole;
+  formattedRole=function(role){const label=baseRoleFormatter(role);if(english())return label;return ({'Conductor':'指挥','Stage Director':'舞台导演','Set Design':'舞美设计','Sets':'布景','Costumes':'服装','Lighting':'灯光','Chorus Master':'合唱团指挥','Choreography':'编舞','Dramaturgy':'戏剧构作','Artist':'艺术家'})[label]||label};
+
+  // Detail-only presentation: localized labels, colon-separated programme, plain links.
+  formatEventDate=function(event){const date=window.ByelinguaI18n.formatDate(event?.date,english()?'en':'zh'),time=String(event?.start_time||'').slice(0,5);return `${date}${time?` · ${time}`:''}`};
+  formatPerformanceDate=function(date,startTime){const label=window.ByelinguaI18n.formatDate(date,english()?'en':'zh'),time=String(startTime||'').slice(0,5);return `${label}${time?` · ${time}`:''}`};
+  renderProgramme=function(programme){return [...(programme||[])].sort((a,b)=>(a.order||0)-(b.order||0)).map(item=>`<li>${item.composer?`${escapeHtml(item.composer)}: `:''}${escapeHtml(item.title||'')}</li>`).join('')||`<li class="hint">${text('noProgramme')}</li>`};
+  const baseCreditRenderer=renderPresentationCredits;
+  renderPresentationCredits=function(event){let markup=baseCreditRenderer(event);const labels=english()?[[/<h4>Cast<\/h4>/g,'<h4>Performers / Soloists</h4>']]:[[/<h4>演员<\/h4>/g,`<h4>${text('performers')}</h4>`],[/<h4>主创团队<\/h4>/g,`<h4>${text('artisticTeam')}</h4>`],[/<h4>乐团与合唱团<\/h4>/g,`<h4>${text('ensembles')}</h4>`]];for(const [pattern,replacement] of labels)markup=markup.replace(pattern,replacement);if(!english())markup=markup.replace(/暂无演员信息/g,text('noCast')).replace(/暂无主创团队信息/g,text('noTeam')).replace(/暂无乐团与合唱团信息/g,text('noEnsembles'));return markup};
+  eventSourceLink=function(event){const url=event.source_url||event.detail_url||'';return url?`<a class="source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${text('viewOriginal')}</a>`:''};
+  const basePersistentDetail=renderPersistentEvent;
+  renderPersistentEvent=async function(id){const request=basePersistentDetail(id);if(eventPane){setText(eventPane.querySelector('[data-persistent-title]'),text('loading'));setText(eventPane.querySelector('[data-persistent-body]'),text('loadingDetails'))}await request;if(eventPane){const title=eventPane.querySelector('[data-persistent-title]');if(title?.textContent==='Event Detail')setText(title,text('eventDetail'));const button=eventPane.querySelector('[data-persistent-toggle]');if(button)setText(button,isSelected(id)?text('addedRemove'):text('addToSchedule'));eventPane.querySelector('[data-close-persistent]')?.setAttribute('aria-label',text('closeDetail'))}};
+  showDetail=renderPersistentEvent;
+
+  function localizedIntent(value){const code=value==='maybe_go'?'optional':value;return code==='must_go'?text('mustAttend'):code==='optional'?text('optional'):text('interested')}
+  statusLabel=localizedIntent;
+  scheduleIntentLabel=localizedIntent;
+  renderDateTimeline=function(){
+    const rows=selectedScheduleRecords(),list=rightColumn.querySelector('.my-schedule-list'),count=eventCount(rows.length);
+    setText(rightColumn.querySelector('.my-schedule-header h2'),text('mySchedule'));
+    setText(rightColumn.querySelector('[data-live-count]'),count);
+    setText(mobileTrigger,`${text('mySchedule')} · ${count}`);
+    const parts=[];let previous=null,previousYear=null;
+    rows.forEach((event,index)=>{const year=timelineYear(event);if(index&&previous){parts.push(`<div class="timeline-gap-row"><div></div><div class="timeline-axis"><span class="timeline-connector"></span></div><div class="timeline-gap-label">${escapeHtml(timelineDayGap(previous,event))}${timelineLocationTransition(previous,event)?`<small>${escapeHtml(timelineLocationTransition(previous,event))}</small>`:''}</div></div>`)}if(year!==previousYear)parts.push(`<div class="timeline-year">${escapeHtml(year||'—')}</div>`);const state=eventIntent(event.event_id),title=event.title||event.work_title||text('untitledEvent');parts.push(`<div class="timeline-row"><div class="timeline-date">${escapeHtml(timelineShortDate(event))}</div><div class="timeline-axis"><span class="timeline-node"></span></div><div><article class="live-schedule-card timeline-event ${state==='must_go'?'must-go':''}"><strong>${escapeHtml(title)}</strong>${timelineTimeLabel(event)?`<div>${escapeHtml(timelineTimeLabel(event))}</div>`:''}<div>${escapeHtml(formatEventLocation(event))}</div><select class="timeline-intent" data-timeline-intent="${escapeHtml(event.event_id)}" aria-label="${english()?'Performance intention':'演出意向'}">${['interested','optional','must_go'].map(value=>`<option value="${value}" ${state===value?'selected':''}>${localizedIntent(value)}</option>`).join('')}</select><div class="live-schedule-actions"><button type="button" class="secondary" data-live-detail="${escapeHtml(event.event_id)}">${text('details')}</button><button type="button" data-live-remove="${escapeHtml(event.event_id)}">${text('remove')}</button></div></article></div></div>`);previous=event;previousYear=year});
+    list.innerHTML=parts.join('')||`<div class="hint">${text('eventsAdded')}</div>`;
+    list.querySelectorAll('[data-live-detail]').forEach(button=>button.onclick=()=>showDetail(button.dataset.liveDetail));
+    list.querySelectorAll('[data-live-remove]').forEach(button=>button.onclick=()=>selectionStore.removeEvent(button.dataset.liveRemove));
+    list.querySelectorAll('[data-timeline-intent]').forEach(select=>select.onchange=()=>setEventIntent(select.dataset.timelineIntent,select.value));
+  };
+  renderLiveSchedule=renderDateTimeline;
+
+  syncConditionChip=function(type){const input=document.getElementById(`${type}Condition`),state=conditionState[type],box=input?.parentElement;if(!input||!box)return;box.querySelector('.selected-chip')?.remove();input.hidden=!!state;if(!state)return;const chip=document.createElement('span');chip.className='selected-chip';chip.innerHTML=`${escapeHtml(state.label)}${state.type==='composer'?` · ${english()?'Composer':'作曲家'}`:''} <button type="button" aria-label="${english()?'Remove selected filter':'移除已选筛选条件'}">×</button>`;chip.querySelector('button').onclick=()=>{conditionState[type]=null;input.value='';input.hidden=false;conditionChoices[type]=[];renderConditionChoices(type)};box.insertBefore(chip,input)};
+
+  function localizeGeneratedUi(){
+    document.querySelectorAll('#events [data-detail],#characterEvents [data-detail],#artistEvents [data-detail],#entityEvents [data-detail],[data-performance-detail],[data-live-detail]').forEach(button=>setText(button,text('details')));
+    document.querySelectorAll('[data-add],[data-performance-toggle],[data-detail-toggle],[data-persistent-toggle]').forEach(button=>setText(button,isSelected(button.dataset.add||button.dataset.performanceToggle||button.dataset.detailToggle||button.dataset.persistentToggle)?text('addedRemove'):text('addToSchedule')));
+    document.querySelectorAll('[data-live-remove]').forEach(button=>setText(button,text('remove')));
+    document.querySelectorAll('[data-generate-live]').forEach(button=>setText(button,text('generateSchedule')));
+    const count=eventCount(selected_event_ids.size);
+    if(document.getElementById('selectedHint'))setText(document.getElementById('selectedHint'),english()?`${count} selected`:`已选 ${count}`);
+    document.querySelector('[data-close-schedule]')?.setAttribute('aria-label',text('closeSchedule'));
+    document.querySelector('[data-close-persistent]')?.setAttribute('aria-label',text('closeDetail'));
+    const hint=document.getElementById('resultHint');if(hint){if(hint.textContent.includes('请先选择'))setText(hint,text('chooseDateLocation'));const found=hint.textContent.match(/找到\s*(\d+)\s*场演出/);if(found)setText(hint,english()?eventCount(found[1]):`${found[1]} 场演出`)}
+    const empty=document.querySelector('#events > .status');if(empty&&/没有符合条件|No events match/.test(empty.textContent))setText(empty,text('noResults'));
+    document.querySelectorAll('#filterStatus,#entityConditionStatus,#characterStatus,#artistStatus').forEach(node=>{if(node.textContent==='正在查询…')setText(node,text('searching'));else if(node.textContent==='正在加载演出详情…')setText(node,text('loadingDetails'))});
+    document.querySelectorAll('#cities .hint,#organizations .hint,#venues .hint').forEach(node=>{if(node.textContent==='暂无匹配地点')setText(node,text('noLocationMatches'))});
+    document.querySelectorAll('#locationSuggestions small').forEach(node=>{if(node.textContent==='Country')setText(node,text('country'));else if(node.textContent==='City')setText(node,text('city'))});
+    document.querySelectorAll('#eventPagination [data-page-prev]').forEach(button=>setText(button,text('previous')));
+    document.querySelectorAll('#eventPagination [data-page-next]').forEach(button=>setText(button,text('next')));
+    document.querySelectorAll('#eventType option').forEach(option=>{if(!option.value)setText(option,text('allTypes'));else setText(option,window.ByelinguaI18n.formatEventType(option.value,english()?'en':'zh'))});
+    document.querySelectorAll('#events .event').forEach(card=>{const id=card.querySelector('[data-event-title]')?.dataset.eventTitle||card.querySelector('[data-event]')?.dataset.event;const event=events.find(item=>String(item.event_id)===String(id));if(event){const meta=card.querySelector('.meta');if(meta)setText(meta,[formatEventLocation(event),window.ByelinguaI18n.formatEventType(event.event_type,english()?'en':'zh')].filter(Boolean).join(' · '));const checkbox=card.querySelector('[data-event]');checkbox?.setAttribute('aria-label',`${english()?'Select':'选择'} ${event.title||''}`)}});
+    if(artistDrawer){setText(artistDrawer.querySelector('.artist-drawer-close'),english()?'Close':'关闭');artistDrawer.querySelectorAll('.artist-drawer-body h3').forEach((heading,index)=>setText(heading,index===0?text('relatedPerformances'):text('news')));artistDrawer.querySelectorAll('[data-artist-page="prev"]').forEach(button=>setText(button,text('previous')));artistDrawer.querySelectorAll('[data-artist-page="next"]').forEach(button=>setText(button,text('next')));artistDrawer.querySelectorAll('.artist-performances .hint').forEach(node=>{if(node.textContent==='正在加载演出…')setText(node,text('loading'));else if(node.textContent==='暂无相关演出')setText(node,text('noRelatedPerformances'))});artistDrawer.querySelectorAll('.artist-news .hint').forEach(node=>{if(node.textContent==='正在加载新闻…')setText(node,english()?'Loading news…':'正在加载新闻…');else if(node.textContent==='暂无相关新闻')setText(node,text('noRelatedNews'))});const name=artistDrawer.querySelector('.artist-drawer-name');if(name?.textContent==='Loading…')setText(name,text('loading'))}
+    const account=document.querySelector('[data-shared-account]'),signOut=document.querySelector('[data-shared-signout]');if(account&&['User Center','用户中心'].includes(account.textContent))setText(account,text('userCenter'));if(signOut&&['Sign out','退出登录'].includes(signOut.textContent))setText(signOut,text('signOut'));
+  }
+
+  const baseScheduleRenderEvents=renderEvents;
+  renderEvents=function(...args){const result=baseScheduleRenderEvents.apply(this,args);localizeGeneratedUi();return result};
+  const baseScheduleChoices=renderChoices;
+  renderChoices=function(...args){const result=baseScheduleChoices.apply(this,args);localizeGeneratedUi();return result};
+  if(typeof openArtistPanel==='function'){const baseOpenArtistPanel=openArtistPanel;openArtistPanel=async function(id){const result=baseOpenArtistPanel(id);localizeGeneratedUi();await result;localizeGeneratedUi()}}
+  const conditionStatus=document.getElementById('entityConditionStatus');
+  const generatedUiObserver=new MutationObserver(localizeGeneratedUi);
+  [document.getElementById('events'),document.getElementById('resultHint'),document.getElementById('filterStatus'),document.getElementById('locationSuggestions'),document.getElementById('eventPagination'),eventTypeSelect,conditionStatus,rightColumn,eventPane,artistDrawer].filter(Boolean).forEach(node=>generatedUiObserver.observe(node,{childList:true,subtree:true,characterData:true}));
+  const headerObserver=new MutationObserver(localizeGeneratedUi);if(header)headerObserver.observe(header,{childList:true,subtree:true,characterData:true});
+  localizeGeneratedUi();renderEvents();renderLiveSchedule();
+})();
 </script></body></html>
