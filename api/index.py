@@ -2270,103 +2270,227 @@ def schedule_options():
     }
 
 
+class ScheduleSearchValidationError(ValueError):
+    def __init__(self, error_code):
+        self.error_code = error_code
+        super().__init__(error_code)
+
+
+SCHEDULE_SEARCH_LIMIT = 1000
+SCHEDULE_COUNTRY_NAMES = {
+    "at": ("Austria", "Österreich", "奥地利"), "be": ("Belgium", "Belgique", "比利时"),
+    "ch": ("Switzerland", "Schweiz", "Suisse", "瑞士"), "cz": ("Czechia", "Czech Republic", "捷克"),
+    "de": ("Germany", "Deutschland", "德国"), "dk": ("Denmark", "Danmark", "丹麦"),
+    "es": ("Spain", "España", "西班牙"), "fi": ("Finland", "Suomi", "芬兰"),
+    "fr": ("France", "法国"), "gb": ("United Kingdom", "UK", "Britain", "英国"),
+    "gr": ("Greece", "Ελλάδα", "希腊"), "hu": ("Hungary", "Magyarország", "匈牙利"),
+    "ie": ("Ireland", "Éire", "爱尔兰"), "it": ("Italy", "Italia", "意大利"),
+    "nl": ("Netherlands", "Nederland", "Holland", "荷兰"), "no": ("Norway", "Norge", "挪威"),
+    "pl": ("Poland", "Polska", "波兰"), "pt": ("Portugal", "葡萄牙"),
+    "se": ("Sweden", "Sverige", "瑞典"), "us": ("United States", "USA", "美国"),
+}
+
+
+def _schedule_values(data, key):
+    value = data.get(key, [])
+    if isinstance(value, str):
+        value = [value]
+    return [str(item).strip() for item in (value or []) if str(item).strip()]
+
+
+def _schedule_date_filters(data):
+    date_from = str(data.get("date_from") or "").strip()
+    date_to = str(data.get("date_to") or "").strip()
+    for value in (date_from, date_to):
+        if value:
+            try:
+                datetime.strptime(value, "%Y-%m-%d")
+            except ValueError as error:
+                raise ValueError("SCHEDULE_SEARCH_INVALID_DATE") from error
+    if date_from and date_to and date_from > date_to:
+        raise ValueError("SCHEDULE_SEARCH_INVALID_DATE_RANGE")
+    conditions = []
+    if date_from:
+        conditions.append(f"date.gte.{date_from}")
+    if date_to:
+        conditions.append(f"date.lte.{date_to}")
+    return date_from, date_to, f"({','.join(conditions)})" if conditions else ""
+
+
+def _schedule_has_search_condition(data):
+    scalar_keys = (
+        "date_from", "date_to", "event_type", "location_query", "city_query", "country_city_query",
+        "venue_query", "work_id", "work_query", "composer_query", "character_id", "character_query",
+        "artist_id", "artist_query", "query",
+    )
+    if any(str(data.get(key) or "").strip() for key in scalar_keys):
+        return True
+    return any(_schedule_values(data, key) for key in ("cities", "organizations", "venues", "work_ids")) or bool(data.get("organization"))
+
+
+def _schedule_country_terms(country_code):
+    raw = str(country_code or "").strip()
+    key = normalize_search_key(raw)
+    for code, names in SCHEDULE_COUNTRY_NAMES.items():
+        if key == code or key in {normalize_search_key(name) for name in names}:
+            return [raw, code, *names, COUNTRIES.get(code, "")]
+    return [raw]
+
+
+def _schedule_venue_directory():
+    rows = _cached_supabase_get("/rest/v1/venues", {"select": "name,city,country_code", "limit": "5000"}, ttl=600)
+    city_by_venue, country_by_venue = {}, {}
+    for row in rows:
+        key = str(row.get("name") or "").strip().casefold()
+        if not key:
+            continue
+        if row.get("city"):
+            city_by_venue[key] = row.get("city")
+        if row.get("country_code"):
+            country_by_venue[key] = row.get("country_code")
+    return city_by_venue, country_by_venue
+
+
+def _schedule_normalized_text(value):
+    return normalize_search_key(value).replace("œ", "oe").replace("æ", "ae")
+
+
+def _schedule_text_matches(query, *values):
+    needle = _schedule_normalized_text(query)
+    if not needle:
+        return True
+    for value in values:
+        haystack = _schedule_normalized_text(value)
+        if needle in haystack or search_match_score(query, value) >= 0.60:
+            return True
+    return False
+
+
+def _schedule_event_matches(row, data, city_by_venue=None, country_by_venue=None, room_by_key=None):
+    date_from, date_to, _ = _schedule_date_filters(data)
+    event_date = str(row.get("date") or "")[:10]
+    if date_from and (not event_date or event_date < date_from):
+        return False
+    if date_to and (not event_date or event_date > date_to):
+        return False
+    event_type = data.get("event_type")
+    if event_type and canonical_event_type(row.get("event_type")) != canonical_event_type(event_type):
+        return False
+    venue = str(row.get("venue") or "")
+    city = _event_city(row, city_by_venue or {})
+    if city:
+        row["city"] = city
+    cities = {value.casefold() for value in _schedule_values(data, "cities")}
+    organizations = {value.casefold() for value in _schedule_values(data, "organizations")}
+    if not organizations and data.get("organization"):
+        organizations.add(str(data["organization"]).strip().casefold())
+    venues = {value.casefold() for value in _schedule_values(data, "venues")}
+    if cities and city.casefold() not in cities:
+        return False
+    if organizations and str(row.get("organization") or "").casefold() not in organizations:
+        return False
+    if venues and venue.casefold() not in venues:
+        return False
+    location_query = (data.get("location_query") or data.get("city_query") or data.get("country_city_query") or "").strip()
+    if location_query:
+        country_code = row.get("country_code") or (country_by_venue or {}).get(venue.casefold(), "")
+        if not _schedule_text_matches(location_query, city, *_schedule_country_terms(country_code)):
+            return False
+    venue_query = str(data.get("venue_query") or "").strip()
+    if venue_query:
+        room = (room_by_key or {}).get(str(row.get("event_id") or ""), row.get("room"))
+        if not _schedule_text_matches(venue_query, venue, room):
+            return False
+    work_query = str(data.get("work_query") or "").strip()
+    if work_query and search_match_score(work_query, row.get("title"), row.get("work_title"), row.get("composer")) < 0.60:
+        return False
+    return True
+
+
+def _schedule_date_params(params, date_filter):
+    if date_filter:
+        params["and"] = date_filter
+    return params
+
+
+def _schedule_rooms_by_key(rows):
+    event_keys = list(dict.fromkeys(str(row.get("event_id")) for row in rows if row.get("event_id")))
+    rooms = {}
+    for start in range(0, len(event_keys), 50):
+        room_rows = event_rows_for_keys(event_keys[start:start + 50], "event_key,room", batch_size=50, ttl=300)
+        rooms.update({str(row.get("event_key")): row.get("room") for row in room_rows if row.get("event_key")})
+    return rooms
+
+
 def schedule_events(data):
-    date_from = str(data.get("date_from") or "")
-    date_to = str(data.get("date_to") or "")
-    if not date_from or not date_to:
-        raise ValueError("请选择开始和结束日期。")
-    if date_from > date_to:
-        raise ValueError("开始日期不能晚于结束日期。")
-    params = {
-        "select": EVENT_CATALOG_LIST_SELECT,
-        "order": "date.asc,start_time.asc", "limit": "1000",
-    }
-    raw_organizations = data.get("organizations", [])
+    _, _, date_filter = _schedule_date_filters(data)
+    if not _schedule_has_search_condition(data):
+        raise ScheduleSearchValidationError("SCHEDULE_SEARCH_CONDITION_REQUIRED")
+    params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
+    raw_organizations = _schedule_values(data, "organizations")
     if not raw_organizations and data.get("organization"):
-        raw_organizations = [data.get("organization")]
-    if isinstance(raw_organizations, str):
-        raw_organizations = [raw_organizations]
-    requested_organizations = [str(x).strip() for x in raw_organizations if str(x).strip()]
-    if len(requested_organizations) == 1:
-        params["organization"] = f"eq.{requested_organizations[0]}"
-    elif requested_organizations:
-        params["organization"] = "in.(" + ",".join(requested_organizations) + ")"
-    # One `and` expression keeps both date bounds in a single query parameter.
-    params["and"] = f"(date.gte.{date_from},date.lte.{date_to})"
-    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
+        raw_organizations = [str(data.get("organization")).strip()]
+    if len(raw_organizations) == 1:
+        params["organization"] = f"eq.{raw_organizations[0]}"
+    elif raw_organizations:
+        params["organization"] = "in.(" + ",".join(raw_organizations) + ")"
+    _schedule_date_params(params, date_filter)
     rows = _cached_supabase_get("/rest/v1/event_catalog_v1", params, ttl=60)
     artist_event_keys = None
-    artist_query = str(data.get("artist_query") or data.get("query") or "").strip()
-    if artist_query:
-        all_artists = _cached_supabase_get("/rest/v1/artists", {"select":"id,artist_name", "limit":"5000"}, ttl=600)
-        artists = [row for row in all_artists if search_match_score(artist_query, row.get("artist_name")) >= 0.60]
+    artist_query = str(data.get("artist_query") or "").strip()
+    legacy_query = str(data.get("query") or "").strip()
+    if artist_query or legacy_query:
+        query = artist_query or legacy_query
+        all_artists = _cached_supabase_get("/rest/v1/artists", {"select": "id,artist_name", "limit": "5000"}, ttl=600)
+        artists = [row for row in all_artists if search_match_score(query, row.get("artist_name")) >= 0.60]
         artist_ids = [str(row.get("id")) for row in artists if row.get("id")]
         if artist_ids:
-            credits = _cached_supabase_get("/rest/v1/event_credits", {"artist_id":f"in.({','.join(artist_ids)})", "select":"event_id", "limit":"5000"}, ttl=60)
+            credits = _cached_supabase_get("/rest/v1/event_credits", {"artist_id": f"in.({','.join(artist_ids[:20])})", "select": "event_id", "limit": "5000"}, ttl=60)
             internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
-            event_rows = []
-            for start in range(0, len(internal_ids), 100):
-                batch = internal_ids[start:start + 100]
-                event_rows.extend(_cached_supabase_get("/rest/v1/events", {"id":f"in.({','.join(batch)})", "select":"id,event_key", "limit":"100"}, ttl=300))
-            artist_event_keys = {str(row.get("event_key")) for row in event_rows if row.get("event_key")}
+            event_rows = event_keys_for_internal_ids(internal_ids)
+            artist_event_keys = {str(key) for key in event_rows.values() if key}
         else:
             artist_event_keys = set()
-    venue_cities = {}
-    if any(not (row.get("city") or row.get("location_city")) for row in rows):
-        venue_rows = _cached_supabase_get("/rest/v1/venues", {"select": "name,city", "limit": "5000"}, ttl=600)
-        venue_cities = {
-            str(venue.get("name") or "").strip().casefold(): venue.get("city")
-            for venue in venue_rows if venue.get("name") and venue.get("city")
-        }
-    cities = {str(x).lower() for x in data.get("cities", []) if str(x).strip()}
-    organizations = {str(x).lower() for x in data.get("organizations", []) if str(x).strip()}
-    venues = {str(x).lower() for x in data.get("venues", []) if str(x).strip()}
-    filtered = []
-    for row in rows:
+    location_query = str(data.get("location_query") or data.get("city_query") or data.get("country_city_query") or "").strip()
+    if location_query or any(not (row.get("city") or row.get("location_city")) for row in rows):
+        city_by_venue, country_by_venue = _schedule_venue_directory()
+    else:
+        city_by_venue, country_by_venue = {}, {}
+    room_by_key = _schedule_rooms_by_key(rows) if str(data.get("venue_query") or "").strip() else {}
+    results = []
+    for source_row in rows:
+        row = dict(source_row)
         row["source_title"] = row.get("title")
         row["title"] = canonical_work_title(row.get("work_title") or row.get("title"))
         if row.get("work_title"):
             row["work_title"] = canonical_work_title(row.get("work_title"))
         row["raw_event_type"] = row.get("event_type")
         row["event_type"] = canonical_event_type(row.get("event_type"))
-        if event_type and row["event_type"] != event_type:
+        event_key = str(row.get("event_id") or "")
+        artist_match = artist_event_keys is not None and event_key in artist_event_keys
+        if artist_query and not artist_match:
             continue
-        city = _event_city(row, venue_cities)
-        if city:
-            row["city"] = city
-        artist_match = artist_event_keys is not None and str(row.get("event_id")) in artist_event_keys
-        if cities and city.casefold() not in cities:
+        work_query = str(data.get("work_query") or "").strip()
+        if work_query and search_match_score(work_query, row.get("title"), row.get("work_title"), row.get("composer")) < 0.60:
             continue
-        if organizations and str(row.get("organization", "")).lower() not in organizations:
+        if legacy_query and not artist_match and search_match_score(legacy_query, row.get("title"), row.get("work_title"), row.get("composer"), row.get("organization"), row.get("venue"), row.get("artist_name")) < 0.60:
             continue
-        if venues and str(row.get("venue", "")).lower() not in venues:
+        if not _schedule_event_matches(row, data, city_by_venue, country_by_venue, room_by_key):
             continue
-        keyword = data.get("work_query") or data.get("query")
-        if keyword and not artist_match and search_match_score(keyword, row.get("title"), row.get("work_title"), row.get("composer"), row.get("organization"), row.get("venue"), row.get("artist_name")) < 0.60:
-            continue
-        filtered.append(row)
-    unique = []
-    seen_event_keys = set()
-    for row in filtered:
+        results.append(row)
+    unique, seen_event_keys = [], set()
+    for row in results:
         event_key = str(row.get("event_id") or row.get("id") or "")
         if event_key and event_key in seen_event_keys:
             continue
         if event_key:
             seen_event_keys.add(event_key)
         unique.append(row)
-    # event_catalog_v1 exposes the canonical venue but not the occurrence room.
-    # Enrich only the final result set and keep each PostgREST URL small.  A
-    # single in.(...) query with hundreds of event keys can exceed proxy URL
-    # limits and surface to the browser as a generic network error.
-    rooms_by_key = {}
-    event_keys = [str(row.get("event_id")) for row in unique if row.get("event_id")]
-    for start in range(0, len(event_keys), 50):
-        key_batch = event_keys[start:start + 50]
-        room_rows = event_rows_for_keys(key_batch, "event_key,room", batch_size=50, ttl=300)
-        rooms_by_key.update({str(row.get("event_key")): row.get("room") for row in room_rows})
+    if not room_by_key:
+        room_by_key = _schedule_rooms_by_key(unique)
     for row in unique:
-        row["room"] = rooms_by_key.get(str(row.get("event_id")))
-    return {"events": unique}
+        row["room"] = room_by_key.get(str(row.get("event_id")), row.get("room"))
+    return {"events": unique[:SCHEDULE_SEARCH_LIMIT]}
 
 
 def schedule_event_detail(event_id):
@@ -2727,36 +2851,50 @@ def character_options(query=""):
 
 def character_events(data):
     character_id = str(data.get("character_id") or "").strip()
+    character_query = str(data.get("character_query") or "").strip()
     if character_id and not valid_uuid(character_id):
         raise ValueError("请选择有效的角色。")
-    if not character_id:
+    character_ids = [character_id] if character_id else []
+    if character_query and not character_ids:
+        characters = _cached_supabase_get("/rest/v1/work_characters", {"select": "id,canonical_name", "order": "canonical_name", "limit": "3000"}, ttl=600)
+        try:
+            aliases = _cached_supabase_get("/rest/v1/character_aliases", {"select": "character_id,alias", "limit": "10000"}, ttl=600)
+        except Exception:
+            aliases = []
+        aliases_by_id = {}
+        for alias in aliases:
+            aliases_by_id.setdefault(str(alias.get("character_id")), []).append(alias.get("alias"))
+        matches = [row for row in characters if search_match_score(character_query, row.get("canonical_name"), *aliases_by_id.get(str(row.get("id")), [])) >= 0.60]
+        character_ids = [str(row.get("id")) for row in matches[:25] if row.get("id")]
+    if not character_ids:
+        if character_query:
+            return {"events": []}
         raise ValueError("请选择一个角色。")
-    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
-    if not date_from or not date_to:
-        raise ValueError("请选择开始和结束日期。")
-    params = {
-        "select": EVENT_CHARACTER_CATALOG_SELECT, "character_id": f"eq.{character_id}",
-        "and": f"(date.gte.{date_from},date.lte.{date_to})",
-        "order": "date.asc,start_time.asc", "limit": "1000",
-    }
+    _, _, date_filter = _schedule_date_filters(data)
+    params = {"select": EVENT_CHARACTER_CATALOG_SELECT,
+              "character_id": f"eq.{character_ids[0]}" if len(character_ids) == 1 else f"in.({','.join(character_ids)})",
+              "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
+    _schedule_date_params(params, date_filter)
     rows = _cached_supabase_get("/rest/v1/event_character_catalog_v1", params, ttl=60)
-    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
-    organizations = {str(x).casefold() for x in data.get("organizations", []) if str(x).strip()}
-    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
-    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
+    if data.get("event_type") and rows:
+        event_keys = list(dict.fromkeys(str(row.get("event_id")) for row in rows if row.get("event_id")))
+        type_rows = _cached_supabase_get(
+            "/rest/v1/event_catalog_v1",
+            {"event_id": "in.(" + ",".join(event_keys[:SCHEDULE_SEARCH_LIMIT]) + ")", "select": "event_id,event_type", "limit": str(SCHEDULE_SEARCH_LIMIT)},
+            ttl=60,
+        )
+        event_types = {str(row.get("event_id")): row.get("event_type") for row in type_rows}
+        for row in rows:
+            row["event_type"] = event_types.get(str(row.get("event_id")))
+    city_by_venue, country_by_venue = _schedule_venue_directory()
+    room_by_key = _schedule_rooms_by_key(rows) if str(data.get("venue_query") or "").strip() else {}
     result = []
-    for row in rows:
-        if event_type and row.get("event_type") and canonical_event_type(row.get("event_type")) != event_type:
-            continue
-        if cities and _schedule_city(row.get("venue") or row.get("organization")).casefold() not in cities:
-            continue
-        if organizations and str(row.get("organization", "")).casefold() not in organizations:
-            continue
-        if venues and str(row.get("venue", "")).casefold() not in venues:
-            continue
-        result.append(row)
-    print(f"[character_events] character_id={character_id} events={len(result)}")
-    return {"events": result}
+    for source_row in rows:
+        row = dict(source_row)
+        if _schedule_event_matches(row, data, city_by_venue, country_by_venue, room_by_key):
+            result.append(row)
+    print(f"[character_events] character_ids={len(character_ids)} events={len(result)}")
+    return {"events": result[:SCHEDULE_SEARCH_LIMIT]}
 
 
 def artist_options(query=""):
@@ -2771,52 +2909,49 @@ def artist_options(query=""):
 
 def artist_events(data):
     artist_id = str(data.get("artist_id") or "").strip()
+    artist_query = str(data.get("artist_query") or "").strip()
     if artist_id and not valid_uuid(artist_id):
         raise ValueError("请选择有效的艺术家。")
-    if not artist_id:
+    artist_ids = [artist_id] if artist_id else []
+    if artist_query and not artist_ids:
+        artists = _cached_supabase_get("/rest/v1/artists", {"select": "id,artist_name", "order": "artist_name", "limit": "5000"}, ttl=600)
+        matched = [row for row in artists if search_match_score(artist_query, row.get("artist_name")) >= 0.60]
+        artist_ids = [str(row.get("id")) for row in matched[:20] if row.get("id")]
+    if not artist_ids:
+        if artist_query:
+            return {"events": []}
         raise ValueError("请选择一位艺术家。")
-    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
-    if not date_from or not date_to:
-        raise ValueError("请选择开始和结束日期。")
-    credits = _cached_supabase_get(
-        "/rest/v1/event_credits",
-        {"artist_id": f"eq.{artist_id}", "select": "event_id,artist_id,role,character,raw_character,artists(artist_name)", "limit": "5000"},
-        ttl=60,
-    )
+    credits = _cached_supabase_get("/rest/v1/event_credits", {"artist_id": f"eq.{artist_ids[0]}" if len(artist_ids) == 1 else f"in.({','.join(artist_ids)})", "select": "event_id,artist_id,role,character,raw_character,artists(artist_name)", "limit": "5000"}, ttl=60)
     event_ids = list(dict.fromkeys(str(row.get("event_id")) for row in credits if row.get("event_id")))
     if not event_ids:
         return {"events": []}
     event_key_by_internal_id = event_keys_for_internal_ids(event_ids)
-    event_keys = list(event_key_by_internal_id.values())
-    print(f"[artist_events] artist_id={artist_id} event_credits={len(credits)} event_ids={len(event_ids)} event_keys={len(event_keys)}")
-    catalog = _cached_supabase_get(
-        "/rest/v1/event_catalog_v1",
-        {"event_id": f"in.({','.join(event_keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": "1000"},
-        ttl=60,
-    )
-    by_event = {}
+    event_keys = list(dict.fromkeys(str(value) for value in event_key_by_internal_id.values() if value))
+    if not event_keys:
+        return {"events": []}
+    _, _, date_filter = _schedule_date_filters(data)
+    catalog_params = {"event_id": f"in.({','.join(event_keys[:5000])})", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
+    _schedule_date_params(catalog_params, date_filter)
+    catalog = _cached_supabase_get("/rest/v1/event_catalog_v1", catalog_params, ttl=60)
+    city_by_venue, country_by_venue = _schedule_venue_directory()
+    room_by_key = _schedule_rooms_by_key(catalog) if str(data.get("venue_query") or "").strip() else {}
+    credits_by_event = {}
     for row in credits:
-        by_event.setdefault(str(row.get("event_id")), []).append(row)
-    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
-    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
-    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
+        credits_by_event.setdefault(str(row.get("event_id")), []).append(row)
     result = []
-    for event in catalog:
-        if event_type and canonical_event_type(event.get("event_type")) != event_type:
+    for source_event in catalog:
+        event = dict(source_event)
+        if not _schedule_event_matches(event, data, city_by_venue, country_by_venue, room_by_key):
             continue
-        if cities and _schedule_city(event.get("venue") or event.get("organization")).casefold() not in cities:
-            continue
-        if venues and str(event.get("venue", "")).casefold() not in venues:
-            continue
-        internal_id = next((key for key, value in event_key_by_internal_id.items() if value == str(event.get("event_id"))), "")
-        credit = next((row for row in by_event.get(internal_id, []) if row.get("artist_id") == artist_id), by_event.get(internal_id, [{}])[0])
-        event = dict(event)
+        internal_id = next((key for key, value in event_key_by_internal_id.items() if str(value) == str(event.get("event_id"))), "")
+        event_credits = credits_by_event.get(internal_id, [])
+        credit = next((row for row in event_credits if str(row.get("artist_id")) in artist_ids), event_credits[0] if event_credits else {})
         event["role"] = credit.get("role")
         event["character"] = credit.get("character") or credit.get("raw_character")
         event["artist_name"] = (credit.get("artists") or {}).get("artist_name")
         event["event_type"] = canonical_event_type(event.get("event_type"))
         result.append(event)
-    return {"events": result}
+    return {"events": result[:SCHEDULE_SEARCH_LIMIT]}
 
 
 def artist_context(data):
@@ -2920,57 +3055,60 @@ def work_events(data):
     work_id = str(data.get("work_id") or "").strip()
     if work_id and not valid_uuid(work_id):
         work_id = ""
-    work_ids = [str(value) for value in data.get("work_ids", []) if value]
+    work_ids = _schedule_values(data, "work_ids")
     if not work_id and data.get("composer_query"):
         composer_query = str(data.get("composer_query") or "").strip()
         matches = _cached_supabase_get("/rest/v1/works", {"composer": f"ilike.*{composer_query}*", "select": "id", "limit": "2000"}, ttl=600)
         work_ids = [str(row.get("id")) for row in matches if row.get("id")]
     if not work_id and not work_ids:
         raise ValueError("请选择一部作品。")
-    date_from, date_to = str(data.get("date_from") or ""), str(data.get("date_to") or "")
-    programme_params = {"work_id": f"eq.{work_id}" if work_id else f"in.({','.join(work_ids)})", "select": "event_id", "limit": "5000"}
+    _, _, date_filter = _schedule_date_filters(data)
+    programme_params = {"work_id": f"eq.{work_id}" if work_id else "in.(" + ",".join(work_ids[:2000]) + ")", "select": "event_id", "limit": "5000"}
     rows = _cached_supabase_get("/rest/v1/event_programme", programme_params, ttl=60)
     internal_ids = list(dict.fromkeys(str(row.get("event_id")) for row in rows if row.get("event_id")))
-    if not internal_ids:
-        return {"events": []}
     event_rows = event_keys_for_internal_ids(internal_ids)
-    keys = list(event_rows.values())
+    keys = list(dict.fromkeys(str(value) for value in event_rows.values() if value))
     if not keys:
         return {"events": []}
-    payload = dict(data); payload["date_from"], payload["date_to"] = date_from, date_to
-    catalog = _cached_supabase_get("/rest/v1/event_catalog_v1", {"event_id": f"in.({','.join(keys)})", "and": f"(date.gte.{date_from},date.lte.{date_to})", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": "1000"}, ttl=60)
-    cities = {str(x).casefold() for x in data.get("cities", []) if str(x).strip()}
-    venues = {str(x).casefold() for x in data.get("venues", []) if str(x).strip()}
-    event_type = canonical_event_type(data.get("event_type")) if data.get("event_type") else ""
-    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in catalog if (not event_type or canonical_event_type(row.get("event_type")) == event_type) and (not cities or _schedule_city(row.get("venue") or row.get("organization")).casefold() in cities) and (not venues or str(row.get("venue", "")).casefold() in venues)]}
+    catalog_params = {"event_id": "in.(" + ",".join(keys[:5000]) + ")", "select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
+    _schedule_date_params(catalog_params, date_filter)
+    catalog = _cached_supabase_get("/rest/v1/event_catalog_v1", catalog_params, ttl=60)
+    city_by_venue, country_by_venue = _schedule_venue_directory()
+    room_by_key = _schedule_rooms_by_key(catalog) if str(data.get("venue_query") or "").strip() else {}
+    results = [dict(row) for row in catalog if _schedule_event_matches(dict(row), data, city_by_venue, country_by_venue, room_by_key)]
+    return {"events": [dict(row, event_type=canonical_event_type(row.get("event_type"))) for row in results[:SCHEDULE_SEARCH_LIMIT]]}
 
 
 def combined_entity_events(data):
     data = dict(data)
     raw_work_id = str(data.get("work_id") or "").strip()
     if raw_work_id and not valid_uuid(raw_work_id):
-        # Legacy clients sometimes sent the visible composer label in work_id.
-        # Never pass that value to a UUID comparison; treat it as free text.
         data.pop("work_id", None)
         data["composer_query"] = data.get("composer_query") or raw_work_id
     if data.get("character_id") and not valid_uuid(data.get("character_id")):
         data.pop("character_id", None)
     if data.get("artist_id") and not valid_uuid(data.get("artist_id")):
         data.pop("artist_id", None)
+    _schedule_date_filters(data)
+    if not _schedule_has_search_condition(data):
+        raise ScheduleSearchValidationError("SCHEDULE_SEARCH_CONDITION_REQUIRED")
     selected = []
     if data.get("work_id") or data.get("composer_query"):
         selected.append(work_events(data).get("events", []))
-    if data.get("character_id"):
+    elif str(data.get("work_query") or "").strip():
+        selected.append(schedule_events(data).get("events", []))
+    if data.get("character_id") or str(data.get("character_query") or "").strip():
         selected.append(character_events(data).get("events", []))
-    if data.get("artist_id"):
+    if data.get("artist_id") or str(data.get("artist_query") or "").strip():
         selected.append(artist_events(data).get("events", []))
     if not selected:
         return schedule_events(data)
-    common_ids = set(str(row.get("event_id")) for row in selected[0])
+    common_ids = {str(row.get("event_id")) for row in selected[0]}
     for rows in selected[1:]:
         common_ids &= {str(row.get("event_id")) for row in rows}
     by_id = {str(row.get("event_id")): row for row in selected[0]}
-    return {"events": [by_id[event_id] for event_id in sorted(common_ids, key=lambda key: (by_id[key].get("date") or "", by_id[key].get("start_time") or ""))]}
+    events = [by_id[key] for key in sorted(common_ids, key=lambda key: (by_id[key].get("date") or "", by_id[key].get("start_time") or ""))]
+    return {"events": events[:SCHEDULE_SEARCH_LIMIT]}
 
 
 class handler(BaseHTTPRequestHandler):
@@ -3102,5 +3240,6 @@ class handler(BaseHTTPRequestHandler):
         except ArticleTranslationNotAvailableError: self.send_json(404, {"error_code":"TRANSLATION_NOT_AVAILABLE", "error":"Translation not available."})
         except PermissionError as error: self.send_json(401, {"error_code":"permission_denied", "error":str(error)})
         except requests.RequestException as error: self.send_json(502, {"error_code":"network_error", "error":"Upstream request failed."})
+        except ScheduleSearchValidationError as error: self.send_json(400, {"error_code":error.error_code, "error":str(error)})
         except ValueError as error: self.send_json(400, {"error_code":"invalid_request", "error":str(error)})
         except Exception as error: self.send_json(500, {"error_code":"unknown_error", "error":str(error)})
