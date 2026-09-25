@@ -195,7 +195,7 @@ PUBLIC_ARTICLE_ARTIST_CONTEXT_SELECT = (
 )
 PUBLIC_ARTICLE_DETAIL_SELECT = ",".join(PUBLIC_ARTICLE_COLUMNS)
 EVENT_CATALOG_LIST_SELECT = (
-    "event_id,title,date,start_time,organization,venue,work_title,composer,"
+    "event_id,title,date,start_time,organization,venue,room,"
     "event_type,source_url,ticket_url"
 )
 EVENT_CHARACTER_CATALOG_SELECT = (
@@ -2270,12 +2270,6 @@ def schedule_options():
     }
 
 
-class ScheduleSearchValidationError(ValueError):
-    def __init__(self, error_code):
-        self.error_code = error_code
-        super().__init__(error_code)
-
-
 SCHEDULE_SEARCH_LIMIT = 1000
 SCHEDULE_COUNTRY_NAMES = {
     "at": ("Austria", "Österreich", "奥地利"), "be": ("Belgium", "Belgique", "比利时"),
@@ -2315,17 +2309,6 @@ def _schedule_date_filters(data):
     if date_to:
         conditions.append(f"date.lte.{date_to}")
     return date_from, date_to, f"({','.join(conditions)})" if conditions else ""
-
-
-def _schedule_has_search_condition(data):
-    scalar_keys = (
-        "date_from", "date_to", "event_type", "location_query", "city_query", "country_city_query",
-        "venue_query", "work_id", "work_query", "composer_query", "character_id", "character_query",
-        "artist_id", "artist_query", "query",
-    )
-    if any(str(data.get(key) or "").strip() for key in scalar_keys):
-        return True
-    return any(_schedule_values(data, key) for key in ("cities", "organizations", "venues", "work_ids")) or bool(data.get("organization"))
 
 
 def _schedule_country_terms(country_code):
@@ -2401,9 +2384,6 @@ def _schedule_event_matches(row, data, city_by_venue=None, country_by_venue=None
         room = (room_by_key or {}).get(str(row.get("event_id") or ""), row.get("room"))
         if not _schedule_text_matches(venue_query, venue, room):
             return False
-    work_query = str(data.get("work_query") or "").strip()
-    if work_query and search_match_score(work_query, row.get("title"), row.get("work_title"), row.get("composer")) < 0.60:
-        return False
     return True
 
 
@@ -2424,8 +2404,6 @@ def _schedule_rooms_by_key(rows):
 
 def schedule_events(data):
     _, _, date_filter = _schedule_date_filters(data)
-    if not _schedule_has_search_condition(data):
-        raise ScheduleSearchValidationError("SCHEDULE_SEARCH_CONDITION_REQUIRED")
     params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
     raw_organizations = _schedule_values(data, "organizations")
     if not raw_organizations and data.get("organization"):
@@ -2486,10 +2464,9 @@ def schedule_events(data):
         if event_key:
             seen_event_keys.add(event_key)
         unique.append(row)
-    if not room_by_key:
-        room_by_key = _schedule_rooms_by_key(unique)
-    for row in unique:
-        row["room"] = room_by_key.get(str(row.get("event_id")), row.get("room"))
+    if room_by_key:
+        for row in unique:
+            row["room"] = room_by_key.get(str(row.get("event_id")), row.get("room"))
     return {"events": unique[:SCHEDULE_SEARCH_LIMIT]}
 
 
@@ -3056,11 +3033,20 @@ def work_events(data):
     if work_id and not valid_uuid(work_id):
         work_id = ""
     work_ids = _schedule_values(data, "work_ids")
+    work_query = str(data.get("work_query") or "").strip()
     if not work_id and data.get("composer_query"):
         composer_query = str(data.get("composer_query") or "").strip()
         matches = _cached_supabase_get("/rest/v1/works", {"composer": f"ilike.*{composer_query}*", "select": "id", "limit": "2000"}, ttl=600)
         work_ids = [str(row.get("id")) for row in matches if row.get("id")]
+    elif not work_id and not work_ids and work_query:
+        works = _cached_supabase_get("/rest/v1/works", {"select": "id,title,composer", "limit": "5000"}, ttl=600)
+        work_ids = [
+            str(row.get("id")) for row in works
+            if row.get("id") and search_match_score(work_query, row.get("title"), row.get("composer")) >= 0.60
+        ]
     if not work_id and not work_ids:
+        if work_query or data.get("composer_query"):
+            return {"events": []}
         raise ValueError("请选择一部作品。")
     _, _, date_filter = _schedule_date_filters(data)
     programme_params = {"work_id": f"eq.{work_id}" if work_id else "in.(" + ",".join(work_ids[:2000]) + ")", "select": "event_id", "limit": "5000"}
@@ -3090,13 +3076,9 @@ def combined_entity_events(data):
     if data.get("artist_id") and not valid_uuid(data.get("artist_id")):
         data.pop("artist_id", None)
     _schedule_date_filters(data)
-    if not _schedule_has_search_condition(data):
-        raise ScheduleSearchValidationError("SCHEDULE_SEARCH_CONDITION_REQUIRED")
     selected = []
-    if data.get("work_id") or data.get("composer_query"):
+    if data.get("work_id") or data.get("composer_query") or str(data.get("work_query") or "").strip():
         selected.append(work_events(data).get("events", []))
-    elif str(data.get("work_query") or "").strip():
-        selected.append(schedule_events(data).get("events", []))
     if data.get("character_id") or str(data.get("character_query") or "").strip():
         selected.append(character_events(data).get("events", []))
     if data.get("artist_id") or str(data.get("artist_query") or "").strip():
@@ -3240,6 +3222,5 @@ class handler(BaseHTTPRequestHandler):
         except ArticleTranslationNotAvailableError: self.send_json(404, {"error_code":"TRANSLATION_NOT_AVAILABLE", "error":"Translation not available."})
         except PermissionError as error: self.send_json(401, {"error_code":"permission_denied", "error":str(error)})
         except requests.RequestException as error: self.send_json(502, {"error_code":"network_error", "error":"Upstream request failed."})
-        except ScheduleSearchValidationError as error: self.send_json(400, {"error_code":error.error_code, "error":str(error)})
         except ValueError as error: self.send_json(400, {"error_code":"invalid_request", "error":str(error)})
         except Exception as error: self.send_json(500, {"error_code":"unknown_error", "error":str(error)})

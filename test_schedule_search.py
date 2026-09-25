@@ -5,7 +5,7 @@ from unittest.mock import patch
 
 
 from api.index import (
-    ScheduleSearchValidationError,
+    EVENT_CATALOG_LIST_SELECT,
     artist_events,
     character_events,
     combined_entity_events,
@@ -34,6 +34,12 @@ class ScheduleSearchApiTests(unittest.TestCase):
     def setUp(self):
         from api.index import READ_CACHE
         READ_CACHE.clear()
+
+    def test_event_catalog_select_matches_live_view_columns(self):
+        self.assertEqual(
+            EVENT_CATALOG_LIST_SELECT,
+            "event_id,title,date,start_time,organization,venue,room,event_type,source_url,ticket_url",
+        )
 
     @patch("api.index._schedule_rooms_by_key", return_value={})
     @patch("api.index._cached_supabase_get")
@@ -105,6 +111,26 @@ class ScheduleSearchApiTests(unittest.TestCase):
     @patch("api.index._schedule_venue_directory", return_value=({}, {}))
     @patch("api.index._schedule_rooms_by_key", return_value={})
     @patch("api.index._cached_supabase_get")
+    def test_work_title_query_uses_works_table_without_dates(self, cached, _rooms, _directory):
+        def rows(path, params=None, ttl=60):
+            if path == "/rest/v1/works":
+                return [{"id": "work-1", "title": "Lumière et Pesanteur", "composer": "Kaija Saariaho"}]
+            if path == "/rest/v1/event_programme":
+                self.assertEqual(params["work_id"], "in.(work-1)")
+                return [{"event_id": "internal-work"}]
+            if path == "/rest/v1/event_catalog_v1":
+                self.assertNotIn("work_title", params["select"])
+                self.assertNotIn("composer", params["select"])
+                return [event("work-performance")]
+            return []
+        with patch("api.index.event_keys_for_internal_ids", return_value={"internal-work": "work-performance"}):
+            cached.side_effect = rows
+            result = combined_entity_events({"work_query": "Lumière"})
+        self.assertEqual([row["event_id"] for row in result["events"]], ["work-performance"])
+
+    @patch("api.index._schedule_venue_directory", return_value=({}, {}))
+    @patch("api.index._schedule_rooms_by_key", return_value={})
+    @patch("api.index._cached_supabase_get")
     def test_character_text_search_works_without_dates(self, cached, _rooms, _directory):
         character_id = "123e4567-e89b-42d3-a456-426614174000"
         def rows(path, params=None, ttl=60):
@@ -170,10 +196,17 @@ class ScheduleSearchApiTests(unittest.TestCase):
         for called in (work, character, artist):
             self.assertEqual(called.call_args.args[0], query)
 
-    def test_empty_search_returns_localizable_validation_code(self):
-        with self.assertRaises(ScheduleSearchValidationError) as raised:
-            combined_entity_events({})
-        self.assertEqual(raised.exception.error_code, "SCHEDULE_SEARCH_CONDITION_REQUIRED")
+    @patch("api.index._schedule_rooms_by_key", return_value={})
+    @patch("api.index._schedule_venue_directory", return_value=({}, {}))
+    @patch("api.index._cached_supabase_get")
+    def test_empty_search_returns_bounded_default_events(self, cached, _directory, _rooms):
+        cached.return_value = [event("default-a"), event("default-b", date="2026-10-02")]
+        result = combined_entity_events({})
+        self.assertEqual([row["event_id"] for row in result["events"]], ["default-a", "default-b"])
+        params = cached.call_args.args[1]
+        self.assertEqual(params["limit"], "1000")
+        self.assertEqual(params["order"], "date.asc,start_time.asc")
+        self.assertNotIn("and", params)
 
     def test_search_ui_uses_bilingual_fields_and_one_button_handler(self):
         html = Path(__file__).with_name("schedule.html").read_text(encoding="utf-8")
@@ -184,8 +217,12 @@ class ScheduleSearchApiTests(unittest.TestCase):
         self.assertNotIn("required", date_to)
         self.assertIn('placeholder="例如：柏林爱乐厅、巴黎歌剧院"', venue)
         self.assertIn("venue_query:venueInput?.value.trim()||''", html)
-        self.assertIn("searchRequired:'请至少输入一个搜索条件。'", html)
-        self.assertIn("searchRequired:'Enter at least one search condition.'", html)
+        self.assertIn("window.scheduleOptionsPromise=init()", html)
+        self.assertIn("window.scheduleOptionsPromise?.then(()=>runEntitySearch())", html)
+        self.assertNotIn("hasScheduleSearchCondition", html)
+        self.assertNotIn("searchRequired:", html)
+        self.assertIn("All performances are shown by default.", html)
+        self.assertIn("默认显示所有演出。", html)
         self.assertIn("unifiedSearchButton.onclick=runEntitySearch", html)
         self.assertIn("event.stopImmediatePropagation();\n      runEntitySearch();", html)
         self.assertIn("document.getElementById('search')?.remove()", html)
