@@ -2210,6 +2210,10 @@ def normalized_programme(event, rows):
     ]
     if canonical_event_type(event.get("event_type")) not in {"opera", "operetta"}:
         return items
+    # Palau opera titles may name two works or append the composer; these
+    # reviewed programme relations should be displayed in their saved order.
+    if str(event.get("event_id") or "").startswith("palau_de_la_musica_catalana:"):
+        return items
     event_key = _programme_identity(event.get("work_title") or event.get("title"))
     if not event_key:
         return []
