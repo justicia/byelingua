@@ -2140,6 +2140,8 @@ EVENT_TYPE_LABELS = {
 
 def canonical_event_type(raw):
     value = str(raw or "").strip().lower()
+    if value in CANONICAL_EVENT_TYPES:
+        return value
     normalized = normalize_search_key(value)
     if any(token in normalized for token in ("opera", "operette", "music drama", "drame musical", "festival ring")):
         return "operetta" if "operette" in normalized else "opera"
@@ -2207,6 +2209,10 @@ def normalized_programme(event, rows):
         for row in (rows or []) if (row.get("works") or {}).get("title")
     ]
     if canonical_event_type(event.get("event_type")) not in {"opera", "operetta"}:
+        return items
+    # Palau opera titles may name two works or append the composer; these
+    # reviewed programme relations should be displayed in their saved order.
+    if str(event.get("event_id") or "").startswith("palau_de_la_musica_catalana:"):
         return items
     event_key = _programme_identity(event.get("work_title") or event.get("title"))
     if not event_key:
@@ -2344,7 +2350,7 @@ def _schedule_text_matches(query, *values):
         return True
     for value in values:
         haystack = _schedule_normalized_text(value)
-        if needle in haystack or search_match_score(query, value) >= 0.60:
+        if needle in haystack:
             return True
     return False
 
@@ -2404,7 +2410,7 @@ def _schedule_rooms_by_key(rows):
 
 def schedule_events(data):
     _, _, date_filter = _schedule_date_filters(data)
-    params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
+    params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc,event_id.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
     raw_organizations = _schedule_values(data, "organizations")
     if not raw_organizations and data.get("organization"):
         raw_organizations = [str(data.get("organization")).strip()]
@@ -2414,6 +2420,24 @@ def schedule_events(data):
         params["organization"] = "in.(" + ",".join(raw_organizations) + ")"
     _schedule_date_params(params, date_filter)
     rows = _cached_supabase_get("/rest/v1/event_catalog_v1", params, ttl=60)
+    # Filtered searches must inspect the full season before applying local
+    # city, venue and type predicates, rather than only its first 1000 rows.
+    has_filter = bool(date_filter or data.get("event_type") or any(
+        str(data.get(key) or "").strip() for key in (
+            "location_query", "city_query", "country_city_query",
+            "venue_query", "artist_query", "work_query", "query",
+        )
+    ) or any(_schedule_values(data, key) for key in ("cities", "organizations", "venues")))
+    if has_filter and len(rows) == SCHEDULE_SEARCH_LIMIT:
+        for offset in range(SCHEDULE_SEARCH_LIMIT, 20 * SCHEDULE_SEARCH_LIMIT, SCHEDULE_SEARCH_LIMIT):
+            page = _cached_supabase_get(
+                "/rest/v1/event_catalog_v1", {**params, "offset": str(offset)}, ttl=60
+            )
+            rows.extend(page)
+            if len(page) < SCHEDULE_SEARCH_LIMIT:
+                break
+        else:
+            raise ValueError("搜索范围过大，请缩小日期范围。")
     artist_event_keys = None
     artist_query = str(data.get("artist_query") or "").strip()
     legacy_query = str(data.get("query") or "").strip()
@@ -2467,7 +2491,7 @@ def schedule_events(data):
     if room_by_key:
         for row in unique:
             row["room"] = room_by_key.get(str(row.get("event_id")), row.get("room"))
-    return {"events": unique[:SCHEDULE_SEARCH_LIMIT]}
+    return {"events": unique if has_filter else unique[:SCHEDULE_SEARCH_LIMIT]}
 
 
 def schedule_event_detail(event_id):

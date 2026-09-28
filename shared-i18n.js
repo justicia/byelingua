@@ -101,15 +101,21 @@
   }
   function creditCharacter(row){return String(row&&((row.character||row.character_role)||'')).trim()}
   function creditRoleValue(row){return row&&((row.artistic_function||row.display_role||row.role)||'')}
+  function isArtisticTeamRole(row){
+    const role=normalizeCreditRole(creditRoleValue(row));
+    return /(^|_)(conductor|direction|director|master|stage|set|scenography|lighting|costume|choreography|choreographer|dramaturg|design|producer|assistant)(_|$)/.test(role);
+  }
   function isEnsembleRole(value){
     const role=normalizeCreditRole(typeof value==='object'?creditRoleValue(value):value);
-    return /(^|_)(orchestra|orchester|orchestre|orquestra|ensemble|choir|chorus|coro|chor|choeur|chore)(_|$)/.test(role);
+    const artist=normalizeCreditRole(typeof value==='object'?(value.artist_name||value.person):'');
+    const ensemble=/(^|_)(orchestra|orchester|orchestre|orquestra|ensemble|choir|chorus|coro|chor|choeur|chore|quartet|quartett|quintet|quintett|trio|band)(_|$)/;
+    return !isArtisticTeamRole(value)&&ensemble.test(role+'_'+artist);
   }
   function groupCredits(credits){
     const rows=Array.isArray(credits)?credits:[];
     return {
-      cast:rows.filter(creditCharacter),
-      artisticTeam:rows.filter(row=>!creditCharacter(row)&&!isEnsembleRole(row)),
+      cast:rows.filter(row=>creditCharacter(row)||(!isEnsembleRole(row)&&!isArtisticTeamRole(row))),
+      artisticTeam:rows.filter(row=>!creditCharacter(row)&&isArtisticTeamRole(row)),
       ensembles:rows.filter(row=>!creditCharacter(row)&&isEnsembleRole(row))
     };
   }
@@ -148,7 +154,7 @@
     const opts=options||{},lang=valid(opts.language)||getUiLanguage(),groups=groupCredits(event&&event.credits),esc=opts.escape||escapeCreditHtml;
     const artist=typeof opts.artistRenderer==='function'?opts.artistRenderer:(row=>esc(row&&row.artist_name||''));
     const labels=lang==='zh'?{cast:'演员',team:'主创团队',ensembles:'乐团与合唱团',noCast:'暂无演员信息',noTeam:'暂无主创团队信息',noEnsembles:'暂无乐团与合唱团信息'}:{cast:'Cast',team:'Artistic Team',ensembles:'Ensembles',noCast:'No cast listed.',noTeam:'No artistic team listed.',noEnsembles:'No ensembles listed.'};
-    const cast=groups.cast.map(row=>`<li><span>${esc(creditCharacter(row))}</span><strong>${artist(row)}</strong></li>`).join('');
+    const cast=groups.cast.map(row=>`<li><span>${esc(creditCharacter(row)||creditRoleLabel(row,lang))}</span><strong>${artist(row)}</strong></li>`).join('');
     const teamMap=new Map();
     groups.artisticTeam.forEach(row=>{const label=creditRoleLabel(row,lang);if(!teamMap.has(label))teamMap.set(label,[]);teamMap.get(label).push(row)});
     const team=[...teamMap].map(([label,rows])=>`<div class="team-group"><h5>${esc(label)}</h5><ul>${rows.map(row=>`<li>${artist(row)}</li>`).join('')}</ul></div>`).join('');

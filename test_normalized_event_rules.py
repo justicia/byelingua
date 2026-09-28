@@ -31,6 +31,26 @@ def test_paris_opera_programme_rejects_editorial_and_media_rows():
     ]
 
 
+def test_palau_opera_programme_preserves_verified_multi_work_and_title_variants():
+    double_bill = {
+        "event_id": "palau_de_la_musica_catalana:double-bill",
+        "title": "Cavalleria rusticana y Pagliacci",
+        "event_type": "opera",
+    }
+    works = [
+        {"order": 1, "works": {"title": "Cavalleria rusticana", "composer": "Pietro Mascagni"}},
+        {"order": 2, "works": {"title": "Pagliacci", "composer": "Ruggero Leoncavallo"}},
+    ]
+    assert normalized_programme(double_bill, works) == [
+        {"order": 1, "title": "Cavalleria rusticana", "composer": "Pietro Mascagni"},
+        {"order": 2, "title": "Pagliacci", "composer": "Ruggero Leoncavallo"},
+    ]
+    elixir = {"event_id": "palau_de_la_musica_catalana:elixir", "title": "L’elisir d’amore de Donizetti", "event_type": "opera"}
+    assert normalized_programme(elixir, [{"order": 1, "works": {"title": "L'Elisir d'amore", "composer": "Gaetano Donizetti"}}]) == [
+        {"order": 1, "title": "L'Elisir d'amore", "composer": "Gaetano Donizetti"}
+    ]
+
+
 def test_work_titles_use_the_original_language():
     assert canonical_work_title("Le Crépuscule des dieux") == "Götterdämmerung"
     assert canonical_work_title("Le Barbier de Séville") == "Il barbiere di Siviglia"
@@ -41,5 +61,6 @@ if __name__ == "__main__":
     test_accent_insensitive_search()
     test_opera_classification()
     test_paris_opera_programme_rejects_editorial_and_media_rows()
+    test_palau_opera_programme_preserves_verified_multi_work_and_title_variants()
     test_work_titles_use_the_original_language()
     print("normalized event rules: ok")
