@@ -1,11 +1,12 @@
 import re
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 from api.index import (
     EVENT_CATALOG_LIST_SELECT,
+    _schedule_catalog_total,
     artist_events,
     character_events,
     combined_entity_events,
@@ -40,6 +41,28 @@ class ScheduleSearchApiTests(unittest.TestCase):
             EVENT_CATALOG_LIST_SELECT,
             "event_id,title,date,start_time,organization,venue,room,event_type,source_url,ticket_url",
         )
+
+    @patch("api.index.supabase_settings", return_value=("https://supabase.test", "public", "service"))
+    @patch("api.index.SESSION.request")
+    def test_unfiltered_total_uses_exact_count_header(self, request, _settings):
+        request.return_value = Mock(ok=True, headers={"Content-Range": "0-0/1006"})
+        self.assertEqual(_schedule_catalog_total(), 1006)
+        self.assertEqual(_schedule_catalog_total(), 1006)
+        self.assertEqual(request.call_count, 1)
+        self.assertEqual(request.call_args.kwargs["params"], {"select": "event_id", "limit": "1"})
+        self.assertEqual(request.call_args.kwargs["headers"]["Prefer"], "count=exact")
+
+    @patch("api.index._schedule_catalog_total", return_value=1006)
+    @patch("api.index._cached_supabase_get")
+    def test_unfiltered_page_loads_real_last_page(self, cached, count):
+        cached.return_value = [event("last", date="2027-01-01")]
+        result = schedule_events({"page": 999, "page_size": 15})
+        self.assertEqual((result["total"], result["page"], result["page_size"]), (1006, 68, 15))
+        self.assertEqual([row["event_id"] for row in result["events"]], ["last"])
+        self.assertEqual(cached.call_args.args[1]["limit"], "15")
+        self.assertEqual(cached.call_args.args[1]["offset"], "1005")
+        self.assertEqual(cached.call_args.args[1]["order"], "date.asc,start_time.asc,event_id.asc")
+        count.assert_called_once()
 
     @patch("api.index._schedule_rooms_by_key", return_value={})
     @patch("api.index._cached_supabase_get")
@@ -218,7 +241,7 @@ class ScheduleSearchApiTests(unittest.TestCase):
         self.assertIn('placeholder="例如：柏林爱乐厅、巴黎歌剧院"', venue)
         self.assertIn("venue_query:venueInput?.value.trim()||''", html)
         self.assertIn("window.scheduleOptionsPromise=init()", html)
-        self.assertIn("window.scheduleOptionsPromise?.then(()=>runEntitySearch())", html)
+        self.assertIn("window.scheduleOptionsPromise?.then(()=>{if(!scheduleSearchRevision)runEntitySearch()})", html)
         self.assertNotIn("hasScheduleSearchCondition", html)
         self.assertNotIn("searchRequired:", html)
         self.assertIn("All performances are shown by default.", html)
