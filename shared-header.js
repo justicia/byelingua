@@ -3,32 +3,32 @@
   if(!document.getElementById(styleId)){
     const style=document.createElement('style');style.id=styleId;style.textContent=`
       .byelingua-compact-header{position:sticky;top:0;z-index:40;border-bottom:1px solid #d7d7ce;background:rgba(245,242,233,.97);backdrop-filter:blur(8px)}
-      .byelingua-compact-inner{width:min(1120px,calc(100% - 28px));margin:auto;padding:12px 0 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
+      .byelingua-compact-inner{position:relative;width:min(1060px,calc(100% - 40px));margin:auto;padding:12px 0 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
       .byelingua-compact-brand{color:#214d3a;font:600 25px/.95 Georgia,serif;text-decoration:none;letter-spacing:-.025em}
       .byelingua-compact-tagline{color:#68716b;font-size:10px;letter-spacing:.08em}
       .byelingua-compact-subtitle{margin-top:3px;color:#214d3a}.byelingua-compact-subtitle-label{font-size:10px;font-weight:750;letter-spacing:.1em}.byelingua-compact-subtitle-text{font:13px/1.4 Georgia,serif}
+      .byelingua-header-languages{position:absolute;right:0;top:10px;display:flex;gap:3px}.byelingua-header-languages button{font:inherit;font-size:11px;cursor:pointer;border:1px solid #aebbb2;border-radius:4px;padding:6px 8px;background:transparent;color:#214d3a}.byelingua-header-languages button.active{background:#214d3a;color:#fff;border-color:#214d3a}
       .byelingua-compact-spacer{flex:1}.byelingua-compact-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
       .byelingua-compact-actions button{font:inherit;cursor:pointer;border:1px solid #aebbb2;border-radius:4px;padding:6px 9px;background:transparent;color:#214d3a}
       .byelingua-compact-actions button.active{background:#214d3a;color:#fff;border-color:#214d3a}
       .byelingua-primary-nav{border-top:1px solid #173d2d;background:#214d3a}
       .byelingua-primary-inner{width:min(1500px,calc(100% - 28px));min-height:60px;margin:auto;display:flex;align-items:center;gap:20px}
       .byelingua-primary-links,.byelingua-primary-actions{display:flex;align-items:center;gap:18px}
-      .byelingua-primary-links a,.byelingua-primary-links span{color:#fff;font-size:13px;font-weight:650;text-decoration:none;white-space:nowrap}
+      .byelingua-primary-links a,.byelingua-primary-links span{color:#fff;font-size:16px;font-weight:700;text-decoration:none;white-space:nowrap}
       .byelingua-primary-links a:hover{text-decoration:underline}
       .byelingua-primary-links a[aria-current="page"]{text-decoration:underline;text-underline-offset:5px}
       .byelingua-primary-links [aria-disabled="true"]{opacity:.65}
       .byelingua-primary-spacer{flex:1}
       .byelingua-primary-actions{gap:6px}
-      .byelingua-primary-actions button{font:inherit;font-size:13px;font-weight:650;cursor:pointer;border:1px solid #b7c9bd;border-radius:4px;padding:6px 9px;background:transparent;color:#fff;white-space:nowrap}
-      .byelingua-primary-actions [data-shared-language]{font-size:11px;padding:7px 9px}
-      .byelingua-primary-actions button.active{background:#fff;color:#214d3a;border-color:#fff}
-      .byelingua-primary-search{display:flex;align-items:center;gap:6px;width:300px;margin:0}.byelingua-primary-search label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.byelingua-primary-search input{min-width:0;flex:1;height:36px;padding:6px 9px;border:1px solid #c8cdc5;border-radius:5px;background:#fff;color:#17201b}.byelingua-primary-search button{height:36px;background:#fff;color:#214d3a;border-color:#fff}
+      .byelingua-primary-actions button{font:inherit;font-size:12px;font-weight:650;cursor:pointer;border:1px solid #b7c9bd;border-radius:4px;padding:6px 9px;background:transparent;color:#fff;white-space:nowrap}
+      .byelingua-primary-search{display:flex;align-items:center;gap:6px;width:300px;margin:0}.byelingua-primary-search label{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.byelingua-primary-search input{min-width:0;flex:1;height:36px;padding:6px 9px;border:1px solid #c8cdc5;border-radius:5px;background:#fff;color:#17201b;font-size:12px}.byelingua-primary-search button{height:36px;background:#fff;color:#214d3a;border-color:#fff}
       .schedule-site-header.byelingua-compact-header{width:100%;padding:0;border-bottom:0}.schedule-site-header.byelingua-compact-header .schedule-identity{display:flex;align-items:center;gap:14px}.schedule-site-header.byelingua-compact-header .schedule-brand{font-size:25px}.schedule-site-header.byelingua-compact-header .schedule-tagline{margin:0}.schedule-site-header.byelingua-compact-header .schedule-page-title,.schedule-site-header.byelingua-compact-header .schedule-page-description{display:none}.schedule-page-heading{width:min(1120px,calc(100% - 28px));margin:18px auto 2px}.schedule-page-heading h1{margin:0;color:#214d3a}.schedule-page-heading .hint{margin-top:3px}
       .byelingua-compact-account{color:#68716b;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:700px){.byelingua-compact-inner{min-height:48px;gap:8px}.byelingua-compact-tagline{display:none}.byelingua-compact-brand{font-size:22px}.byelingua-primary-inner{flex-wrap:wrap;gap:8px;padding:8px 0}.byelingua-primary-links{width:100%;gap:18px;overflow-x:auto}.byelingua-primary-actions{width:100%;justify-content:flex-end;flex-wrap:wrap}.byelingua-primary-actions button{min-height:36px;padding:5px 7px}.byelingua-primary-spacer{display:none}.schedule-site-header.byelingua-compact-header .schedule-identity{width:auto}.schedule-site-header.byelingua-compact-header .schedule-tagline{display:none}}
       @media(min-width:1451px){.byelingua-primary-inner{display:grid;grid-template-columns:1fr auto 1fr}.byelingua-primary-links{grid-column:2}.byelingua-primary-spacer{display:none}.byelingua-primary-actions{grid-column:3;justify-self:end}}
       @media(max-width:1450px){.byelingua-primary-inner{flex-wrap:wrap;gap:8px;padding:8px 0}.byelingua-primary-links{width:100%;justify-content:center;overflow-x:auto}.byelingua-primary-actions{width:100%;justify-content:center;flex-wrap:wrap}.byelingua-primary-spacer{display:none}.byelingua-primary-search{width:min(100%,420px)}}
       @media(max-width:700px){.byelingua-compact-tagline{display:block}.byelingua-compact-inner{padding:10px 0}}
       @media(max-width:700px){.byelingua-primary-search{width:100%}.byelingua-primary-search button{min-height:36px}}
+      @media(max-width:700px){.byelingua-header-languages{position:static;align-self:flex-end;order:-1;margin-bottom:4px}}
     `;document.head.append(style)
   }
   window.ByelinguaHeader={mount:function(target,options){
@@ -38,6 +38,8 @@
     target.classList.add('byelingua-compact-header');
     target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span><div class="byelingua-compact-subtitle"><div class="byelingua-compact-subtitle-label" data-header-subtitle-label>全球乐评收集前线</div><div class="byelingua-compact-subtitle-text" data-header-subtitle-text>文盲也有看最新八卦资讯的权利。</div></div></div><nav class="byelingua-primary-nav" aria-label="Primary navigation"><div class="byelingua-primary-inner"><div class="byelingua-primary-links"><a href="/" data-nav-news>新闻</a><a href="/schedule.html" data-nav-schedule>日程设计</a><span data-nav-concert-reviews aria-disabled="true">音乐会 Review</span></div><span class="byelingua-primary-spacer"></span><div class="byelingua-primary-actions"><button type="button" data-shared-language="zh">CN</button><button type="button" data-shared-language="en">EN</button><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account>用户中心</button><button type="button" data-shared-register>注册</button><button id="logoutButton" type="button" data-shared-signout hidden>退出登录</button></div></div></nav>';
     const search=document.createElement('form');search.className='byelingua-primary-search';search.role='search';search.action='/';search.method='get';search.innerHTML='<label for="byelingua-nav-search" data-shared-search-label>关键词搜索</label><input id="byelingua-nav-search" name="q" type="search" autocomplete="off" data-shared-search-input placeholder="搜索新闻关键词"><button type="submit" data-shared-search-button>搜索</button>';target.querySelector('.byelingua-primary-actions').prepend(search);
+    const languages=document.createElement('div');languages.className='byelingua-header-languages';target.querySelectorAll('[data-shared-language]').forEach(button=>languages.append(button));target.querySelector('.byelingua-compact-inner').append(languages);
+    target.querySelector('.byelingua-compact-subtitle').hidden=location.pathname.startsWith('/schedule');
     const render=()=>{
       const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');
       const english=language==='en';
