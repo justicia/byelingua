@@ -57,11 +57,13 @@ const server = http.createServer(async (req, res) => {
       await page.waitForLoadState('load');
       await page.waitForFunction(() => document.querySelectorAll('#events .event').length === 15);
     };
-    const checkPages = async (count, current, language) => {
+    const checkPages = async (count, current, language, numbers, ellipses) => {
       const nav = page.locator('#eventPagination');
       await page.waitForFunction(expected => eventPage === expected, current);
-      assert.equal(await nav.locator('button').count(), 4, 'Pagination contains exactly four navigation buttons');
-      assert.equal(await nav.locator('[data-page-number],.pagination-ellipsis').count(), 0, 'No page numbers or ellipses');
+      assert.deepEqual(await nav.locator('[data-page-number]').allTextContents(), numbers.map(String));
+      assert.equal(await nav.locator('.pagination-ellipsis').count(), ellipses);
+      assert.equal(await nav.locator('button').count(), 4 + numbers.length);
+      assert.equal(await nav.locator('[aria-current="page"]').textContent(), String(current));
       const labels = language === 'zh' ? ['第一页', '上一页', '下一页', '最后一页'] : ['First page', 'Previous', 'Next', 'Last page'];
       for (const [i, action] of ['first', 'prev', 'next', 'last'].entries()) {
         const button = nav.locator(`[data-page-${action}]`);
@@ -71,32 +73,35 @@ const server = http.createServer(async (req, res) => {
     };
     await page.goto(`${base}/schedule.html`);
     await waitForRows();
-    await checkPages(68, 1, 'en');
+    await checkPages(68, 1, 'en', [1, 2, 3, 4, 5, 6, 7, 8, 9], 1);
     assert.match(await page.locator('#resultHint').textContent(), /1006/);
     await page.evaluate(() => { selected_event_ids.add('pagination-1'); renderLiveSchedule(); });
-    for (const [selector, current, firstId] of [
-      ['[data-page-next]', 2, 'pagination-16'],
-      ['[data-page-last]', 68, 'pagination-1006'],
-      ['[data-page-prev]', 67, 'pagination-991'],
-      ['[data-page-first]', 1, 'pagination-1']
+    for (const [selector, current, firstId, numbers] of [
+      ['[data-page-next]', 2, 'pagination-16', [1, 2, 3, 4, 5, 6, 7, 8, 9]],
+      ['[data-page-last]', 68, 'pagination-1006', [60, 61, 62, 63, 64, 65, 66, 67, 68]],
+      ['[data-page-prev]', 67, 'pagination-991', [60, 61, 62, 63, 64, 65, 66, 67, 68]],
+      ['[data-page-first]', 1, 'pagination-1', [1, 2, 3, 4, 5, 6, 7, 8, 9]]
     ]) {
       await page.locator(`#eventPagination ${selector}`).click();
-      await checkPages(68, current, 'en');
+      await checkPages(68, current, 'en', numbers, 1);
       assert.equal(await page.locator('#events [data-event]').first().getAttribute('data-event'), firstId);
       assert.match(await page.locator('#liveSchedulePanel .my-schedule-list').textContent(), /Pagination fixture 1/);
     }
+    await page.locator('#eventPagination [data-page-number="3"]').click();
+    await checkPages(68, 3, 'en', [1, 2, 3, 4, 5, 6, 7, 8, 9], 1);
+    assert.equal(await page.locator('#events [data-event]').first().getAttribute('data-event'), 'pagination-31');
     await page.evaluate(() => runEntitySearch(34));
-    await checkPages(68, 34, 'en');
+    await checkPages(68, 34, 'en', [30, 31, 32, 33, 34, 35, 36, 37, 38], 2);
     assert.equal(await page.locator('#events [data-event]').first().getAttribute('data-event'), 'pagination-496');
     await page.locator('#eventPagination [data-page-first]').click();
     await page.locator('[data-shared-language="zh"]').click();
     await page.waitForFunction(() => document.documentElement.lang === 'zh-CN');
     await waitForRows();
-    await checkPages(68, 1, 'zh');
-    await page.reload(); await waitForRows(); await checkPages(68, 1, 'zh');
+    await checkPages(68, 1, 'zh', [1, 2, 3, 4, 5, 6, 7, 8, 9], 1);
+    await page.reload(); await waitForRows(); await checkPages(68, 1, 'zh', [1, 2, 3, 4, 5, 6, 7, 8, 9], 1);
     for (const width of [920, 375]) {
       await page.setViewportSize({ width, height: 1000 });
-      await checkPages(68, 1, 'zh');
+      await checkPages(68, 1, 'zh', [1, 2, 3, 4, 5, 6, 7, 8, 9], 1);
       assert.equal(await page.locator('#eventPagination').evaluate(nav => {
         const box = nav.getBoundingClientRect();
         return [...nav.querySelectorAll('button')].every(button => {
@@ -116,16 +121,16 @@ const server = http.createServer(async (req, res) => {
       await page.locator('#workCondition').fill(query);
       await page.locator('#workCondition').press('Enter');
       await page.waitForFunction(n => document.querySelector('#resultHint').textContent.includes(String(n)), count);
-      if (pages) await checkPages(pages, 1, 'zh');
+      if (pages) await checkPages(pages, 1, 'zh', pages===2?[1, 2]:[1, 2, 3, 4, 5, 6, 7, 8, 9], pages===2?0:1);
       else assert.equal(await page.locator('#eventPagination button').count(), 0);
       if(query==='two'){
         await page.locator('#eventPagination [data-page-last]').click();
-        await checkPages(2, 2, 'zh');
+        await checkPages(2, 2, 'zh', [1, 2], 0);
         assert.equal(await page.locator('#events [data-event]').first().getAttribute('data-event'), 'pagination-16');
       }
     }
     assert.deepEqual(errors, [], 'Complete page must load and paginate without script errors');
-    console.log('PASS: full page load, exact API total beyond 1000, four navigation buttons, loaded last page, English/Chinese, reload, responsive layout, and changed search results.');
+    console.log('PASS: full page load, exact API total beyond 1000, nine-page window with ellipses and endpoints, clickable numbers, English/Chinese, reload, responsive layout, and changed search results.');
   } finally {
     if (browser) await browser.close();
     await new Promise(resolve => server.close(resolve));
