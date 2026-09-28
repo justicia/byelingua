@@ -385,6 +385,11 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
     .schedule-builder-layout.has-event-pane .schedule-search-workspace{grid-template-columns:1fr}
     .schedule-builder-layout.has-event-pane .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
     .schedule-builder-layout.has-event-pane .filters .wide{grid-column:1/-1}
+    .schedule-builder-layout.has-event-pane .schedule-left-column .event{grid-template-columns:24px minmax(0,1fr)}
+    .schedule-builder-layout.has-event-pane .schedule-left-column .event>.date{grid-column:2}
+    .schedule-builder-layout.has-event-pane .schedule-left-column .event>div:not(.date):not(.actions){grid-column:1/-1;min-width:0;overflow-wrap:anywhere}
+    .schedule-builder-layout.has-event-pane .schedule-left-column .event>.actions{grid-column:1/-1}
+    .schedule-builder-layout.has-event-pane .schedule-left-column .event .event-title-link{max-width:100%;overflow-wrap:anywhere}
     html{scroll-padding-top:calc(var(--schedule-header-height) + 12px)}
     @media(min-width:761px){.schedule-builder-layout{min-height:calc(100vh - var(--schedule-header-height) + 24px)}}
     .schedule-builder-layout .my-schedule-panel{top:calc(var(--schedule-header-height) + 12px)!important;height:calc(100vh - var(--schedule-header-height) - 72px)!important}
