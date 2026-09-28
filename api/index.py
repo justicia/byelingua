@@ -180,7 +180,8 @@ PUBLIC_ARTICLE_LIST_SELECT = (
     "translated_title_pt:translated_titles->>pt,translated_title_ja:translated_titles->>ja,"
     "summary_zh:summaries->>zh,summary_en:summaries->>en,summary_fr:summaries->>fr,"
     "summary_es:summaries->>es,summary_de:summaries->>de,summary_it:summaries->>it,"
-    "summary_pt:summaries->>pt,summary_ja:summaries->>ja"
+    "summary_pt:summaries->>pt,summary_ja:summaries->>ja,"
+    "content_zh:contents->>zh,content_en:contents->>en"
 )
 PUBLIC_ARTICLE_TRANSLATION_SELECT = (
     "id,kind,country,original_title,title,language,translation_instruction,"
@@ -236,9 +237,11 @@ def public_article_list_from_row(row):
         title = row.get(f"title_{language}") or row.get(f"translated_title_{language}")
         if title:
             titles[language] = title
-        summary = row.get(f"summary_{language}")
+        summary = row.get(f"summary_{language}") or (
+            row.get(f"content_{language}") if language in {"zh", "en"} else None
+        )
         if summary:
-            excerpts[language] = str(summary)
+            excerpts[language] = str(summary).strip()[:360]
     if titles:
         article["titles"] = titles
     if excerpts:
