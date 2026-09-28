@@ -136,15 +136,18 @@ const sourceLinkStyle=document.createElement('style');sourceLinkStyle.textConten
 const eventPageSize=15;let eventPage=1;
 const eventPagination=document.createElement('nav');eventPagination.id='eventPagination';eventPagination.className='event-pagination';$('events').after(eventPagination);
 // Schedule owns this renderer. Do not reuse renderEventPagination: shared-header.js
-// replaces that legacy global on window.load. Keep the full-page regression check passing.
+// replaces that legacy global on window.load.
 function renderScheduleEventPagination(){
   const totalPages=Math.max(1,Math.ceil(events.length/eventPageSize));
   eventPage=Math.min(Math.max(1,eventPage),totalPages);
   if(events.length<=eventPageSize){eventPagination.innerHTML='';return}
-  const pageNumbers=Array.from({length:totalPages},(_,index)=>{
-    const page=index+1,current=eventPage===page;
-    return '<button type="button" class="secondary '+(current?'active':'')+'" data-page-number="'+page+'" '+(current?'aria-current="page"':'')+'>'+page+'</button>';
-  }).join('');
+  const pages=totalPages<=7?Array.from({length:totalPages},(_,index)=>index+1)
+    :eventPage<=3?[1,2,3,'ellipsis',totalPages]
+    :eventPage>=totalPages-2?[1,'ellipsis',totalPages-2,totalPages-1,totalPages]
+    :[1,'ellipsis',eventPage-1,eventPage,eventPage+1,'ellipsis',totalPages];
+  const pageNumbers=pages.map(page=>page==='ellipsis'
+    ?'<span class="pagination-ellipsis" aria-hidden="true">…</span>'
+    :'<button type="button" class="secondary '+(eventPage===page?'active':'')+'" data-page-number="'+page+'" '+(eventPage===page?'aria-current="page"':'')+'>'+page+'</button>').join('');
   eventPagination.innerHTML='<button type="button" class="secondary" data-page-first '+(eventPage===1?'disabled':'')+'>First page</button><button type="button" class="secondary" data-page-prev '+(eventPage===1?'disabled':'')+'>Previous</button>'+pageNumbers+'<button type="button" class="secondary" data-page-next '+(eventPage===totalPages?'disabled':'')+'>Next</button><button type="button" class="secondary" data-page-last '+(eventPage===totalPages?'disabled':'')+'>Last page</button>';
   eventPagination.querySelector('[data-page-first]').onclick=()=>{eventPage=1;renderEvents()};
   eventPagination.querySelector('[data-page-prev]').onclick=()=>{eventPage--;renderEvents()};
@@ -154,7 +157,7 @@ function renderScheduleEventPagination(){
 }
 renderEvents=function(){const total=events.length;if(!total){$('events').innerHTML='<div class="status">没有符合条件的演出。</div>';eventPagination.innerHTML='';return}const totalPages=Math.max(1,Math.ceil(total/eventPageSize));eventPage=Math.min(eventPage,totalPages);const visible=events.slice((eventPage-1)*eventPageSize,eventPage*eventPageSize);$('events').innerHTML=visible.map(e=>`<article class="event"><input type="checkbox" data-event="${escapeHtml(e.event_id)}" ${selectionStore.isSelected(e.event_id)?'checked':''} aria-label="选择 ${escapeHtml(e.title||'')}"><div class="date"><strong>${escapeHtml(formatEventDate(e))}</strong></div><div><h3>${escapeHtml(e.title||'')}</h3><div class="meta">${escapeHtml(formatEventLocation(e))} · ${escapeHtml(e.event_type||'')}</div></div><div class="actions"><button type="button" class="secondary" data-detail="${escapeHtml(e.event_id)}">详情</button><button type="button" data-add="${escapeHtml(e.event_id)}">${selectionStore.isSelected(e.event_id)?'已加入 / 移除':'加入清单'}</button></div></article>`).join('');$('events').onclick=event=>{const detail=event.target.closest('[data-detail]');const add=event.target.closest('[data-add]');const checkbox=event.target.closest('[data-event]');if(detail){event.preventDefault();showDetail(detail.dataset.detail);return}if(add){event.preventDefault();selectionStore.toggleEvent(add.dataset.add);renderEvents();return}if(checkbox&&event.target===checkbox){selectionStore.toggleEvent(checkbox.dataset.event);renderEvents()}};renderScheduleEventPagination();updateSelected()};
 const existingSearchHandler=$('search').onclick;$('search').onclick=async event=>{eventPage=1;await existingSearchHandler?.(event);renderEvents()};
-const eventPaginationStyle=document.createElement('style');eventPaginationStyle.textContent='main{width:calc(100% - 28px);max-width:none}.event-pagination{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:14px 0}.event-pagination:empty{display:none}.event-pagination button{font-size:12px;padding:6px 9px}.event-pagination button.active{background:var(--forest);color:#fff}.event-pagination button:disabled{opacity:.45;cursor:not-allowed}';document.head.appendChild(eventPaginationStyle);
+const eventPaginationStyle=document.createElement('style');eventPaginationStyle.textContent='main{width:calc(100% - 28px);max-width:none}.event-pagination{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:14px 0}.event-pagination:empty{display:none}.event-pagination button{font-size:12px;padding:6px 9px}.event-pagination button.active{background:var(--forest);color:#fff}.event-pagination button:disabled{opacity:.45;cursor:not-allowed}.event-pagination .pagination-ellipsis{display:inline-flex;align-items:center;justify-content:center;min-width:24px;color:#68716b}';document.head.appendChild(eventPaginationStyle);
 renderEvents();
 </script><script>
 // Event List interaction fix: title and detail button share one internal handler.
