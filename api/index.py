@@ -2271,6 +2271,7 @@ def schedule_options():
 
 
 SCHEDULE_SEARCH_LIMIT = 1000
+SCHEDULE_PAGE_SIZE = 15
 SCHEDULE_COUNTRY_NAMES = {
     "at": ("Austria", "Österreich", "奥地利"), "be": ("Belgium", "Belgique", "比利时"),
     "ch": ("Switzerland", "Schweiz", "Suisse", "瑞士"), "cz": ("Czechia", "Czech Republic", "捷克"),
@@ -2402,7 +2403,75 @@ def _schedule_rooms_by_key(rows):
     return rooms
 
 
+def _schedule_catalog_total():
+    """Count all catalog rows without downloading them or guessing from a capped page."""
+    cache_key = ("schedule_catalog_total", "")
+    cached = READ_CACHE.get(cache_key)
+    now = time.monotonic()
+    if cached and cached[0] > now:
+        return cached[1]
+    url, _, service = supabase_settings()
+    headers = {"apikey": service, "Prefer": "count=exact", "User-Agent": "Byelingua-Server/3.0"}
+    if not service.startswith("sb_secret_"):
+        headers["Authorization"] = f"Bearer {service}"
+    response = SESSION.request(
+        "GET", f"{url}/rest/v1/event_catalog_v1",
+        params={"select": "event_id", "limit": "1"}, headers=headers, timeout=30,
+    )
+    if not response.ok:
+        raise ValueError(response.text or "Supabase count request failed.")
+    content_range = response.headers.get("Content-Range", "")
+    count_text = content_range.rsplit("/", 1)[-1]
+    if "/" not in content_range or not count_text.isdigit():
+        raise ValueError("SCHEDULE_SEARCH_COUNT_UNAVAILABLE")
+    total = int(count_text)
+    if len(READ_CACHE) >= READ_CACHE_MAX_ENTRIES:
+        READ_CACHE.pop(next(iter(READ_CACHE)))
+    READ_CACHE[cache_key] = (now + 60, total)
+    return total
+
+
+def _schedule_unfiltered_page(data):
+    try:
+        page = max(1, int(data.get("page") or 1))
+        page_size = min(100, max(1, int(data.get("page_size") or SCHEDULE_PAGE_SIZE)))
+    except (TypeError, ValueError) as error:
+        raise ValueError("SCHEDULE_SEARCH_INVALID_PAGE") from error
+    total = _schedule_catalog_total()
+    page = min(page, max(1, (total + page_size - 1) // page_size))
+    rows = _cached_supabase_get(
+        "/rest/v1/event_catalog_v1",
+        {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc,event_id.asc",
+         "limit": str(page_size), "offset": str((page - 1) * page_size)},
+        ttl=60,
+    ) if total else []
+    city_by_venue, _ = _schedule_venue_directory() if any(
+        not (row.get("city") or row.get("location_city")) for row in rows
+    ) else ({}, {})
+    events = []
+    for source_row in rows:
+        row = dict(source_row)
+        row["source_title"] = row.get("title")
+        row["title"] = canonical_work_title(row.get("work_title") or row.get("title"))
+        if row.get("work_title"):
+            row["work_title"] = canonical_work_title(row.get("work_title"))
+        row["raw_event_type"] = row.get("event_type")
+        row["event_type"] = canonical_event_type(row.get("event_type"))
+        row["city"] = _event_city(row, city_by_venue)
+        events.append(row)
+    return {"events": events, "total": total, "page": page, "page_size": page_size}
+
+
 def schedule_events(data):
+    if data.get("page") is not None and not any(
+        str(data.get(key) or "").strip() for key in (
+            "date_from", "date_to", "event_type", "location_query", "city_query",
+            "country_city_query", "venue_query", "work_query", "composer_query",
+            "character_query", "artist_query", "query", "work_id", "character_id", "artist_id",
+        )
+    ) and not any(_schedule_values(data, key) for key in ("cities", "organizations", "venues")) \
+            and not str(data.get("organization") or "").strip():
+        return _schedule_unfiltered_page(data)
     _, _, date_filter = _schedule_date_filters(data)
     params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
     raw_organizations = _schedule_values(data, "organizations")

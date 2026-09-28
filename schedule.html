@@ -110,7 +110,8 @@ const cardStyle=document.createElement('style');cardStyle.textContent='.artist-p
 const legacySchedulePanel=$('schedulePanel');if(legacySchedulePanel)legacySchedulePanel.hidden=true;
 const layout=document.createElement('div');layout.className='schedule-builder-layout';const leftColumn=document.createElement('div');leftColumn.className='schedule-left-column';const rightColumn=document.createElement('aside');rightColumn.id='liveSchedulePanel';rightColumn.className='my-schedule-panel';rightColumn.setAttribute('aria-label','My Schedule');
 const panels=[...document.querySelectorAll('main>.panel')];panels.forEach(panel=>{if(panel!==legacySchedulePanel)leftColumn.appendChild(panel)});rightColumn.innerHTML='<div class="my-schedule-header"><div><h2>My Schedule</h2><div class="hint" data-live-count>0 events</div></div><button type="button" class="secondary" data-close-schedule>Close</button></div><div class="my-schedule-list"></div><div class="my-schedule-footer"><button type="button" data-generate-live>Generate Schedule</button></div>';layout.append(leftColumn,rightColumn);const main=document.querySelector('main');const topBar=main.querySelector('.top'),detailDialog=$('detail');main.innerHTML='';main.append(topBar,layout,detailDialog);const mobileTrigger=document.createElement('button');mobileTrigger.className='mobile-schedule-trigger';mobileTrigger.type='button';mobileTrigger.textContent='My Schedule · 0 events';document.body.appendChild(mobileTrigger);
-function selectedScheduleRecords(){const byId=new Map(events.map(event=>[String(event.event_id),event]));for(const [id,value] of details.entries()){const event=value?.event||value;if(event)byId.set(String(event.event_id||id),event)}return [...selected_event_ids].map(id=>byId.get(String(id))).filter(Boolean).sort((a,b)=>(`${a.date||''} ${a.start_time||''}`).localeCompare(`${b.date||''} ${b.start_time||''}`))}
+const scheduleSeenEvents=new Map();
+function selectedScheduleRecords(){const byId=new Map(scheduleSeenEvents);for(const event of events)byId.set(String(event.event_id),event);for(const [id,value] of details.entries()){const event=value?.event||value;if(event)byId.set(String(event.event_id||id),event)}return [...selected_event_ids].map(id=>byId.get(String(id))).filter(Boolean).sort((a,b)=>(`${a.date||''} ${a.start_time||''}`).localeCompare(`${b.date||''} ${b.start_time||''}`))}
 function renderLiveSchedule(){const rows=selectedScheduleRecords(),list=rightColumn.querySelector('.my-schedule-list');rightColumn.querySelector('[data-live-count]').textContent=`${rows.length} events`;mobileTrigger.textContent=`My Schedule · ${rows.length} events`;list.innerHTML=rows.map(event=>`<article class="live-schedule-card"><strong>${escapeHtml(event.title||event.work_title||'Untitled event')}</strong><div>${escapeHtml(formatEventDate(event))}</div><div>${escapeHtml(formatEventLocation(event))}</div><div class="live-schedule-actions"><button type="button" class="secondary" data-live-detail="${escapeHtml(event.event_id)}">查看详情</button><button type="button" data-live-remove="${escapeHtml(event.event_id)}">移除</button></div></article>`).join('')||'<div class="hint">还没有加入演出。</div>';list.querySelectorAll('[data-live-detail]').forEach(button=>button.onclick=()=>showDetail(button.dataset.liveDetail));list.querySelectorAll('[data-live-remove]').forEach(button=>button.onclick=()=>{selectionStore.removeEvent(button.dataset.liveRemove);renderLiveSchedule()})}
 const baseUpdateSelected=updateSelected;updateSelected=function(){baseUpdateSelected();renderLiveSchedule()};
 if($('generate'))$('generate').hidden=true;rightColumn.querySelector('[data-close-schedule]').onclick=()=>rightColumn.classList.remove('mobile-open');mobileTrigger.onclick=()=>rightColumn.classList.add('mobile-open');rightColumn.querySelector('[data-generate-live]').onclick=()=>{renderLiveSchedule();rightColumn.querySelector('[data-live-count]').textContent=`${selectedScheduleRecords().length} events`};
@@ -133,36 +134,30 @@ layout.classList.remove('has-event-pane');const persistentRenderBase=renderPersi
 const sourceLinkStyle=document.createElement('style');sourceLinkStyle.textContent='.source-link{color:var(--forest);text-decoration:none;border-bottom:1px solid currentColor;font-size:12px;white-space:nowrap}';document.head.appendChild(sourceLinkStyle);
 </script><script>
 // Final Event Results controller: filter results first, then paginate exactly 15.
-const eventPageSize=15;let eventPage=1;
+const eventPageSize=15;let eventPage=1,schedulePagedMode=false,scheduleResultTotal=0;
 const eventPagination=document.createElement('nav');eventPagination.id='eventPagination';eventPagination.className='event-pagination';$('events').after(eventPagination);
 // Schedule owns this renderer. Do not reuse renderEventPagination: shared-header.js
 // replaces that legacy global on window.load.
 function renderScheduleEventPagination(){
-  const totalPages=Math.max(1,Math.ceil(events.length/eventPageSize));
+  const total=schedulePagedMode?scheduleResultTotal:events.length;
+  const totalPages=Math.max(1,Math.ceil(total/eventPageSize));
   eventPage=Math.min(Math.max(1,eventPage),totalPages);
-  if(events.length<=eventPageSize){eventPagination.innerHTML='';return}
-  const pages=totalPages<=7?Array.from({length:totalPages},(_,index)=>index+1)
-    :eventPage<=3?[1,2,3,'ellipsis',totalPages]
-    :eventPage>=totalPages-2?[1,'ellipsis',totalPages-2,totalPages-1,totalPages]
-    :[1,'ellipsis',eventPage-1,eventPage,eventPage+1,'ellipsis',totalPages];
-  const pageNumbers=pages.map(page=>page==='ellipsis'
-    ?'<span class="pagination-ellipsis" aria-hidden="true">…</span>'
-    :'<button type="button" class="secondary '+(eventPage===page?'active':'')+'" data-page-number="'+page+'" '+(eventPage===page?'aria-current="page"':'')+'>'+page+'</button>').join('');
-  eventPagination.innerHTML='<button type="button" class="secondary" data-page-first '+(eventPage===1?'disabled':'')+'>First page</button><button type="button" class="secondary" data-page-prev '+(eventPage===1?'disabled':'')+'>Previous</button>'+pageNumbers+'<button type="button" class="secondary" data-page-next '+(eventPage===totalPages?'disabled':'')+'>Next</button><button type="button" class="secondary" data-page-last '+(eventPage===totalPages?'disabled':'')+'>Last page</button>';
-  eventPagination.querySelector('[data-page-first]').onclick=()=>{eventPage=1;renderEvents()};
-  eventPagination.querySelector('[data-page-prev]').onclick=()=>{eventPage--;renderEvents()};
-  eventPagination.querySelector('[data-page-next]').onclick=()=>{eventPage++;renderEvents()};
-  eventPagination.querySelector('[data-page-last]').onclick=()=>{eventPage=totalPages;renderEvents()};
-  eventPagination.querySelectorAll('[data-page-number]').forEach(button=>button.onclick=()=>{eventPage=Number(button.dataset.pageNumber);renderEvents()});
+  if(total<=eventPageSize){eventPagination.innerHTML='';return}
+  eventPagination.innerHTML='<button type="button" class="secondary" data-page-first '+(eventPage===1?'disabled':'')+'>First page</button><button type="button" class="secondary" data-page-prev '+(eventPage===1?'disabled':'')+'>Previous</button><button type="button" class="secondary" data-page-next '+(eventPage===totalPages?'disabled':'')+'>Next</button><button type="button" class="secondary" data-page-last '+(eventPage===totalPages?'disabled':'')+'>Last page</button>';
+  const selectPage=page=>{if(schedulePagedMode){runEntitySearch(page);return}eventPage=page;renderEvents()};
+  eventPagination.querySelector('[data-page-first]').onclick=()=>selectPage(1);
+  eventPagination.querySelector('[data-page-prev]').onclick=()=>selectPage(eventPage-1);
+  eventPagination.querySelector('[data-page-next]').onclick=()=>selectPage(eventPage+1);
+  eventPagination.querySelector('[data-page-last]').onclick=()=>selectPage(totalPages);
 }
-renderEvents=function(){const total=events.length;if(!total){$('events').innerHTML='<div class="status">没有符合条件的演出。</div>';eventPagination.innerHTML='';return}const totalPages=Math.max(1,Math.ceil(total/eventPageSize));eventPage=Math.min(eventPage,totalPages);const visible=events.slice((eventPage-1)*eventPageSize,eventPage*eventPageSize);$('events').innerHTML=visible.map(e=>`<article class="event"><input type="checkbox" data-event="${escapeHtml(e.event_id)}" ${selectionStore.isSelected(e.event_id)?'checked':''} aria-label="选择 ${escapeHtml(e.title||'')}"><div class="date"><strong>${escapeHtml(formatEventDate(e))}</strong></div><div><h3>${escapeHtml(e.title||'')}</h3><div class="meta">${escapeHtml(formatEventLocation(e))} · ${escapeHtml(e.event_type||'')}</div></div><div class="actions"><button type="button" class="secondary" data-detail="${escapeHtml(e.event_id)}">详情</button><button type="button" data-add="${escapeHtml(e.event_id)}">${selectionStore.isSelected(e.event_id)?'已加入 / 移除':'加入清单'}</button></div></article>`).join('');$('events').onclick=event=>{const detail=event.target.closest('[data-detail]');const add=event.target.closest('[data-add]');const checkbox=event.target.closest('[data-event]');if(detail){event.preventDefault();showDetail(detail.dataset.detail);return}if(add){event.preventDefault();selectionStore.toggleEvent(add.dataset.add);renderEvents();return}if(checkbox&&event.target===checkbox){selectionStore.toggleEvent(checkbox.dataset.event);renderEvents()}};renderScheduleEventPagination();updateSelected()};
+renderEvents=function(){const total=events.length;if(!total){$('events').innerHTML='<div class="status">没有符合条件的演出。</div>';eventPagination.innerHTML='';return}const totalPages=Math.max(1,Math.ceil((schedulePagedMode?scheduleResultTotal:total)/eventPageSize));eventPage=Math.min(eventPage,totalPages);const visible=schedulePagedMode?events:events.slice((eventPage-1)*eventPageSize,eventPage*eventPageSize);$('events').innerHTML=visible.map(e=>`<article class="event"><input type="checkbox" data-event="${escapeHtml(e.event_id)}" ${selectionStore.isSelected(e.event_id)?'checked':''} aria-label="选择 ${escapeHtml(e.title||'')}"><div class="date"><strong>${escapeHtml(formatEventDate(e))}</strong></div><div><h3>${escapeHtml(e.title||'')}</h3><div class="meta">${escapeHtml(formatEventLocation(e))} · ${escapeHtml(e.event_type||'')}</div></div><div class="actions"><button type="button" class="secondary" data-detail="${escapeHtml(e.event_id)}">详情</button><button type="button" data-add="${escapeHtml(e.event_id)}">${selectionStore.isSelected(e.event_id)?'已加入 / 移除':'加入清单'}</button></div></article>`).join('');$('events').onclick=event=>{const detail=event.target.closest('[data-detail]');const add=event.target.closest('[data-add]');const checkbox=event.target.closest('[data-event]');if(detail){event.preventDefault();showDetail(detail.dataset.detail);return}if(add){event.preventDefault();selectionStore.toggleEvent(add.dataset.add);renderEvents();return}if(checkbox&&event.target===checkbox){selectionStore.toggleEvent(checkbox.dataset.event);renderEvents()}};renderScheduleEventPagination();updateSelected()};
 const existingSearchHandler=$('search').onclick;$('search').onclick=async event=>{eventPage=1;await existingSearchHandler?.(event);renderEvents()};
-const eventPaginationStyle=document.createElement('style');eventPaginationStyle.textContent='main{width:calc(100% - 28px);max-width:none}.event-pagination{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:14px 0}.event-pagination:empty{display:none}.event-pagination button{font-size:12px;padding:6px 9px}.event-pagination button.active{background:var(--forest);color:#fff}.event-pagination button:disabled{opacity:.45;cursor:not-allowed}.event-pagination .pagination-ellipsis{display:inline-flex;align-items:center;justify-content:center;min-width:24px;color:#68716b}';document.head.appendChild(eventPaginationStyle);
+const eventPaginationStyle=document.createElement('style');eventPaginationStyle.textContent='main{width:calc(100% - 28px);max-width:none}.event-pagination{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:14px 0}.event-pagination:empty{display:none}.event-pagination button{font-size:12px;padding:6px 9px}.event-pagination button:disabled{opacity:.45;cursor:not-allowed}';document.head.appendChild(eventPaginationStyle);
 renderEvents();
 </script><script>
 // Event List interaction fix: title and detail button share one internal handler.
 function openEventDetail(eventId){const id=String(eventId||'').trim();if(id)showDetail(id)}
-renderEvents=function(){const total=events.length;if(!total){$('events').innerHTML='<div class="status">没有符合条件的演出。</div>';eventPagination.innerHTML='';return}const totalPages=Math.max(1,Math.ceil(total/eventPageSize));eventPage=Math.min(eventPage,totalPages);const visible=events.slice((eventPage-1)*eventPageSize,eventPage*eventPageSize);$('events').innerHTML=visible.map(e=>`<article class="event"><input type="checkbox" data-event="${escapeHtml(e.event_id)}" ${selectionStore.isSelected(e.event_id)?'checked':''} aria-label="选择 ${escapeHtml(e.title||'')}"><div class="date"><strong>${escapeHtml(formatEventDate(e))}</strong></div><div><button type="button" class="event-title-link" data-event-title="${escapeHtml(e.event_id)}">${escapeHtml(e.title||'')}</button><div class="meta">${escapeHtml(formatEventLocation(e))} · ${escapeHtml(e.event_type||'')}</div></div><div class="actions"><button type="button" class="secondary" data-detail="${escapeHtml(e.event_id)}">详情</button><button type="button" data-add="${escapeHtml(e.event_id)}">${selectionStore.isSelected(e.event_id)?'已加入 / 移除':'加入清单'}</button></div></article>`).join('');$('events').onclick=event=>{const title=event.target.closest('[data-event-title]');const detail=event.target.closest('[data-detail]');const add=event.target.closest('[data-add]');const checkbox=event.target.closest('[data-event]');if(title){event.preventDefault();openEventDetail(title.dataset.eventTitle);return}if(detail){event.preventDefault();openEventDetail(detail.dataset.detail);return}if(add){event.preventDefault();selectionStore.toggleEvent(add.dataset.add);renderEvents();return}if(checkbox&&event.target===checkbox){selectionStore.toggleEvent(checkbox.dataset.event);renderEvents()}};renderScheduleEventPagination();updateSelected()};
+renderEvents=function(){const total=events.length;if(!total){$('events').innerHTML='<div class="status">没有符合条件的演出。</div>';eventPagination.innerHTML='';return}const totalPages=Math.max(1,Math.ceil((schedulePagedMode?scheduleResultTotal:total)/eventPageSize));eventPage=Math.min(eventPage,totalPages);const visible=schedulePagedMode?events:events.slice((eventPage-1)*eventPageSize,eventPage*eventPageSize);$('events').innerHTML=visible.map(e=>`<article class="event"><input type="checkbox" data-event="${escapeHtml(e.event_id)}" ${selectionStore.isSelected(e.event_id)?'checked':''} aria-label="选择 ${escapeHtml(e.title||'')}"><div class="date"><strong>${escapeHtml(formatEventDate(e))}</strong></div><div><button type="button" class="event-title-link" data-event-title="${escapeHtml(e.event_id)}">${escapeHtml(e.title||'')}</button><div class="meta">${escapeHtml(formatEventLocation(e))} · ${escapeHtml(e.event_type||'')}</div></div><div class="actions"><button type="button" class="secondary" data-detail="${escapeHtml(e.event_id)}">详情</button><button type="button" data-add="${escapeHtml(e.event_id)}">${selectionStore.isSelected(e.event_id)?'已加入 / 移除':'加入清单'}</button></div></article>`).join('');$('events').onclick=event=>{const title=event.target.closest('[data-event-title]');const detail=event.target.closest('[data-detail]');const add=event.target.closest('[data-add]');const checkbox=event.target.closest('[data-event]');if(title){event.preventDefault();openEventDetail(title.dataset.eventTitle);return}if(detail){event.preventDefault();openEventDetail(detail.dataset.detail);return}if(add){event.preventDefault();selectionStore.toggleEvent(add.dataset.add);renderEvents();return}if(checkbox&&event.target===checkbox){selectionStore.toggleEvent(checkbox.dataset.event);renderEvents()}};renderScheduleEventPagination();updateSelected()};
 const eventTitleStyle=document.createElement('style');eventTitleStyle.textContent='.event-title-link{display:block;padding:0;border:0;background:none;color:var(--forest);font:700 18px Georgia,serif;text-align:left;cursor:pointer}.event-title-link:hover,.event-title-link:focus-visible{text-decoration:underline;text-underline-offset:3px}';document.head.appendChild(eventTitleStyle);renderEvents();
 </script><script>
 // Intent state and timeline presentation. Going reuses the existing shared selection store.
@@ -457,7 +452,9 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
   const artistInput=document.getElementById('artistCondition');
   const dateFromInput=document.getElementById('dateFrom');
   const dateToInput=document.getElementById('dateTo');
-  runEntitySearch=async function(){
+  let scheduleSearchRevision=0;
+  runEntitySearch=async function(requestedPage=1){
+    const revision=++scheduleSearchRevision;
     const status=document.getElementById('filterStatus');
     if(status){status.className='status';setText(status,'')}
     if(status)setText(status,text('searching'));
@@ -474,13 +471,27 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
     else if(characterInput?.value.trim())payload.character_query=characterInput.value.trim();
     if(conditionState.artist?.id)payload.artist_id=conditionState.artist.id;
     else if(artistInput?.value.trim())payload.artist_query=artistInput.value.trim();
+    const hasCondition=["date_from","date_to","event_type","location_query","venue_query",
+      "work_id","composer_query","work_query","character_id","character_query","artist_id","artist_query"
+    ].some(key=>Boolean(payload[key]))||["cities","organizations","venues"].some(key=>payload[key]?.length);
+    if(!hasCondition){
+      payload.page=Number.isInteger(requestedPage)&&requestedPage>0?requestedPage:1;
+      payload.page_size=eventPageSize;
+    }
     try{
       const result=await api(payload);
+      if(revision!==scheduleSearchRevision)return;
       events=result.events||[];
-      setText(document.getElementById('resultHint'),eventCount(events.length));
+      schedulePagedMode=!hasCondition&&Number.isSafeInteger(Number(result.total));
+      scheduleResultTotal=schedulePagedMode?Number(result.total):events.length;
+      eventPage=schedulePagedMode?Number(result.page)||1:1;
+      for(const event of events)if(event.event_id)scheduleSeenEvents.set(String(event.event_id),event);
+      setText(document.getElementById('resultHint'),eventCount(scheduleResultTotal));
       renderEvents();
       if(status)setText(status,'');
     }catch(error){
+      if(revision!==scheduleSearchRevision)return;
+      events=[];scheduleResultTotal=0;schedulePagedMode=false;eventPage=1;renderEvents();
       if(status){status.className='status error';setText(status,error.message)}
     }
   };
@@ -505,7 +516,7 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
   setLabel('label[for="venueSearch"]',text('venueSearch'));
   setText(document.getElementById('resultHint'),text('searchHint'));
   window.scheduleProgressiveRefresh?.();
-  window.scheduleOptionsPromise?.then(()=>runEntitySearch());
+  window.scheduleOptionsPromise?.then(()=>{if(!scheduleSearchRevision)runEntitySearch()});
   }
 
   function localizeGeneratedUi(){
