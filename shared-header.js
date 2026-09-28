@@ -9,11 +9,72 @@
       .byelingua-compact-spacer{flex:1}.byelingua-compact-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
       .byelingua-compact-actions button{font:inherit;cursor:pointer;border:1px solid #aebbb2;border-radius:4px;padding:6px 9px;background:transparent;color:#214d3a}
       .byelingua-compact-actions button.active{background:#214d3a;color:#fff;border-color:#214d3a}
+      .byelingua-primary-nav{border-top:1px solid #d7d7ce}
+      .byelingua-primary-inner{width:min(1120px,calc(100% - 28px));min-height:50px;margin:auto;display:flex;align-items:center;gap:20px}
+      .byelingua-primary-links,.byelingua-primary-actions{display:flex;align-items:center;gap:18px}
+      .byelingua-primary-links a,.byelingua-primary-links span{color:#214d3a;font-size:13px;font-weight:650;text-decoration:none;white-space:nowrap}
+      .byelingua-primary-links a:hover{text-decoration:underline}
+      .byelingua-primary-links a[aria-current="page"]{text-decoration:underline;text-underline-offset:5px}
+      .byelingua-primary-links [aria-disabled="true"]{opacity:.65}
+      .byelingua-primary-spacer{flex:1}
+      .byelingua-primary-actions{gap:6px}
+      .byelingua-primary-actions button{font:inherit;font-size:13px;font-weight:650;cursor:pointer;border:1px solid #aebbb2;border-radius:4px;padding:6px 9px;background:transparent;color:#214d3a;white-space:nowrap}
+      .byelingua-primary-actions [data-shared-language]{font-size:11px;padding:7px 9px}
+      .byelingua-primary-actions button.active{background:#214d3a;color:#fff;border-color:#214d3a}
       .schedule-site-header.byelingua-compact-header{width:100%;padding:0;border-bottom:0}.schedule-site-header.byelingua-compact-header .schedule-identity{display:flex;align-items:center;gap:14px}.schedule-site-header.byelingua-compact-header .schedule-brand{font-size:25px}.schedule-site-header.byelingua-compact-header .schedule-tagline{margin:0}.schedule-site-header.byelingua-compact-header .schedule-page-title,.schedule-site-header.byelingua-compact-header .schedule-page-description{display:none}.schedule-page-heading{width:min(1120px,calc(100% - 28px));margin:18px auto 2px}.schedule-page-heading h1{margin:0;color:#214d3a}.schedule-page-heading .hint{margin-top:3px}
-      .byelingua-compact-account{color:#68716b;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:700px){.byelingua-compact-inner{min-height:48px;gap:8px}.byelingua-compact-tagline{display:none}.byelingua-compact-brand{font-size:22px}.byelingua-compact-actions button{min-height:36px;padding:5px 7px}.schedule-site-header.byelingua-compact-header .schedule-identity{width:auto}.schedule-site-header.byelingua-compact-header .schedule-tagline{display:none}}
+      .byelingua-compact-account{color:#68716b;font-size:12px;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:700px){.byelingua-compact-inner{min-height:48px;gap:8px}.byelingua-compact-tagline{display:none}.byelingua-compact-brand{font-size:22px}.byelingua-primary-inner{flex-wrap:wrap;gap:8px;padding:8px 0}.byelingua-primary-links{width:100%;gap:18px;overflow-x:auto}.byelingua-primary-actions{width:100%;justify-content:flex-end;flex-wrap:wrap}.byelingua-primary-actions button{min-height:36px;padding:5px 7px}.byelingua-primary-spacer{display:none}.schedule-site-header.byelingua-compact-header .schedule-identity{width:auto}.schedule-site-header.byelingua-compact-header .schedule-tagline{display:none}}
     `;document.head.append(style)
   }
-  window.ByelinguaHeader={mount:function(target,options){if(!target)return;options=options||{};const i18n=window.ByelinguaI18n;target.classList.add('byelingua-compact-header');target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span><span class="byelingua-compact-spacer"></span><div class="byelingua-compact-actions"><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account></button><button id="logoutButton" type="button" data-shared-signout></button><button type="button" data-shared-language="zh">中文</button><button type="button" data-shared-language="en">English</button></div></div>';const render=()=>{const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');target.querySelector('[data-shared-account]').textContent=language==='en'?'User Center':'用户中心';target.querySelector('[data-shared-signout]').textContent=language==='en'?'Sign out':'退出登录';target.querySelectorAll('[data-shared-language]').forEach(button=>button.classList.toggle('active',button.dataset.sharedLanguage===language));document.documentElement.lang=language==='en'?'en-GB':'zh-CN'};target.querySelectorAll('[data-shared-language]').forEach(button=>button.onclick=()=>{localStorage.setItem('byelinguaUiLanguage',button.dataset.sharedLanguage);window.dispatchEvent(new CustomEvent('byelingua-language-change',{detail:button.dataset.sharedLanguage}));render()});target.querySelector('[data-shared-account]').onclick=()=>location.href='/account.html';target.querySelector('[data-shared-signout]').onclick=async()=>{try{const cfg=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_auth_config'})}).then(r=>r.json());if(window.supabase){const client=window.supabase.createClient(cfg.url,cfg.publishable_key);await client.auth.signOut()}}finally{location.href='/'}};render();window.addEventListener('byelingua-language-change',render);return target}};
+  window.ByelinguaHeader={mount:function(target,options){
+    if(!target)return;
+    options=options||{};
+    const i18n=window.ByelinguaI18n;
+    target.classList.add('byelingua-compact-header');
+    target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span></div><nav class="byelingua-primary-nav" aria-label="Primary navigation"><div class="byelingua-primary-inner"><div class="byelingua-primary-links"><a href="/" data-nav-news>新闻</a><a href="/schedule.html" data-nav-schedule>日程设计</a><span data-nav-concert-reviews aria-disabled="true">音乐会 Review</span></div><span class="byelingua-primary-spacer"></span><div class="byelingua-primary-actions"><button type="button" data-shared-language="zh">CN</button><button type="button" data-shared-language="en">EN</button><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account>用户中心</button><button type="button" data-shared-register>注册</button><button id="logoutButton" type="button" data-shared-signout hidden>退出登录</button></div></div></nav>';
+    const render=()=>{
+      const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');
+      const english=language==='en';
+      target.querySelector('[data-nav-news]').textContent=english?'News':'新闻';
+      target.querySelector('[data-nav-schedule]').textContent=english?'Schedule Builder':'日程设计';
+      target.querySelector('[data-nav-concert-reviews]').textContent=english?'Concert Reviews':'音乐会 Review';
+      target.querySelector('[data-shared-account]').textContent=english?'User Center':'用户中心';
+      target.querySelector('[data-shared-register]').textContent=english?'Register':'注册';
+      target.querySelector('[data-shared-signout]').textContent=english?'Sign out':'退出登录';
+      target.querySelector('.byelingua-primary-nav').setAttribute('aria-label',english?'Primary navigation':'主导航');
+      target.querySelectorAll('[data-shared-language]').forEach(button=>button.classList.toggle('active',button.dataset.sharedLanguage===language));
+      document.documentElement.lang=english?'en-GB':'zh-CN';
+    };
+    const path=location.pathname;
+    if(path==='/'||path==='/index.html')target.querySelector('[data-nav-news]').setAttribute('aria-current','page');
+    if(path.startsWith('/schedule'))target.querySelector('[data-nav-schedule]').setAttribute('aria-current','page');
+    const hasSession=()=>[...Object.keys(localStorage)].some(key=>key.startsWith('sb-')&&key.endsWith('-auth-token'));
+    const renderAuth=()=>{
+      const signedIn=hasSession();
+      target.querySelector('[data-shared-register]').hidden=signedIn;
+      target.querySelector('[data-shared-signout]').hidden=!signedIn;
+    };
+    target.querySelectorAll('[data-shared-language]').forEach(button=>button.onclick=()=>{
+      localStorage.setItem('byelinguaUiLanguage',button.dataset.sharedLanguage);
+      window.dispatchEvent(new CustomEvent('byelingua-language-change',{detail:button.dataset.sharedLanguage}));
+      render();
+    });
+    target.querySelector('[data-shared-account]').onclick=()=>location.href=hasSession()?'/account.html':'/?login=1';
+    target.querySelector('[data-shared-register]').onclick=()=>location.href='/?register=1';
+    target.querySelector('[data-shared-signout]').onclick=async()=>{
+      try{
+        if(window.supabase){
+          const cfg=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'get_auth_config'})}).then(r=>r.json());
+          await window.supabase.createClient(cfg.url,cfg.publishable_key).auth.signOut();
+        }else for(const key of Object.keys(localStorage))if(key.startsWith('sb-')&&key.endsWith('-auth-token'))localStorage.removeItem(key);
+      }finally{location.href='/'}
+    };
+    render();renderAuth();
+    window.addEventListener('byelingua-language-change',render);
+    window.addEventListener('storage',renderAuth);
+    const updateHeight=()=>document.documentElement.style.setProperty('--byelingua-header-height',`${Math.ceil(target.getBoundingClientRect().height)}px`);
+    updateHeight();if(window.ResizeObserver)new ResizeObserver(updateHeight).observe(target);
+    return target;
+  }};
 
   window.addEventListener('load',()=>{
     // Compact event pagination on Schedule.

@@ -231,6 +231,7 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   if(scheduleGenerate){document.body.appendChild(scheduleGenerate);scheduleGenerate.hidden=true;scheduleGenerate.style.display='none'}
   top.classList.remove('top');
   ByelinguaHeader.mount(top);
+  document.body.insertBefore(top,document.querySelector('main'));
   const heading=document.createElement('div');heading.className='schedule-page-heading';heading.innerHTML='<h1 class="schedule-page-title">Schedule Builder</h1><div class="hint schedule-page-description">选择日期、地点和演出，生成个人演出时间表。</div>';window.schedulePageHeading=heading;top.after(heading);
   const languageButtons=[...top.querySelectorAll('[data-shared-language]')];
   if(scheduleGenerate&&typeof generate==='function')scheduleGenerate.onclick=generate;
@@ -241,7 +242,7 @@ const scheduleVisibilityStyle=document.createElement('style');scheduleVisibility
   document.body.appendChild(loginDialog);
   const accountButton=top.querySelector('[data-shared-account]'),logoutButton=top.querySelector('[data-shared-signout]');
   let authClient=null,authSession=null;
-  function updateScheduleAccount(){accountButton.textContent='User Center';accountButton.hidden=false;logoutButton.hidden=!authSession}
+  function updateScheduleAccount(){accountButton.textContent=window.ByelinguaI18n.getUiLanguage()==='en'?'User Center':'用户中心';accountButton.hidden=false;accountButton.onclick=()=>authSession?location.href='/account.html':loginDialog.showModal();logoutButton.hidden=!authSession;top.querySelector('[data-shared-register]').hidden=!!authSession}
   document.getElementById('scheduleAuthSubmit').onclick=async(e)=>{e.preventDefault();const status=document.getElementById('scheduleAuthStatus');try{if(!authClient){const cfg=await api({action:'get_auth_config'});authClient=window.supabase.createClient(cfg.url,cfg.publishable_key)}const result=await authClient.auth.signInWithPassword({email:document.getElementById('scheduleAuthEmail').value,password:document.getElementById('scheduleAuthPassword').value});if(result.error)throw result.error;authSession=result.data.session;eventAccessToken=authSession?.access_token||'';updateScheduleAccount();loginDialog.close();}catch(error){status.textContent=error.message;status.className='status error'}};
   function initScheduleAuth(){if(!window.supabase)return;api({action:'get_auth_config'}).then(cfg=>{authClient=window.supabase.createClient(cfg.url,cfg.publishable_key);return authClient.auth.getSession()}).then(result=>{authSession=result.data.session;eventAccessToken=authSession?.access_token||'';updateScheduleAccount();authClient.auth.onAuthStateChange((_event,next)=>{authSession=next;eventAccessToken=next?.access_token||'';updateScheduleAccount()})}).catch(()=>updateScheduleAccount())}
   if(window.supabase)initScheduleAuth();else{const script=document.createElement('script');script.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';script.onload=initScheduleAuth;document.head.appendChild(script)}
