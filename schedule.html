@@ -117,19 +117,51 @@ if($('generate'))$('generate').hidden=true;rightColumn.querySelector('[data-clos
 const layoutStyle=document.createElement('style');layoutStyle.textContent='.schedule-builder-layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(320px,1fr);gap:16px;align-items:start}.schedule-left-column{min-width:0}.my-schedule-panel{position:sticky;top:14px;height:calc(100vh - 28px);min-width:320px;max-width:50vw;background:var(--card);border:1px solid var(--line);border-radius:7px;display:flex;flex-direction:column;overflow:hidden}.my-schedule-header{position:sticky;top:0;z-index:1;padding:16px;border-bottom:1px solid var(--line);background:var(--card);display:flex;justify-content:space-between;align-items:flex-start}.my-schedule-header h2{margin:0;color:var(--forest)}.my-schedule-header [data-close-schedule]{display:none}.my-schedule-list{padding:12px;overflow-y:auto;flex:1}.live-schedule-card{border:1px solid var(--line);border-radius:6px;padding:10px;margin-bottom:8px;font-size:12px}.live-schedule-card>strong{display:block;color:var(--forest);font-size:14px}.live-schedule-actions{display:flex;gap:7px;margin-top:8px}.live-schedule-actions button,.my-schedule-footer button{font-size:12px;padding:6px 9px}.my-schedule-footer{border-top:1px solid var(--line);padding:12px}.mobile-schedule-trigger{display:none}@media(max-width:760px){.schedule-builder-layout{display:block}.my-schedule-panel{display:none;position:fixed;inset:0;z-index:30;width:100vw;max-width:none;height:100dvh;border-radius:0}.my-schedule-panel.mobile-open{display:flex}.my-schedule-header [data-close-schedule]{display:block}.mobile-schedule-trigger{display:block;position:fixed;z-index:25;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;right:12px;width:calc(100% - 24px);min-height:46px}.schedule-left-column{padding-bottom:76px}}';document.head.appendChild(layoutStyle);renderLiveSchedule();
 </script><script>
 // Persistent Event Detail pane and contextual Artist Panel layering.
-let activeEventId=null,activeArtistId=null;
+let activeEventId=null,activeArtistId=null,persistentDetailRevision=0;
 const eventPane=document.createElement('section');eventPane.id='persistentEventDetail';eventPane.className='persistent-event-pane';eventPane.hidden=true;eventPane.innerHTML='<div class="persistent-event-header"><div><h2 data-persistent-title>Event Detail</h2><div class="meta" data-persistent-meta></div></div><button type="button" class="secondary detail-close" aria-label="Close event detail" data-close-persistent>×</button></div><div class="persistent-event-body" data-persistent-body></div>';
 if(typeof leftColumn!=='undefined'&&typeof rightColumn!=='undefined'){layout.insertBefore(eventPane,rightColumn);layout.classList.add('has-event-pane')}
 if($('detail'))$('detail').remove();
 function currentDetailEvent(id){const value=details.get(String(id));return value?.event||value||null}
 function eventSourceLink(event){const url=event.source_url||event.detail_url||'';return url?`<a class="source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">View original ↗</a>`:''}
-async function renderPersistentEvent(id){activeEventId=String(id);eventPane.hidden=false;eventPane.querySelector('[data-persistent-title]').textContent='Loading…';eventPane.querySelector('[data-persistent-body]').innerHTML='<div class="hint">正在加载演出详情…</div>';try{const d=await api({action:'schedule_event_detail',event_id:activeEventId});details.set(activeEventId,d.event);const event=d.event;eventPane.querySelector('[data-persistent-title]').textContent=event.title||'Event Detail';eventPane.querySelector('[data-persistent-meta]').innerHTML=`${escapeHtml(formatEventDate(event))} · ${escapeHtml(formatEventLocation(event))}${eventSourceLink(event)?` · ${eventSourceLink(event)}`:''}`;eventPane.querySelector('[data-persistent-body]').innerHTML=`<div class="details"><h4>Programme</h4><ul>${renderProgramme(event.programme)}</ul>${renderPresentationCredits(event)}<div class="detail-actions"><button type="button" data-persistent-toggle="${escapeHtml(activeEventId)}">${selectionStore.isSelected(activeEventId)?'已加入 / 移除':'加入清单'}</button></div></div>`;eventPane.querySelector('[data-persistent-toggle]').onclick=()=>{selectionStore.toggleEvent(activeEventId);renderPersistentEvent(activeEventId);renderLiveSchedule()}}catch(error){eventPane.querySelector('[data-persistent-body]').innerHTML=`<div class="error">${escapeHtml(error.message)}</div>`}}
+function closePersistentEventDetail(){
+  persistentDetailRevision++;
+  activeEventId=null;
+  layout.classList.remove('has-event-pane');
+  eventPane.hidden=true;
+  eventPane.querySelector('[data-persistent-title]').textContent='Event Detail';
+  eventPane.querySelector('[data-persistent-meta]').textContent='';
+  eventPane.querySelector('[data-persistent-body]').replaceChildren();
+  eventPane.querySelector('[data-intent-controls]')?.remove();
+}
+async function renderPersistentEvent(id){
+  const requestedId=String(id||'');
+  if(!requestedId){closePersistentEventDetail();return}
+  const revision=++persistentDetailRevision;
+  activeEventId=requestedId;
+  eventPane.hidden=false;
+  eventPane.querySelector('[data-persistent-title]').textContent='Loading…';
+  eventPane.querySelector('[data-persistent-meta]').textContent='';
+  eventPane.querySelector('[data-persistent-body]').innerHTML='<div class="hint">正在加载演出详情…</div>';
+  try{
+    const d=await api({action:'schedule_event_detail',event_id:requestedId});
+    if(revision!==persistentDetailRevision||activeEventId!==requestedId||eventPane.hidden)return;
+    details.set(requestedId,d.event);
+    const event=d.event;
+    eventPane.querySelector('[data-persistent-title]').textContent=event.title||'Event Detail';
+    eventPane.querySelector('[data-persistent-meta]').innerHTML=`${escapeHtml(formatEventDate(event))} · ${escapeHtml(formatEventLocation(event))}${eventSourceLink(event)?` · ${eventSourceLink(event)}`:''}`;
+    eventPane.querySelector('[data-persistent-body]').innerHTML=`<div class="details"><h4>Programme</h4><ul>${renderProgramme(event.programme)}</ul>${renderPresentationCredits(event)}<div class="detail-actions"><button type="button" data-persistent-toggle="${escapeHtml(requestedId)}">${selectionStore.isSelected(requestedId)?'已加入 / 移除':'加入清单'}</button></div></div>`;
+    eventPane.querySelector('[data-persistent-toggle]').onclick=()=>{selectionStore.toggleEvent(requestedId);renderPersistentEvent(requestedId);renderLiveSchedule()};
+  }catch(error){
+    if(revision!==persistentDetailRevision||activeEventId!==requestedId||eventPane.hidden)return;
+    eventPane.querySelector('[data-persistent-body]').innerHTML=`<div class="error">${escapeHtml(error.message)}</div>`;
+  }
+}
 showDetail=renderPersistentEvent;
-eventPane.querySelector('[data-close-persistent]').onclick=()=>{activeEventId=null;eventPane.hidden=true};
+eventPane.querySelector('[data-close-persistent]').onclick=closePersistentEventDetail;
 const persistentStyle=document.createElement('style');persistentStyle.textContent='.schedule-builder-layout.has-event-pane{grid-template-columns:minmax(0,1.35fr) minmax(360px,.9fr) minmax(320px,1fr)}.persistent-event-pane{position:sticky;top:14px;height:calc(100vh - 28px);min-width:0;background:var(--card);border:1px solid var(--line);border-radius:7px;overflow-y:auto}.persistent-event-header{position:sticky;top:0;z-index:2;background:var(--card);padding:16px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:10px}.persistent-event-header h2{margin:0;color:var(--forest)}.persistent-event-body{padding:16px}.persistent-event-body .details{border-top:0;margin-top:0}.persistent-event-body .artist-link{font-size:inherit}@media(max-width:1100px) and (min-width:761px){.schedule-builder-layout.has-event-pane{grid-template-columns:minmax(0,1.2fr) minmax(320px,.85fr) minmax(300px,.9fr)}}@media(max-width:760px){.schedule-builder-layout.has-event-pane{display:block}.persistent-event-pane{position:fixed;inset:0;z-index:28;width:100vw;height:100dvh;border-radius:0;background:var(--paper)}.persistent-event-header{padding-top:calc(14px + env(safe-area-inset-top))}.persistent-event-body{overflow-y:auto;padding-bottom:90px}.persistent-event-pane[hidden]{display:none!important}.persistent-event-pane~.my-schedule-panel{display:none!important}}';document.head.appendChild(persistentStyle);
 // Artist links set activeArtistId without disturbing the active event pane.
 const openArtistPanelBase=openArtistPanel;openArtistPanel=async function(artistId){activeArtistId=String(artistId);return openArtistPanelBase(artistId)};artistDrawer.querySelector('.artist-drawer-close').onclick=()=>{activeArtistId=null;artistDrawer.classList.remove('open');artistDrawer.setAttribute('aria-hidden','true')};
-layout.classList.remove('has-event-pane');const persistentRenderBase=renderPersistentEvent;renderPersistentEvent=async function(id){layout.classList.add('has-event-pane');return persistentRenderBase(id)};showDetail=renderPersistentEvent;eventPane.querySelector('[data-close-persistent]').onclick=()=>{activeEventId=null;layout.classList.remove('has-event-pane');eventPane.hidden=true};
+layout.classList.remove('has-event-pane');const persistentRenderBase=renderPersistentEvent;renderPersistentEvent=async function(id){layout.classList.add('has-event-pane');return persistentRenderBase(id)};showDetail=renderPersistentEvent;eventPane.querySelector('[data-close-persistent]').onclick=closePersistentEventDetail;
 const sourceLinkStyle=document.createElement('style');sourceLinkStyle.textContent='.source-link{color:var(--forest);text-decoration:none;border-bottom:1px solid currentColor;font-size:12px;white-space:nowrap}';document.head.appendChild(sourceLinkStyle);
 </script><script>
 // Final Event Results controller: filter results first, then paginate exactly 15.
@@ -406,7 +438,7 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
   window.addEventListener('load',()=>{renderPresentationCredits=localScheduleCreditRenderer});
   eventSourceLink=function(event){const url=event.source_url||event.detail_url||'';return url?`<a class="source-link" href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer">${text('viewOriginal')}</a>`:''};
   const basePersistentDetail=renderPersistentEvent;
-  renderPersistentEvent=async function(id){const request=basePersistentDetail(id);if(eventPane){setText(eventPane.querySelector('[data-persistent-title]'),text('loading'));setText(eventPane.querySelector('[data-persistent-body]'),text('loadingDetails'))}await request;if(eventPane){const title=eventPane.querySelector('[data-persistent-title]');if(title?.textContent==='Event Detail')setText(title,text('eventDetail'));setText(eventPane.querySelector('.persistent-event-body .details > h4:first-child'),text('programme'));const button=eventPane.querySelector('[data-persistent-toggle]');if(button)setText(button,isSelected(id)?text('addedRemove'):text('addToSchedule'));eventPane.querySelector('[data-close-persistent]')?.setAttribute('aria-label',text('closeDetail'))}};
+  renderPersistentEvent=async function(id){const request=basePersistentDetail(id);if(eventPane){setText(eventPane.querySelector('[data-persistent-title]'),text('loading'));setText(eventPane.querySelector('[data-persistent-body]'),text('loadingDetails'))}await request;if(eventPane&&!eventPane.hidden&&activeEventId===String(id)){const title=eventPane.querySelector('[data-persistent-title]');if(title?.textContent==='Event Detail')setText(title,text('eventDetail'));setText(eventPane.querySelector('.persistent-event-body .details > h4:first-child'),text('programme'));const button=eventPane.querySelector('[data-persistent-toggle]');if(button)setText(button,isSelected(id)?text('addedRemove'):text('addToSchedule'));eventPane.querySelector('[data-close-persistent]')?.setAttribute('aria-label',text('closeDetail'))}};
   showDetail=renderPersistentEvent;
 
   function localizedIntent(value){return value==='must_go'?text('mustAttend'):value==='maybe_go'?text('optional'):text('interested')}
@@ -438,10 +470,19 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
   const artistInput=document.getElementById('artistCondition');
   const dateFromInput=document.getElementById('dateFrom');
   const dateToInput=document.getElementById('dateTo');
+  let unifiedSearchRevision=0;
   runEntitySearch=async function(){
+    const revision=++unifiedSearchRevision;
+    closePersistentEventDetail();
+    events=[];
+    eventPage=1;
+    eventPagination.innerHTML='';
+    const resultPanel=document.getElementById('events');
+    if(resultPanel)resultPanel.innerHTML=`<div class="status">${escapeHtml(text('searching'))}</div>`;
+    const hint=document.getElementById('resultHint');
+    if(hint)setText(hint,'');
     const status=document.getElementById('filterStatus');
-    if(status){status.className='status';setText(status,'')}
-    if(status)setText(status,text('searching'));
+    if(status){status.className='status';setText(status,text('searching'))}
     const payload={
       action:'combined_entity_events',date_from:dateFromInput?.value||'',date_to:dateToInput?.value||'',
       event_type:eventTypeSelect?.value||'',location_query:locationInput?.value.trim()||'',
@@ -457,11 +498,15 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
     else if(artistInput?.value.trim())payload.artist_query=artistInput.value.trim();
     try{
       const result=await api(payload);
+      if(revision!==unifiedSearchRevision)return;
       events=result.events||[];
-      setText(document.getElementById('resultHint'),eventCount(events.length));
+      if(hint)setText(hint,eventCount(events.length));
       renderEvents();
       if(status)setText(status,'');
     }catch(error){
+      if(revision!==unifiedSearchRevision)return;
+      events=[];
+      renderEvents();
       if(status){status.className='status error';setText(status,error.message)}
     }
   };
