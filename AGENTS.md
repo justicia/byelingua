@@ -29,6 +29,35 @@ frontend.
 
 ---
 
+# SCHEDULE PAGINATION LOCK — USER REQUIREMENT
+
+The Schedule Events pagination is a fixed, user-approved interface. Do not
+change its controls, order, page-number window, ellipses, active state,
+language labels, page size, or last-page behavior unless the user explicitly
+asks to change Schedule pagination in the current task. A general request to
+edit Schedule, search, shared UI, or the API does not override this lock.
+
+Preserve this exact behavior:
+
+- Show 15 events per page.
+- Show controls in this order: First page, Previous, up to nine consecutive
+  numbered pages, Next, Last page. Use an ellipsis before and/or after the
+  numbered window whenever pages are omitted.
+- Start with `1 2 3 4 5 6 7 8 9 …` when there are more than nine pages.
+  Move the numbered window with the current page; highlight the current page.
+- Disable First/Previous on page one and Next/Last on the actual last page.
+  Numbered buttons and all four navigation controls must navigate correctly.
+- Keep Chinese and English labels tied to the existing language state.
+- For an unfiltered search, use the exact API total and load the requested
+  page so Last reaches the real final events, not a capped first batch.
+- Hide pagination when the result fits on one page.
+
+Changes that could affect this behavior must keep
+`test_schedule_pagination.cjs` passing. Do not weaken or remove its pagination
+assertions to accommodate an unrelated change.
+
+---
+
 # 1. EXECUTION ROLE
 
 Codex/Luna is the implementation agent.
