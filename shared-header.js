@@ -44,7 +44,7 @@
     options=options||{};
     const i18n=window.ByelinguaI18n;
     target.classList.add('byelingua-compact-header');
-    target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span></div><nav class="byelingua-primary-nav" aria-label="Primary navigation"><div class="byelingua-primary-inner"><div class="byelingua-primary-links"><a href="/" data-nav-news>新闻</a><a href="/schedule.html" data-nav-schedule>日程设计</a><a href="/review.html" data-nav-concert-reviews>评论 打分</a></div><span class="byelingua-primary-spacer"></span><div class="byelingua-primary-actions"><button type="button" data-shared-language="zh">CN</button><button type="button" data-shared-language="en">EN</button><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account>用户中心</button><button type="button" data-shared-register>注册</button><button id="logoutButton" type="button" data-shared-signout hidden>退出登录</button></div></div></nav>';
+    target.innerHTML='<div class="byelingua-compact-inner"><a class="byelingua-compact-brand" href="/" aria-label="Byelingua home">BYELINGUA</a><span class="byelingua-compact-tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</span></div><nav class="byelingua-primary-nav" aria-label="Primary navigation"><div class="byelingua-primary-inner"><div class="byelingua-primary-links"><a href="/" data-nav-news>新闻</a><a href="/schedule.html" data-nav-schedule>去看演出</a><a href="/review.html" data-nav-concert-reviews>演出打分</a></div><span class="byelingua-primary-spacer"></span><div class="byelingua-primary-actions"><button type="button" data-shared-language="zh">CN</button><button type="button" data-shared-language="en">EN</button><span id="accountLabel" hidden></span><button id="accountButton" type="button" data-shared-account>用户中心</button><button type="button" data-shared-register>注册</button><button id="logoutButton" type="button" data-shared-signout hidden>退出登录</button></div></div></nav>';
     const search=document.createElement('form');search.className='byelingua-primary-search';search.role='search';search.action='/';search.method='get';search.innerHTML='<label for="byelingua-nav-search" data-shared-search-label>关键词搜索</label><input id="byelingua-nav-search" name="q" type="search" autocomplete="off" data-shared-search-input placeholder="搜索新闻关键词"><button type="submit" data-shared-search-button>搜索</button>';target.querySelector('.byelingua-primary-actions').prepend(search);
     const headerControls=document.createElement('div');headerControls.className='byelingua-header-controls';
     const languages=document.createElement('div');languages.className='byelingua-header-languages';target.querySelectorAll('[data-shared-language]').forEach(button=>languages.append(button));
@@ -54,8 +54,8 @@
       const language=i18n?i18n.getUiLanguage():(localStorage.getItem('byelinguaUiLanguage')||'zh');
       const english=language==='en';
       target.querySelector('[data-nav-news]').textContent=english?'News':'新闻';
-      target.querySelector('[data-nav-schedule]').textContent=english?'Schedule Builder':'日程设计';
-      target.querySelector('[data-nav-concert-reviews]').textContent=english?'Reviews & Ratings':'评论 打分';
+      target.querySelector('[data-nav-schedule]').textContent=english?'Schedule Planner':'去看演出';
+      target.querySelector('[data-nav-concert-reviews]').textContent=english?'Rate the Concert':'演出打分';
       target.querySelector('[data-shared-search-label]').textContent=english?'Keyword search':'关键词搜索';
       target.querySelector('[data-shared-search-input]').placeholder=english?'Search news keywords':'搜索新闻关键词';
       target.querySelector('[data-shared-search-button]').textContent=english?'Search':'搜索';
