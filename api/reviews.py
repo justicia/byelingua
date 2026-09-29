@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import json
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from http.server import BaseHTTPRequestHandler
 
-from api.index import authenticated_user, supabase_service, _event_internal_id
+from api.index import authenticated_user, supabase_service, _event_internal_id, schedule_events, load_public_article_list
 
 
 PERSONAL_STATUSES = {"want_to_go", "going", "attended", "not_attended"}
@@ -425,6 +425,7 @@ def public_event_reviews(event_key):
     event_rows = _event_rows([event_id])
     if not event_rows:
         raise ValueError("Event not found.")
+    credits = [row for row in _credits_for_event(event_id) if row.get("component_type") != "team"]
     try:
         reviews = supabase_service(
             "GET", "/rest/v1/event_reviews",
@@ -436,7 +437,7 @@ def public_event_reviews(event_key):
         ) or []
     except ValueError as error:
         if "event_reviews" in str(error):
-            return {"event": event_rows[0], "summary": {"rating_count": 0, "average_rating": None, "average_final_score": None}, "reviews": [], "component_summary": [], "schema_ready": False}
+            return {"event": event_rows[0], "credits": credits, "summary": {"rating_count": 0, "average_rating": None, "average_final_score": None}, "reviews": [], "component_summary": [], "category_summary": [], "schema_ready": False}
         raise
 
     public_user_ids = _ids(row.get("user_id") for row in reviews if row.get("identity_mode") == "public")
@@ -472,7 +473,9 @@ def public_event_reviews(event_key):
     overall_values = [float(row["overall_rating"]) for row in reviews if row.get("overall_rating") is not None]
     final_values = [float(row["final_score"]) for row in reviews if row.get("final_score") is not None]
     component_groups = defaultdict(list)
+    review_category_groups = defaultdict(list)
     for row in ratings or []:
+        review_category_groups[(row.get("review_id"), row.get("component_type"))].append(float(row["rating"]))
         key = (row.get("component_type"), row.get("artist_id"), row.get("event_credit_id"))
         component_groups[key].append(float(row["rating"]))
     component_summary = [{
@@ -480,8 +483,17 @@ def public_event_reviews(event_key):
         "average_rating": round(sum(values) / len(values), 2), "rating_count": len(values),
     } for key, values in component_groups.items()]
 
+    category_groups = defaultdict(list)
+    for (_, category), values in review_category_groups.items():
+        category_groups[category].append(sum(values) / len(values))
+    category_summary = [
+        {"component_type": category, "average_rating": round(sum(values) / len(values), 2), "rating_count": len(values)}
+        for category, values in category_groups.items()
+    ]
+
     return {
         "event": event_rows[0],
+        "credits": credits,
         "summary": {
             "rating_count": len(reviews),
             "average_rating": round(sum(overall_values) / len(overall_values), 2) if overall_values else None,
@@ -489,8 +501,134 @@ def public_event_reviews(event_key):
         },
         "reviews": sanitized,
         "component_summary": component_summary,
+        "category_summary": category_summary,
         "schema_ready": True,
     }
+
+
+def my_reviews(headers):
+    user = authenticated_user(headers)
+    try:
+        reviews = supabase_service(
+            "GET", "/rest/v1/event_reviews",
+            params={
+                "user_id": f"eq.{user['id']}",
+                "select": "event_id,overall_rating,final_score,comment,visibility,identity_mode,updated_at",
+                "order": "updated_at.desc", "limit": "500",
+            },
+        ) or []
+    except ValueError as error:
+        if "event_reviews" in str(error):
+            return {"reviews": [], "schema_ready": False}
+        raise
+    events = {str(row["id"]): row for row in _event_rows(row.get("event_id") for row in reviews)}
+    return {
+        "reviews": [
+            {
+                "event": events.get(str(row.get("event_id"))),
+                "overall_rating": row.get("overall_rating"),
+                "final_score": row.get("final_score"),
+                "comment": row.get("comment") or "",
+                "visibility": row.get("visibility"),
+                "identity_mode": row.get("identity_mode"),
+                "updated_at": row.get("updated_at"),
+            }
+            for row in reviews if events.get(str(row.get("event_id")))
+        ],
+        "schema_ready": True,
+    }
+
+
+def public_review_home():
+    today = datetime.now(timezone.utc).date()
+    featured = []
+    seen = set()
+    try:
+        rows = schedule_events({
+            "date_from": today.isoformat(),
+            "date_to": (today + timedelta(days=30)).isoformat(),
+        }).get("events") or []
+        for row in rows:
+            signature = (row.get("title"), row.get("organization"), row.get("venue"))
+            if signature in seen:
+                continue
+            seen.add(signature)
+            featured.append({
+                "event_key": row.get("event_id"), "title": row.get("title"),
+                "date": row.get("date"), "start_time": row.get("start_time"),
+                "organization": row.get("organization"), "venue": row.get("venue"),
+                "city": row.get("city"),
+            })
+            if len(featured) == 80:
+                break
+    except ValueError:
+        pass
+
+    press = []
+    try:
+        for row in load_public_article_list():
+            category = str(row.get("category") or "").lower()
+            if not any(word in category for word in ("opera", "concert", "music", "classical", "review", "歌剧", "音乐", "评论")):
+                continue
+            url = row.get("canonical_url") or row.get("url") or ""
+            if not str(url).startswith(("https://", "http://")):
+                continue
+            press.append({
+                "title": row.get("title") or row.get("original_title"),
+                "source": row.get("source"), "published_at": row.get("published_at"),
+                "url": url,
+            })
+            if len(press) == 6:
+                break
+    except ValueError:
+        pass
+
+    press_titles = [str(row.get("title") or "").casefold() for row in press]
+    for row in featured:
+        title = str(row.get("title") or "").strip().casefold()
+        row["work_in_press"] = len(title) >= 6 and any(title in article for article in press_titles)
+    featured.sort(key=lambda row: (not row["work_in_press"], str(row.get("date") or "")))
+    featured = featured[:8]
+
+    try:
+        reviews = supabase_service(
+            "GET", "/rest/v1/event_reviews",
+            params={
+                "visibility": "eq.public",
+                "select": "event_id,overall_rating,final_score,updated_at",
+                "order": "updated_at.desc", "limit": "1000",
+            },
+        ) or []
+    except ValueError as error:
+        if "event_reviews" in str(error):
+            return {"featured": featured, "press": press, "hot": [], "top_rated": [], "schema_ready": False}
+        raise
+    events = {str(row["id"]): row for row in _event_rows(row.get("event_id") for row in reviews)}
+    grouped = defaultdict(list)
+    for row in reviews:
+        event = events.get(str(row.get("event_id")))
+        if event:
+            grouped[str(row["event_id"])].append(row)
+    cards = []
+    for event_id, values in grouped.items():
+        event = events[event_id]
+        scores = [float(row["final_score"]) for row in values if row.get("final_score") is not None]
+        if not scores:
+            scores = [float(row["overall_rating"]) for row in values if row.get("overall_rating") is not None]
+        cards.append({
+            "event_key": event.get("event_key"), "title": event.get("title") or event.get("original_title"),
+            "date": event.get("date"), "organization": event.get("organization"),
+            "venue": event.get("venue"), "city": event.get("city"),
+            "rating_count": len(values),
+            "average_score": round(sum(scores) / len(scores), 1) if scores else None,
+            "latest_review_at": max(str(row.get("updated_at") or "") for row in values),
+        })
+    hot = sorted(cards, key=lambda row: (row["rating_count"], row["latest_review_at"]), reverse=True)[:6]
+    top_rated = sorted(
+        (row for row in cards if row["rating_count"] >= 3),
+        key=lambda row: (row["average_score"] or 0, row["rating_count"]), reverse=True,
+    )[:6]
+    return {"featured": featured, "press": press, "hot": hot, "top_rated": top_rated, "schema_ready": True}
 
 
 def public_artist_rating(artist_id):
@@ -544,6 +682,10 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, review_editor(self.headers, data.get("event_key"))); return
             if action == "save_review":
                 self.send_json(200, save_review(self.headers, data)); return
+            if action == "my_reviews":
+                self.send_json(200, my_reviews(self.headers)); return
+            if action == "public_review_home":
+                self.send_json(200, public_review_home()); return
             if action == "public_event_reviews":
                 self.send_json(200, public_event_reviews(data.get("event_key"))); return
             if action == "public_artist_rating":
