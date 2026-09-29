@@ -3,6 +3,7 @@
   if(!document.getElementById(styleId)){
     const style=document.createElement('style');style.id=styleId;style.textContent=`
       .byelingua-compact-header{position:sticky;top:0;z-index:40;border-bottom:1px solid #d7d7ce;background:rgba(245,242,233,.97);backdrop-filter:blur(8px)}
+      html{scroll-padding-top:calc(var(--byelingua-header-height, 0px) + 12px)}
       .byelingua-compact-inner{position:relative;width:min(1060px,calc(100% - 40px));margin:auto;padding:12px 0 10px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center}
       .byelingua-compact-brand{color:#214d3a;font:600 25px/.95 Georgia,serif;text-decoration:none;letter-spacing:-.025em}
       .byelingua-compact-tagline{color:#68716b;font-size:10px;letter-spacing:.08em}
