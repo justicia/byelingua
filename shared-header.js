@@ -32,6 +32,11 @@
       @media(max-width:950px){.byelingua-compact-inner{padding:0 0 24px}.byelingua-compact-brand{margin-top:34px}.byelingua-header-controls{position:static;align-self:flex-end;order:-1;flex-wrap:wrap;justify-content:flex-end}}
       @media(max-width:700px){.byelingua-compact-inner{padding:14px 0 34px}.byelingua-compact-brand{margin-top:12px}}
       @media(max-width:700px){.byelingua-primary-search{width:100%}.byelingua-primary-search button{min-height:36px}}
+      .byelingua-compact-header.is-collapsed .byelingua-compact-inner{padding:8px 0;flex-direction:row;flex-wrap:wrap;justify-content:space-between;gap:8px;text-align:left}
+      .byelingua-compact-header.is-collapsed .byelingua-compact-brand{margin:0;font-size:28px;line-height:1}
+      .byelingua-compact-header.is-collapsed .byelingua-compact-tagline{display:none}
+      .byelingua-compact-header.is-collapsed .byelingua-header-controls{position:static;order:0;align-self:center;margin-left:auto}
+      @media(max-width:700px){.byelingua-compact-header.is-collapsed .byelingua-compact-brand{font-size:22px}.byelingua-compact-header.is-collapsed .byelingua-header-controls{gap:8px}.byelingua-compact-header.is-collapsed .byelingua-header-languages,.byelingua-compact-header.is-collapsed .byelingua-header-account-actions{gap:7px}}
     `;document.head.append(style)
   }
   window.ByelinguaHeader={mount:function(target,options){
@@ -89,7 +94,15 @@
     window.addEventListener('byelingua-language-change',render);
     window.addEventListener('storage',renderAuth);
     const updateHeight=()=>document.documentElement.style.setProperty('--byelingua-header-height',`${Math.ceil(target.getBoundingClientRect().height)}px`);
+    let collapsed=window.scrollY>180;
+    const updateScrollState=()=>{
+      const next=collapsed?window.scrollY>4:window.scrollY>180;
+      if(next===collapsed)return;
+      collapsed=next;target.classList.toggle('is-collapsed',collapsed);updateHeight();
+    };
+    target.classList.toggle('is-collapsed',collapsed);
     updateHeight();if(window.ResizeObserver)new ResizeObserver(updateHeight).observe(target);
+    window.addEventListener('scroll',updateScrollState,{passive:true});
     return target;
   }};
 

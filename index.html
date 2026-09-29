@@ -24,6 +24,12 @@ html{scroll-padding-top:calc(var(--site-header-height, 0px) + 12px)}
 @media(max-width:900px){.home-primary-links{gap:24px}}
 @media(max-width:950px){.header-inner{flex-wrap:wrap}.site-header .header-controls{position:static;flex-basis:100%;order:-1;flex-wrap:wrap;justify-content:flex-end}.identity{flex-basis:100%}}
 @media(max-width:700px){.site-header .header-account-actions .btn{flex:0 0 auto;min-height:0}.identity{padding:12px 0 20px}}
+.site-header.is-collapsed .header-inner{min-height:0;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.site-header.is-collapsed .identity{flex:0 1 auto;width:auto;padding:8px 0;text-align:left}
+.site-header.is-collapsed .brand{font-size:28px;line-height:1}
+.site-header.is-collapsed .tagline{display:none}
+.site-header.is-collapsed .header-controls{position:static;order:0;flex:0 1 auto;margin-left:auto}
+@media(max-width:700px){.site-header.is-collapsed .brand{font-size:22px}.site-header.is-collapsed .header-controls{gap:8px}.site-header.is-collapsed .language-switch,.site-header.is-collapsed .header-account-actions{gap:7px}}
 </style></head><body><header class="site-header"><div class="header-inner"><div class="identity"><a class="brand" href="/" aria-label="Byelingua 首页">BYELINGUA</a><div class="tagline">SO MANY COUNTRIES. SO MANY LANGUAGES. I SIMPLY CAN’T.</div></div><div class="account-card"><div id="accountLabel"></div><button id="accountButton" hidden></button></div></div>
 <nav class="home-primary-nav" aria-label="主导航"><div class="home-primary-inner"><div class="home-primary-links"><a href="/" id="navNews" aria-current="page">新闻</a><a href="/schedule.html" id="navSchedule">日程设计</a><span id="navConcertReviews" data-nav-concert-reviews aria-disabled="true">音乐会 Review</span></div><div class="home-primary-spacer"></div><div class="home-primary-actions"><form id="searchForm" class="search-form" role="search"><label class="search-label" for="globalSearch">关键词搜索</label><input id="globalSearch" type="search" autocomplete="off" placeholder="搜索中英文标题、摘要、正文或作者"><button class="btn" type="submit">搜索</button><button id="clearSearch" class="btn secondary" type="button" hidden>清除</button></form><button id="mobileAccount" class="btn secondary">用户中心</button><button id="registerButton" class="btn secondary">注册</button><button id="logoutButton" class="btn secondary" hidden>退出登录</button></div></div></nav>
 </header><main class="layout">
@@ -82,7 +88,15 @@ const headerAccountActions=document.createElement('div');headerAccountActions.cl
 headerControls.append(languageSwitch,headerAccountActions);document.querySelector('.site-header .header-inner').prepend(headerControls);
 const siteHeader=document.querySelector('.site-header');
 const updateSiteHeaderHeight=()=>document.documentElement.style.setProperty('--site-header-height',`${Math.ceil(siteHeader.getBoundingClientRect().height)}px`);
+let siteHeaderCollapsed=window.scrollY>180;
+const updateSiteHeaderScrollState=()=>{
+  const next=siteHeaderCollapsed?window.scrollY>4:window.scrollY>180;
+  if(next===siteHeaderCollapsed)return;
+  siteHeaderCollapsed=next;siteHeader.classList.toggle('is-collapsed',next);updateSiteHeaderHeight();
+};
+siteHeader.classList.toggle('is-collapsed',siteHeaderCollapsed);
 updateSiteHeaderHeight();if(window.ResizeObserver)new ResizeObserver(updateSiteHeaderHeight).observe(siteHeader);
+window.addEventListener('scroll',updateSiteHeaderScrollState,{passive:true});
 const PAGE_SIZE=10;
 let publicData={subscriptions:[],articles:[]},personal={profile:{},subscriptions:[],articles:[]},adminConfig={subscriptions:[]},active="all",activeCategory="all",activeAuthor="all",searchQuery=(new URLSearchParams(location.search).get("q")||"").trim(),currentPage=1,client=null,session=null,adminPassword=sessionStorage.getItem("byelinguaAdmin")||"",addingPublic=false,editingPublicId="",editingWechatId="",articleLanguages={};
 const $=id=>document.getElementById(id),esc=v=>{const d=document.createElement("div");d.textContent=v||"";return d.innerHTML},date=v=>v?new Intl.DateTimeFormat(uiLanguage==="en"?"en-GB":"zh-CN",{year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date(v)):translatedText("日期未知"),excerpt=(v,n=320)=>(v||"").replace(/\s+/g," ").slice(0,n)+((v||"").length>n?"…":"");
