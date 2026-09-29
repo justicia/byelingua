@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import json
 from collections import Counter, defaultdict
-from datetime import datetime, timezone, timedelta
+from datetime import date, datetime, timezone, timedelta
 from http.server import BaseHTTPRequestHandler
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from api.index import (
     SCHEDULE_COUNTRY_NAMES, _cached_supabase_get, _event_internal_id,
@@ -122,6 +123,15 @@ def _rating(value, *, required=False):
     return number
 
 
+def _rating_allowed(event):
+    try:
+        event_date = date.fromisoformat(str(event.get("date") or ""))
+        event_timezone = ZoneInfo(str(event.get("timezone") or ""))
+    except (ValueError, ZoneInfoNotFoundError):
+        return False
+    return event_date <= datetime.now(event_timezone).date()
+
+
 def _event_rows(event_ids):
     event_ids = list(dict.fromkeys(_ids(event_ids)))
     if not event_ids:
@@ -131,7 +141,7 @@ def _event_rows(event_ids):
         "/rest/v1/events",
         params={
             "id": _in_filter(event_ids),
-            "select": "id,event_key,organization_id,venue_id,date,start_time,end_time,event_type,title,original_title,room,status,ticket_url",
+            "select": "id,event_key,organization_id,venue_id,date,timezone,start_time,end_time,event_type,title,original_title,room,status,ticket_url",
             "limit": str(max(100, len(event_ids))),
         },
     ) or []
@@ -153,6 +163,7 @@ def _event_rows(event_ids):
         venue = venue_by_id.get(str(row.get("venue_id")), {})
         result.append({
             **row,
+            "rating_allowed": _rating_allowed(row),
             "organization": organization.get("name") or "",
             "venue": venue.get("name") or "",
             "city": venue.get("city") or "",
@@ -430,6 +441,7 @@ def review_editor(headers, event_key):
         review, ratings, schema_ready = None, [], False
     return {
         "event": event,
+        "rating_allowed": event["rating_allowed"],
         "credits": [row for row in credits if row.get("component_type") != "team"],
         "stage_applicable": stage_applicable,
         "review": review,
@@ -453,6 +465,14 @@ def save_review(headers, data):
     user = authenticated_user(headers)
     event_key = str(data.get("event_key") or "").strip()
     event_id = _event_internal_id(event_key)
+    event_rows = supabase_service(
+        "GET", "/rest/v1/events",
+        params={"id": f"eq.{event_id}", "select": "date,timezone", "limit": "1"},
+    ) or []
+    if not event_rows:
+        raise ValueError("Event not found.")
+    if not _rating_allowed(event_rows[0]):
+        raise ValueError("演出当天起才可以评分。")
     overall = _rating(data.get("overall_rating"), required=True)
     identity_mode = str(data.get("identity_mode") or "anonymous").strip()
     if identity_mode not in {"anonymous", "public"}:
