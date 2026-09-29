@@ -23,6 +23,19 @@ backend, database, API, email, or maintenance tasks.
 Frontend changes are allowed only when the user explicitly requests a
 frontend/UI/layout change.
 
+The current UI framework is locked for all future tasks. Keep each page's
+approved structure, column proportions, card layout, button placement,
+spacing, typography, colors, navigation, and responsive behavior unchanged
+unless the user explicitly requests the specific UI change in that task.
+When a change is requested, change only the named area; do not reflow or
+redesign adjacent pages or components. This rule also applies to frontend
+feature work, not only backend and maintenance work.
+
+On Schedule event cards, keep event information in the left two-thirds and
+the Details / Add to schedule actions in the right third, including when the
+detail pane is open. Keep the responsive button placement within that right
+column unless the user explicitly requests a different card layout.
+
 Data-source incompatibilities must be solved in adapters, normalizers,
 schemas, APIs, or ingestion logic, never by silently redesigning the
 frontend.
@@ -38,14 +51,16 @@ behavior unchanged unless the user explicitly asks to change the Header in
 the current task. A request to change page content does not authorize a
 Header change.
 
-The complete Header must remain visible at the top while the page scrolls.
-Keep content and controls below its actual height so the sticky Header does
-not cover them. Apply this behavior to new pages as well.
+The Header stays fixed at the top while the page scrolls. Show the full brand
+area at the top of the page, then use the approved smaller brand area after
+scrolling; keep navigation, search, language, and account controls available.
+Keep content and controls below the Header's actual height in both states so
+it does not cover them. Apply this behavior to new pages as well.
 
 Use the News page Header as the visual reference for all pages. The shared
 Header must match its brand size, tagline spacing, top-right controls, and
-primary navigation at desktop and mobile widths. Do not introduce a compact
-Header variant on Schedule or another page.
+primary navigation at desktop and mobile widths. The smaller scrolled state
+must be consistent across pages, including Schedule.
 
 ---
 
