@@ -385,11 +385,12 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
     .schedule-builder-layout.has-event-pane .schedule-search-workspace{grid-template-columns:1fr}
     .schedule-builder-layout.has-event-pane .filters{grid-template-columns:repeat(2,minmax(0,1fr))}
     .schedule-builder-layout.has-event-pane .filters .wide{grid-column:1/-1}
-    .schedule-builder-layout.has-event-pane .schedule-left-column .event{grid-template-columns:24px minmax(0,1fr)}
-    .schedule-builder-layout.has-event-pane .schedule-left-column .event>.date{grid-column:2}
-    .schedule-builder-layout.has-event-pane .schedule-left-column .event>div:not(.date):not(.actions){grid-column:1/-1;min-width:0;overflow-wrap:anywhere}
-    .schedule-builder-layout.has-event-pane .schedule-left-column .event>.actions{grid-column:1/-1}
-    .schedule-builder-layout.has-event-pane .schedule-left-column .event .event-title-link{max-width:100%;overflow-wrap:anywhere}
+    .schedule-left-column .event{position:relative;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0 12px;padding-left:40px}
+    .schedule-left-column .event>[data-event]{position:absolute;left:16px;top:18px}
+    .schedule-left-column .event>.date{grid-column:1;grid-row:1;min-width:0}
+    .schedule-left-column .event>div:not(.date):not(.actions){grid-column:1;grid-row:2;min-width:0;overflow-wrap:anywhere}
+    .schedule-left-column .event>.actions{grid-column:2;grid-row:1/span 2;min-width:0;align-self:start;justify-content:flex-end;align-content:flex-start}
+    .schedule-left-column .event .event-title-link{max-width:100%;overflow-wrap:anywhere}
     html{scroll-padding-top:calc(var(--schedule-header-height) + 12px)}
     @media(min-width:761px){.schedule-builder-layout{min-height:calc(100vh - var(--schedule-header-height) + 24px)}}
     .schedule-builder-layout .my-schedule-panel{top:calc(var(--schedule-header-height) + 12px)!important;height:calc(100vh - var(--schedule-header-height) - 72px)!important}
@@ -402,10 +403,7 @@ renderPresentationCredits=function(event){return window.ByelinguaCredits.render(
     @media(max-width:760px){
       main{width:calc(100% - 24px)}
       .schedule-page-heading{width:calc(100% - 24px)}
-      .schedule-left-column .event{grid-template-columns:24px minmax(0,1fr)}
-      .schedule-left-column .event>.date{grid-column:2}
-      .schedule-left-column .event>div:not(.date):not(.actions){grid-column:1/-1;min-width:0;overflow-wrap:anywhere}
-      .schedule-left-column .event>.actions{grid-column:1/-1}
+      .schedule-left-column .event>.actions{flex-direction:column;align-items:stretch}
       .schedule-builder-layout .persistent-event-pane[hidden]~.my-schedule-panel.mobile-open{display:flex!important}
       .schedule-builder-layout .my-schedule-panel.mobile-open{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px)!important;bottom:auto!important;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)!important}
       .schedule-builder-layout.has-event-pane .persistent-event-pane{top:calc(var(--schedule-header-height) + env(safe-area-inset-top) + 12px)!important;bottom:auto!important;height:calc(100dvh - var(--schedule-header-height) - env(safe-area-inset-top) - 24px)!important}
