@@ -1,5 +1,15 @@
 (function(){
-  if(new URLSearchParams(location.search).has('event_key'))return;
+  if(new URLSearchParams(location.search).get('event_key')){
+    const head=document.getElementById('eventHead');
+    if(head){
+      const back=document.createElement('a');
+      back.className='review-back';back.href='/review.html';
+      const translate=()=>{back.textContent=window.ByelinguaI18n.getUiLanguage()==='en'?'← Back to Rate the Concert':'← 返回演出打分'};
+      head.prepend(back);translate();
+      window.addEventListener('byelingua-language-change',translate);
+    }
+    return;
+  }
   const home=document.getElementById('reviewHome');
   if(!home)return;
   const section=document.createElement('section');
@@ -9,7 +19,6 @@
     '<div class="review-search-field"><label for="reviewDateTo" data-search-copy="dateTo"></label><input id="reviewDateTo" type="date"></div>'+
     '<div class="review-search-field"><label for="reviewEventType" data-search-copy="eventType"></label><select id="reviewEventType"></select></div>'+
     '<div class="review-search-field"><label for="reviewLocation" data-search-copy="location"></label><input id="reviewLocation" autocomplete="off"></div>'+
-    '<div class="review-search-field"><label for="reviewOrganization" data-search-copy="organization"></label><select id="reviewOrganization"></select></div>'+
     '<div class="review-search-field"><label for="reviewVenue" data-search-copy="venue"></label><input id="reviewVenue" autocomplete="off"></div>'+
     '<div class="review-search-field"><label for="reviewWork" data-search-copy="work"></label><input id="reviewWork" autocomplete="off"><div id="reviewWorkSuggestions" class="review-search-suggestions"></div></div>'+
     '<div class="review-search-field"><label for="reviewCharacter" data-search-copy="character"></label><input id="reviewCharacter" autocomplete="off"><div id="reviewCharacterSuggestions" class="review-search-suggestions"></div></div>'+
@@ -22,24 +31,23 @@
   const selected={work:null,character:null,artist:null};
   const revisions={work:0,character:0,artist:0};
   const labels={
-    zh:{title:'搜索演出',intro:'按日期、地点、作品或艺术家找到一场演出，打开详情后打分。',dateFrom:'开始日期',dateTo:'结束日期',eventType:'演出类型',location:'国家／城市',organization:'机构',venue:'场馆',work:'作品／作曲家',character:'角色',artist:'艺术家',search:'搜索演出',allTypes:'全部类型',allOrganizations:'全部机构',locationPlaceholder:'例如：法国、巴黎',venuePlaceholder:'例如：巴黎歌剧院',workPlaceholder:'例如：Parsifal、Wagner',characterPlaceholder:'例如：Kundry',artistPlaceholder:'例如：Piotr Beczała',searching:'正在搜索…',found:n=>`找到 ${n} 场演出`,limited:'（仅显示前 1000 场）',empty:'没有找到符合条件的演出。',needFilter:'请至少填写一个搜索条件。',more:'显示更多'},
-    en:{title:'Find a performance',intro:'Search by date, place, work, or artist. Open a performance to rate it.',dateFrom:'Date from',dateTo:'Date to',eventType:'Event type',location:'Country / city',organization:'Organization',venue:'Venue',work:'Work / composer',character:'Character',artist:'Artist',search:'Search performances',allTypes:'All types',allOrganizations:'All organizations',locationPlaceholder:'e.g. France, Paris',venuePlaceholder:'e.g. Opéra de Paris',workPlaceholder:'e.g. Parsifal, Wagner',characterPlaceholder:'e.g. Kundry',artistPlaceholder:'e.g. Piotr Beczała',searching:'Searching…',found:n=>`Found ${n} performances`,limited:' (first 1000 only)',empty:'No performances match these filters.',needFilter:'Enter at least one search condition.',more:'Show more'}
+    zh:{title:'搜索演出',intro:'按日期、地点、作品或艺术家找到一场演出，打开详情后打分。',dateFrom:'开始日期',dateTo:'结束日期',eventType:'演出类型',location:'国家／城市',venue:'场馆',work:'作品／作曲家',character:'角色',artist:'艺术家',search:'搜索演出',allTypes:'全部类型',locationPlaceholder:'例如：法国、巴黎',venuePlaceholder:'例如：巴黎歌剧院',workPlaceholder:'例如：Parsifal、Wagner',characterPlaceholder:'例如：Kundry',artistPlaceholder:'例如：Piotr Beczała',searching:'正在搜索…',found:n=>`找到 ${n} 场演出`,limited:'（仅显示前 1000 场）',empty:'没有找到符合条件的演出。',needFilter:'请至少填写一个搜索条件。',more:'显示更多'},
+    en:{title:'Find a performance',intro:'Search by date, place, work, or artist. Open a performance to rate it.',dateFrom:'Date from',dateTo:'Date to',eventType:'Event type',location:'Country / city',venue:'Venue',work:'Work / composer',character:'Character',artist:'Artist',search:'Search performances',allTypes:'All types',locationPlaceholder:'e.g. France, Paris',venuePlaceholder:'e.g. Opéra de Paris',workPlaceholder:'e.g. Parsifal, Wagner',characterPlaceholder:'e.g. Kundry',artistPlaceholder:'e.g. Piotr Beczała',searching:'Searching…',found:n=>`Found ${n} performances`,limited:' (first 1000 only)',empty:'No performances match these filters.',needFilter:'Enter at least one search condition.',more:'Show more'}
   };
   const language=()=>window.ByelinguaI18n.getUiLanguage()==='en'?'en':'zh';
   const copy=key=>labels[language()][key];
   const escapeHtml=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
   const api=async payload=>{const response=await fetch('/api',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const data=await response.json();if(!response.ok)throw Error(data.error||'Search failed');return data};
-  let options={event_types:[],organizations:[]},rows=[],visible=15,searched=false,searchRevision=0;
+  let options={event_types:[]},rows=[],visible=15,searched=false,searchRevision=0;
 
   function renderLanguage(){
     get('reviewSearchTitle').textContent=copy('title');get('reviewSearchIntro').textContent=copy('intro');
     section.querySelectorAll('[data-search-copy]').forEach(node=>node.textContent=copy(node.dataset.searchCopy));
     get('reviewSearchButton').textContent=copy('search');
     for(const [id,key] of [['reviewLocation','locationPlaceholder'],['reviewVenue','venuePlaceholder'],['reviewWork','workPlaceholder'],['reviewCharacter','characterPlaceholder'],['reviewArtist','artistPlaceholder']])get(id).placeholder=copy(key);
-    const typeValue=get('reviewEventType').value,orgValue=get('reviewOrganization').value;
+    const typeValue=get('reviewEventType').value;
     get('reviewEventType').innerHTML='<option value="">'+copy('allTypes')+'</option>'+options.event_types.map(row=>'<option value="'+escapeHtml(row.value)+'">'+escapeHtml((typeof EVENT_TYPES!=='undefined'&&EVENT_TYPES[language()]?.[row.value])||row.label||row.value)+'</option>').join('');
-    get('reviewOrganization').innerHTML='<option value="">'+copy('allOrganizations')+'</option>'+options.organizations.map(row=>'<option value="'+escapeHtml(row.name)+'">'+escapeHtml(row.name)+'</option>').join('');
-    get('reviewEventType').value=typeValue;get('reviewOrganization').value=orgValue;
+    get('reviewEventType').value=typeValue;
     if(searched)renderResults();
   }
 
@@ -73,7 +81,6 @@
   function payload(){
     const value=id=>get(id).value.trim();
     const query={action:'combined_entity_events',date_from:value('reviewDateFrom'),date_to:value('reviewDateTo'),event_type:value('reviewEventType'),location_query:value('reviewLocation'),venue_query:value('reviewVenue')};
-    if(value('reviewOrganization'))query.organizations=[value('reviewOrganization')];
     if(selected.work?.type==='composer')query.composer_query=selected.work.composer;
     else if(selected.work?.id)query.work_id=selected.work.id;
     else if(value('reviewWork'))query.work_query=value('reviewWork');
