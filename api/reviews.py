@@ -5,7 +5,7 @@ from collections import defaultdict
 from datetime import datetime, timezone, timedelta
 from http.server import BaseHTTPRequestHandler
 
-from api.index import authenticated_user, supabase_service, _event_internal_id, schedule_events, load_public_article_list
+from api.index import authenticated_user, supabase_service, _event_internal_id, schedule_events, load_public_article_list, _schedule_venue_directory
 
 
 PERSONAL_STATUSES = {"want_to_go", "going", "attended", "not_attended"}
@@ -548,6 +548,7 @@ def public_review_home():
             "date_from": today.isoformat(),
             "date_to": (today + timedelta(days=30)).isoformat(),
         }).get("events") or []
+        country_by_venue = _schedule_venue_directory()[1]
         for row in rows:
             signature = (row.get("title"), row.get("organization"), row.get("venue"))
             if signature in seen:
@@ -558,6 +559,7 @@ def public_review_home():
                 "date": row.get("date"), "start_time": row.get("start_time"),
                 "organization": row.get("organization"), "venue": row.get("venue"),
                 "city": row.get("city"),
+                "country_code": row.get("country_code") or country_by_venue.get(str(row.get("venue") or "").strip().casefold(), ""),
             })
             if len(featured) == 80:
                 break
@@ -588,7 +590,7 @@ def public_review_home():
         title = str(row.get("title") or "").strip().casefold()
         row["work_in_press"] = len(title) >= 6 and any(title in article for article in press_titles)
     featured.sort(key=lambda row: (not row["work_in_press"], str(row.get("date") or "")))
-    featured = featured[:8]
+    featured = featured[:80]
 
     try:
         reviews = supabase_service(
@@ -619,6 +621,7 @@ def public_review_home():
             "event_key": event.get("event_key"), "title": event.get("title") or event.get("original_title"),
             "date": event.get("date"), "organization": event.get("organization"),
             "venue": event.get("venue"), "city": event.get("city"),
+            "country_code": event.get("country_code"),
             "rating_count": len(values),
             "average_score": round(sum(scores) / len(scores), 1) if scores else None,
             "latest_review_at": max(str(row.get("updated_at") or "") for row in values),
