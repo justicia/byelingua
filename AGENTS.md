@@ -42,6 +42,11 @@ The complete Header must remain visible at the top while the page scrolls.
 Keep content and controls below its actual height so the sticky Header does
 not cover them. Apply this behavior to new pages as well.
 
+Use the News page Header as the visual reference for all pages. The shared
+Header must match its brand size, tagline spacing, top-right controls, and
+primary navigation at desktop and mobile widths. Do not introduce a compact
+Header variant on Schedule or another page.
+
 ---
 
 # SCHEDULE PAGINATION LOCK — USER REQUIREMENT
