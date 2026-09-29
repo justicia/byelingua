@@ -199,21 +199,28 @@ def my_schedule(headers):
     event_by_id = {str(row["id"]): row for row in events}
 
     reviews = []
+    tags_ready = True
     try:
         if event_ids:
-            reviews = supabase_service(
-                "GET", "/rest/v1/event_reviews",
-                params={
-                    "user_id": f"eq.{user['id']}",
-                    "event_id": _in_filter(event_ids),
-                    "select": "id,event_id,overall_rating,final_score,comment,identity_mode,visibility,updated_at",
-                    "limit": "5000",
-                },
-            ) or []
+            params = {
+                "user_id": f"eq.{user['id']}",
+                "event_id": _in_filter(event_ids),
+                "select": "id,event_id,overall_rating,final_score,comment,identity_mode,visibility,updated_at,tags",
+                "limit": "5000",
+            }
+            try:
+                reviews = supabase_service("GET", "/rest/v1/event_reviews", params=params) or []
+            except ValueError as error:
+                if "tags" not in str(error).lower():
+                    raise
+                tags_ready = False
+                params["select"] = params["select"].removesuffix(",tags")
+                reviews = supabase_service("GET", "/rest/v1/event_reviews", params=params) or []
     except ValueError as error:
         if "event_reviews" not in str(error):
             raise
         schema_ready = False
+        tags_ready = False
     review_by_event = {str(row.get("event_id")): row for row in reviews}
 
     schedules = supabase_service(
@@ -258,7 +265,38 @@ def my_schedule(headers):
             "updated_at": relation.get("updated_at"),
         })
     items.sort(key=lambda row: ((row["event"].get("date") or ""), (row["event"].get("start_time") or "")), reverse=True)
-    return {"items": items, "schema_ready": schema_ready}
+    return {"items": items, "schema_ready": schema_ready, "tags_ready": tags_ready}
+
+
+def set_review_tags(headers, event_key, raw_tags):
+    user = authenticated_user(headers)
+    event_id = _event_internal_id(str(event_key or "").strip())
+    if not isinstance(raw_tags, list) or len(raw_tags) > 10:
+        raise ValueError("Use up to 10 tags.")
+    tags, seen = [], set()
+    for raw in raw_tags:
+        if not isinstance(raw, str):
+            raise ValueError("Tags must be text.")
+        tag = " ".join(raw.strip().lstrip("#").split())
+        if not tag or len(tag) > 24 or any(ord(char) < 32 for char in tag):
+            raise ValueError("Each tag must contain 1 to 24 characters.")
+        if tag.casefold() not in seen:
+            tags.append(tag)
+            seen.add(tag.casefold())
+    owner_filter = {"user_id": f"eq.{user['id']}", "event_id": f"eq.{event_id}"}
+    reviews = supabase_service(
+        "GET", "/rest/v1/event_reviews",
+        params={**owner_filter, "select": "id", "limit": "1"},
+    ) or []
+    if not reviews:
+        raise ValueError("Rate this performance before adding tags.")
+    rows = supabase_service(
+        "PATCH", "/rest/v1/event_reviews",
+        params=owner_filter, payload={"tags": tags}, prefer="return=representation",
+    ) or []
+    if not rows:
+        raise ValueError("Review tags could not be saved.")
+    return {"tags": tags}
 
 
 def set_personal_status(headers, event_key, status):
@@ -469,6 +507,16 @@ def save_review(headers, data):
         "final_score": final_score, "identity_mode": identity_mode,
         "visibility": visibility, "updated_at": now,
     }
+    # An edited rating must keep the owner's private tags.
+    try:
+        existing = supabase_service(
+            "GET", "/rest/v1/event_reviews",
+            params={"user_id": f"eq.{user['id']}", "event_id": f"eq.{event_id}", "select": "tags", "limit": "1"},
+        ) or []
+        review_payload["tags"] = existing[0].get("tags") or [] if existing else []
+    except ValueError as error:
+        if "tags" not in str(error).lower():
+            raise
     reviews = supabase_service(
         "POST", "/rest/v1/event_reviews",
         params={"on_conflict": "user_id,event_id"}, payload=review_payload,
@@ -787,6 +835,8 @@ class handler(BaseHTTPRequestHandler):
             action = str(data.get("action") or "").strip()
             if action == "my_schedule":
                 self.send_json(200, my_schedule(self.headers)); return
+            if action == "set_review_tags":
+                self.send_json(200, set_review_tags(self.headers, data.get("event_key"), data.get("tags"))); return
             if action == "set_personal_status":
                 self.send_json(200, set_personal_status(self.headers, data.get("event_key"), data.get("status"))); return
             if action == "delete_personal_record":
