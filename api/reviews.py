@@ -1,11 +1,15 @@
 from __future__ import annotations
 
 import json
-from collections import defaultdict
+from collections import Counter, defaultdict
 from datetime import datetime, timezone, timedelta
 from http.server import BaseHTTPRequestHandler
 
-from api.index import authenticated_user, supabase_service, _event_internal_id, schedule_events, load_public_article_list, _schedule_venue_directory
+from api.index import (
+    SCHEDULE_COUNTRY_NAMES, _cached_supabase_get, _event_internal_id,
+    _schedule_venue_directory, authenticated_user, canonical_event_type,
+    load_public_article_list, schedule_event_detail, schedule_events, supabase_service,
+)
 
 
 PERSONAL_STATUSES = {"want_to_go", "going", "attended", "not_attended"}
@@ -36,6 +40,75 @@ def _ids(values):
 def _in_filter(values):
     clean = list(dict.fromkeys(_ids(values)))
     return f"in.({','.join(clean)})" if clean else "in.()"
+
+
+def _country_code(value):
+    raw = str(value or "").strip().casefold()
+    for code, names in SCHEDULE_COUNTRY_NAMES.items():
+        if raw == code or raw in {str(name).casefold() for name in names}:
+            return code.upper()
+    return ""
+
+
+def _top_venue_countries(available):
+    counts = Counter()
+    offset = 0
+    while True:
+        rows = _cached_supabase_get(
+            "/rest/v1/venues",
+            {"select": "id,country_code", "limit": "1000", "offset": str(offset)},
+            ttl=600,
+        )
+        for row in rows:
+            code = _country_code(row.get("country_code"))
+            if code:
+                counts[code] += 1
+        if len(rows) < 1000:
+            break
+        offset += 1000
+    return [
+        code for code, _ in sorted(counts.items(), key=lambda item: (-item[1], item[0]))
+        if code in available
+    ][:5]
+
+
+def _related_press(event):
+    titles = [
+        str(value or "").strip().casefold()
+        for value in (event.get("title"), event.get("source_title"), event.get("original_title"))
+        if len(str(value or "").strip()) >= 6
+    ]
+    titles.extend(
+        str(row.get("title") or "").strip().casefold()
+        for row in event.get("programme") or []
+        if len(str(row.get("title") or "").strip()) >= 6
+    )
+    if not titles:
+        return []
+    matches = []
+    try:
+        articles = load_public_article_list()
+    except ValueError:
+        return matches
+    for article in articles:
+        url = str(article.get("canonical_url") or article.get("url") or "")
+        if not url.startswith(("https://", "http://")):
+            continue
+        headlines = [
+            article.get("title"), article.get("original_title"),
+            *(article.get("titles") or {}).values(),
+        ]
+        if not any(title in str(headline or "").casefold() for title in titles for headline in headlines):
+            continue
+        matches.append({
+            "title": article.get("title") or article.get("original_title"),
+            "source": article.get("source"),
+            "published_at": article.get("published_at"),
+            "url": url,
+        })
+        if len(matches) == 6:
+            break
+    return matches
 
 
 def _rating(value, *, required=False):
@@ -425,7 +498,13 @@ def public_event_reviews(event_key):
     event_rows = _event_rows([event_id])
     if not event_rows:
         raise ValueError("Event not found.")
+    event = {**event_rows[0], "country_code": _country_code(event_rows[0].get("country_code"))}
     credits = [row for row in _credits_for_event(event_id) if row.get("component_type") != "team"]
+    try:
+        detail = schedule_event_detail(str(event_key or "").strip()).get("event") or {}
+    except ValueError:
+        detail = {}
+    related_press = _related_press(detail or event)
     try:
         reviews = supabase_service(
             "GET", "/rest/v1/event_reviews",
@@ -437,7 +516,7 @@ def public_event_reviews(event_key):
         ) or []
     except ValueError as error:
         if "event_reviews" in str(error):
-            return {"event": event_rows[0], "credits": credits, "summary": {"rating_count": 0, "average_rating": None, "average_final_score": None}, "reviews": [], "component_summary": [], "category_summary": [], "schema_ready": False}
+            return {"event": event, "detail": detail, "related_press": related_press, "credits": credits, "summary": {"rating_count": 0, "average_rating": None, "average_final_score": None}, "reviews": [], "component_summary": [], "category_summary": [], "schema_ready": False}
         raise
 
     public_user_ids = _ids(row.get("user_id") for row in reviews if row.get("identity_mode") == "public")
@@ -492,7 +571,9 @@ def public_event_reviews(event_key):
     ]
 
     return {
-        "event": event_rows[0],
+        "event": event,
+        "detail": detail,
+        "related_press": related_press,
         "credits": credits,
         "summary": {
             "rating_count": len(reviews),
@@ -543,6 +624,7 @@ def public_review_home():
     today = datetime.now(timezone.utc).date()
     featured = []
     seen = set()
+    country_by_venue = {}
     try:
         rows = schedule_events({
             "date_from": today.isoformat(),
@@ -557,9 +639,10 @@ def public_review_home():
             featured.append({
                 "event_key": row.get("event_id"), "title": row.get("title"),
                 "date": row.get("date"), "start_time": row.get("start_time"),
+                "event_type": row.get("event_type"),
                 "organization": row.get("organization"), "venue": row.get("venue"),
                 "city": row.get("city"),
-                "country_code": row.get("country_code") or country_by_venue.get(str(row.get("venue") or "").strip().casefold(), ""),
+                "country_code": _country_code(row.get("country_code") or country_by_venue.get(str(row.get("venue") or "").strip().casefold(), "")),
             })
             if len(featured) == 80:
                 break
@@ -591,6 +674,14 @@ def public_review_home():
         row["work_in_press"] = len(title) >= 6 and any(title in article for article in press_titles)
     featured.sort(key=lambda row: (not row["work_in_press"], str(row.get("date") or "")))
     featured = featured[:80]
+    try:
+        top_countries = _top_venue_countries({row["country_code"] for row in featured if row["country_code"]}) if featured else []
+    except ValueError:
+        venue_counts = Counter(_country_code(code) for code in country_by_venue.values())
+        top_countries = [
+            code for code, _ in venue_counts.most_common()
+            if code and any(row["country_code"] == code for row in featured)
+        ][:5]
 
     try:
         reviews = supabase_service(
@@ -603,7 +694,7 @@ def public_review_home():
         ) or []
     except ValueError as error:
         if "event_reviews" in str(error):
-            return {"featured": featured, "press": press, "hot": [], "top_rated": [], "schema_ready": False}
+            return {"featured": featured, "top_countries": top_countries, "press": press, "hot": [], "top_rated": [], "schema_ready": False}
         raise
     events = {str(row["id"]): row for row in _event_rows(row.get("event_id") for row in reviews)}
     grouped = defaultdict(list)
@@ -621,7 +712,8 @@ def public_review_home():
             "event_key": event.get("event_key"), "title": event.get("title") or event.get("original_title"),
             "date": event.get("date"), "organization": event.get("organization"),
             "venue": event.get("venue"), "city": event.get("city"),
-            "country_code": event.get("country_code"),
+            "country_code": _country_code(event.get("country_code")),
+            "event_type": canonical_event_type(event.get("event_type")),
             "rating_count": len(values),
             "average_score": round(sum(scores) / len(scores), 1) if scores else None,
             "latest_review_at": max(str(row.get("updated_at") or "") for row in values),
@@ -631,7 +723,7 @@ def public_review_home():
         (row for row in cards if row["rating_count"] >= 3),
         key=lambda row: (row["average_score"] or 0, row["rating_count"]), reverse=True,
     )[:6]
-    return {"featured": featured, "press": press, "hot": hot, "top_rated": top_rated, "schema_ready": True}
+    return {"featured": featured, "top_countries": top_countries, "press": press, "hot": hot, "top_rated": top_rated, "schema_ready": True}
 
 
 def public_artist_rating(artist_id):
