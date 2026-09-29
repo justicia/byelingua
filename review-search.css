@@ -1,0 +1,23 @@
+.review-search{margin:28px 0 34px;padding:20px;background:var(--card);border:1px solid var(--line);border-radius:7px}
+.review-search h2{margin:0 0 4px;color:var(--forest);font:500 25px Georgia,serif}
+.review-search p{margin:0 0 16px;color:var(--muted);font-size:12px}
+.review-search-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px 14px}
+.review-search-field{position:relative;min-width:0}
+.review-search-field label{display:block;margin-bottom:4px;font-weight:650;font-size:12px}
+.review-search-field input,.review-search-field select{width:100%;height:39px;padding:8px 10px;background:#fff;border:1px solid #c8cdc5;border-radius:5px;color:var(--ink)}
+.review-search-field input:focus,.review-search-field select:focus{outline:2px solid var(--forest);outline-offset:1px}
+.review-search-suggestions{position:absolute;z-index:4;top:100%;left:0;right:0;max-height:230px;overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:5px;box-shadow:0 8px 24px #10201822}
+.review-search-suggestions:empty{display:none}
+.review-search-suggestions button{display:block;width:100%;padding:8px 10px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;color:var(--ink)}
+.review-search-suggestions button:hover,.review-search-suggestions button:focus-visible{background:var(--soft)}
+.review-search-suggestions small{display:block;color:var(--muted)}
+.review-search-actions{display:flex;align-items:center;gap:12px;margin-top:17px}
+.review-search-actions button,.review-search-more{padding:8px 14px;border:1px solid var(--forest);border-radius:5px;background:var(--forest);color:#fff;font-weight:700}
+.review-search-actions button:disabled{opacity:.6;cursor:default}
+.review-search-status{color:var(--muted);font-size:12px}
+.review-search-status.error{color:var(--danger)}
+.review-search-results{margin-top:16px}
+.review-search-results .home-grid{margin-top:12px}
+.review-search-more{margin-top:13px}
+@media(max-width:700px){.review-search{padding:16px}.review-search-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:470px){.review-search-grid{grid-template-columns:1fr}}
