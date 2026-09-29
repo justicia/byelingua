@@ -301,6 +301,22 @@ def set_personal_status(headers, event_key, status):
         return {"relation": rows[0] if rows else legacy, "schema_ready": False}
 
 
+def delete_personal_record(headers, event_key):
+    user = authenticated_user(headers)
+    event_id = _event_internal_id(str(event_key or "").strip())
+    owner_filter = {"user_id": f"eq.{user['id']}", "event_id": f"eq.{event_id}"}
+    # The review owns its component ratings through an ON DELETE CASCADE key.
+    # Older installations may not have the review table yet.
+    try:
+        supabase_service("DELETE", "/rest/v1/event_reviews", params=owner_filter, prefer="return=minimal")
+    except ValueError as error:
+        message = str(error).lower()
+        if "event_reviews" not in message or not any(text in message for text in ("could not find the table", "does not exist")):
+            raise
+    supabase_service("DELETE", "/rest/v1/user_event_relations", params=owner_filter, prefer="return=minimal")
+    return {"deleted": True}
+
+
 def _credits_for_event(event_id):
     credits = supabase_service(
         "GET", "/rest/v1/event_credits",
@@ -773,6 +789,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, my_schedule(self.headers)); return
             if action == "set_personal_status":
                 self.send_json(200, set_personal_status(self.headers, data.get("event_key"), data.get("status"))); return
+            if action == "delete_personal_record":
+                self.send_json(200, delete_personal_record(self.headers, data.get("event_key"))); return
             if action == "review_editor":
                 self.send_json(200, review_editor(self.headers, data.get("event_key"))); return
             if action == "save_review":
