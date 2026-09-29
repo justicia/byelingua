@@ -29,6 +29,21 @@ frontend.
 
 ---
 
+# GLOBAL HEADER LOCK — USER REQUIREMENT
+
+The current brand header and primary navigation are approved across all
+pages, including Schedule Builder. Keep their appearance, content, layout,
+spacing, typography, colors, language and account controls, and responsive
+behavior unchanged unless the user explicitly asks to change the Header in
+the current task. A request to change page content does not authorize a
+Header change.
+
+The complete Header must remain visible at the top while the page scrolls.
+Keep content and controls below its actual height so the sticky Header does
+not cover them. Apply this behavior to new pages as well.
+
+---
+
 # SCHEDULE PAGINATION LOCK — USER REQUIREMENT
 
 The Schedule Events pagination is a fixed, user-approved interface. Do not
