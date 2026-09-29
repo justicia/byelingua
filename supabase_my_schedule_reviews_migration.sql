@@ -35,6 +35,7 @@ alter table public.event_reviews
   add column if not exists final_score numeric(2,1) null
     check (final_score is null or (final_score >= 1 and final_score <= 5)),
   add column if not exists comment text null,
+  add column if not exists tags text[] not null default '{}',
   add column if not exists identity_mode text not null default 'anonymous'
     check (identity_mode in ('anonymous', 'public'));
 
