@@ -11,6 +11,8 @@ from api.index import (
     character_events,
     combined_entity_events,
     schedule_events,
+    schedule_options,
+    _schedule_venue_key,
     work_events,
 )
 
@@ -32,6 +34,41 @@ def event(event_id, date="2026-10-01", **values):
 
 
 class ScheduleSearchApiTests(unittest.TestCase):
+    @patch("api.index._schedule_venue_directory", return_value=({}, {}))
+    @patch("api.index._schedule_rooms_by_key", return_value={})
+    @patch("api.index._cached_supabase_get")
+    def test_grouped_venue_covers_all_sources_and_keeps_city_scope(self, cached, _rooms, _directory):
+        names = ["Auditorio Nacional de Música", "Auditorio Nacional de Musica", " AUDITORIO  NACIONAL DE MÚSICA "]
+        cached.return_value = [event(str(i), venue=name, city="Madrid", organization=str(i)) for i, name in enumerate(names)] + [event("other-city", venue=names[0], city="Berlin")]
+        key = _schedule_venue_key(names[0], "Madrid")
+        result = schedule_events({"venue_keys": [key], "venues": [names[0]]})
+        self.assertEqual([row["event_id"] for row in result["events"]], ["0", "1", "2"])
+        self.assertEqual(_schedule_venue_key("  HALL—A. ", "Madrid"), _schedule_venue_key("Hall A", "MADRID"))
+        self.assertEqual(_schedule_venue_key("Mu\u0301sica", "Madrid"), _schedule_venue_key("MÚSICA", "Madrid"))
+
+    @patch("api.index._schedule_venue_directory", return_value=({}, {}))
+    @patch("api.index._schedule_rooms_by_key", return_value={})
+    @patch("api.index._cached_supabase_get")
+    def test_berlin_query_does_not_expand_to_munich_events(self, cached, _rooms, _directory):
+        cached.return_value = [event("berlin", city="Berlin", country_code="de"), event("munich", city="Munich", country_code="de")]
+        self.assertEqual([row["event_id"] for row in schedule_events({"location_query": "Berlin"})["events"]], ["berlin"])
+        self.assertEqual(len(schedule_events({"location_query": "Deutschland"})["events"]), 2)
+
+    @patch("api.index._cached_supabase_get")
+    def test_options_preserve_venue_alias_ids_and_country_metadata(self, cached):
+        def rows(path, params=None, ttl=60):
+            if path.endswith("/organizations"):
+                return [{"id": "org", "name": "Orchestra"}]
+            if path.endswith("/venues"):
+                self.assertIn("country_code", params["select"])
+                return [{"id": str(i), "name": name, "city": "Madrid", "country_code": "es", "organization_id": "org"} for i, name in enumerate(["Háll A", "HALL-A"])]
+            return [{"organization": "Orchestra", "venue": "Hall A"}]
+        cached.side_effect = rows
+        result = schedule_options()
+        self.assertEqual([row["id"] for row in result["venues"]], ["0", "1"])
+        self.assertEqual(result["venues"][0]["country_code"], "es")
+        self.assertIn("Deutschland", result["country_names"]["de"])
+
     def setUp(self):
         from api.index import READ_CACHE
         READ_CACHE.clear()

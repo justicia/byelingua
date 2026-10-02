@@ -2247,28 +2247,29 @@ def canonical_work_title(value):
 
 def schedule_options():
     organizations = _cached_supabase_get("/rest/v1/organizations", {"select": "id,name", "order": "name"}, ttl=600)
-    venues = _cached_supabase_get("/rest/v1/venues", {"select": "id,name,city,organization_id", "order": "name"}, ttl=600)
+    venues = _cached_supabase_get("/rest/v1/venues", {"select": "id,name,city,country_code,organization_id", "order": "name"}, ttl=600)
     org_by_id = {row["id"]: row for row in organizations}
     # Keep location suggestions grounded in venues represented by current events.
     # If the catalog lookup is unavailable, retain the venue-directory fallback.
     catalog_rows = _cached_supabase_get("/rest/v1/event_catalog_v1", {"select": "organization,venue", "limit": "5000"}, ttl=600)
-    active_pairs = {(str(row.get("organization") or "").strip().casefold(), str(row.get("venue") or "").strip().casefold()) for row in catalog_rows}
+    active_pairs = {(str(row.get("organization") or "").strip().casefold(), _schedule_venue_name(row.get("venue"))) for row in catalog_rows}
     venue_rows = []
     cities = set()
     for venue in venues:
         org = org_by_id.get(venue.get("organization_id"), {})
         city = _schedule_city(venue.get("city") or org.get("name"))
-        pair = (str(org.get("name") or "").strip().casefold(), str(venue.get("name") or "").strip().casefold())
+        pair = (str(org.get("name") or "").strip().casefold(), _schedule_venue_name(venue.get("name")))
         if active_pairs and pair not in active_pairs:
             continue
         cities.add(city)
         venue_rows.append({
             "id": venue.get("id"), "name": venue.get("name"), "city": city,
             "organization_id": venue.get("organization_id"),
-            "organization": org.get("name", ""),
+            "organization": org.get("name", ""), "country_code": venue.get("country_code", ""),
         })
     return {
         "cities": sorted(cities), "organizations": organizations, "venues": venue_rows,
+        "country_names": SCHEDULE_COUNTRY_NAMES,
         "event_types": [{"value": value, "label": EVENT_TYPE_LABELS[value]} for value in CANONICAL_EVENT_TYPES],
     }
 
@@ -2287,6 +2288,16 @@ SCHEDULE_COUNTRY_NAMES = {
     "pl": ("Poland", "Polska", "波兰"), "pt": ("Portugal", "葡萄牙"),
     "se": ("Sweden", "Sverige", "瑞典"), "us": ("United States", "USA", "美国"),
 }
+
+
+def _schedule_venue_name(value):
+    text = unicodedata.normalize("NFKD", str(value or "")).casefold().replace("œ", "oe").replace("æ", "ae")
+    text = "".join(char for char in text if not unicodedata.category(char).startswith("M"))
+    return " ".join("".join(char if char.isalnum() else " " for char in text).split())
+
+
+def _schedule_venue_key(name, city):
+    return _schedule_venue_name(name) + "|" + _schedule_venue_name(city)
 
 
 def _schedule_values(data, key):
@@ -2371,12 +2382,18 @@ def _schedule_event_matches(row, data, city_by_venue=None, country_by_venue=None
     organizations = {value.casefold() for value in _schedule_values(data, "organizations")}
     if not organizations and data.get("organization"):
         organizations.add(str(data["organization"]).strip().casefold())
-    venues = {value.casefold() for value in _schedule_values(data, "venues")}
+    venues = {_schedule_venue_name(value) for value in _schedule_values(data, "venues")}
+    venue_keys = set(_schedule_values(data, "venue_keys"))
     if cities and city.casefold() not in cities:
         return False
     if organizations and str(row.get("organization") or "").casefold() not in organizations:
         return False
-    if venues and venue.casefold() not in venues:
+    if venue_keys:
+        # The catalog exposes venue names, not IDs. Match the physical venue key
+        # across all source records; organization remains an independent filter.
+        if _schedule_venue_key(venue, city) not in venue_keys:
+            return False
+    elif venues and _schedule_venue_name(venue) not in venues:
         return False
     location_query = (data.get("location_query") or data.get("city_query") or data.get("country_city_query") or "").strip()
     if location_query:
@@ -2472,7 +2489,7 @@ def schedule_events(data):
             "country_city_query", "venue_query", "work_query", "composer_query",
             "character_query", "artist_query", "query", "work_id", "character_id", "artist_id",
         )
-    ) and not any(_schedule_values(data, key) for key in ("cities", "organizations", "venues")) \
+    ) and not any(_schedule_values(data, key) for key in ("cities", "organizations", "venues", "venue_keys")) \
             and not str(data.get("organization") or "").strip():
         return _schedule_unfiltered_page(data)
     _, _, date_filter = _schedule_date_filters(data)
