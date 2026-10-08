@@ -16,7 +16,7 @@
 @media(min-width:801px) and (max-width:1100px){.editor-grid.has-detail{grid-template-columns:minmax(0,1fr) minmax(300px,.65fr)}.detail-pane{grid-column:1/-1;position:static;max-height:none}}
 @media(max-width:800px){.editor-grid.has-detail{display:block}.detail-pane{position:fixed;top:var(--byelingua-header-height,104px);bottom:0;left:0;right:0;z-index:46;max-height:none;border-radius:0}.detail-pane-body{padding-bottom:calc(24px + env(safe-area-inset-bottom))}}
 </style>
-</head>
+<link rel="stylesheet" href="/shared-typography.css"></head>
 <body><header id="sharedHeader"></header><script src="/shared-i18n.js"></script><script src="/shared-header.js"></script><script>ByelinguaHeader.mount(document.getElementById('sharedHeader'));window.addEventListener('byelingua-language-change',()=>location.reload());</script><main>
 <section class="editor-head"><div><h1 id="scheduleTitle">Schedule</h1><div id="scheduleMeta" class="hint">Planning</div><div id="confirmationNotice" class="status" hidden></div></div><div class="head-actions"><button id="contextToggle" class="secondary context-toggle" type="button">Other performances</button><button id="viewSummary" class="secondary" type="button" hidden>View complete schedule</button><button id="confirm" type="button">Confirm Schedule</button></div></section>
 <div id="status" class="status"></div>

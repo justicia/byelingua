@@ -19,8 +19,8 @@ const server = http.createServer(async (req, res) => {
     if(query.action==='combined_entity_events')result={events:[{event_id:'saved',title:'Saved concert',date:'2026-10-01',venue:'Madrid Hall',organization:'Saved orchestra'}]};
     res.writeHead(200,{'Content-Type':'application/json'});return res.end(JSON.stringify(result));
   }
-  if(!['schedule.html','shared-header.js','shared-i18n.js'].includes(filename)){res.writeHead(404);return res.end()}
-  res.writeHead(200,{'Content-Type':filename.endsWith('.js')?'text/javascript':'text/html; charset=utf-8'});
+  if(!['schedule.html','shared-header.js','shared-i18n.js','shared-typography.css','planner-workspace.css','planner-state.js','planner-workspace.js'].includes(filename)){res.writeHead(404);return res.end()}
+  res.writeHead(200,{'Content-Type':filename.endsWith('.js')?'text/javascript':filename.endsWith('.css')?'text/css':'text/html; charset=utf-8'});
   res.end(fs.readFileSync(path.join(__dirname,filename)));
 });
 (async()=>{

@@ -7,7 +7,7 @@ const path = require('node:path');
 const http = require('node:http');
 const { chromium } = require('playwright');
 
-const files = new Set(['schedule.html', 'shared-header.js', 'shared-i18n.js']);
+const files = new Set(['schedule.html', 'shared-header.js', 'shared-i18n.js','shared-typography.css','planner-workspace.css','planner-state.js','planner-workspace.js']);
 const rows = Array.from({ length: 1006 }, (_, i) => ({
   event_id: `pagination-${i + 1}`, title: `Pagination fixture ${i + 1}`,
   date: '2026-10-01', start_time: '19:00', event_type: 'opera',
@@ -33,7 +33,7 @@ const server = http.createServer(async (req, res) => {
     return res.end(JSON.stringify(result));
   }
   if (!files.has(filename)) { res.writeHead(404); return res.end(); }
-  res.writeHead(200, { 'Content-Type': filename.endsWith('.js') ? 'text/javascript' : 'text/html; charset=utf-8' });
+  res.writeHead(200, { 'Content-Type': filename.endsWith('.js') ? 'text/javascript' : filename.endsWith('.css') ? 'text/css' : 'text/html; charset=utf-8' });
   res.end(fs.readFileSync(path.join(__dirname, filename)));
 });
 
