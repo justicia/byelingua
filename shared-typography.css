@@ -1,0 +1,7 @@
+:root{--byelingua-font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+body{font-family:var(--byelingua-font);font-weight:400}
+body *:not(.brand):not(.byelingua-compact-brand):not(.schedule-brand){font-family:var(--byelingua-font)!important}
+h1,h2,h3,h4,h5,h6,strong,b{font-weight:600!important}
+button,label,.btn{font-weight:500!important}
+p,input,select,textarea{font-weight:400}
+button,input,select,textarea{max-width:100%;min-width:0}
