@@ -5,10 +5,38 @@ from unittest.mock import Mock, patch
 
 from bs4 import BeautifulSoup
 
-from api.index import _event_city, _profile_digest_enabled, backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
+from api.index import FeedbackRateLimitError, _event_city, _profile_digest_enabled, backfill_bilingual_article, build_email_digest, canonical_url, collect_website, country_from_language, country_from_url, delete_article, deliver_personal_digest, export_schedule_ics, extract_wechat_article, fetch_wechat_direct, generate_invite_code, import_wechat_article, normalize_wechat_url, paris_schedule_due, poll_wechat_translation, public_article_from_row, public_article_to_row, public_subscriptions, register_with_invite, retranslate_article, run_daily_digest, run_personal_digest, run_scheduled_updates, save_public_articles, save_public_subscription, save_wechat_chinese, schedule_events, send_daily_digest, send_schedule_email, set_public_subscription_enabled, submit_feedback, supabase_service, sync_wechat_article, translate_article, translate_backfill_article, translate_bilingual_article, translate_wechat_article, update_article_metadata, validate_subscription
 
 
 class ApiTests(unittest.TestCase):
+    @patch.dict("os.environ", {"FEEDBACK_RECIPIENT_EMAIL":"owner+byelingua-feedback@gmail.com"})
+    @patch("api.index.send_resend_email", return_value="feedback-email-1")
+    @patch("api.index.supabase_service")
+    def test_feedback_is_saved_before_notification(self, service, send):
+        service.side_effect = [[], [{"id":"feedback-1"}], None]
+        result = submit_feedback({
+            "category":"incorrect_event", "message":"The performance date is incorrect.",
+            "email":"Reader@Example.com", "page_path":"/schedule.html?date=2026-10-18",
+            "event_id":"event-1", "event_title":"Don Giovanni", "event_date":"2026-10-18",
+            "event_venue":"Madrid Hall", "source_url":"https://example.test/event",
+        }, {"X-Forwarded-For":"192.0.2.8", "User-Agent":"Fixture Browser"})
+        self.assertTrue(result["received"])
+        self.assertTrue(result["notification_sent"])
+        insert = service.call_args_list[1]
+        self.assertEqual(insert.args[:2], ("POST", "/rest/v1/feedback_reports"))
+        self.assertEqual(insert.kwargs["payload"]["email"], "reader@example.com")
+        self.assertEqual(insert.kwargs["payload"]["event_title"], "Don Giovanni")
+        send.assert_called_once()
+
+    @patch("api.index.supabase_service", return_value=[{"id":str(index)} for index in range(5)])
+    def test_feedback_rate_limit_blocks_sixth_report(self, _service):
+        with self.assertRaises(FeedbackRateLimitError):
+            submit_feedback({"category":"site_problem", "message":"The details button does not open."}, {"X-Forwarded-For":"192.0.2.9"})
+
+    def test_feedback_rejects_short_message_and_external_page_url(self):
+        with self.assertRaisesRegex(ValueError, "between 10"):
+            submit_feedback({"category":"other", "message":"short"}, {})
+
     def test_digest_flag_prefers_canonical_and_falls_back_to_legacy(self):
         self.assertTrue(_profile_digest_enabled({"email_digest_enabled":True,"email_subscription_enabled":False}))
         self.assertFalse(_profile_digest_enabled({"email_digest_enabled":False,"email_subscription_enabled":True}))

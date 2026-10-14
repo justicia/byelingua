@@ -30,6 +30,12 @@
     if(restoreArtistAfterDetail)hideArtist();
     restoreDetailAfterArtist=false;
     await detailBase(id);
+    if(!embedded){
+      const detailEvent=currentDetailEvent(id)||{};
+      const feedbackContext={event_id:String(detailEvent.event_id||id||''),event_title:detailEvent.title||detailEvent.work_title||'',event_date:detailEvent.date||'',event_venue:[detailEvent.organization,detailEvent.venue,detailEvent.room].filter(Boolean).join(' · '),source_url:detailEvent.source_url||detailEvent.detail_url||''};
+      window.ByelinguaFeedbackContext=feedbackContext;window.ByelinguaFeedback?.setContext(feedbackContext);
+      const reportButton=document.createElement('button');reportButton.type='button';reportButton.className='secondary feedback-detail-action';reportButton.textContent=label('报告此演出的问题','Report an issue with this event');reportButton.onclick=()=>window.ByelinguaFeedback?.open(feedbackContext);eventPane.querySelector('[data-persistent-body]')?.append(reportButton);
+    }
     layout.classList.remove('has-event-pane');
     eventPane.querySelector('[data-close-persistent]')?.focus();
   };
@@ -37,6 +43,7 @@
   const closeDetailBase=closeDetailButton.onclick;
   closeDetailButton.onclick=event=>{
     closeDetailBase?.call(closeDetailButton,event);
+    window.ByelinguaFeedbackContext={};window.ByelinguaFeedback?.clearContext();
     if(restoreArtistAfterDetail){
       restoreArtistAfterDetail=false;
       artistDrawer.classList.add('open');
