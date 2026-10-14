@@ -13,20 +13,57 @@
   const sidebar=document.createElement('details');sidebar.className='planner-filters';sidebar.open=innerWidth>760;
   const heading=document.createElement('summary');heading.textContent=label('地点与筛选','Locations & filters');sidebar.append(heading,filterPanel);
   layout.insertBefore(sidebar,leftColumn);leftColumn.classList.add('planner-results');
-  const entityPanel=document.createElement('section');entityPanel.className='panel planner-entity-panel';
-  const title=document.createElement('h2');title.textContent=label('寻找演出','Find a performance');entityPanel.append(title);
-  if(entityGrid)entityPanel.append(entityGrid);
-  const entityStatus=document.getElementById('entityConditionStatus');if(entityStatus)entityPanel.append(entityStatus);
-  const searchButton=document.getElementById('entitySearchButton');if(searchButton)entityPanel.append(searchButton);
-  leftColumn.prepend(entityPanel);if(resultPanel)leftColumn.append(resultPanel);
+  // Work, character and artist are filters, so keep them in the filter card.
+  // The location search and unchanged calendar remain the first two controls.
+  const entityPanel=entityGrid?.closest('.panel')||null;
+  const searchButton=document.getElementById('entitySearchButton');
+  if(resultPanel)leftColumn.append(resultPanel);
   const openSelected=()=>{rightColumn.classList.remove('schedule-hidden');rightColumn.classList.add('mobile-open');rightColumn.querySelector('[data-close-schedule]')?.focus()};
   mobileTrigger.onclick=openSelected;rightColumn.querySelector('[data-close-schedule]').onclick=()=>{rightColumn.classList.remove('mobile-open','schedule-hidden');mobileTrigger.focus()};
   // Detail is a drawer, so opening it does not squeeze the three workspace columns.
   document.body.append(eventPane);eventPane.setAttribute('role','dialog');eventPane.setAttribute('aria-modal','true');
   const detailBase=showDetail;
-  showDetail=async function(id){await detailBase(id);layout.classList.remove('has-event-pane');eventPane.querySelector('[data-close-persistent]')?.focus()};
+  let restoreArtistAfterDetail=false,restoreDetailAfterArtist=false;
+  const hideArtist=()=>{artistDrawer.classList.remove('open');artistDrawer.setAttribute('aria-hidden','true')};
+  showDetail=async function(id){
+    restoreArtistAfterDetail=artistDrawer.classList.contains('open');
+    if(restoreArtistAfterDetail)hideArtist();
+    restoreDetailAfterArtist=false;
+    await detailBase(id);
+    layout.classList.remove('has-event-pane');
+    eventPane.querySelector('[data-close-persistent]')?.focus();
+  };
   const closeDetailButton=eventPane.querySelector('[data-close-persistent]');
+  const closeDetailBase=closeDetailButton.onclick;
+  closeDetailButton.onclick=event=>{
+    closeDetailBase?.call(closeDetailButton,event);
+    if(restoreArtistAfterDetail){
+      restoreArtistAfterDetail=false;
+      artistDrawer.classList.add('open');
+      artistDrawer.setAttribute('aria-hidden','false');
+      artistDrawer.querySelector('.artist-drawer-close')?.focus();
+    }
+  };
   closeDetailButton.addEventListener('click',()=>document.querySelector(`[data-detail="${CSS.escape(String(activeEventId||''))}"]`)?.focus());
+  const openArtistBase=openArtistPanel;
+  openArtistPanel=async function(id){
+    restoreDetailAfterArtist=!eventPane.hidden;
+    if(restoreDetailAfterArtist){eventPane.hidden=true;layout.classList.remove('has-event-pane')}
+    restoreArtistAfterDetail=false;
+    const result=await openArtistBase(id);
+    artistDrawer.querySelector('.artist-drawer-close')?.focus();
+    return result;
+  };
+  const closeArtistButton=artistDrawer.querySelector('.artist-drawer-close');
+  const closeArtistBase=closeArtistButton.onclick;
+  closeArtistButton.onclick=event=>{
+    closeArtistBase?.call(closeArtistButton,event);
+    if(restoreDetailAfterArtist&&activeEventId){
+      restoreDetailAfterArtist=false;
+      eventPane.hidden=false;
+      eventPane.querySelector('[data-close-persistent]')?.focus();
+    }
+  };
   document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!eventPane.hidden)closeDetailButton.click();else if(rightColumn.classList.contains('mobile-open'))rightColumn.classList.remove('mobile-open');else if(embedded)parent.postMessage({type:'byelingua-close-planner'},location.origin)});
   // Calendar writes only the existing date inputs; all API range semantics are retained.
   const calendar=document.createElement('section');calendar.className='planner-calendar';
@@ -69,7 +106,7 @@
     const keyword=document.getElementById('workCondition').closest('.field')||document.getElementById('workCondition').parentElement;basics.append(keyword);
     advanced.append(typeField,calendar);for(const child of [...filterPanel.children])advanced.append(child);
     const extraEntities=document.createElement('div');extraEntities.className='entity-condition-grid';if(entityGrid)while(entityGrid.firstChild)extraEntities.append(entityGrid.firstChild);advanced.append(extraEntities);
-    basics.append(advanced);sidebar.replaceChildren(heading,basics);if(searchButton)basics.append(searchButton);entityPanel.hidden=true;
+    basics.append(advanced);sidebar.replaceChildren(heading,basics);if(searchButton)basics.append(searchButton);if(entityPanel&&entityPanel!==filterPanel)entityPanel.hidden=true;
     const selectedButton=document.createElement('button');selectedButton.className='secondary embedded-selected';selectedButton.textContent=label('已选演出','Selected performances');selectedButton.onclick=openSelected;basics.append(selectedButton);
     window.addEventListener('message',event=>{if(event.origin===location.origin&&event.source===parent&&event.data?.type==='byelingua-show-selected')openSelected()});
   }
