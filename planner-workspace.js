@@ -87,15 +87,13 @@
     const venueField=document.getElementById('venueSearch').closest('.field');
     const typeField=document.getElementById('eventType').closest('.field');
     const dateFilters=from.closest('.filters');
-    const locationGroup=document.createElement('section');locationGroup.className='planner-filter-group planner-location-group';locationGroup.innerHTML=`<h3>${label('地点','Location')}</h3>`;
-    const workGroup=document.createElement('section');workGroup.className='planner-filter-group planner-work-group';workGroup.innerHTML=`<h3>${label('作品','Work')}</h3>`;
+    const locationGroup=document.createElement('details');locationGroup.className='planner-filter-group planner-location-group';locationGroup.open=true;locationGroup.innerHTML=`<summary>${label('地点','Location')}</summary>`;
+    const workGroup=document.createElement('details');workGroup.className='planner-filter-group planner-work-group';workGroup.open=true;workGroup.innerHTML=`<summary>${label('作品','Work')}</summary>`;
     const cityGroup=document.getElementById('cities').parentElement,organizationGroup=document.getElementById('organizations').parentElement,venueGroup=document.getElementById('venues').parentElement;
     locationGroup.append(locationField,venueField,cityGroup,organizationGroup,venueGroup);
     workGroup.append(typeField);if(entityGrid)workGroup.append(entityGrid);
     const filterStatus=document.getElementById('filterStatus'),entityStatus=document.getElementById('entityConditionStatus');
-    const searchFilters=document.createElement('details');searchFilters.className='planner-search-filters';searchFilters.open=true;
-    const searchFiltersHeading=document.createElement('summary');searchFiltersHeading.textContent=label('筛选','Filters');searchFilters.append(searchFiltersHeading,locationGroup,workGroup);if(entityStatus)searchFilters.append(entityStatus);if(filterStatus)searchFilters.append(filterStatus);if(searchButton)searchFilters.append(searchButton);
-    filterPanel.replaceChildren(calendar,dateFilters,searchFilters);
+    filterPanel.replaceChildren(calendar,dateFilters,locationGroup,workGroup);if(entityStatus)filterPanel.append(entityStatus);if(filterStatus)filterPanel.append(filterStatus);if(searchButton)filterPanel.append(searchButton);
   }
   renderCalendar();[from,to].forEach(input=>input.addEventListener('change',renderCalendar));
   const generation=document.querySelector('[data-generate-live]'),generateBase=generation.onclick;
