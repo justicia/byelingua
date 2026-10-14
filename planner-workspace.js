@@ -64,6 +64,11 @@
       eventPane.querySelector('[data-close-persistent]')?.focus();
     }
   };
+  eventPane.addEventListener('click',event=>{
+    const addButton=event.target.closest('[data-persistent-toggle]');
+    if(!addButton||selectionStore.isSelected(activeEventId))return;
+    setTimeout(()=>{if(!eventPane.hidden)closeDetailButton.click()},0);
+  },true);
   document.addEventListener('keydown',event=>{if(event.key!=='Escape')return;if(!eventPane.hidden)closeDetailButton.click();else if(rightColumn.classList.contains('mobile-open'))rightColumn.classList.remove('mobile-open');else if(embedded)parent.postMessage({type:'byelingua-close-planner'},location.origin)});
   // Calendar writes only the existing date inputs; all API range semantics are retained.
   const calendar=document.createElement('section');calendar.className='planner-calendar';
@@ -77,7 +82,20 @@
     calendar.querySelectorAll('[data-calendar-date]').forEach(button=>button.onclick=()=>{const value=button.dataset.calendarDate;if(!pickingEnd){from.value=value;to.value='';pickingEnd=true}else{if(value<from.value){to.value=from.value;from.value=value}else to.value=value;pickingEnd=false}from.dispatchEvent(new Event('change',{bubbles:true}));to.dispatchEvent(new Event('change',{bubbles:true}));renderCalendar()});
     calendar.querySelector('[data-clear-dates]').onclick=()=>{from.value='';to.value='';pickingEnd=false;from.dispatchEvent(new Event('change',{bubbles:true}));to.dispatchEvent(new Event('change',{bubbles:true}));renderCalendar()};
   }
-  const locationField=document.getElementById('locationSearch').closest('.field');filterPanel.prepend(locationField);locationField.after(calendar);renderCalendar();[from,to].forEach(input=>input.addEventListener('change',renderCalendar));
+  const locationField=document.getElementById('locationSearch').closest('.field');
+  if(embedded){filterPanel.prepend(locationField);locationField.after(calendar)}else{
+    const venueField=document.getElementById('venueSearch').closest('.field');
+    const typeField=document.getElementById('eventType').closest('.field');
+    const dateFilters=from.closest('.filters');
+    const locationGroup=document.createElement('section');locationGroup.className='planner-filter-group planner-location-group';locationGroup.innerHTML=`<h3>${label('地点','Location')}</h3>`;
+    const workGroup=document.createElement('section');workGroup.className='planner-filter-group planner-work-group';workGroup.innerHTML=`<h3>${label('作品','Work')}</h3>`;
+    const cityGroup=document.getElementById('cities').parentElement,organizationGroup=document.getElementById('organizations').parentElement,venueGroup=document.getElementById('venues').parentElement;
+    locationGroup.append(locationField,venueField,cityGroup,organizationGroup,venueGroup);
+    workGroup.append(typeField);if(entityGrid)workGroup.append(entityGrid);
+    const filterStatus=document.getElementById('filterStatus'),entityStatus=document.getElementById('entityConditionStatus');
+    filterPanel.replaceChildren(calendar,dateFilters,locationGroup,workGroup);if(entityStatus)filterPanel.append(entityStatus);if(filterStatus)filterPanel.append(filterStatus);if(searchButton)filterPanel.append(searchButton);
+  }
+  renderCalendar();[from,to].forEach(input=>input.addEventListener('change',renderCalendar));
   const generation=document.querySelector('[data-generate-live]'),generateBase=generation.onclick;
   let generating=false;const generationStatus=document.createElement('div');generationStatus.className='status';generationStatus.setAttribute('role','status');rightColumn.querySelector('.my-schedule-footer').after(generationStatus);
   generation.onclick=async event=>{if(!selected_event_ids.size||generating)return;generating=true;generation.disabled=true;generationStatus.textContent=label('正在生成日程…','Creating schedule…');try{await generateBase(event)}finally{generating=false;generation.disabled=generating||!selected_event_ids.size;generationStatus.textContent=''}};
