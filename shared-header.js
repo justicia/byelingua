@@ -1,4 +1,10 @@
 (function(){
+  if(!document.querySelector('link[data-feedback-widget]')){
+    const feedbackStyle=document.createElement('link');feedbackStyle.rel='stylesheet';feedbackStyle.href='/feedback-widget.css';feedbackStyle.dataset.feedbackWidget='';document.head.append(feedbackStyle);
+  }
+  if(!document.querySelector('script[data-feedback-widget]')){
+    const feedbackScript=document.createElement('script');feedbackScript.src='/feedback-widget.js';feedbackScript.dataset.feedbackWidget='';document.head.append(feedbackScript);
+  }
   const styleId='byelingua-shared-header-style';
   if(!document.getElementById(styleId)){
     const style=document.createElement('style');style.id=styleId;style.textContent=`

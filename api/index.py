@@ -213,6 +213,14 @@ class ArticleTranslationNotAvailableError(ValueError):
     """The requested translation is not available."""
 
 
+class FeedbackRateLimitError(ValueError):
+    """A feedback sender has exceeded the short submission window."""
+
+
+class FeedbackUnavailableError(RuntimeError):
+    """Feedback storage is not ready or temporarily unavailable."""
+
+
 def public_article_from_row(row):
     """Restore the legacy API shape while Supabase remains the source of truth."""
     raw_data = dict(row.get("raw_data") or {})
@@ -1779,6 +1787,138 @@ def send_resend_email(recipient, subject, text, html):
     return provider_id
 
 
+FEEDBACK_CATEGORIES = {
+    "incorrect_event": "Incorrect event information",
+    "site_problem": "Website problem",
+    "suggestion": "Suggestion",
+    "other": "Other",
+}
+
+
+def _feedback_fingerprint(headers):
+    forwarded = str(headers.get("X-Forwarded-For", "")).split(",", 1)[0].strip()
+    address = forwarded or str(headers.get("X-Real-IP", "")).strip() or "unknown"
+    secret = (
+        os.environ.get("FEEDBACK_RATE_LIMIT_SECRET", "").strip()
+        or os.environ.get("SUPABASE_SERVICE_ROLE_KEY", "").strip()
+        or "byelingua-feedback"
+    )
+    return hmac.new(secret.encode("utf-8"), address.encode("utf-8"), hashlib.sha256).hexdigest()
+
+
+def _feedback_text(value, limit):
+    return " ".join(str(value or "").strip().split())[:limit]
+
+
+def submit_feedback(data, headers):
+    # Quietly accept the hidden-field trap so bots cannot tune around it.
+    if str(data.get("website", "")).strip():
+        return {"received": True}
+
+    category = str(data.get("category", "")).strip()
+    message = str(data.get("message", "")).strip()
+    email = str(data.get("email", "")).strip().lower()
+    if category not in FEEDBACK_CATEGORIES:
+        raise ValueError("Please select a valid feedback type.")
+    if len(message) < 10 or len(message) > 4000:
+        raise ValueError("Feedback details must contain between 10 and 4,000 characters.")
+    if email and (len(email) > 254 or not re.fullmatch(r"[^\s@]+@[^\s@]+\.[^\s@]+", email)):
+        raise ValueError("Please enter a valid email address.")
+
+    page_path = _feedback_text(data.get("page_path"), 1800)
+    if not page_path.startswith("/") or page_path.startswith("//"):
+        page_path = "/"
+    fingerprint = _feedback_fingerprint(headers)
+    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=10)).isoformat()
+    try:
+        recent = supabase_service(
+            "GET", "/rest/v1/feedback_reports",
+            params={
+                "request_fingerprint": f"eq.{fingerprint}",
+                "created_at": f"gte.{cutoff}",
+                "select": "id",
+                "limit": "5",
+            },
+        ) or []
+        if len(recent) >= 5:
+            raise FeedbackRateLimitError("Too many reports were submitted. Please try again later.")
+        recipient = os.environ.get("FEEDBACK_RECIPIENT_EMAIL", "").strip()
+        row = {
+            "category": category,
+            "message": message,
+            "email": email or None,
+            "page_path": page_path,
+            "event_id": _feedback_text(data.get("event_id"), 180) or None,
+            "event_title": _feedback_text(data.get("event_title"), 500) or None,
+            "event_date": _feedback_text(data.get("event_date"), 40) or None,
+            "event_venue": _feedback_text(data.get("event_venue"), 500) or None,
+            "source_url": _feedback_text(data.get("source_url"), 1800) or None,
+            "schedule_id": _feedback_text(data.get("schedule_id"), 180) or None,
+            "language": _feedback_text(data.get("language"), 12) or None,
+            "user_agent": _feedback_text(headers.get("User-Agent"), 1000) or None,
+            "request_fingerprint": fingerprint,
+            "notification_status": "pending" if recipient else "skipped",
+        }
+        created = supabase_service(
+            "POST", "/rest/v1/feedback_reports", payload=row, prefer="return=representation"
+        ) or []
+    except FeedbackRateLimitError:
+        raise
+    except (ValueError, RuntimeError, requests.RequestException) as error:
+        raise FeedbackUnavailableError("Feedback service is not configured or temporarily unavailable.") from error
+
+    report = created[0] if created else {}
+    report_id = str(report.get("id") or "")
+    notification_sent = False
+    if recipient and report_id:
+        label = FEEDBACK_CATEGORIES[category]
+        text = "\n".join([
+            f"Type: {label}",
+            f"Page: {page_path}",
+            f"Event: {row['event_title'] or '—'}",
+            f"Event ID: {row['event_id'] or '—'}",
+            f"Date: {row['event_date'] or '—'}",
+            f"Venue: {row['event_venue'] or '—'}",
+            f"Source: {row['source_url'] or '—'}",
+            f"Schedule ID: {row['schedule_id'] or '—'}",
+            f"Reply email: {email or '—'}",
+            "",
+            message,
+        ])
+        html = (
+            '<!doctype html><html><body style="font-family:Arial,sans-serif;color:#17201b">'
+            f'<h1 style="color:#214d3a">{escape(label)}</h1>'
+            f'<p><strong>Page:</strong> {escape(page_path)}</p>'
+            f'<p><strong>Event:</strong> {escape(row["event_title"] or "—")}</p>'
+            f'<p><strong>Event ID:</strong> {escape(row["event_id"] or "—")}</p>'
+            f'<p><strong>Date:</strong> {escape(row["event_date"] or "—")}</p>'
+            f'<p><strong>Venue:</strong> {escape(row["event_venue"] or "—")}</p>'
+            f'<p><strong>Source:</strong> {escape(row["source_url"] or "—")}</p>'
+            f'<p><strong>Schedule ID:</strong> {escape(row["schedule_id"] or "—")}</p>'
+            f'<p><strong>Reply email:</strong> {escape(email or "—")}</p>'
+            f'<div style="margin-top:20px;padding:16px;background:#f5f2e9;white-space:pre-wrap">{escape(message)}</div>'
+            '</body></html>'
+        )
+        try:
+            provider_id = send_resend_email(recipient, f"[Byelingua Feedback] {label}", text, html)
+            notification_sent = True
+            supabase_service(
+                "PATCH", "/rest/v1/feedback_reports", params={"id": f"eq.{report_id}"},
+                payload={"notification_status": "sent", "notification_id": provider_id},
+                prefer="return=minimal",
+            )
+        except Exception as error:
+            print(f"Feedback notification failed for {report_id}: {type(error).__name__}")
+            try:
+                supabase_service(
+                    "PATCH", "/rest/v1/feedback_reports", params={"id": f"eq.{report_id}"},
+                    payload={"notification_status": "failed"}, prefer="return=minimal",
+                )
+            except Exception:
+                pass
+    return {"received": True, "report_id": report_id, "notification_sent": notification_sent}
+
+
 def _safe_delivery_error(error):
     message = str(error).replace(os.environ.get("RESEND_API_KEY", ""), "[redacted]")
     return message[:1000]
@@ -3211,6 +3351,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, poll_public_article_translation(str(data.get("id","")), data.get("language",""))); return
             if action == "get_auth_config":
                 url, publishable, _ = supabase_settings(); self.send_json(200,{"url":url,"publishable_key":publishable}); return
+            if action == "submit_feedback":
+                self.send_json(201, submit_feedback(data, self.headers)); return
             if action == "get_news_source_options":
                 authenticated_user(self.headers); self.send_json(200,{"sources":available_news_sources()}); return
             if action == "register_with_invite":
@@ -3309,6 +3451,8 @@ class handler(BaseHTTPRequestHandler):
         except ManualBriefRateLimitError as error: self.send_json(429, {"error":str(error), **error.status})
         except ArticleNotFoundError: self.send_json(404, {"error_code":"ARTICLE_NOT_FOUND", "error":"Article not found."})
         except ArticleTranslationNotAvailableError: self.send_json(404, {"error_code":"TRANSLATION_NOT_AVAILABLE", "error":"Translation not available."})
+        except FeedbackRateLimitError as error: self.send_json(429, {"error_code":"feedback_rate_limited", "error":str(error)})
+        except FeedbackUnavailableError as error: self.send_json(503, {"error_code":"feedback_unavailable", "error":str(error)})
         except PermissionError as error: self.send_json(401, {"error_code":"permission_denied", "error":str(error)})
         except requests.RequestException as error: self.send_json(502, {"error_code":"network_error", "error":"Upstream request failed."})
         except ValueError as error: self.send_json(400, {"error_code":"invalid_request", "error":str(error)})

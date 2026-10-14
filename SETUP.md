@@ -31,8 +31,17 @@ Byelingua 会按国家抓取公开网站或 RSS，将新文章翻译或摘要后
    - `SUPABASE_URL`：Supabase 项目地址。
    - `SUPABASE_PUBLISHABLE_KEY`：浏览器端 Publishable key。
    - `SUPABASE_SERVICE_ROLE_KEY`：服务端 `sb_secret_...` Secret key，只能存放在 Vercel。
-   - `RESEND_API_KEY`、`EMAIL_FROM`：Daily Digest 邮件发送配置。
+   - `RESEND_API_KEY`、`EMAIL_FROM`：Daily Digest 和反馈通知的邮件发送配置。
+   - `FEEDBACK_RECIPIENT_EMAIL`：接收反馈通知的邮箱，例如 Gmail 的 `name+byelingua-feedback@gmail.com` 别名。
+   - `FEEDBACK_RATE_LIMIT_SECRET`：可选，用于匿名反馈限流指纹的随机长字符串；未设置时仅在服务端复用 Supabase Secret key。
 4. 重新部署项目。
+
+## 用户反馈（预览稿）
+
+1. 在 Supabase SQL Editor 审核并运行 `supabase/migrations/20261014124611_feedback_reports.sql`。
+2. 在 Vercel Preview 环境设置 `FEEDBACK_RECIPIENT_EMAIL`；建议先使用 Gmail `+byelingua-feedback` 别名和过滤器。
+3. 反馈始终先写入 `feedback_reports`，再尝试通过 Resend 通知。邮件失败不会删除报告。
+4. 表仅允许服务端 Secret key 访问；不要向 `anon` 或 `authenticated` 开放读取权限。
 
 ## 使用方法
 
