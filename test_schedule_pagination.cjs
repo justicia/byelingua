@@ -17,7 +17,7 @@ const server = http.createServer(async (req, res) => {
   const filename = new URL(req.url, 'http://localhost').pathname.slice(1);
   if (filename === 'api') {
     let body = ''; for await (const chunk of req) body += chunk;
-    const query = JSON.parse(body || '{}');
+    const query = req.method === 'GET' ? Object.fromEntries(new URL(req.url, 'http://localhost').searchParams) : JSON.parse(body || '{}');
     let result = {};
     if (query.action === 'schedule_options') result = { cities: [], organizations: [], venues: [], event_types: [] };
     if (query.action === 'combined_entity_events') {
