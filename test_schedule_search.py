@@ -122,7 +122,7 @@ class ScheduleSearchApiTests(unittest.TestCase):
                 params = cached.call_args.args[1]
                 self.assertEqual(params["and"], expected_filter)
                 self.assertEqual(params["limit"], "1000")
-                self.assertEqual(params["order"], "date.asc,start_time.asc")
+                self.assertEqual(params["order"], "date.asc,start_time.asc,event_id.asc")
 
     @patch("api.index._schedule_venue_directory", return_value=(
         {"opéra de paris": "Paris", "wiener staatsoper": "Vienna"},
@@ -265,7 +265,7 @@ class ScheduleSearchApiTests(unittest.TestCase):
         self.assertEqual([row["event_id"] for row in result["events"]], ["default-a", "default-b"])
         params = cached.call_args.args[1]
         self.assertEqual(params["limit"], "1000")
-        self.assertEqual(params["order"], "date.asc,start_time.asc")
+        self.assertEqual(params["order"], "date.asc,start_time.asc,event_id.asc")
         self.assertNotIn("and", params)
 
     def test_search_ui_uses_bilingual_fields_and_one_button_handler(self):
