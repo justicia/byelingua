@@ -62,7 +62,7 @@ class ScheduleSearchApiTests(unittest.TestCase):
             if path.endswith("/venues"):
                 self.assertIn("country_code", params["select"])
                 return [{"id": str(i), "name": name, "city": "Madrid", "country_code": "es", "organization_id": "org"} for i, name in enumerate(["Háll A", "HALL-A"])]
-            return [{"organization": "Orchestra", "venue": "Hall A"}]
+            return [] if int(params.get("offset", 0)) else [{"organization": "Orchestra", "venue": "Hall A"}]
         cached.side_effect = rows
         result = schedule_options()
         self.assertEqual([row["id"] for row in result["venues"]], ["0", "1"])
