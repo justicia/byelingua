@@ -1,3 +1,4 @@
+import json
 import unittest
 from unittest.mock import patch
 
@@ -22,11 +23,19 @@ class FilteredScheduleResultsTests(unittest.TestCase):
 
         def service(method, path, *, params=None):
             self.assertEqual(method, "GET")
+            if path == "/rest/v1/venues":
+                return [{"name": r["venue"], "city": r["city"], "country_code": "GB" if r["city"] == "London" else "FR"} for r in catalog]
             self.assertEqual(path, "/rest/v1/event_catalog_v1")
             self.assertEqual(params["order"], "date.asc,start_time.asc,event_id.asc")
             offset = int(params["offset"])
             reads.append(offset)
-            return catalog[offset:offset + int(params["limit"])]
+            candidates = catalog
+            if params.get("venue", "").startswith("in.("):
+                names = json.loads("[" + params["venue"][4:-1] + "]")
+                candidates = [r for r in candidates if r["venue"] in names]
+            elif params.get("venue"):
+                candidates = []
+            return candidates[offset:offset + int(params["limit"])]
 
         with patch("api.index.supabase_service", side_effect=service):
             result = combined_entity_events(query)
@@ -43,7 +52,7 @@ class FilteredScheduleResultsTests(unittest.TestCase):
             "venue_keys": ["royal opera house|london"],
         })
         self.assertEqual([e["event_id"] for e in events], [e["event_id"] for e in royal])
-        self.assertEqual(offsets, [0, 1000])
+        self.assertEqual(offsets, [0])
 
     def test_date_and_type_filters_include_matches_on_later_pages(self):
         prefix = [performance(str(i), date="2026-09-30") for i in range(1000)]

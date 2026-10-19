@@ -17,7 +17,7 @@ from datetime import datetime, timezone, timedelta
 from email.utils import parsedate_to_datetime
 from html import escape
 from http.server import BaseHTTPRequestHandler
-from urllib.parse import quote, urljoin, urlsplit, urlunsplit
+from urllib.parse import parse_qs, quote, urljoin, urlsplit, urlunsplit
 from zoneinfo import ZoneInfo
 
 import feedparser
@@ -2421,11 +2421,12 @@ def schedule_options():
         venue_rows.append({
             "id": venue.get("id"), "name": venue.get("name"), "city": city,
             "organization_id": venue.get("organization_id"),
-            "organization": org.get("name", ""), "country_code": venue.get("country_code", ""),
+            "organization": org.get("name", ""), "country_code": _schedule_country_code(venue.get("country_code", ""), city),
         })
     return {
         "cities": sorted(cities), "organizations": organizations, "venues": venue_rows,
         "country_names": SCHEDULE_COUNTRY_NAMES,
+        "city_aliases": SCHEDULE_CITY_ALIASES,
         "event_types": [{"value": value, "label": EVENT_TYPE_LABELS[value]} for value in CANONICAL_EVENT_TYPES],
     }
 
@@ -2444,6 +2445,49 @@ SCHEDULE_COUNTRY_NAMES = {
     "pl": ("Poland", "Polska", "波兰"), "pt": ("Portugal", "葡萄牙"),
     "se": ("Sweden", "Sverige", "瑞典"), "us": ("United States", "USA", "美国"),
 }
+
+
+
+SCHEDULE_CITY_ALIASES = {
+    "London": ["伦敦"], "Paris": ["巴黎"], "Berlin": ["柏林"],
+    "Vienna": ["维也纳", "Wien"], "Madrid": ["马德里"],
+    "Barcelona": ["巴塞罗那"], "Amsterdam": ["阿姆斯特丹"],
+    "Brussels": ["布鲁塞尔", "Bruxelles"], "Milan": ["米兰", "Milano"],
+    "Rome": ["罗马", "Roma"], "Munich": ["慕尼黑", "München", "Muenchen"],
+    "Prague": ["布拉格", "Praha"], "Zürich": ["苏黎世", "Zurich", "Zuerich"],
+    "Hamburg": ["汉堡"], "Dresden": ["德累斯顿"],
+    "Cologne": ["科隆", "Köln", "Koeln"],
+    "Düsseldorf": ["杜塞尔多夫", "Dusseldorf", "Duesseldorf"],
+    "Stuttgart": ["斯图加特"], "Essen": ["埃森"], "Basel": ["巴塞尔"],
+    "Monaco": ["摩纳哥"], "Montreux": ["蒙特勒"],
+    "Aix-en-Provence": ["普罗旺斯地区艾克斯", "艾克斯"],
+    "Amiens": ["亚眠"], "Bourges": ["布尔日"], "Cayenne": ["卡宴"],
+    "Dijon": ["第戎"], "Grenoble": ["格勒诺布尔"],
+    "La Rochelle": ["拉罗谢尔"], "Montpellier": ["蒙彼利埃"],
+    "Nanterre": ["楠泰尔"], "Nîmes": ["尼姆"],
+    "Saint-Denis": ["圣但尼"], "Toulouse": ["图卢兹"], "Vichy": ["维希"],
+}
+
+
+
+SCHEDULE_CITY_COUNTRIES = {
+    **dict.fromkeys(("London",), "gb"),
+    **dict.fromkeys(("Berlin", "Hamburg", "Munich", "Cologne", "Dresden", "Düsseldorf", "Essen", "Stuttgart"), "de"),
+    **dict.fromkeys(("Paris", "Aix-en-Provence", "Amiens", "Boulogne-Billancourt", "Bourges", "Cayenne", "Châteauroux", "Dijon", "Grenoble", "La Chaise-Dieu", "La Côte-Saint-André", "La Rochelle", "Laon", "Montpellier", "Nanterre", "Nîmes", "Quimper", "Romainville", "Saint-Denis", "Soissons", "Toulouse", "Vichy"), "fr"),
+    **dict.fromkeys(("Madrid", "Barcelona", "Badajoz", "Malpartida de Cáceres"), "es"),
+    **dict.fromkeys(("Milan", "Rome"), "it"),
+    **dict.fromkeys(("Basel", "Montreux", "Zürich"), "ch"),
+    "Vienna": "at", "Amsterdam": "nl", "Brussels": "be", "Prague": "cz", "Monaco": "mc",
+}
+
+
+def _schedule_country_code(value, city=""):
+    raw = str(value or "").strip()
+    key = normalize_search_key(raw)
+    for code, names in SCHEDULE_COUNTRY_NAMES.items():
+        if key == code or key in {normalize_search_key(name) for name in names}:
+            return code
+    return raw.lower() or SCHEDULE_CITY_COUNTRIES.get(city, "")
 
 
 def _schedule_venue_name(value):
@@ -2553,8 +2597,8 @@ def _schedule_event_matches(row, data, city_by_venue=None, country_by_venue=None
         return False
     location_query = (data.get("location_query") or data.get("city_query") or data.get("country_city_query") or "").strip()
     if location_query:
-        country_code = row.get("country_code") or (country_by_venue or {}).get(venue.casefold(), "")
-        if not _schedule_text_matches(location_query, city, *_schedule_country_terms(country_code)):
+        country_code = _schedule_country_code(row.get("country_code") or (country_by_venue or {}).get(venue.casefold(), ""), city)
+        if not _schedule_text_matches(location_query, city, *SCHEDULE_CITY_ALIASES.get(city, []), *_schedule_country_terms(country_code)):
             return False
     venue_query = str(data.get("venue_query") or "").strip()
     if venue_query:
@@ -2562,6 +2606,22 @@ def _schedule_event_matches(row, data, city_by_venue=None, country_by_venue=None
         if not _schedule_text_matches(venue_query, venue, room):
             return False
     return True
+
+
+
+def _schedule_location_venue_names(data):
+    # Resolve aliases/city/country once against the small venue directory, then
+    # restrict the catalog query before transferring performance records.
+    location = {key: data[key] for key in (
+        "cities", "venues", "venue_keys", "location_query", "city_query", "country_city_query",
+    ) if data.get(key)}
+    if not location:
+        return None
+    directory = _cached_supabase_get(
+        "/rest/v1/venues", {"select": "name,city,country_code", "limit": "5000"}, ttl=600,
+    )
+    return sorted({row["name"] for row in directory if row.get("name") and
+                   _schedule_event_matches(dict(row, venue=row["name"]), location)})
 
 
 def _schedule_date_params(params, date_filter):
@@ -2657,8 +2717,11 @@ def schedule_events(data):
         params["organization"] = f"eq.{raw_organizations[0]}"
     elif raw_organizations:
         params["organization"] = "in.(" + ",".join(raw_organizations) + ")"
+    venue_names = _schedule_location_venue_names(data)
+    if venue_names is not None:
+        params["venue"] = "in.(" + ",".join(json.dumps(name, ensure_ascii=False) for name in venue_names) + ")" if venue_names else "eq.__byelingua_no_matching_venue__"
     _schedule_date_params(params, date_filter)
-    # Apply user filters to the complete catalog, not just its first API page.
+    # Read all matching pages after database-level date/organization/venue filters.
     rows = []
     while True:
         page_rows = _cached_supabase_get(
@@ -3352,7 +3415,11 @@ class handler(BaseHTTPRequestHandler):
         self.send_response(status); self.send_header("Content-Type","application/json; charset=utf-8"); self.send_header("Cache-Control",cache_control); self.send_header("Content-Length",str(len(body))); self.end_headers(); self.wfile.write(body)
 
     def do_GET(self):
-        try: self.send_json(200, public_payload(), "public, s-maxage=120, stale-while-revalidate=60")
+        try:
+            if parse_qs(urlsplit(self.path).query).get("action") == ["schedule_options"]:
+                self.send_json(200, schedule_options(), "public, max-age=600, s-maxage=600, stale-while-revalidate=60")
+                return
+            self.send_json(200, public_payload(), "public, s-maxage=120, stale-while-revalidate=60")
         except Exception as error: self.send_json(500, {"error":str(error)})
 
     def do_POST(self):
