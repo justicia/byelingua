@@ -47,7 +47,7 @@ class ScheduleOptionsPaginationTests(unittest.TestCase):
         result, offsets = self.check_catalog(catalog, server_cap=1000)
         self.assertEqual([v["name"] for v in result["venues"]], self.names[:3])
         self.assertEqual(result["cities"], ["London"])
-        self.assertEqual(result["venues"][-1]["country_code"], "GB")
+        self.assertEqual(result["venues"][-1]["country_code"], "gb")
         self.assertEqual(offsets, [0, 1000, 1002])
 
     def test_reads_beyond_old_five_thousand_row_limit(self):
