@@ -2649,7 +2649,7 @@ def schedule_events(data):
             and not str(data.get("organization") or "").strip():
         return _schedule_unfiltered_page(data)
     _, _, date_filter = _schedule_date_filters(data)
-    params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
+    params = {"select": EVENT_CATALOG_LIST_SELECT, "order": "date.asc,start_time.asc,event_id.asc", "limit": str(SCHEDULE_SEARCH_LIMIT)}
     raw_organizations = _schedule_values(data, "organizations")
     if not raw_organizations and data.get("organization"):
         raw_organizations = [str(data.get("organization")).strip()]
@@ -2658,7 +2658,15 @@ def schedule_events(data):
     elif raw_organizations:
         params["organization"] = "in.(" + ",".join(raw_organizations) + ")"
     _schedule_date_params(params, date_filter)
-    rows = _cached_supabase_get("/rest/v1/event_catalog_v1", params, ttl=60)
+    # Apply user filters to the complete catalog, not just its first API page.
+    rows = []
+    while True:
+        page_rows = _cached_supabase_get(
+            "/rest/v1/event_catalog_v1", {**params, "offset": str(len(rows))}, ttl=60,
+        )
+        rows.extend(page_rows)
+        if len(page_rows) < SCHEDULE_SEARCH_LIMIT:
+            break
     artist_event_keys = None
     artist_query = str(data.get("artist_query") or "").strip()
     legacy_query = str(data.get("query") or "").strip()
@@ -2679,7 +2687,7 @@ def schedule_events(data):
         city_by_venue, country_by_venue = _schedule_venue_directory()
     else:
         city_by_venue, country_by_venue = {}, {}
-    room_by_key = _schedule_rooms_by_key(rows) if str(data.get("venue_query") or "").strip() else {}
+    room_by_key = _schedule_rooms_by_key([row for row in rows if "room" not in row]) if str(data.get("venue_query") or "").strip() else {}
     results = []
     for source_row in rows:
         row = dict(source_row)
@@ -2712,7 +2720,7 @@ def schedule_events(data):
     if room_by_key:
         for row in unique:
             row["room"] = room_by_key.get(str(row.get("event_id")), row.get("room"))
-    return {"events": unique[:SCHEDULE_SEARCH_LIMIT]}
+    return {"events": unique}
 
 
 def schedule_event_detail(event_id):
