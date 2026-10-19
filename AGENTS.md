@@ -921,3 +921,13 @@ Never choose the most famous candidate when multiple identities are plausible.
 Ambiguity must remain explicit and reviewable.
 
 All canonical identity creation, alias creation, identity merge, or other identity mutation requires explicit staging/review before production mutation.
+
+
+# SUPABASE FREE TIER — USER REQUIREMENT
+
+Supabase uses the free plan with a limited monthly allowance. Keep database
+reads, transfer, and synchronization work small. Reuse cached public venue
+directories; filter event queries in the database before pagination.
+Prefer scoped incremental synchronization of changed records. Do not run
+full rescrapes, full database exports, or repeated whole-catalog validation
+when a targeted read or existing artifact answers the question.

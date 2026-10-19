@@ -13,9 +13,9 @@ const server = http.createServer(async (req, res) => {
   const filename = new URL(req.url,'http://localhost').pathname.slice(1);
   if(filename==='api') {
     let body='';for await(const chunk of req)body+=chunk;
-    const query=JSON.parse(body||'{}');requests.push(query);
+    const query=req.method==='GET'?Object.fromEntries(new URL(req.url,'http://localhost').searchParams):JSON.parse(body||'{}');requests.push(query);
     let result={};
-    if(query.action==='schedule_options')result={cities:['Berlin','Madrid','Munich'],venues,organizations:[],event_types:[],country_names:{de:['Germany','Deutschland','德国'],es:['Spain','España','西班牙']}};
+    if(query.action==='schedule_options')result={cities:['Berlin','Madrid','Munich'],venues,organizations:[],event_types:[],city_aliases:{Berlin:['柏林'],Munich:['慕尼黑'],Madrid:['马德里']},country_names:{de:['Germany','Deutschland','德国'],es:['Spain','España','西班牙']}};
     if(query.action==='combined_entity_events')result={events:[{event_id:'saved',title:'Saved concert',date:'2026-10-01',venue:'Madrid Hall',organization:'Saved orchestra'}]};
     res.writeHead(200,{'Content-Type':'application/json'});return res.end(JSON.stringify(result));
   }
@@ -81,6 +81,17 @@ const server = http.createServer(async (req, res) => {
     assert.deepEqual(await page.evaluate(()=>[...selectedOrganizations]),['Berliner Philharmoniker']);
     assert.equal(await page.locator('[data-progress-venue]:checked').count(),1);
     assert.equal(await page.evaluate(()=>normalizeVenueKey({name:'Háll— A.',city:'Madrid'})===normalizeVenueKey({name:'HALL A',city:'MADRID'})),true);
+    for(const query of ['德国','Germany','Deutschland']){
+      await page.locator('#locationSearch').fill(query);
+      assert.deepEqual(await page.locator('[data-progress-city]').evaluateAll(nodes=>nodes.map(n=>n.dataset.progressCity)),['Berlin','Munich']);
+    }
+    for(const [query,city] of [['柏林','Berlin'],['慕尼黑','Munich'],['马德里','Madrid']]){
+      await page.locator('#locationSearch').fill(query);
+      assert.deepEqual(await page.evaluate(()=>[...selectedCities]),[city]);
+      assert.ok(await page.locator('[data-progress-venue]').count()>0);
+      await page.locator('#entitySearchButton').click();await page.waitForFunction(()=>events.length===1);
+      assert.deepEqual(requests.filter(q=>q.action==='combined_entity_events').at(-1).cities,[city]);
+    }
     assert.deepEqual(errors,[]);
     console.log('Schedule location regressions passed (reset, city/country scope, venue aliases, saved schedule, checkbox filters).');
   }finally{await browser?.close();await new Promise(resolve=>server.close(resolve))}
