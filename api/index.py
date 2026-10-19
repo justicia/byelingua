@@ -2391,8 +2391,24 @@ def schedule_options():
     org_by_id = {row["id"]: row for row in organizations}
     # Keep location suggestions grounded in venues represented by current events.
     # If the catalog lookup is unavailable, retain the venue-directory fallback.
-    catalog_rows = _cached_supabase_get("/rest/v1/event_catalog_v1", {"select": "organization,venue", "limit": "5000"}, ttl=600)
-    active_pairs = {(str(row.get("organization") or "").strip().casefold(), _schedule_venue_name(row.get("venue"))) for row in catalog_rows}
+    # The Data API can cap responses below the requested limit. Read every
+    # page in a stable order so later venues are not mistaken for inactive ones.
+    active_pairs = set()
+    offset = 0
+    while True:
+        catalog_rows = _cached_supabase_get(
+            "/rest/v1/event_catalog_v1",
+            {"select": "organization,venue", "order": "event_id.asc",
+             "limit": "1000", "offset": str(offset)},
+            ttl=600,
+        )
+        if not catalog_rows:
+            break
+        active_pairs.update(
+            (str(row.get("organization") or "").strip().casefold(), _schedule_venue_name(row.get("venue")))
+            for row in catalog_rows
+        )
+        offset += len(catalog_rows)
     venue_rows = []
     cities = set()
     for venue in venues:
