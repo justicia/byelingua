@@ -3307,18 +3307,27 @@ def artist_context(data):
     return {"artist": {"id": artist_rows[0].get("id"), "name": name, "roles": roles}, "performances": performances, "news": news}
 
 
+def _entity_rows(table, select, order="id", filters=None):
+    rows = []
+    while True:
+        page = _cached_supabase_get(f"/rest/v1/{table}", {**(filters or {}), "select": select, "order": order, "limit": "1000", "offset": str(len(rows))}, ttl=600)
+        rows.extend(page)
+        if len(page) < 1000:
+            return rows
+
+
 def entity_options(query="", work_id=""):
-    works = _cached_supabase_get("/rest/v1/works", {"select": "id,title,composer", "order": "title", "limit": "2000"}, ttl=600)
+    works = _entity_rows("works", "id,title,composer,composer_id")
     try:
-        work_aliases = _cached_supabase_get("/rest/v1/work_aliases", {"select": "work_id,alias", "limit": "10000"}, ttl=600)
+        work_aliases = _entity_rows("work_aliases", "work_id,alias")
     except Exception:
         work_aliases = []
     aliases_by_work = {}
     for row in work_aliases:
         aliases_by_work.setdefault(str(row.get("work_id")), []).append(row.get("alias"))
-    characters = _cached_supabase_get("/rest/v1/work_characters", {"select": "id,work_id,canonical_name", "order": "canonical_name", "limit": "3000"}, ttl=600)
-    aliases = _cached_supabase_get("/rest/v1/character_aliases", {"select": "character_id,alias", "limit": "10000"}, ttl=600)
-    artists = _cached_supabase_get("/rest/v1/artists", {"select": "id,artist_name", "order": "artist_name", "limit": "5000"}, ttl=600)
+    characters = _entity_rows("work_characters", "id,work_id,canonical_name")
+    aliases = _entity_rows("character_aliases", "character_id,alias")
+    artists = _entity_rows("artists", "id,artist_name")
     work_by_id = {str(row.get("id")): row for row in works}
     aliases_by_character = {}
     for row in aliases:
@@ -3328,13 +3337,22 @@ def entity_options(query="", work_id=""):
     for row in role_rows:
         if row.get("artist_id") and row.get("role"):
             roles_by_artist.setdefault(str(row["artist_id"]), set()).add(str(row["role"]))
-    work_matches = [row for row in works if not query or search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])) >= 0.60]
-    composer_names = sorted({str(row.get("composer") or "").strip() for row in works if row.get("composer") and (not query or search_match_score(query, row.get("composer")) >= 0.60)}, key=lambda value: search_match_score(query, value), reverse=True)
-    composer_results = [{"type": "composer", "id": normalize_search_key(name), "label": name, "composer": name} for name in composer_names[:10]]
+    work_matches = [row for row in works if not query or search_match_score(query, row.get("title"), *aliases_by_work.get(str(row.get("id")), [])) >= 0.60]
+    composers = _entity_rows("composers", "id,canonical_name")
+    composer_by_id = {str(row.get("id")): row.get("canonical_name") for row in composers}
+    for work in works:
+        work["composer"] = composer_by_id.get(str(work.get("composer_id"))) or work.get("composer")
+    composer_aliases = _entity_rows("composer_aliases", "composer_id,alias")
+    aliases_by_composer = {}
+    for row in composer_aliases:
+        aliases_by_composer.setdefault(str(row.get("composer_id")), []).append(row.get("alias"))
+    composer_results = [{"type": "composer", "id": row["id"], "label": row["canonical_name"], "composer": row["canonical_name"]}
+                        for row in sorted(composers, key=lambda row: search_match_score(query, row.get("canonical_name"), *aliases_by_composer.get(str(row.get("id")), [])), reverse=True)
+                        if not query or search_match_score(query, row.get("canonical_name"), *aliases_by_composer.get(str(row.get("id")), [])) >= 0.60][:30]
     return {
         "composers": composer_results,
         "works": [{"type": "work", "id": row.get("id"), "label": row.get("title"), "title": row.get("title"), "canonical_title": row.get("title"), "composer": row.get("composer"), "aliases": aliases_by_work.get(str(row.get("id")), [])}
-                  for row in sorted(work_matches, key=lambda row: search_match_score(query, row.get("title"), row.get("composer"), *aliases_by_work.get(str(row.get("id")), [])), reverse=True)][:30],
+                  for row in sorted(work_matches, key=lambda row: search_match_score(query, row.get("title"), *aliases_by_work.get(str(row.get("id")), [])), reverse=True)][:30],
         "characters": [{"type": "character", "id": row.get("id"), "label": row.get("canonical_name"), "canonical_name": row.get("canonical_name"), "work_title": work_by_id.get(str(row.get("work_id")), {}).get("title"), "composer": work_by_id.get(str(row.get("work_id")), {}).get("composer"), "work_id": row.get("work_id")}
                        for row in sorted(characters, key=lambda row: search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])), reverse=True)
                        if (not work_id or str(row.get("work_id")) == str(work_id)) and (not query or search_match_score(query, row.get("canonical_name"), *aliases_by_character.get(str(row.get("id")), [])) >= 0.60)][:30],
@@ -3350,7 +3368,10 @@ def work_events(data):
         work_id = ""
     work_ids = _schedule_values(data, "work_ids")
     work_query = str(data.get("work_query") or "").strip()
-    if not work_id and data.get("composer_query"):
+    if data.get("composer_id"):
+        matches = _entity_rows("works", "id,composer_id", filters={"composer_id": f"eq.{data['composer_id']}"})
+        work_ids = [str(row["id"]) for row in matches if str(row.get("composer_id")) == str(data["composer_id"])]
+    elif not work_id and data.get("composer_query"):
         composer_query = str(data.get("composer_query") or "").strip()
         matches = _cached_supabase_get("/rest/v1/works", {"composer": f"ilike.*{composer_query}*", "select": "id", "limit": "2000"}, ttl=600)
         work_ids = [str(row.get("id")) for row in matches if row.get("id")]
@@ -3358,10 +3379,10 @@ def work_events(data):
         works = _cached_supabase_get("/rest/v1/works", {"select": "id,title,composer", "limit": "5000"}, ttl=600)
         work_ids = [
             str(row.get("id")) for row in works
-            if row.get("id") and search_match_score(work_query, row.get("title"), row.get("composer")) >= 0.60
+            if row.get("id") and search_match_score(work_query, row.get("title")) >= 0.60
         ]
     if not work_id and not work_ids:
-        if work_query or data.get("composer_query"):
+        if work_query or data.get("composer_query") or data.get("composer_id"):
             return {"events": []}
         raise ValueError("请选择一部作品。")
     _, _, date_filter = _schedule_date_filters(data)
@@ -3393,6 +3414,13 @@ def combined_entity_events(data):
         data.pop("artist_id", None)
     _schedule_date_filters(data)
     selected = []
+    if data.get("composer_id") or (data.get("composer_query") and (data.get("work_id") or data.get("work_query"))):
+        composer_data = dict(data)
+        composer_data.pop("work_id", None)
+        composer_data.pop("work_query", None)
+        selected.append(work_events(composer_data).get("events", []))
+        data.pop("composer_id", None)
+        data.pop("composer_query", None)
     if data.get("work_id") or data.get("composer_query") or str(data.get("work_query") or "").strip():
         selected.append(work_events(data).get("events", []))
     if data.get("character_id") or str(data.get("character_query") or "").strip():
