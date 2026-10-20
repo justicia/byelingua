@@ -46,6 +46,16 @@ const server = http.createServer(async (req,res) => {
     await page.locator('#entitySearchButton').click();
     const payload=(await pending).postDataJSON();
     assert.equal(payload.composer_id,ids[0]);assert.equal(payload.work_id,ids[1]);assert.equal(payload.character_id,ids[2]);
+    for(const type of ['character','work','composer']) {
+      const field=page.locator(`#${type}Condition`).locator('..');
+      await field.locator('.selected-chip button').click();
+      assert.equal(await field.locator('.selected-chip').count(),0,`${type} chip must disappear after removal`);
+      assert.equal(await page.locator(`#${type}Condition`).isVisible(),true);
+      assert.equal(await page.locator(`#${type}Condition`).inputValue(),'');
+      const next=page.waitForRequest(r=>r.url().endsWith('/api')&&r.postDataJSON()?.action==='combined_entity_events');
+      await page.locator('#entitySearchButton').click();
+      assert.equal((await next).postDataJSON()[`${type}_id`],undefined);
+    }
     assert.deepEqual(errors,[]);
     console.log('PASS: separate composer/work searches, character work labels, selected chips and combined request.');
   } finally {await browser?.close();await new Promise(resolve=>server.close(resolve));}
