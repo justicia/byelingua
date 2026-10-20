@@ -2351,6 +2351,20 @@ def normalized_programme(event, rows):
     ]
     if canonical_event_type(event.get("event_type")) not in {"opera", "operetta"}:
         return items
+    # Reviewed global Work relations are authoritative even when an official
+    # event title names a conductor, uses a translation, or lists several operas.
+    # Keep the legacy title filter below for older, unreviewed extraction rows.
+    reviewed = [
+        {"order": row.get("order"), "title": canonical_work_title(work.get("title")),
+         "composer": work.get("composer")}
+        for row in (rows or [])
+        for work in [row.get("works") or {}]
+        if work.get("id") and work.get("title") and work.get("composer_id")
+        and work.get("normalization_status") in {"verified", "resolved", "canonical"}
+        and work.get("work_kind") in {"work", "excerpt"}
+    ]
+    if reviewed:
+        return reviewed
     event_key = _programme_identity(event.get("work_title") or event.get("title"))
     if not event_key:
         return []
@@ -2811,7 +2825,7 @@ def schedule_event_detail(event_id):
     event["room"] = base[0].get("room")
     programme = _cached_supabase_get(
         "/rest/v1/event_programme",
-        {"event_id": f"eq.{internal_id}", "select": '"order",works(id,title,composer)', "order": '"order"'},
+        {"event_id": f"eq.{internal_id}", "select": '"order",works(id,title,composer,composer_id,normalization_status,work_kind)', "order": '"order"'},
         ttl=60,
     )
     credits = _cached_supabase_get(
