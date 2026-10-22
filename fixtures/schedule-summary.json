@@ -1,0 +1,295 @@
+{
+  "_note": "Public source-backed example; synthetic schedule and entry IDs, no user account data. Snapshot 2026-10-22; partial catalogue relations intentionally not invented.",
+  "schedule": {
+    "id": "summary-fixture",
+    "title": "Beethoven cycle",
+    "start_date": "2027-06-01",
+    "end_date": "2027-06-06",
+    "status": "planned"
+  },
+  "events": [
+    {
+      "id": "fixture-entry-0",
+      "event_id": "33157605-d0ee-4bdb-83aa-a5ae0fd231cf",
+      "event_key": "884f7e984892e876e8e1254e",
+      "note": "",
+      "sort_order": 0,
+      "event": {
+        "title": "Arabella",
+        "date": "2027-06-01",
+        "start_time": null,
+        "event_type": "opera",
+        "venue": "Wiener Staatsoper",
+        "city": "Vienna",
+        "event_id": "884f7e984892e876e8e1254e",
+        "summary": {
+          "conductors": [
+            {
+              "artist_id": "84ce302a-449d-4b3a-84ef-2e29f50c9b27",
+              "artist_name": "Constantin Trinks"
+            }
+          ],
+          "soloists": [],
+          "programme": [
+            {
+              "order": 1,
+              "title": "Arabella",
+              "composer": "Richard Strauss"
+            }
+          ],
+          "principal_cast": [
+            {
+              "artist_id": "543309b6-a0dd-4c30-a6e5-2d391f0002f7",
+              "artist_name": "Hanna-Elisabeth Müller",
+              "character_id": "c55729ad-c7f0-4efa-8c2f-d4f810077112",
+              "work_id": "414c32ba-9e40-4260-ab4c-c1fb84993ee5",
+              "character": "Arabella",
+              "display_order": 1
+            },
+            {
+              "artist_id": "f2473c9f-eeb1-4181-8fe4-cd847bffb1cd",
+              "artist_name": "Michael Nagy",
+              "character_id": "74f7bcfc-0b3b-410e-8fbd-e26ef7d27c04",
+              "work_id": "414c32ba-9e40-4260-ab4c-c1fb84993ee5",
+              "character": "Mandryka",
+              "display_order": 2
+            },
+            {
+              "artist_id": "bce5e365-181a-4d33-881c-285cd023598e",
+              "artist_name": "Nikola Hillebrand",
+              "character_id": "4248f680-1b96-4292-a626-537dcce7eb56",
+              "work_id": "414c32ba-9e40-4260-ab4c-c1fb84993ee5",
+              "character": "Zdenka",
+              "display_order": 3
+            },
+            {
+              "artist_id": "f6712622-78f8-4154-889f-a2c98e43b0c1",
+              "artist_name": "Michael Laurenz",
+              "character_id": "f2025f27-f6ac-4ac3-a470-94293e3abe58",
+              "work_id": "414c32ba-9e40-4260-ab4c-c1fb84993ee5",
+              "character": "Matteo",
+              "display_order": 4
+            }
+          ],
+          "cast_status": "reviewed_selection",
+          "programme_status": "unknown",
+          "soloists_status": "unknown",
+          "relation_coverage": "all_stored_rows"
+        }
+      }
+    },
+    {
+      "id": "fixture-entry-1",
+      "event_id": "1ed070da-e383-4abb-b66c-ba64a854af25",
+      "event_key": "wiener_konzerthaus:pdf:53779919bb8487728696ebec",
+      "note": "",
+      "sort_order": 1,
+      "event": {
+        "title": "Symphonien Nr. 1, 2 & 3",
+        "date": "2027-06-02",
+        "start_time": "18:30:00",
+        "event_type": "concert",
+        "venue": "Wiener Konzerthaus",
+        "city": "Vienna",
+        "event_id": "wiener_konzerthaus:pdf:53779919bb8487728696ebec",
+        "summary": {
+          "conductors": [
+            {
+              "artist_id": "33f2d141-7f0f-4573-8fb0-c45310895ddb",
+              "artist_name": "Jakub Hrůša"
+            }
+          ],
+          "soloists": [],
+          "programme": [
+            {
+              "order": 3,
+              "title": "Symphony No. 3 in E-flat major, op. 55 “Eroica”",
+              "composer": "Ludwig van Beethoven"
+            }
+          ],
+          "principal_cast": [],
+          "cast_status": "not_available",
+          "programme_status": "partial",
+          "soloists_status": "unknown",
+          "relation_coverage": "all_stored_rows"
+        }
+      }
+    },
+    {
+      "id": "fixture-entry-2",
+      "event_id": "e49bd34c-08ad-48d8-b415-829756df3907",
+      "event_key": "wiener_konzerthaus:pdf:d853a9e55afa22c825a24202",
+      "note": "",
+      "sort_order": 2,
+      "event": {
+        "title": "Symphonien Nr. 4 & 5",
+        "date": "2027-06-03",
+        "start_time": "19:30:00",
+        "event_type": "concert",
+        "venue": "Wiener Konzerthaus",
+        "city": "Vienna",
+        "event_id": "wiener_konzerthaus:pdf:d853a9e55afa22c825a24202",
+        "summary": {
+          "conductors": [
+            {
+              "artist_id": "33f2d141-7f0f-4573-8fb0-c45310895ddb",
+              "artist_name": "Jakub Hrůša"
+            }
+          ],
+          "soloists": [],
+          "programme": [
+            {
+              "order": 2,
+              "title": "Symphony No. 5",
+              "composer": "Ludwig van Beethoven"
+            }
+          ],
+          "principal_cast": [],
+          "cast_status": "not_available",
+          "programme_status": "partial",
+          "soloists_status": "unknown",
+          "relation_coverage": "all_stored_rows"
+        }
+      }
+    },
+    {
+      "id": "fixture-entry-3",
+      "event_id": "3af9957a-e0fc-4475-97a1-d7532250bb16",
+      "event_key": "wiener_musikverein:pdf:41c4ec7f63cbb5c83b78d623",
+      "note": "",
+      "sort_order": 3,
+      "event": {
+        "title": "Wiener Philharmoniker",
+        "date": "2027-06-04",
+        "start_time": "19:30:00",
+        "event_type": "concert",
+        "venue": "Musikverein Wien",
+        "city": "Vienna",
+        "event_id": "wiener_musikverein:pdf:41c4ec7f63cbb5c83b78d623",
+        "summary": {
+          "conductors": [
+            {
+              "artist_id": "b206eff0-8dca-4c19-bd2a-c2cf0b65a52d",
+              "artist_name": "Christian Thielemann"
+            }
+          ],
+          "soloists": [
+            {
+              "artist_id": "7c6e9b0d-a9eb-4bfb-a7ef-9348a386c1bb",
+              "artist_name": "Sebastian Breit",
+              "function": "oboe"
+            }
+          ],
+          "programme": [
+            {
+              "order": 2,
+              "title": "Pelleas und Melisande, op. 5",
+              "composer": "Arnold Schönberg"
+            }
+          ],
+          "principal_cast": [],
+          "cast_status": "not_available",
+          "programme_status": "partial",
+          "soloists_status": "unknown",
+          "relation_coverage": "all_stored_rows"
+        }
+      }
+    },
+    {
+      "id": "fixture-entry-4",
+      "event_id": "418186ca-ebfb-4b77-99a0-1af5320e159a",
+      "event_key": "wiener_konzerthaus:pdf:ae22a197866f5c8814a17c64",
+      "note": "",
+      "sort_order": 4,
+      "event": {
+        "title": "Symphonien Nr. 6 & 7",
+        "date": "2027-06-05",
+        "start_time": "19:30:00",
+        "event_type": "concert",
+        "venue": "Wiener Konzerthaus",
+        "city": "Vienna",
+        "event_id": "wiener_konzerthaus:pdf:ae22a197866f5c8814a17c64",
+        "summary": {
+          "conductors": [
+            {
+              "artist_id": "33f2d141-7f0f-4573-8fb0-c45310895ddb",
+              "artist_name": "Jakub Hrůša"
+            }
+          ],
+          "soloists": [],
+          "programme": [
+            {
+              "order": 1,
+              "title": "Sinfonie Nr. 6 F-Dur, op. 68 „Pastorale“",
+              "composer": "Ludwig van Beethoven"
+            },
+            {
+              "order": 2,
+              "title": "Sinfonie Nr. 7 A-Dur, op. 92",
+              "composer": "Ludwig van Beethoven"
+            }
+          ],
+          "principal_cast": [],
+          "cast_status": "not_available",
+          "programme_status": "unknown",
+          "soloists_status": "unknown",
+          "relation_coverage": "all_stored_rows"
+        }
+      }
+    },
+    {
+      "id": "fixture-entry-5",
+      "event_id": "e17c8425-00be-4837-a38d-a89a4da57e3c",
+      "event_key": "wiener_konzerthaus:pdf:15d2abc1a9d1218a7cd5daf2",
+      "note": "",
+      "sort_order": 5,
+      "event": {
+        "title": "Symphonien Nr. 8 & 9",
+        "date": "2027-06-06",
+        "start_time": "19:30:00",
+        "event_type": "concert",
+        "venue": "Wiener Konzerthaus",
+        "city": "Vienna",
+        "event_id": "wiener_konzerthaus:pdf:15d2abc1a9d1218a7cd5daf2",
+        "summary": {
+          "conductors": [
+            {
+              "artist_id": "33f2d141-7f0f-4573-8fb0-c45310895ddb",
+              "artist_name": "Jakub Hrůša"
+            }
+          ],
+          "soloists": [
+            {
+              "artist_id": "a1139be0-38d1-4c4d-8832-cd53a55411ce",
+              "artist_name": "Nicholas Brownlee",
+              "function": "bass"
+            },
+            {
+              "artist_id": "7327b8fb-623f-47ec-81f3-e29de7382ae5",
+              "artist_name": "Jingwen Cai",
+              "function": "mezzo_soprano"
+            }
+          ],
+          "programme": [
+            {
+              "order": 1,
+              "title": "Symphonie n° 8, op. 93",
+              "composer": "Ludwig van Beethoven"
+            },
+            {
+              "order": 2,
+              "title": "Sinfonía n.° 9 en re menor “Coral”, op. 125",
+              "composer": "Ludwig van Beethoven"
+            }
+          ],
+          "principal_cast": [],
+          "cast_status": "not_available",
+          "programme_status": "unknown",
+          "soloists_status": "partial",
+          "relation_coverage": "all_stored_rows"
+        }
+      }
+    }
+  ],
+  "summary_status": "available"
+}
