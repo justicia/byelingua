@@ -41,3 +41,62 @@ The existing 1400 logical pixel width, 2x output, brand/title positions for ordi
 Run `python -m unittest test_schedule_summary test_event_key_resolution test_schedule_filtered_results` in the project's Python environment, and `npm test` with the existing Playwright installation. Set `SCHEDULE_CHROME_PATH` to an installed browser when the bundled executable is unavailable. `SCHEDULE_SUMMARY_ARTIFACT_DIR` optionally controls the preview output directory.
 
 The summary UI test covers actual PNG download, equality of rendered summary content, intent preservation, desktop/mobile layout, Chinese/English, long rows and schedule titles, 90-entry multi-image layout, escaping and basic-schedule fallback. The Python tests cover ownership isolation, performance-specific credits, role/soloist classification, deduplication and server-capped relation pagination. `node test_schedule_summary.cjs --serve` starts a local public-data fixture preview; it never logs into production.
+
+## Global coverage review (22 October 2026)
+
+The shared selection now has reviewed policies for 57 existing global Works.
+`schedule_summary_registry.py` is generated, public source-review data rather
+than a canonical Work/Character/alias master. Policies contain no artist names
+or venue ownership. Linked credits use reviewed Character IDs; source-only
+credits can use an explicitly reviewed exact spelling within a performed Work,
+without receiving a canonical Character ID. A role-name collision across two
+performed Works stays unclassified. The `cast` source function is supported;
+artistic team functions, ballet adaptations and unreviewed linked IDs are not
+promoted to principals. The same artist's duplicate spelling of one selected
+role is displayed once, while distinct roles remain separate.
+
+The result page and PNG keep their existing shared renderer and limits. No
+frontend files, layout, header, pagination, styles or controls changed.
+
+Programme missingness is checked against 1,206 last-reviewed performance
+expectations from eight source batches. This is evidence about those reviewed
+observations, never a claim that unknown or currently unpublished programme
+content is complete. Existing relations and source versions can change after
+a historical batch; do not replay it. An eight-batch live reconciliation found
+all 2,500 expected Work relationships present, with one later-reviewed order
+change rather than a missing Work.
+
+`season_ingestion.programme_coverage` checks known source programme rows
+against staged relationships at graph construction and immediately before
+apply. Unexplained loss blocks the write. A reviewed deferral requires an
+explicit event key, source index, reason and `reviewed: true`; missing source
+observations remain unknown. This protects the shared graph writer and
+`apply_approved_season_run.py`; bespoke SQL must still undergo the equivalent
+source/staging/live comparison and batch approval. The guard cannot discover
+works an adapter never captured from the source.
+
+Prepare a scoped, read-only delta query without accessing the database:
+
+```sh
+python jobs/audit_programme_coverage.py --staging reviewed/production-staging.json --output-sql reviewed/reconcile.sql
+```
+
+The command accepts repeated staging inputs, rejects conflicting historical
+expectations, and distinguishes an existing relationship at another position
+from a missing relationship. It generates only SELECT SQL and performs no
+writes or canonical identity resolution.
+
+Global first-pass inventory covered 9,464 events. Empty programme rows, ordinal
+gaps and role/Work mismatches are review candidates, not automatic errors.
+The cast-related inventory includes 201 Works/components across mixed event
+types; 57 have reviewed selection policies and 144 remain in source review.
+Unsupported items retain the performance-details fallback. Production data
+remediation and deployment require their own concrete authorized scopes.
+
+Additional validation: `python -m unittest test_global_summary_coverage
+ test_schedule_summary test_event_key_resolution test_schedule_filtered_results`
+and `python -m pytest test_production_graph.py test_venue_onboarding_factory.py
+ test_europe_auto_factory.py`. Current live public Tosca snapshots from five
+organizations test both linked and source-only roles; one performance lacks
+its principals in the stored credits and is intentionally not filled from a
+different performance.
