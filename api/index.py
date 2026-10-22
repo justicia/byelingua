@@ -20,6 +20,8 @@ from http.server import BaseHTTPRequestHandler
 from urllib.parse import parse_qs, quote, urljoin, urlsplit, urlunsplit
 from zoneinfo import ZoneInfo
 
+from schedule_summary_data import build_summary
+
 import feedparser
 import requests
 from bs4 import BeautifulSoup
@@ -2982,6 +2984,57 @@ def get_schedule(headers, schedule_id):
     return {"schedule": schedule, "events": _schedule_events_payload(schedule_id)}
 
 
+def _schedule_summary_relations(path, ids, select, order):
+    """Read every scoped page, including when the server caps below limit."""
+    rows = []
+    for start in range(0, len(ids), 100):
+        batch = ids[start:start + 100]
+        offset = 0
+        while True:
+            page = _cached_supabase_get(path, {
+                "event_id": "in.(" + ",".join(batch) + ")", "select": select,
+                "order": order, "limit": "500", "offset": str(offset),
+            }, ttl=60)
+            if not page:
+                break
+            rows.extend(page)
+            offset += len(page)
+    return rows
+
+
+def get_schedule_summary(headers, schedule_id):
+    # Never cache schedule ownership or return metadata before this check.
+    user = authenticated_user(headers)
+    schedule = _schedule_owned(user["id"], schedule_id)
+    rows = _schedule_events_payload(schedule_id)
+    if not rows:
+        return {"schedule": schedule, "events": [], "summary_status": "available"}
+    ids = list(dict.fromkeys(str(r["event_id"]) for r in rows))
+    programme = _schedule_summary_relations(
+        "/rest/v1/event_programme", ids,
+        'event_id,"order",works(id,title,composer,composer_id,normalization_status,work_kind)',
+        'event_id.asc,"order".asc,work_id.asc',
+    )
+    credits = _schedule_summary_relations(
+        "/rest/v1/event_credits", ids,
+        "event_id,artist_id,role,character_id,character,raw_character,artists(artist_name),work_characters(id,work_id,canonical_name)",
+        "event_id.asc,id.asc",
+    )
+    programme_by_event, credits_by_event = {}, {}
+    for item in programme:
+        programme_by_event.setdefault(str(item["event_id"]), []).append(item)
+    for item in credits:
+        credits_by_event.setdefault(str(item["event_id"]), []).append(item)
+    enriched = []
+    for row in rows:
+        event = dict(row.get("event") or {})
+        event["event_type"] = canonical_event_type(event.get("event_type"))
+        raw_programme = programme_by_event.get(str(row["event_id"]), [])
+        event["summary"] = build_summary(event, raw_programme, credits_by_event.get(str(row["event_id"]), []), normalized_programme(event, raw_programme))
+        enriched.append({**row, "event": event})
+    return {"schedule": schedule, "events": enriched, "summary_status": "available"}
+
+
 def update_schedule(headers, schedule_id, title=None, status=None):
     user = authenticated_user(headers); _schedule_owned(user["id"], schedule_id)
     payload = {"updated_at": datetime.now(timezone.utc).isoformat()}
@@ -3556,6 +3609,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, create_schedule(self.headers, data.get("title"))); return
             if action == "list_schedules":
                 self.send_json(200, list_schedules(self.headers)); return
+            if action == "get_schedule_summary":
+                self.send_json(200, get_schedule_summary(self.headers, str(data.get("schedule_id", "")))); return
             if action == "get_schedule":
                 self.send_json(200, get_schedule(self.headers, str(data.get("schedule_id", "")))); return
             if action == "export_schedule_ics":
