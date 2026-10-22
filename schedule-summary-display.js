@@ -14,6 +14,12 @@
  }
  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  function html(event,language){return sections(event,language).map(s=>`<div class="summary-section">${s.label?`<div class="summary-label">${esc(s.label)}</div>`:''}${s.lines.map(line=>`<div>${esc(line)}</div>`).join('')}</div>`).join('')}
+ function dateLabel(value,language,formatted=value){
+  const iso=String(value||'');if(!/^\d{4}-\d{2}-\d{2}$/.test(iso))return String(formatted||'');
+  const date=new Date(iso+'T00:00:00Z');if(Number.isNaN(date.getTime())||date.toISOString().slice(0,10)!==iso)return String(formatted||'');
+  const names=language==='zh'?['星期日','星期一','星期二','星期三','星期四','星期五','星期六']:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  return `${formatted} · ${names[date.getUTCDay()]}`;
+ }
  function compareRows(a,b){const x=a.event||{},y=b.event||{};return String(x.date||'9999').localeCompare(String(y.date||'9999'))||String(x.start_time||'99:99').localeCompare(String(y.start_time||'99:99'))}
  function wrap(ctx,text,maxWidth){
   const lines=[];for(const paragraph of String(text||'').split('\n')){let line='';for(const char of paragraph){if(line&&ctx.measureText(line+char).width>maxWidth){lines.push(line);line=char}else line+=char}lines.push(line)}return lines;
@@ -36,7 +42,7 @@
    if(item.height+head.height+62+28>maxHeight)throw Error('SCHEDULE_IMAGE_ROW_TOO_TALL');
    const daySpace=date!==lastDate?62+(lastDate?28:0):0;
    if(page.blocks.length&&y+daySpace+item.height+28>maxHeight)finish();
-   if(date!==lastDate){if(lastDate)y+=28;page.blocks.push({type:'day',date,y});y+=62;lastDate=date}
+   if(date!==lastDate){if(lastDate)y+=28;page.blocks.push({type:'day',date,label:dateLabel(date,language),y});y+=62;lastDate=date}
    page.blocks.push({type:'event',...item,y});y+=item.height;
   }
   finish();return pages;
@@ -47,12 +53,12 @@
   const head=header(ctx,schedule);let titleY=112;for(const line of head.titleLines){ctx.fillText(line,70,titleY);titleY+=32}
   ctx.fillStyle='#68716b';ctx.font='18px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';ctx.fillText(`${schedule.start_date||''} – ${schedule.end_date||''}`,70,head.rangeY);
   for(const block of page.blocks){
-   if(block.type==='day'){ctx.fillStyle='#e8eee9';ctx.fillRect(70,block.y,1260,54);ctx.fillStyle='#214d3a';ctx.font='700 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';ctx.fillText(block.date,88,block.y+35);continue}
+   if(block.type==='day'){ctx.fillStyle='#e8eee9';ctx.fillRect(70,block.y,1260,54);ctx.fillStyle='#214d3a';ctx.font='700 21px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';ctx.fillText(block.label,88,block.y+35);continue}
    ctx.fillStyle='#17201b';ctx.font='700 20px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif';ctx.fillText(String(block.row.event?.start_time||'').slice(0,5)||'—',82,block.y+25);
    for(const [side,colour] of [[block.left,'#17201b'],[block.right,'#68716b']])for(const line of side){ctx.font=line.font;ctx.fillStyle=line.color||colour;ctx.fillText(line.text,line.x,block.y+line.y)}
    ctx.strokeStyle='#d7d7ce';ctx.beginPath();ctx.moveTo(70,block.y+block.height-8);ctx.lineTo(1330,block.y+block.height-8);ctx.stroke();
   }
   return canvas;
  }
- return {sections,html,compareRows,wrap,measureRow,layout,draw};
+ return {sections,html,dateLabel,compareRows,wrap,measureRow,layout,draw};
 });
