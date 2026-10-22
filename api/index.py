@@ -2800,7 +2800,53 @@ def schedule_events(data):
     return {"events": unique}
 
 
+# Reviewed performance redirects only; never infer identity from display titles.
+# Official detail evidence (same venue/date/time and programme):
+# https://konzerthaus.at/en/program-and-tickets/bamberger-symphoniker-bayerische-staatsphilharmonie-hrusa/63791
+# https://konzerthaus.at/en/program-and-tickets/bamberger-symphoniker-bayerische-staatsphilharmonie-hrusa/63792
+REVIEWED_EVENT_KEY_REDIRECTS = {
+    "wiener_konzerthaus:fca41a07686f5f96449be2f4": "wiener_konzerthaus:pdf:53779919bb8487728696ebec",
+    "wiener_konzerthaus:539e95a7d3b14741fc16acb1": "wiener_konzerthaus:pdf:d853a9e55afa22c825a24202",
+}
+
+
+def canonical_event_key(event_key):
+    key = str(event_key or "").strip()
+    return REVIEWED_EVENT_KEY_REDIRECTS.get(key, key)
+
+
+def resolve_event_keys(event_keys):
+    if not isinstance(event_keys, list) or len(event_keys) > 200:
+        raise ValueError("Expected at most 200 selected event keys.")
+    keys = list(dict.fromkeys(str(key).strip() for key in event_keys if str(key).strip()))
+    if any(len(key) > 512 for key in keys):
+        raise ValueError("Event key is too long.")
+    canonical_keys = list(dict.fromkeys(canonical_event_key(key) for key in keys))
+    if not canonical_keys:
+        return {"resolutions": []}
+    # Quoted PostgREST values keep caller input inside the requested key list.
+    values = ",".join(json.dumps(key, ensure_ascii=False) for key in canonical_keys)
+    rows = _cached_supabase_get("/rest/v1/event_catalog_v1", {
+        "event_id": f"in.({values})", "select": EVENT_CATALOG_LIST_SELECT,
+        "limit": str(len(canonical_keys)),
+    }, ttl=60) or []
+    by_key = {str(row["event_id"]): dict(row) for row in rows}
+    resolutions = []
+    for key in keys:
+        event = by_key.get(canonical_event_key(key))
+        if not event:
+            continue  # A missing result must not clear a user's saved selection.
+        event = dict(event)
+        event["source_title"] = event.get("title")
+        event["title"] = canonical_work_title(event.get("title"))
+        event["raw_event_type"] = event.get("event_type")
+        event["event_type"] = canonical_event_type(event.get("event_type"))
+        resolutions.append({"requested_event_id": key, "event": event})
+    return {"resolutions": resolutions}
+
+
 def schedule_event_detail(event_id):
+    event_id = canonical_event_key(event_id)
     catalog = _cached_supabase_get(
         "/rest/v1/event_catalog_v1",
         {"event_id": f"eq.{event_id}", "select": EVENT_CATALOG_LIST_SELECT, "limit": "1"},
@@ -2842,6 +2888,7 @@ def schedule_event_detail(event_id):
 
 
 def _event_internal_id(event_key):
+    event_key = canonical_event_key(event_key)
     rows = supabase_service("GET", "/rest/v1/events", params={"event_key": f"eq.{event_key}", "select": "id", "limit": "1"}) or []
     if not rows:
         raise ValueError("演出不存在。")
@@ -2855,7 +2902,7 @@ def user_event_relations(headers, event_keys=None):
         event_ids = [str(row.get("event_id")) for row in rows if row.get("event_id")]
         id_to_key = event_keys_for_internal_ids(event_ids)
         return {"relations": [{**row, "intent_status": "optional" if row.get("intent_status") == "maybe_go" else row.get("intent_status"), "event_key": id_to_key.get(str(row.get("event_id")))} for row in rows]}
-    keys = [str(key).strip() for key in event_keys if str(key).strip()]
+    keys = list(dict.fromkeys(canonical_event_key(key) for key in event_keys if str(key).strip()))
     if not keys:
         return {"relations": []}
     events = event_rows_for_keys(keys, "id,event_key", batch_size=100, ttl=300)
@@ -3497,6 +3544,8 @@ class handler(BaseHTTPRequestHandler):
                 self.send_json(200, schedule_options()); return
             if action == "schedule_events":
                 self.send_json(200, schedule_events(data)); return
+            if action == "resolve_event_keys":
+                self.send_json(200, resolve_event_keys(data.get("event_keys", []))); return
             if action == "schedule_event_detail":
                 self.send_json(200, schedule_event_detail(str(data.get("event_id", "")))); return
             if action == "get_event_relations":

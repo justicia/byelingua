@@ -136,6 +136,29 @@
     const searchBase=runEntitySearch;runEntitySearch=async function(...args){saveSearch();return searchBase(...args)};if(searchButton)searchButton.onclick=()=>runEntitySearch();
     store.subscribe(value=>{const signature=JSON.stringify(value.selected);if(publishing||signature===selectionSignature)return;selectionSignature=signature;applying=true;restoreSelection(value.selected);renderEvents();updateSelected();applying=false});
     window.addEventListener('storage',event=>{if(event.key!=='byelinguaPlannerDraft:v1')return;const search=store.read().search,signature=JSON.stringify(search);if(signature===searchSignature)return;searchSignature=signature;applying=true;restoreSearch(search);void searchBase();applying=false});
+    // Refresh only saved selections; preserve live edits made while the lookup is pending.
+    async function refreshSavedSelections(){
+      const keys=[...new Set(store.read().selected.map(row=>String(row.event_id||'')).filter(Boolean))],resolved=new Map();
+      if(!keys.length)return;
+      try{
+        for(let start=0;start<keys.length;start+=200){
+          const result=await api({action:'resolve_event_keys',event_keys:keys.slice(start,start+200)});
+          for(const row of result.resolutions||[])if(row?.event?.event_id)resolved.set(String(row.requested_event_id),row.event);
+        }
+        if(!resolved.size)return;
+        const current=store.read().selected,metadata=new Map([...resolved.values()].map(row=>[String(row.event_id),row])),merged=new Map(),rank={interested:1,maybe_go:2,optional:2,must_go:3};
+        for(const row of current){
+          const fresh=resolved.get(String(row.event_id))||metadata.get(String(row.event_id)),next=fresh?{...row,...fresh}:{...row},key=String(next.event_id);
+          const prior=merged.get(key);
+          if(prior&&(rank[prior.planner_intent]||0)>(rank[next.planner_intent]||0))next.planner_intent=prior.planner_intent;
+          merged.set(key,next);
+        }
+        const rows=[...merged.values()];if(JSON.stringify(rows)===JSON.stringify(current))return;
+        publishing=true;selectionSignature=JSON.stringify(rows);store.write({selected:rows});publishing=false;
+        applying=true;restoreSelection(rows);renderEvents();updateSelected();applying=false;
+      }catch(_){/* Keep the saved draft usable when metadata cannot be refreshed. */}
+    }
+    void refreshSavedSelections();
     window.scheduleOptionsPromise?.then(()=>{applying=true;restoreSearch(store.read().search);applying=false;runEntitySearch()});
   }
   if(embedded){
