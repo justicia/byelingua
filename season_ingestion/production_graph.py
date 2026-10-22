@@ -6,6 +6,7 @@ import os
 from urllib.request import Request, urlopen
 
 from .unicode_integrity import validate_unicode_integrity
+from .programme_coverage import require_programme_coverage
 
 
 RPC_PATH = "/rest/v1/rpc/apply_canonical_production_graph"
@@ -30,6 +31,8 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
     safe_composers = staging["composer"]["safe"]
     safe_works = staging["work"]["safe"]
     safe_relationships = staging["relationships"]["safe_existing"] + staging["relationships"]["safe_new"]
+    programme_deferrals = staging.get("programme_deferrals") or []
+    require_programme_coverage(safe_events, safe_relationships, programme_deferrals)
     credit_staging = staging.get("credit_resolution") or {}
     safe_credits = credit_staging.get("safe_event_credits", [])
     if any(not row.get("credit", {}).get("canonical_role") or not row.get("credit", {}).get("artist_resolution", {}).get("status", "").startswith("SAFE_") for row in safe_credits):
@@ -59,11 +62,14 @@ def build_payload(events: list[dict], staging: dict, *, organization: dict, venu
         "event_credits": event_credits,
         "expected": {"events": len(safe_events), "composers": len(safe_composers), "works": len(safe_works), "relationships": len(safe_relationships), "artists": len(artists), "event_credits": len(event_credits)},
     }
+    if programme_deferrals:
+        payload["programme_deferrals"] = programme_deferrals
     validate_unicode_integrity(payload)
     return payload
 
 
 def apply_graph(payload: dict, *, sender=urlopen) -> dict:
+    require_programme_coverage(payload.get("events") or [], payload.get("relationships") or [], payload.get("programme_deferrals") or [])
     validate_unicode_integrity(payload)
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
     key = os.environ.get("SUPABASE_SECRET_KEY", "")
