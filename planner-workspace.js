@@ -110,14 +110,28 @@
   if(!new URLSearchParams(location.search).get('schedule_id')){
     const store=window.ByelinguaPlannerState;
     let applying=false,publishing=false,lastIds=new Set(),selectionSignature=JSON.stringify(store.read().selected),searchSignature=JSON.stringify(store.read().search);
-    const fieldIds=['locationSearch','venueSearch','dateFrom','dateTo','eventType','workCondition','characterCondition','artistCondition'];
+    const fieldIds=['locationSearch','venueSearch','dateFrom','dateTo','eventType','composerCondition','workCondition','characterCondition','artistCondition'];
     function searchSnapshot(){const fields={};fieldIds.forEach(id=>fields[id]=document.getElementById(id)?.value||'');return {fields,conditions:JSON.parse(JSON.stringify(conditionState)),cities:[...selectedCities],organizations:[...selectedOrganizations],venues:[...selectedVenues]}}
     function saveSearch(){if(!applying){updateSelected();const search=searchSnapshot();searchSignature=JSON.stringify(search);store.write({search})}}
-    function restoreSearch(search){fieldIds.forEach(id=>{const input=document.getElementById(id);if(input)input.value=search.fields?.[id]||''});Object.keys(conditionState).forEach(key=>{conditionState[key]=search.conditions?.[key]||null;renderConditionChoices(key)});window.scheduleSyncLocationSearch?.();for(const [set,values] of [[selectedCities,search.cities],[selectedOrganizations,search.organizations],[selectedVenues,search.venues]]){set.clear();(values||[]).forEach(value=>set.add(value))}window.scheduleProgressiveRefresh?.();renderCalendar()}
+    function restoreSearch(search){
+      fieldIds.forEach(id=>{const input=document.getElementById(id);if(input)input.value=search.fields?.[id]||''});
+      Object.keys(conditionState).forEach(key=>{
+        const input=document.getElementById(`${key}Condition`),condition=search.conditions?.[key];
+        const savedField=Object.prototype.hasOwnProperty.call(search.fields||{},input.id);
+        // Empty saved text is a cleared filter, even if an older draft retained its ID.
+        conditionState[key]=condition?.label&&(!savedField||input.value.trim())?condition:null;
+        if(conditionState[key]&&!savedField)input.value=condition.label;
+        conditionChoices[key]=[];syncConditionChip(key);renderConditionChoices(key);
+      });
+      window.scheduleSyncLocationSearch?.();
+      for(const [set,values] of [[selectedCities,search.cities],[selectedOrganizations,search.organizations],[selectedVenues,search.venues]]){set.clear();(values||[]).forEach(value=>set.add(value))}
+      window.scheduleProgressiveRefresh?.();renderCalendar();
+    }
     function restoreSelection(rows){selected_event_ids.clear();for(const row of rows){if(!row?.event_id)continue;const id=String(row.event_id);selected_event_ids.add(id);scheduleSeenEvents.set(id,row);if(row.planner_intent)relationByEventKey.set(id,{intent_status:row.planner_intent,is_planned:true})}lastIds=new Set(selected_event_ids)}
     const updateBase=updateSelected;
     updateSelected=function(){updateBase();generation.disabled=generating||!selected_event_ids.size;if(applying||publishing)return;const records=new Map(selectedScheduleRecords().map(row=>[String(row.event_id),row]));const current=store.read().selected;const merged=new Map(current.map(row=>[String(row.event_id),row]));for(const id of lastIds)if(!selected_event_ids.has(id))merged.delete(id);for(const id of selected_event_ids){const row=records.get(String(id));if(row)merged.set(String(id),{...row,planner_intent:eventIntent(id)})}const rows=[...merged.values()];lastIds=new Set(selected_event_ids);if(JSON.stringify(rows)!==JSON.stringify(current)){publishing=true;selectionSignature=JSON.stringify(rows);store.write({selected:rows});publishing=false}};
     const initial=store.read();applying=true;restoreSearch(initial.search);restoreSelection(initial.selected);renderEvents();updateSelected();applying=false;
+    document.addEventListener('click',event=>{if(event.target.closest('.selected-chip button'))queueMicrotask(saveSearch)});
     document.addEventListener('input',event=>{if(fieldIds.includes(event.target.id))queueMicrotask(saveSearch)});document.addEventListener('change',event=>{if(event.target.closest('.planner-filters,.planner-entity-panel'))queueMicrotask(saveSearch)});
     const searchBase=runEntitySearch;runEntitySearch=async function(...args){saveSearch();return searchBase(...args)};if(searchButton)searchButton.onclick=()=>runEntitySearch();
     store.subscribe(value=>{const signature=JSON.stringify(value.selected);if(publishing||signature===selectionSignature)return;selectionSignature=signature;applying=true;restoreSelection(value.selected);renderEvents();updateSelected();applying=false});
