@@ -2,7 +2,7 @@
   "name": "byelingua-ui-checks",
   "private": true,
   "scripts": {
-    "test": "node test_schedule_pagination.cjs && node test_schedule_locations.cjs && node test_planner_workspace.cjs"
+    "test": "node test_schedule_pagination.cjs && node test_schedule_locations.cjs && node test_planner_workspace.cjs && node test_schedule_draft_filters.cjs"
   },
   "devDependencies": {
     "playwright": "1.62.1"
