@@ -1,27 +1,14 @@
 """Read-only schedule summaries. Rules select existing global IDs, never create identities."""
 import re
 import unicodedata
-from schedule_summary_registry import PRINCIPAL_ROLES, PROGRAMME_EXPECTATIONS
+from schedule_summary_registry import PROGRAMME_EXPECTATIONS
+from work_cast_registry import WORK_CAST_POLICIES as REVIEWED_PRINCIPAL_ROLES
+from work_cast_policy import select_performance_principal
 
 # Editorial selection reviewed against the work's synopsis, not cast billing order.
 # Unlisted characters remain unclassified, not automatically supporting.
 ARABELLA_WORK = '414c32ba-9e40-4260-ab4c-c1fb84993ee5'
 ARABELLA_EVIDENCE = 'https://www.wiener-staatsoper.at/en/calendar/detail/arabella/2027-06-01/'
-REVIEWED_PRINCIPAL_ROLES = {
-    ARABELLA_WORK: {
-        'reviewed_on': '2026-10-22', 'evidence': ARABELLA_EVIDENCE,
-        'basis': 'Synopsis: the Arabella/Mandryka and Zdenka/Matteo relationships; editorial summary selection, not an exhaustive ranking.',
-        'event_types': ['opera'],
-        'characters': {
-            'c55729ad-c7f0-4efa-8c2f-d4f810077112': 1,  # Arabella
-            '74f7bcfc-0b3b-410e-8fbd-e26ef7d27c04': 2,  # Mandryka
-            '4248f680-1b96-4292-a626-537dcce7eb56': 3,  # Zdenka
-            'f2025f27-f6ac-4ac3-a470-94293e3abe58': 4,  # Matteo
-        },
-    }
-}
-# Shared display policy, keyed by global Work; source spellings never create aliases.
-REVIEWED_PRINCIPAL_ROLES.update(PRINCIPAL_ROLES)
 REVIEWED_PROGRAMME_EXPECTATIONS = PROGRAMME_EXPECTATIONS
 
 # Source observations only; these do not substitute for missing production relations.
@@ -85,27 +72,8 @@ def build_summary(event, programme_rows, credit_rows, normalized_items):
             continue
         if character_name:
             has_cast = True
-            selection = None
-            if row.get('character_id'):
-                work_id, char_id = str(character.get('work_id') or ''), str(row.get('character_id'))
-                rule = REVIEWED_PRINCIPAL_ROLES.get(work_id) or {}
-                rank = (rule.get('characters') or {}).get(char_id)
-                if work_id in work_ids and kind in rule.get('event_types', []) and rank is not None:
-                    selection = (work_id, char_id, rank, character_name, 'canonical_character')
-            elif role in CAST_ROLES:
-                # Exact reviewed source spelling within the performed Work only.
-                # This classifies a source credit without assigning canonical identity.
-                candidates = []
-                for work_id in sorted(work_ids):
-                    rule = REVIEWED_PRINCIPAL_ROLES.get(work_id) or {}
-                    if kind not in rule.get('event_types', []):
-                        continue
-                    matches = [value for label, value in (rule.get('source_roles') or {}).items() if _key(label) == _key(character_name)]
-                    if matches and len({(m['rank'], m['label']) for m in matches}) == 1:
-                        chosen = matches[0]
-                        candidates.append((work_id, None, chosen['rank'], chosen['label'], 'reviewed_source_role'))
-                if len(candidates) == 1:
-                    selection = candidates[0]
+            choice = select_performance_principal(event, programme_rows, row) if role in CAST_ROLES else None
+            selection = (choice['work_id'], choice['work_character_id'], choice['display_order'], choice['character'], choice['selection_basis']) if choice else None
             if selection and role in CAST_ROLES:
                 work_id, char_id, rank, label, basis = selection
                 signature = ('cast', work_id, rank, row.get('artist_id') or name)
