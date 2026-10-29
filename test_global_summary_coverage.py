@@ -45,7 +45,18 @@ class GlobalSelectionTests(unittest.TestCase):
         self.assertGreaterEqual(len(REVIEWED_PRINCIPAL_ROLES),38)
         for work_id, rule in REVIEWED_PRINCIPAL_ROLES.items():
             self.assertTrue(rule['evidence'].startswith('https://'))
-            expected_review = '2026-10-29' if work_id == '5f65922a-184b-4485-9562-37d9bd688bd3' else '2026-10-22'
+            reviewed_on_29 = {
+                '5f65922a-184b-4485-9562-37d9bd688bd3',
+                '0d6b0faf-e33f-4e4e-bd13-028bff881cd0', '34614acb-087a-4603-a4e2-8b57ae786a32',
+                '3d3bd914-7a54-4e98-bcb4-a1955127c2eb', 'cbae154e-1883-4150-a99f-598bfd921ea0',
+                '10f5309c-7ec8-48d7-8350-9f27f39a6d73', 'd2744f32-d954-5472-a2d9-2f0c4d2b7906',
+                'b6fb8e68-537c-4d69-bfd7-550fde3df04c', 'e7f4848e-6560-5708-8dd4-054627334e6a',
+                'de5772af-254e-59e5-aa8a-09c907cd4124',
+                '4e0a910d-406d-50f7-b2f4-fe51cb8b763c',
+                '4f51f3ac-3f0c-4591-9191-5c6735c33e9e', '5f5d66e8-8e3f-47ae-a68c-bc1ee2338a73',
+                '69e72a89-ecca-4725-b8d1-936adfe1a024',
+            }
+            expected_review = '2026-10-29' if work_id in reviewed_on_29 else '2026-10-22'
             self.assertEqual(rule['reviewed_on'], expected_review)
     def test_expectation_checks_work_identity_not_count_alone(self):
         key,expected=next((k,v) for k,v in REVIEWED_PROGRAMME_EXPECTATIONS.items() if len(v['work_ids'])>1)

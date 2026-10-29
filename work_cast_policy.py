@@ -10,6 +10,15 @@ from work_cast_registry import WORK_CAST_POLICIES
 GENERIC_PERFORMANCE_TYPES = {'performance'}
 VERIFIED_WORK_STATES = {'verified', 'resolved', 'canonical'}
 
+# Source headings are functions, even inside broadly named 'cast' containers.
+ARTISTIC_FUNCTION_LABELS = {
+    'conductor': 'conductor', 'stage director': 'stage_director',
+    'set designer': 'set_designer', 'costume designer': 'costume_designer',
+    'lighting designer': 'lighting_designer', 'video designer': 'video_designer',
+    'chorus director': 'chorus_master', 'chorus master': 'chorus_master',
+    'orchestra': 'orchestra', 'chorus': 'choir', 'choir': 'choir',
+}
+
 
 def normalize_role_label(value):
     value = unicodedata.normalize('NFKD', str(value or '')).casefold()
@@ -100,3 +109,54 @@ def describe_work_cast_schema(work_ids, work_character_rows):
             'selection_status': 'reviewed_principal' if selected else 'unclassified',
         })
     return result
+
+
+def credit_for_display(event, programme_rows, credit, work_character_rows=()):
+    """Read legacy role-in-function credits through the global Work-role layer.
+
+    This is a display copy, never a canonical Character assignment or DB update.
+    Existing character links and explicit source character labels take priority.
+    """
+    if credit.get('character_id') or credit.get('work_characters'):
+        return credit
+    source_character = credit.get('raw_character') or credit.get('character')
+    source_role = credit.get('role')
+    function = ARTISTIC_FUNCTION_LABELS.get(normalize_role_label(source_character))
+    if source_character and function and normalize_role_label(source_role) in {'performer', 'cast'}:
+        work_ids = {str((r.get('works') or {}).get('id')) for r in programme_rows}
+        is_work_role = any(str(r.get('work_id')) in work_ids
+                           and normalize_role_label(r.get('canonical_name')) == normalize_role_label(source_character)
+                           for r in work_character_rows)
+        is_work_role = is_work_role or any(work_role_policy(w, source_character=source_character) for w in work_ids)
+        if not is_work_role:
+            return {**credit, 'role': function, 'character': None, 'raw_character': None}
+    if source_character:
+        return credit
+    label_key = normalize_role_label(source_role)
+    if label_key in {'piano', 'violin', 'cello', 'soprano', 'mezzo soprano', 'alto', 'tenor',
+                     'baritone', 'bass', 'bass baritone', 'countertenor', 'kampfmeister'}:
+        return credit
+    if not label_key or any(marker in label_key for marker in (
+            'conductor', 'director', 'designer', 'orchestra', 'chorus', 'choreograph',
+            'lighting', 'dramaturg', 'assistant', 'coach', 'mise en', 'set design', 'costume')):
+        return credit
+    verified = {str((r.get('works') or {}).get('id')) for r in programme_rows
+                if (r.get('works') or {}).get('normalization_status') in VERIFIED_WORK_STATES
+                and (r.get('works') or {}).get('work_kind') == 'work'}
+    kind = str(event.get('event_type') or '').strip().casefold()
+    raw = str(event.get('raw_event_type') or kind).strip().casefold()
+    if kind not in {'opera', 'operetta'} and not (
+            kind in {'other', 'performance', ''} and raw in GENERIC_PERFORMANCE_TYPES):
+        return credit
+    # Detail already reads the full Work-role schema. A unique exact role match
+    # can classify supporting cast too, without changing its canonical identity.
+    matches = {(str(r['work_id']), r['canonical_name']) for r in work_character_rows
+               if str(r.get('work_id')) in verified
+               and normalize_role_label(r.get('canonical_name')) == label_key}
+    if not matches:
+        matches = {(work_id, match['character']) for work_id in sorted(verified)
+                   if (match := work_role_policy(work_id, source_character=source_role))}
+    if len(matches) != 1:
+        return credit
+    _, label = next(iter(matches))
+    return {**credit, 'role': 'performer', 'raw_character': label}

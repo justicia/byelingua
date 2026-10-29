@@ -1092,3 +1092,263 @@ WORK_CAST_POLICIES = {'1419cf39-79a3-408c-b757-ab0188fb9963': {'basis': 'Editori
                                                            'Philippe II.': {'label': 'Philippe II',
                                                                             'rank': 3},
                                                            'Rodrigue': {'label': 'Rodrigue', 'rank': 4}}}}
+
+
+# Reviewed against official stories and cast on 2026-10-29. Existing policies
+# are preserved; these Work policies apply to every venue and performance.
+WORK_CAST_POLICIES.update({'0d6b0faf-e33f-4e4e-bd13-028bff881cd0': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'ba130f7d-d7fd-5591-b0a7-c17e62aac7fc': 2,
+                                                         'f3fb97bf-1a71-5434-9425-6743bfeb647f': 1,
+                                                         'f99b6af3-517b-591d-aa14-e820415b44ac': 3},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://deutscheoperberlin.de/de_DE/production/haensel-und-gretel.1385736?event_date=17918235',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Die Knusperhexe': {'label': 'Die '
+                                                                                        'Knusperhexe',
+                                                                               'rank': 3},
+                                                           'Gretel': {'label': 'Gretel', 'rank': 2},
+                                                           'Hänsel': {'label': 'Hänsel', 'rank': 1}}},
+ '10f5309c-7ec8-48d7-8350-9f27f39a6d73': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'0f376227-d716-40ad-b74f-bc3b482ed3f9': 1,
+                                                         '424a993a-4321-44fc-b9a7-0d15c5d16baa': 4,
+                                                         'a7c3033e-86e5-42d7-8bc9-1816e792fd71': 2,
+                                                         'd53d1149-4786-4152-b518-f71c47446f5a': 3},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.lesarts.com/es/programacion/c/1290-adriana-lecouvreur.html',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Adriana Lecouvreur': {'label': 'Adriana '
+                                                                                           'Lecouvreur',
+                                                                                  'rank': 1},
+                                                           'La Principessa di Bouillon': {'label': 'La '
+                                                                                                   'Principessa '
+                                                                                                   'di '
+                                                                                                   'Bouillon',
+                                                                                          'rank': 3},
+                                                           'Maurizio': {'label': 'Maurizio', 'rank': 2},
+                                                           'Maurizio, Conte di Sassonia': {'label': 'Maurizio, '
+                                                                                                    'Conte '
+                                                                                                    'di '
+                                                                                                    'Sassonia',
+                                                                                           'rank': 2},
+                                                           'Michonnet': {'label': 'Michonnet',
+                                                                         'rank': 4},
+                                                           'Princesa de Bouillon': {'label': 'Princesa '
+                                                                                             'de '
+                                                                                             'Bouillon',
+                                                                                    'rank': 3}}},
+ '34614acb-087a-4603-a4e2-8b57ae786a32': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'8a6271bc-3192-4736-b9be-48820ed12306': 2,
+                                                         '8d623494-7dac-40d1-90b0-6391716a6c29': 5,
+                                                         'b1839688-08f3-4e62-a264-f56d2f17833f': 1,
+                                                         'cdbe4bf1-912a-46b9-a24e-d30dbbddf553': 4,
+                                                         'cf455475-e4d2-4783-826e-ea455e09d0c4': 3},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.operadeparis.fr/saison-26-27/opera/katia-kabanova',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Boris': {'label': 'Boris', 'rank': 2},
+                                                           'Kabanicha': {'label': 'Kabanicha',
+                                                                         'rank': 3},
+                                                           'Katia': {'label': 'Katia', 'rank': 1},
+                                                           'Tichon': {'label': 'Tichon', 'rank': 4},
+                                                           'Varvara': {'label': 'Varvara', 'rank': 5}}},
+ '3d3bd914-7a54-4e98-bcb4-a1955127c2eb': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'4075ab0c-3d79-57aa-91b8-4c0a4489a67b': 1,
+                                                         '777af374-f0a1-5925-b503-526a43e8feb5': 4,
+                                                         'c21411de-b323-57d5-8b62-1497a1cf73fa': 3,
+                                                         'cc90e9b1-04c3-5241-b88d-7d663c7ba449': 5,
+                                                         'e8466704-7a7d-54ba-ad00-1bd2435e75aa': 2},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://deutscheoperberlin.de/de_DE/production/nabucco.1385815?event_date=17919011',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Abigaille': {'label': 'Abigaille',
+                                                                         'rank': 2},
+                                                           'Fenena': {'label': 'Fenena', 'rank': 4},
+                                                           'Ismaele': {'label': 'Ismaele', 'rank': 5},
+                                                           'Nabucco': {'label': 'Nabucco', 'rank': 1},
+                                                           'Zaccaria': {'label': 'Zaccaria',
+                                                                        'rank': 3}}},
+ '4e0a910d-406d-50f7-b2f4-fe51cb8b763c': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.staatsoper-stuttgart.de/spielplan/kalender/der-miesepups/9680/',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Kucks': {'label': 'Kucks', 'rank': 2},
+                                                           'Miesepups': {'label': 'Miesepups',
+                                                                         'rank': 1}}},
+ '4f51f3ac-3f0c-4591-9191-5c6735c33e9e': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.staatsoper.de/stuecke/katja-kabanova/2027-01-30-1900-16200',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Boris': {'label': 'Boris', 'rank': 2},
+                                                           'Kabanicha': {'label': 'Kabanicha',
+                                                                         'rank': 3},
+                                                           'Káťa': {'label': 'Káťa', 'rank': 1},
+                                                           'Tichon': {'label': 'Tichon', 'rank': 4},
+                                                           'Varvara': {'label': 'Varvara', 'rank': 5}}},
+ '5f5d66e8-8e3f-47ae-a68c-bc1ee2338a73': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'1249f10b-af97-434b-b05c-ba7ba632fde9': 3,
+                                                         '273457d2-06fb-4a2b-8421-fb39ec547bb0': 1,
+                                                         'af4b2ceb-b23b-4354-8480-6e426df5465e': 2},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.staatsoper.de/stuecke/maria-stuarda/2026-12-23-1800-16171',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Elisabetta': {'label': 'Elisabetta',
+                                                                          'rank': 2},
+                                                           'Leicester': {'label': 'Leicester',
+                                                                         'rank': 3},
+                                                           'Maria Stuarda': {'label': 'Maria Stuarda',
+                                                                             'rank': 1},
+                                                           'Roberto, Graf Leicester': {'label': 'Roberto, '
+                                                                                                'Graf '
+                                                                                                'Leicester',
+                                                                                       'rank': 3}}},
+ '69e72a89-ecca-4725-b8d1-936adfe1a024': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'62e9960a-1deb-4b9b-abdb-f9e7e6605dfd': 1,
+                                                         '6a242db1-7e16-4534-a0ea-6813047090a0': 1,
+                                                         'b6377cdd-8340-4917-94c2-86671c33ecf1': 2,
+                                                         'ef615ff6-cca0-41bf-8d45-214c6807e298': 2},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/duke-bluebeards-castle-the-rite-of-spring-in-concert',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Barbe-Bleue': {'label': 'Barbe-Bleue',
+                                                                           'rank': 1},
+                                                           'Bluebeard': {'label': 'Bluebeard',
+                                                                         'rank': 1},
+                                                           'Duke Bluebeard': {'label': 'Duke Bluebeard',
+                                                                              'rank': 1},
+                                                           'Judit': {'label': 'Judit', 'rank': 2},
+                                                           'Judith': {'label': 'Judith', 'rank': 2}}},
+ 'b6fb8e68-537c-4d69-bfd7-550fde3df04c': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'35a18bfa-8484-53e5-8a35-76d44fb31fd2': 3,
+                                                         '3a8ee500-28f4-5693-ae5f-a7b33e00d422': 1,
+                                                         'a1b4e224-8da8-57ce-8aae-07f6ac438eaa': 4,
+                                                         'ef88d5d5-d7c2-52f9-a4c0-a1904af4f012': 2},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.eno.org/operas/pagliacci/',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Canio': {'label': 'Canio', 'rank': 1},
+                                                           'Nedda': {'label': 'Nedda', 'rank': 2},
+                                                           'Silvio': {'label': 'Silvio', 'rank': 4},
+                                                           'Tonio': {'label': 'Tonio', 'rank': 3}}},
+ 'cbae154e-1883-4150-a99f-598bfd921ea0': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'0cd7350d-2951-5437-b594-d2d83d684979': 2,
+                                                         '0fba69f6-20cd-5e3c-a25c-447213f810b7': 3,
+                                                         '28071204-e488-5618-969e-f47c61fe82a6': 4,
+                                                         'a1084a84-ed69-55d8-a004-6a8b12a203a2': 1},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://deutscheoperberlin.de/de_DE/production/lohengrin.1385795?event_date=17918958',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Elsa von Brabant': {'label': 'Elsa von '
+                                                                                         'Brabant',
+                                                                                'rank': 2},
+                                                           'Friedrich von Telramund': {'label': 'Friedrich '
+                                                                                                'von '
+                                                                                                'Telramund',
+                                                                                       'rank': 4},
+                                                           'Lohengrin': {'label': 'Lohengrin',
+                                                                         'rank': 1},
+                                                           'Ortrud': {'label': 'Ortrud', 'rank': 3}}},
+ 'd2744f32-d954-5472-a2d9-2f0c4d2b7906': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'46778b09-423e-5115-92ce-05fa0968d55c': 2,
+                                                         '4a13c653-4012-5128-83b6-e7052303ab2c': 3,
+                                                         '5bf1e8fb-a8d3-5030-a47b-7aa6d16dd8b9': 1,
+                                                         '8fb1e97a-55c2-50e0-b12e-bbb9fdb403c0': 6,
+                                                         'bb208c1e-d582-50e3-a112-5ed8bf1a347a': 5,
+                                                         'f0226cc1-b4da-5d01-91ce-63c49859a69c': 4},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://deutscheoperberlin.de/de_DE/production/nixon-in-china.1385484?event_date=17916157',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Chiang Chi’ing': {'label': 'Chiang Chi’ing',
+                                                                              'rank': 5},
+                                                           'Henry Kissinger': {'label': 'Henry '
+                                                                                        'Kissinger',
+                                                                               'rank': 6},
+                                                           'Mao Zedong': {'label': 'Mao Zedong',
+                                                                          'rank': 3},
+                                                           'Pat Nixon': {'label': 'Pat Nixon',
+                                                                         'rank': 2},
+                                                           'Richard Nixon': {'label': 'Richard Nixon',
+                                                                             'rank': 1},
+                                                           'Zhou Enlai': {'label': 'Zhou Enlai',
+                                                                          'rank': 4}}},
+ 'de5772af-254e-59e5-aa8a-09c907cd4124': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.eno.org/operas/the-cunning-little-vixen/',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Fuchs': {'label': 'Fuchs', 'rank': 3},
+                                                           'Förster': {'label': 'Förster', 'rank': 2},
+                                                           'Füchsin': {'label': 'Füchsin', 'rank': 1}}},
+ 'e7f4848e-6560-5708-8dd4-054627334e6a': {'basis': 'Reviewed editorial selection of central dramatic '
+                                                   'roles from the official synopsis and cast. Shared '
+                                                   'across venues; unlisted roles remain unclassified. '
+                                                   'Source spellings classify display only, never '
+                                                   'canonical identity or performer assignments.',
+                                          'characters': {'09b3b40e-07c6-5288-ad6e-32b15bf71479': 2,
+                                                         '30f13a47-660a-583f-861e-3264db3bb8e8': 3,
+                                                         '8adcc6bf-9ec4-506a-8dc5-5e8f5cc48d34': 1,
+                                                         'fdaa1fe9-6b35-5718-92e0-8326310af606': 4},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.eno.org/operas/the-merry-widow/',
+                                          'reviewed_on': '2026-10-29',
+                                          'source_roles': {'Camille de Rosillon': {'label': 'Camille '
+                                                                                            'de '
+                                                                                            'Rosillon',
+                                                                                   'rank': 4},
+                                                           'Graf Danilo Danilowitsch': {'label': 'Graf '
+                                                                                                 'Danilo '
+                                                                                                 'Danilowitsch',
+                                                                                        'rank': 2},
+                                                           'Hanna Glawari': {'label': 'Hanna Glawari',
+                                                                             'rank': 1},
+                                                           'Valencienne': {'label': 'Valencienne',
+                                                                           'rank': 3}}}})

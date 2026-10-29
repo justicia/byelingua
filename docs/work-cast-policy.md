@@ -7,8 +7,8 @@ references `work_characters.id`, not `characters.id`. The separate
 
 `work_cast_registry.WORK_CAST_POLICIES` holds reviewed principal-role display
 policies keyed by global Work ID. This is one shared policy registry for all
-venues, not a canonical entity table. It currently preserves the 57 previously
-reviewed Work policies. Unlisted roles remain unclassified; no automatic
+venues, not a canonical entity table. It preserves the 57 previously reviewed Work policies and adds thirteen
+source-reviewed policies from the global stock-data review (70 existing Work IDs in total). Unlisted roles remain unclassified; no automatic
 supporting-role label is assigned.
 
 `work_cast_policy` is consumed by ingestion, event detail and schedule summary:
@@ -43,3 +43,27 @@ Validation: `test_work_cast_policy.py` covers shared registry ownership, generic
 source types, negative presentation cases, Work boundaries, unresolved identity,
 per-performance actor separation, and detail/summary agreement. Existing summary,
 ingestion factory and pagination regressions must remain valid.
+
+The additions cover Hänsel und Gretel, Katia Kabanová, Nabucco, Lohengrin,
+Adriana Lecouvreur, Nixon in China, Pagliacci, Die lustige Witwe and
+Příhody lišky Bystroušky, Der Miesepups, Maria Stuarda and
+A kékszakállú herceg vára. The two existing
+Katia/Káťa Kabanová IDs each use their own stored role slots or exact reviewed
+source spellings; the stock Work-ID duplication remains separately under review.
+This does not merge or reassign either Work identity. This is reviewed policy coverage, not a declaration
+that every performance has complete programme or cast relations. Review
+evidence and the remaining stock-data queue are in the global repair artifacts.
+
+Legacy role-in-function credits are read through the same Work-role policy.
+Only a unique exact match in a verified performed Work can supply a display
+role; function/voice labels alone cannot. Detail may also reuse its already
+loaded full Work-role schema. No canonical Character ID is assigned this way.
+Explicit cast observations or reviewed role labels remain cast even when the
+source function also names the singer’s voice type.
+
+Broad source containers called “cast” can include conductors, orchestras and
+chorus directors. The shared layer keeps recognized artistic functions separate
+from dramatic characters. Existing linked Work-role identity is never rewritten
+by this display compatibility; detail also preserves a known dramatic role from
+its full Work-role graph. Ingestion holds contradictory function/character input
+for source review instead of fabricating an assignment.
