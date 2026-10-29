@@ -43,9 +43,10 @@ class GlobalSelectionTests(unittest.TestCase):
         self.assertEqual(len(build_summary({'event_type':'opera'},programme(),rows,[])['principal_cast']),1)
     def test_all_rule_ids_are_from_reviewed_current_global_inventory(self):
         self.assertGreaterEqual(len(REVIEWED_PRINCIPAL_ROLES),38)
-        for rule in REVIEWED_PRINCIPAL_ROLES.values():
+        for work_id, rule in REVIEWED_PRINCIPAL_ROLES.items():
             self.assertTrue(rule['evidence'].startswith('https://'))
-            self.assertEqual(rule['reviewed_on'],'2026-10-22')
+            expected_review = '2026-10-29' if work_id == '5f65922a-184b-4485-9562-37d9bd688bd3' else '2026-10-22'
+            self.assertEqual(rule['reviewed_on'], expected_review)
     def test_expectation_checks_work_identity_not_count_alone(self):
         key,expected=next((k,v) for k,v in REVIEWED_PROGRAMME_EXPECTATIONS.items() if len(v['work_ids'])>1)
         event={'event_type':'concert','event_key':key}
