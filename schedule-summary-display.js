@@ -1,13 +1,13 @@
 (function(root,factory){const value=factory();if(typeof module==='object'&&module.exports)module.exports=value;else root.ByelinguaScheduleSummary=value})(typeof window==='undefined'?this:window,function(){
  'use strict';
- const copy={en:{conductor:'Conductor',soloists:'Recorded soloists',soloistsPartial:'Soloists (partial)',programme:'Recorded programme',partial:'Programme (partial)',cast:'Principal cast · selection',castDetails:'Cast: see performance details',moreWorks:n=>`${n} more recorded programme items`,moreSoloists:n=>`${n} more recorded soloists`,moreCast:n=>`${n} more principal-role credits`},zh:{conductor:'指挥',soloists:'已收录独奏／独唱',soloistsPartial:'独奏／独唱（信息不完整）',programme:'已收录曲目',partial:'曲目（信息不完整）',cast:'主要阵容 · 节选',castDetails:'阵容见演出详情',moreWorks:n=>`另${n}项已收录曲目`,moreSoloists:n=>`另${n}位已收录独奏／独唱`,moreCast:n=>`另${n}条主要角色出演`}};
- const normalize=v=>String(v||'').normalize('NFKD').replace(/\p{M}/gu,'').toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
+ const copy={en:{conductor:'Conductor',soloists:'Recorded soloists',soloistsPartial:'Soloists (partial)',vocalists:'Recorded vocalists',moreVocalists:n=>n+' more recorded vocalists',programme:'Recorded programme',partial:'Programme (partial)',cast:'Principal cast · selection',castDetails:'Cast: see performance details',moreWorks:n=>`${n} more recorded programme items`,moreSoloists:n=>`${n} more recorded soloists`,moreCast:n=>`${n} more principal-role credits`},zh:{conductor:'指挥',soloists:'已收录独奏／独唱',soloistsPartial:'独奏／独唱（信息不完整）',vocalists:'已收录演唱者',moreVocalists:n=>'另'+n+'位已收录演唱者',programme:'已收录曲目',partial:'曲目（信息不完整）',cast:'主要阵容 · 节选',castDetails:'阵容见演出详情',moreWorks:n=>`另${n}项已收录曲目`,moreSoloists:n=>`另${n}位已收录独奏／独唱`,moreCast:n=>`另${n}条主要角色出演`}};
  function sections(event,language){
   const t=copy[language]||copy.en,s=event.summary||{},result=[];
   const people=(s.conductors||[]).map(p=>p.artist_name).filter(Boolean);if(people.length)result.push({label:t.conductor,lines:[people.join(' · ')]});
   const solo=s.soloists||[];if(solo.length)result.push({label:s.soloists_status==='partial'?t.soloistsPartial:t.soloists,lines:[...solo.slice(0,2).map(p=>`${p.artist_name}${p.function?' ('+String(p.function).replace(/_/g,' ')+')':''}`),...(solo.length>2?[t.moreSoloists(solo.length-2)]:[])]});
-  const programme=s.programme||[],singleOpera=['opera','operetta'].includes(event.event_type)&&programme.length===1&&normalize(programme[0].title)===normalize(event.title);
-  if(programme.length&&!singleOpera)result.push({label:s.programme_status==='partial'?t.partial:t.programme,lines:[...programme.slice(0,3).map(p=>[p.composer,p.title].filter(Boolean).join(' — ')),...(programme.length>3?[t.moreWorks(programme.length-3)]:[])]});
+  const vocal=s.vocalists||[];if(vocal.length)result.push({label:t.vocalists,lines:[...vocal.slice(0,2).map(p=>p.artist_name+(p.function?' ('+String(p.function).replace(/_/g,' ')+')':'')),...(vocal.length>2?[t.moreVocalists(vocal.length-2)]:[])]});
+  const programme=s.programme||[];
+  if(programme.length)result.push({label:s.programme_status==='partial'?t.partial:t.programme,lines:[...programme.slice(0,3).map(p=>[p.composer,p.title].filter(Boolean).join(' — ')),...(programme.length>3?[t.moreWorks(programme.length-3)]:[])]});
   const cast=s.principal_cast||[];if(cast.length)result.push({label:t.cast,lines:[...cast.slice(0,4).map(p=>`${p.character} — ${p.artist_name}`),...(cast.length>4?[t.moreCast(cast.length-4)]:[])]});
   else if(s.cast_status==='unclassified')result.push({label:'',lines:[t.castDetails]});
   return result;

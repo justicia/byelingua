@@ -46,6 +46,8 @@ def _key(value):
 CONDUCTOR_ROLES = {'conductor', 'dirigent', 'dirigentin', 'musikalische leitung', 'direction musicale', 'direttore', 'direttore d orchestra'}
 CAST_ROLES = {'cast', 'performer', 'singer', 'actor', 'soprano', 'mezzo soprano', 'contralto', 'alto', 'tenor', 'baritone', 'bass', 'bass baritone', 'countertenor', 'singer countertenor'}
 SOLO_ROLES = {'soloist', 'soloist piano', 'soloist violin', 'soloist cello', 'piano solo', 'violin solo', 'soprano solo', 'tenor solo'}
+# Voice credits establish a recorded vocalist, never soloist billing or an opera principal.
+VOCAL_ROLES = {'singer', 'soprano', 'mezzo soprano', 'contralto', 'alto', 'tenor', 'baritone', 'bass', 'bass baritone', 'countertenor', 'singer countertenor'}
 # Instrument/voice labels alone do not establish soloist billing.
 REVIEWED_SOLOIST_CREDITS = {
     'wiener_musikverein:pdf:41c4ec7f63cbb5c83b78d623': {
@@ -62,7 +64,7 @@ REVIEWED_SOLOIST_CREDITS = {
 def build_summary(event, programme_rows, credit_rows, normalized_items):
     kind = event.get('event_type')
     work_ids = {str((r.get('works') or {}).get('id')) for r in programme_rows if (r.get('works') or {}).get('id')}
-    conductors, soloists, principal, seen = [], [], [], set()
+    conductors, soloists, vocalists, principal, seen = [], [], [], [], set()
     has_cast = False
     reviewed_solo = (REVIEWED_SOLOIST_CREDITS.get(event.get('event_id') or event.get('event_key')) or {}).get('artist_ids', set())
     for row in credit_rows:
@@ -114,7 +116,13 @@ def build_summary(event, programme_rows, credit_rows, normalized_items):
             signature = ('solo', row.get('artist_id') or name, role)
             if signature not in seen:
                 soloists.append({**item, 'function': row.get('role')}); seen.add(signature)
+        elif kind in {'concert', 'chamber_music', 'recital', 'matinee'} and role in VOCAL_ROLES:
+            signature = ('vocal', row.get('artist_id') or name, role)
+            if signature not in seen:
+                vocalists.append({**item, 'function': row.get('role')}); seen.add(signature)
     principal.sort(key=lambda r: (r['display_order'], r['character'], r['artist_name']))
+    solo_ids = {str(r.get('artist_id') or r['artist_name']) for r in soloists}
+    vocalists = [r for r in vocalists if str(r.get('artist_id') or r['artist_name']) not in solo_ids]
     programme = [dict(r) for r in normalized_items]
     observation = KNOWN_PARTIAL_PROGRAMMES.get(event.get('event_id') or event.get('event_key')) or {}
     expected = REVIEWED_PROGRAMME_EXPECTATIONS.get(event.get('event_id') or event.get('event_key')) or {}
@@ -123,7 +131,7 @@ def build_summary(event, programme_rows, credit_rows, normalized_items):
     partial = bool((observation and len(programme) < observation['expected_count']) or missing_work_ids or (required and len(programme) < len(required)))
     solo_observation = KNOWN_PARTIAL_SOLOISTS.get(event.get('event_id') or event.get('event_key')) or {}
     return {
-        'conductors': conductors, 'soloists': soloists, 'programme': programme,
+        'conductors': conductors, 'soloists': soloists, 'vocalists': vocalists, 'programme': programme,
         'principal_cast': principal, 'cast_status': 'reviewed_selection' if principal else 'unclassified' if has_cast else 'not_available',
         # All stored relations are read; this is not a claim about official-source coverage.
         'programme_status': 'partial' if partial else 'unknown',

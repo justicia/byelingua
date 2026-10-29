@@ -402,11 +402,14 @@ PRINCIPAL_ROLES = {'1419cf39-79a3-408c-b757-ab0188fb9963': {'basis': 'Editorial 
                                                    'create/assign canonical identity.',
                                           'characters': {},
                                           'event_types': ['opera', 'operetta'],
-                                          'evidence': 'https://www.eno.org/operas/lady-macbeth-of-mtensk/',
-                                          'reviewed_on': '2026-10-22',
+                                          'evidence': 'https://www.operadeparis.fr/saison-26-27/opera/lady-macbeth-de-mzensk',
+                                          'reviewed_on': '2026-10-29',
                                           'source_roles': {'Katerina Lvovna Ismaïlova': {'label': 'Katerina Lvovna '
                                                                                                   'Ismailova',
-                                                                                         'rank': 1}}},
+                                                                                         'rank': 1},
+                                                           'Sergueï': {'label': 'Sergueï', 'rank': 2},
+                                                           'Boris Timofeevitch Ismaïlov': {'label': 'Boris Timofeevitch Ismaïlov', 'rank': 3},
+                                                           'Zinovy Borisovitch Ismaïlov': {'label': 'Zinovy Borisovitch Ismaïlov', 'rank': 4}}},
  '5fc01cf2-8e65-4536-9d94-1fc59fa630e1': {'basis': 'Editorial synopsis selection; unlisted roles remain unclassified. '
                                                    'Priority is for a short schedule, not a universal supporting-role '
                                                    'label. Source spellings are display-only classification and never '
