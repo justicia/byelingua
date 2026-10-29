@@ -21,7 +21,7 @@ from urllib.parse import parse_qs, quote, urljoin, urlsplit, urlunsplit
 from zoneinfo import ZoneInfo
 
 from schedule_summary_data import build_summary
-from work_cast_policy import describe_work_cast_schema
+from work_cast_policy import credit_for_display, describe_work_cast_schema
 
 import feedparser
 import requests
@@ -2317,7 +2317,9 @@ _PRODUCTION_CREDIT_ROLE_KEYS = (
 )
 
 
-def _serialize_event_credit(row):
+def _serialize_event_credit(row, *, event=None, programme_rows=(), work_character_rows=()):
+    source_role = row.get("role")
+    row = credit_for_display(event or {}, programme_rows, row, work_character_rows)
     role = str(row.get("role") or "").strip().rstrip("/").strip()
     character = ((row.get("work_characters") or {}).get("canonical_name")
                  or row.get("raw_character") or row.get("character"))
@@ -2329,7 +2331,7 @@ def _serialize_event_credit(row):
         "artist_id": row.get("artist_id"),
         "artist_name": (row.get("artists") or {}).get("artist_name"),
         "role": role,
-        "raw_role_label": row.get("role"),
+        "raw_role_label": source_role,
         "role_type": "artistic_team" if not character else "cast",
         "character_role": character,
         "artistic_function": role if not character else None,
@@ -2883,10 +2885,10 @@ def schedule_event_detail(event_id):
         ttl=60,
     )
     event["programme"] = normalized_programme(event, programme)
-    event["credits"] = [_serialize_event_credit(row) for row in credits]
     work_ids = list(dict.fromkeys(str((row.get("works") or {}).get("id")) for row in programme if (row.get("works") or {}).get("id")))
     skeleton = supabase_service("GET", "/rest/v1/work_characters", params={"work_id": f"in.({','.join(work_ids)})", "select": "id,work_id,character_uid,canonical_name", "order": "canonical_name", "limit": "3000"}) if work_ids else []
     event["work_character_skeleton"] = describe_work_cast_schema(work_ids, skeleton or [])
+    event["credits"] = [_serialize_event_credit(row, event=event, programme_rows=programme, work_character_rows=skeleton or []) for row in credits]
     event["summary"] = build_summary(event, programme, credits, event["programme"])
     return {"event": event}
 

@@ -3,7 +3,7 @@ import re
 import unicodedata
 from schedule_summary_registry import PROGRAMME_EXPECTATIONS
 from work_cast_registry import WORK_CAST_POLICIES as REVIEWED_PRINCIPAL_ROLES
-from work_cast_policy import select_performance_principal
+from work_cast_policy import credit_for_display, select_performance_principal
 
 # Editorial selection reviewed against the work's synopsis, not cast billing order.
 # Unlisted characters remain unclassified, not automatically supporting.
@@ -55,6 +55,7 @@ def build_summary(event, programme_rows, credit_rows, normalized_items):
     has_cast = False
     reviewed_solo = (REVIEWED_SOLOIST_CREDITS.get(event.get('event_id') or event.get('event_key')) or {}).get('artist_ids', set())
     for row in credit_rows:
+        row = credit_for_display(event, programme_rows, row)
         name = (row.get('artists') or {}).get('artist_name')
         if not name:
             continue

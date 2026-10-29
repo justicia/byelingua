@@ -5,7 +5,7 @@ from collections import Counter
 from typing import Any
 
 from .global_master import normalize_identity
-from work_cast_policy import work_role_policy
+from work_cast_policy import ARTISTIC_FUNCTION_LABELS, normalize_role_label, work_role_policy
 
 
 ROLE_ALIASES = {
@@ -39,13 +39,22 @@ ROLE_ALIASES = {
     "soloist": "soloist", "solist": "soloist", "actor": "actor", "schauspieler": "actor",
 }
 VOICE_TYPES = {"soprano", "sopran", "mezzo-soprano", "mezzosopran", "alto", "contralto", "tenor", "baritone", "bariton", "bass", "basso", "bass-baritone"}
+ROLE_ALIASES.update(ARTISTIC_FUNCTION_LABELS)
+ROLE_ALIASES.update({'cheffe de choeur': 'chorus_master', 'cheffe de chœur': 'chorus_master'})
 SAFE_ROLES = set(ROLE_ALIASES.values())
+PRODUCTION_FUNCTIONS = {'conductor', 'stage_director', 'orchestra', 'choir', 'chorus_master',
+                        'dramaturg', 'choreographer', 'set_designer', 'costume_designer',
+                        'lighting_designer', 'video_designer', 'production_designer'}
 
 
 def canonical_role(value: object) -> str | None:
     key = " ".join(str(value or "").casefold().strip().split())
     if key in VOICE_TYPES:
         return "singer"
+    if key in SAFE_ROLES:
+        return key
+    if normalize_role_label(value) in ARTISTIC_FUNCTION_LABELS:
+        return ARTISTIC_FUNCTION_LABELS[normalize_role_label(value)]
     if key in ROLE_ALIASES:
         return ROLE_ALIASES[key]
     normalized = normalize_identity(key)
@@ -120,13 +129,31 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
     source_role = str(raw.get("source_role") or raw.get("function") or "").strip()
     role = canonical_role(source_role)
     artist_name = str(raw.get("artist_name") or raw.get("source_artist_name") or "").strip()
-    source_character = raw.get("character") or raw.get("raw_character") if source_role.casefold() not in VOICE_TYPES else None
+    candidate_character = raw.get("character") or raw.get("raw_character")
+    source_character = candidate_character if source_role.casefold() not in VOICE_TYPES or raw.get("credit_kind") == "cast" else None
+    if candidate_character and work_role_policy(work_id, source_character=candidate_character):
+        source_character = candidate_character
+    if str(candidate_character or "").strip().casefold() in VOICE_TYPES:
+        source_character = None
+    if not source_character and work_role_policy(work_id, source_character=source_role):
+        source_character = source_role
+    semantic_conflict = False
+    if role in {None, 'performer'}:
+        function = ARTISTIC_FUNCTION_LABELS.get(normalize_role_label(candidate_character))
+        if function:
+            role = function
+            source_character = None
+    if role in PRODUCTION_FUNCTIONS:
+        semantic_conflict = bool(candidate_character and canonical_role(candidate_character) != role)
+        source_character = None
     if (raw.get("credit_kind") == "cast" or source_character is not None) and source_character:
         role = "performer"
     character = _character_resolution(source_character, work_id, snapshot)
     role_policy = work_role_policy(work_id, work_character_id=character.get('character_id'), source_character=source_character) if source_character and role == 'performer' else None
     artist = _artist_resolution(artist_name, snapshot)
     status = "SAFE_ROLE" if role else "REVIEW_ROLE_UNKNOWN"
+    if semantic_conflict:
+        status = "REVIEW_SOURCE_AMBIGUOUS"
     if artist["status"].startswith("REVIEW"):
         status = artist["status"]
     elif character["status"].startswith("REVIEW"):
@@ -134,7 +161,7 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
         # Character identity is unresolved.  Publish the Artist + performer
         # credit with raw_character and keep the identity question in backlog.
         status = "SAFE_UNRESOLVED_CHARACTER" if role == "performer" and source_character else character["status"]
-    return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "artist_resolution": artist, "character_resolution": character, "work_role_policy": role_policy, "credit_kind": raw.get("credit_kind") or ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
+    return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "artist_resolution": artist, "character_resolution": character, "work_role_policy": role_policy, "credit_kind": ("ensemble" if raw.get("credit_kind") == "ensemble" else "artistic_team") if role in PRODUCTION_FUNCTIONS else raw.get("credit_kind") or ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
 
 
 def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot: Any) -> dict[str, Any]:
