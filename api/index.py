@@ -21,6 +21,7 @@ from urllib.parse import parse_qs, quote, urljoin, urlsplit, urlunsplit
 from zoneinfo import ZoneInfo
 
 from schedule_summary_data import build_summary
+from work_cast_policy import describe_work_cast_schema
 
 import feedparser
 import requests
@@ -2878,14 +2879,15 @@ def schedule_event_detail(event_id):
     )
     credits = _cached_supabase_get(
         "/rest/v1/event_credits",
-        {"event_id": f"eq.{internal_id}", "select": "artist_id,role,character,raw_character,artists(artist_name),work_characters(canonical_name)"},
+        {"event_id": f"eq.{internal_id}", "select": "artist_id,role,character_id,character,raw_character,artists(artist_name),work_characters(id,work_id,canonical_name,character_uid)"},
         ttl=60,
     )
     event["programme"] = normalized_programme(event, programme)
     event["credits"] = [_serialize_event_credit(row) for row in credits]
     work_ids = list(dict.fromkeys(str((row.get("works") or {}).get("id")) for row in programme if (row.get("works") or {}).get("id")))
     skeleton = supabase_service("GET", "/rest/v1/work_characters", params={"work_id": f"in.({','.join(work_ids)})", "select": "id,work_id,character_uid,canonical_name", "order": "canonical_name", "limit": "3000"}) if work_ids else []
-    event["work_character_skeleton"] = [{"character_id": row.get("character_uid") or row.get("id"), "canonical_name": row.get("canonical_name"), "artist_id": None, "artist_name": None} for row in (skeleton or [])]
+    event["work_character_skeleton"] = describe_work_cast_schema(work_ids, skeleton or [])
+    event["summary"] = build_summary(event, programme, credits, event["programme"])
     return {"event": event}
 
 
@@ -3028,6 +3030,7 @@ def get_schedule_summary(headers, schedule_id):
     enriched = []
     for row in rows:
         event = dict(row.get("event") or {})
+        event["raw_event_type"] = event.get("raw_event_type") or event.get("event_type")
         event["event_type"] = canonical_event_type(event.get("event_type"))
         raw_programme = programme_by_event.get(str(row["event_id"]), [])
         event["summary"] = build_summary(event, raw_programme, credits_by_event.get(str(row["event_id"]), []), normalized_programme(event, raw_programme))

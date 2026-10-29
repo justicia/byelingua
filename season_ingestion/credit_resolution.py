@@ -5,6 +5,7 @@ from collections import Counter
 from typing import Any
 
 from .global_master import normalize_identity
+from work_cast_policy import work_role_policy
 
 
 ROLE_ALIASES = {
@@ -119,11 +120,12 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
     source_role = str(raw.get("source_role") or raw.get("function") or "").strip()
     role = canonical_role(source_role)
     artist_name = str(raw.get("artist_name") or raw.get("source_artist_name") or "").strip()
-    artist = _artist_resolution(artist_name, snapshot)
     source_character = raw.get("character") or raw.get("raw_character") if source_role.casefold() not in VOICE_TYPES else None
     if (raw.get("credit_kind") == "cast" or source_character is not None) and source_character:
         role = "performer"
     character = _character_resolution(source_character, work_id, snapshot)
+    role_policy = work_role_policy(work_id, work_character_id=character.get('character_id'), source_character=source_character) if source_character and role == 'performer' else None
+    artist = _artist_resolution(artist_name, snapshot)
     status = "SAFE_ROLE" if role else "REVIEW_ROLE_UNKNOWN"
     if artist["status"].startswith("REVIEW"):
         status = artist["status"]
@@ -132,7 +134,7 @@ def resolve_credit(raw: dict[str, Any], *, work_id: str | None, snapshot: Any) -
         # Character identity is unresolved.  Publish the Artist + performer
         # credit with raw_character and keep the identity question in backlog.
         status = "SAFE_UNRESOLVED_CHARACTER" if role == "performer" and source_character else character["status"]
-    return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "artist_resolution": artist, "character_resolution": character, "credit_kind": raw.get("credit_kind") or ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
+    return {"source_artist_name": artist_name, "source_role": source_role, "source_character": source_character, "canonical_role": role, "artist_resolution": artist, "character_resolution": character, "work_role_policy": role_policy, "credit_kind": raw.get("credit_kind") or ("cast" if source_character else "artistic_team"), "source_url": raw.get("source_url"), "source_field": raw.get("source_field"), "provenance": raw.get("provenance") or {}, "resolution_status": status}
 
 
 def stage_credits(events: list[Any], resolutions: list[dict[str, Any]], snapshot: Any) -> dict[str, Any]:
