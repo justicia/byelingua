@@ -1352,3 +1352,189 @@ WORK_CAST_POLICIES.update({'0d6b0faf-e33f-4e4e-bd13-028bff881cd0': {'basis': 'Re
                                                                              'rank': 1},
                                                            'Valencienne': {'label': 'Valencienne',
                                                                            'rank': 3}}}})
+
+
+# 2026-10-30 Scala: Work-level roles, independent of venue and date.
+WORK_CAST_POLICIES.update({'475053d9-8d32-451e-baed-a7d950ebca2c': {'basis': 'Reviewed central dramatic roles from official production '
+                                                   'synopsis and cast; source labels classify display only '
+                                                   'and never assign identities or performers.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.teatroallascala.org/en/season/2026-2027/opera/don-quichotte.html',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Don Quichotte': {'label': 'Don Quichotte',
+                                                                             'rank': 1},
+                                                           'Dulcinée': {'label': 'Dulcinée', 'rank': 2},
+                                                           'Sancho Pança': {'label': 'Sancho Pança',
+                                                                            'rank': 3}}},
+ '8482965a-c819-47aa-808d-8407c86a8d31': {'basis': 'Reviewed central dramatic roles from official production '
+                                                   'synopsis and cast; source labels classify display only '
+                                                   'and never assign identities or performers.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.teatroallascala.org/en/season/2026-2027/opera/the-rake-s-progress.html',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Anne Trulove': {'label': 'Anne Trulove',
+                                                                            'rank': 2},
+                                                           'Baba la Turca': {'label': 'Baba la Turca',
+                                                                             'rank': 4},
+                                                           'Nick Shadow': {'label': 'Nick Shadow', 'rank': 3},
+                                                           'Tom Rakewell': {'label': 'Tom Rakewell',
+                                                                            'rank': 1}}},
+ 'a2657822-cdaf-4750-bfbf-f3daa762244e': {'basis': 'Reviewed central dramatic roles from official production '
+                                                   'synopsis and cast; source labels classify display only '
+                                                   'and never assign identities or performers.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.teatroallascala.org/en/season/2026-2027/opera/anna-bolena.html',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Anna Bolena': {'label': 'Anna Bolena', 'rank': 1},
+                                                           'Enrico VIII': {'label': 'Enrico VIII', 'rank': 2},
+                                                           'Giovanna Seymour': {'label': 'Giovanna Seymour',
+                                                                                'rank': 4},
+                                                           'Lord Percy': {'label': 'Lord Percy', 'rank': 3}}},
+ 'e2661dab-fa7d-42bb-92b5-e3ca9dae0ea9': {'basis': 'Reviewed central dramatic roles from official production '
+                                                   'synopsis and cast; source labels classify display only '
+                                                   'and never assign identities or performers.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.teatroallascala.org/en/season/2026-2027/opera/i-puritani.html',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Arturo': {'label': 'Arturo', 'rank': 2},
+                                                           'Elvira': {'label': 'Elvira', 'rank': 1},
+                                                           'Giorgio': {'label': 'Giorgio', 'rank': 4},
+                                                           'Riccardo': {'label': 'Riccardo', 'rank': 3}}}})
+
+# 2026-10-30 cross-venue: reviewed existing Work-role slots.
+WORK_CAST_POLICIES.update({'146036ca-40eb-48d7-b8f8-b61322c77989': {'basis': 'Reviewed main dramatic roles from official synopsis and '
+                                                   'current global Work-role slots; source labels classify '
+                                                   'display only.',
+                                          'characters': {'511a351f-4587-45c4-8fb9-1e32a4f34d91': 1,
+                                                         '695e09c4-52b6-40cd-bf36-81ab77330864': 3,
+                                                         'ad2d9ea4-f5c3-4bc5-8a5c-5ab9b0633d10': 4,
+                                                         'd9d567ef-8cc7-4620-9e0f-0783414b9172': 2},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.operaroma.it/spettacoli/la-rondine/',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Lisette': {'label': 'Lisette', 'rank': 3},
+                                                           'Magda': {'label': 'Magda', 'rank': 1},
+                                                           'Prunier': {'label': 'Prunier', 'rank': 4},
+                                                           'Ruggero': {'label': 'Ruggero', 'rank': 2}}},
+ '7f552f18-d0bf-4ad7-bb2c-812ae1e05821': {'basis': 'Reviewed main dramatic roles from official synopsis and '
+                                                   'current global Work-role slots; source labels classify '
+                                                   'display only.',
+                                          'characters': {'21a197ed-eaa8-4a9a-9bc3-23cedfaecf61': 2,
+                                                         '3dbdb6c3-eea1-4e8a-8e8c-cd1c6fde6193': 3,
+                                                         '641fd3f5-d90c-42ff-9ad3-63579db878fb': 1,
+                                                         'c63b9002-bda1-4a05-8a76-ff7c8f595c26': 4},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.metopera.org/user-information/synopses-archive/Macbeth',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Banco': {'label': 'Banco', 'rank': 4},
+                                                           'Banquo': {'label': 'Banquo', 'rank': 4},
+                                                           'Lady Macbeth': {'label': 'Lady Macbeth',
+                                                                            'rank': 2},
+                                                           'Macbeth': {'label': 'Macbeth', 'rank': 1},
+                                                           'Macduff': {'label': 'Macduff', 'rank': 3}}},
+ '93072805-d1ae-472c-a7c9-3a2237962b97': {'basis': 'Reviewed main dramatic roles from official synopsis and '
+                                                   'current global Work-role slots; source labels classify '
+                                                   'display only.',
+                                          'characters': {'99e60842-5f16-46c7-81c9-3e5fb61fefb5': 3,
+                                                         'b55dd05a-1f72-401b-a0f9-a7659f26c6e6': 2,
+                                                         'cd8ae26d-1d7c-4b03-89ff-1fd69e206222': 4,
+                                                         'df76c0f8-9e29-417e-8742-5c870c72c313': 1},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.opernhaus.ch/spielplan/kalendarium/die-fledermaus-1/2026-2027',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Adele': {'label': 'Adele', 'rank': 3},
+                                                           'Gabriel von Eisenstein': {'label': 'Gabriel von '
+                                                                                               'Eisenstein',
+                                                                                      'rank': 2},
+                                                           'Prinz Orlofsky': {'label': 'Prinz Orlofsky',
+                                                                              'rank': 4},
+                                                           'Rosalinde': {'label': 'Rosalinde', 'rank': 1}}},
+ 'f7dad73d-91fe-4e8c-8e7f-86615b286900': {'basis': 'Reviewed main dramatic roles from official synopsis and '
+                                                   'current global Work-role slots; source labels classify '
+                                                   'display only.',
+                                          'characters': {'4c16623a-da4c-4323-ba93-cc166c3cf4b1': 1,
+                                                         'b7d2efff-4fd1-48f7-9170-9b46a29130b4': 3,
+                                                         'c177032c-2274-466b-af2f-fc89497faf03': 2},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://upstream.wiener-staatsoper.at/en/calendar/detail/andrea-chenier/',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Andrea Chénier': {'label': 'Andrea Chénier',
+                                                                              'rank': 1},
+                                                           'Carlo Gérard': {'label': 'Carlo Gérard',
+                                                                            'rank': 3},
+                                                           'Maddalena di Coigny': {'label': 'Maddalena di '
+                                                                                            'Coigny',
+                                                                                   'rank': 2}}}})
+
+# 2026-10-30: further reviewed global works.
+WORK_CAST_POLICIES.update({'1a063e71-a8ab-4d4d-b45d-55f07897849c': {'basis': 'Reviewed principal roles against official synopsis and '
+                                                   'existing global work role slots. Source labels classify '
+                                                   'display only.',
+                                          'characters': {'051d1f8e-edfc-4315-9dd5-089d4907c667': 1,
+                                                         '5c2b5d88-6493-4a9e-90ee-2ae0954c23af': 3,
+                                                         '9c946593-0eea-4e26-82c2-c2e39323f059': 2,
+                                                         'a507acc6-9f26-4aef-a30e-f321fe7dcd6d': 4},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.metopera.org/user-information/old-seasons/2021-22-season/die-meistersinger-von-nurnberg/',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Eva, Pogners Tochter': {'label': 'Eva, Pogners '
+                                                                                             'Tochter',
+                                                                                    'rank': 3},
+                                                           'Hans Sachs, Schuster': {'label': 'Hans Sachs, '
+                                                                                             'Schuster',
+                                                                                    'rank': 1},
+                                                           'Sixtus Beckmesser, Schreiber': {'label': 'Sixtus '
+                                                                                                     'Beckmesser, '
+                                                                                                     'Schreiber',
+                                                                                            'rank': 4},
+                                                           'Walther von Stolzing, ein junger Ritter aus Franken': {'label': 'Walther '
+                                                                                                                            'von '
+                                                                                                                            'Stolzing, '
+                                                                                                                            'ein '
+                                                                                                                            'junger '
+                                                                                                                            'Ritter '
+                                                                                                                            'aus '
+                                                                                                                            'Franken',
+                                                                                                                   'rank': 2}}},
+ '242085af-163c-42de-a7a5-7da206bf2835': {'basis': 'Reviewed principal roles against official synopsis and '
+                                                   'existing global work role slots. Source labels classify '
+                                                   'display only.',
+                                          'characters': {'38b0da68-29a6-5740-aee7-5091814cdd73': 2,
+                                                         'e811ef64-1087-5183-8f66-114c1adabc88': 3,
+                                                         'e8a4430b-99b3-5cef-a347-6fe308a0270e': 1},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://teatrodelazarzuela.inaem.gob.es/es/proyectos-didacticos/proyecto-zarza/historia-de-la-verbena',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Don Hilarión': {'label': 'Don Hilarión',
+                                                                            'rank': 3},
+                                                           'Julián': {'label': 'Julián', 'rank': 1},
+                                                           'Susana': {'label': 'Susana', 'rank': 2}}},
+ '852d9462-99a5-48a3-95e1-7914a1540031': {'basis': 'Reviewed principal roles against official synopsis and '
+                                                   'existing global work role slots. Source labels classify '
+                                                   'display only.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.operadeparis.fr/en/season-26-27/opera/idomeneo',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Elettra': {'label': 'Elettra', 'rank': 4},
+                                                           'Idamante': {'label': 'Idamante', 'rank': 2},
+                                                           'Idomeneo': {'label': 'Idomeneo', 'rank': 1},
+                                                           'Ilia': {'label': 'Ilia', 'rank': 3}}},
+ 'fb7c48b8-209f-4bac-91c6-f70e6d25435c': {'basis': 'Reviewed principal roles against official synopsis and '
+                                                   'existing global work role slots. Source labels classify '
+                                                   'display only.',
+                                          'characters': {'38b9c245-683a-508f-b1ca-fb398fe869dc': 4,
+                                                         '4574961c-baab-54be-a657-c66b6a5ab809': 2,
+                                                         'dfdf8bf9-1f61-5868-827b-f7c189f3d84a': 1,
+                                                         'fcaa0b15-8cde-5e64-8c36-5cff2324e80d': 3},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.metopera.org/user-information/synopses-archive/cav-pag',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Alfio': {'label': 'Alfio', 'rank': 3},
+                                                           'Lola': {'label': 'Lola', 'rank': 4},
+                                                           'Santuzza': {'label': 'Santuzza', 'rank': 1},
+                                                           'Turiddu': {'label': 'Turiddu', 'rank': 2}}}})
