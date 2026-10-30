@@ -5,7 +5,7 @@ This module selects reviewed principal roles and joins performance credits to it
 """
 import re
 import unicodedata
-from work_cast_registry import WORK_CAST_POLICIES
+from work_cast_registry import WORK_CAST_POLICIES, VOCAL_WORK_POLICIES
 
 GENERIC_PERFORMANCE_TYPES = {'performance'}
 VERIFIED_WORK_STATES = {'verified', 'resolved', 'canonical'}
@@ -62,6 +62,10 @@ def eligible_for_principal_selection(event, work_id, verified_full_work_ids):
     kind = str(event.get('event_type') or '').strip().casefold()
     raw = str(event.get('raw_event_type') or kind).strip().casefold()
     if kind in rule.get('event_types', []):
+        return True
+    # Explicit concert-opera source vocabulary is still a performed opera.
+    # Require an independently verified full Work; plain concert labels stay excluded.
+    if raw in {'concert_opera', 'opera_en_concert', 'concert_oratorio'} and str(work_id) in verified_full_work_ids:
         return True
     # Generic source vocabulary is not evidence that a reviewed opera role is
     # inapplicable. Require the performed full Work to be independently verified.
@@ -121,6 +125,18 @@ def credit_for_display(event, programme_rows, credit, work_character_rows=()):
         return credit
     source_character = credit.get('raw_character') or credit.get('character')
     source_role = credit.get('role')
+    # Source functions in reviewed vocal works are not dramatic characters.
+    # Existing canonical character links were returned unchanged above.
+    verified_vocal_works = {
+        str((r.get('works') or {}).get('id')) for r in programme_rows
+        if (r.get('works') or {}).get('normalization_status') in VERIFIED_WORK_STATES
+        and (r.get('works') or {}).get('work_kind') == 'work'
+    }
+    functions = {function for work_id in verified_vocal_works
+                 for label, function in (VOCAL_WORK_POLICIES.get(work_id, {}).get('source_functions') or {}).items()
+                 if normalize_role_label(label) == normalize_role_label(source_character or source_role)}
+    if len(functions) == 1 and normalize_role_label(source_role) in {'performer', 'cast', 'singer', 'sopran', 'mezzosopran', 'bass'}:
+        return {**credit, 'role': next(iter(functions)), 'character': None, 'raw_character': None}
     function = ARTISTIC_FUNCTION_LABELS.get(normalize_role_label(source_character))
     if source_character and function and normalize_role_label(source_role) in {'performer', 'cast'}:
         work_ids = {str((r.get('works') or {}).get('id')) for r in programme_rows}

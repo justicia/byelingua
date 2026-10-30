@@ -270,4 +270,37 @@ class FurtherGlobalRoleCoverageTests(unittest.TestCase):
             self.assertEqual(work_role_policy(work, work_character_id=role_id, source_character=role)['display_order'], 1)
             self.assertIsNone(work_role_policy('unrelated-work', source_character=role))
 
+
+
+class ConcertOperaGlobalTests(unittest.TestCase):
+    def test_verified_concert_opera_reuses_shared_work_role_policy(self):
+        work = '56ac40ee-15dc-5d5a-9cf4-9ce6958f68d7'
+        prog = [{'works': {'id': work, 'normalization_status': 'verified', 'work_kind': 'work'}}]
+        role = {'artist_id': 'published-on-this-date', 'artists': {'artist_name': 'Current singer'}, 'role': 'performer', 'raw_character': 'Trujamán'}
+        for raw in ['concert_opera', 'opera_en_concert']:
+            result = build_summary({'event_type': 'concert', 'raw_event_type': raw}, prog, [role], [])
+            self.assertEqual([r['artist_name'] for r in result['principal_cast']], ['Current singer'])
+        self.assertFalse(build_summary({'event_type': 'concert'}, prog, [role], [])['principal_cast'])
+        unknown = [{'works': {'id': work, 'normalization_status': 'unreviewed', 'work_kind': 'work'}}]
+        self.assertFalse(build_summary({'event_type': 'concert', 'raw_event_type': 'concert_opera'}, unknown, [role], [])['principal_cast'])
+
+    def test_mixed_instrumental_programme_does_not_inherit_opera_roles(self):
+        opera = '17a06497-38c5-5d90-aee4-e5172485a500'
+        piano = '8ae70f3e-b5e8-5692-9ecf-66d135ac6796'
+        prog = [{'works': {'id': w, 'normalization_status': 'verified', 'work_kind': 'work'}} for w in [opera, piano]]
+        role = {'artist_id': 'current', 'artists': {'artist_name': 'Current singer'}, 'role': 'performer', 'raw_character': 'Woman'}
+        result = build_summary({'event_type': 'concert', 'raw_event_type': 'concert_opera'}, prog, [role], [])
+        self.assertEqual(result['principal_cast'][0]['work_id'], opera)
+        self.assertFalse(build_summary({'event_type': 'concert', 'raw_event_type': 'concert_opera'}, prog[1:], [role], [])['principal_cast'])
+
+    def test_reviewed_source_aliases_do_not_collide_after_accent_normalization(self):
+        from work_cast_registry import WORK_CAST_POLICIES
+        for work_id, rule in WORK_CAST_POLICIES.items():
+            if rule['reviewed_on'] != '2026-10-30':
+                continue
+            for label, expected in rule.get('source_roles', {}).items():
+                selected = work_role_policy(work_id, source_character=label)
+                self.assertIsNotNone(selected, (work_id, label))
+                self.assertEqual(selected['display_order'], expected['rank'])
+
 if __name__=='__main__':unittest.main()
