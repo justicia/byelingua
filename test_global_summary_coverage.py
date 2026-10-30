@@ -56,7 +56,9 @@ class GlobalSelectionTests(unittest.TestCase):
                 '4f51f3ac-3f0c-4591-9191-5c6735c33e9e', '5f5d66e8-8e3f-47ae-a68c-bc1ee2338a73',
                 '69e72a89-ecca-4725-b8d1-936adfe1a024',
             }
-            expected_review = '2026-10-29' if work_id in reviewed_on_29 else '2026-10-22'
+            reviewed_on_30 = {'a2657822-cdaf-4750-bfbf-f3daa762244e', '8482965a-c819-47aa-808d-8407c86a8d31', '475053d9-8d32-451e-baed-a7d950ebca2c', 'e2661dab-fa7d-42bb-92b5-e3ca9dae0ea9', '7f552f18-d0bf-4ad7-bb2c-812ae1e05821', '93072805-d1ae-472c-a7c9-3a2237962b97', '146036ca-40eb-48d7-b8f8-b61322c77989', 'f7dad73d-91fe-4e8c-8e7f-86615b286900'}
+            reviewed_on_30.update({'1a063e71-a8ab-4d4d-b45d-55f07897849c', '242085af-163c-42de-a7a5-7da206bf2835', '852d9462-99a5-48a3-95e1-7914a1540031', 'fb7c48b8-209f-4bac-91c6-f70e6d25435c'})
+            expected_review = '2026-10-30' if work_id in reviewed_on_30 else ('2026-10-29' if work_id in reviewed_on_29 else '2026-10-22')
             self.assertEqual(rule['reviewed_on'], expected_review)
     def test_expectation_checks_work_identity_not_count_alone(self):
         key,expected=next((k,v) for k,v in REVIEWED_PROGRAMME_EXPECTATIONS.items() if len(v['work_ids'])>1)

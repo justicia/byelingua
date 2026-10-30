@@ -221,4 +221,53 @@ class WorkCastPolicyTests(unittest.TestCase):
         self.assertEqual(missing['principal_cast'],[])
         self.assertEqual(missing['conductors'],[])
 
+
+
+class ScalaDatedSelectionTests(unittest.TestCase):
+    def test_work_roles_are_shared_and_cast_stays_on_each_performance(self):
+        examples = [
+            ('a2657822-cdaf-4750-bfbf-f3daa762244e', 'Anna Bolena', 'Vasilisa Berzhanskaya', 'Monica Conesa'),
+            ('8482965a-c819-47aa-808d-8407c86a8d31', 'Tom Rakewell', 'Thomas Atkins', 'Second performer'),
+            ('475053d9-8d32-451e-baed-a7d950ebca2c', 'Don Quichotte', 'Alex Esposito', 'Second performer'),
+            ('e2661dab-fa7d-42bb-92b5-e3ca9dae0ea9', 'Elvira', 'Adela Zaharia', 'Gilda Fiume'),
+        ]
+        for work, role, first, second in examples:
+            programme = [{'works': {'id': work, 'normalization_status': 'verified', 'work_kind': 'work'}}]
+            for venue, artist in [('Milan', first), ('Other venue', second)]:
+                credit = {'artist_id': artist, 'artists': {'artist_name': artist}, 'role': 'performer', 'raw_character': role, 'character_id': None}
+                result = build_summary({'event_type': 'opera', 'venue': venue}, programme, [credit], [])
+                self.assertEqual([x['artist_name'] for x in result['principal_cast']], [artist])
+                self.assertIsNone(result['principal_cast'][0]['character_id'])
+            irrelevant = {'artist_id': 'other', 'artists': {'artist_name': 'Other'}, 'role': 'performer', 'raw_character': 'Unreviewed role'}
+            self.assertFalse(build_summary({'event_type': 'opera'}, programme, [irrelevant], [])['principal_cast'])
+
+
+class ExistingGlobalRoleCoverageTests(unittest.TestCase):
+    def test_linked_roles_and_source_variants_are_scoped_to_the_work(self):
+        cases = [
+            ('7f552f18-d0bf-4ad7-bb2c-812ae1e05821', '641fd3f5-d90c-42ff-9ad3-63579db878fb', 'Macbeth'),
+            ('93072805-d1ae-472c-a7c9-3a2237962b97', 'df76c0f8-9e29-417e-8742-5c870c72c313', 'Rosalinde'),
+            ('146036ca-40eb-48d7-b8f8-b61322c77989', '511a351f-4587-45c4-8fb9-1e32a4f34d91', 'Magda'),
+            ('f7dad73d-91fe-4e8c-8e7f-86615b286900', '4c16623a-da4c-4323-ba93-cc166c3cf4b1', 'Andrea Chénier'),
+        ]
+        for work, role_id, character in cases:
+            linked = work_role_policy(work, work_character_id=role_id, source_character=character)
+            source = work_role_policy(work, source_character=character)
+            self.assertEqual(linked['display_order'], 1)
+            self.assertEqual(source['display_order'], 1)
+            self.assertIsNone(work_role_policy('unrelated-work', source_character=character))
+        self.assertIsNone(work_role_policy('7f552f18-d0bf-4ad7-bb2c-812ae1e05821', source_character='Szenische Einstudierung'))
+
+class FurtherGlobalRoleCoverageTests(unittest.TestCase):
+    def test_new_reviewed_rules_use_global_work_and_performance_role(self):
+        cases = [
+            ('fb7c48b8-209f-4bac-91c6-f70e6d25435c', 'dfdf8bf9-1f61-5868-827b-f7c189f3d84a', 'Santuzza'),
+            ('242085af-163c-42de-a7a5-7da206bf2835', 'e8a4430b-99b3-5cef-a347-6fe308a0270e', 'Julián'),
+            ('1a063e71-a8ab-4d4d-b45d-55f07897849c', '051d1f8e-edfc-4315-9dd5-089d4907c667', 'Hans Sachs, Schuster'),
+            ('852d9462-99a5-48a3-95e1-7914a1540031', None, 'Idomeneo'),
+        ]
+        for work, role_id, role in cases:
+            self.assertEqual(work_role_policy(work, work_character_id=role_id, source_character=role)['display_order'], 1)
+            self.assertIsNone(work_role_policy('unrelated-work', source_character=role))
+
 if __name__=='__main__':unittest.main()
