@@ -40,6 +40,44 @@ class SharedSummaryConsistencyTests(unittest.TestCase):
         wrong=build_summary({'event_type':'opera'},[{'works':{'id':'different-work'}}],credits,[])
         self.assertEqual(wrong['principal_cast'],[])
 
+class GlobalRecordedOperaVoicesTests(unittest.TestCase):
+    def programme(self, **extra):
+        return [{'works': {'id': 'any-reviewed-work', 'normalization_status': 'verified', 'work_kind': 'work', **extra}}]
+
+    def test_explicit_voices_are_not_lost_for_unlisted_works_or_other_venues(self):
+        for venue in ['Palau', 'Les Arts', 'New venue']:
+            for kind, raw in [('opera', 'opera'), ('opera', 'opera_en_concert'), ('operetta', 'zarzuela'), ('other', 'performance')]:
+                event = {'event_type': kind, 'raw_event_type': raw, 'venue': venue}
+                one = build_summary(event, self.programme(), [credit('First date', 'soprano'), credit('Player', 'piano'), credit('Director', 'director')], [])
+                two = build_summary(event, self.programme(), [credit('Next date', 'tenor')], [])
+                self.assertEqual([r['artist_name'] for r in one['vocalists']], ['First date'])
+                self.assertEqual([r['artist_name'] for r in two['vocalists']], ['Next date'])
+                self.assertEqual(one['principal_cast'], [])
+                self.assertEqual(one['soloists'], [])
+
+    def test_unresolved_identity_and_nonperformance_types_do_not_get_opera_fallback(self):
+        for event, programme in [({'event_type': 'opera'}, self.programme(normalization_status='needs_review')),
+                                 ({'event_type': 'opera'}, self.programme(work_kind='programme_component')),
+                                 ({'event_type': 'ballet'}, self.programme()),
+                                 ({'event_type': 'other', 'raw_event_type': 'workshop'}, self.programme()),
+                                 ({'event_type': 'other', 'raw_event_type': 'talk'}, self.programme())]:
+            self.assertEqual(build_summary(event, programme, [credit('Voice', 'soprano')], [])['vocalists'], [])
+
+    def test_uncertain_cast_and_instruments_never_become_vocalists(self):
+        rows = [credit('Named dramatic role', 'singer', 'Unknown role'), credit('Unspecified performer', 'performer'), credit('Spoken actor', 'actor'), credit('Player', 'flute')]
+        result = build_summary({'event_type': 'opera'}, self.programme(), rows, [])
+        self.assertEqual(result['vocalists'], [])
+        self.assertEqual(result['principal_cast'], [])
+
+    def test_principal_singer_is_not_repeated_as_unassigned_voice(self):
+        work = [{'works': {'id': WORK, 'normalization_status': 'verified', 'work_kind': 'work'}}]
+        for rows in [[credit('Same singer', 'soprano'), credit('Same singer', 'performer', 'Sergueï')],
+                     [credit('Same singer', 'performer', 'Sergueï'), credit('Same singer', 'soprano')]]:
+            result = build_summary({'event_type': 'opera'}, work, rows, [])
+            self.assertEqual(len(result['principal_cast']), 1)
+            self.assertEqual(result['vocalists'], [])
+
+
 class ReviewedVocalWorkTests(unittest.TestCase):
     WORK = 'b9f4662d-4f24-47d0-8684-39833a840b0e'
     def programme(self, **extra):
@@ -85,5 +123,25 @@ class ReviewedVocalWorkTests(unittest.TestCase):
                                  ({'event_type': 'talk'}, self.programme()),
                                  ({'event_type': 'other', 'raw_event_type': 'workshop'}, self.programme())]:
             self.assertEqual(build_summary(event, programme, [credit('Singer', 'singer')], [])['vocalists'], [])
+
+class ReviewedFollowupCastTests(unittest.TestCase):
+    def test_triptych_selects_each_role_only_from_its_own_work(self):
+        work_ids = ['c09bcec5-45c9-5b3d-92d8-19459ff7f90f', '30cfc6c3-d9d9-5f53-b86c-10852a6fe4ba', 'b2e01ab5-56b5-59b8-921a-6a6fd7c29a49']
+        progs = [{'works': {'id': wid, 'work_kind': 'work', 'normalization_status': 'verified'}} for wid in work_ids]
+        rows = [credit('Tabarro singer', 'performer', 'Michele'), credit('Angelica singer', 'performer', 'Sister Angelica'),
+                credit('Schicchi singer', 'performer', 'Lauretta'), credit('Chorus staff', 'performer', 'Chorus Director')]
+        result = build_summary({'event_type': 'opera'}, progs, rows, [])
+        pairs = {(r['work_id'], r['artist_name']) for r in result['principal_cast']}
+        self.assertEqual(pairs, {(work_ids[0], 'Tabarro singer'), (work_ids[1], 'Angelica singer'), (work_ids[2], 'Schicchi singer')})
+        self.assertEqual(build_summary({'event_type': 'opera'}, progs[:1], rows[1:3], [])['principal_cast'], [])
+
+    def test_two_cycles_keep_distinct_work_and_performance_cast(self):
+        work_ids = ['dd1f7478-d30e-5e24-90f3-bf1107b804a7', '089f35fc-b4f7-4895-8f48-d8d635f4ff86']
+        progs = [{'works': {'id': wid, 'work_kind': 'work', 'normalization_status': 'verified'}} for wid in work_ids]
+        for mary, ophelia in [('First Mary', 'First Ophelia'), ('Next Mary', 'Next Ophelia')]:
+            result = build_summary({'event_type': 'opera'}, progs,
+                                   [credit(mary, 'performer', 'Mary, Queen of Scots'), credit(ophelia, 'performer', 'Ophelia')], [])
+            self.assertEqual({r['work_id']:r['artist_name'] for r in result['principal_cast']}, dict(zip(work_ids, [mary, ophelia])))
+
 
 if __name__=='__main__':unittest.main()

@@ -2947,3 +2947,122 @@ VOCAL_WORK_POLICIES['b9f4662d-4f24-47d0-8684-39833a840b0e']['source_functions'] 
 VOCAL_WORK_POLICIES['db328ab4-47dc-566d-9f2f-8b46e2425f00']['source_functions'] = {
     'Sopran': 'soprano', 'Mezzosopran': 'mezzo_soprano', 'Bass': 'bass', 'Sprecherin': 'speaker',
 }
+
+# Reviewed complete-score additions after global programme reconciliation.
+WORK_CAST_POLICIES.update({'089f35fc-b4f7-4895-8f48-d8d635f4ff86': {'basis': 'Single dramatic subject of the independently '
+                                                   'identified song cycle; matched only to this '
+                                                   'performance’s published role.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/good-sometimes-queen-ola-ince',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Ophelia': {'label': 'Ophelia',
+                                                                       'rank': 1}}},
+ '30cfc6c3-d9d9-5f53-b86c-10852a6fe4ba': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/il-trittico-richard-jones',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'La zia principessa': {'label': 'La zia '
+                                                                                           'principessa',
+                                                                                  'rank': 2},
+                                                           'Sister Angelica': {'label': 'Suor '
+                                                                                        'Angelica',
+                                                                               'rank': 1},
+                                                           'Suor Angelica': {'label': 'Suor '
+                                                                                      'Angelica',
+                                                                             'rank': 1},
+                                                           'The Princess': {'label': 'La zia '
+                                                                                     'principessa',
+                                                                            'rank': 2}}},
+ '351dcfb3-d7c6-5971-9f7f-1cc7e94ae0a0': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/les-boreades-rb-schlather',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Abaris': {'label': 'Abaris', 'rank': 2},
+                                                           'Alphise': {'label': 'Alphise',
+                                                                       'rank': 1},
+                                                           'Borilée': {'label': 'Borilée',
+                                                                       'rank': 4},
+                                                           'Calisis': {'label': 'Calisis',
+                                                                       'rank': 3}}},
+ '43934eb9-94e6-5e44-83e9-b30534d1dc49': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://philharmoniedeparis.fr/fr/activite/opera-en-concert/29333-georg-friedrich-haendel-acis-et-galatee?itemId=145793',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Acis': {'label': 'Acis', 'rank': 2},
+                                                           'Galatea': {'label': 'Galatea',
+                                                                       'rank': 1},
+                                                           'Galatée': {'label': 'Galatea',
+                                                                       'rank': 1},
+                                                           'Polyphemus': {'label': 'Polyphemus',
+                                                                          'rank': 3},
+                                                           'Polyphème': {'label': 'Polyphemus',
+                                                                         'rank': 3}}},
+ '64862f81-6048-57f6-a677-5c10cd2d7dbe': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/hercules-barrie-kosky',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Dejanira': {'label': 'Dejanira',
+                                                                        'rank': 1},
+                                                           'Hercules': {'label': 'Hercules',
+                                                                        'rank': 2},
+                                                           'Hyllus': {'label': 'Hyllus', 'rank': 4},
+                                                           'Iole': {'label': 'Iole', 'rank': 3}}},
+ 'b2e01ab5-56b5-59b8-921a-6a6fd7c29a49': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/il-trittico-richard-jones',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Gianni Schicchi': {'label': 'Gianni '
+                                                                                        'Schicchi',
+                                                                               'rank': 1},
+                                                           'Lauretta': {'label': 'Lauretta',
+                                                                        'rank': 2},
+                                                           'Rinuccio': {'label': 'Rinuccio',
+                                                                        'rank': 3},
+                                                           'Zita': {'label': 'Zita', 'rank': 4}}},
+ 'c09bcec5-45c9-5b3d-92d8-19459ff7f90f': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/il-trittico-richard-jones',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Giorgetta': {'label': 'Giorgetta',
+                                                                         'rank': 2},
+                                                           'Luigi': {'label': 'Luigi', 'rank': 3},
+                                                           'Michele': {'label': 'Michele',
+                                                                       'rank': 1}}},
+ 'dd1f7478-d30e-5e24-90f3-bf1107b804a7': {'basis': 'Reviewed principal roles from official work '
+                                                   'synopsis and published dated cast; not artist '
+                                                   'billing order. Unlisted roles remain '
+                                                   'unclassified, not presumed supporting.',
+                                          'characters': {},
+                                          'event_types': ['opera', 'operetta'],
+                                          'evidence': 'https://www.rbo.org.uk/production/good-sometimes-queen-ola-ince',
+                                          'reviewed_on': '2026-10-30',
+                                          'source_roles': {'Mary, Queen of Scots': {'label': 'Mary, '
+                                                                                             'Queen '
+                                                                                             'of '
+                                                                                             'Scots',
+                                                                                    'rank': 1}}}})

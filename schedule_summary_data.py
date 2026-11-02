@@ -3,7 +3,6 @@ import re
 import unicodedata
 from schedule_summary_registry import PROGRAMME_EXPECTATIONS
 from work_cast_registry import WORK_CAST_POLICIES as REVIEWED_PRINCIPAL_ROLES
-from work_cast_registry import VOCAL_WORK_POLICIES
 from work_cast_policy import credit_for_display, select_performance_principal
 
 # Editorial selection reviewed against the work's synopsis, not cast billing order.
@@ -52,9 +51,9 @@ REVIEWED_SOLOIST_CREDITS = {
 def build_summary(event, programme_rows, credit_rows, normalized_items):
     kind = event.get('event_type')
     work_ids = {str((r.get('works') or {}).get('id')) for r in programme_rows if (r.get('works') or {}).get('id')}
-    reviewed_vocal_work = any(str((r.get('works') or {}).get('id')) in VOCAL_WORK_POLICIES
-                              and (r.get('works') or {}).get('normalization_status') in {'verified', 'resolved', 'canonical'}
-                              and (r.get('works') or {}).get('work_kind') == 'work' for r in programme_rows)
+    verified_full_work = any((r.get('works') or {}).get('id')
+                             and (r.get('works') or {}).get('normalization_status') in {'verified', 'resolved', 'canonical'}
+                             and (r.get('works') or {}).get('work_kind') == 'work' for r in programme_rows)
     conductors, soloists, vocalists, principal, seen = [], [], [], [], set()
     has_cast = False
     reviewed_solo = (REVIEWED_SOLOIST_CREDITS.get(event.get('event_id') or event.get('event_key')) or {}).get('artist_ids', set())
@@ -90,14 +89,15 @@ def build_summary(event, programme_rows, credit_rows, normalized_items):
             if signature not in seen:
                 soloists.append({**item, 'function': row.get('role')}); seen.add(signature)
         elif (kind in {'concert', 'chamber_music', 'recital', 'matinee'}
-              or (reviewed_vocal_work and (kind in {'opera', 'operetta'}
+              or (verified_full_work and (kind in {'opera', 'operetta'}
                   or (kind == 'other' and event.get('raw_event_type') == 'performance')))) and role in VOCAL_ROLES:
             signature = ('vocal', row.get('artist_id') or name, role)
             if signature not in seen:
                 vocalists.append({**item, 'function': row.get('role')}); seen.add(signature)
     principal.sort(key=lambda r: (r['display_order'], r['character'], r['artist_name']))
     solo_ids = {str(r.get('artist_id') or r['artist_name']) for r in soloists}
-    vocalists = [r for r in vocalists if str(r.get('artist_id') or r['artist_name']) not in solo_ids]
+    principal_ids = {str(r.get('artist_id') or r['artist_name']) for r in principal}
+    vocalists = [r for r in vocalists if str(r.get('artist_id') or r['artist_name']) not in solo_ids | principal_ids]
     programme = [dict(r) for r in normalized_items]
     observation = KNOWN_PARTIAL_PROGRAMMES.get(event.get('event_id') or event.get('event_key')) or {}
     expected = REVIEWED_PROGRAMME_EXPECTATIONS.get(event.get('event_id') or event.get('event_key')) or {}
